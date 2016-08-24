@@ -1,0 +1,53 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="list_head_height">55dip</dimen>
+    <dimen name="list_bottom_height">25dip</dimen>
+    <!-- 字体大小 -->
+    <dimen name="text_size_10">10sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_13">13sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_15">15sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="text_size_32">32sp</dimen>
+    <dimen name="page_title_height">48sp</dimen>
+    <dimen name="input_height">40sp</dimen>
+
+    <!-- 用户自定义 -->
+    <dimen name="btn_height">38dip</dimen>
+    <dimen name="padding_normal">10dip</dimen>
+    <dimen name="padding_medium">16dip</dimen>
+    <dimen name="padding_large">25dip</dimen>
+    <dimen name="user_center_item">42dip</dimen>
+    <dimen name="padding_left">8dip</dimen>
+    <dimen name="search_input_height">48dip</dimen>
+    <dimen name="news_img_width">90dip</dimen>
+    <dimen name="news_img_height">95dip</dimen>
+    <dimen name="photo_width">80dip</dimen>
+    <dimen name="photo_height">80dip</dimen>
+    <dimen name="main_item_bg">60dip</dimen>
+    <dimen name="divider_margin">30dip</dimen>
+    <dimen name="divider_margin_audio">20dip</dimen>
+
+    <!-- 聊天 -->
+    <dimen name="margin_chat_activity">5dip</dimen>
+    <dimen name="size_avatar">48dip</dimen>
+    <dimen name="chart_padding">15dip</dimen>
+    <dimen name="detail_photo_height">80dip</dimen>
+    <dimen name="detail_item_height">48dip</dimen>
+
+    <dimen name="image_size">120dp</dimen>
+    <dimen name="space_size">2dp</dimen>
+    <dimen name="folder_cover_size">72dp</dimen>
+    <dimen name="smalll">12sp</dimen>
+
+    <!-- 高仿微博-->
+    <dimen name="more_window_item_margin">40dp</dimen>
+    <dimen name="new_img_width">130dp</dimen>
+    <dimen name="new_img_height">90dp</dimen>
+    <dimen name="home_img_size">22dp</dimen>
+</resources>

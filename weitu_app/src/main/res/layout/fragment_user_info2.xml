@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/searchBackgroud"
+    >
+
+    <ImageView
+        android:id="@+id/img_head"
+        android:layout_width="match_parent"
+        android:layout_height="230dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_normal"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/avatar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:background="@color/white"
+            style="@style/user_me_style"
+            android:gravity="center"
+            android:text="更换头像"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            />
+
+        <TextView
+            android:id="@+id/sex_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:background="@color/white"
+            style="@style/user_me_style"
+            android:gravity="center"
+            android:text="性别："
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_library"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:background="@color/white"
+            style="@style/user_me_style"
+            android:gravity="center"
+            android:text="绑定图书馆"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_normal"
+        android:layout_marginBottom="@dimen/padding_normal"
+        >
+
+        <TextView
+            android:id="@+id/tv_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:background="@color/newGreen"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_16"
+            android:gravity="center"
+            android:text="保存"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_normal"
+            android:background="@color/white"
+            style="@style/user_me_style"
+            android:gravity="center"
+            android:text="取消"
+            />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

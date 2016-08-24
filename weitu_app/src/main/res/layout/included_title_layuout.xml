@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/page_title"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal" >
+
+    <ImageButton
+        android:id="@+id/back_btn"
+        android:layout_width="@dimen/page_title_height"
+        android:layout_height="fill_parent"
+        android:background="@null"
+        android:src="@drawable/back_btn"
+        android:layout_alignParentLeft="true"/>
+
+    <RelativeLayout
+        android:layout_alignParentRight="true"
+        android:id="@+id/label"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
+        <ImageButton
+            android:id="@+id/search"
+            android:layout_width="@dimen/input_height"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:src="@drawable/white_search"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"/>
+
+        <ImageButton
+            android:id="@+id/share"
+            android:layout_width="@dimen/input_height"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:src="@drawable/share"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
+    <TextView
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_toLeftOf="@id/label"
+        android:layout_toRightOf="@id/back_btn"
+        android:id="@+id/title"
+        style="@style/page_title_str"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:ellipsize="marquee"
+        android:text="233"
+        android:gravity="center"
+        android:singleLine="true"/>
+</RelativeLayout>

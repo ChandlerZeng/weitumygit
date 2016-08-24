@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/included_title1"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/label"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="昵称   " />
+
+        <EditText
+            android:id="@+id/user_name"
+            style="@style/login_input_style"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/input_height"
+            android:layout_toRightOf="@id/tv_name"
+            android:hint="请输入昵称，支持中文"
+            android:inputType="text" />
+
+        <View
+            android:layout_alignLeft="@+id/user_name"
+            android:layout_below="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/green1"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/school"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/library_label"
+            android:layout_weight="0"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/library"
+            />
+
+
+        <TextView
+            android:id="@+id/library"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:layout_toRightOf="@+id/img_msm"
+            style="@style/login_input_style"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/input_height"
+            android:hint="请选择图书馆"
+            />
+
+        <Button
+            android:id="@+id/get_capton"
+            android:layout_weight="0"
+            android:layout_height="21dp"
+            android:layout_width="12dp"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_normal"
+            android:background="@drawable/greenarrow"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_marginLeft="66dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/green1"
+        />
+
+    <Button
+        android:id="@+id/next_step"
+        style="@style/login_btn_style"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/page_title_height"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/finish_registor" />
+
+
+</LinearLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/included_title1" />
+
+    <ImageView
+        android:id="@+id/img_video_cover"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:padding="@dimen/padding_normal"
+        android:scaleType="centerCrop"
+        />
+
+    <com.libtop.weituR.widget.listview.HorizontalListView
+        android:layout_gravity="center"
+        android:id="@+id/hlv_cover"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+
+    </com.libtop.weituR.widget.listview.HorizontalListView>
+
+    <TextView
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="点击小图片选择封面"
+        />
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_finish"
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_normal"
+        android:textColor="@color/white"
+        android:text="完成"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:background="@color/green1"
+        />
+
+</LinearLayout>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/content">
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.7" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/fliper"
+                android:layout_width="100dip"
+                android:layout_height="100dip"
+                android:scaleType="centerInside"
+                android:src="@drawable/welcome_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:text="@string/app_name"
+                android:textColor="@color/main_item_text"
+                android:textSize="@dimen/text_size_18" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/startup_welcome"
+                android:textColor="@color/main_item_text"
+                android:textSize="@dimen/text_size_10" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/view_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.3"
+        android:background="@color/newGreen"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center">
+        <Button
+            android:id="@+id/login_btn"
+            style="@style/start_btn_style"
+            android:layout_width="0dip"
+            android:layout_height="@dimen/input_height"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:text="@string/login_fast_str" />
+
+        <Button
+            android:id="@+id/choose_library"
+            style="@style/start_btn_style"
+            android:layout_width="0dip"
+            android:layout_height="@dimen/input_height"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_weight="1"
+            android:text="@string/choose_library" />
+    </LinearLayout>
+</LinearLayout>

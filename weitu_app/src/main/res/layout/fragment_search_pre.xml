@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="35dip"
+        android:background="@color/white"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/search_history"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/group_tap_btn_selector"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="查询记录"
+            android:textColor="@color/group_tap_textcolor_radiobutton" />
+
+        <RadioButton
+            android:id="@+id/click_history"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/group_tap_btn_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="浏览记录"
+            android:textColor="@color/group_tap_textcolor_radiobutton" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="12dip"
+        android:background="@color/ee" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@color/transparent" />
+
+</LinearLayout>

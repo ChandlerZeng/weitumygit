@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/gudie_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gudie_main">
+
+        <TextView
+            android:id="@+id/gudie_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/list_head_height"
+            android:background="@drawable/gudie_touch"
+            android:gravity="center"
+            android:text="马上参与"
+            android:textColor="#ffffff"
+            android:textSize="28sp" />
+    </RelativeLayout>
+</RelativeLayout>

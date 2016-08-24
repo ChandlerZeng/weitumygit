@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/searchBackgroud"
+    >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/titleBar"
+        android:gravity="center"
+        android:id="@+id/title_container">
+        <TextView
+            android:singleLine="true"
+            android:id="@+id/title"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:text="资源分类"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:id="@+id/search"
+            android:gravity="center"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentRight="true"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search_icon2"
+                android:gravity="center"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/greyD"
+        />
+
+    <ListView
+        android:layout_marginTop="@dimen/padding_normal"
+        android:id="@+id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:cacheColorHint="#00000000"
+        android:descendantFocusability="blocksDescendants"
+        android:divider="@color/main_divider_line"
+        android:dividerHeight="0.8dip"
+        android:fastScrollEnabled="false"
+        android:listSelector="@drawable/list_selector"
+        ></ListView>
+
+
+</LinearLayout>

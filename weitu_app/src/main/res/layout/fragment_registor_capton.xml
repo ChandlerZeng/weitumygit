@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/included_title1"/>
+
+    <ScrollView
+        style="@style/content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dip" >
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/temp_phone"
+                style="@style/reg_btn_style"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="@string/capton_toast"
+                android:textSize="@dimen/text_size_12" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:id="@+id/capton"
+                    style="@style/login_input_style"
+                    android:layout_width="0dip"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_weight="4"
+                    android:background="@drawable/login_contain"
+                    android:ems="10"
+                    android:hint="@string/check_word_hint"
+                    android:inputType="number" >
+
+                    <requestFocus />
+                </EditText>
+
+                <Button
+                    android:id="@+id/get_capton"
+                    style="@style/registor_btn_style"
+                    android:layout_width="0dip"
+                    android:layout_height="@dimen/input_height"
+                    android:layout_marginRight="4dip"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_weight="6"
+                    android:text="@string/get_word_hint" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/next_step"
+                style="@style/login_btn_style"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/page_title_height"
+                android:layout_margin="15dip"
+                android:text="@string/ok_str" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

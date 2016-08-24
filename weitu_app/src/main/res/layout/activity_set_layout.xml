@@ -1,0 +1,159 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        style="@style/page_title"
+        android:layout_width="fill_parent" >
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="@dimen/page_title_height"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@null"
+            android:src="@drawable/back_btn" />
+
+        <TextView
+            android:id="@+id/consume_title"
+            style="@style/page_title_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/set" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dip"
+            android:background="@drawable/input_bg"
+            android:orientation="vertical"
+            android:padding="1dip" >
+
+            <RelativeLayout
+                android:id="@+id/about_us"
+                style="@style/user_center_center"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/user_center_item" >
+
+                <TextView
+                    style="@style/user_me_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/about_us" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrows_right" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/main_divider_line" />
+
+            <RelativeLayout
+                android:id="@+id/check_update"
+                style="@style/user_center_center"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/user_center_item" >
+
+                <TextView
+                    style="@style/user_me_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/check_update" />
+
+                <TextView
+                    android:id="@+id/vesion"
+                    style="@style/user_me_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/arrow"
+                    android:layout_centerVertical="true"
+                    android:textSize="@dimen/text_size_14"
+                    android:hint="@string/check_update" />
+                
+                <ImageView
+                    android:id="@id/arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrows_right" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/main_divider_line" />
+
+            <RelativeLayout
+                android:id="@+id/clear_cache"
+                style="@style/user_center_center"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/user_center_item" >
+
+                <TextView
+                    style="@style/user_me_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/clear_cache" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrows_right" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="@color/main_divider_line" />
+
+            <RelativeLayout
+                android:id="@+id/help"
+                style="@style/user_center_center"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/user_center_item" >
+
+                <TextView
+                    style="@style/user_me_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/help_us" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrows_right" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,156 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        style="@style/page_title"
+        android:layout_width="fill_parent" >
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="@dimen/page_title_height"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:src="@drawable/back_btn" />
+
+        <TextView
+            style="@style/page_title_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="纠错" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="15dip" >
+
+        <com.libtop.weitu.widget.FlowRadioGroup
+            android:id="@+id/radio"
+            android:layout_width="fill_parent"
+            android:layout_height="120dip"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/id1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dip"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:gravity="center_vertical"
+                android:paddingLeft="8dip"
+                android:text="封面"
+                android:textColor="@color/main_item_text" />
+
+            <CheckBox
+                android:id="@+id/id2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:paddingLeft="8dip"
+                android:text="书名"
+                android:textColor="@color/main_item_text" />
+
+            <CheckBox
+                android:id="@+id/id3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:paddingLeft="8dip"
+                android:text="作者"
+                android:textColor="@color/main_item_text" />
+
+            <CheckBox
+                android:id="@+id/id5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:paddingLeft="8dip"
+                android:text="出版社"
+                android:textColor="@color/main_item_text" />
+
+            <CheckBox
+                android:id="@+id/id4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:paddingLeft="8dip"
+                android:text="简介"
+                android:textColor="@color/main_item_text" />
+
+            <CheckBox
+                android:id="@+id/id6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:paddingLeft="8dip"
+                android:text="目录"
+                android:textColor="@color/main_item_text" />
+
+            <CheckBox
+                android:id="@+id/id7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:paddingLeft="8dip"
+                android:text="馆藏"
+                android:textColor="@color/main_item_text" />
+
+            <CheckBox
+                android:id="@+id/id8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:paddingLeft="8dip"
+                android:text="光盘"
+                android:textColor="@color/main_item_text" />
+
+            <CheckBox
+                android:id="@+id/id9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:button="@drawable/icon_check_selector"
+                android:text="其他"
+                android:textColor="@color/main_item_text" />
+        </com.libtop.weitu.widget.FlowRadioGroup>
+
+        <EditText
+            android:id="@+id/content"
+            style="@style/normal_input"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/post_error_hint"
+            android:minHeight="150dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="15dip" >
+
+        <Button
+            android:id="@+id/send_info"
+            style="@style/login_btn_style"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/btn_height"
+            android:text="@string/send_message" />
+    </LinearLayout>
+
+</LinearLayout>

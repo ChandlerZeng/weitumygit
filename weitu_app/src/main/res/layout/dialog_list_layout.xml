@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="13dip" >
+
+    <LinearLayout
+        style="@style/content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            style="@style/page_title"
+            android:layout_width="fill_parent" >
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/page_title_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/choose" />
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/content_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="#00000000"
+            android:descendantFocusability="blocksDescendants"
+            android:divider="@drawable/divider"
+            android:dividerHeight="0.8dip"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:listSelector="@drawable/list_selector"
+            android:scrollingCache="false" />
+    </LinearLayout>
+
+</RelativeLayout>

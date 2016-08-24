@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <include layout="@layout/included_title1"/>
+    <EditText
+        android:layout_margin="20dp"
+        android:id="@+id/edit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bg_g4"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:hint="为您的相册取个名吧..."/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/create"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:background="@drawable/shape_bg_g3"
+        android:id="@+id/next"/>
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/start"-->
+        <!--android:textSize="15sp"-->
+        <!--android:text="startupload"/>-->
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="18sp"-->
+        <!--android:id="@+id/text"-->
+        <!--android:gravity="center"-->
+        <!--android:padding="20dp"-->
+        <!--android:text="persentage"/>-->
+</LinearLayout>

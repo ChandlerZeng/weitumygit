@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include layout="@layout/included_title1"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_password"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="设置新密码"
+            />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_toRightOf="@+id/tv_password"
+            style="@style/login_input_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_height"
+            android:hint="请输入新密码"
+            android:inputType="phone"/>
+
+        <View
+            android:layout_alignLeft="@+id/password"
+            android:layout_below="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/green1"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_confir_password"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="确认新密码"
+            />
+
+        <EditText
+            android:id="@+id/confir_password"
+            android:layout_toRightOf="@+id/tv_confir_password"
+            style="@style/login_input_style"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/input_height"
+            android:hint="请再次输入新密码"
+            android:inputType="phone"/>
+
+        <View
+            android:layout_alignLeft="@+id/confir_password"
+            android:layout_below="@+id/confir_password"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/green1"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/next_step"
+        style="@style/login_btn_style"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/page_title_height"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/ok_str" />
+</LinearLayout>

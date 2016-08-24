@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/page_title_height"
+    android:orientation="horizontal"
+    android:background="#b00d0d0d">
+    <ImageButton
+        android:id="@+id/back_btn"
+        android:layout_width="@dimen/page_title_height"
+        android:layout_height="fill_parent"
+        android:background="@null"
+        android:src="@drawable/back_btn" />
+
+    <TextView
+        android:layout_weight="1"
+        android:id="@+id/title"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        style="@style/page_title_str"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="标题"/>
+    <ImageButton
+        android:id="@+id/top_right"
+        android:layout_width="@dimen/page_title_height"
+        android:layout_height="fill_parent"
+        android:src="@drawable/media_list"
+        android:background="@null"
+        android:scaleType="center"/>
+</LinearLayout>

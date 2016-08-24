@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center|left"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/news_date_txt"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textColor="@color/bule1"
+        android:textSize="16sp"
+        android:text="日期"
+        />
+
+    <TextView
+        android:id="@+id/news_title_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textColor="@color/favorate_text"
+        android:textSize="16sp"
+        android:text="新闻标题"
+        />
+
+</LinearLayout>

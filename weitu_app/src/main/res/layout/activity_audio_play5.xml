@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/grey_BG"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <include layout="@layout/included_title1" />
+    <ScrollView
+        android:id="@+id/scl_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="117dp"
+                    android:background="@drawable/audio_backgroud"
+                    />
+                <ImageView
+                    android:id="@+id/img_audio_photo"
+                    android:layout_gravity="center"
+                    android:layout_width="208dp"
+                    android:layout_height="117dp"
+                    />
+
+            </FrameLayout>
+
+            <RelativeLayout
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/progress_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="00:00"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"/>
+                <TextView
+                    android:id="@+id/progress_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="00:00"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"/>
+                <SeekBar
+                    android:layout_toLeftOf="@id/progress_total"
+                    android:layout_toRightOf="@id/progress_current"
+                    android:paddingLeft="@dimen/padding_normal"
+                    android:paddingRight="@dimen/padding_normal"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/seekbar"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="1dp"
+                    android:minHeight="1dp"
+                    android:progressDrawable="@drawable/doc_seekbar"
+                    android:thumb="@drawable/greencircle"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="@dimen/padding_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_centerInParent="true"
+                    android:id="@+id/play_pause"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/audio_play"
+                    />
+                <Button
+                    android:id="@+id/prev"
+                    android:layout_centerVertical="true"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/audio_back"
+                    android:layout_toLeftOf="@id/play_pause"/>
+                <Button
+                    android:layout_centerVertical="true"
+                    android:id="@+id/next"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/audio_forward"
+                    android:layout_toRightOf="@id/play_pause"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/main_text"
+                />
+            <RelativeLayout
+                android:id="@+id/rl_pdf_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="bottom"
+                android:layout_alignParentBottom="true"
+                android:clickable="true"
+                >
+
+
+                <ImageView
+                    android:id="@+id/img_head"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/avatar_normal"
+                    android:layout_marginRight="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:scaleType="centerCrop"
+                    android:layout_alignBottom="@+id/img_play"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                <TextView
+                    android:id="@+id/tv_uploader"
+                    tools:text="华南大学周老师"
+                    android:singleLine="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="@dimen/padding_normal"
+                    android:layout_above="@+id/tv_play_time"
+                    android:layout_toRightOf="@+id/img_head"
+                    />
+
+                <ImageView
+                    android:id="@+id/img_play"
+                    android:background="@drawable/playphoto"
+                    android:layout_width="0px"
+                    android:layout_height="0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/padding_normal"
+                    android:layout_toRightOf="@+id/img_head"
+                    android:visibility="invisible"
+                    />
+                <TextView
+                    android:text="暂无分类"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    android:textSize="12sp"
+                    android:background="@color/green1"
+                    android:id="@+id/tv_play_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/img_head"
+                    />
+                <ImageView
+                    android:id="@+id/img_collect"
+                    android:background="@drawable/collect_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_comment"
+                    android:layout_marginRight="@dimen/divider_margin_audio"
+                    android:layout_toLeftOf="@+id/divider_left"
+                    android:layout_toStartOf="@+id/divider_left" />
+
+                <View
+                    android:id="@+id/divider_left"
+                    android:layout_width="1dp"
+                    android:layout_height="15dp"
+                    android:background="@color/white"
+                    android:layout_alignBottom="@+id/img_play"
+                    android:layout_marginRight="@dimen/divider_margin_audio"
+                    android:layout_toLeftOf="@+id/img_comment"
+                    android:layout_toStartOf="@+id/img_comment" />
+
+
+                <ImageView
+                    android:id="@+id/img_comment"
+                    android:background="@drawable/comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_share"
+                    android:layout_toLeftOf="@+id/divider_riht"
+                    android:layout_marginRight="@dimen/divider_margin_audio"
+                    />
+
+                <View
+                    android:id="@+id/divider_riht"
+                    android:layout_width="1dp"
+                    android:layout_height="15dp"
+                    android:background="@color/white"
+                    android:layout_alignBottom="@+id/img_play"
+                    android:layout_marginRight="@dimen/divider_margin_audio"
+                    android:layout_toLeftOf="@+id/img_share"
+                    android:layout_toStartOf="@+id/img_share" />
+                <ImageView
+                    android:id="@+id/img_share"
+                    android:background="@drawable/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/img_play"
+                    android:layout_marginRight="@dimen/padding_normal"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/scl_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                >
+            </android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RadioGroup
+                    android:layout_marginTop="@dimen/padding_medium"
+                    android:id="@+id/radioGroup"
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dip"
+                    android:background="@drawable/gray_input_bg"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/info"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_15"
+                        android:background="@drawable/group_tap_btn_selector"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="简介"
+                        android:textColor="@color/group_tap_textcolor_radiobutton" />
+
+                    <RadioButton
+                        android:id="@+id/lrc"
+                        android:layout_width="0dp"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_15"
+                        android:background="@drawable/group_tap_btn_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="文本"
+                        android:textColor="@color/group_tap_textcolor_radiobutton" />
+
+                </RadioGroup>
+                <TextView
+                    android:layout_margin="@dimen/padding_normal"
+                    android:id="@+id/introduction"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="简介:"
+                    android:textSize="16sp"
+                    android:textColor="@color/main_text"
+                    android:minLines="20"
+                    />
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

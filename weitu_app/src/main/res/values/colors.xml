@@ -1,0 +1,74 @@
+<resources>
+
+    <!--old-->
+    <color name="transparent">#00000000</color>
+    <color name="title_str_color">#ffffff</color>
+    <color name="content_color">#fafafa</color>
+    <color name="label_color">#444a4d</color>
+
+    <color name="radio_check_color">#1C90DB</color>
+    <color name="bottom_radio_normal">#236C97</color>
+    <color name="bottom_radio_press">#10537D</color>
+    <color name="main_divider_line">#E4E4E4</color>
+    <color name="pickup_divider_line">#AAEEEEEE</color>
+    <color name="group_blue">#0ba9d7</color>
+    <color name="alert">#CC0000</color>
+    <color name="confirm">#FF8800</color>
+    <color name="info">#669900</color>
+    <color name="title_color">#c4c4c4</color>
+    <color name="main_color">#47b89d</color>
+    <color name="main_text">#666666</color>
+    <color name="favorate_text">#666666</color>
+    <color name="main_item_text">#7C8187</color>
+    <color name="ee">#f3f4f6</color>
+    <color name="black">#222222</color>
+    <color name="little_title">#f6f6f6</color>
+    <color name="black_normal">#000000</color>
+    <color name="grey_BG">#2c2c2c</color>
+
+    <!--new-->
+    <color name="white">#ffffff</color>
+    <color name="titleBar">#ffffff</color>
+    <color name="searchBackgroud">#f2f2f2</color>
+    <color name="newGreen">#2dbe60</color>
+    <color name="green1">#41ce97</color>
+    <color name="green2">#2dc5ac</color>
+    <color name="green3">#14b377</color>
+    <color name="grey1">#929293</color>
+    <color name="grey2">#f5f5f5</color>
+    <color name="grey3">#333333</color>
+    <color name="grey4">#999999</color>
+    <color name="grey5">#646464</color>
+    <color name="grey6">#f7f7f7</color>
+    <color name="grey7">#cecece</color>
+    <color name="grey8">#f3f3f3</color>
+    <color name="black2">#262724</color>
+    <color name="grey11">#525350</color>
+    <color name="grey12">#f6f7f4</color>
+    <color name="grey13">#eeeeee</color>
+    <color name="grey14">#d1d1d1</color>
+    <color name="grey9">#50514e</color>
+    <color name="grey10">#e7e8e5</color>
+
+    <color name="yellow1">#ddb600</color>
+    <color name="green4">#4d9400</color>
+    <color name="bule1">#4d94dd</color>
+    <color name="green5">#4abc92</color>
+    <color name="purple1">#ac7fd5</color>
+    <color name="red1">#cc3300</color>
+    <color name="red2">#db3f21</color>
+    <color name="black3">#030401</color>
+
+    <color name="divider">#dadada</color>
+    <color name="greyE">#e9e9e9</color>
+    <color name="greyD">#d9d9d9</color>
+    <color name="blackBG">#99000000</color>
+
+
+    <color name="maincolor">#42cc98</color>
+    <color name="textback">#396ecf</color>
+
+    <color name="num1">#ff6600</color>
+    <color name="num2">#ff9933</color>
+    <color name="num3">#ffcc66</color>
+</resources>

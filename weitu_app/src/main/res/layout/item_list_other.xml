@@ -1,0 +1,103 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/second"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="8dip" >
+
+    <LinearLayout
+        android:id="@+id/check_layout"
+        android:layout_width="60dp"
+        android:layout_height="110dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_alignWithParentIfMissing="true"
+        >
+
+        <CheckBox
+            android:id="@+id/checkmark"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@null"
+            android:button="@drawable/check_btn"
+            android:checked="false"
+            android:paddingLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fl_board"
+        android:layout_toRightOf="@+id/check_layout"
+        android:layout_width="130dp"
+        android:layout_height="120dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dip"
+        android:layout_toRightOf="@id/fl_board"
+        android:gravity="top|left"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16"/>
+
+        <TextView
+            android:id="@+id/tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无分类"
+            android:textColor="@color/white"
+            android:background="@color/green1"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:textSize="12sp"/>
+
+
+        <TextView
+            android:id="@+id/tv_uploader"
+            android:layout_marginTop="@dimen/padding_normal"
+            tools:text="上传：威廉"
+            android:maxLines="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:textColor="@color/main_item_text"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            tools:text="时间：2016/01/25"
+            android:maxLines="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:textColor="@color/grey4"
+            android:textSize="@dimen/text_size_12" />
+
+    </LinearLayout>
+
+</RelativeLayout>

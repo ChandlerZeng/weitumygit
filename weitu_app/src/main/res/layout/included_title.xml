@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="48dp"
+    style="@style/page_title">
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="@dimen/page_title_height"
+        android:layout_height="fill_parent"
+        android:background="@null"
+        android:src="@drawable/back_btn"/>
+    <TextView
+        android:layout_weight="1"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:id="@+id/title"
+        style="@style/page_title_str"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:ellipsize="marquee"
+        android:text="233"
+        android:gravity="center"
+        android:singleLine="true"/>
+    <RelativeLayout
+        android:id="@+id/title_right"
+        android:layout_width="@dimen/page_title_height"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:gravity="center">
+        <ImageButton
+            android:id="@+id/title_right_icon"
+            android:layout_width="@dimen/input_height"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:scaleType="center"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/title_right_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

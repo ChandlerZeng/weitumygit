@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:id="@+id/content_fragment"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="52dip"
+        android:background="#404042"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/main"
+            style="@style/bottom_radio_item"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:checked="true"
+            android:drawableTop="@drawable/main_radio_selector" />
+
+        <RadioButton
+            android:id="@+id/search"
+            style="@style/bottom_radio_item"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/search_radio_selector" />
+
+        <RadioButton
+            android:id="@+id/mine"
+            style="@style/bottom_radio_item"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/min_radio_selector" />
+    </LinearLayout>
+
+</LinearLayout>

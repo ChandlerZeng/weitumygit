@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/shape_media_bg">
+    <ImageButton
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/play_pause_small"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
+        android:background="@null"
+        android:scaleType="center"
+        android:src="@drawable/media_icon_play_small" />
+
+    <ImageView
+        android:id="@+id/fullscreen"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:scaleType="center"
+        android:src="@drawable/media_icon_full_small"/>
+    <LinearLayout
+        android:layout_toLeftOf="@id/fullscreen"
+        android:layout_toRightOf="@id/play_pause_small"
+        android:layout_alignBaseline="@id/play_pause"
+        android:layout_marginTop="18dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/progress_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="00:00"
+                android:textSize="12sp"
+                android:textColor="@color/white" />
+
+            <SeekBar
+                android:id="@+id/seekbar_small"
+                android:layout_toRightOf="@+id/progress_current"
+                android:layout_toLeftOf="@+id/progress_total"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:maxHeight="1dp"
+                android:minHeight="1dp"
+                android:progressDrawable="@drawable/doc_seekbar"
+                android:thumb="@drawable/greencircle"
+                />
+
+            <TextView
+                android:id="@+id/progress_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="00:00"
+
+                android:textSize="12sp"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

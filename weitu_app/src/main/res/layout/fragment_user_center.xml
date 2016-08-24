@@ -1,0 +1,284 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/user"
+        android:layout_width="fill_parent"
+        android:layout_height="120dip"
+        android:background="@color/main_color" >
+
+        <RelativeLayout
+            android:id="@+id/photo_con"
+            android:layout_width="@dimen/photo_width"
+            android:layout_height="@dimen/photo_width" 
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@color/white"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/photo"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="2dip"
+                android:layout_centerInParent="true"
+                android:src="@drawable/user_default" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/username"
+            style="@style/page_title_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/photo_con"
+            android:gravity="center"
+            android:text="@string/user_center" />
+
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20dip" >
+
+            <RelativeLayout
+                android:id="@+id/school"
+                style="@style/user_center_top"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/user_center_item"
+                android:layout_margin="10dip" >
+
+                <TextView
+                    android:id="@+id/school_name"
+                    style="@style/user_me_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/school" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_set" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/mine"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip"
+                android:background="@drawable/input_bg"
+                android:orientation="vertical"
+                android:padding="1dip" >
+
+                <RelativeLayout
+                    android:id="@+id/mine_pre"
+                    style="@style/user_center_center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/user_center_item" >
+
+                    <TextView
+                        style="@style/user_me_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/precare" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrows_right" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/main_divider_line" />
+
+                <RelativeLayout
+                    android:id="@+id/favorate"
+                    style="@style/user_center_center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/user_center_item" >
+
+                    <TextView
+                        style="@style/user_me_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:hint="@string/favorite" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrows_right" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/main_divider_line" />
+
+                <RelativeLayout
+                    android:id="@+id/see_pre"
+                    style="@style/user_center_center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/user_center_item" >
+
+                    <TextView
+                        style="@style/user_me_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:hint="@string/pre_see" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrows_right" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/main_divider_line" />
+
+                <RelativeLayout
+                    android:id="@+id/want"
+                    style="@style/user_center_center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/user_center_item" >
+
+                    <TextView
+                        style="@style/user_me_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:hint="@string/want" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrows_right" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/see_history"
+                style="@style/user_center_top"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/user_center_item"
+                android:layout_margin="10dip"
+                android:visibility="gone" >
+
+                <TextView
+                    style="@style/user_me_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/see_custom" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_set" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dip"
+                android:background="@drawable/input_bg"
+                android:orientation="vertical"
+                android:padding="1dip" >
+
+                <RelativeLayout
+                    android:id="@+id/feed_back"
+                    style="@style/user_center_center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/user_center_item" >
+
+                    <TextView
+                        style="@style/user_me_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/feed_back" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrows_right" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="@color/main_divider_line" />
+
+                <RelativeLayout
+                    android:id="@+id/set"
+                    style="@style/user_center_center"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/user_center_item" >
+
+                    <TextView
+                        style="@style/user_me_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/set" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/arrows_right" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

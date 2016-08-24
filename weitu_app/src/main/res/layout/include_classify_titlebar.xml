@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/titleBar"
+    android:gravity="center_vertical"
+    android:id="@+id/titlebar"
+    >
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="10dp"
+        android:src="@drawable/arrow_back"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="新闻公告"
+        android:textColor="@color/black"
+        android:textSize="18sp"/>
+
+    <ImageView
+        android:id="@+id/img_arrow"
+        android:layout_toRightOf="@+id/title"
+        android:layout_marginTop="5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="10dp"
+        android:src="@drawable/arrow_down"/>
+
+    <TextView
+        android:id="@+id/tv_sort"
+        android:layout_below="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:text="全部"
+        android:textColor="@color/grey4"
+        android:textSize="10sp"/>
+
+    <ImageView
+        android:id="@+id/img_search"
+        android:layout_toLeftOf="@+id/search_filter"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:padding="10dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/search_icon2"/>
+
+    <ImageView
+        android:id="@+id/search_filter"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:padding="10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/search_filter"/>
+</RelativeLayout>

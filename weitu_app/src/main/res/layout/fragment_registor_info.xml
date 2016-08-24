@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+   <include layout="@layout/included_title1"/>
+
+    <ScrollView
+        style="@style/content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dip" >
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_contain"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dip"
+                    android:text="@string/nick_name" />
+
+                <EditText
+                    android:id="@+id/user_name"
+                    style="@style/login_input_style"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/input_height"
+                    android:hint="4~8位"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/sex"
+                style="@style/user_center_center"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/input_height"
+                android:layout_marginTop="8dip"
+                android:background="@drawable/login_contain" >
+
+                <TextView
+                    android:id="@+id/label"
+                    style="@style/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/sex" />
+
+                <TextView
+                    android:id="@+id/sex_value"
+                    style="@style/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dip"
+                    android:layout_toRightOf="@id/label" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_set" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/school"
+                style="@style/user_center_center"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/input_height"
+                android:layout_marginTop="8dip"
+                android:background="@drawable/login_contain" >
+
+                <TextView
+                    android:id="@+id/library_label"
+                    style="@style/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:hint="@string/library" />
+
+                <TextView
+                    android:id="@+id/library"
+                    style="@style/label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dip"
+                    android:layout_toRightOf="@id/library_label" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/arrow_set" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/next_step"
+                style="@style/login_btn_style"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/page_title_height"
+                android:layout_margin="15dip"
+                android:text="@string/ok_str" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_media_bg"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+    <SeekBar
+        android:id="@+id/seekbar_big"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:maxHeight="1dp"
+        android:minHeight="1dp"
+        android:progressDrawable="@drawable/doc_seekbar"
+        android:thumb="@drawable/greencircle"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:paddingBottom="10dp">
+        <ImageButton
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/play_pause_big"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:background="@null"
+            android:scaleType="center"
+            android:paddingRight="16dp"
+            android:paddingLeft="6dp"
+            android:src="@drawable/media_icon_play_big" />
+        <TextView
+            android:layout_toRightOf="@id/play_pause_big"
+            android:id="@+id/progress_big"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="00:00/00:00"
+            android:textSize="18sp"
+            android:textColor="@color/white" />
+        <ImageView
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:id="@+id/scale"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:scaleType="center"
+            android:src="@drawable/media_icon_screen_big"/>
+        <View
+            android:layout_toLeftOf="@id/scale"
+            android:layout_centerVertical="true"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:background="@color/grey7"/>
+    </RelativeLayout>
+
+
+
+
+
+</LinearLayout>

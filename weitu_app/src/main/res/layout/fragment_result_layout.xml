@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/null_txt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/user_center_item_pressed"
+        android:gravity="center"
+        android:padding="15dip"
+        android:text="未搜索到相关记录"
+        android:textColor="@color/main_item_text" 
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <com.libtop.weituR.widget.listview.ScrollRefListView
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/white"
+            android:cacheColorHint="#00000000"
+            android:descendantFocusability="blocksDescendants"
+            android:divider="@color/main_divider_line"
+            android:dividerHeight="0.8dip"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:listSelector="@drawable/list_selector"
+            android:scrollingCache="false" />
+    </RelativeLayout>
+
+    <com.libtop.weituR.widget.stage.StaggeredGridView
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+</LinearLayout>

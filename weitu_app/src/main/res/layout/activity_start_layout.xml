@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_margin="10dip"
+            android:scaleType="centerInside"
+            android:src="@drawable/welcome_logo" />
+
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="微图"
+            android:textColor="@color/main_item_text"
+            android:textSize="@dimen/text_size_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您身边的图书馆助手"
+            android:layout_margin="10dip"
+            android:textColor="@color/main_item_text"
+            android:textSize="@dimen/text_size_12" />
+    </LinearLayout>
+
+</RelativeLayout>

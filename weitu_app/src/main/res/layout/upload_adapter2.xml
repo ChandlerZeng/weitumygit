@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:descendantFocusability="blocksDescendants"
+              android:gravity="center"
+              android:orientation="horizontal"
+              android:paddingBottom="@dimen/padding_normal"
+              android:paddingTop="@dimen/padding_normal"
+    >
+
+    <ImageView
+        android:id="@+id/img_folder"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/padding_normal"
+        android:layout_weight="0"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_image"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_folder_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="默认文件夹"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#333333"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_video_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_folder_title"
+            android:text="0个视频"
+            android:textColor="#999999"
+            android:textSize="13sp"/>
+
+
+        <TextView
+            android:id="@+id/et_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_folder_title"
+            android:layout_marginLeft="2dp"
+            android:layout_toRightOf="@+id/tv_video_num"
+            android:background="@color/green1"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:textColor="#ffffff"
+            />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imgBtn_video_choice"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_gravity="top"
+        android:background="@drawable/video_choice_selector"
+        android:focusable="false"/>
+
+</LinearLayout>

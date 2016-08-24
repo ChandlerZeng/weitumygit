@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+    <!-- 下拉刷新列表 -->
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_footer_hint_loaded">学霸大人，你已经看完所有内容了～</string>
+    <string name="loading_text_str">加载中，请稍后...</string>
+    <string name="app_name">微图</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- app -->
+    <string name="default_str">默认</string>
+
+    <!-- 设置用户中心/注册等 -->
+    <string name="user_center">用户中心</string>
+    <string name="feed_back">反馈</string>
+    <string name="feed_back_hint">请输入您的建议或问题，尽可能详细描述</string>
+    <string name="post_error_hint">请输入您发现错误的详细内容(可不填)</string>
+    <string name="feed_back_label">每一条建议都会被用心对待。</string>
+    <string name="capton_toast">验证码已经发送到您的手机：</string>
+    <string name="school_title">高校</string>
+    <string name="toast_label">提示</string>
+    <string name="help_us">帮助</string>
+    <string name="registor">新用户注册</string>
+    <string name="registor_str">注册</string>
+    <string name="user_name_hint">手机</string>
+    <string name="user_mail_hint">邮箱</string>
+    <string name="pass_wd_hint">密码</string>
+    <string name="reg_str">注册新用户</string>
+    <string name="forget_passwd">找回密码</string>
+    <string name="forget_get_passwd">找回密码</string>
+    <string name="update_passwd">修改密码</string>
+    <string name="set_passwd">设置密码</string>
+    <string name="user_info">个人资料</string>
+    <string name="login_fast_str">登录</string>
+    <string name="reg_name_hint">昵称(6-12位)</string>
+    <string name="reg_passwd_hint">密码(6至16位)</string>
+    <string name="old_passwd_hint">旧密码</string>
+    <string name="new_passwd_hint">新密码</string>
+    <string name="again_passwd_hint">再次输入密码</string>
+    <string name="check_word_hint">输入验证码</string>
+    <string name="get_word_hint">获取验证码</string>
+    <string name="registor_btn_str">立即注册</string>
+    <string name="next_step_str">下一步</string>
+    <string name="finish_registor">完成</string>
+    <string name="info_str">用户信息</string>
+    <string name="user_me_title">我</string>
+    <string name="photo_set_title">头像设置</string>
+    <string name="choose_camera">拍照</string>
+    <string name="choose_photo">相册</string>
+    <string name="delete_str">删除</string>
+    <string name="info_set_str">信息设置</string>
+    <string name="sex_set_title">性别设置</string>
+    <string name="info_basic_set">基本信息</string>
+    <string name="info_other">其他信息</string>
+    <string name="nick_label">昵称</string>
+    <string name="emai_label">邮箱</string>
+    <string name="sex_label">性别</string>
+    <string name="birth_year_label">出生年</string>
+    <string name="user_edit_title">用户编辑</string>
+    <string name="check_passwd_toast">为了验证身份，我们将发验证码到您的手机</string>
+    <string name="app_show">最新应用推荐</string>
+    <string name="send_email">发送邮件</string>
+    <string name="to_email">进入邮箱</string>
+    <string name="submit_relay_str">提交</string>
+    <string name="back_btn">返回登录</string>
+    <string name="help_center">帮助中心</string>
+    <string name="share_set">分享设置</string>
+    <string name="about_us">关于我们</string>
+    <string name="send_message">发送</string>
+    <string name="logout">注销</string>
+
+    <!-- 用户中心 -->
+    <string name="school">我的学校</string>
+    <string name="precare">我的预约</string>
+    <string name="favorite">我的收藏</string>
+    <string name="pre_see">我看过</string>
+    <string name="want">我想看</string>
+    <string name="see_custom">最近浏览</string>
+    <string name="set">设置</string>
+    <string name="main_text">首页</string>
+    <string name="search">查询</string>
+    <string name="mine_text">我的</string>
+    <string name="clear_cache">清理缓存</string>
+    <string name="check_update">检查更新</string>
+    <string name="cancel_str">取消</string>
+    <string name="ok_str">确定</string>
+    <string name="choose_img">选择图片</string>
+    <string name="choose_photo_sd">选择相册</string>
+    <string name="choose">选择</string>
+    <string name="input_book_name">输入关键字</string>
+    <string name="book_name">书名</string>
+    <string name="book_detail">书本详情</string>
+    <string name="serch_list">书籍列表</string>
+    <string name="skip">跳过</string>
+    <string name="top">上一层</string>
+    <string name="user_photo">用户头像</string>
+    <string name="nick_name">昵称   </string>
+    <string name="sex">性别</string>
+    <string name="library">图书馆</string>
+    <string name="choose_library">选择图书馆</string>
+    <string name="welcome_content">登录体验更多功能</string>
+    <string name="touch_speak">按住说话</string>
+    <string name="move_up_to_cancel">手指上滑，取消发送</string>
+    <string name="release_to_cancel">松开手指，取消发送</string>
+
+    <string name="startup_welcome">您身边的图书馆助手</string>
+
+    <string name="input_verify">填写验证码</string>
+
+    <string-array name="main_items">
+        <item>在线咨询</item>
+        <item>精彩活动</item>
+        <item>我的收藏</item>
+        <item>我的预约</item>
+        <item>我想看</item>
+        <item>我看过</item>
+    </string-array>
+
+    <!--new-->
+    <string name="intel_search">智能检索</string>
+    <string name="special_lesson">特色课堂</string>
+    <string name="news_broadcast">新闻公告</string>
+    <string name="news_detail">新闻详情</string>
+    <string name="news_list">新闻列表</string>
+    <string name="user_service">读者服务</string>
+    <string name="rmd_books">推荐图书</string>
+    <string name="favorite_books">热门图书</string>
+
+    <string name="intel_search_tag">视频/图书/文档</string>
+    <string name="special_lesson_tag">精品课程</string>
+    <string name="news_broadcast_tag">图书馆动态</string>
+    <string name="user_service_tag">更多服务</string>
+
+    <string-array name="common_services_tag">
+        <item>班级</item>
+        <item>课表</item>
+        <item>转借</item>
+        <item>点评</item>
+        <item>预约</item>
+        <item>续借</item>
+        <item>收藏</item>
+        <item>上传</item>
+    </string-array>
+
+    <string-array name="common_services_tag1">
+        <item>智能检索</item>
+        <item>图书</item>
+        <item>班级</item>
+        <item>课表</item>
+        <item>视频</item>
+        <item>音频</item>
+        <item>文档</item>
+        <item>图库</item>
+    </string-array>
+
+    <string-array name="video_sort_tag">
+        <item>原创</item>
+        <item>教材</item>
+        <item>外语</item>
+        <item>中小学教辅</item>
+        <item>历史</item>
+        <item>古籍</item>
+        <item>哲学</item>
+        <item>文化</item>
+        <item>政治</item>
+        <item>军事</item>
+        <item>法律</item>
+        <item>社会科学</item>
+        <item>心理学</item>
+        <item>管理</item>
+        <item>投资理财</item>
+        <item>经济</item>
+        <item>音像</item>
+        <item>科普</item>
+        <item>建筑</item>
+        <item>医学</item>
+        <item>计算机</item>
+        <item>农业</item>
+        <item>自然科学</item>
+        <item>工业</item>
+    </string-array>
+
+    <string name="tab_mian">首页</string>
+    <string name="tab_clazz">分类</string>
+    <string name="tab_collect">收藏</string>
+    <string name="tab_msg">消息</string>
+    <string name="tab_personal">我的</string>
+
+    <string name="commen_service">常用服务</string>
+    <string name="create_album">创建相册</string>
+    <string name="create">创建</string>
+    <string name="album_name">相册名:</string>
+
+    <string-array name="service_list">
+        <item>智能搜索</item>
+        <item>留言咨询</item>
+        <item>报纸期刊</item>
+        <item>线上资源</item>
+        <item>楼层指引</item>
+        <item>讲座报告</item>
+        <item>学习历程</item>
+    </string-array>
+
+    <string-array name="source_type">
+        <item>视频</item>
+        <item>音频</item>
+        <item>文档</item>
+        <item>相册</item>
+    </string-array>
+
+    <string-array name="order_condition">
+        <item>最新</item>
+        <item>最热门</item>
+    </string-array>
+
+
+    <string name="folder_all">相册</string>
+    <string name="preview">Preview</string>
+    <string name="msg_no_camera">No system camera found</string>
+    <string name="msg_amount_limit">Select images amount is limit</string>
+    <string name="action_done">Done</string>
+    <string name="photo_unit">Shot</string>
+    <string name="tip_take_photo">Take photo</string>
+    <string name="scan_tips">请对准二维码或ISBN条形码到框内</string>
+    <string name="netError">网络有问题，请稍后重试</string>
+    <string name="noThisBook">抱歉！找不到这本书</string>
+    <string name="isbnNote">请输入13位的ISBN号</string>
+    <string name="notResolveType">照片中未识别到二维码</string>
+    <string name="content2weima">二维码内容</string>
+    <string name="newFolder">新建文件夹</string>
+    <string name="nowVersion">当前版本：2.1.0</string>
+    <string name="weituIntrodution">微图是广州联图电子科技有限公司旗下产品</string>
+
+    <string-array name="spinner_array">
+        <item>最新上传</item>
+        <item>阅读最多</item>
+        <item>评论最多</item>
+        <item>收藏最多</item>
+    </string-array>
+
+    <string-array name="spinner_array2">
+        <item>阅读最多</item>
+        <item>评论最多</item>
+        <item>收藏最多</item>
+    </string-array>
+
+    <string name="testString">打算减肥了对方肯定就是浪费的时间发了啥等级分类解决算了分类及第三方刘记水豆腐了健身房路上风景死定了附近砀山龙卷风多了几分的连接放到家里舒服就多少了房间多少了啊手机放到了多少立方技术的积分楼上的减肥了电视剧福建老家了 的付电费缴费进来的时间分类及第三方了等级分类多少积分了多少房间螺蛳粉记得加分类的介绍发斯蒂芬的历史分类放松的减肥了时间发觉发觉啊纠纷及地方是否 地方都是 的分微图是广州联图电子科技有限公司旗下产品是对方即可了解啥地方九点十分点击放大了手机发链接的离开房间了多少就放开来的就是法律框架都是浪费记得了会计分录看电视就疯了快结束的浪费就是的减肥 简单快乐简单了积分连接到附近的离开就发来的时间浪费点击蓝色空房间领导看见地方速度快了解放速度快解放领导说会计法；点击就减肥叫对方离开地方记得发的理解圣诞节快乐历史的积分的分集来的快解放点击付款了就是的风景都是</string>
+</resources>

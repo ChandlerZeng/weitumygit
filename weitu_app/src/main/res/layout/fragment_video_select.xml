@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <include layout="@layout/included_title2"/>
+    <com.libtop.weituR.widget.listview.XListView
+        android:layout_weight="1"
+        android:cacheColorHint="@color/transparent"
+        android:listSelector="@color/transparent"
+        android:divider="@color/divider"
+        android:dividerHeight="1px"
+        android:paddingTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
+        android:id="@+id/lv_video_select"
+        android:scrollbars="none">
+    </com.libtop.weituR.widget.listview.XListView>
+
+    <LinearLayout
+        android:id="@+id/ll_new_folderBtn"
+        android:layout_weight="0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_normal"
+        android:gravity="center"
+        android:background="@color/green1"
+        >
+        <ImageView
+            android:background="@drawable/video_create_folder"
+            android:layout_gravity="center"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="@dimen/padding_normal"
+            />
+        <TextView
+            android:text="@string/newFolder"
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</LinearLayout>

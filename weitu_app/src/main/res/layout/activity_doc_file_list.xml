@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    >
+
+    <include layout="@layout/included_title2" />
+
+
+    <TextView
+        android:id="@+id/tv_up_folder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_normal"
+        android:background="#f2f2f2"
+        android:text="上一级 > storage"
+        android:textColor="@color/grey4"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        >
+    <ListView
+        android:id="@+id/lv_doc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/divider"
+        android:dividerHeight="1px"
+        >
+
+    </ListView>
+
+
+        <TextView
+            android:id="@+id/tv_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="没有文档"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

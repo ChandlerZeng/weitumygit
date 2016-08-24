@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <include layout="@layout/included_title2"/>
+
+    <com.libtop.weituR.widget.listview.XListView
+        android:id="@+id/lv_video_select"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/divider"
+        android:dividerHeight="1px"
+        android:horizontalSpacing="5dp"
+        android:listSelector="@color/transparent"
+        android:paddingTop="5dp"
+        android:scrollbars="none"
+        android:verticalSpacing="5dp">
+    </com.libtop.weituR.widget.listview.XListView>
+
+
+</LinearLayout>
