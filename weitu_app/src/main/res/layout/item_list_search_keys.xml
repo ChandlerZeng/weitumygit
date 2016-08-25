@@ -24,7 +24,7 @@
             android:textColor="@color/grey3"
             android:text="abced"/>
     </LinearLayout>
-    <com.libtop.weituR.widget.gridview.FixedGridView
+    <com.libtop.weitu.widget.gridview.FixedGridView
         android:scrollbars="none"
         android:layout_marginTop="15dp"
         android:id="@+id/grid_view"
@@ -36,5 +36,5 @@
         android:listSelector="@color/transparent"
         android:cacheColorHint="@color/transparent">
 
-    </com.libtop.weituR.widget.gridview.FixedGridView>
+    </com.libtop.weitu.widget.gridview.FixedGridView>
 </LinearLayout>

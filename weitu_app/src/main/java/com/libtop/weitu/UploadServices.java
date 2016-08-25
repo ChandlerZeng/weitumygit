@@ -8,8 +8,8 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.widget.Toast;
 
-import com.libtop.weituR.activity.main.upload.DBHelper;
-import com.libtop.weituR.activity.main.upload.UploadService;
+import com.libtop.weitu.activity.main.upload.DBHelper;
+import com.libtop.weitu.activity.main.upload.UploadService;
 
 import java.io.File;
 import java.util.LinkedHashMap;

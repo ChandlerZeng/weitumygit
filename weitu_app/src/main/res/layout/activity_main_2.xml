@@ -5,7 +5,7 @@
               android:background="@color/grey2"
               android:orientation="vertical">
 
-    <com.libtop.weituR.widget.NoSlideViewPager
+    <com.libtop.weitu.widget.NoSlideViewPager
         android:id="@+id/mViewPager"
         android:layout_width="fill_parent"
         android:layout_height="0dip"

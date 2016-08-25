@@ -106,7 +106,7 @@
             android:layout_height="1dp"
             android:background="@color/divider" />
 
-        <com.libtop.weituR.widget.gridview.FixedGridView
+        <com.libtop.weitu.widget.gridview.FixedGridView
             android:id="@+id/gv_hot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -88,12 +88,12 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"/>
 
-        <com.libtop.weituR.widget.TagGroup
+        <com.libtop.weitu.widget.TagGroup
             android:id="@+id/tag_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        </com.libtop.weituR.widget.TagGroup>
+        </com.libtop.weitu.widget.TagGroup>
 
 
     </LinearLayout>

@@ -195,7 +195,7 @@
             android:textColor="@color/black"
             />
 
-        <com.libtop.weituR.widget.listview.HorizontalListView
+        <com.libtop.weitu.widget.listview.HorizontalListView
             android:id="@+id/hlv_cover"
             android:layout_marginBottom="@dimen/padding_normal"
             android:layout_width="match_parent"
@@ -204,7 +204,7 @@
             >
 
 
-        </com.libtop.weituR.widget.listview.HorizontalListView>
+        </com.libtop.weitu.widget.listview.HorizontalListView>
     </LinearLayout>
 
 </LinearLayout>

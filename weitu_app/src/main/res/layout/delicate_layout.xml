@@ -44,7 +44,7 @@
             android:src="@drawable/search_filter"/>
     </LinearLayout>
 
-    <com.libtop.weituR.widget.listview.XListView
+    <com.libtop.weitu.widget.listview.XListView
         android:id="@+id/delicate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

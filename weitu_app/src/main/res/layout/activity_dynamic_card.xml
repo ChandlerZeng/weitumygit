@@ -8,7 +8,7 @@
         android:id="@+id/top_view"
         layout="@layout/included_title1" />
 
-    <com.libtop.weituR.activity.search.dynamicCardLayout.LazyScrollView
+    <com.libtop.weitu.activity.search.dynamicCardLayout.LazyScrollView
         android:id="@+id/rootScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,6 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </RelativeLayout>
-    </com.libtop.weituR.activity.search.dynamicCardLayout.LazyScrollView>
+    </com.libtop.weitu.activity.search.dynamicCardLayout.LazyScrollView>
 
 </RelativeLayout>

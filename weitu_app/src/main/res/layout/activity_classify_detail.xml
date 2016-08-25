@@ -34,7 +34,7 @@
 
     </LinearLayout>
 
-    <com.libtop.weituR.widget.listview.XListView
+    <com.libtop.weitu.widget.listview.XListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

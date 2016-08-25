@@ -32,7 +32,7 @@
             android:src="@drawable/new_sms_btn" />
     </RelativeLayout>
 
-    <com.libtop.weituR.widget.listview.ScrollRefListView
+    <com.libtop.weitu.widget.listview.ScrollRefListView
         android:id="@+id/common_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

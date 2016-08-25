@@ -20,7 +20,7 @@
         android:layout_weight="1"
         android:background="#fafafa">
 
-        <com.libtop.weituR.utils.viewpagerbitmap.HackyViewPager
+        <com.libtop.weitu.utils.viewpagerbitmap.HackyViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

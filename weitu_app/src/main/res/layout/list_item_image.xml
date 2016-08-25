@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.libtop.weituR.utils.selector.view.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.libtop.weitu.utils.selector.view.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                          android:layout_width="match_parent"
                                                          android:layout_height="match_parent">
 
-    <com.libtop.weituR.utils.selector.view.SquaredImageView
+    <com.libtop.weitu.utils.selector.view.SquaredImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,4 +34,4 @@
         android:layout_marginTop="5.5dp"
         android:src="@drawable/btn_unselected"/>
 
-</com.libtop.weituR.utils.selector.view.SquareFrameLayout>
+</com.libtop.weitu.utils.selector.view.SquareFrameLayout>

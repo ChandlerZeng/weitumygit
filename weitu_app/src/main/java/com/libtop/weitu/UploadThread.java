@@ -3,7 +3,7 @@ package com.libtop.weitu;
 import android.os.Handler;
 import android.os.Message;
 
-import com.libtop.weituR.activity.main.upload.UploadService;
+import com.libtop.weitu.activity.main.upload.UploadService;
 
 import java.io.File;
 

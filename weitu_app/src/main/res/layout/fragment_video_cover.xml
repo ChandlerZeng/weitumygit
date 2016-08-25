@@ -13,7 +13,7 @@
         android:scaleType="centerCrop"
         />
 
-    <com.libtop.weituR.widget.listview.HorizontalListView
+    <com.libtop.weitu.widget.listview.HorizontalListView
         android:layout_gravity="center"
         android:id="@+id/hlv_cover"
         android:layout_marginTop="@dimen/padding_normal"
@@ -21,7 +21,7 @@
         android:layout_height="60dp">
 
 
-    </com.libtop.weituR.widget.listview.HorizontalListView>
+    </com.libtop.weitu.widget.listview.HorizontalListView>
 
     <TextView
         android:layout_marginTop="@dimen/padding_large"

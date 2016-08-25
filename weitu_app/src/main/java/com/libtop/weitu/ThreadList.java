@@ -2,7 +2,7 @@ package com.libtop.weitu;
 
 import android.os.Handler;
 
-import com.libtop.weituR.utils.selector.bean.ListGridImage;
+import com.libtop.weitu.utils.selector.bean.ListGridImage;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

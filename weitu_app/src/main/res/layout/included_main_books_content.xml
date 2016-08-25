@@ -42,7 +42,7 @@
 
         </LinearLayout>
 
-        <com.libtop.weituR.widget.gridview.FixedGridView
+        <com.libtop.weitu.widget.gridview.FixedGridView
             android:id="@+id/grid_view_favorite_books"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -100,7 +100,7 @@
             android:textColor="@color/grey3"
             android:textSize="16sp" />
 
-        <com.libtop.weituR.widget.gridview.FixedGridView
+        <com.libtop.weitu.widget.gridview.FixedGridView
             android:id="@+id/grid_view_rmd_books"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

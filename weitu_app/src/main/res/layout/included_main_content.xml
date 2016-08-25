@@ -13,7 +13,7 @@
         app:indicator_type="indicator_anim_circle"
         />
 
-    <com.libtop.weituR.widget.gridview.FixedGridView
+    <com.libtop.weitu.widget.gridview.FixedGridView
         android:id="@+id/grid_view"
         android:background="@color/white"
         android:cacheColorHint="@color/transparent"
@@ -65,7 +65,7 @@
 
     </LinearLayout>
 
-    <com.libtop.weituR.widget.listview.ChangeListView
+    <com.libtop.weitu.widget.listview.ChangeListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
             />-->
     </LinearLayout>
 
-    <com.libtop.weituR.widget.gridview.FixedGridView
+    <com.libtop.weitu.widget.gridview.FixedGridView
         android:id="@+id/grid_view2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -202,7 +202,7 @@
 
     </LinearLayout>
 
-    <com.libtop.weituR.widget.gridview.FixedGridView
+    <com.libtop.weitu.widget.gridview.FixedGridView
         android:id="@+id/grid_view3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

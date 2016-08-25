@@ -56,7 +56,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application
-        android:name="com.libtop.weituR.application.AppApplication"
+        android:name="com.libtop.weitu.application.AppApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -65,7 +65,7 @@
 
 
         <!-- new start -->
-        <activity android:name="com.libtop.weituR.activity.startup.StartupActivity">
+        <activity android:name="com.libtop.weitu.activity.startup.StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -73,25 +73,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.libtop.weituR.activity.ContentActivity"
+            android:name="com.libtop.weitu.activity.ContentActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.activity.main.MainActivity"
+            android:name="com.libtop.weitu.activity.main.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.activity.search.SearchActivity"
+            android:name="com.libtop.weitu.activity.search.SearchActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name="com.libtop.weituR.activity.source.VideoPlayActivity"
+            android:name="com.libtop.weitu.activity.source.VideoPlayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden"/>
@@ -100,38 +100,38 @@
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.libtop.weituR.activity.search.VideoPlayActivity"
+            android:name="com.libtop.weitu.activity.search.VideoPlayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.utils.selector.MultiImageSelectorActivity"
+            android:name="com.libtop.weitu.utils.selector.MultiImageSelectorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.utils.selector.view.MultiImageSelectorActivity2"
+            android:name="com.libtop.weitu.utils.selector.view.MultiImageSelectorActivity2"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.utils.viewpagerbitmap.ImagePagerActivity"
+            android:name="com.libtop.weitu.utils.viewpagerbitmap.ImagePagerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.activity.source.AudioPlayActivity"
+            android:name="com.libtop.weitu.activity.source.AudioPlayActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.activity.source.PdfActivity"
+            android:name="com.libtop.weitu.activity.source.PdfActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.activity.source.TxtActivity"
+            android:name="com.libtop.weitu.activity.source.TxtActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.activity.search.ShowBigImage"
+            android:name="com.libtop.weitu.activity.search.ShowBigImage"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
@@ -243,7 +243,7 @@
 
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
-            android:name="com.libtop.weituR.receiver.MyReceiver"
+            android:name="com.libtop.weitu.receiver.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -272,27 +272,27 @@
             android:name="JPUSH_APPKEY"
             android:value="957a9fd2a8bdd8018297b63f"/>
         <!-- </>值来自开发者平台取得的AppKey -->
-        <activity android:name="com.libtop.weituR.activity.main.upload.UploadFileActivity"/>
-        <activity android:name="com.libtop.weituR.activity.main.videoUpload.VideoScreenActivity"/>
-        <activity android:name="com.libtop.weituR.activity.main.videoUpload.CameraActivity"/>
+        <activity android:name="com.libtop.weitu.activity.main.upload.UploadFileActivity"/>
+        <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoScreenActivity"/>
+        <activity android:name="com.libtop.weitu.activity.main.videoUpload.CameraActivity"/>
         <activity
-            android:name="com.libtop.weituR.activity.main.videoUpload.VideoPlayActivity3"
+            android:name="com.libtop.weitu.activity.main.videoUpload.VideoPlayActivity3"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name="com.libtop.weituR.activity.main.videoUpload.VideoMoveActivity"
+            android:name="com.libtop.weitu.activity.main.videoUpload.VideoMoveActivity"
             android:theme="@style/selecttypestyle"/>
-        <activity android:name="com.libtop.weituR.utils.selector.ImageUploadActivity"/>
-        <activity android:name="com.libtop.weituR.activity.main.DocUpload.DocUploadActivity"/>
-        <activity android:name="com.libtop.weituR.utils.selector.view.ImageSortActivity"/>
-        <activity android:name="com.libtop.weituR.utils.selector.view.ImageSelectActivity"/>
-        <activity android:name="com.libtop.weituR.utils.selector.view.ImageEditActivity"/>
-        <activity android:name="com.libtop.weituR.utils.selector.view.ImageCoverActivity"/>
-        <activity android:name="com.libtop.weituR.activity.main.DocUpload.FileChooserActivity"/>
-        <activity android:name="com.libtop.weituR.activity.main.videoUpload.VideoSelectActivity"/>
-        <activity android:name="com.libtop.weituR.activity.source.AudioPlayActivity2"/>
+        <activity android:name="com.libtop.weitu.utils.selector.ImageUploadActivity"/>
+        <activity android:name="com.libtop.weitu.activity.main.DocUpload.DocUploadActivity"/>
+        <activity android:name="com.libtop.weitu.utils.selector.view.ImageSortActivity"/>
+        <activity android:name="com.libtop.weitu.utils.selector.view.ImageSelectActivity"/>
+        <activity android:name="com.libtop.weitu.utils.selector.view.ImageEditActivity"/>
+        <activity android:name="com.libtop.weitu.utils.selector.view.ImageCoverActivity"/>
+        <activity android:name="com.libtop.weitu.activity.main.DocUpload.FileChooserActivity"/>
+        <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity"/>
+        <activity android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"/>
         <activity
-            android:name="com.libtop.weituR.activity.search.VideoPlayActivity2"
+            android:name="com.libtop.weitu.activity.search.VideoPlayActivity2"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
@@ -300,36 +300,36 @@
             android:name=".UploadServices"
             android:process=":upload">
             <intent-filter>
-                <action android:name="com.libtop.weituR.CUSTOM_TYPE_SERVICE"/>
+                <action android:name="com.libtop.weitu.CUSTOM_TYPE_SERVICE"/>
             </intent-filter>
         </service>
 
-        <activity android:name="com.libtop.weituR.activity.search.dynamicCardLayout.DynamicCardActivity">
+        <activity android:name="com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity">
         </activity>
-        <activity android:name="com.libtop.weituR.activity.search.CommentActivity">
+        <activity android:name="com.libtop.weitu.activity.search.CommentActivity">
         </activity>
-        <activity android:name="com.libtop.weituR.activity.source.PdfActivity2">
+        <activity android:name="com.libtop.weitu.activity.source.PdfActivity2">
         </activity>
-        <activity android:name="com.libtop.weituR.activity.search.ImagePagerActivity2">
+        <activity android:name="com.libtop.weitu.activity.search.ImagePagerActivity2">
         </activity>
-        <activity android:name="com.libtop.weituR.activity.user.MyCommentActivity"
+        <activity android:name="com.libtop.weitu.activity.user.MyCommentActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             >
         </activity>
-        <activity android:name="com.libtop.weituR.activity.main.clickHistory.ClickHistoryActivity"
+        <activity android:name="com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             >
         </activity>
-        <activity android:name="com.libtop.weituR.activity.user.UserCollect.UserCollectActivity"
+        <activity android:name="com.libtop.weitu.activity.user.UserCollect.UserCollectActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             >
         </activity>
-        <activity android:name="com.libtop.weituR.activity.classify.ClassifyDetailActivity"
+        <activity android:name="com.libtop.weitu.activity.classify.ClassifyDetailActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             >
         </activity>
         <activity
-            android:name="com.libtop.weituR.activity.source.PdfTryReadActivity"
+            android:name="com.libtop.weitu.activity.source.PdfTryReadActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>

@@ -31,7 +31,7 @@
 
     </LinearLayout>
 
-    <com.libtop.weituR.utils.selector.view.NoScrollGridView
+    <com.libtop.weitu.utils.selector.view.NoScrollGridView
         android:id="@+id/grid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

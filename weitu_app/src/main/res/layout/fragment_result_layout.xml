@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <com.libtop.weituR.widget.listview.ScrollRefListView
+        <com.libtop.weitu.widget.listview.ScrollRefListView
             android:id="@+id/list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -34,7 +34,7 @@
             android:scrollingCache="false" />
     </RelativeLayout>
 
-    <com.libtop.weituR.widget.stage.StaggeredGridView
+    <com.libtop.weitu.widget.stage.StaggeredGridView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

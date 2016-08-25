@@ -32,7 +32,7 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <com.libtop.weituR.widget.slidebar.SideBar
+        <com.libtop.weitu.widget.slidebar.SideBar
             android:id="@+id/sidebar"
             android:layout_width="40dp"
             android:layout_height="fill_parent"

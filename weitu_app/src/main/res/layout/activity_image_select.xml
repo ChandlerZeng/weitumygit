@@ -7,7 +7,7 @@
 
     <include layout="@layout/included_title2"/>
 
-    <com.libtop.weituR.widget.listview.XListView
+    <com.libtop.weitu.widget.listview.XListView
         android:id="@+id/lv_video_select"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
@@ -20,7 +20,7 @@
         android:paddingTop="5dp"
         android:scrollbars="none"
         android:verticalSpacing="5dp">
-    </com.libtop.weituR.widget.listview.XListView>
+    </com.libtop.weitu.widget.listview.XListView>
 
 
 </LinearLayout>

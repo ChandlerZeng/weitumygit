@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.libtop.weituR.activity.user.SwipeMenu.SwipeMenuListView
+        <com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuListView
             android:id="@+id/list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
