@@ -11,10 +11,9 @@ import com.libtop.weitu.R;
 import com.libtop.weituR.activity.ContentActivity;
 import com.libtop.weituR.activity.ContentFragment;
 import com.libtop.weituR.activity.main.adapter.RmdBooksAdapter;
-import com.libtop.weituR.activity.search.BookDetailFragment2;
+import com.libtop.weituR.activity.search.BookDetailFragment;
 import com.libtop.weituR.activity.search.SearchActivity;
 import com.libtop.weituR.activity.search.dto.BookDto;
-import com.libtop.weituR.base.BaseFragment;
 import com.libtop.weituR.dao.HistoryBo;
 import com.libtop.weituR.http.HttpRequest;
 import com.libtop.weituR.tool.Preference;
@@ -136,7 +135,7 @@ public class RmdBooksFragment extends ContentFragment {
         bundle.putString("school", Preference.instance(mContext)
                 .getString(Preference.SchoolCode));
         bundle.putBoolean("isFromMainPage", true);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment2.class.getName());
+        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         bundle.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
         mContext.startActivity(bundle, ContentActivity.class);

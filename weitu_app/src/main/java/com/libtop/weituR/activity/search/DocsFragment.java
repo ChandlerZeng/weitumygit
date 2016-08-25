@@ -11,7 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weituR.activity.search.adapter.ResultListAdapter2;
 import com.libtop.weituR.activity.search.dto.SearchResult;
-import com.libtop.weituR.activity.source.PdfActivity3;
+import com.libtop.weituR.activity.source.PdfActivity2;
 import com.libtop.weituR.base.impl.NotifyFragment;
 import com.libtop.weituR.eventbus.MessageEvent;
 import com.libtop.weituR.http.HttpRequest;
@@ -107,27 +107,10 @@ public class DocsFragment extends NotifyFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //跳转至详细页面
-//                Bundle bundle = new Bundle();
-//                SearchResult result=mData.get(position-1);
-//                bundle.putString("type", "document");
-//                bundle.putString("artist",result.artist);
-//                bundle.putString("id",result.id);
-//                bundle.putString("title", result.title);
-//                bundle.putInt("favorite", result.favorite);
-//                bundle.putInt("hot",result.hot);
-//                bundle.putInt("views", result.view);
-//                bundle.putString("cover", result.cover);
-//
-//                if (mContext instanceof ContentActivity){
-//                    bundle.putBoolean(ContentActivity.FRAG_ISBACK,true);
-//                    bundle.putBoolean(ContentActivity.FRAG_WITH_ANIM,true);
-//                }
-//                bundle.putString(ContentActivity.FRAG_CLS,PdfActivity3.class.getName());
-//                mContext.startActivity(bundle,ContentActivity.class);
                 Intent intent = new Intent();
                 intent.putExtra("url", "");
                 intent.putExtra("doc_id", mData.get(position - 1).id);
-                intent.setClass(mContext, PdfActivity3.class);
+                intent.setClass(mContext, PdfActivity2.class);
                 mContext.startActivity(intent);
                 mContext.overridePendingTransition(R.anim.zoomin,
                         R.anim.alpha_outto);

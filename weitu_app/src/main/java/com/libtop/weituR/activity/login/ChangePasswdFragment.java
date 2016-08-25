@@ -11,7 +11,6 @@ import com.libtop.weituR.base.BaseFragment;
 import com.libtop.weituR.http.HttpRequest;
 import com.libtop.weituR.utils.CheckUtil;
 import com.libtop.weituR.utils.ContantsUtil;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +31,7 @@ public class ChangePasswdFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_registor_passwd;
+        return R.layout.fragment_registor_passwd2;
     }
 
     @Override
@@ -79,41 +78,40 @@ public class ChangePasswdFragment extends BaseFragment {
         params.put("captcha", ContantsUtil.caption);
         params.put("password", newPasswd + "");
         showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String jsonStr, int id) {
-                        dismissLoading();
-                        if (CheckUtil.isNullTxt(jsonStr)) {
-                            showToast("请求超时，请稍后再试");
-                            return;
-                        }
-                        if (!CheckUtil.isNull(jsonStr)) {
-                            try {
-                                JSONObject json = new JSONObject(jsonStr);
-                                if (json.getInt("code") == 1) {
-                                    ((ContentActivity)mContext).changeFragment(LoginFragment.class.getName()
-                                            , false, true);
+            @Override
+            public void onResponse(String jsonStr, int id) {
+                dismissLoading();
+                if (CheckUtil.isNullTxt(jsonStr)) {
+                    showToast("请求超时，请稍后再试");
+                    return;
+                }
+                if (!CheckUtil.isNull(jsonStr)) {
+                    try {
+                        JSONObject json = new JSONObject(jsonStr);
+                        if (json.getInt("code") == 1) {
+                            ((ContentActivity)mContext).changeFragment(LoginFragment.class.getName()
+                                    , false, true);
 //                                    Intent intent = new Intent(context,
 //                                            LoginActivity.class);
 //                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //                                    startActivity(intent);
-                                } else {
-                                    showToast("密码重置失败");
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                showToast("密码重置出错");
-                            }
                         } else {
                             showToast("密码重置失败");
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        showToast("密码重置出错");
                     }
-                });
+                } else {
+                    showToast("密码重置失败");
+                }
+            }
+        });
     }
 }

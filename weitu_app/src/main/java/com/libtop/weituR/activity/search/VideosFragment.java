@@ -118,7 +118,7 @@ public class VideosFragment extends NotifyFragment{
 //                    bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
 //                    bundle.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
 //                }
-                Intent intent = new Intent(mContext, VideoPlayActivity5.class);
+                Intent intent = new Intent(mContext, VideoPlayActivity2.class);
                 intent.putExtra("resultBean", new Gson().toJson(result));
                 mContext.startActivity(intent);
 //                bundle.putString(ContentActivity.FRAG_CLS, MediaDetailFragment.class.getName());

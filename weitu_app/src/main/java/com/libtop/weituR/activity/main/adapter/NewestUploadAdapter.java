@@ -4,16 +4,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
-import com.libtop.weituR.activity.main.clickHistory.ClickHistoryActivity;
-import com.libtop.weituR.activity.main.clickHistory.ResultBean;
 import com.libtop.weituR.activity.main.dto.DocBean;
-import com.libtop.weituR.utils.ContantsUtil;
 import com.libtop.weituR.utils.DateUtil;
 import com.squareup.picasso.Picasso;
 

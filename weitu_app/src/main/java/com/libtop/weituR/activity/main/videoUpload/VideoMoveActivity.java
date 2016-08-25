@@ -15,12 +15,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weituR.activity.ContentActivity;
-import com.libtop.weituR.activity.main.adapter.VideoListAdapter2;
+import com.libtop.weituR.activity.main.adapter.VideoListAdapter;
 import com.libtop.weituR.activity.main.dto.VideoFolderBean;
-import com.libtop.weituR.activity.main.upload.UploadFragment;
 import com.libtop.weituR.http.HttpRequest;
 import com.libtop.weituR.tool.Preference;
-import com.libtop.weituR.utils.ContantsUtil;
 import com.libtop.weituR.widget.dialog.TranLoading;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -33,12 +31,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.util.logging.LogRecord;
-
 import okhttp3.Call;
 
 public class VideoMoveActivity extends Activity implements View.OnClickListener {
-    private VideoListAdapter2 mAdapter;
+    private VideoListAdapter mAdapter;
     protected Preference mPreference;
     private List<VideoFolderBean> mInfos = new ArrayList<VideoFolderBean>();
     ListView listView;
@@ -51,7 +47,7 @@ public class VideoMoveActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_move);
         mLoading = new TranLoading(VideoMoveActivity.this);
-        mAdapter = new VideoListAdapter2(VideoMoveActivity.this, mInfos, null);
+        mAdapter = new VideoListAdapter(VideoMoveActivity.this, mInfos, null);
         listView = (ListView) findViewById(R.id.select_type_list);
         listView.setAdapter(mAdapter);
         fid = getIntent().getStringExtra("fid");

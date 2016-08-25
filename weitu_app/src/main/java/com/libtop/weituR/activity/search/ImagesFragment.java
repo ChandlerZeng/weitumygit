@@ -45,7 +45,6 @@ public class ImagesFragment extends NotifyFragment {
     @Bind(R.id.null_txt)
     TextView mNullTxt;
 
-    // private ResultGridAdapter mAdapter;
     private ResultListAdapter2 mAdapter;
     private List<SearchResult> mData;
     private boolean isCreate = false, hasData = true;
@@ -110,31 +109,6 @@ public class ImagesFragment extends NotifyFragment {
                 mContext.startActivity(bundle, DynamicCardActivity.class);
             }
         });
-//        mGridview.setAdapter(mAdapter);
-//        mGridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> arg0, View arg1,
-//                                    int position, long id) {
-//                SearchResult da = mData.get(position);
-//                // 保存点击记录
-//                Bundle bundle = new Bundle();
-//                bundle.putString("type", "img");
-//                bundle.putString("artist", da.artist);
-//                bundle.putString("id", da.id);
-//                bundle.putString("title", da.title);
-//                bundle.putInt("favorite", da.favorite);
-//                bundle.putInt("hot", da.hot);
-//                bundle.putInt("views", da.view);
-//                bundle.putString("cover", da.cover);
-//                if (mContext instanceof ContentActivity) {
-//                    bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
-//                    bundle.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
-//                }
-        //bundle.putString(ContentActivity.FRAG_CLS, AlbumFragment.class.getName());
-//                mContext.startActivity(bundle, ContentActivity.class);
-////                context.startActivity(bundle, AlbumFragment.class);
-//            }
-//        });
     }
 
     @Override

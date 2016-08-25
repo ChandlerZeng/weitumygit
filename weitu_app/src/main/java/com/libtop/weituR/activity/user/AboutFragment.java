@@ -1,9 +1,12 @@
 package com.libtop.weituR.activity.user;
 
+/**
+ * Created by LianTu on 2016/7/5.
+ */
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -15,61 +18,48 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * 关于界面
- * 
+ * 关于微图界面
+ *
  * @author Administrator
- * 
+ *
  */
-public class AboutFragment extends BaseFragmentDialog{
+public class AboutFragment extends BaseFragmentDialog {
 
-	@Bind( R.id.back_btn)
-	ImageButton mBackBtn;
-	@Bind(R.id.web_content)
-	WebView mWebview;
-	@Bind(R.id.title)
-	TextView mTitleText;
+    @Bind( R.id.back_btn)
+    ImageButton mBackBtn;
+    @Nullable
+    @Bind(R.id.web_content)
+    WebView mWebview;
+    @Nullable
+    @Bind(R.id.title)
+    TextView mTitleText;
 
-	private String mContent = "";
+    private String mContent = "";
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		getDialog().getWindow().getAttributes().windowAnimations = R.style.dialog_fragment_fade_anim;
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.dialog_fragment_fade_anim;
+    }
 
-	@Override
-	protected int getLayoutId() {
-		return R.layout.fragment_about_layout;
-	}
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_about_layout;
+    }
 
-	@Override
-	public void onCreation(View root) {
-		init();
-	}
+    @Override
+    public void onCreation(View root) {
+    }
 
-	private void init() {
-		// 网页设置
-		WebSettings settings = mWebview.getSettings();
-		settings.setJavaScriptEnabled(true);
-		settings.setBlockNetworkImage(true);
-		settings.setDefaultTextEncodingName("utf-8");
-		mWebview.setBackgroundColor(0);
-		mWebview.getBackground().setAlpha(0);
-		mWebview.loadDataWithBaseURL(null, mContent, "text/html", "utf-8",
-				"about:blank");
 
-//		mBackBtn.setOnClickListener(this);
-		mTitleText.setText("关于");
-	}
-
-	@Nullable
-	@OnClick(R.id.back_btn)
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.back_btn:
-			dismiss();
-			break;
-		}
-	}
+    @Nullable
+    @OnClick(R.id.back_btn)
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.back_btn:
+                dismiss();
+                break;
+        }
+    }
 
 }

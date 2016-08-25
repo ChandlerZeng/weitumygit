@@ -22,14 +22,13 @@ import com.libtop.weituR.activity.classify.adapter.ClassifyDetailAdapter;
 import com.libtop.weituR.activity.classify.bean.ClassifyBean;
 import com.libtop.weituR.activity.classify.bean.ClassifyDetailBean;
 import com.libtop.weituR.activity.classify.bean.ClassifyResultBean;
-import com.libtop.weituR.activity.search.BookDetailFragment2;
+import com.libtop.weituR.activity.search.BookDetailFragment;
 import com.libtop.weituR.activity.search.SearchActivity;
-import com.libtop.weituR.activity.search.VideoPlayActivity4;
-import com.libtop.weituR.activity.search.VideoPlayActivity5;
+import com.libtop.weituR.activity.search.VideoPlayActivity2;
 import com.libtop.weituR.activity.search.dto.SearchResult;
 import com.libtop.weituR.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weituR.activity.source.AudioPlayActivity4;
-import com.libtop.weituR.activity.source.PdfActivity3;
+import com.libtop.weituR.activity.source.AudioPlayActivity2;
+import com.libtop.weituR.activity.source.PdfActivity2;
 import com.libtop.weituR.base.BaseActivity;
 import com.libtop.weituR.http.MapUtil;
 import com.libtop.weituR.http.WeituNetwork;
@@ -341,7 +340,7 @@ public class ClassifyDetailActivity extends BaseActivity{
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
         result.cover = mData.get(position).cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity4.class);
+        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
         intent.putExtra("ClassifyResultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
@@ -349,7 +348,7 @@ public class ClassifyDetailActivity extends BaseActivity{
     private void openVideo(int position) {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
-        Intent intent = new Intent(mContext, VideoPlayActivity5.class);
+        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
@@ -364,7 +363,7 @@ public class ClassifyDetailActivity extends BaseActivity{
         bundle.putString("school", Preference.instance(mContext)
                 .getString(Preference.SchoolCode));
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment2.class.getName());
+        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
@@ -379,7 +378,7 @@ public class ClassifyDetailActivity extends BaseActivity{
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", mData.get(position).id);
-        intent.setClass(mContext, PdfActivity3.class);
+        intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
         mContext.overridePendingTransition(R.anim.zoomin,
                 R.anim.alpha_outto);

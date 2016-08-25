@@ -1,6 +1,5 @@
 package com.libtop.weituR.activity.search;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -9,8 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -22,60 +20,35 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.libtop.weitu.R;
-import com.libtop.weituR.activity.search.dto.CommentNeedDto;
-import com.libtop.weituR.activity.search.dto.SearchResult;
-import com.libtop.weituR.activity.source.Bean.MediaAlbumBean;
-import com.libtop.weituR.activity.source.Bean.MediaListItemBean;
-import com.libtop.weituR.activity.source.Bean.MediaResultBean;
-import com.libtop.weituR.activity.source.RecyclerSingleChoiseAdapter;
+import com.libtop.weituR.activity.search.dto.MediaResult;
 import com.libtop.weituR.base.BaseActivity;
-import com.libtop.weituR.eventbus.MessageEvent;
-import com.libtop.weituR.http.HttpRequest;
-import com.libtop.weituR.http.MapUtil;
-import com.libtop.weituR.http.WeituNetwork;
-import com.libtop.weituR.tool.Preference;
-import com.libtop.weituR.utils.CheckUtil;
-import com.libtop.weituR.utils.ContantsUtil;
 import com.libtop.weituR.utils.DisplayUtils;
-import com.libtop.weituR.utils.NetworkUtil;
-import com.libtop.weituR.utils.ShareSdkUtil;
-import com.zhy.http.okhttp.callback.StringCallback;
-
-import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import butterknife.OnPageChange;
 import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.widget.VideoView;
-import okhttp3.Call;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/2/3 0003.
  */
-public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCompletionListener
+public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCompletionListener
         , MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener
-        , AdapterView.OnItemClickListener,RecyclerSingleChoiseAdapter.OnItemClickLister {
+        , AdapterView.OnItemClickListener {
     public static String MEDIA_PATH = "vedio_path";
     public static String MEDIA_NAME = "vedio_name";
 
@@ -89,8 +62,8 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
 
     @Bind(R.id.title_container)
     LinearLayout mTitleCon;
-//    @Bind(R.id.media_bottom_info)
-//    LinearLayout mInfosCon;
+    @Bind(R.id.media_bottom_info)
+    LinearLayout mInfosCon;
 
     @Bind(R.id.video_view)
     VideoView mVideo;
@@ -102,8 +75,6 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
     TextView mCurrentPro;
     @Bind(R.id.progress_total)
     TextView mTotalPro;
-    @Bind(R.id.tv_play_time)
-    TextView tvTag;
 
     @Bind(R.id.progress_big)
     TextView mBigPro;
@@ -123,32 +94,10 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
     @Bind(R.id.container)
     RelativeLayout mVideoSu;
 
-    @Bind(R.id.rl_pdf_bottom)
-    RelativeLayout rlPdfBottom;
-
-    @Bind(R.id.ll_bottom)
-    LinearLayout llBottom;
-
-//    @Bind(R.id.viewpager)
-//    ViewPager mPager;
-//    @Bind(R.id.radio_group)
-//    RadioGroup mRadioGroup;
-
-//    @Bind(R.id.hlv_cover)
-//    HorizontalListView mHListView;
-    
-    @Bind(R.id.scl_horizontal)
-    RecyclerView mRecyclerView;
-
-    @Bind(R.id.introduction)
-    TextView mIntroText;
-
-    @Bind(R.id.img_collect)
-    ImageView imgCollect;
-
-    @Bind(R.id.tv_publisher)
-    TextView tvPublisher;
-
+    @Bind(R.id.viewpager)
+    ViewPager mPager;
+    @Bind(R.id.radio_group)
+    RadioGroup mRadioGroup;
 
     private Animation mBHideAn, mBShowAn, mTHideAn, mTShowAn;
     private boolean isPaused = false;
@@ -160,7 +109,7 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
 
     private int status_flag;
 
-    private List<MediaListItemBean> mRes = new ArrayList<MediaListItemBean>();
+    private List<MediaResult> mRes = new ArrayList<MediaResult>();
 
     /**
      * Seekbar总长度
@@ -172,46 +121,12 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
     private boolean isTouch = false;
     private boolean notShowButtom = false;
 
-    private List<MediaListItemBean> mData=new ArrayList<MediaListItemBean>();
-
-    private SearchResult searchResult;
-//    private SingleSelectAdapter mAdapter;
-    private RecyclerSingleChoiseAdapter mRecyclerAdapter;
-    private List<String> lists = new ArrayList<String>();
-    private MediaAlbumBean mediaAlbumBean ;
-    private boolean isCollectShow;
-    private String titleName = "";
-
-    private boolean isOpen = true;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("test draw time start", System.currentTimeMillis() + "");
         super.onCreate(savedInstanceState);
-        setInjectContentView(R.layout.activity_video_play5);
-//        init();
-        mRecyclerAdapter = new RecyclerSingleChoiseAdapter(mContext,lists,this);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);//这里用线性显示 类似于listview
-//        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));//这里用线性宫格显示 类似于grid view
-//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));//这里用线性宫格显示 类似于瀑布流
-        mRecyclerView.setAdapter(mRecyclerAdapter);
-//        mAdapter = new SingleSelectAdapter(mContext,lists);
-//        mHListView.setAdapter(mAdapter);
-//        mHListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String imgPath = (String) parent.getItemAtPosition(position);
-//                mAdapter.setSingleSelect(position);
-//                loadIndex(position);
-//            }
-//        });
-        String result = getIntent().getExtras().getString("resultBean");
-        searchResult = new Gson().fromJson(result,SearchResult.class);
-        loadIndex(0);
+        setInjectContentView(R.layout.activity_video_play);
+        init();
     }
 
     private void setOrientation(int flag) {
@@ -224,30 +139,22 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
     }
 
 
-    private void init(int position) {
+    private void init() {
         setupAnimate();
         Vitamio.isInitialized(getApplicationContext());
         playingIndex = getIntent().getExtras().getInt("index");
 
 //        DbManager dao = x.getDb(((AppApplication) mContext.getApplicationContext()).getDaoConfig());
 //        try {
-//            mRes.addAll(dao.findAll(MediaListItemBean.class));
+//            mRes.addAll(dao.findAll(MediaResult.class));
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        String videoPath = "http://www.null.mp4";
-        String name = "";
-        if (mData.size()>0){
-            if (!TextUtils.isEmpty(mData.get(position).url)){
-                videoPath = mData.get(position).url;
-            }
-            name = mData.get(position).title;
-            titleName = name;
-        }
+        String videoPath = getIntent().getExtras().getString(MEDIA_PATH);
+        String name = getIntent().getExtras().getString(MEDIA_NAME);
         notShowButtom = getIntent().getExtras().getBoolean("notShowButtom");
         mTitleText.setText(name);
         mInTitleText.setText(name);
-        tvPublisher.setText(mediaAlbumBean.uploadUsername);
         mBPlayBtn.setClickable(false);
         mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
 
@@ -264,16 +171,8 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
 
         initInfo();
 
-        isCollectShow = (mediaAlbumBean.favorite == 1);
-
-        if (isCollectShow){
-            imgCollect.setBackgroundResource(R.drawable.collect);
-        }else {
-            imgCollect.setBackgroundResource(R.drawable.collect_no);
-        }
-
-//        mPager.setAdapter(mPageAdapter);
-//        mPager.setCurrentItem(0);
+        mPager.setAdapter(mPageAdapter);
+        mPager.setCurrentItem(0);
 
 //        mVideo.setTouchChange(new VideoView.TouchChange() {
 //            @Override
@@ -386,13 +285,6 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
                     long current = mVideo.getCurrentPosition();
                     long total = mVideo.getDuration();
                     long position = 1000L * current / total;
-                    long twoMin = 1000L * 60 * 2;
-                    if ((current > twoMin)&& !isOpen){
-                        if (mVideo.isPlaying()) {
-                            mVideo.stopPlayback();
-                            return;
-                        }
-                    }
                     if (status_flag == STATUS_SCALE) {
                         mSmallSeek.setProgress((int) position);
                         mCurrentPro.setText(getPlayProgress(current));
@@ -450,14 +342,8 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         if (!isShowing) {
             mFBottomView.setVisibility(View.VISIBLE);
             mTopView.setVisibility(View.VISIBLE);
-//            rlPdfBottom.setVisibility(View.VISIBLE);
-//            llBottom.setVisibility(View.VISIBLE);
-            if (mFBottomView!=null && mBShowAn !=null){
-                mFBottomView.startAnimation(mBShowAn);
-            }
-            if (mTopView!=null&&mTShowAn!=null){
-                mTopView.startAnimation(mTShowAn);
-            }
+            mFBottomView.startAnimation(mBShowAn);
+            mTopView.startAnimation(mTShowAn);
             isShowing = true;
 //            mVideo.setViewshow(isShowing);
             mHandler.postDelayed(new Runnable() {
@@ -474,8 +360,6 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         if (isShowing) {
             mFBottomView.startAnimation(mBHideAn);
             mFBottomView.setVisibility(View.GONE);
-//            rlPdfBottom.setVisibility(View.GONE);
-//            llBottom.setVisibility(View.GONE);
             mTopView.startAnimation(mTHideAn);
             mTopView.setVisibility(View.GONE);
             isShowing = false;
@@ -484,20 +368,11 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
     }
 
     @Nullable
-    @OnClick({R.id.img_collect,R.id.img_comment,R.id.img_share,R.id.back_btn, R.id.back_btn_inner, R.id.play_pause_big
+    @OnClick({R.id.back_btn, R.id.back_btn_inner, R.id.play_pause_big
             , R.id.play_pause_small, R.id.video_container, R.id.fullscreen
             , R.id.scale})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img_collect:
-                collectClick();
-                break;
-            case R.id.img_comment:
-                commentClick();
-                break;
-            case R.id.img_share:
-                shareClick();
-                break;
             case R.id.back_btn:
             case R.id.back_btn_inner:
                 finishSimple();
@@ -518,151 +393,10 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         }
     }
 
-    private void shareClick() {
-//        Toast.makeText(mContext,"share click",Toast.LENGTH_SHORT).show();
-//        UemgShare a = new UemgShare(mContext);
-//        String str = "www.baidu.com";
-//        a.setImage(str).setTitle("321").setText("123").share();
-        String title = "微图分享";
-        String content = "“【视频】"+titleName+"”"+ ContantsUtil.shareContent;
-        String imageUrl = "drawable://" + R.drawable.wbshare;
-        ShareSdkUtil.showShareWithLocalImg(mContext,title,content,imageUrl);
-    }
-
-    //视频的type为2
-    private void commentClick() {
-        Intent intent = new Intent(mContext, CommentActivity.class);
-        CommentNeedDto commentNeedDto = new CommentNeedDto();
-        commentNeedDto.title = mediaAlbumBean.title;
-        commentNeedDto.author = mediaAlbumBean.artist;
-        commentNeedDto.publisher = mediaAlbumBean.uploadUsername;
-        commentNeedDto.photoAddress = mediaAlbumBean.cover;
-        commentNeedDto.tid = searchResult.id;
-        commentNeedDto.type = 2;
-        intent.putExtra("CommentNeedDto",new Gson().toJson(commentNeedDto));
-        startActivity(intent);
-//        Intent intent = new Intent(mContext, CommentActivity.class);
-//        intent.putExtra("comment_tid",searchResult.id);
-//        intent.putExtra("comment_type", "mediaAlbum");
-//        startActivity(intent);
-    }
-
-    private void collectClick() {
-//        Toast.makeText(mContext,"collect click",Toast.LENGTH_SHORT).show();
-        if (isCollectShow){
-            requestCancelCollect();
-        }else {
-            requestCollect();
-        }
-    }
-
-    private void requestCancelCollect() {
-        if (searchResult==null){
-            return;
-        }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("uid"
-                , mPreference.getString(Preference.uid));
-        params.put("tid",searchResult.id);
-        params.put("method", "favorite.delete");
-        showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        Log.w("json", json);
-                        dismissLoading();
-                        if (CheckUtil.isNullTxt(json)) {
-                            return;
-                        }
-                        if (!CheckUtil.isNull(json)) {
-                            JSONObject mjson = null;
-                            try {
-                                mjson = new JSONObject(json);
-                                if (mjson.getInt("code") == 1) {
-                                    Toast.makeText(mContext, "取消收藏成功", Toast.LENGTH_SHORT).show();
-                                    isCollectShow = false;
-                                    imgCollect.setBackgroundResource(R.drawable.collect_no);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putBoolean("isDelete", true);
-                                    EventBus.getDefault().post(new MessageEvent(bundle));
-                                } else {
-                                    Toast.makeText(mContext, "取消收藏失败", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("未搜索到相关记录");
-                        }
-                    }
-                });
-    }
-
-    private void requestCollect() {
-        if (searchResult==null){
-            return;
-        }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("uid"
-                , mPreference.getString(Preference.uid));
-        params.put("tid",searchResult.id);
-        params.put("type", 1);
-        params.put("method","favorite.save");
-        showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        Log.w("json", json);
-                        dismissLoading();
-                        if (CheckUtil.isNullTxt(json)) {
-                            return;
-                        }
-                        if (!CheckUtil.isNull(json)) {
-                            JSONObject mjson = null;
-                            try {
-                                mjson = new JSONObject(json);
-                                if (mjson.getInt("code")==1){
-                                    Toast.makeText(mContext, "收藏成功", Toast.LENGTH_SHORT).show();
-                                    isCollectShow = true;
-                                    imgCollect.setBackgroundResource(R.drawable.collect);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putBoolean("isDelete",true);
-                                    EventBus.getDefault().post(new MessageEvent(bundle));
-                                }else {
-                                    Toast.makeText(mContext, "收藏失败", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        } else {
-                            showToast("未搜索到相关记录");
-                        }
-                    }
-                });
-    }
-
 //    @Nullable @OnClick(value = {R.id.seekbar_small, R.id.seekbar_big}
 //            , type = SeekBar.OnSeekBarChangeListener.class, method = "onProgressChanged")
 //    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//        if (!fromUser) return;
-//        long newposition = (mVideo.getDuration() * progress) / 1000L;
-//        mVideo.seekTo(newposition);
-//        isPaused = false;
-//        mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
-//        mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
+//
 //    }
 
     @Override
@@ -699,21 +433,38 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         return true;
     }
 
-//    @Nullable @OnClick(value = R.id.viewpager, type = ViewPager.OnPageChangeListener.class
-//            , method = "onPageSelected")
-//    public void onPageSelected(int position) {
-//        switch (position) {
-//            case 0:
-//                mRadioGroup.check(R.id.info);
-//                break;
-//            case 1:
-//                mRadioGroup.check(R.id.category);
-//                break;
-//        }
-//    }
+    @Nullable @OnPageChange(value = R.id.viewpager)
+    public void onPageSelected(int position) {
+        switch (position) {
+            case 0:
+                mRadioGroup.check(R.id.info);
+                break;
+            case 1:
+                mRadioGroup.check(R.id.category);
+                break;
+        }
+    }
 
-//    @Nullable @OnClick(value = R.id.radio_group, type = RadioGroup.OnCheckedChangeListener.class)
-//    public void onCheckedChanged(RadioGroup group, int checkedId) {
+    @Nullable @OnClick({R.id.info,R.id.category})
+    public void onCheckedChanged(RadioButton radioButton) {
+        // Is the button now checked?
+        boolean checked = radioButton.isChecked();
+
+        // Check which radio button was clicked
+        switch (radioButton.getId()) {
+            case R.id.info:
+                if (checked) {
+                    // Pirates are the best
+                    mPager.setCurrentItem(0);
+                }
+                break;
+            case R.id.category:
+                if (checked) {
+                    // Ninjas rule
+                    mPager.setCurrentItem(1);
+                }
+                break;
+        }
 //        switch (checkedId) {
 //            case R.id.info:
 //                mPager.setCurrentItem(0);
@@ -722,15 +473,15 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
 //                mPager.setCurrentItem(1);
 //                break;
 //        }
-//    }
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         playingIndex = position;
         mListAdapter.notifyDataSetChanged();
-//        TextView tv = (TextView) mPagers.get(0);
-        MediaListItemBean mr = mRes.get(position);
-//        tv.setText(TextUtils.isEmpty(searchResult.introduction) ? "暂无" : mr.introduction);
+        TextView tv = (TextView) mPagers.get(0);
+        MediaResult mr = mRes.get(position);
+        tv.setText(TextUtils.isEmpty(mr.introduction) ? "暂无" : mr.introduction);
         mTitleText.setText(mr.title);
         mInTitleText.setText(mr.title);
 
@@ -745,12 +496,6 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
 
         mVideo.setVideoURI(Uri.parse(mr.url));
-    }
-
-    @Override
-    public void onItemClick(View v, int position) {
-        mRecyclerAdapter.setSingleSelect(position);
-        loadIndex(position);
     }
 
     class CustomThread extends Thread {
@@ -778,7 +523,7 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         mVideoSu.requestLayout();
 
         mTitleCon.setVisibility(View.GONE);
-//        mInfosCon.setVisibility(View.GONE);
+        mInfosCon.setVisibility(View.GONE);
         mSBottomView.setVisibility(View.GONE);
     }
 
@@ -789,10 +534,10 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         pm.height = DisplayUtils.dp2px(mContext, 220);
         mVideoSu.setLayoutParams(pm);
         mTitleCon.setVisibility(View.VISIBLE);
-//        mInfosCon.setVisibility(View.VISIBLE);
-//        if (notShowButtom) {
-//            mInfosCon.setVisibility(View.INVISIBLE);
-//        }
+        mInfosCon.setVisibility(View.VISIBLE);
+        if (notShowButtom) {
+            mInfosCon.setVisibility(View.INVISIBLE);
+        }
         mSBottomView.setVisibility(View.VISIBLE);
     }
 
@@ -806,15 +551,13 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         int topPadding = DisplayUtils.dp2px(mContext, 16);
         textView.setLayoutParams(p);
         textView.setPadding(horPadding, topPadding, horPadding, 0);
-//        String txt;
+        String txt;
         try {
-            if (!TextUtils.isEmpty(mediaAlbumBean.introduction))
-                mIntroText.setText(mediaAlbumBean.introduction);
+            txt = mRes.get(playingIndex).introduction;
         } catch (Exception e) {
-            mIntroText.setText("暂无");
+            txt = "123";
         }
-//        textView.setText(TextUtils.isEmpty(txt) ? "暂无" : txt);
-//        mIntroText.setText(TextUtils.isEmpty(txt) ? "暂无" : txt);
+        textView.setText(TextUtils.isEmpty(txt) ? "暂无" : txt);
         textView.setTextSize(14);
         textView.setVerticalScrollBarEnabled(true);
         textView.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -900,78 +643,4 @@ public class VideoPlayActivity5 extends BaseActivity implements MediaPlayer.OnCo
         super.onResume();
         Log.e("test draw time end", System.currentTimeMillis() + "");
     }
-
-    private void loadIndex(final int position){
-        if (searchResult==null){
-            return;
-        }
-        showLoding();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("id", searchResult.id);
-        if(!TextUtils.isEmpty(mPreference.getString(Preference.uid)))
-            params.put("uid", mPreference.getString(Preference.uid));
-        params.put("ip", NetworkUtil.getLocalIpAddress2(mContext));
-        params.put("method", "mediaAlbum.get");
-        String[] arrays = MapUtil.map2Parameter(params);
-        subscription = WeituNetwork.getWeituApi()
-                .getMedia(arrays[0],arrays[1],arrays[2])
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MediaResultBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissLoading();
-                        Log.w("guanglog","error + " + e);
-                    }
-
-                    @Override
-                    public void onNext(MediaResultBean mediaResultBean) {
-                        dismissLoading();
-                        if (mediaResultBean.code == 1){
-                            mediaAlbumBean = mediaResultBean.mediaAlbum;
-                            if (!TextUtils.isEmpty(mediaAlbumBean.introduction))
-                                mIntroText.setText(mediaAlbumBean.introduction);
-                            if (mediaAlbumBean.categoriesName1!=null||mediaAlbumBean.categoriesName2!=null){
-                                tvTag.setText(mediaAlbumBean.categoriesName1+"/"+mediaAlbumBean.categoriesName2);
-                            }else{
-                                tvTag.setText("暂无分类");
-                            }
-                            isOpen = (mediaAlbumBean.open==1);
-                            lists.clear();
-                            mData.clear();
-                            mData = mediaResultBean.mediaList;
-                            if (mData.isEmpty()){
-                                Toast.makeText(mContext,"没有视频列表",Toast.LENGTH_SHORT).show();
-                                finish();
-                                return;
-                            }
-                            for (MediaListItemBean bean:mData) {
-                                lists.add(bean.title);
-                            }
-                            resetCache();
-                            mRecyclerAdapter.setNewData(lists);
-                            init(position);
-                        }
-                    }
-                });
-    }
-
-    private void resetCache(){
-//        DbManager dao= x.getDb(((AppApplication)mContext.getApplicationContext()).getDaoConfig());
-//        try {
-//            dao.delete(MediaListItemBean.class);
-//            for (MediaListItemBean result:mData){
-//                dao.save(result);
-//            }
-//        } catch (DbException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-
 }

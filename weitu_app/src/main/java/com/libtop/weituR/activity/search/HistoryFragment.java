@@ -78,7 +78,7 @@ public class HistoryFragment extends BaseFragment {
 				bundle.putString("publisher", item.getPublisher());
 				bundle.putString("school", Preference.instance(mContext).getString(
 						Preference.SchoolCode));
-				bundle.putString(ContentActivity.FRAG_CLS,BookDetailFragment2.class.getName());
+				bundle.putString(ContentActivity.FRAG_CLS,BookDetailFragment.class.getName());
 				mContext.startActivity(bundle, ContentActivity.class);
 			}
 		});

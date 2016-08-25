@@ -88,10 +88,10 @@ public class MediaDetailFragment extends ImgFragment {
                     if (result != null) {
                         Bundle bundle = new Bundle();
                         if ("video".equals(mCached.getString("type"))) {
-                            bundle.putString(VideoPlayActivity2.MEDIA_NAME, result.title);
-                            bundle.putString(VideoPlayActivity2.MEDIA_PATH, result.url);
+                            bundle.putString(VideoPlayActivity.MEDIA_NAME, result.title);
+                            bundle.putString(VideoPlayActivity.MEDIA_PATH, result.url);
                             bundle.putInt("index",position);
-                            mContext.startActivity(bundle, VideoPlayActivity5.class);
+                            mContext.startActivity(bundle, VideoPlayActivity2.class);
                         } else if ("audio".equals(mCached.getString("type"))) {
                             bundle.putInt("media_list_position", position);
                             bundle.putParcelableArrayList("media_list", (ArrayList<? extends Parcelable>) mData);
@@ -110,52 +110,6 @@ public class MediaDetailFragment extends ImgFragment {
 
     }
 
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_media_detail);
-//        mLoading = new TranLoading(context);
-//        mCached=getIntent().getExtras();
-//
-//        mTitle.setText(mCached.getString("title"));
-//        mBackBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                finish();
-//            }
-//        });
-//
-//        mPageList.setAdapter(mAdapter);
-//        mPageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                try {
-//                    MediaResult result = mData.get(position);
-//                    if (result != null) {
-//                        Bundle bundle = new Bundle();
-//                        if ("video".equals(mCached.getString("type"))) {
-//                            bundle.putString(VideoPlayActivity2.MEDIA_NAME, result.title);
-//                            bundle.putString(VideoPlayActivity2.MEDIA_PATH, result.url);
-//                            startActivity(bundle, VideoPlayActivity2.class);
-//                            Intent intent = new Intent();
-//                        } else if ("audio".equals(mCached.getString("type"))) {
-//                            bundle.putInt("media_list_position", position);
-//                            bundle.putParcelableArrayList("media_list", (ArrayList<? extends Parcelable>) mData);
-////                            bundle.putString(AudioPlayActivity.MEDIA_NAME, result.title);
-////                            bundle.putString(AudioPlayActivity.MEDIA_PATH, result.url);
-//                            startActivity(bundle, AudioPlayActivity2.class);
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//
-//        setDetail();
-//        loadIndex();
-//    }
 
     private void setDetail(){
         mTitle.setText(mCached.getString("title"));

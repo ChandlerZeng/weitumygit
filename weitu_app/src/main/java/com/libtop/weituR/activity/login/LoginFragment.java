@@ -64,13 +64,13 @@ public class LoginFragment extends BaseFragment {
             case R.id.title_right_text:
             case R.id.registor_new_user:
                 //注册流程
-                ((ContentActivity)mContext).changeFragment(RegMobileFragment2.class.getName()
+                ((ContentActivity)mContext).changeFragment(RegMobileFragment.class.getName()
                         ,true,true);
                 break;
             case R.id.forget_password:
                 //找回密码流程
 
-                ((ContentActivity)mContext).changeFragment(ForgetPasswdFragment2.class.getName()
+                ((ContentActivity)mContext).changeFragment(ForgetPasswdFragment.class.getName()
                         ,true,true);
                 break;
             case R.id.login_btn:

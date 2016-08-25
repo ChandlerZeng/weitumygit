@@ -21,11 +21,11 @@ import com.libtop.weituR.activity.classify.bean.ClassifyBean;
 import com.libtop.weituR.activity.main.adapter.SelectedAdapter;
 import com.libtop.weituR.activity.main.dto.DisplayDto;
 import com.libtop.weituR.activity.search.SearchActivity;
-import com.libtop.weituR.activity.search.VideoPlayActivity5;
+import com.libtop.weituR.activity.search.VideoPlayActivity2;
 import com.libtop.weituR.activity.search.dto.SearchResult;
 import com.libtop.weituR.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weituR.activity.source.AudioPlayActivity4;
-import com.libtop.weituR.activity.source.PdfActivity3;
+import com.libtop.weituR.activity.source.AudioPlayActivity2;
+import com.libtop.weituR.activity.source.PdfActivity2;
 import com.libtop.weituR.http.HttpRequest;
 import com.libtop.weituR.utils.JsonUtil;
 import com.libtop.weituR.widget.listview.XListView;
@@ -201,7 +201,7 @@ public class DelicateFragment extends ContentFragment {
         result.id = mData.get(position).id;
         result.introduction=mData.get(position).introduction;
         result.cover = mData.get(position).cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity4.class);
+        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
@@ -209,7 +209,7 @@ public class DelicateFragment extends ContentFragment {
     private void openVideo(int position) {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
-        Intent intent = new Intent(mContext, VideoPlayActivity5.class);
+        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
@@ -226,7 +226,7 @@ public class DelicateFragment extends ContentFragment {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", mData.get(position).id);
-        intent.setClass(mContext, PdfActivity3.class);
+        intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
         mContext.overridePendingTransition(R.anim.zoomin,
                 R.anim.alpha_outto);

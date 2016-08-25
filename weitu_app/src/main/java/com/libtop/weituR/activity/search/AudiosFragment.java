@@ -12,7 +12,7 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weituR.activity.search.adapter.ResultListAdapter;
 import com.libtop.weituR.activity.search.dto.SearchResult;
-import com.libtop.weituR.activity.source.AudioPlayActivity4;
+import com.libtop.weituR.activity.source.AudioPlayActivity2;
 import com.libtop.weituR.base.impl.NotifyFragment;
 import com.libtop.weituR.eventbus.MessageEvent;
 import com.libtop.weituR.http.HttpRequest;
@@ -125,7 +125,7 @@ public class AudiosFragment extends NotifyFragment {
 //                }
 //                            bundle.putString(AudioPlayActivity.MEDIA_NAME, result.title);
 //                            bundle.putString(AudioPlayActivity.MEDIA_PATH, result.url);
-                Intent intent = new Intent(mContext, AudioPlayActivity4.class);
+                Intent intent = new Intent(mContext, AudioPlayActivity2.class);
                 intent.putExtra("resultBean", new Gson().toJson(result));
                 mContext.startActivity(intent);
 //                bundle.putString(ContentActivity.FRAG_CLS,MediaDetailFragment.class.getName());

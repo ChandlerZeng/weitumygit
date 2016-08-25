@@ -35,7 +35,7 @@ public class InfoFragment extends NotifyFragment{
 
 	private BookBo bo;
 	private String content = "";
-	private BookDetailFragment2 mParent;
+	private BookDetailFragment mParent;
 
 	private DetailDto dto;
 
@@ -48,7 +48,7 @@ public class InfoFragment extends NotifyFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		activity = (BookDetailActivity)mContext;
-		mParent=(BookDetailFragment2)getParentFragment();
+		mParent=(BookDetailFragment)getParentFragment();
 		bo = new BookBo(mContext);
 	}
 

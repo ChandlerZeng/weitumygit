@@ -19,7 +19,7 @@ import com.libtop.weituR.activity.ContentActivity;
 import com.libtop.weituR.activity.login.LoginFragment;
 import com.libtop.weituR.activity.main.DocUpload.DocUploadActivity;
 import com.libtop.weituR.activity.main.LibraryFragment;
-import com.libtop.weituR.activity.main.clickHistory.ClickHistoryActivity2;
+import com.libtop.weituR.activity.main.clickHistory.ClickHistoryActivity;
 import com.libtop.weituR.activity.main.lesson.LessonTypeListFragment;
 import com.libtop.weituR.activity.main.upload.UploadFragment;
 import com.libtop.weituR.activity.main.videoUpload.VideoSelectActivity;
@@ -109,7 +109,7 @@ public class UserCenterFragment extends BaseFragment {
                     bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
                     mContext.startActivity(bundle1, ContentActivity.class);
                 } else {
-                    Intent intent = new Intent(mContext, ClickHistoryActivity2.class);
+                    Intent intent = new Intent(mContext, ClickHistoryActivity.class);
                     startActivity(intent);
                 }
                 break;

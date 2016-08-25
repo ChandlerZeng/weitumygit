@@ -14,12 +14,12 @@ import com.google.gson.Gson;
 import com.libtop.weitu.R;
 import com.libtop.weituR.activity.ContentActivity;
 import com.libtop.weituR.activity.main.adapter.AllHistoryAdapter;
-import com.libtop.weituR.activity.search.BookDetailFragment2;
-import com.libtop.weituR.activity.search.VideoPlayActivity5;
+import com.libtop.weituR.activity.search.BookDetailFragment;
+import com.libtop.weituR.activity.search.VideoPlayActivity2;
 import com.libtop.weituR.activity.search.dto.SearchResult;
 import com.libtop.weituR.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weituR.activity.source.AudioPlayActivity4;
-import com.libtop.weituR.activity.source.PdfActivity3;
+import com.libtop.weituR.activity.source.AudioPlayActivity2;
+import com.libtop.weituR.activity.source.PdfActivity2;
 import com.libtop.weituR.activity.user.SwipeMenu.SwipeMenu;
 import com.libtop.weituR.activity.user.SwipeMenu.SwipeMenuCreator;
 import com.libtop.weituR.activity.user.SwipeMenu.SwipeMenuItem;
@@ -270,7 +270,7 @@ public class AllHistoryFragment extends NotifyFragment {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).target.id;
         result.cover = mData.get(position).target.cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity4.class);
+        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
@@ -278,7 +278,7 @@ public class AllHistoryFragment extends NotifyFragment {
     private void openVideo(int position) {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).target.id;
-        Intent intent = new Intent(mContext, VideoPlayActivity5.class);
+        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
@@ -292,9 +292,9 @@ public class AllHistoryFragment extends NotifyFragment {
         bundle.putString("publisher", mData.get(position).target.publisher);
         bundle.putString("school", Preference.instance(mContext)
                 .getString(Preference.SchoolCode));
-        bundle.putBoolean(BookDetailFragment2.ISFROMMAINPAGE,true);
+        bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE,true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment2.class.getName());
+        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
@@ -310,7 +310,7 @@ public class AllHistoryFragment extends NotifyFragment {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", mData.get(position).target.id);
-        intent.setClass(mContext, PdfActivity3.class);
+        intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
         mContext.overridePendingTransition(R.anim.zoomin,
                 R.anim.alpha_outto);

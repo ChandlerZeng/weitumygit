@@ -112,11 +112,6 @@ public class ClassifyDetailAdapter extends BaseAdapter{
                     .into(holder1.iconCover);
         }
 
-//            String a = "http://cover1.bookday.cn/" + classifyResultBean.cover;
-//            Picasso.with(context).load(a).fit().into(holder1.iconCover);
-////            ImageLoader.getInstance().displayImage(a, holder1.iconCover,
-////                    mOptions, null);
-//        }
         return convertView;
     }
 

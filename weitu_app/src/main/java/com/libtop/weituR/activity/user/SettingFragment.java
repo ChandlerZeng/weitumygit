@@ -184,9 +184,9 @@ public class SettingFragment extends BaseFragment {
     private void showAboutDialog() {
         String tag = "about_dialog";
         FragmentManager manager = getChildFragmentManager();
-        AboutFragment2 fragment = (AboutFragment2) manager.findFragmentByTag(tag);
+        AboutFragment fragment = (AboutFragment) manager.findFragmentByTag(tag);
         if (fragment == null) {
-            fragment = new AboutFragment2();
+            fragment = new AboutFragment();
         }
         fragment.show(manager, tag);
     }

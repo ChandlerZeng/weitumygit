@@ -32,7 +32,7 @@ public class FavoriteFragment extends NotifyFragment {
 	private List<BookItem> data;
 	private BookFavorateAdapter adapter;
 	private boolean isCreate = false;
-	private BookDetailFragment2 mParent;
+	private BookDetailFragment mParent;
 
 	public static FavoriteFragment Instance() {
 		FavoriteFragment fragment = new FavoriteFragment();
@@ -45,7 +45,7 @@ public class FavoriteFragment extends NotifyFragment {
 		if (data == null) {
 			data = new ArrayList<BookItem>();
 		}
-		mParent = (BookDetailFragment2)getParentFragment();
+		mParent = (BookDetailFragment)getParentFragment();
 		adapter = new BookFavorateAdapter(mContext, data);
 	}
 

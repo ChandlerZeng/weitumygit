@@ -101,7 +101,7 @@ public class SearchActivity extends BaseActivity implements RootStub{
 			String tag = "history";
 			mFragment = (NotifyFragment)mFm.findFragmentByTag(tag);
 			if (mFragment == null) {
-				mFragment= new SearchPreFragment2();
+				mFragment= new SearchPreFragment();
 				isAdd = false;
 			}
 			replaceFragment(tag, mFragment, isAdd);
@@ -158,7 +158,7 @@ public class SearchActivity extends BaseActivity implements RootStub{
 				String tag = "history";
 				mFragment = (NotifyFragment) mFm.findFragmentByTag(tag);
 				if (mFragment == null) {
-					mFragment = new SearchPreFragment2();
+					mFragment = new SearchPreFragment();
 					isAdd = false;
 				}
 				replaceFragment(tag, mFragment, isAdd);
@@ -168,7 +168,7 @@ public class SearchActivity extends BaseActivity implements RootStub{
 //		mBackBtn.setOnClickListener(this);
 //		mSearchBtn.setOnClickListener(this);
 //		mDeleteBtn.setOnClickListener(this);
-		replaceFragment("history", new SearchPreFragment2(), false);
+		replaceFragment("history", new SearchPreFragment(), false);
 	}
 
 	private void startRecorder() {
@@ -308,7 +308,7 @@ public class SearchActivity extends BaseActivity implements RootStub{
 			mFragment = (NotifyFragment) getSupportFragmentManager()
 					.findFragmentByTag(tag);
 			if (mFragment == null) {
-				mFragment = new SearchPreFragment2();
+				mFragment = new SearchPreFragment();
 				isAdd = false;
 			}
 			replaceFragment(tag, mFragment, isAdd);

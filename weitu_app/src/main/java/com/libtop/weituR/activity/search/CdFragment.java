@@ -46,7 +46,7 @@ public class CdFragment extends NotifyFragment{
 	@Bind(R.id.cd)
 	ListView cdView;
 
-	private BookDetailFragment2 fragment;
+	private BookDetailFragment fragment;
 	private List<CdDto> data;
 	private Stack<Long> ids;
 	private CdAdapter adapter;
@@ -78,7 +78,7 @@ public class CdFragment extends NotifyFragment{
 		ids = new Stack<Long>();
 		adapter = new CdAdapter(mContext, data);
 		adapter1 = new Cd1Adapter(mContext, cdList);
-		fragment = (BookDetailFragment2)(((ContentActivity) mContext).findFragment(BookDetailFragment2.class.getName()));
+		fragment = (BookDetailFragment)(((ContentActivity) mContext).findFragment(BookDetailFragment.class.getName()));
 		disc = getArguments().getInt("cd");
 		lib = fragment.getSchool();
 	}

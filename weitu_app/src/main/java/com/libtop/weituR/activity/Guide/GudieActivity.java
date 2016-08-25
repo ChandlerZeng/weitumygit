@@ -23,8 +23,6 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
 import okhttp3.Call;
 
 public class GudieActivity extends Activity {
@@ -91,18 +89,6 @@ public class GudieActivity extends Activity {
                         getInfo(strResult);
                     }
                 });
-//        HttpClient client = new DefaultHttpClient();
-//        HttpGet httpget = new HttpGet("http://op.bookus.cn/activity/splash.json");
-//
-//        try {
-//            HttpResponse response = client.execute(httpget);
-//            int status = response.getStatusLine().getStatusCode();
-//            if (status == HttpStatus.SC_OK) {
-//
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
 
 
@@ -171,8 +157,6 @@ public class GudieActivity extends Activity {
 
 
     public boolean onTouchEvent(MotionEvent e) {
-//        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(GudieActivity.this.getCurrentFocus().getWindowToken(), 0);
         return gestureDetector.onTouchEvent(e);
     }
 }

@@ -115,7 +115,7 @@ public class BooksFragment extends NotifyFragment{
 				Bundle bundle = new Bundle();
 				bundle.putString("isbn", dto.isbn);
 //				mContext.startActivity(bundle, BookDetailFragment.class);
-				bundle.putString(ContentActivity.FRAG_CLS,BookDetailFragment2.class.getName());
+				bundle.putString(ContentActivity.FRAG_CLS,BookDetailFragment.class.getName());
 				mContext.startActivity(bundle,ContentActivity.class);
 			}
 		});
@@ -150,7 +150,7 @@ public class BooksFragment extends NotifyFragment{
 				bundle.putString("publisher", dto.publisher);
 				bundle.putString("school", Preference.instance(mContext)
 						.getString(Preference.SchoolCode));
-				bundle.putString(ContentActivity.FRAG_CLS,BookDetailFragment2.class.getName());
+				bundle.putString(ContentActivity.FRAG_CLS,BookDetailFragment.class.getName());
 				bundle.putBoolean(ContentActivity.FRAG_ISBACK,false);
 				mContext.startActivity(bundle, ContentActivity.class);
 //				mContext.startActivity(bundle, BookDetailFragment.class);

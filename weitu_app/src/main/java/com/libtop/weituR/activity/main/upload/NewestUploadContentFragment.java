@@ -14,13 +14,12 @@ import com.libtop.weitu.R;
 import com.libtop.weituR.activity.ContentActivity;
 import com.libtop.weituR.activity.main.adapter.NewestUploadAdapter;
 import com.libtop.weituR.activity.main.dto.DocBean;
-import com.libtop.weituR.activity.search.BookDetailFragment2;
-import com.libtop.weituR.activity.search.VideoPlayActivity4;
-import com.libtop.weituR.activity.search.VideoPlayActivity5;
+import com.libtop.weituR.activity.search.BookDetailFragment;
+import com.libtop.weituR.activity.search.VideoPlayActivity2;
 import com.libtop.weituR.activity.search.dto.SearchResult;
 import com.libtop.weituR.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weituR.activity.source.AudioPlayActivity4;
-import com.libtop.weituR.activity.source.PdfActivity3;
+import com.libtop.weituR.activity.source.AudioPlayActivity2;
+import com.libtop.weituR.activity.source.PdfActivity2;
 import com.libtop.weituR.activity.user.SwipeMenu.SwipeMenuCreator;
 import com.libtop.weituR.activity.user.SwipeMenu.SwipeMenuListView;
 import com.libtop.weituR.base.impl.NotifyFragment;
@@ -284,7 +283,7 @@ public class NewestUploadContentFragment extends NotifyFragment {
         SearchResult result = new SearchResult();
         result.id = uploadList.get(position).id;
         result.cover = uploadList.get(position).cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity4.class);
+        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
@@ -292,7 +291,7 @@ public class NewestUploadContentFragment extends NotifyFragment {
     private void openVideo(int position) {
         SearchResult result = new SearchResult();
         result.id = uploadList.get(position).id;
-        Intent intent = new Intent(mContext, VideoPlayActivity5.class);
+        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
@@ -306,9 +305,9 @@ public class NewestUploadContentFragment extends NotifyFragment {
         bundle.putString("publisher", uploadList.get(position).publisher);
         bundle.putString("school", Preference.instance(mContext)
                 .getString(Preference.SchoolCode));
-        bundle.putBoolean(BookDetailFragment2.ISFROMMAINPAGE, true);
+        bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment2.class.getName());
+        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
@@ -324,7 +323,7 @@ public class NewestUploadContentFragment extends NotifyFragment {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", uploadList.get(position).id);
-        intent.setClass(mContext, PdfActivity3.class);
+        intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
         mContext.overridePendingTransition(R.anim.zoomin,
                 R.anim.alpha_outto);

@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.libtop.weitu.R;
 import com.libtop.weituR.activity.ContentActivity;
-import com.libtop.weituR.activity.classify.ClassifyFragment2;
+import com.libtop.weituR.activity.classify.ClassifyFragment;
 import com.libtop.weituR.activity.login.LoginFragment;
 import com.libtop.weituR.activity.startup.StartupActivity;
 import com.libtop.weituR.activity.user.UserCenterFragment;
@@ -136,16 +136,11 @@ public class MainActivity extends BaseActivity {
         int width = wm.getDefaultDisplay().getWidth();
 
         indicatorWidth = width / 4;
-//        mMsgBtn.setOnClickListener(this);
-//        mRadios.setOnCheckedChangeListener(this);
-//        ((RadioButton) findViewById(R.id.home)).setChecked(true);
-//        mRadios.check(R.id.home);
-//        replaceFragment(MainFragment.class.getName());
     }
 
     public void initFragment() {
-        MainFragment2 one = new MainFragment2();
-        ClassifyFragment2 two = new ClassifyFragment2();
+        MainFragment one = new MainFragment();
+        ClassifyFragment two = new ClassifyFragment();
 //        MsgFragment three = new MsgFragment();
         UserCenterFragment four = new UserCenterFragment();
         fragmentList.add(one);
@@ -302,11 +297,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void openCollect(){
-//        Bundle bundle = new Bundle();
-//        bundle.putString("action", "gather");
-//        bundle.putBoolean(ContentActivity.FRAG_ISBACK,false);
-//        bundle.putString(ContentActivity.FRAG_CLS, UserBooksFragment.class.getName());
-//        mContext.startActivity(bundle, ContentActivity.class);
         Intent intent = new Intent(mContext, UserCollectActivity.class);
         startActivity(intent);
     }

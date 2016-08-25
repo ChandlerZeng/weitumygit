@@ -16,9 +16,8 @@ import com.libtop.weituR.activity.ContentActivity;
 import com.libtop.weituR.activity.ContentFragment;
 import com.libtop.weituR.activity.main.adapter.MainImageAdapter;
 import com.libtop.weituR.activity.main.dto.DocBean;
-import com.libtop.weituR.activity.search.BookDetailFragment2;
+import com.libtop.weituR.activity.search.BookDetailFragment;
 import com.libtop.weituR.activity.search.SearchActivity;
-import com.libtop.weituR.base.BaseFragment;
 import com.libtop.weituR.http.MapUtil;
 import com.libtop.weituR.http.WeituNetwork;
 import com.libtop.weituR.tool.Preference;
@@ -147,7 +146,7 @@ public class MainBooksFragment extends ContentFragment{
                 .getString(Preference.SchoolCode));
         bundle.putBoolean("isFromMainPage", true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment2.class.getName());
+        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
