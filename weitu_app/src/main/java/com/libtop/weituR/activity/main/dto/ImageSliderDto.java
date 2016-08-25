@@ -1,9 +1,11 @@
 package com.libtop.weituR.activity.main.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by LianTu on 2016/6/29.
  */
-public class ImageSliderDto {
+public class ImageSliderDto implements Serializable{
     public String id;
     public String title;
     public String url;

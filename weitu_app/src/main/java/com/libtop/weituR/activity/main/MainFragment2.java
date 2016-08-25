@@ -46,6 +46,7 @@ import com.libtop.weituR.base.BaseFragment;
 import com.libtop.weituR.http.MapUtil;
 import com.libtop.weituR.http.WeituNetwork;
 import com.libtop.weituR.tool.Preference;
+import com.libtop.weituR.utils.ACache;
 import com.libtop.weituR.utils.CheckUtil;
 import com.libtop.weituR.utils.DateUtil;
 import com.libtop.weituR.utils.PicassoLoader;
@@ -53,6 +54,7 @@ import com.libtop.weituR.widget.gridview.FixedGridView;
 import com.libtop.weituR.widget.listview.ChangeListView;
 import com.zbar.lib.CaptureActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,6 +134,7 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
     private final int VIDEO=1,AUDIO=2,DOC=3,PHOTO=4;
 
     private int newestIndex;
+    private ACache mCache;
 
     private boolean isUpdateSchoolNews  = true;
 
@@ -142,6 +145,7 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
 
     @Override
     public void onCreation(View root) {
+        mCache = ACache.get(mContext);
         initView();
 //        initData();
 //        testAnimLineIndicator();
@@ -185,12 +189,12 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DocBean bean = uploadList.get(position);
-                switch (bean.type){
+                switch (bean.type) {
                     case VIDEO:
                         openVideo(bean.id);
                         break;
                     case AUDIO:
-                        openAudio(bean.id,bean.cover);
+                        openAudio(bean.id, bean.cover);
                         break;
                     case DOC:
                         openDoc(bean.id);
@@ -221,48 +225,58 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
 
     private void loadNewestUpload() {
 //        unsubscribe();
+        List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("newestLists");
+        if(docBeans!=null&&!docBeans.isEmpty()){
+            mainImageAdapter2.setData(docBeans);
+            mainImageAdapter2.notifyDataSetChanged();
+        }
         swipeRefreshLayout.setRefreshing(true);
         Observable<List<DocBean>> newestVideoObservable = getNewestVideoObservable();
         Observable<List<DocBean>> newestAudioObservable = getNewestAudioObservable();
         Observable<List<DocBean>> newestDocObservable = getNewestDocObservable();
         Observable<List<DocBean>> newestPhotoObservable = getNewestPhotoObservable();
         _subscriptions.add(
-        Observable.concat(newestVideoObservable,newestAudioObservable,newestDocObservable,newestPhotoObservable)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<DocBean>>() {
-                    @Override
-                    public void onCompleted() {
+                Observable.concat(newestVideoObservable,newestAudioObservable,newestDocObservable,newestPhotoObservable)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<List<DocBean>>() {
+                            @Override
+                            public void onCompleted() {
 
-                    }
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        newestIndex++;
-                        if(newestIndex > 3)
-                            newestIndex = 0;
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
+                            @Override
+                            public void onError(Throwable e) {
+                                newestIndex++;
+                                if(newestIndex > 3)
+                                    newestIndex = 0;
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
 
-                    @Override
-                    public void onNext(List<DocBean> docBeens) {
-                        newestIndex++;
-                        swipeRefreshLayout.setRefreshing(false);
-                        if (docBeens.isEmpty()||docBeens.size()<3){
-                            return;
-                        }
-                        for (DocBean docBean:docBeens){
-                            docBean.type = newestIndex;
-                        }
-                        if(newestIndex > 3)
-                            newestIndex = 0;
-                        uploadList.addAll(docBeens.subList(0,3));
-                        mainImageAdapter2.setData(uploadList);
-                        mainImageAdapter2.notifyDataSetChanged();
-                    }
-                })
+                            @Override
+                            public void onNext(List<DocBean> docBeens) {
+                                handleNewestResult(docBeens);
+                            }
+                        })
         );
 
+    }
+
+    private void handleNewestResult(List<DocBean> docBeens) {
+        newestIndex++;
+        swipeRefreshLayout.setRefreshing(false);
+        if (docBeens.isEmpty()||docBeens.size()<3){
+            return;
+        }
+        for (DocBean docBean:docBeens){
+            docBean.type = newestIndex;
+        }
+        if(newestIndex > 3)
+            newestIndex = 0;
+        uploadList.addAll(docBeens.subList(0,3));
+        mCache.put("newestLists", (Serializable) uploadList);
+        mainImageAdapter2.setData(uploadList);
+        mainImageAdapter2.notifyDataSetChanged();
     }
 
     //获取最新视频
@@ -285,28 +299,32 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
 
     //获取最新文档
     private Observable<List<DocBean>> getNewestDocObservable(){
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("method", "document.latest");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("method", "document.latest");
         String[] arrays = MapUtil.map2Parameter(params);
         return WeituNetwork.getWeituApi().getNewest(arrays[0],arrays[1],arrays[2]);
     }
 
     //获取最新图片
     private Observable<List<DocBean>> getNewestPhotoObservable(){
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("method", "imageAlbum.latest");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("method", "imageAlbum.latest");
         String[] arrays = MapUtil.map2Parameter(params);
         return WeituNetwork.getWeituApi().getNewest(arrays[0],arrays[1],arrays[2]);
     }
 
     private void requestImageSlider() {
 //        mLoading.show();
+        List<ImageSliderDto> imageSliderDtos= (List<ImageSliderDto>) mCache.getAsObject("imageSliderDtos");
+        if(imageSliderDtos!=null&&!imageSliderDtos.isEmpty()){
+            handleImageSlideResult(imageSliderDtos);
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "focus.list");
         String[] arrays = MapUtil.map2Parameter(params);
         _subscriptions.add(
                 WeituNetwork.getWeituApi()
-                        .getImageSlider(arrays[0],arrays[1],arrays[2])
+                        .getImageSlider(arrays[0], arrays[1], arrays[2])
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<List<ImageSliderDto>>() {
@@ -317,20 +335,26 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
 
                             @Override
                             public void onError(Throwable e) {
-                                Log.w("guanglog","error + " + e);
+                                Log.w("guanglog", "error + " + e);
                             }
 
                             @Override
                             public void onNext(List<ImageSliderDto> imageSliderDtos) {
-                                if (imageSliderDtos.isEmpty())
-                                    return;
-                                slideList.clear();
-                                slideList = imageSliderDtos;
-                                initImageSlide();
+                                mCache.put("imageSliderDtos", (Serializable) imageSliderDtos);
+                                handleImageSlideResult(imageSliderDtos);
                             }
                         })
         );
     }
+
+    private void handleImageSlideResult(List<ImageSliderDto> imageSliderDtos) {
+        if (imageSliderDtos.isEmpty())
+            return;
+        slideList.clear();
+        slideList = imageSliderDtos;
+        initImageSlide();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -344,14 +368,18 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
 
     private void requestNotics(){
 //        mLoading.show();
+        List<NoticeInfo> noticeInfos= (List<NoticeInfo>) mCache.getAsObject("noticeInfos");
+        if(noticeInfos!=null&&!noticeInfos.isEmpty()){
+            handleNoticeResult(noticeInfos);
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "notice.list");
 //        params.put("lid",mPreference.getString(Preference.SchoolCode));//lid
-        params.put("lid","10564");
+        params.put("lid", "10564");
         String[] arrays = MapUtil.map2Parameter(params);
         _subscriptions.add(
                 WeituNetwork.getWeituApi()
-                        .getNoticeInfo(arrays[0],arrays[1],arrays[2])
+                        .getNoticeInfo(arrays[0], arrays[1], arrays[2])
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<List<NoticeInfo>>() {
@@ -362,27 +390,37 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
 
                             @Override
                             public void onError(Throwable e) {
-                                setNewsGone();
+                                List<NoticeInfo> noticeInfos = (List<NoticeInfo>) mCache.getAsObject("noticeInfos");
+                                if (noticeInfos != null) {
+//                                    handleNoticeResult(noticeInfos);
+                                } else {
+                                    setNewsGone();
+                                }
                                 newsMoreText.setVisibility(View.GONE);
                             }
 
                             @Override
                             public void onNext(List<NoticeInfo> noticeInfos) {
-                                if (noticeInfos.isEmpty()) {
-                                    setNewsGone();
-                                    newsMoreText.setVisibility(View.GONE);
-                                    return;
-                                }
-                                setNewsVisible();
-                                mInfos.clear();
-                                mInfos = noticeInfos;
-                                if (mInfos.size()>3){
-                                    mInfos = mInfos.subList(0,3);
-                                }
-                                noticeAdapter.setData(mInfos);
+                                mCache.put("noticeInfos", (Serializable) noticeInfos);
+                                handleNoticeResult(noticeInfos);
                             }
                         })
         );
+    }
+
+    private void handleNoticeResult(List<NoticeInfo> noticeInfos) {
+        if (noticeInfos.isEmpty()) {
+            setNewsGone();
+            newsMoreText.setVisibility(View.GONE);
+            return;
+        }
+        setNewsVisible();
+        mInfos.clear();
+        mInfos = noticeInfos;
+        if (mInfos.size()>3){
+            mInfos = mInfos.subList(0,3);
+        }
+        noticeAdapter.setData(mInfos);
     }
 
     private void setNewsVisible(){
@@ -480,7 +518,7 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
 
     @Nullable
     @OnClick({R.id.search, R.id.container, R.id.open_clazz, R.id.spec_lesson, R.id.news, R.id.service, R.id.banner, R.id.search_top
-    ,R.id.news_more_text})
+            ,R.id.news_more_text})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.open_clazz:
@@ -719,39 +757,48 @@ public class MainFragment2 extends BaseFragment implements ViewPager.OnPageChang
     }
 
     private void loadBookRecommand() {
+        List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("bookLists");
+        if(docBeans!=null&&!docBeans.isEmpty()){
+            handleBookResult(docBeans);
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "book.listRecommend");
         String[] arrays = MapUtil.map2Parameter(params);
         _subscriptions.add(
-        WeituNetwork.getWeituApi()
-                .getNewest(arrays[0],arrays[1],arrays[2])
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<DocBean>>() {
-                    @Override
-                    public void onCompleted() {
+                WeituNetwork.getWeituApi()
+                        .getNewest(arrays[0],arrays[1],arrays[2])
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<List<DocBean>>() {
+                            @Override
+                            public void onCompleted() {
 
-                    }
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
+                            @Override
+                            public void onError(Throwable e) {
 
-                    }
+                            }
 
-                    @Override
-                    public void onNext(List<DocBean> docBeens) {
-                        bList.clear();
-                        bList = docBeens;
-                        if (bList.isEmpty())
-                            return;
-                        if (bList.size()>6){
-                            bList = bList.subList(0,6);
-                        }
-                        mainImageAdapter.setData(bList);
-                        mainImageAdapter.notifyDataSetChanged();
-                    }
-                })
+                            @Override
+                            public void onNext(List<DocBean> docBeens) {
+                                mCache.put("bookLists",(Serializable)docBeens);
+                                handleBookResult(docBeens);
+                            }
+                        })
         );
+    }
+
+    private void handleBookResult(List<DocBean> docBeens) {
+        bList.clear();
+        bList = docBeens;
+        if (bList.isEmpty())
+            return;
+        if (bList.size()>6){
+            bList = bList.subList(0,6);
+        }
+        mainImageAdapter.setData(bList);
+        mainImageAdapter.notifyDataSetChanged();
     }
 
 }

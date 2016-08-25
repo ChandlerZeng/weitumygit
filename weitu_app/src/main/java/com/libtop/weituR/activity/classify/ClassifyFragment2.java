@@ -32,20 +32,20 @@ import rx.schedulers.Schedulers;
 /**
  * Created by LianTu on 2016/7/19.
  */
-public class ClassifyFragment2 extends BaseFragment{
+public class ClassifyFragment2 extends BaseFragment {
 
     @Bind(R.id.list)
     ListView listView;
 
     private ACache mCache;
 
-    private ClassifyAdapter mAdapter ;
+    private ClassifyAdapter mAdapter;
     private List<ClassifyBean> mData = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new ClassifyAdapter(mContext,mData);
+        mAdapter = new ClassifyAdapter(mContext, mData);
         mCache = ACache.get(mContext);
     }
 
@@ -63,11 +63,14 @@ public class ClassifyFragment2 extends BaseFragment{
     private void getData() {
 //        一级分类
 //        http://weitu.bookus.cn/categories/root.json?text={"method":"categories.root"}
-        Map<String,Object> map = new HashMap<>();
-        map.put("method","categories.root");
+        List<ClassifyBean> classifyBeens = (List<ClassifyBean>) mCache.getAsObject("classifyBeens");
+        if (classifyBeens != null && !classifyBeens.isEmpty())
+            handleResult(classifyBeens);
+        Map<String, Object> map = new HashMap<>();
+        map.put("method", "categories.root");
         String[] arrays = MapUtil.map2Parameter(map);
         subscription = WeituNetwork.getWeituApi()
-                .getClassify(arrays[0],arrays[1],arrays[2])
+                .getClassify(arrays[0], arrays[1], arrays[2])
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<ClassifyBean>>() {
@@ -78,24 +81,27 @@ public class ClassifyFragment2 extends BaseFragment{
 
                     @Override
                     public void onError(Throwable e) {
-
-                        List<ClassifyBean> classifyBeens  = (List<ClassifyBean> ) mCache.getAsObject("classifyBeens");
-                        if (classifyBeens==null||classifyBeens.isEmpty())
+                        /*List<ClassifyBean> classifyBeens = (List<ClassifyBean>) mCache.getAsObject("classifyBeens");
+                        if (classifyBeens == null || classifyBeens.isEmpty())
                             return;
-                        onNext(classifyBeens);
+                        onNext(classifyBeens);*/
                     }
 
                     @Override
                     public void onNext(List<ClassifyBean> classifyBeens) {
-                        mCache.put("classifyBeens",(Serializable) classifyBeens);
-                        mData.clear();
-                        if (classifyBeens == null && classifyBeens.isEmpty())
-                            return;
-                        mData = classifyBeens;
-                        mAdapter.setData(mData);
-                        mAdapter.notifyDataSetChanged();
+                        mCache.put("classifyBeens", (Serializable) classifyBeens);
+                        handleResult(classifyBeens);
                     }
                 });
+    }
+
+    private void handleResult(List<ClassifyBean> classifyBeens) {
+        mData.clear();
+        if (classifyBeens == null && classifyBeens.isEmpty())
+            return;
+        mData = classifyBeens;
+        mAdapter.setData(mData);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void initView() {
@@ -104,9 +110,9 @@ public class ClassifyFragment2 extends BaseFragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ClassifyBean classifyBean = mData.get(position);
-                Intent intent = new Intent(mContext,ClassifyDetailActivity.class);
-                intent.putExtra("code",classifyBean.code);
-                intent.putExtra("name",classifyBean.name);
+                Intent intent = new Intent(mContext, ClassifyDetailActivity.class);
+                intent.putExtra("code", classifyBean.code);
+                intent.putExtra("name", classifyBean.name);
                 startActivity(intent);
             }
         });

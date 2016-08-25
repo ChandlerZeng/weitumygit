@@ -3,10 +3,12 @@ package com.libtop.weituR.activity.main.dto;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by LianTu on 2016/5/5.
  */
-public class DocBean {
+public class DocBean implements Serializable{
     public String id;
     public String uploadUid;
     public String uploadUsername;

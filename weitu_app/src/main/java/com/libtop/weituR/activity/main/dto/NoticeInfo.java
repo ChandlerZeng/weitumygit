@@ -3,10 +3,12 @@ package com.libtop.weituR.activity.main.dto;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2016/1/14 0014.
  */
-public class NoticeInfo {
+public class NoticeInfo implements Serializable{
     public String id;
     public String title;
     public long dateLine;
