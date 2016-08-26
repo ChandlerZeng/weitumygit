@@ -46,7 +46,7 @@ public class RmdBooksAdapter extends BaseAdapter<BookDto> {
         if(!CheckUtil.isNull(book.publisher))
         holder.publisherText.setText(book.publisher);
         if(!CheckUtil.isNull(book.introduction))
-        holder.introduceText.setText("简介："+book.introduction);
+        holder.introduceText.setText("简介："+book.introduction.replaceAll("　　",""));
     }
 
     private class Holder{
