@@ -1,7 +1,7 @@
 package com.libtop.weitu.activity.source;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,9 +41,11 @@ public class RecyclerSingleChoiseAdapter extends RecyclerView.Adapter<RecyclerSi
     public void onBindViewHolder(NormalTextViewHolder holder, int position) {
         holder.mTextView.setText(mList.get(position));
         if(states.get(String.valueOf(position)) == null || states.get(String.valueOf(position))== false){
-            holder.mTextView.setBackgroundColor(Color.WHITE);
+            holder.mTextView.setTextColor(ContextCompat.getColor(mContext,R.color.grey4));
+            holder.mTextView.setBackgroundResource(R.drawable.textview_unchecked);
         }else{
-            holder.mTextView.setBackgroundResource(R.drawable.green_board);
+            holder.mTextView.setTextColor(ContextCompat.getColor(mContext,R.color.green1));
+            holder.mTextView.setBackgroundResource(R.drawable.textview_checked);
         }
     }
 

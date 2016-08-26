@@ -19,9 +19,11 @@ public class ClassifyCheckAdapter extends BaseAdapter<ClassifyBean>{
 
     private SparseBooleanArray sBarray = new SparseBooleanArray();
     private boolean isFilter;
+    private List<ClassifyBean> mdata;
 
     public ClassifyCheckAdapter(Context context, List<ClassifyBean> data,boolean isFilter) {
         super(context, data, R.layout.item_list_check_string);
+        mdata = data;
         sBarray.put(0,true);
         this.isFilter = isFilter;
     }
@@ -52,6 +54,11 @@ public class ClassifyCheckAdapter extends BaseAdapter<ClassifyBean>{
             holder.checkView.setVisibility(View.INVISIBLE);
             holder.textView.setTextColor(mContext.getResources().getColor(R.color.black));
         }
+    }
+
+    public void upDateData(List<ClassifyBean> data){
+        mdata = data;
+        notifyDataSetChanged();
     }
 
     public void setCheck(int position){

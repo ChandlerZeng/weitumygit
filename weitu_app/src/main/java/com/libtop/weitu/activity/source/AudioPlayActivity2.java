@@ -135,29 +135,46 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     private String introdution;
     private CustomThread customThread;
 
+    private long currentPlayIndex;
+    private long TW0_MIN = 120000;
+
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
                     if(mPlayer != null){
-                        long curent = mPlayer.getCurrentPosition();
+                        currentPlayIndex = mPlayer.getCurrentPosition();
                         long total=mPlayer.getDuration();
-                        long twoMin = 1000L * 60 * 2;
-                        if ((curent > twoMin)&& !isOpen){
+                        if ((currentPlayIndex > TW0_MIN)&& !isOpen){
                             if (mPlayer!=null){
-                                mPlayer.stop();
+                                mPlayer.seekTo(0);
+                                Toast.makeText(mContext,"私有资源只能播放两分钟",Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }
-                        long position=total==0?0:1000L*curent/total;
+                        long position=total==0?0:1000L*currentPlayIndex/total;
                         seekbar.setProgress((int) position);
-                        setPlayProgress(mCurrentProc, curent); // 设置时间显示
+                        mCurrentProc.setText(getPlayProgress(currentPlayIndex));
+//                        setPlayProgress(mCurrentProc, curent); // 设置时间显示
                     }
                     break;
             }
         }
     };
+
+    /**
+     * 设置显示进度
+     *
+     * @param position
+     */
+    private String getPlayProgress(long position) {
+        int value = (int) position / 1000;
+        int minute = value / 60;
+        int second = value % 60;
+        minute %= 60;
+        return String.format("%02d:%02d", minute, second);
+    }
 
     /**
      * 设置显示进度
@@ -178,26 +195,7 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_audio_play5);
         initView();
-//		init();
         mCurrentIndex=0;
-//        mAdapter = new SingleSelectAdapter(mContext,lists);
-//        mHListView.setAdapter(mAdapter);
-//        mHListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String imgPath = (String) parent.getItemAtPosition(position);
-//                mAdapter.setSingleSelect(position);
-//                mCurrentIndex = position;
-//                stopAndRelase();
-//                loadIndex();
-////                bundle.putInt("media_list_position", position);
-////
-////                mCurrentIndex =
-////
-////                bundle.putParcelableArrayList("media_list", (ArrayList<? extends Parcelable>) mData);
-////                mContext.startActivity(bundle, AudioPlayActivity.class);
-//            }
-//        });
         String result = getIntent().getExtras().getString("resultBean");
         searchResult = new Gson().fromJson(result,SearchResult.class);
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -217,7 +215,10 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+//                if (currentPlayIndex > TW0_MIN && !isOpen){
+//                    seekBar.setProgress(0);
+//                    Toast.makeText(mContext,"私有资源只能播放两分钟",Toast.LENGTH_SHORT).show();
+//                }
             }
         });
 //        Picasso.with(mContext).load(ContantsUtil.getCoverUrl(searchResult.id)).into(imgAudio);
@@ -233,8 +234,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);//这里用线性显示 类似于listview
-//        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));//这里用线性宫格显示 类似于grid view
-//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));//这里用线性宫格显示 类似于瀑布流
         mRecyclerView.setAdapter(mAdapter);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -259,34 +258,19 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
 
     private void init(){
-//		Vitamio.isInitialized(getApplicationContext());
-
         mAudios= mData;
-
-//        tvSort.setText("分集("+lists.size()+")");
 
         if (mAudios.isEmpty()){
             Toast.makeText(mContext,"没有音频列表",Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
-//		mPath = getIntent().getExtras().getString(MEDIA_PATH);
-//		String name = getIntent().getExtras().getString(MEDIA_NAME);
-//		mTitleText.setText(name);
         mPlayer=new MediaPlayer();
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         mPlayer.setOnCompletionListener(this);
         mPlayer.setOnPreparedListener(this);
 
-//		mBackBtn.setOnClickListener(this);
-//		mListsBtn.setOnClickListener(this);
-//		mPrevBtn.setOnClickListener(this);
-//		mNextBtn.setOnClickListener(this);
-//		seekbar.setOnSeekBarChangeListener(this);
-
-//		mPlayBtn.setOnClickListener(this);
         mPop=new MediaListPopup(this, new MediaListPopup.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -349,10 +333,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     }
 
     private void shareClick() {
-//		Toast.makeText(mContext,"share click",Toast.LENGTH_SHORT).show();
-//		UemgShare a = new UemgShare(mContext);
-//		String str = "www.baidu.com";
-//		a.setImage(str).setTitle("321").setText("123").share();
         String title = "微图分享";
         String content = "“【视频】"+titleName1+"”"+ ContantsUtil.shareContent;
         String imageUrl = "drawable://" + R.drawable.wbshare;
@@ -488,7 +468,7 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         if (!TextUtils.isEmpty(mediaAlbumBean.cover)){
             Picasso.with(mContext).load(mediaAlbumBean.cover).into(imgAudio);
         }
-        String title=data.title;
+        String title = mediaAlbumBean.title;
         titleName1 = title;
         String uploader=data.uploadUsername;
         if (data.view!=null){
@@ -525,42 +505,22 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
     private void playNext(){
         if (mCurrentIndex+1>=lists.size()){
-            showToast("没有下一首");
+            Toast.makeText(mContext,"没有下一首",Toast.LENGTH_SHORT).show();
         } else{
             onItemClick(null,mCurrentIndex+1);
             mRecyclerView.smoothScrollToPosition(mCurrentIndex+1);
         }
-//        mPlayer.stop();
-//        mPlayer.reset();
-//        int next=mCurrentIndex+1;
-//        mCurrentIndex=next>mAudios.size()-1?0:next;
-//        try {
-//            setAudio(mAudios.get(mCurrentIndex));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            showToast("音频解析失败");
-//        }
     }
 
     private void playPrev(){
         if (mCurrentIndex-1<0){
-            showToast("没有上一首");
+            Toast.makeText(mContext,"没有上一首",Toast.LENGTH_SHORT).show();
         } else{
             onItemClick(null,mCurrentIndex-1);
             if (mCurrentIndex-1 != 0){
                 mRecyclerView.scrollToPosition(mCurrentIndex-1);
             }
         }
-//        mPlayer.stop();
-//        mPlayer.reset();
-//        int prev=mCurrentIndex-1;
-//        mCurrentIndex=prev<0?mAudios.size()-1:prev;
-//        try {
-//            setAudio(mAudios.get(mCurrentIndex));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            showToast("音频解析失败");
-//        }
     }
 
     private void showListPop(){
@@ -610,21 +570,16 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-//		mPlayBtn.setBackgroundResource(R.drawable.btn_play);
-        //播放下一首
-//		if (mCurrentIndex==mAudios.size()-1){
-//			finish();
-//		}else {
-//			playNext();
-//		}
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
         long duration = mPlayer.getDuration();
         long position = mPlayer.getCurrentPosition();
-        setPlayProgress(mCurrentProc, position); // 设置时间显示
-        setPlayProgress(mTotalProc, duration);
+        mCurrentProc.setText(getPlayProgress(position));
+//        setPlayProgress(mCurrentProc, position); // 设置时间显示
+        mTotalProc.setText(getPlayProgress(duration));
+//        setPlayProgress(mTotalProc, duration);
         seekbar.setMax(1000);
         mPlayBtn.setClickable(true);
         mPlayBtn.setBackgroundResource(R.drawable.audio_pause);
@@ -639,16 +594,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         stopAndRelase();
         loadIndex();
     }
-
-//	@Nullable @OnClick(value = R.id.seekbar,type = SeekBar.OnSeekBarChangeListener.class
-//			,method = "onProgressChanged")
-//	private void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//		if (!fromUser || mPlayer == null) return;
-//		long newposition = (mPlayer.getDuration() * progress) / 1000L;
-//		mPlayer.seekTo((int)newposition);
-//		isPaused=false;
-//		mPlayBtn.setBackgroundResource(R.drawable.audio_pause);
-//	}
 
 
     class CustomThread extends Thread {
@@ -713,10 +658,14 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
                             lists.clear();
                             mData.clear();
                             mData = mediaResultBean.mediaList;
+                            if (mData.size()<2){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else {
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                            }
                             for (MediaListItemBean bean:mData) {
                                 lists.add(bean.title);
                             }
-                            resetCache();
                             mAdapter.notifyDataSetChanged();
                             init();
                         }
@@ -725,17 +674,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     }
 
 
-    private void resetCache(){
-//		DbManager dao= x.getDb(((AppApplication)mContext.getApplicationContext()).getDaoConfig());
-//		try {
-//			dao.delete(MediaResult.class);
-//			for (MediaListItemBean result:mData){
-//				dao.save(result);
-//			}
-//		} catch (DbException e) {
-//			e.printStackTrace();
-//		}
-    }
 
 
 }

@@ -196,19 +196,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);//这里用线性显示 类似于listview
-//        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));//这里用线性宫格显示 类似于grid view
-//        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL));//这里用线性宫格显示 类似于瀑布流
         mRecyclerView.setAdapter(mRecyclerAdapter);
-//        mAdapter = new SingleSelectAdapter(mContext,lists);
-//        mHListView.setAdapter(mAdapter);
-//        mHListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String imgPath = (String) parent.getItemAtPosition(position);
-//                mAdapter.setSingleSelect(position);
-//                loadIndex(position);
-//            }
-//        });
         String result = getIntent().getExtras().getString("resultBean");
         searchResult = new Gson().fromJson(result,SearchResult.class);
         loadIndex(0);
@@ -229,21 +217,16 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         Vitamio.isInitialized(getApplicationContext());
         playingIndex = getIntent().getExtras().getInt("index");
 
-//        DbManager dao = x.getDb(((AppApplication) mContext.getApplicationContext()).getDaoConfig());
-//        try {
-//            mRes.addAll(dao.findAll(MediaListItemBean.class));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         String videoPath = "http://www.null.mp4";
         String name = "";
         if (mData.size()>0){
             if (!TextUtils.isEmpty(mData.get(position).url)){
                 videoPath = mData.get(position).url;
             }
-            name = mData.get(position).title;
+            name = mediaAlbumBean.title;
             titleName = name;
         }
+
         notShowButtom = getIntent().getExtras().getBoolean("notShowButtom");
         mTitleText.setText(name);
         mInTitleText.setText(name);
@@ -271,16 +254,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         }else {
             imgCollect.setBackgroundResource(R.drawable.collect_no);
         }
-
-//        mPager.setAdapter(mPageAdapter);
-//        mPager.setCurrentItem(0);
-
-//        mVideo.setTouchChange(new VideoView.TouchChange() {
-//            @Override
-//            public void touchChange(int length) {
-//                touchProgress(length);
-//            }
-//        });
 
         new CustomThread().start();
         mSmallSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -519,10 +492,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     }
 
     private void shareClick() {
-//        Toast.makeText(mContext,"share click",Toast.LENGTH_SHORT).show();
-//        UemgShare a = new UemgShare(mContext);
-//        String str = "www.baidu.com";
-//        a.setImage(str).setTitle("321").setText("123").share();
         String title = "微图分享";
         String content = "“【视频】"+titleName+"”"+ ContantsUtil.shareContent;
         String imageUrl = "drawable://" + R.drawable.wbshare;
@@ -541,10 +510,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         commentNeedDto.type = 2;
         intent.putExtra("CommentNeedDto",new Gson().toJson(commentNeedDto));
         startActivity(intent);
-//        Intent intent = new Intent(mContext, CommentActivity.class);
-//        intent.putExtra("comment_tid",searchResult.id);
-//        intent.putExtra("comment_type", "mediaAlbum");
-//        startActivity(intent);
     }
 
     private void collectClick() {
@@ -654,17 +619,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                 });
     }
 
-//    @Nullable @OnClick(value = {R.id.seekbar_small, R.id.seekbar_big}
-//            , type = SeekBar.OnSeekBarChangeListener.class, method = "onProgressChanged")
-//    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//        if (!fromUser) return;
-//        long newposition = (mVideo.getDuration() * progress) / 1000L;
-//        mVideo.seekTo(newposition);
-//        isPaused = false;
-//        mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
-//        mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
-//    }
-
     @Override
     public void onCompletion(MediaPlayer mp) {
         thread = false;
@@ -698,31 +652,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         showToast("该视频不存在");
         return true;
     }
-
-//    @Nullable @OnClick(value = R.id.viewpager, type = ViewPager.OnPageChangeListener.class
-//            , method = "onPageSelected")
-//    public void onPageSelected(int position) {
-//        switch (position) {
-//            case 0:
-//                mRadioGroup.check(R.id.info);
-//                break;
-//            case 1:
-//                mRadioGroup.check(R.id.category);
-//                break;
-//        }
-//    }
-
-//    @Nullable @OnClick(value = R.id.radio_group, type = RadioGroup.OnCheckedChangeListener.class)
-//    public void onCheckedChanged(RadioGroup group, int checkedId) {
-//        switch (checkedId) {
-//            case R.id.info:
-//                mPager.setCurrentItem(0);
-//                break;
-//            case R.id.category:
-//                mPager.setCurrentItem(1);
-//                break;
-//        }
-//    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -950,10 +879,14 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                                 finish();
                                 return;
                             }
+                            if (mData.size()<2){
+                                mRecyclerView.setVisibility(View.GONE);
+                            }else {
+                                mRecyclerView.setVisibility(View.VISIBLE);
+                            }
                             for (MediaListItemBean bean:mData) {
                                 lists.add(bean.title);
                             }
-                            resetCache();
                             mRecyclerAdapter.setNewData(lists);
                             init(position);
                         }
@@ -961,17 +894,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                 });
     }
 
-    private void resetCache(){
-//        DbManager dao= x.getDb(((AppApplication)mContext.getApplicationContext()).getDaoConfig());
-//        try {
-//            dao.delete(MediaListItemBean.class);
-//            for (MediaListItemBean result:mData){
-//                dao.save(result);
-//            }
-//        } catch (DbException e) {
-//            e.printStackTrace();
-//        }
-    }
 
 
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.iflytek.cloud.SpeechUtility;
-import com.libtop.weitu.BuildConfig;
 import com.libtop.weitu.activity.main.MainActivity;
 import com.libtop.weitu.dao.bean.DaoMaster;
 import com.libtop.weitu.dao.bean.DaoSession;
@@ -37,8 +36,8 @@ public class AppApplication extends Application {
 		super.onCreate();
 		context = getApplicationContext();
 		//捕捉全局异常，取消默认弹窗，重新启动App
-		if (!BuildConfig.DEBUG)
-			Thread.setDefaultUncaughtExceptionHandler(new MyUnCaughtExceptionHandler());
+//		if (!BuildConfig.DEBUG)
+//			Thread.setDefaultUncaughtExceptionHandler(new MyUnCaughtExceptionHandler());
 		initOkhttp();
 		HttpRequest.initParams(getApplicationContext());
 //		x.Ext.init(this);

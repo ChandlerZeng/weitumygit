@@ -1,17 +1,20 @@
 package com.libtop.weitu.activity.search;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.ListPopupWindow;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.classify.adapter.ClassifyCheckAdapter;
+import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.impl.NotifyFragment;
 import com.libtop.weitu.eventbus.MessageEvent;
@@ -34,6 +37,8 @@ public class ResultFragment extends NotifyFragment {
     @Bind(R.id.radioGroup)
     RadioGroup mRadioGroup;
 
+    private ImageView imgSearchFilter;
+
     private List<Fragment> mFrags;
     private MainPageAdapter mAdapter;
     private boolean isCreate = false;
@@ -42,12 +47,15 @@ public class ResultFragment extends NotifyFragment {
 
     public static final int ALL=0,BOOK=1,VIDEO=2,AUDIO=3,DOC=4,IMAGE=5;
 
-    private ArrayAdapter<CharSequence> adapter = null;
+//    private ArrayAdapter<CharSequence> adapter = null;
 
     private boolean isThreeSpinner = true;
-    private Spinner spinner;
+    private ClassifyCheckAdapter filterCheckAdapter;
+    private ListPopupWindow mListFilterPop;
     //记录页面所选择的排序方法
     private HashMap<Integer,Integer> map = new HashMap<>();
+    private List<ClassifyBean> filterList = new ArrayList<>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +68,7 @@ public class ResultFragment extends NotifyFragment {
         mFrags.add(new DocsFragment());
         mFrags.add(new ImagesFragment());
         mAdapter=new MainPageAdapter(getChildFragmentManager(),mFrags);
-        initSpinner();
+        initFilter();
     }
 
     @Override
@@ -68,53 +76,112 @@ public class ResultFragment extends NotifyFragment {
         return R.layout.fragment_result_types_layout;
     }
 
-    private void initSpinner(){
-        spinner = (Spinner)mContext.findViewById(R.id.spinner);
-        TextView textView = (TextView) mContext.findViewById(R.id.search);
-        textView.setVisibility(View.GONE);
-        List<CharSequence> planets = new ArrayList<CharSequence>();
-        planets.add("阅读最多");
-        planets.add("评论最多");
-        planets.add("收藏最多");
-        adapter = new ArrayAdapter<CharSequence>(mContext,R.layout.spinner_outlook, planets);
-//        adapter = ArrayAdapter.createFromResource(mContext,R.array.spinner_array,R.layout.spinner_outlook);
-        //设置下拉列表风格
-        adapter.setDropDownViewResource(R.layout.spinner_drop_down);
-        //将适配器添加到spinner中去
-        spinner.setAdapter(adapter);
-        spinner.setVisibility(View.VISIBLE);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    private void initFilter(){
+        ImageView imgSearchFilter = (ImageView) getActivity().findViewById(R.id.search_filter);
+        imgSearchFilter.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                // TODO Auto-generated method stub
-                Bundle bundle = new Bundle();
-                bundle.putInt("pageIndex",pageIndex);
-                map.put(pageIndex,arg2);
-                if (isThreeSpinner){
-                    bundle.putString("sortType",sortTransform(arg2+1));
-                }else {
-                    bundle.putString("sortType",sortTransform(arg2));
-                }
-                EventBus.getDefault().post(new MessageEvent(bundle));
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
+            public void onClick(View v)
+            {
+                mListFilterPop.show();
             }
         });
+        LinearLayout llBoard = (LinearLayout) getActivity().findViewById(R.id.ll_board);
+            String[] filters = new String[]{"阅读最多","评论最多","收藏最多"};
+            for (int i=0;i<filters.length;i++){
+                ClassifyBean classifyBean = new ClassifyBean();
+                classifyBean.name = filters[i];
+                filterList.add(classifyBean);
+            }
+            filterCheckAdapter = new ClassifyCheckAdapter(mContext,filterList,true);
+            mListFilterPop = new ListPopupWindow(mContext);
+            mListFilterPop.setAdapter(filterCheckAdapter);
+            mListFilterPop.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+            mListFilterPop.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+//        mListFilterPop.setBackgroundDrawable(null);
+            mListFilterPop.setAnchorView(llBoard);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
+            mListFilterPop.setBackgroundDrawable(new ColorDrawable(0x99000000));
+            mListFilterPop.setModal(true);//设置是否是模式
+            mListFilterPop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    // TODO Auto-generated method stub
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("pageIndex",pageIndex);
+                    map.put(pageIndex,position);
+                    if (isThreeSpinner){
+                        bundle.putString("sortType",sortTransform(position+1));
+                    }else {
+                        bundle.putString("sortType",sortTransform(position));
+                    }
+                    EventBus.getDefault().post(new MessageEvent(bundle));
+                    filterCheckAdapter.setCheck(position);
+                    mListFilterPop.dismiss();
+                }
+            });
     }
 
+//    private void initSpinner(){
+//        spinner = (Spinner)mContext.findViewById(R.id.spinner);
+//        imgSearchFilter
+//        TextView textView = (TextView) mContext.findViewById(R.id.search);
+//        textView.setVisibility(View.GONE);
+//        List<CharSequence> planets = new ArrayList<CharSequence>();
+//        planets.add("阅读最多");
+//        planets.add("评论最多");
+//        planets.add("收藏最多");
+//        adapter = new ArrayAdapter<CharSequence>(mContext,R.layout.spinner_outlook, planets);
+////        adapter = ArrayAdapter.createFromResource(mContext,R.array.spinner_array,R.layout.spinner_outlook);
+//        //设置下拉列表风格
+//        adapter.setDropDownViewResource(R.layout.spinner_drop_down);
+//        //将适配器添加到spinner中去
+//        spinner.setAdapter(adapter);
+//        spinner.setVisibility(View.VISIBLE);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> arg0, View arg1,
+//                                       int arg2, long arg3) {
+//                // TODO Auto-generated method stub
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("pageIndex",pageIndex);
+//                map.put(pageIndex,arg2);
+//                if (isThreeSpinner){
+//                    bundle.putString("sortType",sortTransform(arg2+1));
+//                }else {
+//                    bundle.putString("sortType",sortTransform(arg2));
+//                }
+//                EventBus.getDefault().post(new MessageEvent(bundle));
+//
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> arg0) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//        });
+//    }
+
     private void threeFilter(){
-        adapter.clear();
-        adapter.addAll(getResources().getStringArray(R.array.spinner_array2));
+        filterList.clear();
+        String[] filters = getResources().getStringArray(R.array.spinner_array2);
+        for (int i=0;i<filters.length;i++){
+            ClassifyBean classifyBean = new ClassifyBean();
+            classifyBean.name = filters[i];
+            filterList.add(classifyBean);
+        }
+        filterCheckAdapter.upDateData(filterList);
     }
 
     private void fourFilter(){
-        adapter.clear();
-        adapter.addAll(getResources().getStringArray(R.array.spinner_array));
+        filterList.clear();
+        String[] filters = getResources().getStringArray(R.array.spinner_array);
+        for (int i=0;i<filters.length;i++){
+            ClassifyBean classifyBean = new ClassifyBean();
+            classifyBean.name = filters[i];
+            filterList.add(classifyBean);
+        }
+        filterCheckAdapter.upDateData(filterList);
     }
 
     private String sortTransform(int position){
@@ -202,16 +269,11 @@ public class ResultFragment extends NotifyFragment {
         if (map.get(pageIndex)==null){
             map.put(pageIndex,0);
         }
-        spinner.setSelection(map.get(pageIndex));
-        adapter.notifyDataSetChanged();
+        filterCheckAdapter.setCheck(map.get(pageIndex));
+//        adapter.notifyDataSetChanged();
         mViewPager.setCurrentItem(pageIndex);
 //        ((NotifyFragment)mAdapter.getItem(itemIndex)).load();
     }
-
-//    @Override
-//    public void onPageScrolled(int i, float v, int i1) {
-//
-//    }
 
     @Nullable @OnPageChange(value = R.id.viewpager)
     public void onPageSelected(int i) {

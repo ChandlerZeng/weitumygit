@@ -1,6 +1,5 @@
 package com.libtop.weitu.activity.main.notice;
 
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -63,10 +62,11 @@ public class NoticeContentFragment extends ContentFragment{
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
 //        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-//        settings.setUseWideViewPort(true);
+        settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
         settings.setAllowFileAccess(true);
         settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
         settings.setDefaultTextEncodingName("UTF-8");
     }
 

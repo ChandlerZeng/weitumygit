@@ -50,4 +50,5 @@
     <dimen name="new_img_width">130dp</dimen>
     <dimen name="new_img_height">90dp</dimen>
     <dimen name="home_img_size">22dp</dimen>
+    <dimen name="text_padding_size">3dp</dimen>
 </resources>
