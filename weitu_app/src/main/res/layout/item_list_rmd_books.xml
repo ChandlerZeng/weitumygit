@@ -8,29 +8,10 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="135dp"
+        android:layout_height="wrap_content"
         android:background="#00000000"
         android:gravity="center"
         android:orientation="horizontal">
-        <!--<LinearLayout
-            android:id="@+id/check_layout"
-            android:layout_width="60dp"
-            android:layout_height="110dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            >
-
-            <ImageView
-                android:id="@+id/checkmark"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="5.5dp"
-                android:layout_marginTop="5.5dp"
-                android:src="@drawable/btn_unselected"/>
-        </LinearLayout>-->
-
         <FrameLayout
             android:layout_width="100dp"
             android:layout_height="130dp"
@@ -66,6 +47,15 @@
                 android:gravity="center|start"
                 android:textColor="#333333"
                 android:textSize="15sp" />
+            <TextView
+                android:id="@+id/book_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="top"
+                android:background="@color/green1"
+                android:text="暂无分类"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/rmd_book_author"

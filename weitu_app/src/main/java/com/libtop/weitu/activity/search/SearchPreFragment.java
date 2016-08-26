@@ -229,7 +229,7 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP||expanded||isCleared) {
+                if (event.getAction() == MotionEvent.ACTION_UP||expanded) {
                     scrollView.requestDisallowInterceptTouchEvent(false);
                     gvHot.requestDisallowInterceptTouchEvent(true);
                     mList.requestDisallowInterceptTouchEvent(true);

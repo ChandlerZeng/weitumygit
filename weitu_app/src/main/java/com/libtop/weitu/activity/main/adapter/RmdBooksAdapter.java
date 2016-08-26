@@ -39,15 +39,19 @@ public class RmdBooksAdapter extends BaseAdapter<BookDto> {
         Holder holder = (Holder) convertView.getTag();
         Picasso.with(mContext).load(ContantsUtil.IMG_BASE + book.cover).placeholder(R.drawable.default_image).into(holder.bookCover);
         holder.titleText.setText(book.title);
+        if(!CheckUtil.isNull(book.categoriesName1)||!CheckUtil.isNull(book.categoriesName2))
+        holder.bookLabel.setText(book.categoriesName1+"/"+book.categoriesName2);
+        if(!CheckUtil.isNull(book.author))
         holder.authorText.setText(book.author);
+        if(!CheckUtil.isNull(book.publisher))
         holder.publisherText.setText(book.publisher);
         if(!CheckUtil.isNull(book.introduction))
-        holder.introduceText.setText(book.introduction);
+        holder.introduceText.setText("简介："+book.introduction);
     }
 
     private class Holder{
         ImageView bookCover;
-        TextView titleText,authorText,publisherText,introduceText;
+        TextView titleText,bookLabel,authorText,publisherText,introduceText;
     }
 
 }

@@ -168,6 +168,7 @@ public class RmdBooksFragment extends ContentFragment {
                     for (int i = 0; i < array.length(); i++) {
                         BookDto bean = new BookDto();
                         bean.of(array.getJSONObject(i));
+                        bean.title.replaceAll("　　","").trim();
                         listBooks.add(bean);
                     }
                     if (listBooks.size() < 10) {
