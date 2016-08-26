@@ -373,7 +373,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "notice.list");
 //        params.put("lid",mPreference.getString(Preference.SchoolCode));//lid
-        params.put("lid", "10564");
+        params.put("lid", mPreference.getString(Preference.SchoolCode));
         String[] arrays = MapUtil.map2Parameter(params);
         _subscriptions.add(
                 WeituNetwork.getWeituApi()

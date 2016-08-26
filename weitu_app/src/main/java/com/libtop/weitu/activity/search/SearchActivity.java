@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +52,6 @@ public class SearchActivity extends BaseActivity implements RootStub{
 	ImageView mDeleteBtn;
 
 	private ArrayAdapter<CharSequence> adapter = null;
-	private Spinner spinner;
 	// 讯飞
 	private SpeechRecognizer mIat;
 	private RecognizerDialog mIatDialog;

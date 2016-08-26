@@ -3,7 +3,9 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="@color/titleBar"
-    android:gravity="center">
+    android:gravity="center"
+    android:id="@+id/ll_board"
+    >
     <ImageView
         android:id="@+id/back_btn"
         android:layout_width="48dp"
@@ -61,15 +63,10 @@
         android:gravity="center"
         android:visibility="gone"
         />
-    <Spinner
-        android:id="@+id/spinner"
-        android:background="@null"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"
-        android:dropDownSelector="@color/black"
-        android:popupBackground="@color/black"
-        android:dropDownWidth="130dp"
-        android:dropDownVerticalOffset="10dp"
-        />
+    <ImageView
+        android:id="@+id/search_filter"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:padding="10dp"
+        android:src="@drawable/search_filter"/>
 </LinearLayout>

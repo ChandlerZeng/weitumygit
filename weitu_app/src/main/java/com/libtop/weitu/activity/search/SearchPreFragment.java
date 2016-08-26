@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.reflect.TypeToken;
@@ -267,17 +267,17 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
     }
 
     private void addSearchBtn() {
-        Spinner spinner = (Spinner) mContext.findViewById(R.id.spinner);
+        ImageView imgSearchFilter = (ImageView) mContext.findViewById(R.id.search_filter);
         TextView textView = (TextView) mContext.findViewById(R.id.search);
         textView.setVisibility(View.VISIBLE);
-        spinner.setVisibility(View.GONE);
+        imgSearchFilter.setVisibility(View.GONE);
     }
 
     private void removeSearchBtn() {
-        Spinner spinner = (Spinner) mContext.findViewById(R.id.spinner);
+        ImageView imgSearchFilter = (ImageView) mContext.findViewById(R.id.search_filter);
         TextView textView = (TextView) mContext.findViewById(R.id.search);
         textView.setVisibility(View.GONE);
-        spinner.setVisibility(View.VISIBLE);
+        imgSearchFilter.setVisibility(View.VISIBLE);
     }
 
     @Override
