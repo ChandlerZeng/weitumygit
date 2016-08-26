@@ -27,6 +27,7 @@ import com.libtop.weitu.dao.bean.Search;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.widget.gridview.FixedGridView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
     @Bind(R.id.ll_out_search_history)
     LinearLayout llSearchHistory;
     @Bind(R.id.gv_hot)
-    GridView gvHot;
+    FixedGridView gvHot;
     @Bind(R.id.trash)
     TextView mTrashBtn;
     @Bind(R.id.search_expandable_text)
@@ -229,7 +230,7 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP||expanded||isCleared) {
+                if (event.getAction() == MotionEvent.ACTION_UP||expanded) {
                     scrollView.requestDisallowInterceptTouchEvent(false);
                     gvHot.requestDisallowInterceptTouchEvent(true);
                     mList.requestDisallowInterceptTouchEvent(true);

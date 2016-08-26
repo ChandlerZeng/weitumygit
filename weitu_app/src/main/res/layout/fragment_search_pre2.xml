@@ -114,6 +114,7 @@
             android:clipToPadding="false"
             android:horizontalSpacing="@dimen/space_size"
             android:numColumns="2"
+            android:listSelector="@drawable/list_selector"
             android:paddingBottom="?android:attr/actionBarSize"
             android:verticalSpacing="@dimen/space_size" />
     </LinearLayout>
