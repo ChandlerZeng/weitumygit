@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.libtop.weitu"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionCode="11"
-          android:versionName="2.1.0">
+<manifest
+    package="com.libtop.weitu"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="17"/>
-
+    <!-- 极光推送要求权限 -->
     <permission
-        android:name="${applicationId}.permission.JPUSH_MESSAGE"
+        android:name="com.libtop.weitu.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature"/>
 
     <!-- Required JPush 极光推送 一些系统要求的权限，如访问网络等 -->
@@ -25,7 +21,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" /> -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
@@ -38,19 +33,20 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <!--ShareSdk权限-->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- ShareSdk 要求权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <!-- ShareSdk蓝牙分享所需的权限 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <!-- ShareSdk 蓝牙分享所需的权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
@@ -62,125 +58,235 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar">
 
-
-
-        <!-- new start -->
+        <!-- 启动欢迎视图 -->
         <activity android:name="com.libtop.weitu.activity.startup.StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.libtop.weitu.activity.ContentActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- 主界面视图 -->
         <activity
             android:name="com.libtop.weitu.activity.main.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- 扫码视图 -->
+        <activity
+            android:name="com.zbar.lib.CaptureActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
+
+        <!-- 搜索视图 -->
         <activity
             android:name="com.libtop.weitu.activity.search.SearchActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"/>
+
+        <!-- 视频播放视图 -->
         <activity
             android:name="com.libtop.weitu.activity.source.VideoPlayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity
-            android:name="com.zbar.lib.CaptureActivity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"/>
+
+        <!-- 视频播放视图 TODO 是否废弃? -->
         <activity
             android:name="com.libtop.weitu.activity.search.VideoPlayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- 多图选择视图 TODO -->
         <activity
             android:name="com.libtop.weitu.utils.selector.MultiImageSelectorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- 多图选择视图 TODO -->
         <activity
             android:name="com.libtop.weitu.utils.selector.view.MultiImageSelectorActivity2"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- 图片浏览视图 TODO -->
         <activity
             android:name="com.libtop.weitu.utils.viewpagerbitmap.ImagePagerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+
+        <!-- 音频播放视图 -->
         <activity
             android:name="com.libtop.weitu.activity.source.AudioPlayActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- PDF文档浏览视图 -->
         <activity
             android:name="com.libtop.weitu.activity.source.PdfActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- TXT文档浏览视图 -->
         <activity
             android:name="com.libtop.weitu.activity.source.TxtActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- 查看大图视图 -->
         <activity
             android:name="com.libtop.weitu.activity.search.ShowBigImage"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <!-- new end -->
-        <!-- <service android:name="com.libtop.weitu.activity.extend.PlayerService" > -->
-        <!-- </service> -->
+        <!-- 上传文件视图 -->
+        <activity android:name="com.libtop.weitu.activity.main.upload.UploadFileActivity"/>
 
-        <!--ShareSdk的Activity-->
+        <!-- TODO 是否废弃? -->
+        <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoScreenActivity"/>
+
+        <!-- TODO 是否废弃? -->
+        <activity android:name="com.libtop.weitu.activity.main.videoUpload.CameraActivity"/>
+
+        <!-- 视频播放视图 TODO -->
+        <activity
+            android:name="com.libtop.weitu.activity.main.videoUpload.VideoPlayActivity3"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- TODO -->
+        <activity
+            android:name="com.libtop.weitu.activity.main.videoUpload.VideoMoveActivity"
+            android:theme="@style/selecttypestyle"/>
+
+        <!-- 图片上传视图 -->
+        <activity android:name="com.libtop.weitu.utils.selector.ImageUploadActivity"/>
+
+        <!-- 文档上传视图 -->
+        <activity android:name="com.libtop.weitu.activity.main.DocUpload.DocUploadActivity"/>
+
+        <!-- 图片分类视图 -->
+        <activity android:name="com.libtop.weitu.utils.selector.view.ImageSortActivity"/>
+
+        <!-- 图片选择视图 -->
+        <activity android:name="com.libtop.weitu.utils.selector.view.ImageSelectActivity"/>
+
+        <!-- 图片编辑视图 -->
+        <activity android:name="com.libtop.weitu.utils.selector.view.ImageEditActivity"/>
+
+        <!-- 图片专辑视图 -->
+        <activity android:name="com.libtop.weitu.utils.selector.view.ImageCoverActivity"/>
+
+        <!-- 文件选择视图 -->
+        <activity android:name="com.libtop.weitu.activity.main.DocUpload.FileChooserActivity"/>
+
+        <!-- 视频选择视图 -->
+        <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity"/>
+
+        <!-- 音频播放视图 -->
+        <activity android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"/>
+
+        <!-- 视频播放视图 -->
+        <activity
+            android:name="com.libtop.weitu.activity.search.VideoPlayActivity2"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- 上传服务 TODO 是否废弃? -->
+        <service
+            android:name=".UploadServices"
+            android:process=":upload">
+            <intent-filter>
+                <action android:name="com.libtop.weitu.CUSTOM_TYPE_SERVICE"/>
+            </intent-filter>
+        </service>
+
+        <!-- 图片专辑查看视图(卡片式) -->
+        <activity android:name="com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity"/>
+
+        <!-- 评论视图 -->
+        <activity android:name="com.libtop.weitu.activity.search.CommentActivity"/>
+
+        <!-- PDF 文档浏览视图 -->
+        <activity android:name="com.libtop.weitu.activity.source.PdfActivity2"/>
+
+        <!-- 图片浏览视图 TODO -->
+        <activity android:name="com.libtop.weitu.activity.search.ImagePagerActivity2"/>
+
+        <!-- 我的评论视图 -->
+        <activity
+            android:name="com.libtop.weitu.activity.user.MyCommentActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+
+        <!-- 点击历史视图 -->
+        <activity
+            android:name="com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+
+        <!-- 用户收藏视图 -->
+        <activity
+            android:name="com.libtop.weitu.activity.user.UserCollect.UserCollectActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+
+        <!-- 分类详情视图 -->
+        <activity
+            android:name="com.libtop.weitu.activity.classify.ClassifyDetailActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"/>
+
+        <!-- PDF 文档试读视图 -->
+        <activity
+            android:name="com.libtop.weitu.activity.source.PdfTryReadActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!-- ShareSdk 需要注册的 Activity -->
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
             <intent-filter>
-                <data android:scheme="tencent100371282" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="tencent100371282"/>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
-            <!-- 调用新浪原生SDK，需要注册的回调activity -->
+            <!-- 调用新浪原生 SDK 需要注册的回调 Activity -->
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
         <!--微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-
-        <!-- Caution! Do not change this app key. It is only for demo usage. -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5703723d67e58e1ef200181a"/>
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="libtop"/>
-
-        <!-- JPush 极光推送 -->
-        <!-- Required SDK核心功能 -->
+        <!-- JPush 极光推送需要注册的 Activity 与 Service -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -193,6 +299,7 @@
                 <category android:name="${applicationId}"/>
             </intent-filter>
         </activity>
+
         <!-- Required  SDK核心功能 -->
         <service
             android:name="cn.jpush.android.service.DownloadService"
@@ -213,7 +320,7 @@
             </intent-filter>
         </service>
 
-        <!-- Required SDK核心功能 -->
+        <!-- Required JPUSH SDK 核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
@@ -221,7 +328,7 @@
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY"/>
                 <!-- Required  显示通知栏 -->
-                <category android:name="${applicationId}"/>
+                <category android:name="com.libtop.weitu"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT"/>
@@ -236,12 +343,12 @@
             </intent-filter>
         </receiver>
 
-        <!-- Required SDK核心功能 -->
+        <!-- Required JPUSH SDK 核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
             android:exported="false"/>
 
-        <!-- User defined.  For test only  用户自定义的广播接收器 -->
+        <!-- JPUSH 用户自定义的广播接收器 -->
         <receiver
             android:name="com.libtop.weitu.receiver.MyReceiver"
             android:enabled="true"
@@ -250,6 +357,7 @@
                 <action android:name="cn.jpush.android.intent.REGISTRATION"/>
                 <!-- Required  用户注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.UNREGISTRATION"/>
+                <!-- Required  用户取消注册SDK的intent -->
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
                 <!-- Required  用户接收SDK消息的intent -->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
@@ -260,79 +368,23 @@
                 <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
                 <action android:name="cn.jpush.android.intent.CONNECTION"/>
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="${applicationId}"/>
+                <category android:name="com.libtop.weitu"/>
             </intent-filter>
         </receiver>
 
-        <!-- Required  . Enable it you can get statistics data with channel -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5703723d67e58e1ef200181a"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="libtop"/>
+
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default"/>
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="957a9fd2a8bdd8018297b63f"/>
-        <!-- </>值来自开发者平台取得的AppKey -->
-        <activity android:name="com.libtop.weitu.activity.main.upload.UploadFileActivity"/>
-        <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoScreenActivity"/>
-        <activity android:name="com.libtop.weitu.activity.main.videoUpload.CameraActivity"/>
-        <activity
-            android:name="com.libtop.weitu.activity.main.videoUpload.VideoPlayActivity3"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity
-            android:name="com.libtop.weitu.activity.main.videoUpload.VideoMoveActivity"
-            android:theme="@style/selecttypestyle"/>
-        <activity android:name="com.libtop.weitu.utils.selector.ImageUploadActivity"/>
-        <activity android:name="com.libtop.weitu.activity.main.DocUpload.DocUploadActivity"/>
-        <activity android:name="com.libtop.weitu.utils.selector.view.ImageSortActivity"/>
-        <activity android:name="com.libtop.weitu.utils.selector.view.ImageSelectActivity"/>
-        <activity android:name="com.libtop.weitu.utils.selector.view.ImageEditActivity"/>
-        <activity android:name="com.libtop.weitu.utils.selector.view.ImageCoverActivity"/>
-        <activity android:name="com.libtop.weitu.activity.main.DocUpload.FileChooserActivity"/>
-        <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity"/>
-        <activity android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"/>
-        <activity
-            android:name="com.libtop.weitu.activity.search.VideoPlayActivity2"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <service
-            android:name=".UploadServices"
-            android:process=":upload">
-            <intent-filter>
-                <action android:name="com.libtop.weitu.CUSTOM_TYPE_SERVICE"/>
-            </intent-filter>
-        </service>
-
-        <activity android:name="com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity">
-        </activity>
-        <activity android:name="com.libtop.weitu.activity.search.CommentActivity">
-        </activity>
-        <activity android:name="com.libtop.weitu.activity.source.PdfActivity2">
-        </activity>
-        <activity android:name="com.libtop.weitu.activity.search.ImagePagerActivity2">
-        </activity>
-        <activity android:name="com.libtop.weitu.activity.user.MyCommentActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            >
-        </activity>
-        <activity android:name="com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            >
-        </activity>
-        <activity android:name="com.libtop.weitu.activity.user.UserCollect.UserCollectActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            >
-        </activity>
-        <activity android:name="com.libtop.weitu.activity.classify.ClassifyDetailActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
-            >
-        </activity>
-        <activity
-            android:name="com.libtop.weitu.activity.source.PdfTryReadActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
 
     </application>
 
