@@ -8,4 +8,5 @@
     <item name="restart_preview" type="id"/>
     <item name="quit" type="id"/>
     <item name="cb_item_tag" type="id"></item>
+
 </resources>

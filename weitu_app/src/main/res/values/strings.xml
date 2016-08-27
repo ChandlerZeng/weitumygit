@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
-    <!-- 下拉刷新列表 -->
-    <string name="xlistview_header_hint_normal">下拉刷新</string>
-    <string name="xlistview_header_hint_ready">松开刷新数据</string>
-    <string name="xlistview_header_hint_loading">正在加载...</string>
-    <string name="xlistview_header_last_time">上次更新时间：</string>
-    <string name="xlistview_footer_hint_normal">查看更多</string>
-    <string name="xlistview_footer_hint_ready">松开载入更多</string>
-    <string name="xlistview_footer_hint_loaded">学霸大人，你已经看完所有内容了～</string>
-    <string name="loading_text_str">加载中，请稍后...</string>
     <string name="app_name">微图</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="startup_welcome">您身边的图书馆助手</string>
 
     <!-- app -->
     <string name="default_str">默认</string>
@@ -109,8 +99,6 @@
     <string name="touch_speak">按住说话</string>
     <string name="move_up_to_cancel">手指上滑，取消发送</string>
     <string name="release_to_cancel">松开手指，取消发送</string>
-
-    <string name="startup_welcome">您身边的图书馆助手</string>
 
     <string name="input_verify">填写验证码</string>
 
@@ -220,7 +208,6 @@
         <item>最热门</item>
     </string-array>
 
-
     <string name="folder_all">相册</string>
     <string name="preview">Preview</string>
     <string name="msg_no_camera">No system camera found</string>
@@ -251,5 +238,16 @@
         <item>收藏最多</item>
     </string-array>
 
+    <!-- 下拉刷新列表 -->
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="xlistview_footer_hint_loaded">学霸大人，你已经看完所有内容了～</string>
+    <string name="loading_text_str">加载中，请稍后...</string>
+
     <string name="testString">打算减肥了对方肯定就是浪费的时间发了啥等级分类解决算了分类及第三方刘记水豆腐了健身房路上风景死定了附近砀山龙卷风多了几分的连接放到家里舒服就多少了房间多少了啊手机放到了多少立方技术的积分楼上的减肥了电视剧福建老家了 的付电费缴费进来的时间分类及第三方了等级分类多少积分了多少房间螺蛳粉记得加分类的介绍发斯蒂芬的历史分类放松的减肥了时间发觉发觉啊纠纷及地方是否 地方都是 的分微图是广州联图电子科技有限公司旗下产品是对方即可了解啥地方九点十分点击放大了手机发链接的离开房间了多少就放开来的就是法律框架都是浪费记得了会计分录看电视就疯了快结束的浪费就是的减肥 简单快乐简单了积分连接到附近的离开就发来的时间浪费点击蓝色空房间领导看见地方速度快了解放速度快解放领导说会计法；点击就减肥叫对方离开地方记得发的理解圣诞节快乐历史的积分的分集来的快解放点击付款了就是的风景都是</string>
+
 </resources>

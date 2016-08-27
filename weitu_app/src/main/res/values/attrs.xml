@@ -3,58 +3,62 @@
 
     <declare-styleable name="SlidingMenu">
         <attr name="mode">
-            <enum name="left" value="0" />
-            <enum name="right" value="1" />
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
         </attr>
-        <attr name="viewAbove" format="reference" />
-        <attr name="viewBehind" format="reference" />
-        <attr name="behindOffset" format="dimension" />
-        <attr name="behindWidth" format="dimension" />
-        <attr name="behindScrollScale" format="float" />
+        <attr name="viewAbove" format="reference"/>
+        <attr name="viewBehind" format="reference"/>
+        <attr name="behindOffset" format="dimension"/>
+        <attr name="behindWidth" format="dimension"/>
+        <attr name="behindScrollScale" format="float"/>
         <attr name="touchModeAbove">
-            <enum name="margin" value="0" />
-            <enum name="fullscreen" value="1" />
+            <enum name="margin" value="0"/>
+            <enum name="fullscreen" value="1"/>
         </attr>
         <attr name="touchModeBehind">
-            <enum name="margin" value="0" />
-            <enum name="fullscreen" value="1" />
+            <enum name="margin" value="0"/>
+            <enum name="fullscreen" value="1"/>
         </attr>
-        <attr name="shadowDrawable" format="reference" />
-        <attr name="shadowWidth" format="dimension" />
-        <attr name="fadeEnabled" format="boolean" />
-        <attr name="fadeDegree" format="float" />
-        <attr name="selectorEnabled" format="boolean" />
-        <attr name="selectorDrawable" format="reference" />
+        <attr name="shadowDrawable" format="reference"/>
+        <attr name="shadowWidth" format="dimension"/>
+        <attr name="fadeEnabled" format="boolean"/>
+        <attr name="fadeDegree" format="float"/>
+        <attr name="selectorEnabled" format="boolean"/>
+        <attr name="selectorDrawable" format="reference"/>
     </declare-styleable>
+
     <declare-styleable name="StaggeredGridView">
-        <attr name="column_count" format="integer" />
-        <attr name="column_count_portrait" format="integer" />
-        <attr name="column_count_landscape" format="integer" />
-        <attr name="item_margin" format="dimension" />
-        <attr name="grid_paddingLeft" format="dimension" />
-        <attr name="grid_paddingRight" format="dimension" />
-        <attr name="grid_paddingTop" format="dimension" />
-        <attr name="grid_paddingBottom" format="dimension" />
+        <attr name="column_count" format="integer"/>
+        <attr name="column_count_portrait" format="integer"/>
+        <attr name="column_count_landscape" format="integer"/>
+        <attr name="item_margin" format="dimension"/>
+        <attr name="grid_paddingLeft" format="dimension"/>
+        <attr name="grid_paddingRight" format="dimension"/>
+        <attr name="grid_paddingTop" format="dimension"/>
+        <attr name="grid_paddingBottom" format="dimension"/>
     </declare-styleable>
+
     <declare-styleable name="CircleImageView">
-        <attr name="border_width" format="dimension" />
-        <attr name="border_color" format="color" />
+        <attr name="border_width" format="dimension"/>
+        <attr name="border_color" format="color"/>
     </declare-styleable>
+
     <declare-styleable name="mySize">
-        <attr name="one_size" format="dimension" />
-        <attr name="two_size" format="dimension" />
-        <attr name="three_size" format="dimension" />
+        <attr name="one_size" format="dimension"/>
+        <attr name="two_size" format="dimension"/>
+        <attr name="three_size" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="ConvenientBanner">
-        <attr name="canLoop" format="boolean" />
+        <attr name="canLoop" format="boolean"/>
     </declare-styleable>
 
     <!-- Defines the custom XML attributes supported for a HorizontalListView -->
     <declare-styleable name="HorizontalListView">
-        <attr name="dividerWidth" format="dimension" />
-        <attr name="android:divider" />
-        <attr name="android:requiresFadingEdge" />
-        <attr name="android:fadingEdgeLength" />
+        <attr name="dividerWidth" format="dimension"/>
+        <attr name="android:divider"/>
+        <attr name="android:requiresFadingEdge"/>
+        <attr name="android:fadingEdgeLength"/>
     </declare-styleable>
+
 </resources>
