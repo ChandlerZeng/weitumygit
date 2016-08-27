@@ -20,8 +20,6 @@ import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.DocUpload.DocUploadActivity;
 import com.libtop.weitu.activity.main.LibraryFragment;
 import com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity;
-import com.libtop.weitu.activity.main.lesson.LessonTypeListFragment;
-import com.libtop.weitu.activity.main.upload.UploadFragment;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
 import com.libtop.weitu.activity.user.UserCollect.UserCollectActivity;
 import com.libtop.weitu.base.BaseFragment;
@@ -66,8 +64,8 @@ public class UserCenterFragment extends BaseFragment {
 
     @Nullable
     @OnClick({R.id.ll_upload_video,R.id.ll_upload_doc,R.id.ll_upload_photo,R.id.ll_history,R.id.ll_setting,
-            R.id.lesson, R.id.collected, R.id.msg, R.id.comment, R.id.about_us, R.id.setting, R.id.left_msg
-            , R.id.library, R.id.rl_login_msg, R.id.upload})
+            R.id.collected, R.id.comment, R.id.about_us, R.id.setting, R.id.left_msg
+            , R.id.library, R.id.rl_login_msg})
     public void onClick(View v) {
         Bundle bundle = new Bundle();
         String cls = "";
@@ -116,9 +114,6 @@ public class UserCenterFragment extends BaseFragment {
             case R.id.ll_setting:
                 cls = SettingFragment.class.getName();
                 break;
-            case R.id.lesson:
-                cls = LessonTypeListFragment.class.getName();
-                break;
             case R.id.collected:
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
                     Bundle bundle1 = new Bundle();
@@ -129,9 +124,6 @@ public class UserCenterFragment extends BaseFragment {
                     startActivity(intent);
                 }
 
-                break;
-            case R.id.msg:
-                Toast.makeText(getActivity(), ContantsUtil.IS_DEVELOPING, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.left_msg:
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
@@ -164,20 +156,6 @@ public class UserCenterFragment extends BaseFragment {
                 } else {
                     cls = UserInfoFragment.class.getName();
                 }
-                break;
-            case R.id.upload:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
-                    Bundle bundle2 = new Bundle();
-                    bundle2.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    mContext.startActivity(bundle2, ContentActivity.class);
-                } else {
-                    Bundle bundle2 = new Bundle();
-                    bundle2.putString(ContentActivity.FRAG_CLS, UploadFragment.class.getName());
-                    mContext.startActivity(bundle2, ContentActivity.class);
-                }
-//                Bundle bundle2=new Bundle();
-//                bundle2.putString(ContentActivity.FRAG_CLS, UploadFragment.class.getName());
-//                mContext.startActivity(bundle2, ContentActivity.class);
                 break;
         }
         if (!TextUtils.isEmpty(cls)) {
