@@ -106,17 +106,6 @@
     <string name="tab_collect">收藏</string>
     <string name="tab_personal">我的</string>
 
-    <!-- TODO 待移除 -->
-    <string-array name="service_list">
-        <item>智能搜索</item>
-        <item>留言咨询</item>
-        <item>报纸期刊</item>
-        <item>线上资源</item>
-        <item>楼层指引</item>
-        <item>讲座报告</item>
-        <item>学习历程</item>
-    </string-array>
-
     <string name="folder_all">相册</string>
     <string name="preview">Preview</string>
     <string name="msg_no_camera">No system camera found</string>
