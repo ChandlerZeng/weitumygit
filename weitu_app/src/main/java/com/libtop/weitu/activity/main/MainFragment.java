@@ -28,11 +28,9 @@ import com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.dto.NoticeInfo;
-import com.libtop.weitu.activity.main.lesson.LessonTypeListFragment;
 import com.libtop.weitu.activity.main.notice.NoticeContentFragment;
 import com.libtop.weitu.activity.main.notice.NoticeFragment;
 import com.libtop.weitu.activity.main.rmdbooks.MainBooksFragment;
-import com.libtop.weitu.activity.main.service.ServiceListFragment;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
@@ -515,7 +513,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     @Nullable
-    @OnClick({R.id.search, R.id.container, R.id.open_clazz, R.id.spec_lesson, R.id.news, R.id.service, R.id.banner, R.id.search_top
+    @OnClick({R.id.search, R.id.container, R.id.open_clazz, R.id.banner, R.id.search_top
             ,R.id.news_more_text})
     public void onClick(View v) {
         switch (v.getId()) {
@@ -538,21 +536,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                 break;
             case R.id.container:
                 mContext.startActivity(null, SearchActivity.class);
-                break;
-            case R.id.spec_lesson:
-                Bundle bundle5 = new Bundle();
-                bundle5.putString(ContentActivity.FRAG_CLS, LessonTypeListFragment.class.getName());
-                mContext.startActivity(bundle5, ContentActivity.class);
-                break;
-            case R.id.news:
-                Bundle bundle2 = new Bundle();
-                bundle2.putString(ContentActivity.FRAG_CLS, NoticeFragment.class.getName());
-                mContext.startActivity(bundle2, ContentActivity.class);
-                break;
-            case R.id.service:
-                Bundle bundle3 = new Bundle();
-                bundle3.putString(ContentActivity.FRAG_CLS, ServiceListFragment.class.getName());
-                mContext.startActivity(bundle3, ContentActivity.class);
                 break;
             case R.id.banner:
 //                UemgShare a = new UemgShare(mContext);

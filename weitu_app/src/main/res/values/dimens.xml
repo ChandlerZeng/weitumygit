@@ -1,10 +1,8 @@
 <resources>
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="list_head_height">55dip</dimen>
     <dimen name="list_bottom_height">25dip</dimen>
+
     <!-- 字体大小 -->
     <dimen name="text_size_10">10sp</dimen>
     <dimen name="text_size_12">12sp</dimen>
@@ -51,4 +49,5 @@
     <dimen name="new_img_height">90dp</dimen>
     <dimen name="home_img_size">22dp</dimen>
     <dimen name="text_padding_size">3dp</dimen>
+
 </resources>

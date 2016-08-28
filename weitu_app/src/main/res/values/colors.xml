@@ -64,11 +64,11 @@
     <color name="greyD">#d9d9d9</color>
     <color name="blackBG">#99000000</color>
 
-
     <color name="maincolor">#42cc98</color>
     <color name="textback">#396ecf</color>
 
     <color name="num1">#ff6600</color>
     <color name="num2">#ff9933</color>
     <color name="num3">#ffcc66</color>
+
 </resources>
