@@ -19,7 +19,6 @@ public class ClassifyDetailBean {
      */
 
     public ClassifyBean categories;
-//    public CategoriesBean categories;
     /**
      * libraryName : null
      * lid : null

@@ -105,11 +105,8 @@ public class DelicateFragment extends ContentFragment {
             @Override
             public void onLoadMore() {
                 if (hasData) {
-//                    page++;
                     getNoticeData();
                 }
-//                page++;
-//                getNoticeData();
             }
         });
         page = 1;
@@ -155,7 +152,6 @@ public class DelicateFragment extends ContentFragment {
         mListFilterPop.setAdapter(filterCheckAdapter);
         mListFilterPop.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
         mListFilterPop.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
-//        mListFilterPop.setBackgroundDrawable(null);
         mListFilterPop.setAnchorView(titleBar);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
         mListFilterPop.setBackgroundDrawable(new ColorDrawable(0x99000000));
         mListFilterPop.setModal(true);//设置是否是模式
@@ -251,18 +247,14 @@ public class DelicateFragment extends ContentFragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-//                        mLoading.dismiss();
-//                        listview.stopRefresh();
                     }
 
                     @Override
                     public void onResponse(String json, int id) {
                         dismissLoading();
                         listview.stopRefresh();
-//                        List<DisplayDto> mlist=new ArrayList<DisplayDto>();
                         if (!TextUtils.isEmpty(json)) {
                             try {
-//                                JSONArray mjson = new JSONArray(json);
                                 if (page ==1) {
                                     mData.clear();
                                 }

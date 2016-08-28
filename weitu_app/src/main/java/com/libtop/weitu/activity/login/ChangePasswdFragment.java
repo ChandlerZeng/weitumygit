@@ -27,7 +27,7 @@ import okhttp3.Call;
  */
 public class ChangePasswdFragment extends BaseFragment {
     @Bind(R.id.password)
-    EditText mPasswdEdit; // 密码
+    EditText mPasswdEdit;
 
     @Override
     protected int getLayoutId() {
@@ -97,10 +97,6 @@ public class ChangePasswdFragment extends BaseFragment {
                         if (json.getInt("code") == 1) {
                             ((ContentActivity)mContext).changeFragment(LoginFragment.class.getName()
                                     , false, true);
-//                                    Intent intent = new Intent(context,
-//                                            LoginActivity.class);
-//                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                    startActivity(intent);
                         } else {
                             showToast("密码重置失败");
                         }

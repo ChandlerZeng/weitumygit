@@ -14,7 +14,6 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.widget.dialog.SexDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,25 +32,12 @@ public class RegInfoFragment extends BaseFragment{
     @Bind(R.id.user_name)
     EditText mNameEdit;
     @Bind(R.id.library)
-    TextView mLibText; // 图书馆
-//    @Bind(R.id.sex_value)
-//    TextView mSexText; // 性别
+    TextView mLibText;
 
-
-    private SexDialog mSexDialog;
-    private String mKeySex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSexDialog=new SexDialog(mContext);
-        mSexDialog.setCall(new SexDialog.CallBack() {
-            @Override
-            public void callBack(String key, String model) {
-                mKeySex = key;
-//                mSexText.setText(model);
-            }
-        });
     }
 
     @Override
@@ -78,13 +64,9 @@ public class RegInfoFragment extends BaseFragment{
             case R.id.back_btn:
                 ((ContentActivity)mContext).popBack();
                 break;
-            case R.id.sex:
-                mSexDialog.show();
-                break;
             case R.id.school:
                 ((ContentActivity)mContext).changeFragment(LibraryFragment.class.getName()
                         ,true,true);
-//                startActivity(null, SchoolActivity.class);
                 break;
         }
     }
@@ -103,7 +85,6 @@ public class RegInfoFragment extends BaseFragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSexDialog.dismiss();
     }
 
     @Override
@@ -114,7 +95,6 @@ public class RegInfoFragment extends BaseFragment{
     private void nextStep() {
         String nick=mNameEdit.getText().toString();
         String library=mLibText.getText().toString();
-//        String sex=mSexText.getText().toString();
         if (CheckUtil.isNull(nick)) {
             showToast("昵称不能为空");
             return;
@@ -127,10 +107,6 @@ public class RegInfoFragment extends BaseFragment{
             showToast("请选择图书馆");
             return;
         }
-//        if (CheckUtil.isNull(sex)) {
-//            showToast("选择性别");
-//            return;
-//        }
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         params.put("method", "user.registerPhone");
         params.put("phone", ContantsUtil.phone);

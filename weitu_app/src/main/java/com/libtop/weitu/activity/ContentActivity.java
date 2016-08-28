@@ -26,7 +26,6 @@ public class ContentActivity extends BaseActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_container);
-//        setContentView(R.layout.activity_container);
         mBundle=getIntent().getExtras();
         if (mBundle!=null){
             addFragment(mBundle.getString(FRAG_CLS));

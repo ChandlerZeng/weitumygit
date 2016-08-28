@@ -98,7 +98,6 @@ public class ClassifyDetailActivity extends BaseActivity{
     private void initListView() {
         mListView.setAdapter(mAdapter);
         mListView.setPullLoadEnable(false);
-//        mListView.setRefreshTime(System.currentTimeMillis());
         mListView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
@@ -128,7 +127,6 @@ public class ClassifyDetailActivity extends BaseActivity{
         mListPop.setAdapter(classifyCheckAdapter);
         mListPop.setWidth(ListPopupWindow.MATCH_PARENT);
         mListPop.setHeight(ListPopupWindow.WRAP_CONTENT);
-//        mListPop.setBackgroundDrawable(null);
         mListPop.setAnchorView(titleBar);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
         mListPop.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         mListPop.setModal(true);//设置是否是模式
@@ -164,7 +162,6 @@ public class ClassifyDetailActivity extends BaseActivity{
         mListFilterPop.setAdapter(filterCheckAdapter);
         mListFilterPop.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
         mListFilterPop.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
-//        mListFilterPop.setBackgroundDrawable(null);
         mListFilterPop.setAnchorView(titleBar);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
         mListFilterPop.setBackgroundDrawable(new ColorDrawable(0x99000000));
         mListFilterPop.setModal(true);//设置是否是模式
@@ -195,7 +192,7 @@ public class ClassifyDetailActivity extends BaseActivity{
             case 2:
                 filterString = "comment";
                 break;
-            //收藏数最多
+            //收藏数最多 TODO bug?
             case 3:
                 filterString = "comment";
                 break;
@@ -357,9 +354,6 @@ public class ClassifyDetailActivity extends BaseActivity{
         Bundle bundle = new Bundle();
         bundle.putString("name", mData.get(position).title);
         bundle.putString("cover", mData.get(position).cover);
-//        bundle.putString("auth", mData.get(position).author);
-//        bundle.putString("isbn", mData.get(position).isbn);
-//        bundle.putString("publisher", mData.get(position).publisher);
         bundle.putString("school", Preference.instance(mContext)
                 .getString(Preference.SchoolCode));
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);

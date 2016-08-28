@@ -52,19 +52,11 @@ import okhttp3.Call;
  * Created by Administrator on 2016/1/8 0008.
  */
 public class MainActivity extends BaseActivity {
-    //    @Bind(R.id.radio_group)
-//    RadioGroup mRadios;
     private long mLastBackPress = 0;
     private AlertDialog mAlert;
     @Bind(R.id.mViewPager)
     NoSlideViewPager mViewPager;
-//    @Bind(R.id.collect_status)
-//    RadioButton mcollectStatus;
     private int indicatorWidth;
-    //    @Bind(R.id.msg)
-//    RelativeLayout mMsgBtn;
-//    @Bind(R.id.msg_num)
-//    TextView mMsgNumText;
     @Bind(R.id.tv_home)
     TextView home;
     @Bind(R.id.img_home)
@@ -73,23 +65,16 @@ public class MainActivity extends BaseActivity {
     TextView clazz;
     @Bind(R.id.img_clazz)
     ImageView imgClazz;
-//    @Bind(R.id.collect_status)
-//    TextView collectStatus;
     @Bind(R.id.tv_personal)
     TextView personal;
     @Bind(R.id.img_personal)
     ImageView imgPersonal;
     MoreWindow mMoreWindow;
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
-    public int[] tabTitle = {R.string.tab_mian, R.string.tab_collect,R.string.tab_clazz , R.string.tab_personal}; // 标题
-    public int[] tabImage = {R.drawable.selector_main_home, R.drawable.selector_main_clazz, R.drawable.selector_main_msg, R.drawable.selector_main_personal};
     TabFragmentPagerAdapter mAdapter;
-    @Bind(R.id.weibo)
-    ImageView button;
 
     private final int TOTAL_FRAGMENT = 3;
 
-    private List<TextView> textList = new ArrayList<TextView>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,23 +85,16 @@ public class MainActivity extends BaseActivity {
             StartupActivity.instance.finish();
             StartupActivity.instance = null;
         }
-//        setContentView(R.layout.activity_main_2);
-//        UmengUpdateAgent.update(this);
-//        JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         JPushInterface.resumePush(getApplicationContext());
 //        checkUpdate();
         initFragment();
         init();
-        // initNavigationHSV();
         setListener();
-//        mViewPager.setOffscreenPageLimit(3);
         mViewPager.setPagingEnabled(false);
         mAdapter = new TabFragmentPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
-        // ((RadioButton) mRadios.getChildAt(0)).performClick();
 
-//        setState(0, true);
         imgHome.setBackgroundResource(R.drawable.main_tag_checked_home);
         home.setTextColor(getResources().getColor(R.color.green2));
 
@@ -141,11 +119,9 @@ public class MainActivity extends BaseActivity {
     public void initFragment() {
         MainFragment one = new MainFragment();
         ClassifyFragment two = new ClassifyFragment();
-//        MsgFragment three = new MsgFragment();
         UserCenterFragment four = new UserCenterFragment();
         fragmentList.add(one);
         fragmentList.add(two);
-//        fragmentList.add(three);
         fragmentList.add(four);
     }
 
@@ -268,7 +244,6 @@ public class MainActivity extends BaseActivity {
                 imgHome.setBackgroundResource(R.drawable.main_tag_checked_home);
                 home.setTextColor(ContextCompat.getColor(mContext,R.color.green2));
                 mViewPager.setCurrentItem(0);
-//                setState(1, true);
                 break;
             case R.id.ll_clazz:
                 imgClazz.setBackgroundResource(R.drawable.main_tag_checked_clazz);
@@ -276,7 +251,6 @@ public class MainActivity extends BaseActivity {
                 mViewPager.setCurrentItem(1);
                 break;
             case R.id.ll_collect_status:
-//                setState(3, true);
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
@@ -321,7 +295,6 @@ public class MainActivity extends BaseActivity {
                     ft = fragmentList.get(2);
                     break;
                 case 3:
-//                    ft = fragmentList.get(3);
                     break;
                 default:
                     ft = fragmentList.get(0);
@@ -345,12 +318,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-//                setState(position+1, false);
-//                if (mRadios != null
-//                        && mRadios.getChildCount() > position) {
-//                    ((RadioButton) mRadios.getChildAt(position))
-//                            .performClick();
-//                }
             }
 
             @Override
@@ -363,20 +330,6 @@ public class MainActivity extends BaseActivity {
 
             }
         });
-
-//        mRadios
-//                .setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//
-//                    @Override
-//                    public void onCheckedChanged(RadioGroup group, int checkedId) {
-//
-//
-//                        mViewPager.setCurrentItem(checkedId); // ViewPager
-//                        // 跟随一起 切换
-//
-//                    }
-//                });
-
     }
 
     private void setState(int position, boolean isViewPage) {
@@ -398,11 +351,9 @@ public class MainActivity extends BaseActivity {
         p2.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
         home.setCompoundDrawables(null, h, null, null);
         clazz.setCompoundDrawables(null, c, null, null);
-//        collectStatus.setCompoundDrawables(null, m, null, null);
         personal.setCompoundDrawables(null, p, null, null);
         home.setTextColor(ContextCompat.getColor(mContext,R.color.grey1));
         clazz.setTextColor(ContextCompat.getColor(mContext,R.color.grey1));
-//        collectStatus.setTextColor(ContextCompat.getColor(mContext,R.color.grey1));
         personal.setTextColor(ContextCompat.getColor(mContext,R.color.grey1));
 
         if (position>1){
@@ -415,8 +366,6 @@ public class MainActivity extends BaseActivity {
                 home.setTextColor(ContextCompat.getColor(mContext,R.color.green2));
                 break;
             case 2:
-//                collectStatus.setCompoundDrawables(null, m2, null, null);
-//                collectStatus.setTextColor(ContextCompat.getColor(mContext,R.color.green2));
                 break;
             case 3:
                 clazz.setCompoundDrawables(null, c2, null, null);

@@ -29,11 +29,6 @@ import okhttp3.Call;
  * Created by Administrator on 2016/1/8 0008.
  */
 public class ForgetPasswdFragment extends BaseFragment {
-//    @Bind(id = R.id.back_btn)
-//    ImageView mBackBtn; // 回退
-//
-//    @Bind(id = R.id.send_email)
-//    Button mSendBtn; // 发送邮件
 
     @Bind(R.id.capton)
     EditText mVerifyEdit;
@@ -71,7 +66,6 @@ public class ForgetPasswdFragment extends BaseFragment {
                 ((ContentActivity)mContext).popBack();
                 break;
             case R.id.send_email:
-//                send();
                 nextStep2();
                 break;
             case R.id.get_capton:
@@ -90,55 +84,6 @@ public class ForgetPasswdFragment extends BaseFragment {
     @Override
     public void onBackPressed() {
         ((ContentActivity)mContext).popBack();
-    }
-
-    private void send(){
-        final String mobile=mMobileEdit.getText().toString();
-        if (CheckUtil.isNull(mobile)) {
-            showToast("电话号码不能为空");
-            return;
-        }
-        if (!CheckUtil.checkNumber(mobile)) {
-            showToast("请输入正确的手机号码");
-            return;
-        }
-        Map<String, Object> params = new LinkedHashMap<String, Object>();
-        params.put("method", "user.sendCaptcha");
-        params.put("phone", mobile+"");
-        params.put("username", mobile+"");
-        showLoding();
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String jsonStr, int id) {
-                dismissLoading();
-                if (CheckUtil.isNullTxt(jsonStr)) {
-                    showToast("请求超时，请稍后再试");
-                    return;
-                }
-                try {
-                    if (CheckUtil.isNull(jsonStr)) {
-                        showToast("请求出错");
-                    } else {
-                        JSONObject json = new JSONObject(jsonStr);
-                        if (json.getInt("code") == 1) {
-                            ContantsUtil.phone = mobile + "";
-                            ((ContentActivity)mContext).changeFragment(ChangePasswdFragment.class.getName()
-                                    ,true,true);
-                        } else {
-                            showToast("获取验证码失败");
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    showToast("注册出错");
-                }
-            }
-        });
     }
 
 

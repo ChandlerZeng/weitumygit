@@ -22,10 +22,7 @@ public class ClassifyBean implements Serializable {
     public String id;
     public String name;
     public long code;
-//    public Object parent;
-//    public Object path;
     public List<ClassifyBean> subCategories;
     public long count;
-//    public String[] children;
     public String countString;
 }

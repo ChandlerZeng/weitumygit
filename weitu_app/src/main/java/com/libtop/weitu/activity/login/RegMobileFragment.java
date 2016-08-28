@@ -217,8 +217,6 @@ public class RegMobileFragment extends BaseFragment{
     }
 
     private void toNext() {
-//        Intent intent = new Intent(context, RegCaptionActivity.class);
-//        startActivity(intent);
         ((ContentActivity)mContext).changeFragment(RegInfoFragment.class.getName()
                 , true, true);
     }
@@ -249,9 +247,6 @@ public class RegMobileFragment extends BaseFragment{
                     } else {
                         JSONObject json = new JSONObject(jsonStr);
                         if (json.getInt("code") == 1) {
-                            // showToast("已发送验证码到你的手机，请查收."+
-                            // json.getString("uid"),
-                            // Toast.LENGTH_LONG).show();
                             mVerifyBtn.setText("重发60S");
                             seconds = 0;
                             mHandler.postDelayed(mTimer, 1000);

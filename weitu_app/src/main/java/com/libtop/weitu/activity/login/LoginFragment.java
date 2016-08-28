@@ -63,18 +63,14 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.title_right_text:
             case R.id.registor_new_user:
-                //注册流程
                 ((ContentActivity)mContext).changeFragment(RegMobileFragment.class.getName()
                         ,true,true);
                 break;
             case R.id.forget_password:
-                //找回密码流程
-
                 ((ContentActivity)mContext).changeFragment(ForgetPasswdFragment.class.getName()
                         ,true,true);
                 break;
             case R.id.login_btn:
-                //登陆
                 author();
                 break;
         }
@@ -149,9 +145,6 @@ public class LoginFragment extends BaseFragment {
                                 library.getString("code"));
 
                         showToast("登录成功");
-//                                if (WelcomeActivity.instance != null) {
-//                                    WelcomeActivity.instance.finish();
-//                                }
                         mContext.startActivity(null, MainActivity.class);
                         //结束欢迎页
                         mContext.setResult(Activity.RESULT_OK);

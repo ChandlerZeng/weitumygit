@@ -60,8 +60,6 @@ public class ClassifyFragment extends BaseFragment {
     }
 
     private void getData() {
-//        一级分类
-//        http://weitu.bookus.cn/categories/root.json?text={"method":"categories.root"}
         List<ClassifyBean> classifyBeens = (List<ClassifyBean>) mCache.getAsObject("classifyBeens");
         if (classifyBeens != null && !classifyBeens.isEmpty())
             handleResult(classifyBeens);

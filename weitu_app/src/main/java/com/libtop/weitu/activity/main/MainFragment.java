@@ -83,8 +83,6 @@ import rx.subscriptions.CompositeSubscription;
  * @version common v1.0
  */
 public class MainFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageClickListener {
-    //    @Bind(R.id.title)
-//    TextView mLibText;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.scroll)
@@ -101,12 +99,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Bind(R.id.news_more_text)
     TextView newsMoreText;
-//    @Bind(R.id.books_favorite_more_text)
-//    TextView booksFavtMoreText;
-//    @Bind(R.id.books_recommend_more_text)
-//    TextView booksRmdMoreText;
-//    @Bind(R.id.upload_more_text)
-//    TextView uploadMoreText;
 
 
     @Bind(R.id.grid_view2)
@@ -145,7 +137,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         initView();
 //        initData();
 //        testAnimLineIndicator();
-//          getDetailData();
         initLoad();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -167,7 +158,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private void initView() {
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-//        swipeRefreshLayout.setEnabled(false);
         if (mAdapter == null) mAdapter = new MainIconAdapter(mContext);
         mGrid.setAdapter(mAdapter);
         mainImageAdapter = new MainImageAdapter(mContext, bList);
@@ -220,7 +210,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     private void loadNewestUpload() {
-//        unsubscribe();
         List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("newestLists");
         if(docBeans!=null&&!docBeans.isEmpty()){
             mainImageAdapter2.setData(docBeans);
@@ -310,7 +299,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     private void requestImageSlider() {
-//        mLoading.show();
         List<ImageSliderDto> imageSliderDtos= (List<ImageSliderDto>) mCache.getAsObject("imageSliderDtos");
         if(imageSliderDtos!=null&&!imageSliderDtos.isEmpty()){
             handleImageSlideResult(imageSliderDtos);
@@ -363,14 +351,12 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     private void requestNotics(){
-//        mLoading.show();
         List<NoticeInfo> noticeInfos= (List<NoticeInfo>) mCache.getAsObject("noticeInfos");
         if(noticeInfos!=null&&!noticeInfos.isEmpty()){
             handleNoticeResult(noticeInfos);
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "notice.list");
-//        params.put("lid",mPreference.getString(Preference.SchoolCode));//lid
         params.put("lid", mPreference.getString(Preference.SchoolCode));
         String[] arrays = MapUtil.map2Parameter(params);
         _subscriptions.add(
@@ -487,8 +473,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         pageViews = new ArrayList<>();
         pageViews.add(new Page("A ", slideList.get(0).poster, this));
         pageViews.add(new Page("B ", slideList.get(1).poster, this));
-//        pageViews.add(new Page("C ", "https://raw.githubusercontent.com/lightSky/InfiniteIndicator/master/res/c.jpg", this));
-//        pageViews.add(new Page("D ", "https://raw.githubusercontent.com/lightSky/InfiniteIndicator/master/res/d.jpg", this));
 
     }
 
@@ -502,8 +486,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             setNewsGone();
         }
         mAnimLineIndicator.start();
-//        mLibText.setText(Preference.instance(mContext).getString(
-//                Preference.SchoolName));
     }
 
     @Override
@@ -522,7 +504,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                 bundle.putInt("from", 1);
                 bundle.putString(ContentActivity.FRAG_CLS, LibraryFragment.class.getName());
                 mContext.startActivity(bundle, CaptureActivity.class);
-                // CaptureActivity ContentActivity
                 break;
             case R.id.search_top:
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
@@ -538,8 +519,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                 mContext.startActivity(null, SearchActivity.class);
                 break;
             case R.id.banner:
-//                UemgShare a = new UemgShare(mContext);
-//                a.setImage("http://www.umeng.com/images/pic/social/integrated_3.png").setText("123").share();
                 break;
             case R.id.news_more_text:
                 Bundle bundle6 = new Bundle();
@@ -548,18 +527,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                 bundle6.putString(ContentActivity.FRAG_CLS, NoticeFragment.class.getName());
                 mContext.startActivity(bundle6, ContentActivity.class);
                 break;
-//            case R.id.books_recommend_more_text:
-//                Bundle bundle7 = new Bundle();
-//                bundle7.putString("method", "book.listRecommend");
-//                bundle7.putString(ContentActivity.FRAG_CLS, MainBooksFragment.class.getName());
-//                mContext.startActivity(bundle7, ContentActivity.class);
-//                break;
-//            case R.id.upload_more_text:
-//                Bundle bundle8 = new Bundle();
-//                bundle8.putString("method", "book.listRecommend");
-//                bundle8.putString(ContentActivity.FRAG_CLS, NewestUploadFragment.class.getName());
-//                mContext.startActivity(bundle8, ContentActivity.class);
-//                break;
         }
     }
 
@@ -611,7 +578,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     private void openAudio(int position) {
         SearchResult result = new SearchResult();
         result.id = slideList.get(position).id;
-//         result.cover = slideList.get(position).cover;
         Intent intent = new Intent(mContext, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
@@ -657,11 +623,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         }
         mAnimLineIndicator.getLayoutParams().height = width * 22 / 75;
         mAnimLineIndicator.requestLayout();
-//        mAnimLineIndicator.invalidate();
         mAnimLineIndicator.setImageLoader(new PicassoLoader());
         mAnimLineIndicator.addPages(pageViews);
         mAnimLineIndicator.setPosition(InfiniteIndicator.IndicatorPosition.Center_Bottom);
-//        mAnimLineIndicator.setOnPageChangeListener(this);
     }
 
     //等到屏幕宽度
@@ -669,7 +633,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         DisplayMetrics displaymetrics = new DisplayMetrics();
         mContext.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels;
-//        int screenHeight = displaymetrics.heightPixels;
         return screenWidth;
     }
 
@@ -680,10 +643,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                 mContext.startActivity(null, SearchActivity.class);
                 break;
             case R.drawable.read_history://历史
-//                Toast.makeText(getActivity(), ContantsUtil.IS_DEVELOPING, Toast.LENGTH_SHORT).show();
-//                Bundle bundle5 = new Bundle();
-//                bundle5.putString(ContentActivity.FRAG_CLS, LessonTypeListFragment.class.getName());
-//                mContext.startActivity(bundle5, ContentActivity.class);
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
@@ -695,19 +654,11 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                     mContext.startActivity(bundle2, ContentActivity.class);
                 }
                 break;
-//            case R.drawable.grid_icon_lent://转借
             case R.drawable.class_icon:
                 Bundle bundle3 = new Bundle();
                 bundle3.putString(ContentActivity.FRAG_CLS, ClassmateFragment.class.getName());
                 mContext.startActivity(bundle3, ContentActivity.class);
                 break;
-//                Bundle bundle2 = new Bundle();
-//                bundle2.putString(ContentActivity.FRAG_CLS, LentFragment.class.getName());
-//                mContext.startActivity(bundle2, ContentActivity.class);
-//                break;
-//            case R.drawable.grid_icon_comment://点评
-//                Toast.makeText(getActivity(), ContantsUtil.IS_DEVELOPING, Toast.LENGTH_SHORT).show();
-//                break;
             case R.drawable.video_icon://视频
                 Bundle bundle4 = new Bundle();
                 bundle4.putString("method", "mediaAlbum.list");
