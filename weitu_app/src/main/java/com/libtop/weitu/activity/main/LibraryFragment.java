@@ -79,8 +79,6 @@ public class LibraryFragment extends ContentFragment{
                 }
             }
         });
-//        mSideBar.setOnTouchingLetterChangedListener(this);
-//        mLibListView.setOnItemClickListener(this);
         loadData();
     }
 
@@ -128,27 +126,11 @@ public class LibraryFragment extends ContentFragment{
         if (from == 0) {
             mActivity.popBack();
         } else {
-            //打开主页面
             mContext.setResult(Activity.RESULT_OK);
-//            if (WelcomeActivity.instance != null) {
-//                WelcomeActivity.instance.finish();
-//            }
             mContext.finish();
             mContext.startActivity(null, MainActivity.class);
-            //关闭起始页
-//            mContext.setResult(Activity.RESULT_OK);
-//            mContext.finish();
         }
     }
-
-//    @Nullable @OnClick(value = R.id.sidebar,type = SideBar.OnTouchingLetterChangedListener.class)
-//    private void onTouchingLetterChanged(String s) {
-//        // 该字母首次出现的位置
-//        int position = mAdapter.getPositionForSection(s.charAt(0));
-//        if (position != -1) {
-//            mLibListView.setSelection(position);
-//        }
-//    }
 
     @Nullable @OnClick(R.id.back_btn)
     public void viewClick(View v){
