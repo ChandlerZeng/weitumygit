@@ -146,6 +146,9 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     @Bind(R.id.img_collect)
     ImageView imgCollect;
 
+    @Bind(R.id.back_btn)
+    ImageView backBtn;
+
     @Bind(R.id.tv_publisher)
     TextView tvPublisher;
 
@@ -264,13 +267,13 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
 
         initInfo();
 
-        isCollectShow = (mediaAlbumBean.favorite == 1);
-
-        if (isCollectShow){
-            imgCollect.setBackgroundResource(R.drawable.collect);
-        }else {
-            imgCollect.setBackgroundResource(R.drawable.collect_no);
-        }
+//        isCollectShow = (mediaAlbumBean.favorite == 1);
+//
+//        if (isCollectShow){
+//            imgCollect.setBackgroundResource(R.drawable.collect);
+//        }else {
+//            imgCollect.setBackgroundResource(R.drawable.collect_no);
+//        }
 
 //        mPager.setAdapter(mPageAdapter);
 //        mPager.setCurrentItem(0);
@@ -499,8 +502,10 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                 shareClick();
                 break;
             case R.id.back_btn:
-            case R.id.back_btn_inner:
                 finishSimple();
+                break;
+            case R.id.back_btn_inner:
+                setWindowScreen();
                 break;
             case R.id.play_pause_small:
             case R.id.play_pause_big:
@@ -510,12 +515,24 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                 if (status_flag == STATUS_FULLSCREEN) show();
                 break;
             case R.id.fullscreen:
+                status_flag=STATUS_FULLSCREEN;
                 setFullScreen();
                 break;
             case R.id.scale:
+                status_flag=STATUS_SCALE;
                 setWindowScreen();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(status_flag==STATUS_FULLSCREEN){
+            setWindowScreen();
+        }else {
+            finishSimple();
+        }
+//        super.onBackPressed();
     }
 
     private void shareClick() {
@@ -934,6 +951,12 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                         dismissLoading();
                         if (mediaResultBean.code == 1){
                             mediaAlbumBean = mediaResultBean.mediaAlbum;
+                            isCollectShow = (mediaResultBean.favorite == 1);
+                            if (isCollectShow){
+                                imgCollect.setBackgroundResource(R.drawable.collect);
+                            }else {
+                                imgCollect.setBackgroundResource(R.drawable.collect_no);
+                            }
                             if (!TextUtils.isEmpty(mediaAlbumBean.introduction))
                                 mIntroText.setText(mediaAlbumBean.introduction);
                             if (mediaAlbumBean.categoriesName1!=null||mediaAlbumBean.categoriesName2!=null){

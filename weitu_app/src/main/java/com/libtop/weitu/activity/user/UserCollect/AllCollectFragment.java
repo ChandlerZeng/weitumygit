@@ -136,7 +136,7 @@ public class AllCollectFragment extends NotifyFragment{
                     return;
                 }
                 if (bundle.getBoolean("all")){
-                    mAdapter.setAllView();
+                    mAdapter.setAllView(0,true);
                     return;
                 }
                 isEdit = !isEdit;
@@ -170,6 +170,7 @@ public class AllCollectFragment extends NotifyFragment{
 
     private void initView(){
         mListView.setAdapter(mAdapter);
+        mListView.setClickable(true);
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
         swipeRefreshLayout.measure(0,0);
         swipeRefreshLayout.setEnabled(false);
@@ -193,7 +194,11 @@ public class AllCollectFragment extends NotifyFragment{
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                     long arg3) {
-                startByType(mData.get(position).favor.type, position);
+                if(isEdit){
+                    mAdapter.setAllView(position,false);
+                }else{
+                    startByType(mData.get(position).favor.type, position);
+                }
             }
         });
         mListView.setAdapter(mAdapter);
