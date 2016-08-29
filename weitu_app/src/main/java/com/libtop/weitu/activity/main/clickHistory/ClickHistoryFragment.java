@@ -3,7 +3,6 @@ package com.libtop.weitu.activity.main.clickHistory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 
 import com.libtop.weitu.R;
@@ -32,7 +31,6 @@ public class ClickHistoryFragment extends NotifyFragment {
 
     public static final int ALL=0,BOOK=1,VIDEO=2,AUDIO=3,DOC=4,IMAGE=5;
 
-    private ArrayAdapter<CharSequence> adapter = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
