@@ -88,8 +88,8 @@ public class MediaDetailFragment extends ImgFragment {
                     if (result != null) {
                         Bundle bundle = new Bundle();
                         if ("video".equals(mCached.getString("type"))) {
-                            bundle.putString(VideoPlayActivity.MEDIA_NAME, result.title);
-                            bundle.putString(VideoPlayActivity.MEDIA_PATH, result.url);
+                            bundle.putString(VideoPlayActivity2.MEDIA_NAME, result.title);
+                            bundle.putString(VideoPlayActivity2.MEDIA_PATH, result.url);
                             bundle.putInt("index",position);
                             mContext.startActivity(bundle, VideoPlayActivity2.class);
                         } else if ("audio".equals(mCached.getString("type"))) {

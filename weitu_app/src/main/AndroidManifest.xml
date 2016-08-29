@@ -94,12 +94,6 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <!-- 视频播放视图 TODO 是否废弃? -->
-        <activity
-            android:name="com.libtop.weitu.activity.search.VideoPlayActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <!-- 多图选择视图 TODO -->
         <activity
             android:name="com.libtop.weitu.utils.selector.MultiImageSelectorActivity"
