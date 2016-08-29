@@ -80,12 +80,10 @@ public class VideoSelectFragment extends ContentFragment implements VideoListAda
         public void onCreation(View root) {
             setTitle();
             if (bm!=null){
-//                Toast.makeText(getActivity(),"not null",Toast.LENGTH_SHORT).show();
                 bm = null;
             }
             mCommitBtn.setText("上传视频");
             mListVew.setAdapter(mAdapter);
-//        mGrid.setOnItemClickListener(this);
 
         }
 
@@ -97,24 +95,12 @@ public class VideoSelectFragment extends ContentFragment implements VideoListAda
 
     @Override
     public void onDestroy() {
-//        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
     private void requestVideos() {
-//        for (int i = 0; i < 10; i++) {
-//            VideoFolderBean bean = new VideoFolderBean();
-//            bean.floderName = i + " floderName";
-//            bean.authorityLimit = i +" authorityLimit";
-//            bean.videoNum = i +"";
-//            mInfos.add(bean);
-//        }
-//        mAdapter.notifyDataSetChanged();
         //1.获取视频文件夹列表接口
         //http://weitu.bookus.cn/mediaAlbum/query.json?text={"uid":"WEROPOSLDFKSDFOSPFSDFKL","page":1,"method":"mediaAlbum.query"}
-//        if (!mInfos.isEmpty()){
-//            return;
-//        }
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", 1);
@@ -154,14 +140,11 @@ public class VideoSelectFragment extends ContentFragment implements VideoListAda
             bm.getString("title");
             bm.getString("desc");
             bm.getString("sort");
-//            Toast.makeText(getActivity(),bm.getString("desc"),Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setTitle(){
-//        mBackBtn.setOnClickListener(this);
             mTitleText.setText("视频库");
-//        mCommitBtn.setOnClickListener(this);
         }
 
         @Nullable
@@ -198,14 +181,6 @@ public class VideoSelectFragment extends ContentFragment implements VideoListAda
 
 
 
-//    @Nullable @OnClick(R.id.imgBtn_video_choice)
-//    private void onllVideoClick(View v) {
-//        switch (v.getId()){
-//            case R.id.imgBtn_video_choice:
-//                Toast.makeText(getActivity(),"imgBtn_video_choice click",Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//    }
     @Nullable @OnItemClick(value = R.id.lv_video_select)
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //传folder Id过去
@@ -214,7 +189,6 @@ public class VideoSelectFragment extends ContentFragment implements VideoListAda
         intent.putExtra("aid", videoFolderBean.id);
         intent.putExtra("albumTitle", videoFolderBean.title);
         startActivity(intent);
-//        Toast.makeText(getActivity(),"lv_video_select click",Toast.LENGTH_SHORT).show();
         }
 
 
@@ -239,19 +213,6 @@ public class VideoSelectFragment extends ContentFragment implements VideoListAda
                         deleteVideoFolder(position);
                     }
                 }, null);
-//                AlertDialog alertDialog =  new AlertDialog(mContext,"您确定要删除？");
-//                alertDialog.setCallBack(new AlertDialog.CallBack() {
-//                    @Override
-//                    public void callBack() {
-//                        deleteVideoFolder(position);
-//                    }
-//
-//                    @Override
-//                    public void cancel() {
-//
-//                    }
-//                });
-//                alertDialog.show();
                 popupWindow.dismiss();
 
             }
@@ -269,7 +230,6 @@ public class VideoSelectFragment extends ContentFragment implements VideoListAda
             }
         });
 
-//        Toast.makeText(mContext, position + "imgBtn_video_choice click", Toast.LENGTH_SHORT).show();
     }
 
     private void deleteVideoFolder(final int position) {

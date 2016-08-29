@@ -94,20 +94,16 @@ public class VideoCompleteFolderFragment extends ContentFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
             temp = s;
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            // TODO Auto-generated method stub
             editStart = mEditTitleText.getSelectionStart();
             editEnd = mEditTitleText.getSelectionEnd();
 
@@ -132,20 +128,16 @@ public class VideoCompleteFolderFragment extends ContentFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
             temp = s;
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            // TODO Auto-generated method stub
             editStart = mDescText.getSelectionStart();
             editEnd = mDescText.getSelectionEnd();
 
@@ -220,8 +212,6 @@ public class VideoCompleteFolderFragment extends ContentFragment {
         } else {
             mImgPhoto.setImageResource(R.drawable.default_image);
         }
-//        if(videoBean.coverUrl!=null&&videoBean.coverUrl.length()!=0)
-//            Picasso.with(mContext).load(videoBean.coverUrl).fit().into(mImgPhoto);
         if (!TextUtils.isEmpty(videoBean.coverUrl)) {
             Picasso.with(mContext).load(videoBean.coverUrl).fit().into(mImgPhoto);
         }
@@ -247,7 +237,6 @@ public class VideoCompleteFolderFragment extends ContentFragment {
 
     @Override
     public void onPause() {
-        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         try {
             ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mContext.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception e) {
@@ -295,14 +284,7 @@ public class VideoCompleteFolderFragment extends ContentFragment {
         if (TextUtils.isEmpty(mEditTitleText.getText())) {
             Toast.makeText(getActivity(), "名称不能为空", Toast.LENGTH_SHORT).show();
         } else if (mDescText.getText().toString().length() > 50) {
-            // Toast.makeText(getActivity(), mDescText.getText().toString().length() + "个字," + "描述超过50字", Toast.LENGTH_SHORT).show();
         } else {
-//            try {
-//                bm.getString("folderId");
-//            }catch (NullPointerException e){
-//                Toast.makeText(getActivity(),"请选择目录",Toast.LENGTH_SHORT).show();
-//                return;
-//            }
             if (TextUtils.isEmpty(videoBean.albumName)) {
                 Toast.makeText(getActivity(), "请选择目录", Toast.LENGTH_SHORT).show();
                 return;

@@ -164,12 +164,6 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
             mVideoSize.setText(TransformUtil.bytes2kb(videoBean.videoSize));
         }
 
-//        DbManager dao = x.getDb(((AppApplication) mContext.getApplicationContext()).getDaoConfig());
-//        try {
-//            mRes.addAll(dao.findAll(MediaResult.class));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         String videoPath = getIntent().getExtras().getString(MEDIA_PATH);
         String name = getIntent().getExtras().getString(MEDIA_NAME);
         notShowButtom = getIntent().getExtras().getBoolean("notShowButtom");
@@ -192,13 +186,6 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
 
         initInfo();
 
-
-//        mVideo.setTouchChange(new VideoView.TouchChange() {
-//            @Override
-//            public void touchChange(int length) {
-//                touchProgress(length);
-//            }
-//        });
 
         new CustomThread().start();
         mSmallSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -314,9 +301,6 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
                         mBigPro.setText(getPlayProgress(current) + "/" + getPlayProgress(total));
                         mBigSeek.setSecondaryProgress(mVideo.getBufferPercentage() * 10);
                     }
-//                    mSeek.setProgress((int) position);
-//                    setPlayProgress(mCurrentPro, curent);
-//                    mSeek.setSecondaryProgress(mVideo.getBufferPercentage()*10);
                     break;
             }
         }
@@ -342,15 +326,11 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
     private void playOrPause() {
         if (!mVideo.isPlaying()) {
             mVideo.start();
-//            if (status_flag==STATUS_SCALE)mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
-//            else mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
             mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
             mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
 
         } else {
             mVideo.pause();
-//            if (status_flag==STATUS_SCALE)mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
-//            else mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
             mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
             mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
         }
@@ -364,7 +344,6 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
             mFBottomView.startAnimation(mBShowAn);
             mTopView.startAnimation(mTShowAn);
             isShowing = true;
-//            mVideo.setViewshow(isShowing);
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -382,7 +361,6 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
             mTopView.startAnimation(mTHideAn);
             mTopView.setVisibility(View.GONE);
             isShowing = false;
-//            mVideo.setViewshow(isShowing);
         }
     }
 
@@ -412,21 +390,10 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         }
     }
 
-//    @Nullable @OnClick(value = {R.id.seekbar_small, R.id.seekbar_big}
-//            , type = SeekBar.OnSeekBarChangeListener.class, method = "onProgressChanged")
-//    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//        if (!fromUser) return;
-//        long newposition = (mVideo.getDuration() * progress) / 1000L;
-//        mVideo.seekTo(newposition);
-//        isPaused = false;
-//        mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
-//        mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
-//    }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
         thread = false;
-//        finish();
         mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
         mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
     }
@@ -492,7 +459,6 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
                 try {
                     sleep(1000);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -503,7 +469,6 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         setOrientation(STATUS_FULLSCREEN);
         ViewGroup.LayoutParams pm = mVideoSu.getLayoutParams();
         pm.height = ViewGroup.LayoutParams.MATCH_PARENT;
-//        mVideo.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE,0);
         mVideoSu.setLayoutParams(pm);
         mVideoSu.requestLayout();
 
@@ -584,9 +549,6 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
             tv.setTextSize(16);
             tv.setSingleLine(true);
             tv.setGravity(Gravity.CENTER);
-//            int verp=DisplayUtils.dp2px(mContext,16);
-//            int horp=DisplayUtils.dp2px(mContext,25);
-//            tv.setPadding(horp,verp,horp,verp);
             if (position == playingIndex)
                 tv.setTextColor(mContext.getResources().getColor(R.color.green2));
             else tv.setTextColor(mContext.getResources().getColor(R.color.grey3));

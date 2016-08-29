@@ -83,7 +83,7 @@ public class VideoMoveActivity extends Activity implements View.OnClickListener 
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", 1);
-        params.put("uid", mPreference.getString(Preference.uid));//lid
+        params.put("uid", mPreference.getString(Preference.uid));
         params.put("method", "mediaAlbum.query");
         HttpRequest.loadWithMap(params)
                 .execute(new StringCallback() {
@@ -94,9 +94,7 @@ public class VideoMoveActivity extends Activity implements View.OnClickListener 
 
                     @Override
                     public void onResponse(String json, int id) {
-// mLoading.dismiss();
                         if (TextUtils.isEmpty(json)) {
-                            //  showToast("没有相关数据");
                             return;
                         }
                         mInfos.clear();
@@ -150,9 +148,7 @@ public class VideoMoveActivity extends Activity implements View.OnClickListener 
 
                     @Override
                     public void onResponse(String json, int id) {
-                        // mLoading.dismiss();
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             if (mLoading.isShowing()){
                                 mLoading.dismiss();
                             }

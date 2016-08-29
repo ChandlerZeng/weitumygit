@@ -78,7 +78,7 @@ public class VideoCoverFragment extends ContentFragment{
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("id", videoBean.videoId);
-        params.put("method", "media.snapshot");//lid
+        params.put("method", "media.snapshot");
         HttpRequest.loadWithMap(params)
                 .execute(new StringCallback() {
                     @Override
