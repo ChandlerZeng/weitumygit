@@ -112,13 +112,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
 
-        <!-- 音频播放视图 -->
-        <activity
-            android:name="com.libtop.weitu.activity.source.AudioPlayActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <!-- PDF文档浏览视图 -->
         <activity
             android:name="com.libtop.weitu.activity.source.PdfActivity"
@@ -179,7 +172,10 @@
         <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity"/>
 
         <!-- 音频播放视图 -->
-        <activity android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"/>
+        <activity android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <!-- 视频播放视图 -->
         <activity
