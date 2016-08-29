@@ -27,10 +27,6 @@ import butterknife.OnClick;
 public class StartupActivity extends BaseActivity  {
     @Bind(R.id.view_bottom)
     LinearLayout mBottomView;
-//    @Bind(R.id.login_btn)
-//    Button mLoginBtn;
-//    @Bind(R.id.choose_library)
-//    Button mLibBtn;
     @Bind(R.id.text)
     TextView mInfoText;
 
@@ -40,11 +36,7 @@ public class StartupActivity extends BaseActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_startup);
-//        setContentView(R.layout.activity_startup);
         startHandler();
-
-//        mLoginBtn.setOnClickListener(this);
-//        mLibBtn.setOnClickListener(this);
 
         instance=this;
     }
@@ -63,11 +55,8 @@ public class StartupActivity extends BaseActivity  {
             public void run() {
                 if (CheckUtil.isNull(mPreference
                         .getString(Preference.SchoolName))) {
-                    //展示底部页面
                     showBottom();
-//                    startActivity(null, WelcomeActivity.class);
                 } else {
-                    //到主页面   // MainActivity //VideoScreenActivity  //GudieActivity //CameraActivity //UploadFileActivity
                     startActivity(null, MainActivity.class);
                     finish();
                 }
