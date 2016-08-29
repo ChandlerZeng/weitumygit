@@ -14,6 +14,8 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
+import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -66,7 +68,14 @@ public class ClickHistoryActivity extends BaseActivity {
                 break;
             case R.id.commit:
                 //清空历史
-                clearHistory();
+                String title = "您确定要删除？";
+                final AlertDialogUtil dialog = new AlertDialogUtil();
+                dialog.showDialog(ClickHistoryActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+                    @Override
+                    public void onClick() {
+                        clearHistory();
+                    }
+                }, null);
                 break;
 
         }

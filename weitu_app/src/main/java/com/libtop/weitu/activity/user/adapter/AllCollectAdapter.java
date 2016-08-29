@@ -127,7 +127,7 @@ public class AllCollectAdapter extends BaseAdapter{
                     holder.tvTag.setText("暂无分类");
                 }
 //                holder.tvTag.setText("dsfdsafa");
-                holder.checkMark.setChecked(allCheck);
+                holder.checkMark.setChecked( lists.get(position).target.ischecked);
                 if (!TextUtils.isEmpty(collectBean.target.author))
                     holder.tvAuthor.setText(collectBean.target.author);
                 else
@@ -165,7 +165,7 @@ public class AllCollectAdapter extends BaseAdapter{
                     holder.view.setVisibility(View.VISIBLE);
                 else
                     holder.view.setVisibility(View.GONE);
-                holder.checkMark.setChecked(allCheck);
+                holder.checkMark.setChecked(lists.get(position).target.ischecked);
                 if (collectBean.favor.type == ClickHistoryActivity.DOC){
                     if (TextUtils.isEmpty(collectBean.target.cover))
                         collectBean.target.cover = "http://";
@@ -212,13 +212,21 @@ public class AllCollectAdapter extends BaseAdapter{
         notifyDataSetChanged();
     }
 
-    public void setAllView() {
-        if (allCheck)
-            allCheck = false;
-        else
-            allCheck = true;
-        for (int i = 0; i < lists.size(); i++)
-            lists.get(i).target.ischecked = allCheck;
+    public void setAllView(int position, boolean isAll) {
+        if (isAll) {
+            if (allCheck)
+                allCheck = false;
+            else
+                allCheck = true;
+            for (int i = 0; i < lists.size(); i++)
+                lists.get(i).target.ischecked = allCheck;
+        } else {
+            if (lists.get(position).target.ischecked ==true) {
+                lists.get(position).target.ischecked = false;
+            } else {
+                lists.get(position).target.ischecked = true;
+            }
+        }
         notifyDataSetChanged();
     }
 
