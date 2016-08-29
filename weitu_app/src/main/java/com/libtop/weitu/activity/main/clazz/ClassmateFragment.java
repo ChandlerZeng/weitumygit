@@ -82,8 +82,6 @@ public class ClassmateFragment extends BaseFragment {
                 }
             }
         });
-//        mSideBar.setOnTouchingLetterChangedListener(this);
-//        mListView.setOnItemClickListener(this);
         load();
     }
 
@@ -93,9 +91,7 @@ public class ClassmateFragment extends BaseFragment {
     }
 
     private void setTitle(){
-//        mBackBtn.setOnClickListener(this);
         mTitleText.setText("班级成员");
-//        mTitleText.setTextSize();
     }
 
     @Nullable
@@ -112,7 +108,6 @@ public class ClassmateFragment extends BaseFragment {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("uid", mPreference.getString(Preference.uid));
-//        params.put("uid", "569cb656984e0c6b0cf1c35f");
         params.put("method", "user.classmate");
         HttpRequest.loadWithMap(params)
                 .execute(new StringCallback() {
@@ -148,18 +143,10 @@ public class ClassmateFragment extends BaseFragment {
 
     @Nullable @OnItemClick(value = R.id.list)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//        new MemberPop(mContext,mDatas.get(position)).showAtLocation(mRoot, Gravity.RIGHT,0,0);
         mPop.setData(mDatas.get(position));
         mPop.showOnParent(mRoot);
     }
 
-//    @Nullable @OnClick(value = R.id.sidebar,type = SideBar.OnTouchingLetterChangedListener.class)
-//    private void onTouchingLetterChanged(String s) {
-//        int position = mAdapter.getPositionForSection(s.charAt(0));
-//        if (position != -1) {
-//            mListView.setSelection(position);
-//        }
-//    }
 
     private void sortList(List<ClassmateBean> date){
         Collections.sort(date, new Comparator<ClassmateBean>() {
