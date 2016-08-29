@@ -69,14 +69,11 @@ public class MainImageAdapter extends BaseAdapter<DocBean> {
         }
         if (a == null || a.length() == 0)
             a = "http://";
-//            return;
         Picasso.with(mContext)
                 .load(a)
                 .placeholder(R.drawable.default_image)
-//                .tag(MultiImageSelectorFragment.TAG)
                 .fit()
                 .centerInside()
-//                .centerCrop()
                 .into(image);
 
     }

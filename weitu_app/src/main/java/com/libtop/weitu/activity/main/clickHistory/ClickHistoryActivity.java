@@ -38,7 +38,6 @@ public class ClickHistoryActivity extends BaseActivity {
     TextView tvCommit;
 
     private NotifyFragment mFragment;
-    private String mCurentTag ="";
 
     public static final int VIDEO=1,AUDIO=2,DOC=3,PHOTO=4,BOOK=5;
 
@@ -67,7 +66,6 @@ public class ClickHistoryActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.commit:
-                //清空历史
                 String title = "您确定要删除？";
                 final AlertDialogUtil dialog = new AlertDialogUtil();
                 dialog.showDialog(ClickHistoryActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {

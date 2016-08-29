@@ -54,7 +54,6 @@ public class UploadDocAdapter extends BaseAdapter<DocBean> {
         String str = sdf.format(new Date(duration_temp));
         holder.twoView.setText(str);
         holder.threeView.setText(docBean.stateString);
-//        Log.w("guanglog","lists size + "+mData.size());
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

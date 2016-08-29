@@ -27,7 +27,6 @@ import com.libtop.weitu.activity.main.videoUpload.VideoPlayActivity3;
 import com.libtop.weitu.activity.main.videoUpload.VideoUploadFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DisplayUtils;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
@@ -232,9 +231,7 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
 
                     @Override
                     public void onResponse(String json, int id) {
-// mLoading.dismiss();
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             try {
                                 if (mLoading.isShowing()) {
                                     mLoading.dismiss();
@@ -261,8 +258,6 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
     public void startUpload(final String fileUrl, int position) {
         Log.e("123", "");
         headhead++;
-//        if (headhead == 2)
-//            return;
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -271,10 +266,7 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
                     File file = new File(fileUrl);
                     uploadService.upload(uid, fid, file);
                 } catch (Exception e) {
-                    // Toast.makeText(UploadFileActivity.this, "已上传", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
 
         };
@@ -411,7 +403,6 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
                     @Override
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             try {
                                 JSONObject mjson = new JSONObject(json);
                                 uploadUrl = mjson.getString("ip");
@@ -541,14 +532,11 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
         popView.findViewById(R.id.tv_set_albumImg).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//
-//
                 mLoading.show();
                 popupWindow.dismiss();
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("mid", mid);
                 params.put("method", "mediaAlbum.setCover");
-//                params.put("sequence", 1);
                 HttpRequest.loadWithMap(params)
                         .execute(new StringCallback() {
                             @Override
@@ -558,9 +546,7 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
 
                             @Override
                             public void onResponse(String json, int id) {
-                                // mLoading.dismiss();
                                 if (!TextUtils.isEmpty(json)) {
-                                    //   showToast("没有相关数据");
                                     try {
                                         JSONObject mjson = new JSONObject(json);
                                         int code = mjson.getInt("code");
@@ -647,7 +633,6 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
     }
 
     private void DeleteVideo(PopupWindow popupWindow, int position) {
-        // deleteVideoFolder(position);
         mLoading.show();
         popupWindow.dismiss();
         String id = mlist.get(position).videoId;
@@ -663,9 +648,7 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
 
                     @Override
                     public void onResponse(String json, int id) {
-// mLoading.dismiss();
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             try {
                                 JSONObject mjson = new JSONObject(json);
                                 int code = mjson.isNull("code") ? 999 : mjson.getInt("code");

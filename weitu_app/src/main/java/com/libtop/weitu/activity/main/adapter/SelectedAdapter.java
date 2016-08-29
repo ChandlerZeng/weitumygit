@@ -47,7 +47,6 @@ public class SelectedAdapter extends BaseAdapter<DisplayDto> {
         Holder holder = new Holder();
         holder.title = (TextView) convertView.findViewById(R.id.title);
         holder.time = (TextView) convertView.findViewById(R.id.time);
-//        holder.countLook = (TextView) convertView.findViewById(R.id.count_look);
         holder.imageText = (TextView) convertView.findViewById(R.id.image_text);
         holder.label = (TextView) convertView.findViewById(R.id.label);
         holder.Content = (TextView) convertView.findViewById(R.id.content);
@@ -60,15 +59,12 @@ public class SelectedAdapter extends BaseAdapter<DisplayDto> {
     protected void holderView(View convertView, DisplayDto displayDto, int position) {
         Holder holder = (Holder) convertView.getTag();
         holder.title.setText(displayDto.title);
-//        holder.countLook.setText(displayDto.categoriesName1 + "万人观看");
-        //holder.imageText.setText(DisplayDto.stateString);
         if (!TextUtils.isEmpty(displayDto.categoriesName1)){
             holder.label.setText(displayDto.categoriesName1);
         }
         if (!TextUtils.isEmpty(displayDto.categoriesName2)){
             holder.label.setText(displayDto.categoriesName1+"/"+displayDto.categoriesName2);
         }
-//        if (!TextUtils.isEmpty(displayDto.categoriesName1)||!TextUtils.isEmpty(displayDto.categoriesName2))
 
         holder.Content.setText(displayDto.introduction);
 
@@ -91,16 +87,6 @@ public class SelectedAdapter extends BaseAdapter<DisplayDto> {
         } else if (mMethod.equals("imageAlbum.list")) {
             holder.textImage.setImageResource(R.drawable.delicate_img);
         }
-//        long duration_temp = displayDto.timeline;
-//        String str;
-//        if (duration_temp == 0) {
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-//            Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-//            str = formatter.format(curDate);
-//        } else {
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-//            str = sdf.format(new Date(duration_temp));
-//        }
         holder.time.setText(DateUtil.parseToDate(displayDto.timeline));
     }
 

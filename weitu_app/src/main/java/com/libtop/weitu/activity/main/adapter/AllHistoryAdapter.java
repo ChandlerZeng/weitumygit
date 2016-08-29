@@ -97,7 +97,6 @@ public class AllHistoryAdapter extends BaseAdapter{
                             .into(holder.imageView);
                 } else{
                     Picasso.with(context)
-//                            .load(ContantsUtil.getCoverUrl(resultBean.target.id))
                             .load(resultBean.target.cover)
                             .placeholder(R.drawable.default_image)
                             .error(R.drawable.default_image)
@@ -116,7 +115,6 @@ public class AllHistoryAdapter extends BaseAdapter{
                 }else{
                     holder.tvTag.setText("暂无分类");
                 }
-//                holder.tvTag.setText("dsfdsafa");
                 if (!TextUtils.isEmpty(resultBean.target.author))
                     holder.tvAuthor.setText(resultBean.target.author);
                 else
@@ -129,9 +127,6 @@ public class AllHistoryAdapter extends BaseAdapter{
                     holder.tvDesc.setText(resultBean.target.introduction);
                 else
                     holder.tvDesc.setText("");
-//                holder.tvAuthor.setText();
-//                holder.tvPublisher.setText();
-//                holder.tvDesc.setText();
                 break;
             }
             case MEDIA:{
@@ -158,7 +153,6 @@ public class AllHistoryAdapter extends BaseAdapter{
                             .into(holder.imageView);
                 }else {
                     Picasso.with(context)
-//                        .load(ContantsUtil.getCoverUrl(resultBean.target.id))
                             .load(resultBean.target.cover)
                             .centerInside()
                             .fit()
@@ -176,7 +170,6 @@ public class AllHistoryAdapter extends BaseAdapter{
                 }else {
                     holder.tvTag.setText("暂无分类");
                 }
-//                holder.tvTag.setText("dfsdafd");
                 holder.tvUploader.setText("上传："+resultBean.target.uploadUsername);
                 holder.tvTime.setText("时间："+DateUtil.parseToDate(resultBean.target.timeline));
                 break;

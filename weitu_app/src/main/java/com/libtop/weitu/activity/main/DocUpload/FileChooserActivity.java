@@ -29,12 +29,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.BackStackEntry;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.libtop.weitu.R;
 
 import java.io.File;
 
@@ -163,7 +160,6 @@ public class FileChooserActivity extends FragmentActivity implements
         FileListFragment fragment = FileListFragment.newInstance(mPath);
         mFragmentManager.beginTransaction()
                 .replace(android.R.id.content, fragment)
-//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(mPath).commit();
     }
 

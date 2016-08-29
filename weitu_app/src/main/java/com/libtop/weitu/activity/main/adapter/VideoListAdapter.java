@@ -81,10 +81,6 @@ public class VideoListAdapter extends BaseAdapter<VideoFolderBean> {
 
     void bindData(String url, ImageView image) {
 
-//        String a = "http://nt1.libtop.com/1/" + url + ".jpg";
-//        ImageLoader.getInstance().init(
-//                ImageLoaderConfiguration.createDefault(mContext));
-//        ImageLoader.getInstance().displayImage(a, image);
         Picasso.with(mContext).invalidate(url);
         if (!TextUtils.isEmpty(url)){
             Picasso.with(mContext)

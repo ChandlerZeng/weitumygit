@@ -57,14 +57,6 @@ public class MateSortAdapter extends BaseAdapter<ClassmateBean> implements Secti
     @Override
     protected void holderView(View convertView, ClassmateBean classmateBean, int position) {
         Holder holder = (Holder) convertView.getTag();
-//        if (position<=3){
-//            holder.hotIcon.setVisibility(View.VISIBLE);
-//        }else {
-//            holder.hotIcon.setVisibility(View.GONE);
-//        }
-//        holder.titleText.setText(noticeInfo.title);
-//        holder.comments.setText(0+"");
-//        holder.timeStr.setText(DateUtil.getSendTimeDistance(noticeInfo.dateLine));
 
         String pre = "";
         if(position != 0){

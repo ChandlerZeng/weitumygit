@@ -50,10 +50,6 @@ public class MemberPop extends PopupWindow {
         mTvLent=(TextView)root.findViewById(R.id.lent);
 
         mTvHead.setBackgroundDrawable(mBg);
-//        tvSex.setText(data.sex);
-//        tvMobile.setText(data.mobile);
-//        tvMail.setText(data.mail);
-//        tvLent.setText(data.lent);
 
         setFocusable(true);
         setBackgroundDrawable(new BitmapDrawable());

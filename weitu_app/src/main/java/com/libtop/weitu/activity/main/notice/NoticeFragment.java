@@ -36,8 +36,6 @@ import okhttp3.Call;
 public class NoticeFragment extends BaseFragment {
     @Bind(R.id.title)
     TextView mTitleText;
-    //    @Bind(R.id.footer_Text)
-//    TextView mFooterText;
     @Bind(R.id.notice_list2)
     RemakeXListView mListView;
 
@@ -68,7 +66,6 @@ public class NoticeFragment extends BaseFragment {
         mTitleText.setText(R.string.news_list);
         mListView.setAdapter(mAdapter);
         mListView.setPullLoadEnable(false);
-//        mListView.setOnScrollListener(this);
         mListView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
@@ -148,13 +145,6 @@ public class NoticeFragment extends BaseFragment {
                 List<NoticeInfo> lists = JsonUtil.fromJson(json, new TypeToken<List<NoticeInfo>>() {
                 }.getType());
                 List<NoticeInfo> infoLists=new ArrayList<NoticeInfo>();
-                /*for (NoticeInfo info : lists) {
-                    String info1 = info.title.replaceAll(" ", "").trim();
-                    info.title = info1;
-                    if (!info.title.equals("")) {
-                        infoLists.add(info);
-                    }
-                }*/
                 for(int i=0;i<lists.size();i++){
                     String info1 = lists.get(i).title.replaceAll(" ", "").trim();
                     lists.get(i).title = info1;
