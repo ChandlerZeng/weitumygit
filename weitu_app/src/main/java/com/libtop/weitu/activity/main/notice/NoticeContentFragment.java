@@ -33,8 +33,6 @@ public class NoticeContentFragment extends ContentFragment{
     TextView mNewsTitleText;
     @Bind(R.id.news_date_txt)
     TextView mNewsDateText;
-    @Bind(R.id.news_editor_txt)
-    TextView mEditorText;
     @Bind(R.id.webview)
     WebView mWeb;
 
@@ -60,7 +58,6 @@ public class NoticeContentFragment extends ContentFragment{
         WebSettings settings=mWeb.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
-//        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
@@ -88,10 +85,6 @@ public class NoticeContentFragment extends ContentFragment{
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        ((ContentActivity)mContext).popBack();
-//    }
 
     @Nullable
     @OnClick(R.id.back_btn)
@@ -130,7 +123,6 @@ public class NoticeContentFragment extends ContentFragment{
                     mWeb.setWebViewClient(new WebViewClient() {
                         @Override
                         public void onPageFinished(WebView view, String url) {
-//                            mEditorText.setVisibility(View.VISIBLE);
                         }
                     });
                 } catch (JSONException e) {
