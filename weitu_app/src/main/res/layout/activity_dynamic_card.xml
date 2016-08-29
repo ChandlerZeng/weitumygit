@@ -2,25 +2,18 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MainActivity">
+                >
 
     <include
         android:id="@+id/top_view"
         layout="@layout/included_title1" />
 
-    <com.libtop.weitu.activity.search.dynamicCardLayout.LazyScrollView
-        android:id="@+id/rootScroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_below="@+id/top_view"
-        android:focusable="true"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:id="@+id/rootView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </RelativeLayout>
-    </com.libtop.weitu.activity.search.dynamicCardLayout.LazyScrollView>
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

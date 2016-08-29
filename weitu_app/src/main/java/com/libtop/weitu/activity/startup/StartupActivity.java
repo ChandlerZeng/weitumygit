@@ -25,6 +25,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/1/8 0008.
  */
 public class StartupActivity extends BaseActivity  {
+    @Nullable
     @Bind(R.id.view_bottom)
     LinearLayout mBottomView;
 //    @Bind(R.id.login_btn)

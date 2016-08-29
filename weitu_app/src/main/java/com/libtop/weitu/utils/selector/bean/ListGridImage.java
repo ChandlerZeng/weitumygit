@@ -17,13 +17,13 @@ package com.libtop.weitu.utils.selector.bean;
 
 public class ListGridImage {
 
-    private String introduction;
+    public String introduction;
 
-    private String imageUrl;
+    public String imageUrl;
 
     public String id;
 
-    private String comment;
+    public String comment;
 
     public boolean ischeck = false;
 

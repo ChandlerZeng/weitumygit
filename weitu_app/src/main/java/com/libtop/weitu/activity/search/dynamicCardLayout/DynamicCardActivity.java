@@ -1,86 +1,80 @@
 package com.libtop.weitu.activity.search.dynamicCardLayout;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.search.ImagePagerActivity2;
+import com.libtop.weitu.activity.search.adapter.DynamicCardAdapter;
+import com.libtop.weitu.activity.search.dto.DynamicCardBean;
+import com.libtop.weitu.activity.search.dto.ImageAlbumBean;
+import com.libtop.weitu.activity.search.dto.ImageListBean;
+import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
+import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.NetworkUtil;
-import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
-import com.libtop.weitu.utils.selector.bean.ListGridImage;
-import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import okhttp3.Call;
 
-public class DynamicCardActivity extends Activity implements LazyScrollView.OnScrollListener {
-    private static final int COLUMNCOUNT = 3;
-    private int columnWidth = 250;// 每个item的宽度
-    private int itemHeight = 0;
-    private int rowCountPerScreen = 3;
-    private int cols = 4;// 当前总列数
-    private ArrayList<Integer> colYs = new ArrayList<Integer>();
-    private LayoutInflater mInflater;
-    RelativeLayout rootView;
-    private LinkedHashMap<String, List<ListGridImage>> linkedHashMap2;
-    private List<Point> lostPoint = new ArrayList<Point>();// 用于记录空白块的位置
-    private int currentPage = 1;
-    private LazyScrollView rootScroll;
-    private Bundle mBundle;
-    protected Preference mPreference;
-    private String id;
-    private String type;
-    private List<ListGridImage> imageList;
+public class DynamicCardActivity extends BaseActivity  {
+
+    @Bind(R.id.title)
     TextView tvTitle;
 
-    //前坑
-    ArrayList<String> idList = new ArrayList<String>();
-    ArrayList<String> commentList = new ArrayList<String>();
-    ArrayList<String> urlList = new ArrayList<String>();
+    private static final int COLUMNCOUNT = 3;
+
+    private Bundle mBundle;
+    private String id,type;
+    private ImageAlbumBean imageAlbumBean;
 
     String favorite;
-    String cover;
-//    String categoriesName1;
-    String categoriesName2;
-    String uploadUsername;
-    String imageID;
-    String title;
+
+    private RecyclerView mRecyclerView;
+    private ArrayList<String> urlLists = new ArrayList<>();
+    ArrayList<String> idList = new ArrayList<String>();
+    private DynamicCardAdapter adapter;
+
     public static final int RESULT_UPDATE = 250;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_dynamic_card);
-        linkedHashMap2 = new LinkedHashMap<String, List<ListGridImage>>();
+        setInjectContentView(R.layout.activity_dynamic_card);
+
+//        initData();
+        mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //        mRecyclerView.addItemDecoration();//设置分割线
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(COLUMNCOUNT, StaggeredGridLayoutManager.VERTICAL));//设置RecyclerView布局管理器为2列垂直排布
+        adapter = new DynamicCardAdapter(this,urlLists);
+        mRecyclerView.setAdapter(adapter);
+        adapter.setOnClickListener(new DynamicCardAdapter.OnItemClickListener() {
+            @Override
+            public void ItemClickListener(View view, int postion) {
+                openImage(postion);
+            }
+        });
+
+
+
         mPreference = new Preference(this);
         mBundle = getIntent().getExtras();
         id = mBundle.getString("id");
@@ -88,197 +82,24 @@ public class DynamicCardActivity extends Activity implements LazyScrollView.OnSc
         init();
     }
 
-    private void init() {
-        rootView = (RelativeLayout) this.findViewById(R.id.rootView);
-        rootView.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
-        rootScroll = (LazyScrollView) this.findViewById(R.id.rootScroll);
-        rootScroll.setOnScrollListener(this);
-        rootScroll.getView();
-        mInflater = getLayoutInflater();
-        Display display = getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();
-        int height = display.getHeight();
-        Configuration cf = this.getResources().getConfiguration();
-        tvTitle = (TextView) findViewById(R.id.title);
-        tvTitle.setText("");
-        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        if (cf.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            rowCountPerScreen = 3;
-        } else {
-            rowCountPerScreen = 6;
-        }
-        columnWidth = width / COLUMNCOUNT;
-        itemHeight = height / rowCountPerScreen;
+    private void openImage(int position){
+        Intent intent = new Intent(DynamicCardActivity.this, ImagePagerActivity2.class);
+        intent.putExtra("position", position);
+        intent.putExtra("see_pic", 2);
+        intent.putExtra(ImagePagerActivity2.DEFAULT_SELECTED_LIST, urlLists);
+        intent.putExtra("favorite", favorite);
+        intent.putExtra("cover", imageAlbumBean.cover);
+        //                intent.putExtra("categoriesName1", categoriesName1);
+        //                intent.putExtra("categoriesName2", categoriesName2);
+        intent.putExtra("uploadUsername", imageAlbumBean.uploadUsername);
+        intent.putExtra("imageID", imageAlbumBean.id);
+        intent.putExtra(ImagePagerActivity2.ID_LIST, idList);
+        startActivityForResult(intent,1);
+    }
 
-        for (int i = 0; i < 4; i++) {
-            colYs.add(0);
-        }
+    private void init() {
         getImageList();
     }
-
-    private synchronized void addView(View view, String uri, final int i) {
-        placeBrick(view);
-        ImageView picView = (ImageView) view.findViewById(R.id.imageView);
-        String a = uri;
-        if (TextUtils.isEmpty(a))
-            return;
-        Picasso.with(DynamicCardActivity.this)
-                .load(a)
-                .tag(MultiImageSelectorFragment.TAG)
-                .fit()
-                .centerCrop()
-                .into(picView);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DynamicCardActivity.this, ImagePagerActivity2.class);
-                String str = imageList.get(i).getImageUrl();
-                intent.putExtra("position", i);
-                intent.putExtra("see_pic", 2);
-                intent.putExtra(ImagePagerActivity2.DEFAULT_SELECTED_LIST, urlList);
-                intent.putExtra("favorite", favorite);
-                intent.putExtra("cover", cover);
-//                intent.putExtra("categoriesName1", categoriesName1);
-//                intent.putExtra("categoriesName2", categoriesName2);
-                intent.putExtra("uploadUsername", uploadUsername);
-                intent.putExtra("imageID", imageID);
-                intent.putExtra(ImagePagerActivity2.ID_LIST, idList);
-                startActivityForResult(intent,1);
-            }
-        });
-        rootView.addView(view);
-
-        // fb.display(picView, uri);
-    }
-
-    // 布局算法
-
-    /**
-     * 原理：动态规划
-     *
-     * @param view
-     */
-    private void placeBrick(View view) {
-        ViewGroup.LayoutParams brick = (ViewGroup.LayoutParams) view.getLayoutParams();
-        int groupCount, colSpan, rowSpan;
-        List<Integer> groupY = new ArrayList<Integer>();
-        List<Integer> groupColY = new ArrayList<Integer>();
-        colSpan = (int) Math.ceil(brick.width / this.columnWidth);// 计算跨几列
-        colSpan = Math.min(colSpan, this.cols);// 取最小的列数
-        rowSpan = (int) Math.ceil(brick.height / this.itemHeight);
-        Log.e("VideoShowActivity", "colSpan:" + colSpan);
-        if (colSpan == 1) {
-            groupY = this.colYs;
-            // 如果存在白块则从添加到白块中
-            if (lostPoint.size() > 0 && rowSpan == 1) {
-                Point point = lostPoint.get(0);
-                int pTop = point.y;
-                int pLeft = this.columnWidth * point.x;// 放置的left
-                android.widget.RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                        brick.width, brick.height);
-                params.leftMargin = pLeft;
-                params.topMargin = pTop;
-                view.setLayoutParams(params);
-                lostPoint.remove(0);
-                return;
-            }
-
-        } else {// 说明有跨列
-            groupCount = this.cols + 1 - colSpan;// 添加item的时候列可以填充的列index
-            for (int j = 0; j < groupCount; j++) {
-                groupColY = this.colYs.subList(j, j + colSpan);
-                groupY.add(j, Collections.max(groupColY));// 选择几个可添加的位置
-            }
-        }
-        int minimumY;
-
-        minimumY = Collections.min(groupY);// 取出几个可选位置中最小的添加
-        int shortCol = 0;
-        int len = groupY.size();
-        for (int i = 0; i < len; i++) {
-            if (groupY.get(i) == minimumY) {
-                shortCol = i;// 获取到最小y值对应的列值
-                break;
-            }
-        }
-        int pTop = minimumY;// 这是放置的Top
-        int pLeft = this.columnWidth * shortCol;// 放置的left
-        android.widget.RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                brick.width, brick.height);
-        params.leftMargin = pLeft;
-        params.topMargin = pTop;
-        view.setLayoutParams(params);
-        if (colSpan != 1) {
-            for (int i = 0; i < this.cols; i++) {
-                if (minimumY > this.colYs.get(i)) {// 出现空行
-                    int y = minimumY - this.colYs.get(i);
-                    for (int j = 0; j < y / itemHeight; j++) {
-                        lostPoint.add(new Point(i, this.colYs.get(i)
-                                + itemHeight * j));
-                    }
-                }
-            }
-        }
-        int setHeight = minimumY + brick.height, setSpan = this.cols + 1 - len;
-        for (int i = 0; i < setSpan; i++) {
-            this.colYs.set(shortCol + i, setHeight);
-        }
-    }
-
-
-    private void initList() {
-        // 动态计算ListView
-        if (imageList != null) {
-            Random r = new Random();
-
-            for (int i = 0; i < imageList.size(); i++) {
-                View v = mInflater.inflate(R.layout.weibo_text_item, null);
-                int nextInt = r.nextInt(50);
-                // 模拟分为三种情况
-                if (nextInt > 40) {
-                    // 跨两列两行
-                    android.widget.RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                            columnWidth * 2, itemHeight * 2);
-                    v.setLayoutParams(params);
-                } else if (nextInt > 30) {
-                    // 跨一列两行
-                    android.widget.RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                            columnWidth, itemHeight * 2);
-
-                    v.setLayoutParams(params);
-                } else if (nextInt > 25) {
-                    // 跨两列一行
-                    android.widget.RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                            columnWidth * 2, itemHeight);
-
-                    v.setLayoutParams(params);
-                } else {
-                    android.widget.RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                            columnWidth, itemHeight);
-
-                    v.setLayoutParams(params);
-                }
-                addView(v, imageList.get(i).getImageUrl(), i);
-            }
-        }
-    }
-
-
-    @Override
-    public void onBottom() {
-
-    }
-
-    @Override
-    public void onAutoScroll(int l, int t, int oldl, int oldt) {
-
-    }
-
 
     public void getImageList() {
 
@@ -289,58 +110,51 @@ public class DynamicCardActivity extends Activity implements LazyScrollView.OnSc
         if (!CheckUtil.isNull(mPreference.getString(Preference.uid))) {
             params.put("uid", mPreference.getString(Preference.uid));
         }
+        showLoding();
         HttpRequest.loadWithMap(params)
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        dismissLoading();
                     }
 
                     @Override
                     public void onResponse(String json, int responseId) {
+                        dismissLoading();
                         if (!TextUtils.isEmpty(json)) {
-                            if (imageList == null)
-                                imageList = new ArrayList<ListGridImage>();
-                            try {
-                                JSONObject mjson = new JSONObject(json);
-                                JSONObject njson = mjson.getJSONObject("imageAlbum");
-                                favorite = mjson.getString("favorite");
-                                cover = njson.getString("cover");
-                                title = njson.getString("title");
-//                                categoriesName1 = njson.getString("categoriesName1");
-//                        categoriesName2 = njson.getString("categoriesName2");
-                                uploadUsername = njson.getString("uploadUsername");
-                                imageID = njson.getString("id");
-                                JSONArray ajson = mjson.getJSONArray("imageList");
-                                for (int i = 0; i < ajson.length(); i++) {
-                                    ListGridImage bean = new ListGridImage();
-                                    JSONObject a = ajson.getJSONObject(i);
-                                    String url = a.isNull("url") ? "" : a.getString("url");
-                                    String id = a.isNull("id") ? "" : a.getString("id");
-                                    // String comment = a.isNull("comment") ? "" : a.getString("comment");
-                                    idList.add(id);
-                                    // commentList.add(comment);
-                                    urlList.add(url);
-                                    //bean.setComment(comment);
-                                    bean.setId(id);
-                                    bean.setImageUrl(url);
-                                    imageList.add(bean);
+                            DynamicCardBean dynamicCardBean = JsonUtil.fromJson(json,new TypeToken<DynamicCardBean>(){}.getType());
+                            if (dynamicCardBean == null)
+                                return;
+                            if (dynamicCardBean.code==1){
+                                imageAlbumBean = dynamicCardBean.imageAlbum;
+                                favorite = Integer.toString(dynamicCardBean.favorite);
+                                if (!TextUtils.isEmpty(imageAlbumBean.title))
+                                    tvTitle.setText(imageAlbumBean.title);
+                                urlLists.clear();
+                                idList.clear();
+                                for (ImageListBean listBean:dynamicCardBean.imageList){
+                                    urlLists.add(listBean.url);
+                                    idList.add(listBean.id);
                                 }
-                                Message msg = handler.obtainMessage();
-                                msg.what = 1;
-                                handler.sendMessage(msg);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-
+                                adapter.setNewData(urlLists);
                             }
-                            return;
+                            }
                         }
-                    }
                 });
 
     }
 
+    @Nullable
+    @OnClick({R.id.back_btn})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.back_btn:
+                onBackPressed();
+                break;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -353,22 +167,5 @@ public class DynamicCardActivity extends Activity implements LazyScrollView.OnSc
             }
         }
     }
-
-
-    private Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1:
-                    tvTitle.setText(title);
-                    initList();
-                    break;
-
-                default:
-                    break;
-            }
-        }
-    };
 
 }
