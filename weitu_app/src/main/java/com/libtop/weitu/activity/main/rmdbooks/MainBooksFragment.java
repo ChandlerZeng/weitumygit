@@ -6,10 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
@@ -49,10 +47,6 @@ public class MainBooksFragment extends ContentFragment{
     LinearLayout llFavorite;
     @Bind(R.id.ll_rmd_books)
     LinearLayout llRmd;
-    @Bind(R.id.rmd_book_btn_back)
-    ImageView btnBack;
-    @Bind(R.id.rmd_book_search_top)
-    ImageView btnSearch;
     @Bind(R.id.grid_view_favorite_books)
     FixedGridView mGrid1;
     @Bind(R.id.grid_view_rmd_books)
@@ -62,11 +56,6 @@ public class MainBooksFragment extends ContentFragment{
     private MainImageAdapter mainImageAdapter2;
     private boolean isInitiated=false;
 
-
-    @Bind(R.id.rmd_books_favorite_more_text)
-    TextView booksFavtMoreText;
-    @Bind(R.id.rmd_books_recommend_more_text)
-    TextView booksRmdMoreText;
 
     private List<DocBean> bList = new ArrayList<DocBean>();
     private List<DocBean> bList2 = new ArrayList<DocBean>();
@@ -203,8 +192,6 @@ public class MainBooksFragment extends ContentFragment{
 
                     @Override
                     public void onNext(List<DocBean> docBeens) {
-//                        dismissLoading();
-//                        swipeRefreshLayout.setRefreshing(false);
                         bList.clear();
                         bList = docBeens;
                         if (bList.isEmpty()){
@@ -250,7 +237,6 @@ public class MainBooksFragment extends ContentFragment{
                             @Override
                             public void onNext(List<DocBean> docBeens) {
                                 swipeRefreshLayout.setRefreshing(false);
-//                                dismissLoading();
                                 bList2.clear();
                                 bList2 = docBeens;
                                 if (bList2.isEmpty()){
