@@ -150,9 +150,6 @@
         <activity android:name="com.libtop.weitu.activity.main.upload.UploadFileActivity"/>
 
         <!-- TODO 是否废弃? -->
-        <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoScreenActivity"/>
-
-        <!-- TODO 是否废弃? -->
         <activity android:name="com.libtop.weitu.activity.main.videoUpload.CameraActivity"/>
 
         <!-- 视频播放视图 TODO -->
