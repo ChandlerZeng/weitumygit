@@ -134,15 +134,12 @@ public class DocEditFragment extends ContentFragment{
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
             temp = s;
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
@@ -155,7 +152,6 @@ public class DocEditFragment extends ContentFragment{
                 if (mContext!=null){
                     Toast.makeText(mContext,"你输入的字数已经超过了限制！",Toast.LENGTH_SHORT).show();
                 }
-//                showToast("你输入的字数已经超过了限制！");
                 s.delete(editStart - 1, editEnd);
                 int tempSelection = editStart;
                 mDescText.setText(s);
@@ -172,7 +168,6 @@ public class DocEditFragment extends ContentFragment{
 
     @Override
     public void onPause() {
-        InputMethodManager imm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         try {
             ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mContext.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }catch (Exception e){
@@ -203,22 +198,11 @@ public class DocEditFragment extends ContentFragment{
     private void newFolder() {
         if (TextUtils.isEmpty(mEditTitleText.getText())) {
             Toast.makeText(getActivity(), "名称不能为空", Toast.LENGTH_SHORT).show();
-//        } else if (mDescText.getText().toString().length() > 50) {
-//            Toast.makeText(getActivity(),mDescText.getText().toString().length()+"个字,"+"描述超过50字", Toast.LENGTH_SHORT).show();
-//        } else if (mTagText.getTags().length > 4) {
-//            Toast.makeText(getActivity(), "标签超过4项", Toast.LENGTH_SHORT).show();
-//        }else if (tagOver8(mTagText.getTags())){
-//            Toast.makeText(getActivity(), "有标签超过8个字符", Toast.LENGTH_SHORT).show();
         }else {
-//            try {
-//                bm.getInt("sortId");
-//            }catch (NullPointerException e){
             if (TextUtils.isEmpty(mSortText.getText().toString())||mSortText.getText().toString().equals("请选择分类")){
                 Toast.makeText(getActivity(),"请选择分类",Toast.LENGTH_SHORT).show();
                 return;
             }
-//                return;
-//            }
             if (bundle.getBoolean("uploadDoc")){
                 requestUpDoc();
             }else {
@@ -247,9 +231,6 @@ public class DocEditFragment extends ContentFragment{
         params.put("uid",Preference.instance(mContext)
                 .getString(Preference.uid));
         String[] ss = mTagGroup.getTags();
-//        Arrays.asList(ss);
-//        JsonArray jsonArray = new JsonArray();
-//        jsonArray.add(Arrays.toString(ss));
 
         try {
             JSONArray jsonarray = new JSONArray(Arrays.toString(ss));

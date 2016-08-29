@@ -57,7 +57,7 @@ public class FileListFragment extends Fragment implements
          *
          * @param file The file selected
          */
-        public void onFileSelected(File file);
+        void onFileSelected(File file);
     }
 
     private static final int LOADER_ID = 0;
@@ -124,15 +124,6 @@ public class FileListFragment extends Fragment implements
         super.onActivityCreated(savedInstanceState);
     }
 
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        FileListAdapter adapter = (FileListAdapter) l.getAdapter();
-//        if (adapter != null) {
-//            File file = (File) adapter.getItem(position);
-//            mPath = file.getAbsolutePath();
-//            mListener.onFileSelected(file);
-//        }
-//    }
       @Override
       public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
           LinearLayout mLinearLayout = (LinearLayout) inflater.inflate(
@@ -214,8 +205,6 @@ public class FileListFragment extends Fragment implements
         runnable = new Runnable(){
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-                // 在此处添加执行的代码
                 if (fileLoader!=null) {
                     if (alertDialog.isShowing()&&fileLoader.getDirPath()!=null){
                         String dirPath = fileLoader.getDirPath().getAbsolutePath().replace(FileChooserActivity.EXTERNAL_BASE_PATH,"");
@@ -252,42 +241,6 @@ public class FileListFragment extends Fragment implements
     }
 
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View layout = super.onCreateView(inflater, container,
-//                savedInstanceState);
-//        ListView lv = (ListView) layout.findViewById(android.R.id.list);
-//        ViewGroup parent = (ViewGroup) lv.getParent();
-//
-//        // Remove ListView and add CustomView  in its place
-//        int lvIndex = parent.indexOfChild(lv);
-//        parent.removeViewAt(lvIndex);
-//        LinearLayout mLinearLayout = (LinearLayout) inflater.inflate(
-//                R.layout.activity_doc_file_list, container, false);
-//        ImageView imageView = (ImageView) mLinearLayout.findViewById(R.id.back_btn);
-//        TextView tvTitle = (TextView) mLinearLayout.findViewById(R.id.title);
-//        tvTitle.setText("选择文档");
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivity().onBackPressed();
-//            }
-//        });
-//        parent.addView(mLinearLayout, lvIndex, lv.getLayoutParams());
-//        return layout;
-//        View rootView = inflater.inflate(R.layout.activity_doc_file_list, container, false);
-//        View superview = super.onCreateView(inflater, (ViewGroup) rootView, savedInstanceState);
-//        FrameLayout listContainer = (FrameLayout) rootView.findViewById(R.id.listContainer1);
-//        listContainer.addView(superview);
-//        return rootView;
-//        return inflater.inflate(R.layout.activity_doc_file_list,container,false);
-//        return super.onCreateView(inflater,container,savedInstanceState);
-//        View rootView = inflater.inflate(R.layout.activity_doc_file_list, container, false);
-//        View superview = super.onCreateView(inflater, (ViewGroup) rootView, savedInstanceState);
-//        return superview;
-//    }
-
-
     @Override
     public Loader<List<File>> onCreateLoader(int id, Bundle args) {
         if (id==1){
@@ -316,22 +269,6 @@ public class FileListFragment extends Fragment implements
             tvEmpty.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
         }
-//        mListVew.setAdapter(mAdapter);
-//        mListVew.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                FileListAdapter adapter = (FileListAdapter) parent.getAdapter();
-//                if (adapter != null) {
-//                    File file = (File) adapter.getItem(position);
-//                    mPath = file.getAbsolutePath();
-//                    mListener.onFileSelected(file);
-//                }
-//            }
-//        });
-//        if (isResumed())
-//            setListShown(true);
-//        else
-//            setListShownNoAnimation(true);
     }
 
     @Override

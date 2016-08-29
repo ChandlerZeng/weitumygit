@@ -119,7 +119,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
                         }
                         if (TextUtils.isEmpty(json)) {
                             Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
-//                    showToast(getResources().getString(R.string.netError));
                             return;
                         }
                         mListview.stopRefresh();
@@ -164,7 +163,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
         mAdapter = new UploadDocAdapter(mContext,mlist, this);
         mListview.setAdapter(mAdapter);
         mListview.setPullLoadEnable(false);
-//        mListview.setRefreshTime(System.currentTimeMillis());
         mListview.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
@@ -179,13 +177,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
                 }
             }
         });
-//        @Override
-//            public void onLoadMore() {
-//                if (hasData) {
-//                    requestDoc();
-//                }
-//            }
-//        });
         mCurPage = 1;
     }
 
@@ -230,7 +221,7 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
                 requestDoc();
                 return;
             }
-            // Get the Uri of the selected file
+
             Uri uri = data.getData();
             String fName = uri.getPath().toString();
             String type = getFileType(fName).toLowerCase();
@@ -260,7 +251,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
     }
 
     public String getFileType(String fName) {
-    /* 取得后缀名 */
         String end = fName
                 .substring(fName.lastIndexOf(".") + 1, fName.length())
                 .toLowerCase();
@@ -271,24 +261,13 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
     private void showFileChooser() {
         Intent intent = new Intent(mContext,FileChooserActivity.class);
         startActivityForResult(intent,1);
-//        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//        intent.setType("application/pdf|application/msword|text/plain");
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        try {
-//            startActivityForResult(Intent.createChooser(intent, "请选择一个要上传的文件"),
-//                    1);
-//        } catch (android.content.ActivityNotFoundException ex) {
-//            // Potentially direct the user to the Market with a Dialog
-//            Toast.makeText(mContext, "请安装文件管理器", Toast.LENGTH_SHORT)
-//                    .show();
-//        }
     }
 
     @Override
     public void onOptionImgTouch(View v, final int position) {
         final PopupWindow popupWindow = DisplayUtils.openPopChoice(mContext, R.layout.popup_choise);
         View popView = popupWindow.getContentView();
-        //popwindow的编辑按钮点击
+
         popView.findViewById(R.id.tv_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -313,24 +292,9 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
                 dialog.showDialog(mContext, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
                     @Override
                     public void onClick() {
-//                        Toast.makeText(mContext, "delete click", Toast.LENGTH_SHORT).show();
                         requestDelete(position);
                     }
                 }, null);
-//               AlertDialog alertDialog =  new AlertDialog(mContext,"您确定要删除？");
-//                alertDialog.setCallBack(new AlertDialog.CallBack() {
-//                    @Override
-//                    public void callBack() {
-//                        Toast.makeText(mContext, "delete click", Toast.LENGTH_SHORT).show();
-//                        requestDelete(position);
-//                    }
-//
-//                    @Override
-//                    public void cancel() {
-//
-//                    }
-//                });
-//                alertDialog.show();
                 popupWindow.dismiss();
             }
         });
@@ -369,8 +333,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
                         Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
                         mlist.remove(position);
                         mAdapter.notifyDataSetChanged();
-//                mCurPage = 1;
-//                requestDoc();
                     }
                 });
     }
@@ -378,7 +340,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
 
     @Override
     public void onImageTouch(View v, int position) {
-//        http://nt1.libtop.com/1/572c8cf6984ed96c4921724b.pdf
         if (!TextUtils.isEmpty(mlist.get(position).pdfUrl)){
             lookPdf(mlist.get(position).pdfUrl);
         }
@@ -412,7 +373,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
                     @Override
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             try {
                                 JSONObject mjson = new JSONObject(json);
                                 uploadUrl = mjson.getString("ip");
@@ -439,14 +399,12 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
                     return;
                 }
                 uploadService = new UploadService(uploadUrl, uploadPost, DocUploadActivity.this, updataHandler, mAdapter.pView.get(count), fileType);
-//                uploadService = new UploadService(uploadUrl, uploadPost, mContext, updataHandler);
                 try {
                     File file = new File(fileUrl);
                     String fid = mlist.get(position).id;
                     Log.w("guanglog","test file id + "+fid);
                     uploadService.upload(uid, fid, file);
                 } catch (Exception e) {
-                    // Toast.makeText(UploadFileActivity.this, "已上传", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -469,7 +427,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
 
     private Handler updataHandler2 = new Handler() {
         public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
@@ -481,7 +438,6 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
 
     private Handler updataHandler = new Handler() {
         public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:

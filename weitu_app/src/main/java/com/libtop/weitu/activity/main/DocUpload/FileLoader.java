@@ -47,8 +47,6 @@ public class FileLoader extends AsyncTaskLoader<List<File>> {
 	private String mPath;
 	private int mSearchInt;
 	private File dirPath;
-//	ArrayList<File> lists = new ArrayList<File>();
-
 
 
 	public FileLoader(Context context, String path) {
@@ -69,14 +67,7 @@ public class FileLoader extends AsyncTaskLoader<List<File>> {
 			final File pathDir = new File(FileChooserActivity.EXTERNAL_BASE_PATH);
 			getDirs(pathDir,list);
 		}else {
-			//		final File pathDir = new File(mPath);
-//		getDirs(pathDir);
-			// Current directory File instance
 			final File pathDir = new File(mPath);
-//		final File[] dirs = pathDir.listFiles(FileUtils.sDirFilter);
-
-
-			// List file in this directory with the directory filter
 			final File[] dirs = pathDir.listFiles(FileUtils.sDirFilter);
 			if (dirs != null) {
 				// Sort the folders alphabetically
@@ -86,7 +77,6 @@ public class FileLoader extends AsyncTaskLoader<List<File>> {
 					list.add(dir);
 			}
 
-//        // List file in this directory with the file filter
 			final File[] files = pathDir.listFiles(fileTypeFilter);
 			if (files != null) {
 				// Sort the files alphabetically
