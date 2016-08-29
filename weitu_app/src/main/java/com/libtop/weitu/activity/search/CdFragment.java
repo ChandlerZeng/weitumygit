@@ -16,7 +16,7 @@ import com.libtop.weitu.activity.search.adapter.Cd1Adapter;
 import com.libtop.weitu.activity.search.adapter.CdAdapter;
 import com.libtop.weitu.activity.search.dto.CdDto;
 import com.libtop.weitu.activity.search.dto.MediaResult;
-import com.libtop.weitu.activity.source.AudioPlayActivity;
+import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.activity.source.PdfActivity;
 import com.libtop.weitu.activity.source.TxtActivity;
 import com.libtop.weitu.activity.source.VideoPlayActivity;
@@ -144,7 +144,7 @@ public class CdFragment extends NotifyFragment{
 //							activity.getDto().mid, curDisc, dto.id));
 					bundle.putInt("media_list_position",position);
 					bundle.putParcelableArrayList("media_list", (ArrayList<? extends Parcelable>) conver(data));
-					mContext.startActivity(bundle, AudioPlayActivity.class);
+					mContext.startActivity(bundle, AudioPlayActivity2.class);
 				} else if ("txt".equals(dto.type)) {
 					Intent intent = new Intent();
 					intent.putExtra("url", ContantsUtil.getFile(lib,
