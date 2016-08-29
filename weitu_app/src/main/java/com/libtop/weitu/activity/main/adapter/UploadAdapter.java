@@ -102,14 +102,6 @@ public class UploadAdapter extends BaseAdapter {
 
         long duration_temp2 = mlist.get(position).videDduration;
         String hms = cal(duration_temp2);
-//        long seconds = (duration_temp2 % (1000 * 60)) / 1000;
-//        long hours = (duration_temp2 / (1000 * 60 * 60));
-//        long minutes = (duration_temp2 % (1000 * 60 * 60)) / (1000 * 60);
-//        if (duration_temp2 < 1000 * 60 * 60) {
-//            hms = String.format("%02d:%02d", minutes, seconds);
-//        } else {
-//            hms = String.format("%02d:%02d", hours, minutes);
-//        }
         holder.uploadProgress.setProgress(mlist.get(position).progress);
         holder.video_size.setText(TransformUtil.bytes2kb(mlist.get(position).videoSize));
         holder.oneView.setText(mlist.get(position).titleChange + ".mp4");
@@ -126,15 +118,6 @@ public class UploadAdapter extends BaseAdapter {
         holder.twoView.setText(str);
         holder.threeView.setText(mlist.get(position).state);
         holder.video_duration.setText(hms);
-//        if (mlist.get(position).thumbPath == null || mlist.get(position).thumbPath.equals(""))
-//            holder.imageView.setImageResource(R.drawable.default_image);
-//        else {
-//            Bitmap bitmap = getLoacalBitmap(mlist.get(position).thumbPath);
-//            if (bitmap == null)
-//                holder.imageView.setImageResource(R.drawable.default_image);
-//            else
-//                holder.imageView.setImageBitmap(bitmap);
-//        }
 
         bindData(mlist.get(position).coverUrl, holder.imageView, mlist.get(position).filePath);
         holder.imageButton.setOnClickListener(new View.OnClickListener() {

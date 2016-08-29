@@ -80,14 +80,10 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 		View line;
 	}
 
-	/**
-	 */
 	public int getSectionForPosition(int position) {
 		return list.get(position).character.charAt(0);
 	}
 
-	/**
-	 */
 	public int getPositionForSection(int section) {
 		for (int i = 0; i < getCount(); i++) {
 			String sortStr = list.get(i).character;

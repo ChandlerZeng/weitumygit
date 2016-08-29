@@ -56,7 +56,6 @@ public class NoticeAdapter extends BaseAdapter {
         } else {
             holder = (Notice) convertView.getTag();
         }
-//        holder.noticeTitle.setText(aaa[position]);
         if(!mlist.get(position).title.replaceAll(" ", "").trim().equals("")){
             holder.noticeContent.setVisibility(View.VISIBLE);
             holder.noticeContent.setText(mlist.get(position).title);

@@ -15,8 +15,6 @@ import java.util.List;
  * Created by Administrator on 2016/1/8 0008.
  */
 public class MainIconAdapter extends BaseAdapter<String> {
-//    private int [] icons={R.drawable.grid_icon_classroom,R.drawable.grid_icon_lent,R.drawable.grid_icon_collection,R.drawable.grid_icon_upload};
-    //屏蔽未使用
     private int [] icons={R.drawable.intelligence_search,R.drawable.read_history
             , R.drawable.class_icon,R.drawable.schedule
             ,R.drawable.video_icon, R.drawable.music_icon
