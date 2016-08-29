@@ -193,15 +193,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <!-- 上传服务 TODO 是否废弃? -->
-        <service
-            android:name=".UploadServices"
-            android:process=":upload">
-            <intent-filter>
-                <action android:name="com.libtop.weitu.CUSTOM_TYPE_SERVICE"/>
-            </intent-filter>
-        </service>
-
         <!-- 图片专辑查看视图(卡片式) -->
         <activity android:name="com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity"/>
 
