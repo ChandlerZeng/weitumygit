@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.search.dto.MediaResult;
-import com.libtop.weitu.activity.source.AudioPlayActivity;
+import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.base.impl.ImgFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.utils.CheckUtil;
@@ -88,8 +88,8 @@ public class MediaDetailFragment extends ImgFragment {
                     if (result != null) {
                         Bundle bundle = new Bundle();
                         if ("video".equals(mCached.getString("type"))) {
-                            bundle.putString(VideoPlayActivity.MEDIA_NAME, result.title);
-                            bundle.putString(VideoPlayActivity.MEDIA_PATH, result.url);
+                            bundle.putString(VideoPlayActivity2.MEDIA_NAME, result.title);
+                            bundle.putString(VideoPlayActivity2.MEDIA_PATH, result.url);
                             bundle.putInt("index",position);
                             mContext.startActivity(bundle, VideoPlayActivity2.class);
                         } else if ("audio".equals(mCached.getString("type"))) {
@@ -97,7 +97,7 @@ public class MediaDetailFragment extends ImgFragment {
                             bundle.putParcelableArrayList("media_list", (ArrayList<? extends Parcelable>) mData);
 //                            bundle.putString(AudioPlayActivity.MEDIA_NAME, result.title);
 //                            bundle.putString(AudioPlayActivity.MEDIA_PATH, result.url);
-                            mContext.startActivity(bundle, AudioPlayActivity.class);
+                            mContext.startActivity(bundle, AudioPlayActivity2.class);
                         }
                     }
                 } catch (Exception e) {

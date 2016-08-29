@@ -1,2 +1,1 @@
-include ':weitu_app', ':vitamio', ':InfiniteIndicator-master2'
-project(':InfiniteIndicator-master2').projectDir = new File('InfiniteIndicator-master')
+include ':weitu_app', ':vitamio', ':InfiniteIndicator-master'

@@ -94,12 +94,6 @@
             android:screenOrientation="landscape"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <!-- 视频播放视图 TODO 是否废弃? -->
-        <activity
-            android:name="com.libtop.weitu.activity.search.VideoPlayActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <!-- 多图选择视图 TODO -->
         <activity
             android:name="com.libtop.weitu.utils.selector.MultiImageSelectorActivity"
@@ -117,13 +111,6 @@
             android:name="com.libtop.weitu.utils.viewpagerbitmap.ImagePagerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
-
-        <!-- 音频播放视图 -->
-        <activity
-            android:name="com.libtop.weitu.activity.source.AudioPlayActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <!-- PDF文档浏览视图 -->
         <activity
@@ -148,12 +135,6 @@
 
         <!-- 上传文件视图 -->
         <activity android:name="com.libtop.weitu.activity.main.upload.UploadFileActivity"/>
-
-        <!-- TODO 是否废弃? -->
-        <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoScreenActivity"/>
-
-        <!-- TODO 是否废弃? -->
-        <activity android:name="com.libtop.weitu.activity.main.videoUpload.CameraActivity"/>
 
         <!-- 视频播放视图 TODO -->
         <activity
@@ -191,22 +172,16 @@
         <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity"/>
 
         <!-- 音频播放视图 -->
-        <activity android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"/>
+        <activity android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"
+                  android:configChanges="orientation|keyboardHidden"
+                  android:screenOrientation="portrait"
+                  android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <!-- 视频播放视图 -->
         <activity
             android:name="com.libtop.weitu.activity.search.VideoPlayActivity2"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <!-- 上传服务 TODO 是否废弃? -->
-        <service
-            android:name=".UploadServices"
-            android:process=":upload">
-            <intent-filter>
-                <action android:name="com.libtop.weitu.CUSTOM_TYPE_SERVICE"/>
-            </intent-filter>
-        </service>
 
         <!-- 图片专辑查看视图(卡片式) -->
         <activity android:name="com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity"/>
