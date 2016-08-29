@@ -61,14 +61,6 @@
         android:gravity="center"
         android:visibility="gone"
         />
-    <!--<ImageView
-        android:id="@+id/search_filter"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:padding="10dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/search_filter"/>-->
     <Spinner
         android:id="@+id/spinner"
         android:background="@null"
@@ -80,5 +72,4 @@
         android:dropDownWidth="130dp"
         android:dropDownVerticalOffset="10dp"
         />
-
 </LinearLayout>
