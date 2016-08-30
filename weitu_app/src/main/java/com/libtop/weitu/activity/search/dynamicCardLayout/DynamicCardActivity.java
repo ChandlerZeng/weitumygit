@@ -3,12 +3,12 @@ package com.libtop.weitu.activity.search.dynamicCardLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
@@ -35,6 +35,7 @@ import okhttp3.Call;
 
 public class DynamicCardActivity extends BaseActivity  {
 
+    @Nullable
     @Bind(R.id.title)
     TextView tvTitle;
 
@@ -61,10 +62,9 @@ public class DynamicCardActivity extends BaseActivity  {
 
 //        initData();
         mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //        mRecyclerView.addItemDecoration();//设置分割线
+//        mRecyclerView.addItemDecoration();//设置分割线
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(COLUMNCOUNT, StaggeredGridLayoutManager.VERTICAL));//设置RecyclerView布局管理器为2列垂直排布
-        adapter = new DynamicCardAdapter(this,urlLists);
+        adapter = new DynamicCardAdapter(this,urlLists,COLUMNCOUNT);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnClickListener(new DynamicCardAdapter.OnItemClickListener() {
             @Override
@@ -116,6 +116,7 @@ public class DynamicCardActivity extends BaseActivity  {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         dismissLoading();
+                        Toast.makeText(mContext,"网络不给力，请稍后重试",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
