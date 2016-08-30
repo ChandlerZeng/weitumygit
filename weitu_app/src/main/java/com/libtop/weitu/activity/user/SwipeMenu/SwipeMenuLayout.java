@@ -63,10 +63,6 @@ public class SwipeMenuLayout extends FrameLayout {
 		init();
 	}
 
-	// private SwipeMenuLayout(Context context, AttributeSet attrs, int
-	// defStyle) {
-	// super(context, attrs, defStyle);
-	// }
 
 	private SwipeMenuLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -102,20 +98,16 @@ public class SwipeMenuLayout extends FrameLayout {
 			@Override
 			public boolean onFling(MotionEvent e1, MotionEvent e2,
 					float velocityX, float velocityY) {
-				// TODO
 				if (Math.abs(e1.getX() - e2.getX()) > MIN_FLING
 						&& velocityX < MAX_VELOCITYX) {
 					isFling = true;
 				}
-				// Log.i("byz", MAX_VELOCITYX + ", velocityX = " + velocityX);
 				return super.onFling(e1, e2, velocityX, velocityY);
 			}
 		};
 		mGestureDetector = new GestureDetectorCompat(getContext(),
 				mGestureListener);
 
-		// mScroller = ScrollerCompat.create(getContext(), new
-		// BounceInterpolator());
 		if (mCloseInterpolator != null) {
 			mCloseScroller = ScrollerCompat.create(getContext(),
 					mCloseInterpolator);
@@ -143,21 +135,6 @@ public class SwipeMenuLayout extends FrameLayout {
 		addView(mContentView);
 		addView(mMenuView);
 
-		// if (mContentView.getBackground() == null) {
-		// mContentView.setBackgroundColor(Color.WHITE);
-		// }
-
-		// in android 2.x, MenuView height is MATCH_PARENT is not work.
-		// getViewTreeObserver().addOnGlobalLayoutListener(
-		// new OnGlobalLayoutListener() {
-		// @Override
-		// public void onGlobalLayout() {
-		// setMenuHeight(mContentView.getHeight());
-		// // getViewTreeObserver()
-		// // .removeGlobalOnLayoutListener(this);
-		// }
-		// });
-
 	}
 
 	@Override
@@ -178,7 +155,6 @@ public class SwipeMenuLayout extends FrameLayout {
 			isFling = false;
 			break;
 		case MotionEvent.ACTION_MOVE:
-			// Log.i("byz", "downX = " + mDownX + ", moveX = " + event.getX());
 			int dis = (int) (mDownX - event.getX());
 			if (state == STATE_OPEN) {
 				dis += mMenuView.getWidth()*mSwipeDirection;;

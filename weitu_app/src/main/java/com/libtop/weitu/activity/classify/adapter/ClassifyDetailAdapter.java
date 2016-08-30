@@ -93,9 +93,7 @@ public class ClassifyDetailAdapter extends BaseAdapter{
         holder1.titleText.setText(classifyResultBean.title);
         holder1.uploaderText.setText("上传者:" + classifyResultBean.uploadUsername);
         holder1.introductionText.setText(classifyResultBean.introduction);
-        //  checkView(holder1.checkMark, classifyResultBean.ischecked);
         if (typeF.equals(ClassifyDetailActivity.DOC)) {
-//            holder1.iconCover.setImageResource(DocType.getDocType(classifyResultBean.title));
             String a = ContantsUtil.IMGHOST2+"/" + classifyResultBean.cover;
             Picasso.with(context).load(a)
                     .error(R.drawable.default_image)

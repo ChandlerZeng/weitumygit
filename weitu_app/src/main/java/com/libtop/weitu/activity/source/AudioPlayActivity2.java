@@ -69,19 +69,12 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     @Nullable
     @Bind(R.id.top_right)
     ImageButton mListsBtn;
-    //	@Bind(R.id.seekbar)
-//	SeekBar seekbar;
     @Bind(R.id.progress_current)
     TextView mCurrentProc;
     @Bind(R.id.progress_total)
     TextView mTotalProc;
     @Bind(R.id.play_pause)
     ImageButton mPlayBtn;
-
-    //	@Bind(R.id.uploader)
-//	TextView mUploaderText;
-//	@Bind(R.id.viewers)
-//	TextView mViewersText;
 
     @Bind(R.id.introduction)
     TextView mIntroText;
@@ -156,7 +149,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
                         long position=total==0?0:1000L*currentPlayIndex/total;
                         seekbar.setProgress((int) position);
                         mCurrentProc.setText(getPlayProgress(currentPlayIndex));
-//                        setPlayProgress(mCurrentProc, curent); // 设置时间显示
                     }
                     break;
             }
@@ -215,13 +207,8 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-//                if (currentPlayIndex > TW0_MIN && !isOpen){
-//                    seekBar.setProgress(0);
-//                    Toast.makeText(mContext,"私有资源只能播放两分钟",Toast.LENGTH_SHORT).show();
-//                }
             }
         });
-//        Picasso.with(mContext).load(ContantsUtil.getCoverUrl(searchResult.id)).into(imgAudio);
         loadIndex();
 
     }
@@ -288,7 +275,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
         try {
             setAudio(mAudios.get(mCurrentIndex));
-//			mPlayer.start();
             customThread=null;
             customThread = new CustomThread();
             customThread.start();
@@ -349,14 +335,9 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         commentNeedDto.type = 2;
         intent.putExtra("CommentNeedDto",new Gson().toJson(commentNeedDto));
         startActivity(intent);
-//		Intent intent = new Intent(mContext, CommentActivity.class);
-//		intent.putExtra("comment_tid",searchResult.id);
-//		intent.putExtra("comment_type", "mediaAlbum");
-//		startActivity(intent);
     }
 
     private void collectClick() {
-//		Toast.makeText(mContext,"collect click",Toast.LENGTH_SHORT).show();
         if (isCollectShow){
             requestCancelCollect();
         }else {
@@ -468,7 +449,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         }
         String title = mediaAlbumBean.title;
         titleName1 = title;
-        String uploader=data.uploadUsername;
         if (data.view!=null){
             int views=data.view;
         }
@@ -476,7 +456,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         introdution = intro;
         String url=data.url;
         String uploader1 = data.uploadUsername;
-//		isCollectShow = (mediaAlbumBean.favorite == 1);
 
         mPlayer.setDataSource(mContext, Uri.parse(url));
         mPlayBtn.setBackgroundResource(R.drawable.audio_pause);
@@ -490,15 +469,8 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
             tvTag.setText(mediaAlbumBean.categoriesName1+"/"+mediaAlbumBean.categoriesName2);
         }
         mTitleText.setText(TextUtils.isEmpty(title) ? "未知标题" : title);
-//		mUploaderText.setText("上传者:" + (TextUtils.isEmpty(uploader) ? "未知" : uploader));
-//		mViewersText.setText("收听数:" + views);
         mIntroText.setText("简介:"+(TextUtils.isEmpty(intro)?"暂无":intro));
         mUploader.setText(uploader1);
-//		if (isCollectShow){
-//			imgCollect.setBackgroundResource(R.drawable.collect);
-//		}else {
-//			imgCollect.setBackgroundResource(R.drawable.collect_no);
-//		}
     }
 
     private void playNext(){
@@ -575,9 +547,7 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         long duration = mPlayer.getDuration();
         long position = mPlayer.getCurrentPosition();
         mCurrentProc.setText(getPlayProgress(position));
-//        setPlayProgress(mCurrentProc, position); // 设置时间显示
         mTotalProc.setText(getPlayProgress(duration));
-//        setPlayProgress(mTotalProc, duration);
         seekbar.setMax(1000);
         mPlayBtn.setClickable(true);
         mPlayBtn.setBackgroundResource(R.drawable.audio_pause);
@@ -586,7 +556,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
     @Override
     public void onItemClick(View v, int position) {
-        //        String imgPath = (String) lists.get(position);
         mAdapter.setSingleSelect(position);
         mCurrentIndex = position;
         stopAndRelase();

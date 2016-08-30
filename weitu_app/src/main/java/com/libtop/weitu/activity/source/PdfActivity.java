@@ -13,8 +13,6 @@ import java.io.File;
 
 import butterknife.Bind;
 
-//import com.joanzapata.pdfview.PDFView;
-//import com.joanzapata.pdfview.listener.OnPageChangeListener;
 
 public class PdfActivity extends BaseActivity implements OnPageChangeListener
 
@@ -29,7 +27,6 @@ public class PdfActivity extends BaseActivity implements OnPageChangeListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setInjectContentView(R.layout.activity_pdf_layout);
-//		setContentView(R.layout.activity_pdf_layout);
 		initActivity();
 	}
 
@@ -52,7 +49,6 @@ public class PdfActivity extends BaseActivity implements OnPageChangeListener
 				}
 			}
 		});
-		//pdfView.fromAsset(ABOUT_FILE).defaultPage(0).onPageChange(this).load();
 	}
 
 	@Override

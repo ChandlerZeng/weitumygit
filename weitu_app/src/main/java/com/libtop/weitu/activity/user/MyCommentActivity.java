@@ -72,11 +72,6 @@ public class MyCommentActivity extends BaseActivity{
 
     public static final int VIDEO=1,AUDIO=2,DOC=3,PHOTO=4,BOOK=5;
 
-//    @Override
-//    public void onCreation(View root) {
-//        setTitle();
-//        init();
-//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,17 +85,12 @@ public class MyCommentActivity extends BaseActivity{
 
             @Override
             public void create(SwipeMenu menu) {
-                // create "delete" item
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
                         mContext.getApplicationContext());
-                // set item background
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
                         0x3F, 0x25)));
-                // set item width
                 deleteItem.setWidth(dp2px(135));
-                // set a icon
                 deleteItem.setIcon(R.drawable.delete_c);
-                // add to menu
                 menu.addMenuItem(deleteItem);
             }
         };
@@ -156,7 +146,6 @@ public class MyCommentActivity extends BaseActivity{
     }
 
     private void setTitle() {
-//        mBackBtn.setOnClickListener(this);
         mTitleText.setText("我的评论");
         commitText.setText("编辑");
     }
@@ -249,9 +238,7 @@ public class MyCommentActivity extends BaseActivity{
 
                     @Override
                     public void onResponse(String json, int id) {
-// mLoading.dismiss();
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             try {
                                 JSONObject jsonObject = new JSONObject(json);
                                 int result = jsonObject.getInt("code");
