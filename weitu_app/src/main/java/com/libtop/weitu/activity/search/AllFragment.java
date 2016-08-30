@@ -144,7 +144,6 @@ public class AllFragment extends NotifyFragment {
             dismissLoading();
         }
         if (CheckUtil.isNullTxt(json)) {
-//                    showToast("请求超时，请稍后再试");
             mNullTxt.setText("未搜索到相关记录");
             mNullTxt.setVisibility(View.VISIBLE);
             return;
@@ -227,9 +226,7 @@ public class AllFragment extends NotifyFragment {
         Bundle bundle = new Bundle();
         bundle.putString("name", mData.get(position).title);
         bundle.putString("cover", mData.get(position).cover);
-//        bundle.putString("auth", mData.get(position).author);
         bundle.putString("isbn", mData.get(position).isbn);
-//        bundle.putString("publisher", mData.get(position).publisher);
         bundle.putString("school", Preference.instance(mContext)
                 .getString(Preference.SchoolCode));
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
@@ -244,14 +241,6 @@ public class AllFragment extends NotifyFragment {
         bundle.putString("id", mData.get(position).id);
         mContext.startActivity(bundle, DynamicCardActivity.class);
     }
-
-//    private void openPhoto(int position) {
-//        Intent intent = new Intent();
-//        intent.putExtra("position", 0);
-//        intent.putExtra("see_pic", 2);
-//        intent.setClass(mContext, ImagePagerActivity2.class);
-//        startActivity(intent);
-//    }
 
     private void openDoc(int position) {
         Intent intent = new Intent();
@@ -269,8 +258,6 @@ public class AllFragment extends NotifyFragment {
         params.put("method", "search.api");
         params.put("sort", sortType);
         params.put("keyword",mPreference.getString(Preference.KEYWORD_SEARCH));
-//        params.put("lid",
-//                Preference.instance(mActivity).getString(Preference.SchoolCode));
         params.put("page", curPage);
         if (curPage == 1) {
             showLoding();

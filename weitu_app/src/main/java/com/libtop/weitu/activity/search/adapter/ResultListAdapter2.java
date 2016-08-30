@@ -29,7 +29,6 @@ import java.util.List;
  * @version common v1.0
  */
 public class ResultListAdapter2 extends ImgAdapter {
-//    private ImageOptions xOptions;
     //0文档 1图片
     private int type = 0;
     private Context context;
@@ -39,11 +38,6 @@ public class ResultListAdapter2 extends ImgAdapter {
         super(context, data, R.layout.item_list_result3);
         this.type = type;
         this.context = context;
-//        xOptions = new ImageOptions.Builder()
-//                .setFailureDrawableId(R.drawable.content_bg)
-//                .setLoadingDrawableId(R.drawable.content_bg)
-//                .setUseMemCache(true)
-//                .build();
     }
 
     @Override
@@ -82,16 +76,9 @@ public class ResultListAdapter2 extends ImgAdapter {
         } else{
             getImage(holder.iconCover, data.cover);
         }
-        // holder.iconCover.setBackgroundResource(DocType.getDocType(data.title));
-        // x.image().bind(holder.iconCover, ContantsUtil.getCoverUrl(data.id), xOptions);
-//        ImageLoader.getInstance().displayImage(
-//                ContantsUtil.getCoverUrl(data.id), holder.iconCover, mOptions);
-
-//        holder.iconCover.setImageURI(Uri.parse(ContantsUtil.getCoverUrl(data.id)));
     }
 
     protected class ViewHolder {
-        //        SimpleDraweeView iconCover;
         ImageView iconCover;
         TextView titleText, uploaderText, timeText, imageText,tvTag;
     }

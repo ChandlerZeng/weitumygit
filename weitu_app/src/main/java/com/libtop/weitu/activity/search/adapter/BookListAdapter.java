@@ -55,9 +55,6 @@ public class BookListAdapter extends ImgAdapter {
 			holder.tvTag.setText(dto.categoriesName1+"/"+dto.categoriesName2);
 		}
 		Picasso.with(mContext).load(ContantsUtil.IMG_BASE + dto.cover).into(holder.icon);
-//		x.image().bind(holder.icon,ContantsUtil.IMG_BASE + dto.cover,mOptions);
-//		ImageLoader.getInstance().displayImage(
-//				ContantsUtil.IMG_BASE + dto.cover, holder.icon, mOptions);
 	}
 
 	class ViewHolder {

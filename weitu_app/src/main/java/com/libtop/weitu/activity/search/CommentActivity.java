@@ -60,9 +60,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
 
     private List<CommentResult> list;
 
-//    private String tid;
-//    private String type;
-//    private String mid;
     private CommentNeedDto commentNeedDto;
 
     private boolean isReply = false;
@@ -74,7 +71,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         setInjectContentView(R.layout.activity_comment);
         String json =getIntent().getStringExtra("CommentNeedDto");
         commentNeedDto = JsonUtil.fromJson(json,new TypeToken<CommentNeedDto>(){}.getType());
-//        setContentView(R.layout.activity_comment);
         refreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
         refreshLayout.setEnabled(false);
         View headerView =  getLayoutInflater().inflate(R.layout.header_commet,null);
@@ -205,8 +201,6 @@ public void onClick(View v) {
         refreshLayout.setRefreshing(true);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("tid", commentNeedDto.tid);
-//        if (mid != null && mid.length() != 0)
-//            params.put("mid", mid);
         params.put("uid", mPreference.getString(Preference.uid));
         params.put("type", commentNeedDto.type);
         params.put("content", content);

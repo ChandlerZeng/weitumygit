@@ -38,9 +38,7 @@ public class CommonAdapter extends ImgAdapter {
 		String avatar = ContantsUtil.AVATARHOST + "/"
 				+ Integer.parseInt(folder, 16) % 1024 + "/"
 				+ Integer.parseInt(folder, 16) % 2048 + "/" + dto.uid + "-150.jpg";
-//		ImageLoader.getInstance().displayImage(avatar, holder.photo, mOptions);
 		Picasso.with(mContext).load(avatar).into(holder.photo);
-//		x.image().bind(holder.photo,avatar,mOptions);
 		holder.content.setText(dto.content);
 		holder.name.setText(dto.username);
 		holder.time.setText(DateUtil.parseToDate(dto.timeline));

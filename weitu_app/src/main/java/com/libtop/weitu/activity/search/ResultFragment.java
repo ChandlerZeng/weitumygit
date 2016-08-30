@@ -47,8 +47,6 @@ public class ResultFragment extends NotifyFragment {
 
     public static final int ALL=0,BOOK=1,VIDEO=2,AUDIO=3,DOC=4,IMAGE=5;
 
-//    private ArrayAdapter<CharSequence> adapter = null;
-
     private boolean isThreeSpinner = true;
     private ClassifyCheckAdapter filterCheckAdapter;
     private ListPopupWindow mListFilterPop;
@@ -98,7 +96,6 @@ public class ResultFragment extends NotifyFragment {
             mListFilterPop.setAdapter(filterCheckAdapter);
             mListFilterPop.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
             mListFilterPop.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
-//        mListFilterPop.setBackgroundDrawable(null);
             mListFilterPop.setAnchorView(llBoard);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
             mListFilterPop.setBackgroundDrawable(new ColorDrawable(0x99000000));
             mListFilterPop.setModal(true);//设置是否是模式
@@ -106,7 +103,6 @@ public class ResultFragment extends NotifyFragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-                    // TODO Auto-generated method stub
                     Bundle bundle = new Bundle();
                     bundle.putInt("pageIndex",pageIndex);
                     map.put(pageIndex,position);
@@ -122,45 +118,6 @@ public class ResultFragment extends NotifyFragment {
             });
     }
 
-//    private void initSpinner(){
-//        spinner = (Spinner)mContext.findViewById(R.id.spinner);
-//        imgSearchFilter
-//        TextView textView = (TextView) mContext.findViewById(R.id.search);
-//        textView.setVisibility(View.GONE);
-//        List<CharSequence> planets = new ArrayList<CharSequence>();
-//        planets.add("阅读最多");
-//        planets.add("评论最多");
-//        planets.add("收藏最多");
-//        adapter = new ArrayAdapter<CharSequence>(mContext,R.layout.spinner_outlook, planets);
-////        adapter = ArrayAdapter.createFromResource(mContext,R.array.spinner_array,R.layout.spinner_outlook);
-//        //设置下拉列表风格
-//        adapter.setDropDownViewResource(R.layout.spinner_drop_down);
-//        //将适配器添加到spinner中去
-//        spinner.setAdapter(adapter);
-//        spinner.setVisibility(View.VISIBLE);
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> arg0, View arg1,
-//                                       int arg2, long arg3) {
-//                // TODO Auto-generated method stub
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("pageIndex",pageIndex);
-//                map.put(pageIndex,arg2);
-//                if (isThreeSpinner){
-//                    bundle.putString("sortType",sortTransform(arg2+1));
-//                }else {
-//                    bundle.putString("sortType",sortTransform(arg2));
-//                }
-//                EventBus.getDefault().post(new MessageEvent(bundle));
-//
-//            }
-//            @Override
-//            public void onNothingSelected(AdapterView<?> arg0) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//        });
-//    }
 
     private void threeFilter(){
         filterList.clear();
@@ -211,8 +168,6 @@ public class ResultFragment extends NotifyFragment {
 
     private void initView(){
         mViewPager.setAdapter(mAdapter);
-//        mViewPager.setOnPageChangeListener(this);
-//        mRadioGroup.setOnCheckedChangeListener(this);
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -270,9 +225,7 @@ public class ResultFragment extends NotifyFragment {
             map.put(pageIndex,0);
         }
         filterCheckAdapter.setCheck(map.get(pageIndex));
-//        adapter.notifyDataSetChanged();
         mViewPager.setCurrentItem(pageIndex);
-//        ((NotifyFragment)mAdapter.getItem(itemIndex)).load();
     }
 
     @Nullable @OnPageChange(value = R.id.viewpager)
@@ -299,10 +252,6 @@ public class ResultFragment extends NotifyFragment {
         }
     }
 
-//    @Override
-//    public void onPageScrollStateChanged(int i) {
-//
-//    }
 
     public void setCreate() {
         isCreate = false;
