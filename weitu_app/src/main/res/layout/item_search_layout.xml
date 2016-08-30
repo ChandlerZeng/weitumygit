@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:padding="12dip"
-        android:src="@drawable/delete" />
+        android:src="@drawable/search_delete" />
 
 </LinearLayout>

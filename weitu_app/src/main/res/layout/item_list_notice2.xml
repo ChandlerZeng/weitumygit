@@ -1,29 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center|left"
     android:background="@color/white"
     android:orientation="horizontal">
+    <com.libtop.weitu.widget.slidebar.ScheduleView
+        android:id="@+id/timeline"
+        android:layout_marginLeft="@dimen/padding_left"
+        android:layout_width="60px"
+        android:layout_height="match_parent"/>
 
-    <TextView
-        android:id="@+id/news_date_txt"
-        android:layout_width="50dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textColor="@color/bule1"
-        android:textSize="16sp"
-        android:text="日期"
-        />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/news_date_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_left"
+            android:layout_marginTop="@dimen/padding_left"
+            android:paddingLeft="@dimen/padding_left"
+            android:textColor="@color/green1"
+            android:textSize="16sp"
+            android:clickable="false"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:text="日期"
+            />
 
-    <TextView
-        android:id="@+id/news_title_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:textColor="@color/favorate_text"
-        android:textSize="16sp"
-        android:text="新闻标题"
-        />
+        <TextView
+            android:id="@+id/news_title_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_left"
+            android:paddingRight="@dimen/padding_left"
+            android:layout_marginLeft="@dimen/padding_left"
+            android:lines="2"
+            android:gravity="center_vertical"
+            android:background="@drawable/list_selector"
+            android:textColor="@color/favorate_text"
+            android:textSize="16sp"
+            android:text="新闻标题"
+            />
+        <View android:layout_width="match_parent"
+            android:layout_height="0.5px"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:background="@color/grey1"/>
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -43,7 +43,7 @@ public class SearchAdapter extends BaseAdapter<Search> {
 	protected void holderView(final View convertView,final Search search, final int position) {
 		ViewHolder holder = (ViewHolder) convertView.getTag();
 		holder.title.setText(search.getName());
-		holder.imageDelete.setImageResource(R.drawable.delete);
+		holder.imageDelete.setImageResource(R.drawable.search_delete);
 		holder.imageDelete.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

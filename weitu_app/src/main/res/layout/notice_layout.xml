@@ -11,15 +11,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:background="@drawable/list_selector"
         android:textColor="#42cc98"
         android:textSize="14sp"
         />
 
     <TextView
         android:id="@+id/two"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_margin="5dp"
+        android:background="@drawable/list_selector"
         android:textColor="@color/favorate_text"
         android:textSize="14sp"
         />
