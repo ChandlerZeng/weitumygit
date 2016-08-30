@@ -8,7 +8,6 @@
         android:endColor="#f0f0f0"
         android:startColor="#f0f0f0" >
     </gradient>
-
     <corners
         android:topLeftRadius="2dip"
         android:topRightRadius="2dip"

@@ -17,6 +17,7 @@
 
     <!-- 用户自定义 -->
     <dimen name="btn_height">38dip</dimen>
+    <dimen name="padding_small">4dip</dimen>
     <dimen name="padding_normal">10dip</dimen>
     <dimen name="padding_medium">16dip</dimen>
     <dimen name="padding_large">25dip</dimen>
@@ -49,5 +50,11 @@
     <dimen name="new_img_height">90dp</dimen>
     <dimen name="home_img_size">22dp</dimen>
     <dimen name="text_padding_size">3dp</dimen>
+
+    <!-- 与ScheduleView相关 -->
+    <dimen name="scheduleview_width">12dp</dimen>
+    <dimen name="scheduleview_line_width">1.0dp</dimen>
+    <dimen name="scheduleview_node_normal_radius">0.1dp</dimen>
+    <dimen name="scheduleview_node_bigger_radius">6dp</dimen>
 
 </resources>

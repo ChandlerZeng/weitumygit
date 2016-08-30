@@ -357,7 +357,8 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "notice.list");
-        params.put("lid", mPreference.getString(Preference.SchoolCode));
+//        params.put("lid", mPreference.getString(Preference.SchoolCode));
+        params.put("lid", 10564);
         String[] arrays = MapUtil.map2Parameter(params);
         _subscriptions.add(
                 WeituNetwork.getWeituApi()
@@ -642,7 +643,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             case R.drawable.intelligence_search://智能检索
                 mContext.startActivity(null, SearchActivity.class);
                 break;
-            case R.drawable.read_history://历史
+            case R.drawable.book_icon://图书
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());

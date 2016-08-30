@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00000000"
+    android:background="@drawable/list_selector"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -17,7 +17,7 @@
             android:layout_height="130dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:background="#ebebeb">
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/rmd_book_cover_img"

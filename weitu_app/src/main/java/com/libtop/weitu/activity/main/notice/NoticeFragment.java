@@ -113,7 +113,7 @@ public class NoticeFragment extends BaseFragment {
         bundle1.putBoolean(ContentActivity.FRAG_ISBACK, true);
         bundle1.putString("id", mInfos.get(position - 1).id);
         bundle1.putString("title", mInfos.get(position - 1).title);
-        bundle1.putString("date", DateUtil.parseToDate(mInfos.get(position - 1).dateLine + 86400000));
+        bundle1.putString("date", DateUtil.parseToDate(mInfos.get(position - 1).dateLine));
         mContext.startActivity(bundle1, ContentActivity.class);
     }
 
