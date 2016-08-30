@@ -79,54 +79,10 @@ public class BookDetailFragment extends ContentFragment{
 	RadioButton discRadio;
 	@Bind(R.id.try_read)
 	RadioButton tryReadRadio;
-//	@Bind(R.id.header_container)
-//	LinearLayout headerContainer;
 
-//	@Bind(R.id.want_con)
-//	LinearLayout wantCon;
-//	@Bind(R.id.see_con)
-//	LinearLayout seeCon;
-//	@Bind(R.id.favorate_con)
-//	LinearLayout favorateCon;
-//	@Bind(R.id.up_con)
-//	LinearLayout upCon;
-//	@Bind(R.id.down_con)
-//	LinearLayout downCon;
-//	@Bind(R.id.common_con)
-//	LinearLayout commonCon;
-//	@Bind(R.id.level)
-//	RatingBar level;
-//	@Bind(R.id.common)
-//	TextView common;
-
-//	@Bind(R.id.want)
-//	TextView want;
-//	@Bind(R.id.see_pre)
-//	TextView see;
-//	@Bind(R.id.favorate)
-//	TextView favorate;
-//	@Bind(R.id.up)
-//	TextView up;
-//	@Bind(R.id.down)
-//	TextView down;
-
-	@Nullable
-	@Bind(R.id.want_label)
-	TextView wantLabel;
-	@Nullable
-	@Bind(R.id.see_label)
-	TextView seeLabel;
-	@Nullable
-	@Bind(R.id.favorate_label)
-	TextView favorateLabel;
-	@Nullable
-	@Bind(R.id.up_label)
-	TextView upLabel;
 	@Nullable
 	@Bind(R.id.tv_title)
 	TextView tvTitle;
-	//	@Bind(R.id.post_error)
-//	Button postError;
 	@Nullable
 	@Bind(R.id.img_collect)
 	ImageView imgCollect;
@@ -137,17 +93,12 @@ public class BookDetailFragment extends ContentFragment{
 	private BookDetailDto bookdto;
 	private LabelDto label;
 
-	private int headerHeight = 0;
-	private int commonValue = 0;
 	private String key;
 	private String schoolCode;
 
 	private boolean isFromCapture;
 	private String allBookString;
 
-	@Nullable
-	@Bind(R.id.down_label)
-	TextView downLabel;
 	private boolean isCollectShow;
 
 	private String imgPath;
@@ -160,7 +111,6 @@ public class BookDetailFragment extends ContentFragment{
 		super.onCreate(savedInstanceState);
 		datas = new ArrayList<Fragment>();
 		adapter = new MainPageAdapter(mFm, datas);
-		// PlayManager.getInstance(context);// 音乐初始化
 	}
 
 	@Override
@@ -174,15 +124,6 @@ public class BookDetailFragment extends ContentFragment{
 	}
 
 	private void initActivity() {
-//		wantCon.setOnClickListener(this);
-//		seeCon.setOnClickListener(this);
-//		favorateCon.setOnClickListener(this);
-//		upCon.setOnClickListener(this);
-//		downCon.setOnClickListener(this);
-//		backBtn.setOnClickListener(this);
-//		search.setOnClickListener(this);
-//		commonCon.setOnClickListener(this);
-//		postError.setOnClickListener(this);
 		Bundle bundle = ((ContentActivity)mContext).getCurrentExtra();
 		key = bundle.getString("isbn");
 		isFromMainPage = bundle.getBoolean(ISFROMMAINPAGE,false);
@@ -196,23 +137,9 @@ public class BookDetailFragment extends ContentFragment{
 		schoolCode = bundle.getString("school");
 		isFromCapture = bundle.getBoolean("isFromCapture");
 		allBookString = bundle.getString("allJson");
-//		ImageLoader.getInstance().displayImage(
-//				ContantsUtil.IMG_BASE + bundle.getString("cover"), icon,
-//				mOptions);
-//		x.image().bind(icon,ContantsUtil.IMG_BASE + bundle.getString("cover"),mOptions);
 		imgPath = ContantsUtil.IMG_BASE+bundle.getString("cover");
 		Picasso.with(mContext).load(imgPath).fit().into(icon);
 		viewpager.setAdapter(adapter);
-//		headerContainer.getViewTreeObserver().addOnGlobalLayoutListener(
-//				new OnGlobalLayoutListener() {
-//					@SuppressWarnings("deprecation")
-//					@Override
-//					public void onGlobalLayout() {
-//						headerHeight = headerContainer.getHeight();
-//						headerContainer.getViewTreeObserver()
-//								.removeGlobalOnLayoutListener(this);
-//					}
-//				});
 		radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int id) {
@@ -221,15 +148,12 @@ public class BookDetailFragment extends ContentFragment{
 						viewpager.setCurrentItem(0);
 						break;
 					case R.id.try_read:
-//					viewpager.setCurrentItem(1);
 						tryReadClick();
 						break;
 					case R.id.struct:
-//					viewpager.setCurrentItem(2);
 						viewpager.setCurrentItem(1);
 						break;
 					case R.id.cd:
-//					viewpager.setCurrentItem(3);
 						viewpager.setCurrentItem(2);
 						break;
 				}
@@ -247,15 +171,12 @@ public class BookDetailFragment extends ContentFragment{
 						radioGroup.check(R.id.info);
 						break;
 					case 1:
-//					radioGroup.check(R.id.try_read);
 						radioGroup.check(R.id.struct);
 						break;
 					case 2:
-//					radioGroup.check(R.id.struct);
 						radioGroup.check(R.id.cd);
 						break;
 					case 3:
-//					radioGroup.check(R.id.cd);
 						break;
 				}
 			}
@@ -290,21 +211,13 @@ public class BookDetailFragment extends ContentFragment{
 	public void onResume() {
 		super.onResume();
 		if (ContantsUtil.COMMON) {
-//			common.setText(Html.fromHtml("(共" + (commonValue + 1)
-//					+ "条<font color=\"#47b89d\">评论</font>)"));
 			ContantsUtil.COMMON = false;
 		}
 	}
 
-//	@Override
-//	public void onBackPressed() {
-////		mContext.finish();
-//		((ContentActivity)mContext).popBack();
-//	}
 
 	@Nullable
-	@OnClick({R.id.img_collect,R.id.img_comment,R.id.img_share,R.id.search,R.id.back_btn,R.id.see_con,R.id.want_con,R.id.up_con
-			,R.id.common_con,R.id.down_con,R.id.favorate_con,R.id.post_error})
+	@OnClick({R.id.img_collect,R.id.img_comment,R.id.img_share,R.id.search,R.id.back_btn})
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.img_collect:
@@ -317,52 +230,14 @@ public class BookDetailFragment extends ContentFragment{
 				shareClick();
 				break;
 			case R.id.search:
-//			SearchActivity.inSearch = true;
-//			mContext.finish();
 				break;
 			case R.id.back_btn:
 				onBackPressed();
-				break;
-			case R.id.see_con:
-//			updateState(see, seeLabel, "past", label.past);
-				break;
-			case R.id.want_con:
-//			updateState(want, wantLabel, "wish", label.wish);
-				break;
-			case R.id.up_con:
-//			updateState(up, upLabel, "like", label.like);
-				break;
-			case R.id.common_con:
-				Bundle bundle = new Bundle();
-				bundle.putString("bid", dto.mid);
-				bundle.putString(ContentActivity.FRAG_CLS,CommonFragment.class.getName());
-				bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
-				bundle.putBoolean(ContentActivity.FRAG_WITH_ANIM,true);
-				mContext.startActivity(bundle, ContentActivity.class);
-				break;
-			case R.id.down_con:
-//			updateState(down, downLabel, "unlike", label.unlike);
-				break;
-			case R.id.favorate_con:
-//			updateState(favorate, favorateLabel, "gather", label.gather);
-				break;
-			case R.id.post_error:
-				Bundle bundle1 = new Bundle();
-				bundle1.putString("mid", dto.mid);
-				bundle1.putString(ContentActivity.FRAG_CLS, PostErrorFragment.class.getName());
-				bundle1.putBoolean(ContentActivity.FRAG_ISBACK, true);
-				bundle1.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
-				mContext.startActivity(bundle1, ContentActivity.class);
 				break;
 		}
 	}
 
 	private void shareClick() {
-//		Toast.makeText(mContext,"share click",Toast.LENGTH_SHORT).show();
-//		UemgShare a = new UemgShare(mContext);
-//		String str = "www.baidu.com";
-//		a.setImage(str).setT
-//		String imgUrl = "http://n0.libtop.com/1/" + tid + ".pdf";
 		String title = "微图分享";
 		String content = "“【书】"+dto.title+"”"+ContantsUtil.shareContent;
 		String imageUrl = "drawable://" + R.drawable.wbshare;
@@ -389,7 +264,6 @@ public class BookDetailFragment extends ContentFragment{
 		}else {
 			requestCollect();
 		}
-//		Toast.makeText(mContext,"collect click",Toast.LENGTH_SHORT).show();
 	}
 
 	private void requestCancelCollect() {
@@ -514,7 +388,6 @@ public class BookDetailFragment extends ContentFragment{
 							return;
 						}
 						if (!CheckUtil.isNull(json)) {
-//							try {
 							if (isFromCapture) {
 								if (allBookString != null) {
 									json = allBookString;
@@ -530,7 +403,6 @@ public class BookDetailFragment extends ContentFragment{
 							}
 							dto = bookDetailDto.book;
 							if (dto != null) {
-								// report.setText(dto.publisher);
 								InfoFragment fragment = InfoFragment
 										.Instance();
 								fragment.loadInfo(dto);
@@ -554,16 +426,9 @@ public class BookDetailFragment extends ContentFragment{
 								}
 								adapter.notifyDataSetChanged();
 
-								// label
 								label = bookDetailDto.label;
-//									label = new LabelDto();
-//									label.of(jsonObj.getJSONObject("label"));
 								setLabel(label, dto);
 							}
-//							} catch (JSONException e) {
-////								showToast("数据出错");
-//								e.printStackTrace();
-//							}
 						} else {
 							showToast("请求出错，请稍后再试");
 						}
@@ -637,35 +502,6 @@ public class BookDetailFragment extends ContentFragment{
 	}
 
 	private void setLabel(LabelDto dto, DetailDto detail) {
-//		if (!CheckUtil.isNull(detail.isbn)) {
-//			postError.setVisibility(View.VISIBLE);
-//		}
-//		see.setText(detail.past + "");
-//		want.setText(detail.wish + "");
-//		favorate.setText(detail.gather + "");
-//		up.setText(detail.like + "");
-//		down.setText(detail.unlike + "");
-
-//		if (dto.past == 1) {
-//			seeLabel.setTextColor(getResources().getColor(R.color.main_color));
-//		}
-//
-//		if (dto.wish == 1) {
-//			wantLabel.setTextColor(getResources().getColor(R.color.main_color));
-//		}
-//
-//		if (dto.gather == 1) {
-//			favorateLabel.setTextColor(getResources().getColor(
-//					R.color.main_color));
-//		}
-//
-//		if (dto.like == 1) {
-//			upLabel.setTextColor(getResources().getColor(R.color.main_color));
-//		}
-//
-//		if (dto.unlike == 1) {
-//			downLabel.setTextColor(getResources().getColor(R.color.main_color));
-//		}
 		if (!CheckUtil.isNull(detail.title)) {
 			titleView.setText(detail.title);
 		}
@@ -675,16 +511,6 @@ public class BookDetailFragment extends ContentFragment{
 		if (!CheckUtil.isNull(detail.publisher)) {
 			report.setText(detail.publisher);
 		}
-
-//		level.setProgress((int) (1.0f * detail.score / detail.comment));
-//		if (detail.mid == null) {
-//			common.setVisibility(View.GONE);
-//		} else {
-//			common.setVisibility(View.VISIBLE);
-//			commonValue = detail.comment;
-//			common.setText(Html.fromHtml("(共" + detail.comment
-//					+ "条<font color=\"#47b89d\">评论</font>)"));
-//		}
 	}
 
 

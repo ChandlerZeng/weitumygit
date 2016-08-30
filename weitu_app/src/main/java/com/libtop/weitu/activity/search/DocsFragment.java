@@ -61,7 +61,6 @@ public class DocsFragment extends NotifyFragment {
         EventBus.getDefault().register(this);
         mData = new ArrayList<SearchResult>();
         mAdapter = new ResultListAdapter2(mContext, mData, 0);
-//        bo = new HistoryBo(context);
         curPage = 1;
     }
 
@@ -114,7 +113,6 @@ public class DocsFragment extends NotifyFragment {
                 mContext.startActivity(intent);
                 mContext.overridePendingTransition(R.anim.zoomin,
                         R.anim.alpha_outto);
-//                context.startActivity(bundle, DocDetailActivity.class);
             }
         });
     }
@@ -137,11 +135,7 @@ public class DocsFragment extends NotifyFragment {
 
 
     private void loadPage() {
-//        if (mContext instanceof ContentActivity) {
-//            requestCate();
-//        } else {
             requestSearch();
-//        }
     }
 
     private void handleResult(String json) {
@@ -150,13 +144,11 @@ public class DocsFragment extends NotifyFragment {
             dismissLoading();
         }
         if (CheckUtil.isNullTxt(json)) {
-//                    showToast("请求超时，请稍后再试");
             mNullTxt.setText("未搜索到相关记录");
             mNullTxt.setVisibility(View.VISIBLE);
             return;
         }
         if (!CheckUtil.isNull(json)) {
-//            try {
                 if (curPage == 1) {
                     mData.clear();
                 }
@@ -172,20 +164,6 @@ public class DocsFragment extends NotifyFragment {
                 mAdapter.setData(mData);
                 mAdapter.notifyDataSetChanged();
 
-//                JSONArray array = new JSONArray(json);
-//                if (array.length() < 10) {
-//                    hasData = false;
-//                    mListview.setPullLoadEnable(false);
-//                } else {
-//                    hasData = true;
-//                    mListview.setPullLoadEnable(true);
-//                }
-//                for (int i = 0; i < array.length(); i++) {
-//                    SearchResult result = new SearchResult();
-//                    result.of(array.getJSONObject(i));
-//                    mData.add(result);
-//                }
-//                mAdapter.notifyDataSetChanged();
                 if (mData.size() == 0 && curPage == 1) {
                     mNullTxt.setText("未搜索到相关记录");
                     mNullTxt.setVisibility(View.VISIBLE);
@@ -193,13 +171,6 @@ public class DocsFragment extends NotifyFragment {
                     mNullTxt.setVisibility(View.GONE);
                 }
                 curPage++;
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            if (curPage == 1) {
-//                showToast("未搜索到相关记录");
-//            }
         }
     }
 
@@ -209,8 +180,6 @@ public class DocsFragment extends NotifyFragment {
         params.put("method", "document.search");
         params.put("sort", "timeline");
         params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
-//        params.put("lid",
-//                Preference.instance(mActivity).getString(Preference.SchoolCode));
         params.put("page", curPage);
         if (curPage == 1) {
            showLoding();
@@ -278,71 +247,6 @@ public class DocsFragment extends NotifyFragment {
                         curPage++;
                     }
                 });
-//        RequestProxy.getInstance().post(ContantsUtil.HOST_ADDON + "/search/listByCate.json"
-//                , params, new Callback.Base() {
-//            @Override
-//            public void onSuccess(String result) {
-//                if (mLoading.isShowing()) {
-//                    mLoading.dismiss();
-//                }
-//                if (curPage == 1) {
-//                    mData.clear();
-//                }
-//                List<SearchResult> s = JsonUtil.fromJson(result, new TypeToken<List<SearchResult>>() {
-//                }.getType());
-//                if (CollectionUtils.isEmpty(s)) {
-//                    mNullTxt.setText("未搜索到相关记录");
-//                    mNullTxt.setVisibility(View.VISIBLE);
-//                    return;
-//                } else {
-//                    mNullTxt.setVisibility(View.GONE);
-//                }
-//                if (s.size() < 10) {
-//                    hasData = false;
-//                    mListview.setPullLoadEnable(false);
-//                } else {
-//                    hasData = true;
-//                    mListview.setPullLoadEnable(true);
-//                }
-//                mData.addAll(s);
-//                mAdapter.notifyDataSetChanged();
-//                curPage++;
-//            }
-//
-//            @Override
-//            public void onError(Throwable ex) {
-//                if (mLoading.isShowing()) {
-//                    mLoading.dismiss();
-//                }
-//                Log.e("request", "erro", ex);
-//                mNullTxt.setText("未搜索到相关记录");
-//                mNullTxt.setVisibility(View.VISIBLE);
-//            }
-//
-//            @Override
-//            public void onFail(int code, String msg) {
-//                if (mLoading.isShowing()) {
-//                    mLoading.dismiss();
-//                }
-//                Log.w("request", "fail code:" + code + " msg:" + msg);
-//                mNullTxt.setText("未搜索到相关记录");
-//                mNullTxt.setVisibility(View.VISIBLE);
-//            }
-//        });
-//        HttpServiceUtil.request(ContantsUtil.HOST_ADDON+"/search/listByCate.json", "post", params, new HttpServiceUtil.CallBack() {
-//            @Override
-//            public void callback(String json) {
-//                try {
-//                    JSONObject object=new JSONObject(json);
-//                    handleResult(object.getJSONArray("data").toString());
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                    mLoading.dismiss();
-//                    mNullTxt.setText("未搜索到相关记录");
-//                    mNullTxt.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
     }
 
     @Override

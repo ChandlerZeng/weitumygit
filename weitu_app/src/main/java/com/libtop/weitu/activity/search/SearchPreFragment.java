@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -186,8 +185,6 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
                 setListViewHeight(mList, mData.size(), true);
-//					mExpandableText.setVisibility(View.GONE);
-//					mHistoryClearText.setVisibility(View.VISIBLE);
                 mHistoryClearText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

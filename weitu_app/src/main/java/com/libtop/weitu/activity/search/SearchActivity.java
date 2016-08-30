@@ -60,14 +60,11 @@ public class SearchActivity extends BaseActivity implements RootStub{
 	private String mCurentTag ="";
 	private InputMethodManager mImm;
 
-	private int TestType = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setInjectContentView(R.layout.fragment_search_layout);
-//		setContentView(R.layout.fragment_search_layout);
-//		统计搜索被点击的次数
 		MobclickAgent.onEvent(mContext,"_search");
 
 		mBo = new SearchBo(mContext);
@@ -108,21 +105,6 @@ public class SearchActivity extends BaseActivity implements RootStub{
 	}
 
 	private void init() {
-//		mNameEdit.setOnKeyListener(new View.OnKeyListener() {
-//			@Override
-//			public boolean onKey(View v, int keyCode, KeyEvent event) {
-//				if (keyCode==KeyEvent.KEYCODE_ENTER){
-//					InputMethodManager imm=(InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-//					if (imm.isActive()){
-//						imm.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
-//					}
-//					//请求搜索
-//					search(mNameEdit.getText() + "");
-//					return true;
-//				}
-//				return false;
-//			}
-//		});
 		mNameEdit.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -162,10 +144,6 @@ public class SearchActivity extends BaseActivity implements RootStub{
 				replaceFragment(tag, mFragment, isAdd);
 			}
 		});
-//		mSpeakBtn.setOnClickListener(this);
-//		mBackBtn.setOnClickListener(this);
-//		mSearchBtn.setOnClickListener(this);
-//		mDeleteBtn.setOnClickListener(this);
 		replaceFragment("history", new SearchPreFragment(), false);
 	}
 
@@ -299,7 +277,6 @@ public class SearchActivity extends BaseActivity implements RootStub{
 	public void onBackPressed() {
 		if (!(mFragment instanceof ResultFragment)) {
 			finish();
-//			super.onBackPressed();
 		} else {
 			boolean isAdd = false;
 			String tag = "history";
@@ -354,10 +331,6 @@ public class SearchActivity extends BaseActivity implements RootStub{
 	@Override
 	public String getKey() {
 		return mNameEdit.getText() + "";
-	}
-
-	public int getTestType() {
-		return TestType;
 	}
 
 }

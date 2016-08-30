@@ -64,13 +64,11 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
     protected TranLoading mLoading;
     private HackyViewPager mPager;
     private int pagerPosition;
-    //TextView indicator;
     List<String> list = new ArrayList<String>();
     TextView title, back;
     Button backbutton;
     private String titlename;
     protected Preference mPreference;
-//  ImageView describeImage;
     /**
      * 默认选择集
      */
@@ -79,11 +77,9 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
     public static final String COMMENT_LIST = "comment_list";
     private int width, height;
     View bottomView;
-    //    EditText describe;
     TextView tvTitle, imgTitle, titlePlay;
     private List<View> viewList = new ArrayList<View>();
     private List<PhotoViewAttacher> photoList = new ArrayList<PhotoViewAttacher>();
-    // private List<String> commentList = new ArrayList<String>();
     private List<String> idList = new ArrayList<String>();
     private int pageCount;
     private int positionD = 0;
@@ -92,7 +88,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
     String favorite;
     String cover;
     String categoriesName1;
-//    String categoriesName2;
     String uploadUsername;
     String imageID;
 
@@ -123,11 +118,9 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         favorite = getIntent().getStringExtra("favorite");
         cover = getIntent().getStringExtra("cover");
         categoriesName1 = getIntent().getStringExtra("categoriesName1");
-//        categoriesName2 = getIntent().getStringExtra("categoriesName2");
         uploadUsername = getIntent().getStringExtra("uploadUsername");
         imageID = getIntent().getStringExtra("imageID");
         list = getIntent().getStringArrayListExtra(DEFAULT_SELECTED_LIST);
-        // commentList = getIntent().getStringArrayListExtra(COMMENT_LIST);
         idList = getIntent().getStringArrayListExtra(ID_LIST);
         addView(list);
         mPager = (HackyViewPager) findViewById(R.id.pager);
@@ -136,10 +129,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         tvTitle = (TextView) findViewById(R.id.tv_title);
         positionD = getIntent().getIntExtra("position", 0);
         tvTitle.setText(positionD + 1 + "/" + list.size());
-//        if (commentList != null) {
-//            String a = commentList.get(positionD);
-//
-//        }
         if (where == 2)
             bottomView.setVisibility(View.VISIBLE);
         // 更新下标
@@ -183,8 +172,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         String str = "";
         if (categoriesName1 != null && !categoriesName1.equals("null"))
             str = categoriesName1;
-//        if (categoriesName2 != null && !categoriesName2.equals("null"))
-//            str = categoriesName1 + "/" + categoriesName2;
         if (str.length() != 0)
             titlePlay.setText(str);
         collectView.setOnClickListener(this);
@@ -195,7 +182,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         } else {
             collectView.setImageResource(R.drawable.collect_no);
         }
-//        getDetailData();
     }
 
     public void onSaveInstanceState(Bundle outState) {
@@ -234,7 +220,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
 
     private Handler updataHandler = new Handler() {
         public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1:
@@ -283,12 +268,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
             rb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    if (bottomView != null) {
-//                        if (bottomView.getVisibility() == View.VISIBLE)
-//                            bottomView.setVisibility(View.INVISIBLE);
-//                        else
-//                            bottomView.setVisibility(View.VISIBLE);
-//                    }
                 }
             });
             final PhotoViewAttacher mAttacher;
@@ -308,24 +287,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
 
                     }
                 });
-//                ImageLoader.getInstance().init(
-//                        ImageLoaderConfiguration.createDefault(ImagePagerActivity2.this));
-//                ImageLoader.getInstance().displayImage(a, rbt,
-//                        new SimpleImageLoadingListener() {
-//                            public void onLoadingStarted(String imageUri, View view) {
-//
-//                            }
-//
-//                            public void onLoadingFailed(String imageUri, View view
-//                            ) {
-//
-//                            }
-//
-//                            public void onLoadingComplete(String imageUri, View view,
-//                                                          Bitmap loadedImage) {
-//                                mAttacher.update();
-//                            }
-//                        });
             } else {
                 Picasso.with(ImagePagerActivity2.this)
                         .load(imageFile)
@@ -432,8 +393,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
 
     //分享点击
     private void shareClick() {
-//        UemgShare a = new UemgShare(ImagePagerActivity2.this);
-//        a.setImage(list.get(pageCount)).setText("123").share();
         String title = "微图分享";
         String content = "“【图片】"+"”"+ContantsUtil.shareContent;
         String imageUrl = "drawable://" + R.drawable.wbshare;
@@ -446,15 +405,11 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         CommentNeedDto commentNeedDto = new CommentNeedDto();
         commentNeedDto.title = categoriesName1;
         commentNeedDto.author = uploadUsername;
-//        commentNeedDto.publisher = categoriesName2;
         commentNeedDto.photoAddress = cover;
         commentNeedDto.tid = idList.get(pageCount);
         commentNeedDto.type = 4;
         intent.putExtra("CommentNeedDto",new Gson().toJson(commentNeedDto));
         startActivity(intent);
-//        intent.putExtra("comment_tid", idList.get(pageCount));
-//        intent.putExtra("comment_type", "imageAlbum");
-//        startActivity(intent);
     }
 
     //收藏点击
@@ -489,7 +444,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
                     @Override
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             try {
                                 JSONObject mjson = new JSONObject(json);
                                 String message = mjson.getString("message");
@@ -529,7 +483,6 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         params.put("id", idList.get(0));
         params.put("ip", NetworkUtil.getLocalIpAddress(ImagePagerActivity2.this));
         params.put("method", "document.get");
-        //  params.put("filterType", type);
         //http://www.yuntu.io/image/list.json?aid=56fb2635e4b0a96fbd838dcc
         HttpRequest.loadWithMap(params)
                 .execute(new StringCallback() {

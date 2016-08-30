@@ -139,9 +139,6 @@ public class CdFragment extends NotifyFragment{
 					mContext.startActivity(bundle, VideoPlayActivity.class);
 				} else if ("audio".equals(dto.type)) {
 					Bundle bundle = new Bundle();
-//					bundle.putString(AudioPlayActivity.MEDIA_NAME, dto.name);
-//					bundle.putString(AudioPlayActivity.MEDIA_PATH, ContantsUtil.getFile(lib,
-//							activity.getDto().mid, curDisc, dto.id));
 					bundle.putInt("media_list_position",position);
 					bundle.putParcelableArrayList("media_list", (ArrayList<? extends Parcelable>) conver(data));
 					mContext.startActivity(bundle, AudioPlayActivity2.class);
@@ -174,16 +171,10 @@ public class CdFragment extends NotifyFragment{
 	private void loadData(final long sequence) {
 		preId = sequence;
 		showLoding();
-//		Map<String, Object> params = new HashMap<String, Object>();
-//		params.put("lid", lib);
-//		params.put("bid", fragment.getDto().mid);
-//		params.put("sequnce", curDisc);
-//		params.put("id", sequence);
 //		http://disc.libtop.com/folder?lid=1&bid=8114277121190&sequnce=0&id=0
 		OkHttpUtils
 				.post()
 				.url(ContantsUtil.CD_DETAIL+"?lid="+lib+"&bid="+fragment.getDto().mid+"&sequnce="+curDisc+"&id="+sequence)
-//				.addParams("text", MapUtil.map2ParameterNoMethod(params))
 				.build()
 				.execute(new StringCallback() {
 					@Override
