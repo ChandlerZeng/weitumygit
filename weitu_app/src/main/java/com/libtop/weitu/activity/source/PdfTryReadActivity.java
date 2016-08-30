@@ -133,11 +133,6 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
     }
 
     private void shareClick() {
-//		Toast.makeText(mContext,"share click",Toast.LENGTH_SHORT).show();
-//		UemgShare a = new UemgShare(mContext);
-//		String str = "www.baidu.com";
-//		a.setImage(str).setT
-//		String imgUrl = "http://n0.libtop.com/1/" + tid + ".pdf";
         String title = "微图分享";
         String content = "“【书】"+data.title+"”"+ ContantsUtil.shareContent;
         String imageUrl = "drawable://" + R.drawable.wbshare;
@@ -150,7 +145,6 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
         }else {
             requestCollect();
         }
-//		Toast.makeText(mContext,"collect click",Toast.LENGTH_SHORT).show();
     }
 
     private void requestCancelCollect() {
@@ -269,14 +263,9 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
 
                 } else {
                     showToast("该文档不存在");
-//                    setResult(0x5555);
-//                    Toast.makeText(mContext,"该文档无法打开",Toast.LENGTH_SHORT).show();
-//                    finish();
-//                    overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
                 }
             }
         });
-        //pdfView.fromAsset(ABOUT_FILE).defaultPage(0).onPageChange(this).load();
     }
 
     @Override
@@ -313,7 +302,6 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
             imgCollect.setImageResource(R.drawable.collect_no);
         }
         title.setText(data.title);
-//        tvPublisher.setText(data.uploadUsername);
         pdfView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -370,8 +358,6 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == 100)
-//            collectClick();
     }
 
 }

@@ -24,7 +24,6 @@ public class TxtActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setInjectContentView(R.layout.activity_txt_layout);
-//		setContentView(R.layout.activity_txt_layout);
 		initActivity();
 	}
 
