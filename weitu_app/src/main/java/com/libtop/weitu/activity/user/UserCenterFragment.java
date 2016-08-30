@@ -48,9 +48,6 @@ public class UserCenterFragment extends BaseFragment {
     ImageView imgSex;
 
 
-//    private ImageOptions mOptions;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,8 +167,6 @@ public class UserCenterFragment extends BaseFragment {
         if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
             mUserText.setText("点击登录");
 
-//            mMineContainer.setVisibility(View.GONE);
-//            mMineView.setVisibility(View.GONE);
             mIconImg.setImageResource(R.drawable.user_default_icon);
         } else {
             mUserText.setText(mPreference.getString(Preference.UserName));
@@ -191,9 +186,6 @@ public class UserCenterFragment extends BaseFragment {
             Picasso picasso = Picasso.with(mContext);
 
             if (UserInfoFragment.isUpdateAvatar) {
-//                ImagePipeline imagePipeline = Fresco.getImagePipeline();
-//                imagePipeline.evictFromMemoryCache(uri);
-//                imagePipeline.evictFromDiskCache(uri);
                 picasso.invalidate(uri);
                 UserInfoFragment.isUpdateAvatar = false;
             }
@@ -204,13 +196,6 @@ public class UserCenterFragment extends BaseFragment {
                     .error(R.drawable.user_default_icon)
                     .networkPolicy(NetworkPolicy.NO_CACHE)
                     .into(mIconImg);
-//            mIconImg.setImageURI(uri);
-
-
-//            x.image().bind(mIconImg, avatar, mOptions);
-//            ImageLoader.getInstance().displayImage(avatar, mIconImg, mOptions);
-//            mMineView.setVisibility(View.VISIBLE);
-//            mMineContainer.setVisibility(View.VISIBLE);
         }
         if (CheckUtil.isNull(mPreference.getString(Preference.SchoolCode))) {
             mLibText.setText("选择图书馆");

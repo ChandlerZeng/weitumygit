@@ -27,7 +27,6 @@ import com.libtop.weitu.utils.SdCardUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
-import com.libtop.weitu.widget.dialog.PhotoPickup;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -50,26 +49,13 @@ import rx.schedulers.Schedulers;
 public class UserInfoFragment extends PhotoFragment {
     public static final int REQUEST_IMAGE = 2;
 
-//    @Bind(R.id.back_btn)
-//    ImageView mBackBtn;
-
-//    @Bind(R.id.password)
-//    RelativeLayout mPasswdBtn;
-//    @Bind(R.id.name_value)
-//    TextView mNickText;
     @Bind(R.id.sex_value)
     TextView mSexText;
-//    @Bind(R.id.sex_con)
-//    RelativeLayout mSexBtn;
-//    @Bind(R.id.avatar)
-//    RelativeLayout mAvatarBtn;
     @Bind(R.id.tv_library)
     TextView tvLibrary;
     @Bind(R.id.img_head)
     ImageView imgHead;
 
-//    private SexDialog mDialog;
-    private PhotoPickup mPickup;
     private Bitmap mBitmap;
 
     private String mSex = "";
@@ -77,26 +63,10 @@ public class UserInfoFragment extends PhotoFragment {
     public static boolean isUpdateAvatar;
     private boolean isUpdateSex;
 
-//    private String tempSName,tempSCode,tempSId;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        mDialog = new SexDialog(mContext);
-//        mDialog.setCall(new BaseListDialog.CallBack() {
-//            @Override
-//            public void callBack(String key, String value) {
-//                if (!mSex.equals(key)) {
-//                    mSex = key;
-//                    mSexText.setText("性别："+value);
-//                    mPreference.putString(Preference.sex, mSex);
-//                    isUpdateSex = true;
-////                    updateSex();
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -133,8 +103,6 @@ public class UserInfoFragment extends PhotoFragment {
     public void onCreation(View root) {
         mSex = mPreference.getString(Preference.sex);
         mSexText.setText("性别："+CommonUtil.getValue("sex" + mSex));
-//        String nickName = mPreference.getString(Preference.UserName);
-//        mNickText.setText(nickName);
         String uid = mPreference.getString(Preference.uid);
         String avatar = ContantsUtil.getAvatarUrl(uid);
         Picasso.with(mContext)
@@ -143,7 +111,6 @@ public class UserInfoFragment extends PhotoFragment {
                 .error(R.drawable.user_default_icon)
                 .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(imgHead);
-//        savePhoto();
     }
 
     @Override
@@ -155,11 +122,6 @@ public class UserInfoFragment extends PhotoFragment {
         }
     }
 
-    //    private void saveSTemp(){
-//        tempSName = mPreference.getString(Preference.SchoolName);
-//        tempSCode = mPreference.getString(Preference.SchoolCode);
-//        tempSId = mPreference.getString(Preference.SchoolId);
-//    }
 
     @Nullable
     @OnClick({R.id.tv_cancel, R.id.password, R.id.sex_value, R.id.avatar,R.id.tv_library,R.id.tv_save})
@@ -172,14 +134,11 @@ public class UserInfoFragment extends PhotoFragment {
                 break;
             //修改密码
             case R.id.password:
-//                ((ContentActivity) mContext).changeFragment(UpdatePasswdFragment.class.getName()
-//                        , true, true);
                 break;
 
             //修改性别
             case R.id.sex_value:
                 openSexDialog();
-//                mDialog.show();
                 break;
             //修改头像
             case R.id.avatar:
@@ -211,41 +170,15 @@ public class UserInfoFragment extends PhotoFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        mDialog.dismiss();
     }
 
-    private void setTitle(View root) {
-//        mBackBtn.setOnClickListener(this);
-        ((TextView) root.findViewById(R.id.title)).setText(R.string.user_info);
-    }
 
     private void loadPickUp() {
-//        if (mPickup == null) {
-//            mPickup = new PhotoPickup(mContext);
-//            mPickup.setClickListener(new PhotoPickup.ClickListener() {
-//                @Override
-//                public void selectBtn(int selectId) {
-//                    switch (selectId) {
-//                        case 1:
-//                            openCamera();
-//                            break;
-//                        case 2:
-                            // pickUpPhoto();
                             Intent intent = new Intent(getActivity(), MultiImageSelectorActivity.class);
-                            // 是否显示拍摄图片
                             intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-                            // 最大可选择图片数量
                             intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
-                            // 选择模式
                             intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, 0);
-                            // 默认选择
                             mContext.startActivityForResult(intent, REQUEST_IMAGE);
-//                            break;
-//                    }
-//                }
-//            });
-//        }
-//        mPickup.show();
     }
 
     @Override
@@ -257,10 +190,6 @@ public class UserInfoFragment extends PhotoFragment {
             case REQUEST_CODE_CAMERA:
                 cropPhoto(Uri.parse(SdCardUtil.TEMP));
                 break;
-//            case REQUEST_CODE_PHOTO:
-//                Uri uri = data.getData();
-//                cropPhoto(uri);
-//                break;f
             case REQUEST_IMAGE:
                 String a = "file:///"+data.getStringExtra("lamge");
                 //Uri uri = d1ata.getData();
@@ -275,7 +204,6 @@ public class UserInfoFragment extends PhotoFragment {
                 }
                 imgHead.setImageBitmap(mBitmap);
                 isUpdateAvatar = true;
-//                savePhoto();
                 break;
         }
     }
@@ -356,7 +284,6 @@ public class UserInfoFragment extends PhotoFragment {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("method", "user.updateSex");
         params.put("uid", Preference.instance(mContext).getString(Preference.uid));
-//        params.put("phone", mPreference.getString(Preference.phone));
         params.put("sex", mSex);
         String[] arrays = MapUtil.map2Parameter(params);
         return WeituNetwork.getWeituApi().getResultCode(arrays[0],arrays[1],arrays[2]);
