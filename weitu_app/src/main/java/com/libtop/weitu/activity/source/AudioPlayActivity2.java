@@ -228,8 +228,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
     private void initView() {
         mCurrentIndex=0;
-//        mAdapter = new SingleSelectAdapter(mContext,lists);
-//        mRecyclerView.setAdapter(mAdapter);
         mAdapter = new RecyclerSingleChoiseAdapter(mContext,lists,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);

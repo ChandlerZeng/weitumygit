@@ -17,14 +17,8 @@ import java.util.List;
  * Created by Administrator on 2015/12/23 0023.
  */
 public class ResultListAdapter extends ImgAdapter {
-//    private ImageOptions xOptions;
     public ResultListAdapter(Context context, List<?> data) {
         super(context, data, R.layout.item_list_result2);
-//        xOptions=new ImageOptions.Builder()
-//                .setFailureDrawableId(R.drawable.content_bg)
-//                .setLoadingDrawableId(R.drawable.content_bg)
-//                .setUseMemCache(true)
-//                .build();
     }
 
     @Override
@@ -43,15 +37,9 @@ public class ResultListAdapter extends ImgAdapter {
         holder.titleText.setText(data.title);
         holder.uploaderText.setText("上传者:"+data.uploadUsername);
         Picasso.with(mContext).load(ContantsUtil.getCoverUrl(data.id)).into(holder.iconCover);
-//        x.image().bind(holder.iconCover,ContantsUtil.getCoverUrl(data.id),xOptions);
-//        ImageLoader.getInstance().displayImage(
-//                ContantsUtil.getCoverUrl(data.id), holder.iconCover, mOptions);
-
-//        holder.iconCover.setImageURI(Uri.parse(ContantsUtil.getCoverUrl(data.id)));
     }
 
     protected class ViewHolder{
-//        SimpleDraweeView iconCover;
         ImageView iconCover;
         TextView titleText,uploaderText;
     }

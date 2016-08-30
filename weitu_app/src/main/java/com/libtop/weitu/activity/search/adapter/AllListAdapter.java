@@ -14,7 +14,6 @@ import com.libtop.weitu.activity.search.AllFragment;
 import com.libtop.weitu.activity.search.dto.AllDto;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DateUtil;
-import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -121,7 +120,6 @@ public class AllListAdapter extends BaseAdapter {
                 if (!TextUtils.isEmpty(allDto.categoriesName2)){
                     holder1.tvTag.setText(allDto.categoriesName1+"/"+allDto.categoriesName2);
                 }
-//                holder1.tvTag.setText("dsfdsafa");
                 if (!TextUtils.isEmpty(allDto.author))
                     holder1.tvAuthor.setText(allDto.author);
                 if (!TextUtils.isEmpty(allDto.publisher))
@@ -158,7 +156,6 @@ public class AllListAdapter extends BaseAdapter {
                 if (!TextUtils.isEmpty(allDto.categoriesName2)){
                     holder2.tvTag.setText(allDto.categoriesName1+"/"+allDto.categoriesName2);
                 }
-//                holder2.tvTag.setText("dfsdafd");
                 holder2.tvUploader.setText("上传："+allDto.uploadUsername);
                 holder2.tvTime.setText("时间："+DateUtil.parseToDate(allDto.timeline));
                 break;
@@ -167,16 +164,6 @@ public class AllListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void getImage(ImageView image, String url) {
-        String a = "http://nt1.libtop.com/f"+url;
-        Picasso.with(context)
-                .load(a)
-                .placeholder(R.drawable.default_image)
-                .tag(MultiImageSelectorFragment.TAG)
-                .fit()
-                .centerInside()
-                .into(image);
-    }
 
     public void updateList(List<AllDto> lists){
         this.lists = lists;

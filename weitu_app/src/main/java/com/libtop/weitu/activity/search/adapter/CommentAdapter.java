@@ -112,7 +112,6 @@ public class CommentAdapter extends BaseAdapter<CommentResult> {
         String builderStr = first + "：";
         SpannableStringBuilder builder = new SpannableStringBuilder(builderStr+append);
 
-        //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
         ForegroundColorSpan orangeSpan = new ForegroundColorSpan(Color.parseColor("#EE5B21"));
         builder.setSpan(orangeSpan, 0, builderStr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
