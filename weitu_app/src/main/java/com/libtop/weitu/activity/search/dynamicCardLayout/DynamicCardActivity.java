@@ -9,6 +9,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
@@ -35,6 +36,7 @@ import okhttp3.Call;
 
 public class DynamicCardActivity extends BaseActivity  {
 
+    @Nullable
     @Bind(R.id.title)
     TextView tvTitle;
 
@@ -60,9 +62,8 @@ public class DynamicCardActivity extends BaseActivity  {
         setInjectContentView(R.layout.activity_dynamic_card);
 
         mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(COLUMNCOUNT, StaggeredGridLayoutManager.VERTICAL));//设置RecyclerView布局管理器为2列垂直排布
-        adapter = new DynamicCardAdapter(this,urlLists);
+        adapter = new DynamicCardAdapter(this,urlLists,COLUMNCOUNT);
         mRecyclerView.setAdapter(adapter);
         adapter.setOnClickListener(new DynamicCardAdapter.OnItemClickListener() {
             @Override
@@ -112,6 +113,7 @@ public class DynamicCardActivity extends BaseActivity  {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         dismissLoading();
+                        Toast.makeText(mContext,"网络不给力，请稍后重试",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
