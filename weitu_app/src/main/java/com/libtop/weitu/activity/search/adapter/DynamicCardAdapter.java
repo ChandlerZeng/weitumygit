@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.libtop.weitu.R;
+import com.libtop.weitu.utils.DisplayUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,16 +24,19 @@ public class DynamicCardAdapter extends RecyclerView.Adapter<DynamicCardViewHold
     private Context context;
     private List<Integer> heights;
     private OnItemClickListener mListener;
-    public DynamicCardAdapter(Context context, List<String> lists) {
+    private int baseHeight;
+
+    public DynamicCardAdapter(Context context, List<String> lists,int columnNum) {
         this.context = context;
         this.lists = lists;
+        this.baseHeight = DisplayUtils.getDisplayHeight(context) / columnNum;
         if (!lists.isEmpty())
             getRandomHeight(this.lists);
     }
     private void getRandomHeight(List<String> lists){//得到随机item的高度
         heights = new ArrayList<>();
         for (int i = 0; i < lists.size(); i++) {
-            heights.add((int)(200+Math.random()*400));
+            heights.add((int) ((int)(baseHeight+Math.random()*this.baseHeight) * 0.5));
         }
     }
     public interface OnItemClickListener{
