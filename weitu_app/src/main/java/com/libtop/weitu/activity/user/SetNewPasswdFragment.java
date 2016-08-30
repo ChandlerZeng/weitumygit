@@ -52,20 +52,16 @@ public class SetNewPasswdFragment extends BaseFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
             temp = s.toString();
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            // TODO Auto-generated method stub
 
             String newPasswd = mPasswdEdit.getText().toString();
             imgConfirPassword.setVisibility(View.VISIBLE);
@@ -200,8 +196,6 @@ public class SetNewPasswdFragment extends BaseFragment {
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         params.put("method", "user.updatePassword");
         params.put("uid", uid);
-//        params.put("phone", mobile);
-//        params.put("captcha", ContantsUtil.caption);
         params.put("newPassword", newPasswd + "");
         params.put("oldPassword", oldPasswd + "");
         showLoding();

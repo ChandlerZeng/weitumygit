@@ -83,7 +83,6 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_pdf3);
 
-//         initActivity();
         tid = getIntent().getStringExtra("doc_id");
         getPDF();
 
@@ -138,16 +137,10 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener {
         Intent intent = new Intent(PdfActivity2.this, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
         commentNeedDto.title = docResultBean.document.title;
-//        commentNeedDto.author = dto.author;
-//        commentNeedDto.publisher = dto.publisher;
-//        commentNeedDto.photoAddress = imgPath;
         commentNeedDto.tid = tid;
         commentNeedDto.type = 3;
         intent.putExtra("CommentNeedDto",new Gson().toJson(commentNeedDto));
         startActivity(intent);
-//        intent.putExtra("comment_tid", tid);
-//        intent.putExtra("comment_type", "document");
-//        startActivity(intent);
     }
 
     //收藏点击
@@ -164,8 +157,6 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener {
 
 
     private void initActivity(String path) {
-//        Bundle bundle = getIntent().getExtras();
-//        String path = bundle.getString("url");
         showLoding();
         FileLoader.getInstance(mContext).loadCallBack(path, new FileLoader.CallBack() {
             @Override
@@ -177,14 +168,9 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener {
 
                 } else {
                     showToast("该文档不存在");
-//                    setResult(0x5555);
-//                    Toast.makeText(mContext,"该文档无法打开",Toast.LENGTH_SHORT).show();
-//                    finish();
-//                    overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
                 }
             }
         });
-        //pdfView.fromAsset(ABOUT_FILE).defaultPage(0).onPageChange(this).load();
     }
 
     @Override
@@ -277,16 +263,12 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener {
                 .execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-//                        if (mLoading.isShowing()) {
-//                            mLoading.dismiss();
-//                        }
                     }
 
                     @Override
                     public void onResponse(String json, int id) {
                         dismissLoading();
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             DocResultBean resultBean = JsonUtil.fromJson(json,new TypeToken<DocResultBean>(){}.getType());
                             if (resultBean.code == 0){
                                 Toast.makeText(mContext,"该文档不存在",Toast.LENGTH_SHORT).show();
@@ -359,15 +341,6 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener {
             }
         });
 
-//		pdfView.setOnTouchListener(new View.OnTouchListener() {
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-//				titleContainer.setVisibility(View.GONE);
-
-//				rlBottom.setVisibility(View.GONE);
-//				return true;
-//			}
-//		});
 
         pdfView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

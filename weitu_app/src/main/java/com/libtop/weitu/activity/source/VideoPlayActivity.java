@@ -49,10 +49,6 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
     LinearLayout mBottomView;
     @Bind(R.id.media_top)
     LinearLayout mTopView;
-//    @Bind(R.id.video_container)
-//    private CenterLayout mVideoContainer;
-//    @Bind(R.id.back_btn)
-//    ImageButton  mBackBtn;
 
     @Bind(R.id.container)
     RelativeLayout mVideoSu;
@@ -68,8 +64,6 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_video_play2);
-//        setContentView(R.layout.activity_video_play2);
-//        setOrientation(true);
         init();
     }
 
@@ -89,58 +83,22 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         String name = getIntent().getExtras().getString(MEDIA_NAME);
         mTitleText.setText(name);
         mVideo.setVideoURI(Uri.parse(videoPath));
-//        mTitleText.setText("测试");
-//        mViedo.setVideoURI(Uri.parse("http://nt1.libtop.com/1/565e6a2f984e14624d5a1506.mp4"));
-//        mVideo.setVideoLayout(VideoView.VIDEO_LAYOUT_STRETCH,0);
         mVideo.requestFocus();
-//        mPlayBtn.setOnClickListener(this);
-//        mBackBtn.setOnClickListener(this);
         mPlayBtn.setClickable(false);
         mPlayBtn.setImageResource(R.drawable.btn_play);
-
-//        mSeek.setOnSeekBarChangeListener(this);
 
         mVideo.setOnCompletionListener(this);
         mVideo.setOnPreparedListener(this);
 
-
-//        mVideoContainer.setOnClickListener(this);
-
         new CustomThread().start();
-
-//        mViedo.start();
     }
 
     private void setupAnimate(){
         mBHideAn = AnimationUtils.loadAnimation(mContext, R.anim.push_bottom_out);
-//        mBHideAn.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {}
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {}
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                mBottomView.setVisibility(View.GONE);
-//            }
-//        });
         mBShowAn = AnimationUtils.loadAnimation(mContext, R.anim.push_bottom_in);
 
         //top
         mTHideAn = AnimationUtils.loadAnimation(mContext, R.anim.push_top_out);
-//        mTHideAn.setAnimationListener(new Animation.AnimationListener() {
-//            @Override
-//            public void onAnimationStart(Animation animation) {}
-//
-//            @Override
-//            public void onAnimationRepeat(Animation animation) {}
-//
-//            @Override
-//            public void onAnimationEnd(Animation animation) {
-//                mTopView.setVisibility(View.GONE);
-//            }
-//        });
         mTShowAn = AnimationUtils.loadAnimation(mContext, R.anim.push_top_in);
 
     }
@@ -222,11 +180,6 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         switch (v.getId()) {
             case R.id.back_btn:
                 finishSimple();
-//                if (isVertical){
-//                    setFullScreen();
-//                }else {
-//                    setWindowScreen();
-//                }
                 break;
             case R.id.play_pause:
                 playOrPause();
@@ -237,8 +190,6 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         }
     }
 
-//    @Nullable @OnClick(value = R.id.seekbar,type = SeekBar.OnSeekBarChangeListener.class
-//            ,method = "onProgressChanged")
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (!fromUser) return;
         long newposition = (mVideo.getDuration() * progress) / 1000L;
@@ -248,15 +199,6 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
 
     }
 
-//    @Override
-//    public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//    }
-//
-//    @Override
-//    public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//    }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
@@ -273,7 +215,6 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         setPlayProgress(mCurrentPro, position); // 设置时间显示
         setPlayProgress(mTotalPro, duration);
         mSeek.setMax(1000);
-//        mViedo.start();
         mPlayBtn.setClickable(true);
         mPlayBtn.setImageResource(R.drawable.btn_pause);
         hide();
@@ -289,7 +230,6 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
                 try {
                     sleep(100);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -311,6 +251,4 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         mVideoSu.setLayoutParams(pm);
         mVideoSu.requestLayout();
     }
-
-
 }

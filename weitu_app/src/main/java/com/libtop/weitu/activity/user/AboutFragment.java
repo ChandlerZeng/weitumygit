@@ -7,14 +7,10 @@ package com.libtop.weitu.activity.user;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.webkit.WebView;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.base.BaseFragmentDialog;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
@@ -24,17 +20,6 @@ import butterknife.OnClick;
  *
  */
 public class AboutFragment extends BaseFragmentDialog {
-
-    @Bind( R.id.back_btn)
-    ImageButton mBackBtn;
-    @Nullable
-    @Bind(R.id.web_content)
-    WebView mWebview;
-    @Nullable
-    @Bind(R.id.title)
-    TextView mTitleText;
-
-    private String mContent = "";
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
