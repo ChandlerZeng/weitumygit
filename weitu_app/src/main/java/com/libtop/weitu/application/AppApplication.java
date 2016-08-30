@@ -69,17 +69,6 @@ public class AppApplication extends Application {
 	}
 
 
-	//各个平台的配置，建议放在全局Application或者程序入口 TODO 是否在用?
-	{
-		//微信    wx12342956d1cab4f9,a5ae111de7d9ea137e88a5e02c07c94d
-//		PlatformConfig.setWeixin("wxd84d649fcca1cdf6", "767c850b8588a064d17d726be3fdabbd");
-//		//豆瓣RENREN平台目前只能在服务器端配置
-//		//新浪微博
-//		PlatformConfig.setSinaWeibo("1849435917", "6365d1498f2e2da983b6d4b8c9a6c165");
-//		PlatformConfig.setQQZone("1105269395", "moeoPdHVW4iqM2gt");
-	}
-
-
 	/**
 	 * 取得DaoMaster
 	 * 
