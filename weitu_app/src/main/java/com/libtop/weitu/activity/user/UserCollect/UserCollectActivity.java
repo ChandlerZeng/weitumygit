@@ -35,7 +35,6 @@ public class UserCollectActivity extends BaseActivity{
     private NotifyFragment mFragment;
     private String mCurentTag ="";
     private int pageIndex = 0;
-//    private boolean isEdit = false;
 
     private Map<Integer,Boolean> map = new HashMap<>();
 

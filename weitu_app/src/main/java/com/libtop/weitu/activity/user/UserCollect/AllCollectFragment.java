@@ -89,17 +89,12 @@ public class AllCollectFragment extends NotifyFragment{
 
             @Override
             public void create(SwipeMenu menu) {
-                // create "delete" item
                 SwipeMenuItem deleteItem = new SwipeMenuItem(
                         mContext.getApplicationContext());
-                // set item background
                 deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
                         0x3F, 0x25)));
-                // set item width
                 deleteItem.setWidth(dp2px(135));
-                // set a icon
                 deleteItem.setIcon(R.drawable.delete_c);
-                // add to menu
                 menu.addMenuItem(deleteItem);
             }
         };
@@ -235,9 +230,6 @@ public class AllCollectFragment extends NotifyFragment{
                         mData.clear();
                         mData = collectBeen;
                         hideAndSeek();
-//                        if (mData.isEmpty()){
-//                            hideAndSeek();
-//                        }
                         mAdapter.updateList(mData);
 
                     }
