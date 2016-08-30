@@ -126,7 +126,6 @@ public class AllCollectAdapter extends BaseAdapter{
                 }else{
                     holder.tvTag.setText("暂无分类");
                 }
-//                holder.tvTag.setText("dsfdsafa");
                 holder.checkMark.setChecked( lists.get(position).target.ischecked);
                 if (!TextUtils.isEmpty(collectBean.target.author))
                     holder.tvAuthor.setText(collectBean.target.author);
@@ -140,9 +139,6 @@ public class AllCollectAdapter extends BaseAdapter{
                     holder.tvDesc.setText(collectBean.target.introduction);
                 else
                     holder.tvDesc.setText("");
-//                holder.tvAuthor.setText();
-//                holder.tvPublisher.setText();
-//                holder.tvDesc.setText();
                 break;
             }
             case MEDIA:{
@@ -178,7 +174,6 @@ public class AllCollectAdapter extends BaseAdapter{
                             .into(holder.imageView);
                 }else{
                     Picasso.with(context)
-//                        .load(ContantsUtil.getCoverUrl(collectBean.target.id))
                             .load(collectBean.target.cover)
                             .centerInside()
                             .fit()
@@ -195,7 +190,6 @@ public class AllCollectAdapter extends BaseAdapter{
                 }else{
                     holder.tvTag.setText("暂无分类");
                 }
-//                holder.tvTag.setText("dfsdafd");
                 holder.tvUploader.setText("上传："+collectBean.target.uploadUsername);
                 holder.tvTime.setText("时间："+DateUtil.parseToDate(collectBean.target.timeline));
                 break;
