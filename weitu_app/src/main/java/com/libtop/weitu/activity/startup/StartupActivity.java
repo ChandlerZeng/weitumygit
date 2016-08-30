@@ -77,11 +77,9 @@ public class StartupActivity extends BaseActivity  {
         Bundle bundle = new Bundle();
         switch (v.getId()) {
             case R.id.login_btn:
-                //登陆页面
                 bundle.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
                 break;
             case R.id.choose_library:
-                //图书馆选择页面
                 bundle.putInt("from", 1);
                 bundle.putString(ContentActivity.FRAG_CLS, LibraryFragment.class.getName());
                 break;
