@@ -2,7 +2,6 @@ package com.libtop.weitu.activity.main.adapter;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
@@ -12,14 +11,16 @@ import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.widget.slidebar.ScheduleView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/1/14 0014.
  */
 public class NoticeListAdapter extends BaseAdapter<NoticeInfo> {
     private Context context;
-    private StringBuffer stringBuffer = new StringBuffer();
+    private Set set = new HashSet();
     private String dateStr;
     private String noticeId;
     private List<String> idList = new ArrayList<String>();
@@ -48,13 +49,11 @@ public class NoticeListAdapter extends BaseAdapter<NoticeInfo> {
         Holder holder = (Holder) convertView.getTag();
         String titleStr = noticeInfo.title.trim();
 
-        if (position == 0)
+        if (position == 0){
             holder.timeline.setHiddenTopLine(true);
-        else if (position == (lists.size()-1))
-            holder.timeline.setHiddenBottomLine(true);
-        else
+        } else {
             holder.timeline.setHiddenTopLine(false);
-            holder.timeline.setHiddenBottomLine(false);
+        }
 
         if (!titleStr.equals("")) {
             holder.titleText.setVisibility(View.VISIBLE);
@@ -65,8 +64,8 @@ public class NoticeListAdapter extends BaseAdapter<NoticeInfo> {
 
         dateStr = DateUtil.getSendTimeDistance(noticeInfo.dateLine);
         noticeId = noticeInfo.id;
-        if (stringBuffer.indexOf(dateStr) == -1) {
-            stringBuffer.append(dateStr);
+        if (!set.contains(dateStr)){
+            set.add(dateStr);
             idList.add(noticeId);
         }
 
@@ -81,7 +80,8 @@ public class NoticeListAdapter extends BaseAdapter<NoticeInfo> {
     }
 
     private class Holder {
-        TextView titleText, timeStr;
+        TextView titleText;
+        TextView timeStr;
         ScheduleView timeline;
     }
 }
