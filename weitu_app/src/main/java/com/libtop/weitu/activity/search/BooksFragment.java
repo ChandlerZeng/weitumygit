@@ -48,7 +48,6 @@ public class BooksFragment extends NotifyFragment{
 	private BookGridAdapter mAdapter;
 	private BookListAdapter mListAdapter;
 	private List<BookDto> mData=new ArrayList<BookDto>();
-//	private HistoryBo mHbo;
 	private boolean isCreate = false, hasData = true;
 	private int mCurPage = 1;
 	private SearchActivity mActivity;
@@ -61,7 +60,6 @@ public class BooksFragment extends NotifyFragment{
 		mActivity = (SearchActivity) mContext;
 		mAdapter = new BookGridAdapter(mContext, mData);
 		mListAdapter = new BookListAdapter(mContext, mData);
-//		mHbo= new HistoryBo(mContext);
 		mCurPage = 1;
 	}
 
@@ -102,19 +100,8 @@ public class BooksFragment extends NotifyFragment{
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 									int position, long id) {
 				BookDto dto = mData.get(position);
-//				// 保存点击记录
-//				mHbo.saveUpdate(
-//						dto.title,
-//						dto.isbn,
-//						dto.cover,
-//						dto.author,
-//						"",
-//						Preference.instance(mContext).getString(
-//								Preference.SchoolCode), dto.publisher);
-//				ContantsUtil.UPDATE_HISTORY = true;
 				Bundle bundle = new Bundle();
 				bundle.putString("isbn", dto.isbn);
-//				mContext.startActivity(bundle, BookDetailFragment.class);
 				bundle.putString(ContentActivity.FRAG_CLS,BookDetailFragment.class.getName());
 				mContext.startActivity(bundle,ContentActivity.class);
 			}
@@ -132,16 +119,6 @@ public class BooksFragment extends NotifyFragment{
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 									int position, long id) {
 				BookDto dto = mData.get(position - 1);
-//				// 保存点击记录
-//				mHbo.saveUpdate(
-//						dto.title,
-//						dto.id,
-//						dto.cover,
-//						dto.author,
-//						"",
-//						Preference.instance(mContext).getString(
-//								Preference.SchoolCode), dto.publisher);
-//				ContantsUtil.UPDATE_HISTORY = false;
 				Bundle bundle = new Bundle();
 				bundle.putString("name", dto.title);
 				bundle.putString("cover", dto.cover);
@@ -153,11 +130,8 @@ public class BooksFragment extends NotifyFragment{
 				bundle.putString(ContentActivity.FRAG_CLS,BookDetailFragment.class.getName());
 				bundle.putBoolean(ContentActivity.FRAG_ISBACK,false);
 				mContext.startActivity(bundle, ContentActivity.class);
-//				mContext.startActivity(bundle, BookDetailFragment.class);
 			}
 		});
-
-//		load();
 	}
 
 	@Override
@@ -203,16 +177,13 @@ public class BooksFragment extends NotifyFragment{
 				if (CheckUtil.isNullTxt(json)) {
 					mNullText.setText("未搜索到相关记录");
 					mNullText.setVisibility(View.VISIBLE);
-//							showToast("请求超时，请稍后再试");
 					return;
 				}
 				if (!CheckUtil.isNull(json)) {
-//					try {
 						if (mCurPage == 1) {
 							mData.clear();
 						}
 						List<BookDto> bookdto = JsonUtil.fromJson(json,new TypeToken<List<BookDto>>(){});
-//						JSONArray array = new JSONArray(json);
 						if (bookdto==null)
 							return;
 						if (bookdto.size() < 10) {
@@ -223,11 +194,6 @@ public class BooksFragment extends NotifyFragment{
 							mListview.setPullLoadEnable(true);
 						}
 						mData.addAll(bookdto);
-//						for (int i = 0; i < array.length(); i++) {
-//							BookDto dto = new BookDto();
-//							dto.of(array.getJSONObject(i));
-//							mData.add(dto);
-//						}
 						mAdapter.notifyDataSetChanged();
 						mListAdapter.notifyDataSetChanged();
 						if (mData.size() == 0 && mCurPage == 1) {
@@ -237,9 +203,6 @@ public class BooksFragment extends NotifyFragment{
 							mNullText.setVisibility(View.GONE);
 						}
 						mCurPage++;
-//					} catch (JSONException e) {
-//						e.printStackTrace();
-//					}
 				} else {
 					if (mCurPage == 1) {
 						showToast("未搜索到相关记录");

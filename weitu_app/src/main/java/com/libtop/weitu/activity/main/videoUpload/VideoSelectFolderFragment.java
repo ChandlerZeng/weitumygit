@@ -81,11 +81,9 @@ public class VideoSelectFolderFragment extends ContentFragment implements VideoL
     public void onCreation(View root) {
         setTitle();
         if (bm != null) {
-//                Toast.makeText(getActivity(),"not null",Toast.LENGTH_SHORT).show();
             bm = null;
         }
         mListVew.setAdapter(mAdapter);
-//        mGrid.setOnItemClickListener(this);
 
     }
 
@@ -110,18 +108,9 @@ public class VideoSelectFolderFragment extends ContentFragment implements VideoL
     }
 
     private void requestVideos() {
-//        for (int i = 0; i < 10; i++) {
-//            VideoFolderBean bean = new VideoFolderBean();
-//            bean.floderName = i + " floderName";
-//            bean.authorityLimit = i +" authorityLimit";
-//            bean.videoNum = i +"";
-//            mInfos.add(bean);
-//        }
-//        mAdapter.notifyDataSetChanged();
         mAdapter.notifyDataSetChanged();
         //1.获取视频文件夹列表接口
         //http://weitu.bookus.cn/mediaAlbum/query.json?text={"uid":"WEROPOSLDFKSDFOSPFSDFKL","page":1,"method":"mediaAlbum.query"}
-//        if (!mInfos.isEmpty()) return;
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", 1);
@@ -163,7 +152,6 @@ public class VideoSelectFolderFragment extends ContentFragment implements VideoL
             bm.getString("desc");
             bm.getString("sort");
             isNew = bm.getBoolean("isnew");
-//            Toast.makeText(getActivity(),bm.getString("desc"),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -204,14 +192,6 @@ public class VideoSelectFolderFragment extends ContentFragment implements VideoL
     }
 
 
-    //    @Nullable @OnClick(R.id.imgBtn_video_choice)
-//    private void onllVideoClick(View v) {
-//        switch (v.getId()){
-//            case R.id.imgBtn_video_choice:
-//                Toast.makeText(getActivity(),"imgBtn_video_choice click",Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//    }
     @Nullable @OnItemClick(value = R.id.lv_video_select)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         VideoFolderBean videoFolderBean = (VideoFolderBean) parent.getItemAtPosition(position);
@@ -221,12 +201,6 @@ public class VideoSelectFolderFragment extends ContentFragment implements VideoL
         bm_sent.putString("folderId", videoFolderBean.id);
         EventBus.getDefault().post(new MessageEvent(bm_sent));
         onBackPressed();
-//            if (position>0){
-//                mAdapter.check(position-1);
-//            }else if (position==0){
-//                openCamera();
-//            }
-//        Toast.makeText(getActivity(),"lv_video_select click",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -251,19 +225,6 @@ public class VideoSelectFolderFragment extends ContentFragment implements VideoL
                         deleteVideoFolder(position);
                     }
                 }, null);
-//                AlertDialog alertDialog =  new AlertDialog(mContext,"您确定要删除？");
-//                alertDialog.setCallBack(new AlertDialog.CallBack() {
-//                    @Override
-//                    public void callBack() {
-//                        deleteVideoFolder(position);
-//                    }
-//
-//                    @Override
-//                    public void cancel() {
-//
-//                    }
-//                });
-//                alertDialog.show();
                 popupWindow.dismiss();
 
             }
@@ -281,7 +242,6 @@ public class VideoSelectFolderFragment extends ContentFragment implements VideoL
             }
         });
 
-//        Toast.makeText(mContext, position + "imgBtn_video_choice click", Toast.LENGTH_SHORT).show();
     }
 
     private void deleteVideoFolder(final int position) {

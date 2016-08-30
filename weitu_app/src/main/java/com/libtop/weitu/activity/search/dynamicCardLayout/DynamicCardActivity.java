@@ -3,6 +3,7 @@ package com.libtop.weitu.activity.search.dynamicCardLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -60,9 +61,7 @@ public class DynamicCardActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_dynamic_card);
 
-//        initData();
         mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
-//        mRecyclerView.addItemDecoration();//设置分割线
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(COLUMNCOUNT, StaggeredGridLayoutManager.VERTICAL));//设置RecyclerView布局管理器为2列垂直排布
         adapter = new DynamicCardAdapter(this,urlLists,COLUMNCOUNT);
         mRecyclerView.setAdapter(adapter);
@@ -89,8 +88,6 @@ public class DynamicCardActivity extends BaseActivity  {
         intent.putExtra(ImagePagerActivity2.DEFAULT_SELECTED_LIST, urlLists);
         intent.putExtra("favorite", favorite);
         intent.putExtra("cover", imageAlbumBean.cover);
-        //                intent.putExtra("categoriesName1", categoriesName1);
-        //                intent.putExtra("categoriesName2", categoriesName2);
         intent.putExtra("uploadUsername", imageAlbumBean.uploadUsername);
         intent.putExtra("imageID", imageAlbumBean.id);
         intent.putExtra(ImagePagerActivity2.ID_LIST, idList);

@@ -89,8 +89,6 @@ public class VideoNewFolderFragment extends ContentFragment {
         if (bm != null) {
             String sortText = bm.getString("sort");
             mSortText.setText(sortText);
-//            mDescText.addTextChangedListener(watcher);
-//            commitView.setText("修改");
         }
     }
 
@@ -102,17 +100,11 @@ public class VideoNewFolderFragment extends ContentFragment {
 
     @Override
     public void onPause() {
-        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         try {
             ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mContext.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         } catch (Exception e) {
 
         }
-//
-//        if (isOpen){
-//            imm.toggleSoftInput(
-//                    0, InputMethodManager.HIDE_NOT_ALWAYS);
-//        }
         super.onPause();
     }
 
@@ -141,10 +133,6 @@ public class VideoNewFolderFragment extends ContentFragment {
     private void newFolder() {
         if (TextUtils.isEmpty(mEditTitleText.getText())) {
             Toast.makeText(getActivity(), "名称不能为空", Toast.LENGTH_SHORT).show();
-//        } else if (mDescText.getText().toString().length() > 50) {
-//            Toast.makeText(getActivity(), mDescText.getText().toString().length() + "个字," + "描述超过50字", Toast.LENGTH_SHORT).show();
-//        } else if (mTagText.getText().toString().length() > 8) {
-//            Toast.makeText(getActivity(), "标签超过8个字符", Toast.LENGTH_SHORT).show();
         } else {
             try {
                 bm.getInt("sortId");
@@ -162,9 +150,6 @@ public class VideoNewFolderFragment extends ContentFragment {
         //http://weitu.bookus.cn/mediaAlbum/save.json?text={"uid":"565bea2c984ec06f56befda3","tags":"good","title":"well","introduction":"enen","label1":5000,"method":"mediaAlbum.save"}
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("uid", mPreference.getString(Preference.uid));
-//        String[] tagStrngs = tagsView.getViewText();
-//        String tagString = StringUtils.join(tagStrngs,",");
-//        params.put("tags",tagsView.getViewText());//lid
         String[] ss = mTagGroup.getTags();
         try {
             JSONArray jsonarray = new JSONArray(Arrays.toString(ss));
@@ -233,20 +218,16 @@ public class VideoNewFolderFragment extends ContentFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
             temp = s;
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            // TODO Auto-generated method stub
             editStart = mEditTitleText.getSelectionStart();
             editEnd = mEditTitleText.getSelectionEnd();
 
@@ -271,20 +252,16 @@ public class VideoNewFolderFragment extends ContentFragment {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
             temp = s;
         }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            // TODO Auto-generated method stub
             editStart = mDescText.getSelectionStart();
             editEnd = mDescText.getSelectionEnd();
 

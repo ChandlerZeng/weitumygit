@@ -78,7 +78,6 @@ public class VideoUploadFragment extends ContentFragment {
                 mContext.startActivity(bd, ContentActivity.class);
             }
         });
-//        mGrid.setOnItemClickListener(this);
 
     }
 
@@ -125,7 +124,6 @@ public class VideoUploadFragment extends ContentFragment {
                 String[] selectionArgs = new String[]{
                         id + ""
                 };
-//              Cursor thumbCursor =  getContentResolver().query(MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI, thumbColumns, selection, selectionArgs, null);
                 Cursor thumbCursor = mContext.managedQuery(MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI, thumbColumns, selection, selectionArgs, null);
 
                 if (thumbCursor.moveToFirst()) {

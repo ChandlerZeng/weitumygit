@@ -43,7 +43,6 @@ public class CommonFragment extends ImgFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setGuesture(true);
 	}
 
 	@Override

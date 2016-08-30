@@ -89,8 +89,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
 
     @Bind(R.id.title_container)
     LinearLayout mTitleCon;
-//    @Bind(R.id.media_bottom_info)
-//    LinearLayout mInfosCon;
 
     @Bind(R.id.video_view)
     VideoView mVideo;
@@ -129,14 +127,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     @Bind(R.id.ll_bottom)
     LinearLayout llBottom;
 
-//    @Bind(R.id.viewpager)
-//    ViewPager mPager;
-//    @Bind(R.id.radio_group)
-//    RadioGroup mRadioGroup;
 
-//    @Bind(R.id.hlv_cover)
-//    HorizontalListView mHListView;
-    
     @Bind(R.id.scl_horizontal)
     RecyclerView mRecyclerView;
 
@@ -178,7 +169,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     private List<MediaListItemBean> mData=new ArrayList<MediaListItemBean>();
 
     private SearchResult searchResult;
-//    private SingleSelectAdapter mAdapter;
     private RecyclerSingleChoiseAdapter mRecyclerAdapter;
     private List<String> lists = new ArrayList<String>();
     private MediaAlbumBean mediaAlbumBean ;
@@ -194,7 +184,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         Log.e("test draw time start", System.currentTimeMillis() + "");
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_video_play5);
-//        init();
         mRecyclerAdapter = new RecyclerSingleChoiseAdapter(mContext,lists,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -250,13 +239,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
 
         initInfo();
 
-//        isCollectShow = (mediaAlbumBean.favorite == 1);
-//
-//        if (isCollectShow){
-//            imgCollect.setBackgroundResource(R.drawable.collect);
-//        }else {
-//            imgCollect.setBackgroundResource(R.drawable.collect_no);
-//        }
 
         new CustomThread().start();
         mSmallSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -379,9 +361,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                         mBigPro.setText(getPlayProgress(current) + "/" + getPlayProgress(total));
                         mBigSeek.setSecondaryProgress(mVideo.getBufferPercentage() * 10);
                     }
-//                    mSeek.setProgress((int) position);
-//                    setPlayProgress(mCurrentPro, curent);
-//                    mSeek.setSecondaryProgress(mVideo.getBufferPercentage()*10);
                     break;
             }
         }
@@ -407,15 +386,11 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     private void playOrPause() {
         if (!mVideo.isPlaying()) {
             mVideo.start();
-//            if (status_flag==STATUS_SCALE)mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
-//            else mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
             mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
             mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
 
         } else {
             mVideo.pause();
-//            if (status_flag==STATUS_SCALE)mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
-//            else mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
             mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
             mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
         }
@@ -426,8 +401,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         if (!isShowing) {
             mFBottomView.setVisibility(View.VISIBLE);
             mTopView.setVisibility(View.VISIBLE);
-//            rlPdfBottom.setVisibility(View.VISIBLE);
-//            llBottom.setVisibility(View.VISIBLE);
             if (mFBottomView!=null && mBShowAn !=null){
                 mFBottomView.startAnimation(mBShowAn);
             }
@@ -435,7 +408,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                 mTopView.startAnimation(mTShowAn);
             }
             isShowing = true;
-//            mVideo.setViewshow(isShowing);
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -450,12 +422,9 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         if (isShowing) {
             mFBottomView.startAnimation(mBHideAn);
             mFBottomView.setVisibility(View.GONE);
-//            rlPdfBottom.setVisibility(View.GONE);
-//            llBottom.setVisibility(View.GONE);
             mTopView.startAnimation(mTHideAn);
             mTopView.setVisibility(View.GONE);
             isShowing = false;
-//            mVideo.setViewshow(isShowing);
         }
     }
 
@@ -505,7 +474,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         }else {
             finishSimple();
         }
-//        super.onBackPressed();
     }
 
     private void shareClick() {
@@ -530,7 +498,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     }
 
     private void collectClick() {
-//        Toast.makeText(mContext,"collect click",Toast.LENGTH_SHORT).show();
         if (isCollectShow){
             requestCancelCollect();
         }else {
@@ -639,7 +606,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     @Override
     public void onCompletion(MediaPlayer mp) {
         thread = false;
-//        finish();
         mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
         mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
     }
@@ -674,9 +640,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         playingIndex = position;
         mListAdapter.notifyDataSetChanged();
-//        TextView tv = (TextView) mPagers.get(0);
         MediaListItemBean mr = mRes.get(position);
-//        tv.setText(TextUtils.isEmpty(searchResult.introduction) ? "暂无" : mr.introduction);
         mTitleText.setText(mr.title);
         mInTitleText.setText(mr.title);
 
@@ -724,7 +688,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         mVideoSu.requestLayout();
 
         mTitleCon.setVisibility(View.GONE);
-//        mInfosCon.setVisibility(View.GONE);
         mSBottomView.setVisibility(View.GONE);
     }
 
@@ -735,10 +698,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         pm.height = DisplayUtils.dp2px(mContext, 220);
         mVideoSu.setLayoutParams(pm);
         mTitleCon.setVisibility(View.VISIBLE);
-//        mInfosCon.setVisibility(View.VISIBLE);
-//        if (notShowButtom) {
-//            mInfosCon.setVisibility(View.INVISIBLE);
-//        }
         mSBottomView.setVisibility(View.VISIBLE);
     }
 
@@ -752,15 +711,12 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         int topPadding = DisplayUtils.dp2px(mContext, 16);
         textView.setLayoutParams(p);
         textView.setPadding(horPadding, topPadding, horPadding, 0);
-//        String txt;
         try {
             if (!TextUtils.isEmpty(mediaAlbumBean.introduction))
                 mIntroText.setText(mediaAlbumBean.introduction);
         } catch (Exception e) {
             mIntroText.setText("暂无");
         }
-//        textView.setText(TextUtils.isEmpty(txt) ? "暂无" : txt);
-//        mIntroText.setText(TextUtils.isEmpty(txt) ? "暂无" : txt);
         textView.setTextSize(14);
         textView.setVerticalScrollBarEnabled(true);
         textView.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -807,9 +763,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
             tv.setTextSize(16);
             tv.setSingleLine(true);
             tv.setGravity(Gravity.CENTER);
-//            int verp=DisplayUtils.dp2px(mContext,16);
-//            int horp=DisplayUtils.dp2px(mContext,25);
-//            tv.setPadding(horp,verp,horp,verp);
             if (position == playingIndex)
                 tv.setTextColor(mContext.getResources().getColor(R.color.green2));
             else tv.setTextColor(mContext.getResources().getColor(R.color.grey3));
@@ -916,7 +869,4 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                     }
                 });
     }
-
-
-
 }

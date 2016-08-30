@@ -35,9 +35,7 @@ public class BookGridAdapter extends ImgAdapter{
 		BookDto dto = (BookDto) itemObject;
 		holder.name.setText(dto.title);
 		holder.content.setText(dto.author);
-//		ImageLoader.getInstance().displayImage(ContantsUtil.IMG_BASE + dto.cover, holder.icon,mOptions);
 		Picasso.with(mContext).load(ContantsUtil.IMG_BASE + dto.cover).into(holder.icon);
-//		x.image().bind(holder.icon,ContantsUtil.IMG_BASE + dto.cover,mOptions);
 	}
 	
 	class ViewHolder{

@@ -73,18 +73,6 @@ public class NewComFragment extends BaseFragmentDialog{
 		return R.layout.fragment_new_common;
 	}
 
-//	/**
-//	 * onCreateView方法中才是真正的绘制Fragment的界面，即这个返回的View
-//	 */
-//	@Override
-//	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//			Bundle savedInstanceState) {
-//		View view = inflater.inflate(, container,
-//				false);
-//		fieldView(view);
-//		initView(view);
-//		return view;
-//	}
 
 	@Nullable
 	@OnClick({R.id.back_btn,R.id.submit})
@@ -98,7 +86,6 @@ public class NewComFragment extends BaseFragmentDialog{
 				Bundle b=new Bundle();
 				b.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
 				mContext.startActivity(b,ContentActivity.class);
-//				mContext.startActivity(null, LoginActivity.class);
 			} else {
 				submit();
 			}

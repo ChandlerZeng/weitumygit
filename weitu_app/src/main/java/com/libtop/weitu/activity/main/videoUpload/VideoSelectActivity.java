@@ -84,7 +84,6 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
             }
         });
         mCurPage = 1;
-//        mGrid.setOnItemClickListener(this);
     }
 
 
@@ -101,19 +100,8 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
     }
 
     private void requestVideos() {
-//        for (int i = 0; i < 10; i++) {
-//            VideoFolderBean bean = new VideoFolderBean();
-//            bean.floderName = i + " floderName";
-//            bean.authorityLimit = i +" authorityLimit";
-//            bean.videoNum = i +"";
-//            mInfos.add(bean);
-//        }
-//        mAdapter.notifyDataSetChanged();
         //1.获取视频文件夹列表接口
         //http://weitu.bookus.cn/mediaAlbum/query.json?text={"uid":"WEROPOSLDFKSDFOSPFSDFKL","page":1,"method":"mediaAlbum.query"}
-//        if (!mInfos.isEmpty()){
-//            return;
-//        }
         if (mCurPage==1){
             showLoding();
         }
@@ -140,7 +128,6 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
                             if (mContext != null) {
                                 Toast.makeText(mContext, R.string.netError, Toast.LENGTH_SHORT).show();
                             }
-//                    showToast("没有相关数据");
                             return;
                         }
 
@@ -166,9 +153,7 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
 
 
     private void setTitle() {
-//        mBackBtn.setOnClickListener(this);
         mTitleText.setText("视频库");
-//        mCommitBtn.setOnClickListener(this);
     }
 
     @Nullable
@@ -204,14 +189,6 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
     }
 
 
-    //    @Nullable @OnClick(R.id.imgBtn_video_choice)
-//    private void onllVideoClick(View v) {
-//        switch (v.getId()){
-//            case R.id.imgBtn_video_choice:
-//                Toast.makeText(getActivity(),"imgBtn_video_choice click",Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//    }
     @Nullable @OnItemClick(value = R.id.lv_video_select)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //传folder Id过去
@@ -221,7 +198,6 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
         intent.putExtra("aid", videoFolderBean.id);
         intent.putExtra("albumTitle", videoFolderBean.title);
         startActivity(intent);
-//        Toast.makeText(getActivity(),"lv_video_select click",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -246,19 +222,6 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
                         deleteVideoFolder(position);
                     }
                 }, null);
-//                AlertDialog alertDialog =  new AlertDialog(mContext,"您确定要删除？");
-//                alertDialog.setCallBack(new AlertDialog.CallBack() {
-//                    @Override
-//                    public void callBack() {
-//                        deleteVideoFolder(position);
-//                    }
-//
-//                    @Override
-//                    public void cancel() {
-//
-//                    }
-//                });
-//                alertDialog.show();
                 popupWindow.dismiss();
 
             }
@@ -275,8 +238,6 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
                 popupWindow.dismiss();
             }
         });
-
-//        Toast.makeText(mContext, position + "imgBtn_video_choice click", Toast.LENGTH_SHORT).show();
     }
 
     private void deleteVideoFolder(final int position) {
