@@ -39,7 +39,6 @@ public class BaseActivity extends FragmentActivity {
 		mLoading=new TranLoading(mContext);
 
 		mFm=getSupportFragmentManager();
-//		x.view().inject(this);
 	}
 
 	protected void unsubscribe() {

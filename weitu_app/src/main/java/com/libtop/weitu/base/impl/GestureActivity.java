@@ -9,7 +9,6 @@ import com.libtop.weitu.base.BaseActivity;
 /**
  * Created by Administrator on 2016/1/7 0007.
  */
-@SuppressWarnings("deprecation")
 public class GestureActivity extends BaseActivity implements GestureDetector.OnGestureListener {
     private GestureDetector mDetector;
     private boolean isGesture = false;
@@ -17,7 +16,6 @@ public class GestureActivity extends BaseActivity implements GestureDetector.OnG
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 手势
         mDetector = new GestureDetector(this);
     }
 
@@ -62,26 +60,22 @@ public class GestureActivity extends BaseActivity implements GestureDetector.OnG
 
     @Override
     public void onLongPress(MotionEvent e) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
                             float distanceY) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void onShowPress(MotionEvent e) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        // TODO Auto-generated method stub
         return false;
     }
 

@@ -44,15 +44,6 @@ public abstract class BaseFragment extends Fragment implements IFragmentStub{
 	}
 
 
-//	/**
-//	 * 初始化findviewbyid注解
-//	 */
-//	private void fieldView(View view) {
-//		InjectUtils.inject(this,view);
-//		onCreation(view);
-//	}
-
-	
 	public void showTip(final String str){
 		mContext.runOnUiThread(new Runnable() {
 			@Override
@@ -65,13 +56,7 @@ public abstract class BaseFragment extends Fragment implements IFragmentStub{
 	@Override
 	public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		injected = true;
-//		View view=inflater.inflate(getLayoutId(),container,false);
-//		if (view==null) {
-//			throw new NullPointerException("please set fixed layout id!");
-//		}
-//		fieldView(view);
 		if(rootView==null){
-//            rootView=x.view().inject(this, inflater, container);
 			View view=inflater.inflate(getLayoutId(),container,false);
 			rootView = view;
 			if (view==null) {
@@ -87,8 +72,6 @@ public abstract class BaseFragment extends Fragment implements IFragmentStub{
 			parent.removeView(rootView);
 		}
 		return rootView;
-		//View view= x.view().inject(this, inflater, container);
-		//return view;
 	}
 
 	protected abstract int getLayoutId();
@@ -97,7 +80,6 @@ public abstract class BaseFragment extends Fragment implements IFragmentStub{
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		if (!injected) {
-//			x.view().inject(this, this.getView());
 			ButterKnife.bind(this,this.getView());
 			onCreation(this.getView());
 		}
@@ -116,12 +98,6 @@ public abstract class BaseFragment extends Fragment implements IFragmentStub{
 	public void onResult(int request,int result,Intent data){
 
 	}
-
-//	@Override
-//	public void onDestroy() {
-//		super.onDestroy();
-//		mLoading.dismiss();
-//	}
 
 
 	@Override
