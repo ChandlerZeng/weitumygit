@@ -148,11 +148,12 @@ public class RmdBooksFragment extends ContentFragment {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", mCurPage);
         params.put("method", method);
+        params.put("lid", mPreference.getString(Preference.SchoolCode));
         HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 dismissLoading();
-                showToast("无法连接服务器，请检查网络");
+                showToast("无法连接服务器，请稍后再试");
                 mListView.stopRefresh();
             }
 
