@@ -50,12 +50,14 @@ public class RmdBooksFragment extends ContentFragment {
     private Bundle bundle;
 
     private String title;
+    private String method;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bundle = ((ContentActivity) getActivity()).getCurrentExtra();
         title = bundle.getString("title");
+        method = bundle.getString("method");
         mHbo = new HistoryBo(mContext);
         mAdapter = new RmdBooksAdapter(mContext, listBooks);
     }
@@ -145,7 +147,7 @@ public class RmdBooksFragment extends ContentFragment {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", mCurPage);
-        params.put("method", "book.listRecommend");
+        params.put("method", method);
         HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
             @Override
             public void onError(Call call, Exception e, int id) {
