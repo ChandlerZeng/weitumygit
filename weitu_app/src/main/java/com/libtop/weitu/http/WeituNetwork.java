@@ -28,7 +28,6 @@ public class WeituNetwork {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
             okHttpClient = new OkHttpClient.Builder()
-//                    .cache(new Cache(AppApplication.getContext().getCacheDir(),1024*1024*100)) //100mb缓存
                     .readTimeout(30, TimeUnit.SECONDS)
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .addInterceptor(logging)
