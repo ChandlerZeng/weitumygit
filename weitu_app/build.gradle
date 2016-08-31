@@ -13,9 +13,9 @@ android {
     defaultConfig {
         applicationId "com.libtop.weitu"
         minSdkVersion 14
-        targetSdkVersion 23
-        versionCode 11
-        versionName "2.1.0"
+        targetSdkVersion 22
+        versionCode 12
+        versionName "2.2.0"
     }
 
     buildTypes {
@@ -86,7 +86,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'io.reactivex:rxjava:1.1.9'
     compile 'org.greenrobot:eventbus:3.0.0'
 
 }

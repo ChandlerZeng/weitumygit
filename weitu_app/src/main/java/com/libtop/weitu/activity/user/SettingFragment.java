@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.libtop.weitu.BuildConfig;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
@@ -32,6 +33,8 @@ public class SettingFragment extends BaseFragment {
     TextView tvCacheSize;
     @Bind( R.id.logout)
     TextView tvLogout;
+    @Bind( R.id.tv_version)
+    TextView tvVersion;
 
     @Nullable
     @OnClick({R.id.change_password,R.id.back_btn,R.id.about_us,R.id.clear_cache,R.id.logout})
@@ -98,6 +101,7 @@ public class SettingFragment extends BaseFragment {
             tvLogout.setVisibility(View.VISIBLE);
         }
 
+        tvVersion.setText("当前版本："+ BuildConfig.VERSION_NAME);
     }
 
     //退出账号
