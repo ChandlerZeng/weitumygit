@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.search.dto.DetailDto;
 import com.libtop.weitu.base.impl.NotifyFragment;
-import com.libtop.weitu.dao.BookBo;
 
 import butterknife.Bind;
 
@@ -28,7 +27,6 @@ public class InfoFragment extends NotifyFragment{
 	@Bind(R.id.tv_isbn)
 	TextView tvIsbn;
 
-	private BookBo bo;
 	private String content = "";
 	private BookDetailFragment mParent;
 
@@ -43,7 +41,6 @@ public class InfoFragment extends NotifyFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mParent=(BookDetailFragment)getParentFragment();
-		bo = new BookBo(mContext);
 	}
 
 	@Override
