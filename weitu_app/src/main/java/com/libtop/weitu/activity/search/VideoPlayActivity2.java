@@ -686,6 +686,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         pm.height = ViewGroup.LayoutParams.MATCH_PARENT;
         mVideoSu.setLayoutParams(pm);
         mVideoSu.requestLayout();
+        mVideo.setVideoLayout(VideoView.VIDEO_LAYOUT_SCALE,0);
 
         mTitleCon.setVisibility(View.GONE);
         mSBottomView.setVisibility(View.GONE);
@@ -699,6 +700,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         mVideoSu.setLayoutParams(pm);
         mTitleCon.setVisibility(View.VISIBLE);
         mSBottomView.setVisibility(View.VISIBLE);
+        mVideo.setVideoLayout(VideoView.VIDEO_LAYOUT_ORIGIN,0);
     }
 
     private List<View> mPagers = new ArrayList<View>();
