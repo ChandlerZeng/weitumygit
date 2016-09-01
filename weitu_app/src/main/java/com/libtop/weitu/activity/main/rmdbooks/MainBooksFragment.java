@@ -219,7 +219,7 @@ public class MainBooksFragment extends ContentFragment{
         isInitiated=true;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "bookRank.list");
-        params.put("lid","55f78bb5984ed7a9841750f9");
+        params.put("lid",mPreference.getString(Preference.SchoolCode));
         params.put("pageSize",6);
         String[] arrays = MapUtil.map2Parameter(params);
         _subscriptions.add(
