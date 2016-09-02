@@ -210,9 +210,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     private void loadNewestUpload() {
-        List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("newestLists");
-        if(docBeans!=null&&!docBeans.isEmpty()){
-            mainImageAdapter2.setData(docBeans);
+        uploadList = (List<DocBean>) mCache.getAsObject("newestLists");
+        if(uploadList!=null&&!uploadList.isEmpty()){
+            mainImageAdapter2.setData(uploadList);
             mainImageAdapter2.notifyDataSetChanged();
         }
         swipeRefreshLayout.setRefreshing(true);
@@ -258,6 +258,8 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         }
         if(newestIndex > 3)
             newestIndex = 0;
+        if (uploadList.size()>=12)
+            uploadList.clear();
         uploadList.addAll(docBeens.subList(0,3));
         mCache.put("newestLists", (Serializable) uploadList);
         mainImageAdapter2.setData(uploadList);

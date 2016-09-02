@@ -27,6 +27,7 @@ public class PdfActivity extends BaseActivity implements OnPageChangeListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setInjectContentView(R.layout.activity_pdf_layout);
+		noNetThanExit(mContext);
 		initActivity();
 	}
 

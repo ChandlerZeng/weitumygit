@@ -1,5 +1,6 @@
 package com.libtop.weitu.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.NetworkUtil;
 import com.libtop.weitu.widget.dialog.TranLoading;
 
 import butterknife.ButterKnife;
@@ -132,4 +134,12 @@ public abstract class BaseFragment extends Fragment implements IFragmentStub{
 			mContext.showToast(message);
 		}
 	}
+
+	protected void noNetThanExit(Context context){
+		if (!NetworkUtil.checkConnection(context)){
+			onBackPressed();
+			Toast.makeText(context,"请检查网络后重试",Toast.LENGTH_SHORT).show();
+		}
+	}
+
 }

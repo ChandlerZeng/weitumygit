@@ -82,6 +82,7 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_pdf3);
+        noNetThanExit(mContext);
 
         tid = getIntent().getStringExtra("doc_id");
         getPDF();
