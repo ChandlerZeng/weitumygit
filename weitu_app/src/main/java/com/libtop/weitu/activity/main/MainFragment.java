@@ -581,7 +581,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private void openVideo(int position) {
         SearchResult result = new SearchResult();
-        result.id = slideList.get(position).id;
+        result.id = slideList.get(position).tid;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
