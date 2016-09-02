@@ -111,6 +111,7 @@ public class BookDetailFragment extends ContentFragment{
 		super.onCreate(savedInstanceState);
 		datas = new ArrayList<Fragment>();
 		adapter = new MainPageAdapter(mFm, datas);
+		noNetThanExit(mContext);
 	}
 
 	@Override

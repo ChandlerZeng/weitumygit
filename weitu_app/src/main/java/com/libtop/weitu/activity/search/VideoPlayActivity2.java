@@ -184,6 +184,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         Log.e("test draw time start", System.currentTimeMillis() + "");
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_video_play5);
+        noNetThanExit(mContext);
         mRecyclerAdapter = new RecyclerSingleChoiseAdapter(mContext,lists,this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
