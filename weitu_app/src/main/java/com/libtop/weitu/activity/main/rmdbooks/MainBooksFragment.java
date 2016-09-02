@@ -48,9 +48,9 @@ public class MainBooksFragment extends ContentFragment{
     @Bind(R.id.ll_rmd_books)
     LinearLayout llRmd;
     @Bind(R.id.grid_view_favorite_books)
-    FixedGridView mGrid1;
-    @Bind(R.id.grid_view_rmd_books)
     FixedGridView mGrid2;
+    @Bind(R.id.grid_view_rmd_books)
+    FixedGridView mGrid1;
 
     private MainImageAdapter mainImageAdapter;
     private MainImageAdapter mainImageAdapter2;
@@ -160,7 +160,7 @@ public class MainBooksFragment extends ContentFragment{
                 break;
             case R.id.rmd_books_favorite_more_text:
                 Bundle bundle8 = new Bundle();
-                bundle8.putString("method", "book.listRecommend");
+                bundle8.putString("method", "bookRank.list");
                 bundle8.putString("title", "热门借阅图书排行榜");
                 bundle8.putString(ContentActivity.FRAG_CLS, RmdBooksFragment.class.getName());
                 bundle8.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
@@ -170,6 +170,8 @@ public class MainBooksFragment extends ContentFragment{
         }
     }
     private void loadBookRecommand() {
+        if(!isInitiated)
+            showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "book.listRecommend");
         params.put("pageSize",6);
@@ -192,6 +194,7 @@ public class MainBooksFragment extends ContentFragment{
 
                     @Override
                     public void onNext(List<DocBean> docBeens) {
+                        swipeRefreshLayout.setRefreshing(false);
                         bList.clear();
                         bList = docBeens;
                         if (bList.isEmpty()){
@@ -215,7 +218,8 @@ public class MainBooksFragment extends ContentFragment{
             showLoding();
         isInitiated=true;
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "book.listRecommend");
+        params.put("method", "bookRank.list");
+        params.put("lid",mPreference.getString(Preference.SchoolCode));
         params.put("pageSize",6);
         String[] arrays = MapUtil.map2Parameter(params);
         _subscriptions.add(
@@ -250,6 +254,7 @@ public class MainBooksFragment extends ContentFragment{
                                 }
                                 mainImageAdapter2.setData(bList2);
                                 mainImageAdapter2.notifyDataSetChanged();
+                                dismissLoading();
                             }
                         })
         );
