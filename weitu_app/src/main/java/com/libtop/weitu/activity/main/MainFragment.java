@@ -210,10 +210,11 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     private void loadNewestUpload() {
-        uploadList = (List<DocBean>) mCache.getAsObject("newestLists");
-        if(uploadList!=null&&!uploadList.isEmpty()){
-            mainImageAdapter2.setData(uploadList);
+        List<DocBean> docBeens = (List<DocBean>) mCache.getAsObject("newestLists");
+        if(docBeens != null && !docBeens.isEmpty()){
+            mainImageAdapter2.setData(docBeens);
             mainImageAdapter2.notifyDataSetChanged();
+            uploadList = docBeens;
         }
         swipeRefreshLayout.setRefreshing(true);
         Observable<List<DocBean>> newestVideoObservable = getNewestVideoObservable();
