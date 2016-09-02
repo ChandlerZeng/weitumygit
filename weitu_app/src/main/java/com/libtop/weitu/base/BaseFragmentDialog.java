@@ -69,8 +69,6 @@ public abstract class BaseFragmentDialog extends DialogFragment implements IFrag
 		if (view==null) {
 			throw new NullPointerException("please set fixed layout id!");
 		}
-//		fieldView(view);
-//		View view= x.view().inject(this, inflater, container);
 		ButterKnife.bind(this,view);
 		onCreation(view);
 		return view;
@@ -82,7 +80,6 @@ public abstract class BaseFragmentDialog extends DialogFragment implements IFrag
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		if (!injected) {
-//			x.view().inject(this, this.getView());
 			ButterKnife.bind(this,this.getView());
 			onCreation(this.getView());
 		}

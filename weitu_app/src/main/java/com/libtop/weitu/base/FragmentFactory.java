@@ -8,7 +8,6 @@ public class FragmentFactory {
         BaseFragment newFrag=null;
         try {
             Class<?> cls=Class.forName(fragCls);
-//            cls.newInstance();
             newFrag=(BaseFragment)cls.newInstance();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

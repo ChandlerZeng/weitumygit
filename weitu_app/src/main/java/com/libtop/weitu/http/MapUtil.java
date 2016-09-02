@@ -22,10 +22,4 @@ public class MapUtil {
         lists.add(requestJson);
         return  lists.toArray(new String[3]);
     }
-
-    public static String map2ParameterNoMethod(Map<String,Object> map){
-        JSONObject jsonObject = new JSONObject(map);
-        return jsonObject.toString();
-    }
-
 }

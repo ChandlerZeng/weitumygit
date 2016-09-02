@@ -14,7 +14,6 @@ import com.libtop.weitu.activity.main.adapter.RmdBooksAdapter;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.dto.BookDto;
-import com.libtop.weitu.dao.HistoryBo;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
@@ -46,7 +45,6 @@ public class RmdBooksFragment extends ContentFragment {
     private RmdBooksAdapter mAdapter;
     private int mCurPage = 1;
     private boolean hasData = true;
-    private HistoryBo mHbo;
     private Bundle bundle;
 
     private String title;
@@ -58,7 +56,6 @@ public class RmdBooksFragment extends ContentFragment {
         bundle = ((ContentActivity) getActivity()).getCurrentExtra();
         title = bundle.getString("title");
         method = bundle.getString("method");
-        mHbo = new HistoryBo(mContext);
         mAdapter = new RmdBooksAdapter(mContext, listBooks);
     }
 
@@ -118,15 +115,7 @@ public class RmdBooksFragment extends ContentFragment {
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //显示图书详情
         BookDto dto = listBooks.get(position - 1);
-        // 保存点击记录
-        mHbo.saveUpdate(
-                dto.title,
-                dto.id,
-                dto.cover,
-                dto.author,
-                "",
-                Preference.instance(mContext).getString(
-                        Preference.SchoolCode), dto.publisher);
+
         ContantsUtil.UPDATE_HISTORY = false;
         Bundle bundle = new Bundle();
         bundle.putString("name", dto.title);
