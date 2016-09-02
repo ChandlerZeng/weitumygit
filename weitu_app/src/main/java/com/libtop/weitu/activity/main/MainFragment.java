@@ -373,12 +373,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                             @Override
                             public void onError(Throwable e) {
                                 List<NoticeInfo> noticeInfos = (List<NoticeInfo>) mCache.getAsObject("noticeInfos");
-                                if (noticeInfos != null) {
-//                                    handleNoticeResult(noticeInfos);
-                                } else {
+                                if (noticeInfos == null) {
                                     setNewsGone();
                                 }
-                                newsMoreText.setVisibility(View.GONE);
                             }
 
                             @Override
@@ -393,7 +390,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     private void handleNoticeResult(List<NoticeInfo> noticeInfos) {
         if (noticeInfos.isEmpty()) {
             setNewsGone();
-            newsMoreText.setVisibility(View.GONE);
             return;
         }
         setNewsVisible();
@@ -585,7 +581,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private void openVideo(int position) {
         SearchResult result = new SearchResult();
-        result.id = slideList.get(position).id;
+        result.id = slideList.get(position).tid;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
