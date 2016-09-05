@@ -146,7 +146,7 @@
         android:isScrollContainer="false"
         android:numColumns="3"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="20dp" />
+        android:verticalSpacing="@dimen/padding_normal" />
 
     <View
         android:layout_width="match_parent"

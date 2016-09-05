@@ -186,6 +186,7 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_audio_play5);
+        noNetThanExit(mContext);
         initView();
         mCurrentIndex=0;
         String result = getIntent().getExtras().getString("resultBean");

@@ -63,6 +63,7 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        noNetThanExit(mContext);
         setInjectContentView(R.layout.activity_video_play2);
         init();
     }

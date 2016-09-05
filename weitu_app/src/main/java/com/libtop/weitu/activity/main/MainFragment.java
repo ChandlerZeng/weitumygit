@@ -210,10 +210,11 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     private void loadNewestUpload() {
-        List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("newestLists");
-        if(docBeans!=null&&!docBeans.isEmpty()){
-            mainImageAdapter2.setData(docBeans);
+        List<DocBean> docBeens = (List<DocBean>) mCache.getAsObject("newestLists");
+        if(docBeens != null && !docBeens.isEmpty()){
+            mainImageAdapter2.setData(docBeens);
             mainImageAdapter2.notifyDataSetChanged();
+            uploadList = docBeens;
         }
         swipeRefreshLayout.setRefreshing(true);
         Observable<List<DocBean>> newestVideoObservable = getNewestVideoObservable();
@@ -258,6 +259,8 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         }
         if(newestIndex > 3)
             newestIndex = 0;
+        if (uploadList.size()>=12)
+            uploadList.clear();
         uploadList.addAll(docBeens.subList(0,3));
         mCache.put("newestLists", (Serializable) uploadList);
         mainImageAdapter2.setData(uploadList);
@@ -373,12 +376,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                             @Override
                             public void onError(Throwable e) {
                                 List<NoticeInfo> noticeInfos = (List<NoticeInfo>) mCache.getAsObject("noticeInfos");
-                                if (noticeInfos != null) {
-//                                    handleNoticeResult(noticeInfos);
-                                } else {
+                                if (noticeInfos == null) {
                                     setNewsGone();
                                 }
-                                newsMoreText.setVisibility(View.GONE);
                             }
 
                             @Override
@@ -393,7 +393,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     private void handleNoticeResult(List<NoticeInfo> noticeInfos) {
         if (noticeInfos.isEmpty()) {
             setNewsGone();
-            newsMoreText.setVisibility(View.GONE);
             return;
         }
         setNewsVisible();
@@ -585,7 +584,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private void openVideo(int position) {
         SearchResult result = new SearchResult();
-        result.id = slideList.get(position).id;
+        result.id = slideList.get(position).tid;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);

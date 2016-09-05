@@ -11,7 +11,7 @@ public class ImageSliderDto implements Serializable{
     public String url;
     public Integer type;
     public String domain;
-    public Object tid;
+    public String  tid;
     public Integer state;
     public String poster;
     public Integer displayOrder;

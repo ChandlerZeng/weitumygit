@@ -1,14 +1,17 @@
 package com.libtop.weitu.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.NetworkUtil;
 import com.libtop.weitu.widget.dialog.TranLoading;
 import com.libtop.weitu.widget.msg.AppMsg;
 
@@ -129,5 +132,12 @@ public class BaseActivity extends FragmentActivity {
 		AppMsg appmsg = AppMsg.makeText(mContext, message, AppMsg.STYLE_INFO);
 		appmsg.setLayoutGravity(android.view.Gravity.BOTTOM);
 		appmsg.show();
+	}
+
+	protected void noNetThanExit(Context context){
+		if (!NetworkUtil.checkConnection(context)){
+			finish();
+			Toast.makeText(context,"请检查网络后重试",Toast.LENGTH_SHORT).show();
+		}
 	}
 }

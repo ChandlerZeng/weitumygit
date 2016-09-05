@@ -125,6 +125,7 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("test draw time start", System.currentTimeMillis() + "");
         super.onCreate(savedInstanceState);
+        noNetThanExit(mContext);
         setInjectContentView(R.layout.activity_video_play3);
         init();
     }
