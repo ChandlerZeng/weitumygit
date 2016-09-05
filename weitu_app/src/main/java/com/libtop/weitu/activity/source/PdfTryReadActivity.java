@@ -18,11 +18,13 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.google.gson.Gson;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.activity.search.dto.BookDetailDto;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
 import com.libtop.weitu.activity.search.dto.DetailDto;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.fileloader.FileLoader;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
@@ -31,6 +33,7 @@ import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ShareSdkUtil;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,10 +89,13 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_pdf3);
-
-
         pdfUrl = getIntent().getStringExtra("url");
         String bookString = getIntent().getStringExtra("BookDetailDto");
+        isCollectShow = getIntent().getBooleanExtra("isCollectShow",false);
+        if (isCollectShow)
+            imgCollect.setBackgroundResource(R.drawable.collect);
+        else
+            imgCollect.setBackgroundResource(R.drawable.collect_no);
         bookDetailDto = new Gson().fromJson(bookString,BookDetailDto.class);
         data = bookDetailDto.book;
         if (!TextUtils.isEmpty(pdfUrl))
@@ -97,6 +103,7 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
         initView();
 
     }
+
 
     @Nullable
     @OnClick({R.id.img_collect, R.id.img_comment, R.id.img_share, R.id.img_rotate, R.id.back_btn})
@@ -289,6 +296,10 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
 
     @Override
     public void onBackPressed() {
+        Bundle bundle = new Bundle();
+        bundle.putString("target", BookDetailFragment.class.getName());
+        bundle.putBoolean("isCollectShow",isCollectShow);
+        EventBus.getDefault().post(new MessageEvent(bundle));
         finish();
         overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
     }

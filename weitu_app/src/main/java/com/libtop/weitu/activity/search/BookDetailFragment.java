@@ -43,6 +43,8 @@ import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,6 +111,7 @@ public class BookDetailFragment extends ContentFragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		EventBus.getDefault().register(this);
 		datas = new ArrayList<Fragment>();
 		adapter = new MainPageAdapter(mFm, datas);
 		noNetThanExit(mContext);
@@ -202,6 +205,7 @@ public class BookDetailFragment extends ContentFragment{
 		if (!TextUtils.isEmpty(dto.downloadUrl))
 			intent.putExtra("url", dto.downloadUrl);
 		intent.putExtra("doc_id", dto.id);
+		intent.putExtra("isCollectShow",isCollectShow);
 		intent.putExtra("BookDetailDto",new Gson().toJson(bookdto));
 		intent.setClass(mContext, PdfTryReadActivity.class);
 		mContext.startActivity(intent);
@@ -312,6 +316,15 @@ public class BookDetailFragment extends ContentFragment{
 				});
 	}
 
+
+	@Override
+	public void onDestroyView()
+	{
+		EventBus.getDefault().unregister(this);
+		super.onDestroyView();
+	}
+
+
 	private void requestCollect() {
 		showLoding();
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -359,6 +372,19 @@ public class BookDetailFragment extends ContentFragment{
 					}
 				});
 
+	}
+
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onMessage(MessageEvent event) {
+		if (event.message.getString("target").equals(this.getClass().getName().toString())) {
+			Bundle bundle = event.message;
+			isCollectShow = bundle.getBoolean("isCollectShow");
+			if (isCollectShow) {
+				imgCollect.setBackgroundResource(R.drawable.collect);
+			} else {
+				imgCollect.setBackgroundResource(R.drawable.collect_no);
+			}
+		}
 	}
 
 	private void loadData(String key) {
