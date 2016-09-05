@@ -221,7 +221,6 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener {
                     @Override
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
                             try {
                                 JSONObject mjson = new JSONObject(json);
                                 String message = mjson.getString("message");
