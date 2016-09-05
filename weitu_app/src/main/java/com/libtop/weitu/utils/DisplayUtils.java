@@ -53,10 +53,6 @@ public class DisplayUtils {
         return (int)(value*(getDiaplayeDensity(context)/160)+0.5f);
     }
 
-    public static int px2dp(Context context,float value){
-        return (int)((value*160)/getDiaplayeDensity(context)+0.5f);
-
-    }
 
     /**
      * 弹出底部对话框，达到背景背景透明效果
