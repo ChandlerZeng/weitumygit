@@ -10,168 +10,160 @@
         android:id="@+id/infinite_anim_circle"
         android:layout_width="match_parent"
         android:layout_height="87dp"
-        app:indicator_type="indicator_anim_circle"/>
-
-    <com.libtop.weitu.widget.gridview.FixedGridView
-        android:id="@+id/grid_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:cacheColorHint="@color/transparent"
-        android:gravity="center"
-        android:horizontalSpacing="15dp"
-        android:isScrollContainer="false"
-        android:listSelector="@drawable/list_selector"
-        android:numColumns="4"
-        android:paddingTop="@dimen/padding_normal"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="20dp"/>
+        app:indicator_type="indicator_anim_circle"
+        />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider"/>
+        android:background="@color/divider"
+        />
 
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
+            android:id="@+id/classify"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/padding_small"
+            android:layout_marginLeft="@dimen/padding_left"
+            android:text="分类"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/main_tag_unchecked_clazz"
+            android:drawablePadding="@dimen/padding_small"
+            android:clickable="true"
+            android:background="@drawable/find_classify_selector"/>
+        <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
+            android:id="@+id/rank"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/padding_left"
+            android:layout_marginLeft="@dimen/padding_small"
+            android:text="排行榜"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/main_tag_unchecked_clazz"
+            android:drawablePadding="@dimen/padding_small"
+            android:clickable="true"
+            android:background="@drawable/find_rank_selector"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_normal"
+        android:background="#f2f2f2"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="推荐主题"
+            android:textColor="@color/grey3"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:id="@+id/subject_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="更多"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/find_right_arrow"
+            android:textColor="@color/grey3"
+            android:textSize="16sp"
+            />
+    </LinearLayout>
+
+    <com.libtop.weitu.widget.gridview.FixedGridView
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@color/transparent"
+        android:listSelector="@drawable/list_selector"
+        android:background="@color/white"
+        android:gravity="center"
+        android:horizontalSpacing="5dp"
+        android:isScrollContainer="false"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="@dimen/padding_normal" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/white"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        />
     <LinearLayout
         android:id="@+id/ll_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_normal"
         android:background="@color/white"
-        android:orientation="horizontal">
-
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/padding_normal"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="新闻公告"
+            android:layout_margin="5dp"
+            android:text="推荐文件"
             android:textColor="@color/grey3"
-            android:textSize="16sp"/>
-
+            android:textSize="16sp"
+            />
         <TextView
-            android:id="@+id/tv_school"
+            android:id="@+id/file_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="华南农业大学"
-            android:textColor="@color/green1"
-            android:textSize="12sp"/>
+            android:text="更多"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/find_right_arrow"
+            android:textColor="@color/grey3"
+            android:textSize="16sp"
+            />
+
     </LinearLayout>
 
     <com.libtop.weitu.widget.listview.ChangeListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:listSelector="@drawable/list_selector"
         android:divider="#dadada"
         android:dividerHeight="0.1dp"
-        android:listSelector="@drawable/list_selector"/>
-
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/divider"/>
 
-    <TextView
-        android:id="@+id/news_more_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/news_more_selector"
-        android:clickable="true"
-        android:padding="5dp"
-        android:text="查看更多本校新闻 >"
-        android:textColor="@color/grey4"
-        android:textSize="16sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#f2f2f2"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:text="推荐图书"
-            android:textColor="@color/grey3"
-            android:textSize="16sp"/>
-    </LinearLayout>
-
-    <com.libtop.weitu.widget.gridview.FixedGridView
-        android:id="@+id/grid_view2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:cacheColorHint="@color/transparent"
-        android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:isScrollContainer="false"
-        android:listSelector="@drawable/list_selector"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/padding_normal"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/white"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#f2f2f2"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:text="最新上传"
-            android:textColor="@color/grey3"
-            android:textSize="16sp"/>
-    </LinearLayout>
-
-    <com.libtop.weitu.widget.gridview.FixedGridView
-        android:id="@+id/grid_view3"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:cacheColorHint="@color/transparent"
-        android:columnWidth="100dp"
-        android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:isScrollContainer="false"
-        android:listSelector="@drawable/list_selector"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp"/>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        />
 </LinearLayout>
 

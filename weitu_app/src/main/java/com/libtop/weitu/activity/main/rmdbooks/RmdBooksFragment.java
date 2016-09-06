@@ -183,7 +183,9 @@ public class RmdBooksFragment extends ContentFragment
                 mListView.stopRefresh();
                 try
                 {
-                    listBooks.clear();
+                    if(mCurPage==1){
+                        listBooks.clear();
+                    }
                     JSONArray array = new JSONArray(json);
                     for (int i = 0; i < array.length(); i++)
                     {
@@ -192,7 +194,7 @@ public class RmdBooksFragment extends ContentFragment
                         bean.title.replaceAll("　　", "").trim();
                         listBooks.add(bean);
                     }
-                    if (listBooks.size() < 10)
+                    if (array.length() < 10)
                     {
                         hasData = false;
                         mListView.setPullLoadEnable(false);
