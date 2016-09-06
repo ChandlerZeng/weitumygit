@@ -13,22 +13,32 @@ import com.mob.tools.utils.R;
 import cn.sharesdk.onekeyshare.OnekeyShareThemeImpl;
 import cn.sharesdk.onekeyshare.themes.classic.FriendListPage;
 
-/** 竖屏的好友列表 */
-public class FriendListPagePort extends FriendListPage {
-	private static final int DESIGN_SCREEN_WIDTH = 720;
-	private static final int DESIGN_TITLE_HEIGHT = 96;
 
-	public FriendListPagePort(OnekeyShareThemeImpl impl) {
-		super(impl);
-	}
+/**
+ * 竖屏的好友列表
+ */
+public class FriendListPagePort extends FriendListPage
+{
+    private static final int DESIGN_SCREEN_WIDTH = 720;
+    private static final int DESIGN_TITLE_HEIGHT = 96;
 
-	protected float getRatio() {
-		float screenWidth = R.getScreenWidth(activity);
-		return screenWidth / DESIGN_SCREEN_WIDTH;
-	}
 
-	protected int getDesignTitleHeight() {
-		return DESIGN_TITLE_HEIGHT;
-	}
+    public FriendListPagePort(OnekeyShareThemeImpl impl)
+    {
+        super(impl);
+    }
+
+
+    protected float getRatio()
+    {
+        float screenWidth = R.getScreenWidth(activity);
+        return screenWidth / DESIGN_SCREEN_WIDTH;
+    }
+
+
+    protected int getDesignTitleHeight()
+    {
+        return DESIGN_TITLE_HEIGHT;
+    }
 
 }

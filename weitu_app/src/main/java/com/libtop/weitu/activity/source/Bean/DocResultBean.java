@@ -2,12 +2,12 @@ package com.libtop.weitu.activity.source.Bean;
 
 import com.libtop.weitu.activity.main.dto.DocBean;
 
-import java.util.List;
 
 /**
  * Created by LianTu on 2016/8/1.
  */
-public class DocResultBean {
+public class DocResultBean
+{
 
 
     /**

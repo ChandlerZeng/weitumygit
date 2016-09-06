@@ -39,19 +39,21 @@ import com.libtop.weitu.widget.dialog.AlertDialogSingle;
 import java.io.File;
 import java.util.List;
 
+
 /**
  * Fragment that displays a list of Files in a given path.
- * 
- * @version 2013-12-11
+ *
  * @author paulburke (ipaulpro)
+ * @version 2013-12-11
  */
-public class FileListFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<List<File>> {
+public class FileListFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<File>>
+{
 
     /**
      * Interface to listen for events.
      */
-    public interface Callbacks {
+    public interface Callbacks
+    {
         /**
          * Called when a file is selected from the list.
          *
@@ -59,6 +61,7 @@ public class FileListFragment extends Fragment implements
          */
         void onFileSelected(File file);
     }
+
 
     private static final int LOADER_ID = 0;
     private static final int QUERY_TIME = 100;
@@ -79,14 +82,14 @@ public class FileListFragment extends Fragment implements
     private AlertDialogSingle alertDialog;
 
 
-
     /**
      * Create a new instance with the given file path.
      *
      * @param path The absolute path of the file (directory) to display.
      * @return A new Fragment with the given file path.
      */
-    public static FileListFragment newInstance(String path) {
+    public static FileListFragment newInstance(String path)
+    {
         FileListFragment fragment = new FileListFragment();
         Bundle args = new Bundle();
         args.putString(FileChooserActivity.PATH, path);
@@ -95,119 +98,152 @@ public class FileListFragment extends Fragment implements
         return fragment;
     }
 
+
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Activity activity)
+    {
         super.onAttach(activity);
 
-        try {
+        try
+        {
             mListener = (Callbacks) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement FileListFragment.Callbacks");
+        }
+        catch (ClassCastException e)
+        {
+            throw new ClassCastException(activity.toString() + " must implement FileListFragment.Callbacks");
         }
     }
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         mAdapter = new FileListAdapter(getActivity());
-        mPath = getArguments() != null ? getArguments().getString(
-                FileChooserActivity.PATH) : Environment
-                .getExternalStorageDirectory().getAbsolutePath();
+        mPath = getArguments() != null ? getArguments().getString(FileChooserActivity.PATH) : Environment.getExternalStorageDirectory().getAbsolutePath();
     }
 
+
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         getLoaderManager().initLoader(LOADER_ID, null, this);
 
         super.onActivityCreated(savedInstanceState);
     }
 
-      @Override
-      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-          LinearLayout mLinearLayout = (LinearLayout) inflater.inflate(
-                R.layout.activity_doc_file_list, container, false);
-          listView = (ListView) mLinearLayout.findViewById(R.id.lv_doc);
-          tvTitle = (TextView) mLinearLayout.findViewById(R.id.title);
-          tvUpFolder = (TextView) mLinearLayout.findViewById(R.id.tv_up_folder);
-          String[] splits = mPath.split("/");
-          if (splits.length!=0){
-              String last = splits[splits.length-1];
-              tvUpFolder.setText("上一级 > "+last);
-          }
-          tvUpFolder.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  upFolder();
-              }
-          });
-          tvEmpty = (TextView) mLinearLayout.findViewById(R.id.tv_empty);
-          tvCommit = (TextView) mLinearLayout.findViewById(R.id.commit);
-          tvTitle.setText("选择文档");
-          tvCommit.setText("扫描");
-          tvCommit.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  searchDoc();
-              }
-          });
-          imgBack = (ImageView) mLinearLayout.findViewById(R.id.back_btn);
-          listView.setAdapter(mAdapter);
-          imgBack.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  getActivity().finish();
-              }
-          });
-          listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-              @Override
-              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                  FileListAdapter adapter = (FileListAdapter) parent.getAdapter();
-                if (adapter != null) {
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        LinearLayout mLinearLayout = (LinearLayout) inflater.inflate(R.layout.activity_doc_file_list, container, false);
+        listView = (ListView) mLinearLayout.findViewById(R.id.lv_doc);
+        tvTitle = (TextView) mLinearLayout.findViewById(R.id.title);
+        tvUpFolder = (TextView) mLinearLayout.findViewById(R.id.tv_up_folder);
+        String[] splits = mPath.split("/");
+        if (splits.length != 0)
+        {
+            String last = splits[splits.length - 1];
+            tvUpFolder.setText("上一级 > " + last);
+        }
+        tvUpFolder.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                upFolder();
+            }
+        });
+        tvEmpty = (TextView) mLinearLayout.findViewById(R.id.tv_empty);
+        tvCommit = (TextView) mLinearLayout.findViewById(R.id.commit);
+        tvTitle.setText("选择文档");
+        tvCommit.setText("扫描");
+        tvCommit.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                searchDoc();
+            }
+        });
+        imgBack = (ImageView) mLinearLayout.findViewById(R.id.back_btn);
+        listView.setAdapter(mAdapter);
+        imgBack.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                getActivity().finish();
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                FileListAdapter adapter = (FileListAdapter) parent.getAdapter();
+                if (adapter != null)
+                {
                     File file = (File) adapter.getItem(position);
                     mPath = file.getAbsolutePath();
                     mListener.onFileSelected(file);
                 }
-              }
-          });
+            }
+        });
 
-          return mLinearLayout;
-      }
+        return mLinearLayout;
+    }
+
 
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         cancelSearch();
         super.onStop();
     }
 
-    private void upFolder() {
+
+    private void upFolder()
+    {
         File file = new File(mPath);
         File parent = file.getParentFile();
-        if (parent!=null){
-            if (FileChooserActivity.EXTERNAL_BASE_PATH.contains(parent.getAbsolutePath())){
+        if (parent != null)
+        {
+            if (FileChooserActivity.EXTERNAL_BASE_PATH.contains(parent.getAbsolutePath()))
+            {
                 mListener.onFileSelected(parent);
-            }else {
+            }
+            else
+            {
                 getActivity().onBackPressed();
             }
-        }else {
-            Toast.makeText(getActivity(),"没有上级目录",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(getActivity(), "没有上级目录", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private void searchDoc() {
-        getLoaderManager().restartLoader(1,null,this);
+
+    private void searchDoc()
+    {
+        getLoaderManager().restartLoader(1, null, this);
         alertDialog = showDocDialog();
         alertDialog.setCancelable(false);
 
 
-        runnable = new Runnable(){
+        runnable = new Runnable()
+        {
             @Override
-            public void run() {
-                if (fileLoader!=null) {
-                    if (alertDialog.isShowing()&&fileLoader.getDirPath()!=null){
-                        String dirPath = fileLoader.getDirPath().getAbsolutePath().replace(FileChooserActivity.EXTERNAL_BASE_PATH,"");
+            public void run()
+            {
+                if (fileLoader != null)
+                {
+                    if (alertDialog.isShowing() && fileLoader.getDirPath() != null)
+                    {
+                        String dirPath = fileLoader.getDirPath().getAbsolutePath().replace(FileChooserActivity.EXTERNAL_BASE_PATH, "");
                         alertDialog.setContent(dirPath);
                     }
                 }
@@ -219,11 +255,15 @@ public class FileListFragment extends Fragment implements
 
     }
 
-    private AlertDialogSingle showDocDialog() {
-        AlertDialogSingle alertDialog =  new AlertDialogSingle(getActivity(),"");
-        alertDialog.setCallBack(new AlertDialogSingle.CallBack() {
+
+    private AlertDialogSingle showDocDialog()
+    {
+        AlertDialogSingle alertDialog = new AlertDialogSingle(getActivity(), "");
+        alertDialog.setCallBack(new AlertDialogSingle.CallBack()
+        {
             @Override
-            public void cancel() {
+            public void cancel()
+            {
                 cancelSearch();
             }
         });
@@ -231,48 +271,64 @@ public class FileListFragment extends Fragment implements
         return alertDialog;
     }
 
-    private void cancelSearch() {
-        if (handler!=null){
+
+    private void cancelSearch()
+    {
+        if (handler != null)
+        {
             handler.removeCallbacks(runnable);
         }
-        if (fileLoader!=null){
+        if (fileLoader != null)
+        {
             fileLoader.cancelLoad();
         }
     }
 
 
     @Override
-    public Loader<List<File>> onCreateLoader(int id, Bundle args) {
-        if (id==1){
-            fileLoader = new FileLoader(getActivity(),mPath,1);
+    public Loader<List<File>> onCreateLoader(int id, Bundle args)
+    {
+        if (id == 1)
+        {
+            fileLoader = new FileLoader(getActivity(), mPath, 1);
             return fileLoader;
-        }else {
+        }
+        else
+        {
             return new FileLoader(getActivity(), mPath);
         }
     }
 
 
     @Override
-    public void onLoadFinished(Loader<List<File>> loader, List<File> data) {
-        if (loader.getId()==1){
-            if (alertDialog.isShowing()){
+    public void onLoadFinished(Loader<List<File>> loader, List<File> data)
+    {
+        if (loader.getId() == 1)
+        {
+            if (alertDialog.isShowing())
+            {
                 cancelSearch();
                 alertDialog.cancel();
             }
             handler.removeCallbacks(runnable);
         }
         mAdapter.setListItems(data);
-        if (data==null || data.size()==0){
+        if (data == null || data.size() == 0)
+        {
             tvEmpty.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
-        }else {
+        }
+        else
+        {
             tvEmpty.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
         }
     }
 
+
     @Override
-    public void onLoaderReset(Loader<List<File>> loader) {
+    public void onLoaderReset(Loader<List<File>> loader)
+    {
         mAdapter.clear();
     }
 }

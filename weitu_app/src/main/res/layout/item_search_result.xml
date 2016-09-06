@@ -1,29 +1,29 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="4dip" >
+    android:padding="4dip">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@drawable/stage_item_bg"
         android:orientation="vertical"
-        android:padding="5dip" >
+        android:padding="5dip">
 
         <com.metasoft.library.widget.stage.DynamicHeightImageView
             android:id="@+id/icon"
             android:layout_width="160dip"
             android:layout_height="180dip"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dip"
             android:gravity="top|left"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <com.metasoft.library.widget.stage.DynamicHeightTextView
                 android:id="@+id/title"
@@ -31,15 +31,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/book_name"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_16"/>
 
             <com.metasoft.library.widget.stage.DynamicHeightTextView
                 android:id="@+id/content"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:textSize="@dimen/text_size_12" />
+                android:textSize="@dimen/text_size_12"/>
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

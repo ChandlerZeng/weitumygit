@@ -33,7 +33,9 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class DynamicCardActivity extends BaseActivity  {
+
+public class DynamicCardActivity extends BaseActivity
+{
 
     @Nullable
     @Bind(R.id.title)
@@ -42,7 +44,7 @@ public class DynamicCardActivity extends BaseActivity  {
     private static final int COLUMNCOUNT = 3;
 
     private Bundle mBundle;
-    private String id,type;
+    private String id, type;
     private ImageAlbumBean imageAlbumBean;
 
     String favorite;
@@ -56,21 +58,23 @@ public class DynamicCardActivity extends BaseActivity  {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_dynamic_card);
 
         mRecyclerView = (RecyclerView) this.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(COLUMNCOUNT, StaggeredGridLayoutManager.VERTICAL));//设置RecyclerView布局管理器为2列垂直排布
-        adapter = new DynamicCardAdapter(this,urlLists,COLUMNCOUNT);
+        adapter = new DynamicCardAdapter(this, urlLists, COLUMNCOUNT);
         mRecyclerView.setAdapter(adapter);
-        adapter.setOnClickListener(new DynamicCardAdapter.OnItemClickListener() {
+        adapter.setOnClickListener(new DynamicCardAdapter.OnItemClickListener()
+        {
             @Override
-            public void ItemClickListener(View view, int postion) {
+            public void ItemClickListener(View view, int postion)
+            {
                 openImage(postion);
             }
         });
-
 
 
         mPreference = new Preference(this);
@@ -80,7 +84,9 @@ public class DynamicCardActivity extends BaseActivity  {
         init();
     }
 
-    private void openImage(int position){
+
+    private void openImage(int position)
+    {
         Intent intent = new Intent(DynamicCardActivity.this, ImagePagerActivity2.class);
         intent.putExtra("position", position);
         intent.putExtra("see_pic", 2);
@@ -90,56 +96,74 @@ public class DynamicCardActivity extends BaseActivity  {
         intent.putExtra("uploadUsername", imageAlbumBean.uploadUsername);
         intent.putExtra("imageID", imageAlbumBean.id);
         intent.putExtra(ImagePagerActivity2.ID_LIST, idList);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent, 1);
     }
 
-    private void init() {
+
+    private void init()
+    {
         getImageList();
     }
 
-    public void getImageList() {
+
+    public void getImageList()
+    {
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("id", id);
         params.put("ip", NetworkUtil.getLocalIpAddress2(DynamicCardActivity.this));
         params.put("method", "imageAlbum.get");
-        if (!CheckUtil.isNull(mPreference.getString(Preference.uid))) {
+        if (!CheckUtil.isNull(mPreference.getString(Preference.uid)))
+        {
             params.put("uid", mPreference.getString(Preference.uid));
         }
         showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        dismissLoading();
-                        Toast.makeText(mContext,"网络不给力，请稍后重试",Toast.LENGTH_SHORT).show();
-                    }
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+                dismissLoading();
+                Toast.makeText(mContext, "网络不给力，请稍后重试", Toast.LENGTH_SHORT).show();
+            }
 
-                    @Override
-                    public void onResponse(String json, int responseId) {
-                        dismissLoading();
-                        if (!TextUtils.isEmpty(json)) {
-                            DynamicCardBean dynamicCardBean = JsonUtil.fromJson(json,new TypeToken<DynamicCardBean>(){}.getType());
-                            if (dynamicCardBean == null)
-                                return;
-                            if (dynamicCardBean.code==1){
-                                imageAlbumBean = dynamicCardBean.imageAlbum;
-                                favorite = Integer.toString(dynamicCardBean.favorite);
-                                if (!TextUtils.isEmpty(imageAlbumBean.title))
-                                    tvTitle.setText(imageAlbumBean.title);
-                                urlLists.clear();
-                                idList.clear();
-                                for (ImageListBean listBean:dynamicCardBean.imageList){
-                                    urlLists.add(listBean.url);
-                                    idList.add(listBean.id);
-                                }
-                                adapter.setNewData(urlLists);
-                            }
-                            }
+
+            @Override
+            public void onResponse(String json, int responseId)
+            {
+                dismissLoading();
+                if (!TextUtils.isEmpty(json))
+                {
+                    DynamicCardBean dynamicCardBean = JsonUtil.fromJson(json, new TypeToken<DynamicCardBean>()
+                    {
+                    }.getType());
+                    if (dynamicCardBean == null)
+                    {
+                        return;
+                    }
+                    if (dynamicCardBean.code == 1)
+                    {
+                        imageAlbumBean = dynamicCardBean.imageAlbum;
+                        favorite = Integer.toString(dynamicCardBean.favorite);
+                        if (!TextUtils.isEmpty(imageAlbumBean.title))
+                        {
+                            tvTitle.setText(imageAlbumBean.title);
                         }
-                });
+                        urlLists.clear();
+                        idList.clear();
+                        for (ImageListBean listBean : dynamicCardBean.imageList)
+                        {
+                            urlLists.add(listBean.url);
+                            idList.add(listBean.id);
+                        }
+                        adapter.setNewData(urlLists);
+                    }
+                }
+            }
+        });
 
     }
+
 
     @Nullable
     @OnClick({R.id.back_btn})
@@ -153,13 +177,19 @@ public class DynamicCardActivity extends BaseActivity  {
         }
     }
 
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_UPDATE){
-            if (data.getBooleanExtra("isCollect",false)){
+        if (resultCode == RESULT_UPDATE)
+        {
+            if (data.getBooleanExtra("isCollect", false))
+            {
                 favorite = "1";
-            }else {
+            }
+            else
+            {
                 favorite = "0";
             }
         }

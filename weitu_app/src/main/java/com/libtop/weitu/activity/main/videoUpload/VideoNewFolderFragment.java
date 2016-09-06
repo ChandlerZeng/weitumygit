@@ -38,10 +38,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * Created by LianTu on 2016/4/25.
  */
-public class VideoNewFolderFragment extends ContentFragment {
+public class VideoNewFolderFragment extends ContentFragment
+{
 
     @Bind(R.id.title)
     TextView mTitleText;
@@ -64,54 +66,73 @@ public class VideoNewFolderFragment extends ContentFragment {
     @Bind(R.id.tag_group)
     TagGroup mTagGroup;
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_video_newfolder;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         setTitle();
         mEditTitleText.addTextChangedListener(wrongTextWatcher);
         mDescText.addTextChangedListener(watcher);
 
     }
 
+
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
-        if (bm != null) {
+        if (bm != null)
+        {
             String sortText = bm.getString("sort");
             mSortText.setText(sortText);
         }
     }
 
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
+
     @Override
-    public void onPause() {
-        try {
+    public void onPause()
+    {
+        try
+        {
             ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mContext.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
 
         }
         super.onPause();
     }
 
+
     @Nullable
     @OnClick({R.id.back_btn, R.id.ll_video_sort, R.id.ll_video_authority, R.id.btn_new_folder, R.id.commit})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
@@ -130,13 +151,21 @@ public class VideoNewFolderFragment extends ContentFragment {
         }
     }
 
-    private void newFolder() {
-        if (TextUtils.isEmpty(mEditTitleText.getText())) {
+
+    private void newFolder()
+    {
+        if (TextUtils.isEmpty(mEditTitleText.getText()))
+        {
             Toast.makeText(getActivity(), "名称不能为空", Toast.LENGTH_SHORT).show();
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 bm.getInt("sortId");
-            } catch (NullPointerException e) {
+            }
+            catch (NullPointerException e)
+            {
                 Toast.makeText(getActivity(), "请选择分类", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -144,57 +173,72 @@ public class VideoNewFolderFragment extends ContentFragment {
         }
     }
 
-    private void requestSaveAlbum() {
+
+    private void requestSaveAlbum()
+    {
         showLoding();
         //3.保存（新建）文件夹
         //http://weitu.bookus.cn/mediaAlbum/save.json?text={"uid":"565bea2c984ec06f56befda3","tags":"good","title":"well","introduction":"enen","label1":5000,"method":"mediaAlbum.save"}
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("uid", mPreference.getString(Preference.uid));
         String[] ss = mTagGroup.getTags();
-        try {
+        try
+        {
             JSONArray jsonarray = new JSONArray(Arrays.toString(ss));
-            params.put("tags",jsonarray);
-        } catch (JSONException e) {
+            params.put("tags", jsonarray);
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
         params.put("title", mEditTitleText.getText().toString());
         params.put("introduction", mDescText.getText().toString());
         params.put("label1", bm.getInt("sortId"));
         params.put("method", "mediaAlbum.save");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        dismissLoading();
-                        Log.w("guanglog", " map callback  " + json);
-                        Bundle bm1 = new Bundle();
-                        bm1.putString("title", mEditTitleText.getText().toString());
-                        bm1.putString("desc", mDescText.getText().toString());
-                        bm1.putString("sort", mSortText.getText().toString());
-                        bm1.putBoolean("isnew", true);
-                        EventBus.getDefault().post(new MessageEvent(bm1));
-                        onBackPressed();
-                    }
-                });
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dismissLoading();
+                Log.w("guanglog", " map callback  " + json);
+                Bundle bm1 = new Bundle();
+                bm1.putString("title", mEditTitleText.getText().toString());
+                bm1.putString("desc", mDescText.getText().toString());
+                bm1.putString("sort", mSortText.getText().toString());
+                bm1.putBoolean("isnew", true);
+                EventBus.getDefault().post(new MessageEvent(bm1));
+                onBackPressed();
+            }
+        });
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(MessageEvent event) {
-        if (event.message.getString("target").equals(this.getClass().getName().toString())) {
+    public void onMessage(MessageEvent event)
+    {
+        if (event.message.getString("target").equals(this.getClass().getName().toString()))
+        {
             bm = event.message;
         }
     }
 
-    private void setTitle() {
+
+    private void setTitle()
+    {
         mTitleText.setText("新建视频文件夹");
     }
 
-    private void videoAuthority() {
+
+    private void videoAuthority()
+    {
         Bundle bd = new Bundle();
         bd.putString(ContentActivity.FRAG_CLS, VideoAuthorityFragment.class.getName());
         bd.putBoolean(ContentActivity.FRAG_ISBACK, true);
@@ -202,7 +246,9 @@ public class VideoNewFolderFragment extends ContentFragment {
         mContext.startActivity(bd, ContentActivity.class);
     }
 
-    private void videoSort() {
+
+    private void videoSort()
+    {
         Bundle bd = new Bundle();
         bd.putString(ContentActivity.FRAG_CLS, VideoSortFragment.class.getName());
         bd.putBoolean(ContentActivity.FRAG_ISBACK, true);
@@ -211,30 +257,38 @@ public class VideoNewFolderFragment extends ContentFragment {
 
     }
 
-    private TextWatcher wrongTextWatcher = new TextWatcher() {
+
+    private TextWatcher wrongTextWatcher = new TextWatcher()
+    {
         private CharSequence temp;
         private int editStart;
         private int editEnd;
 
+
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
             temp = s;
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+        }
+
+
+        @Override
+        public void afterTextChanged(Editable s)
+        {
             editStart = mEditTitleText.getSelectionStart();
             editEnd = mEditTitleText.getSelectionEnd();
 
-            String limitEx="[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+            String limitEx = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
             Pattern pattern = Pattern.compile(limitEx);
             Matcher m = pattern.matcher(temp);
-            if( m.find()){
+            if (m.find())
+            {
                 showToast("不允许输入特殊符号！");
                 s.delete(editStart - 1, editEnd);
                 int tempSelection = editStart;
@@ -245,27 +299,34 @@ public class VideoNewFolderFragment extends ContentFragment {
         }
     };
 
-    private TextWatcher watcher = new TextWatcher() {
+    private TextWatcher watcher = new TextWatcher()
+    {
         private CharSequence temp;
         private int editStart;
         private int editEnd;
 
+
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
             temp = s;
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+        }
+
+
+        @Override
+        public void afterTextChanged(Editable s)
+        {
             editStart = mDescText.getSelectionStart();
             editEnd = mDescText.getSelectionEnd();
 
-            if (temp.length() > 50) {
+            if (temp.length() > 50)
+            {
                 showToast("你输入的字数已经超过了限制！");
                 s.delete(editStart - 1, editEnd);
                 int tempSelection = editStart;

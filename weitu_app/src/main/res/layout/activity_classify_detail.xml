@@ -4,15 +4,14 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@color/searchBackgroud"
-    >
+    android:background="@color/searchBackgroud">
 
-    <include layout="@layout/include_classify_titlebar" />
+    <include layout="@layout/include_classify_titlebar"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/greyD"
-        />
+        android:background="@color/greyD"/>
 
     <LinearLayout
         android:id="@+id/nullCo"
@@ -29,9 +28,7 @@
             android:gravity="center"
             android:text="暂无数据"
             android:textColor="#d6d5d5"
-            android:textSize="25sp"
-            />
-
+            android:textSize="25sp"/>
     </LinearLayout>
 
     <com.libtop.weitu.widget.listview.XListView
@@ -45,7 +42,6 @@
         android:divider="@color/main_divider_line"
         android:dividerHeight="0.8dip"
         android:fadingEdge="none"
-        android:listSelector="@drawable/list_selector"
-        />
+        android:listSelector="@drawable/list_selector"/>
 
 </LinearLayout>

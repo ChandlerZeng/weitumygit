@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingLeft="5dp"
     android:paddingRight="5dp">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/right_arrow"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/label"/>
 
     <ImageView
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
+        android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/icon"
-        android:src="@drawable/icon_upload_img"/>
-    <TextView
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/icon"
-        android:layout_marginRight="8dp"
-        android:layout_toLeftOf="@id/label"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:src="@drawable/right_arrow"/>
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_upload_img"/>
+
+    <TextView
+        android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:textColor="@color/black"
-        android:text="ji"
-        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@id/label"
+        android:layout_toRightOf="@id/icon"
         android:gravity="center_vertical"
-        android:id="@+id/title"/>
+        android:text="ji"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
 </RelativeLayout>

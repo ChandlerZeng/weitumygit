@@ -21,10 +21,12 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+
 /**
  * Created by LianTu on 2016/7/18.
  */
-public class UserCollectActivity extends BaseActivity{
+public class UserCollectActivity extends BaseActivity
+{
     @Bind(R.id.title)
     TextView tvTitle;
     @Bind(R.id.commit)
@@ -33,13 +35,15 @@ public class UserCollectActivity extends BaseActivity{
     View deleteView;
 
     private NotifyFragment mFragment;
-    private String mCurentTag ="";
+    private String mCurentTag = "";
     private int pageIndex = 0;
 
-    private Map<Integer,Boolean> map = new HashMap<>();
+    private Map<Integer, Boolean> map = new HashMap<>();
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_click_history);
         EventBus.getDefault().register(this);
@@ -47,19 +51,23 @@ public class UserCollectActivity extends BaseActivity{
     }
 
 
-    private void init() {
+    private void init()
+    {
         tvTitle.setText("我的收藏");
         tvCommit.setText("编辑");
-        FragmentTransaction tran =mFm.beginTransaction();
-        tran.replace(R.id.content_fragment,new UserCollectFragment());
+        FragmentTransaction tran = mFm.beginTransaction();
+        tran.replace(R.id.content_fragment, new UserCollectFragment());
         tran.addToBackStack(null);
         tran.commit();
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.delete,R.id.commit,R.id.have_see,R.id.going_down})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    @OnClick({R.id.back_btn, R.id.delete, R.id.commit, R.id.have_see, R.id.going_down})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.back_btn:
                 finish();
                 break;
@@ -79,48 +87,63 @@ public class UserCollectActivity extends BaseActivity{
         }
     }
 
+
     //删除
-    private void deleteClick() {
+    private void deleteClick()
+    {
         Bundle bundle = new Bundle();
-        bundle.putString("from",UserCollectActivity.class.getName());
-        bundle.putBoolean("delete",true);
-        bundle.putInt("pageIndex2",pageIndex);
+        bundle.putString("from", UserCollectActivity.class.getName());
+        bundle.putBoolean("delete", true);
+        bundle.putInt("pageIndex2", pageIndex);
         EventBus.getDefault().post(new MessageEvent(bundle));
     }
+
 
     //全选
-    private void allSelect() {
+    private void allSelect()
+    {
         Bundle bundle = new Bundle();
-        bundle.putString("from",UserCollectActivity.class.getName());
-        bundle.putBoolean("all",true);
-        bundle.putInt("pageIndex2",pageIndex);
+        bundle.putString("from", UserCollectActivity.class.getName());
+        bundle.putBoolean("all", true);
+        bundle.putInt("pageIndex2", pageIndex);
         EventBus.getDefault().post(new MessageEvent(bundle));
     }
+
 
     //编辑
-    private void collectEdit() {
+    private void collectEdit()
+    {
         Bundle bundle = new Bundle();
-        bundle.putString("from",UserCollectActivity.class.getName());
-        bundle.putInt("pageIndex2",pageIndex);
+        bundle.putString("from", UserCollectActivity.class.getName());
+        bundle.putInt("pageIndex2", pageIndex);
         EventBus.getDefault().post(new MessageEvent(bundle));
-        if (map.get(pageIndex)!=null && map.get(pageIndex)){
-            map.put(pageIndex,false);
-        }else {
-            map.put(pageIndex,true);
+        if (map.get(pageIndex) != null && map.get(pageIndex))
+        {
+            map.put(pageIndex, false);
+        }
+        else
+        {
+            map.put(pageIndex, true);
         }
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(MessageEvent event) {
+    public void onMessage(MessageEvent event)
+    {
         Bundle bundle = event.message;
         String from = bundle.getString("from");
-        if (from !=null && from.equals(UserCollectFragment.class.getName())){
+        if (from != null && from.equals(UserCollectFragment.class.getName()))
+        {
             pageIndex = bundle.getInt("pageIndex");
         }
-        if (map.get(pageIndex)!=null && map.get(pageIndex)){
+        if (map.get(pageIndex) != null && map.get(pageIndex))
+        {
             tvCommit.setText("取消");
             deleteView.setVisibility(View.VISIBLE);
-        }else {
+        }
+        else
+        {
             tvCommit.setText("编辑");
             deleteView.setVisibility(View.GONE);
         }
@@ -128,16 +151,20 @@ public class UserCollectActivity extends BaseActivity{
 
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        if (mFragment!=null){
-            mFragment=null;
+        if (mFragment != null)
+        {
+            mFragment = null;
         }
     }
 
+
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         mContext.finish();
     }
 }

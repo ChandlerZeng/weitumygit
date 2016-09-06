@@ -25,10 +25,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * Created by Administrator on 2016/1/8 0008.
  */
-public class ForgetPasswdFragment extends BaseFragment {
+public class ForgetPasswdFragment extends BaseFragment
+{
 
     @Bind(R.id.capton)
     EditText mVerifyEdit;
@@ -41,29 +43,38 @@ public class ForgetPasswdFragment extends BaseFragment {
 
     private String mMsg = "";
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_forget_passwd2;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         setTitle(root);
-        Bundle bundle =mContext. getIntent().getExtras();
+        Bundle bundle = mContext.getIntent().getExtras();
         mMsg = bundle.getString("email");
         mMobileEdit.setText(mMsg);
     }
 
-    private void setTitle(View root){
-        ((TextView)root.findViewById(R.id.title)).setText(R.string.forget_get_passwd);
+
+    private void setTitle(View root)
+    {
+        ((TextView) root.findViewById(R.id.title)).setText(R.string.forget_get_passwd);
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.send_email,R.id.get_capton,R.id.tv_back_login})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.back_btn, R.id.send_email, R.id.get_capton, R.id.tv_back_login})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
-                ((ContentActivity)mContext).popBack();
+                ((ContentActivity) mContext).popBack();
                 break;
             case R.id.send_email:
                 nextStep2();
@@ -77,30 +88,38 @@ public class ForgetPasswdFragment extends BaseFragment {
         }
     }
 
-    private void back2Login() {
+
+    private void back2Login()
+    {
         onBackPressed();
     }
 
+
     @Override
-    public void onBackPressed() {
-        ((ContentActivity)mContext).popBack();
+    public void onBackPressed()
+    {
+        ((ContentActivity) mContext).popBack();
     }
 
 
     //输入验证码后检矫
-    private void nextStep2() {
-        final String mobile=mMobileEdit.getText().toString();
-        if (CheckUtil.isNull(mobile)) {
+    private void nextStep2()
+    {
+        final String mobile = mMobileEdit.getText().toString();
+        if (CheckUtil.isNull(mobile))
+        {
             showToast("手机号码不能为空");
             return;
         }
-        if (!CheckUtil.checkNumber(mobile)) {
+        if (!CheckUtil.checkNumber(mobile))
+        {
             showToast("请输入正确的手机号码");
             return;
         }
         ContantsUtil.phone = mobile;
-        final String verify=mVerifyEdit.getText().toString();
-        if (CheckUtil.isNull(verify)) {
+        final String verify = mVerifyEdit.getText().toString();
+        if (CheckUtil.isNull(verify))
+        {
             showToast("请输入手机验证码");
             return;
         }
@@ -108,34 +127,48 @@ public class ForgetPasswdFragment extends BaseFragment {
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         params.put("phone", mobile);
         params.put("method", "user.validateCaptcha");
-        params.put("captcha",verify+"");
+        params.put("captcha", verify + "");
         showLoding();
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
 
             }
 
+
             @Override
-            public void onResponse(String jsonStr, int id) {
+            public void onResponse(String jsonStr, int id)
+            {
                 dismissLoading();
-                if (CheckUtil.isNullTxt(jsonStr)) {
+                if (CheckUtil.isNullTxt(jsonStr))
+                {
                     showToast("请求超时，请稍后再试");
                     return;
                 }
-                try {
-                    if (CheckUtil.isNull(jsonStr)) {
+                try
+                {
+                    if (CheckUtil.isNull(jsonStr))
+                    {
                         showToast("请求出错");
-                    } else {
+                    }
+                    else
+                    {
                         JSONObject json = new JSONObject(jsonStr);
-                        if (json.getInt("code") == 1) {
+                        if (json.getInt("code") == 1)
+                        {
                             ContantsUtil.caption = verify + "";
                             toNext();
-                        } else {
+                        }
+                        else
+                        {
                             showToast("验证验证码失败");
                         }
                     }
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                     showToast("验证出错");
                 }
@@ -143,14 +176,18 @@ public class ForgetPasswdFragment extends BaseFragment {
         });
     }
 
+
     //获取验证码的按钮点击
-    private void getCapton2() {
-        final String mobile=mMobileEdit.getText().toString();
-        if (CheckUtil.isNull(mobile)) {
+    private void getCapton2()
+    {
+        final String mobile = mMobileEdit.getText().toString();
+        if (CheckUtil.isNull(mobile))
+        {
             showToast("手机号码不能为空");
             return;
         }
-        if (!CheckUtil.checkNumber(mobile)) {
+        if (!CheckUtil.checkNumber(mobile))
+        {
             showToast("请输入正确的手机号码");
             return;
         }
@@ -159,39 +196,53 @@ public class ForgetPasswdFragment extends BaseFragment {
         params.put("phone", mobile);
         params.put("method", "user.sendCaptcha");
         showLoding();
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
 
             }
 
+
             @Override
-            public void onResponse(String jsonStr, int id) {
+            public void onResponse(String jsonStr, int id)
+            {
                 dismissLoading();
-                if (CheckUtil.isNullTxt(jsonStr)) {
+                if (CheckUtil.isNullTxt(jsonStr))
+                {
                     showToast("请求超时，请稍后再试");
                     return;
                 }
-                try {
-                    if (CheckUtil.isNull(jsonStr)) {
+                try
+                {
+                    if (CheckUtil.isNull(jsonStr))
+                    {
                         showToast("请求出错");
                         mVerifyBtn.setText("获取验证码");
                         mVerifyBtn.setEnabled(true);
-                    } else {
+                    }
+                    else
+                    {
                         JSONObject json = new JSONObject(jsonStr);
-                        if (json.getInt("code") == 1) {
+                        if (json.getInt("code") == 1)
+                        {
                             mVerifyBtn.setText("重发(60)");
                             seconds = 0;
                             mHandler.postDelayed(mTimer, 1000);
                             mVerifyBtn.setEnabled(false);
                             showToast("验证码已发送到你手机，请注意查收。");
-                        } else {
+                        }
+                        else
+                        {
                             mVerifyBtn.setText("获取验证码");
                             mVerifyBtn.setEnabled(true);
                             showToast("获取验证码失败");
                         }
                     }
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     mVerifyBtn.setText("获取验证码");
                     mVerifyBtn.setEnabled(true);
                     e.printStackTrace();
@@ -201,23 +252,32 @@ public class ForgetPasswdFragment extends BaseFragment {
         });
     }
 
-    private void toNext() {
-        ((ContentActivity)mContext).changeFragment(ChangePasswdFragment.class.getName(),true,true);
+
+    private void toNext()
+    {
+        ((ContentActivity) mContext).changeFragment(ChangePasswdFragment.class.getName(), true, true);
     }
+
 
     // 定时器控制
     private int seconds = 0;
     private Handler mHandler = new Handler();
     private boolean isEnd = false;
-    private Runnable mTimer = new Runnable() {
+    private Runnable mTimer = new Runnable()
+    {
         @Override
-        public void run() {
-            if (!isEnd) {
+        public void run()
+        {
+            if (!isEnd)
+            {
                 seconds++;
                 mVerifyBtn.setText("重发(" + (60 - seconds) + ")");
-                if (seconds < 60) {
+                if (seconds < 60)
+                {
                     mHandler.postDelayed(this, 1000);
-                } else {
+                }
+                else
+                {
                     mVerifyBtn.setText("获取验证码");
                     mVerifyBtn.setEnabled(true);
                 }

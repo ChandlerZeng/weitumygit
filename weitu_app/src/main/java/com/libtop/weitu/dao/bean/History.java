@@ -7,45 +7,69 @@ import de.greenrobot.dao.DaoException;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
+
 /**
  * Entity mapped to table history.
  */
-public class History {
+public class History
+{
 
     private Long id;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String name;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String url;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String isbn;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String auth;
     private String report;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String lid;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String publisher;
     private long update_time;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     private transient HistoryDao myDao;
 
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
-    public History() {
+
+    public History()
+    {
     }
 
-    public History(Long id) {
+
+    public History(Long id)
+    {
         this.id = id;
     }
 
-    public History(Long id, String name, String url, String isbn, String auth, String report, String lid, String publisher, long update_time) {
+
+    public History(Long id, String name, String url, String isbn, String auth, String report, String lid, String publisher, long update_time)
+    {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -57,117 +81,196 @@ public class History {
         this.update_time = update_time;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    public void __setDaoSession(DaoSession daoSession) {
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    public void __setDaoSession(DaoSession daoSession)
+    {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getHistoryDao() : null;
     }
 
-    public Long getId() {
+
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    /** Not-null value. */
-    public String getName() {
+
+    /**
+     * Not-null value.
+     */
+    public String getName()
+    {
         return name;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setName(String name) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    /** Not-null value. */
-    public String getUrl() {
+
+    /**
+     * Not-null value.
+     */
+    public String getUrl()
+    {
         return url;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setUrl(String url) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setUrl(String url)
+    {
         this.url = url;
     }
 
-    /** Not-null value. */
-    public String getIsbn() {
+
+    /**
+     * Not-null value.
+     */
+    public String getIsbn()
+    {
         return isbn;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setIsbn(String isbn) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setIsbn(String isbn)
+    {
         this.isbn = isbn;
     }
 
-    /** Not-null value. */
-    public String getAuth() {
+
+    /**
+     * Not-null value.
+     */
+    public String getAuth()
+    {
         return auth;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setAuth(String auth) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setAuth(String auth)
+    {
         this.auth = auth;
     }
 
-    public String getReport() {
+
+    public String getReport()
+    {
         return report;
     }
 
-    public void setReport(String report) {
+
+    public void setReport(String report)
+    {
         this.report = report;
     }
 
-    /** Not-null value. */
-    public String getLid() {
+
+    /**
+     * Not-null value.
+     */
+    public String getLid()
+    {
         return lid;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setLid(String lid) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setLid(String lid)
+    {
         this.lid = lid;
     }
 
-    /** Not-null value. */
-    public String getPublisher() {
+
+    /**
+     * Not-null value.
+     */
+    public String getPublisher()
+    {
         return publisher;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setPublisher(String publisher) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setPublisher(String publisher)
+    {
         this.publisher = publisher;
     }
 
-    public long getUpdate_time() {
+
+    public long getUpdate_time()
+    {
         return update_time;
     }
 
-    public void setUpdate_time(long update_time) {
+
+    public void setUpdate_time(long update_time)
+    {
         this.update_time = update_time;
     }
 
-    /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
-    public void delete() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context.
+     */
+    public void delete()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.delete(this);
     }
 
-    /** Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context. */
-    public void update() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context.
+     */
+    public void update()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.update(this);
     }
 
-    /** Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context. */
-    public void refresh() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context.
+     */
+    public void refresh()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.refresh(this);
     }
 

@@ -42,11 +42,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.FuncN;
 import rx.schedulers.Schedulers;
 
-/**
 
+/**
  * Created by Administrator on 2016/1/11 0011.
  */
-public class UserInfoFragment extends PhotoFragment {
+public class UserInfoFragment extends PhotoFragment
+{
     public static final int REQUEST_IMAGE = 2;
 
     @Bind(R.id.sex_value)
@@ -65,21 +66,28 @@ public class UserInfoFragment extends PhotoFragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_user_info2;
     }
 
-    private void  openSexDialog(){
+
+    private void openSexDialog()
+    {
         String title = "请选择性别";
         final AlertDialogUtil dialog = new AlertDialogUtil();
-        dialog.showDialog(mContext, title, "女同学", "男同学", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+        dialog.showDialog(mContext, title, "女同学", "男同学", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+        {
             @Override
-            public void onClick() {
+            public void onClick()
+            {
                 //女同学
                 mSexText.setText("性别：女");
                 mSex = "1";
@@ -87,9 +95,11 @@ public class UserInfoFragment extends PhotoFragment {
                 isUpdateSex = true;
 
             }
-        }, new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+        }, new MyAlertDialog.MyAlertDialogOnClickCallBack()
+        {
             @Override
-            public void onClick() {
+            public void onClick()
+            {
                 //男同学
                 mSexText.setText("性别：男");
                 mSex = "0";
@@ -99,36 +109,38 @@ public class UserInfoFragment extends PhotoFragment {
         });
     }
 
-    @Override
-    public void onCreation(View root) {
-        mSex = mPreference.getString(Preference.sex);
-        mSexText.setText("性别："+CommonUtil.getValue("sex" + mSex));
-        String uid = mPreference.getString(Preference.uid);
-        String avatar = ContantsUtil.getAvatarUrl(uid);
-        Picasso.with(mContext)
-                .load(avatar)
-                .placeholder(R.drawable.user_default_icon)
-                .error(R.drawable.user_default_icon)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
-                .into(imgHead);
-    }
 
     @Override
-    public void onResume() {
+    public void onCreation(View root)
+    {
+        mSex = mPreference.getString(Preference.sex);
+        mSexText.setText("性别：" + CommonUtil.getValue("sex" + mSex));
+        String uid = mPreference.getString(Preference.uid);
+        String avatar = ContantsUtil.getAvatarUrl(uid);
+        Picasso.with(mContext).load(avatar).placeholder(R.drawable.user_default_icon).error(R.drawable.user_default_icon).networkPolicy(NetworkPolicy.NO_CACHE).into(imgHead);
+    }
+
+
+    @Override
+    public void onResume()
+    {
         super.onResume();
         String schoolName = mPreference.getString(Preference.SchoolName);
-        if (!TextUtils.isEmpty(schoolName)){
+        if (!TextUtils.isEmpty(schoolName))
+        {
             tvLibrary.setText(schoolName);
         }
     }
 
 
     @Nullable
-    @OnClick({R.id.tv_cancel, R.id.password, R.id.sex_value, R.id.avatar,R.id.tv_library,R.id.tv_save})
-    public void onClick(View v) {
+    @OnClick({R.id.tv_cancel, R.id.password, R.id.sex_value, R.id.avatar, R.id.tv_library, R.id.tv_save})
+    public void onClick(View v)
+    {
         Bundle bundle = new Bundle();
         String cls = "";
-        switch (v.getId()) {
+        switch (v.getId())
+        {
             case R.id.tv_cancel:
                 mContext.finish();
                 break;
@@ -155,50 +167,60 @@ public class UserInfoFragment extends PhotoFragment {
                 saveUserInfo();
                 break;
         }
-        if (!TextUtils.isEmpty(cls)) {
-            bundle.putBoolean(ContentActivity.FRAG_ISBACK,true);
+        if (!TextUtils.isEmpty(cls))
+        {
+            bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
             bundle.putString(ContentActivity.FRAG_CLS, cls);
             mContext.startActivity(bundle, ContentActivity.class);
         }
     }
 
+
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         mContext.finish();
     }
 
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
     }
 
 
-    private void loadPickUp() {
-                            Intent intent = new Intent(getActivity(), MultiImageSelectorActivity.class);
-                            intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-                            intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
-                            intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, 0);
-                            mContext.startActivityForResult(intent, REQUEST_IMAGE);
+    private void loadPickUp()
+    {
+        Intent intent = new Intent(getActivity(), MultiImageSelectorActivity.class);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, 0);
+        mContext.startActivityForResult(intent, REQUEST_IMAGE);
     }
 
+
     @Override
-    public void onResult(int request, int result, Intent data) {
-        if (result != Activity.RESULT_OK) {
+    public void onResult(int request, int result, Intent data)
+    {
+        if (result != Activity.RESULT_OK)
+        {
             return;
         }
-        switch (request) {
+        switch (request)
+        {
             case REQUEST_CODE_CAMERA:
                 cropPhoto(Uri.parse(SdCardUtil.TEMP));
                 break;
             case REQUEST_IMAGE:
-                String a = "file:///"+data.getStringExtra("lamge");
+                String a = "file:///" + data.getStringExtra("lamge");
                 //Uri uri = d1ata.getData();
                 cropPhoto(Uri.parse(a));
                 break;
             case REQUEST_CODE_PHOTO_DEAL:
-                mBitmap = ClippingPicture.resizeBitmap(
-                        Uri.parse(SdCardUtil.TEMP).getPath(), 60, 60);
-                if (mBitmap == null) {
+                mBitmap = ClippingPicture.resizeBitmap(Uri.parse(SdCardUtil.TEMP).getPath(), 60, 60);
+                if (mBitmap == null)
+                {
                     showToast("读取图片失败，请重新选择图片");
                     break;
                 }
@@ -208,18 +230,22 @@ public class UserInfoFragment extends PhotoFragment {
         }
     }
 
-    private void saveUserInfo() {
+
+    private void saveUserInfo()
+    {
         showLoding();
         unsubscribe();
 
         List<Observable<ResultCodeDto>> observablelists = new ArrayList<>();
 
-        if (isUpdateSex){
+        if (isUpdateSex)
+        {
             Observable<ResultCodeDto> sexObservable = getSexObservable();
             observablelists.add(sexObservable);
         }
 
-        if (mBitmap!=null){
+        if (mBitmap != null)
+        {
             Observable<ResultCodeDto> avatarObservable = getAvatarObservable();
             observablelists.add(avatarObservable);
         }
@@ -227,76 +253,91 @@ public class UserInfoFragment extends PhotoFragment {
         Observable<ResultCodeDto> libObservable = getLibObservable();
         observablelists.add(libObservable);
 
-        subscription = Observable.zip(observablelists,
-                new FuncN<List<ResultCodeDto>>() {
-                    @Override
-                    public List<ResultCodeDto> call(Object... args) {
-                        List<ResultCodeDto> lists = new ArrayList<ResultCodeDto>();
-                        for (Object arg:args){
-                            ResultCodeDto resultCodeDto = (ResultCodeDto) arg;
-                            lists.add(resultCodeDto);
-                        }
-                        return lists;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<ResultCodeDto>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+        subscription = Observable.zip(observablelists, new FuncN<List<ResultCodeDto>>()
+        {
+            @Override
+            public List<ResultCodeDto> call(Object... args)
+            {
+                List<ResultCodeDto> lists = new ArrayList<ResultCodeDto>();
+                for (Object arg : args)
+                {
+                    ResultCodeDto resultCodeDto = (ResultCodeDto) arg;
+                    lists.add(resultCodeDto);
+                }
+                return lists;
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<ResultCodeDto>>()
+        {
+            @Override
+            public void onCompleted()
+            {
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        dismissLoading();
+
+            @Override
+            public void onError(Throwable e)
+            {
+                dismissLoading();
+                showToast("更新失败");
+                Log.w("guanglog", "个人信息更新失败" + e);
+            }
+
+
+            @Override
+            public void onNext(List<ResultCodeDto> resultCodeDtos)
+            {
+                dismissLoading();
+                for (ResultCodeDto resultCodeDto : resultCodeDtos)
+                {
+                    if (resultCodeDto == null || resultCodeDto.code != 1)
+                    {
                         showToast("更新失败");
-                        Log.w("guanglog","个人信息更新失败"+e);
+                        return;
                     }
-
-                    @Override
-                    public void onNext(List<ResultCodeDto> resultCodeDtos) {
-                        dismissLoading();
-                        for (ResultCodeDto resultCodeDto : resultCodeDtos){
-                            if (resultCodeDto==null || resultCodeDto.code != 1){
-                                showToast("更新失败");
-                                return;
-                            }else {
-                                showToast("更新成功");
-                            }
-                        }
+                    else
+                    {
+                        showToast("更新成功");
                     }
-                });
+                }
+            }
+        });
 
     }
 
+
     //更新头像请求
-    private Observable<ResultCodeDto> getAvatarObservable(){
+    private Observable<ResultCodeDto> getAvatarObservable()
+    {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("method", "user.uploadAvatar");
         params.put("uid", Preference.instance(mContext).getString(Preference.uid));
         params.put("avatar", ClippingPicture.bitmapToBase64(mBitmap));
         String[] arrays = MapUtil.map2Parameter(params);
-        return WeituNetwork.getWeituApi().getResultCode(arrays[0],arrays[1],arrays[2]);
+        return WeituNetwork.getWeituApi().getResultCode(arrays[0], arrays[1], arrays[2]);
     }
 
+
     //更新性别请求
-    private Observable<ResultCodeDto> getSexObservable(){
+    private Observable<ResultCodeDto> getSexObservable()
+    {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("method", "user.updateSex");
         params.put("uid", Preference.instance(mContext).getString(Preference.uid));
         params.put("sex", mSex);
         String[] arrays = MapUtil.map2Parameter(params);
-        return WeituNetwork.getWeituApi().getResultCode(arrays[0],arrays[1],arrays[2]);
+        return WeituNetwork.getWeituApi().getResultCode(arrays[0], arrays[1], arrays[2]);
     }
 
+
     //更新图书馆请求
-    private Observable<ResultCodeDto> getLibObservable(){
+    private Observable<ResultCodeDto> getLibObservable()
+    {
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("uid", Preference.instance(mContext).getString(Preference.uid));
         params.put("lid", mPreference.getString(Preference.SchoolId));
         params.put("method", "user.updateLibrary");
         String[] arrays = MapUtil.map2Parameter(params);
-        return WeituNetwork.getWeituApi().getResultCode(arrays[0],arrays[1],arrays[2]);
+        return WeituNetwork.getWeituApi().getResultCode(arrays[0], arrays[1], arrays[2]);
     }
 
 }

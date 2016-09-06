@@ -25,50 +25,59 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * Created by Administrator on 2016/1/8 0008.
  */
-public class LoginFragment extends BaseFragment {
+public class LoginFragment extends BaseFragment
+{
 
     @Bind(R.id.user_name)
     EditText mNameEdit;
     @Bind(R.id.user_passwd)
     EditText mPasswdEdit;
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_login;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         setTitle(root);
-        String phone =mPreference.getString(Preference.phone);
-        if (!TextUtils.isEmpty(phone)) {
+        String phone = mPreference.getString(Preference.phone);
+        if (!TextUtils.isEmpty(phone))
+        {
             mNameEdit.setText(phone);
         }
     }
 
-    private void setTitle(View root){
-        ((TextView)root.findViewById(R.id.title)).setText(R.string.login_fast_str);
+
+    private void setTitle(View root)
+    {
+        ((TextView) root.findViewById(R.id.title)).setText(R.string.login_fast_str);
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.title_right_text,R.id.registor_new_user,R.id.forget_password
-            ,R.id.login_btn})
-    public void onClick(View v) {
-        switch (v.getId()){
+    @OnClick({R.id.back_btn, R.id.title_right_text, R.id.registor_new_user, R.id.forget_password, R.id.login_btn})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
             case R.id.title_right_text:
             case R.id.registor_new_user:
-                ((ContentActivity)mContext).changeFragment(RegMobileFragment.class.getName()
-                        ,true,true);
+                ((ContentActivity) mContext).changeFragment(RegMobileFragment.class.getName(), true, true);
                 break;
             case R.id.forget_password:
-                ((ContentActivity)mContext).changeFragment(ForgetPasswdFragment.class.getName()
-                        ,true,true);
+                ((ContentActivity) mContext).changeFragment(ForgetPasswdFragment.class.getName(), true, true);
                 break;
             case R.id.login_btn:
                 author();
@@ -76,30 +85,40 @@ public class LoginFragment extends BaseFragment {
         }
     }
 
+
     @Override
-    public void onBackPressed() {
-        if (mContext.getIntent().getExtras().getBoolean(ContentActivity.FRAG_ISBACK)){
-            ((ContentActivity)mContext).popBack();
-        }else {
+    public void onBackPressed()
+    {
+        if (mContext.getIntent().getExtras().getBoolean(ContentActivity.FRAG_ISBACK))
+        {
+            ((ContentActivity) mContext).popBack();
+        }
+        else
+        {
             mContext.finish();
         }
     }
 
+
     /**
      * 自身用户系统登陆
      */
-    private void author() {
-        final String mobile=mNameEdit.getText().toString();
-        String password=mPasswdEdit.getText().toString();
-        if (TextUtils.isEmpty(mobile)) {
+    private void author()
+    {
+        final String mobile = mNameEdit.getText().toString();
+        String password = mPasswdEdit.getText().toString();
+        if (TextUtils.isEmpty(mobile))
+        {
             showToast("电话号码不能为空");
             return;
         }
-        if (!CheckUtil.checkNumber(mobile)) {
+        if (!CheckUtil.checkNumber(mobile))
+        {
             showToast("请输入正确的电话号码");
             return;
         }
-        if (TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(password))
+        {
             showToast("密码不能为空");
             return;
         }
@@ -108,51 +127,54 @@ public class LoginFragment extends BaseFragment {
         params.put("method", "user.auth");
         params.put("phone", mobile);
         params.put("password", password);
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
 
             }
 
+
             @Override
-            public void onResponse(String jsonStr, int id) {
+            public void onResponse(String jsonStr, int id)
+            {
                 dismissLoading();
-                if (TextUtils.isEmpty(jsonStr)) {
+                if (TextUtils.isEmpty(jsonStr))
+                {
                     showToast("请求超时，请稍后再试");
                     return;
                 }
-                try {
+                try
+                {
                     JSONObject json = new JSONObject(jsonStr);
-                    if (json.getInt("code") == 1) {
+                    if (json.getInt("code") == 1)
+                    {
                         // 临时存放
-                        mPreference.putString(Preference.UserName,
-                                json.getString("username"));
-                        mPreference.putString(Preference.uid,
-                                json.getString("uid"));
-                        mPreference.putString(Preference.sex,
-                                json.getString("sex"));
-                        mPreference.putString(Preference.phone,
-                                mobile+ "");
+                        mPreference.putString(Preference.UserName, json.getString("username"));
+                        mPreference.putString(Preference.uid, json.getString("uid"));
+                        mPreference.putString(Preference.sex, json.getString("sex"));
+                        mPreference.putString(Preference.phone, mobile + "");
 
                         // 图书馆信息
-                        JSONObject library = json
-                                .getJSONObject("library");
-                        mPreference.putString(Preference.SchoolId,
-                                library.getString("id"));
-                        mPreference.putString(Preference.SchoolName,
-                                library.getString("name"));
-                        mPreference.putString(Preference.SchoolCode,
-                                library.getString("code"));
+                        JSONObject library = json.getJSONObject("library");
+                        mPreference.putString(Preference.SchoolId, library.getString("id"));
+                        mPreference.putString(Preference.SchoolName, library.getString("name"));
+                        mPreference.putString(Preference.SchoolCode, library.getString("code"));
 
                         showToast("登录成功");
                         mContext.startActivity(null, MainActivity.class);
                         //结束欢迎页
                         mContext.setResult(Activity.RESULT_OK);
                         mContext.finish();
-                    } else {
+                    }
+                    else
+                    {
                         showToast("登陆失败，请检查手机或密码是否正确");
                     }
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                     showToast("登陆出错");
                 }

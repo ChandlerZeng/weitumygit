@@ -12,63 +12,83 @@ import com.libtop.weitu.base.BaseAdapter;
 
 import java.util.List;
 
+
 /**
  * Created by LianTu on 2016/7/21.
  */
-public class ClassifyCheckAdapter extends BaseAdapter<ClassifyBean>{
+public class ClassifyCheckAdapter extends BaseAdapter<ClassifyBean>
+{
 
     private SparseBooleanArray sBarray = new SparseBooleanArray();
     private boolean isFilter;
     private List<ClassifyBean> mdata;
 
-    public ClassifyCheckAdapter(Context context, List<ClassifyBean> data,boolean isFilter) {
+
+    public ClassifyCheckAdapter(Context context, List<ClassifyBean> data, boolean isFilter)
+    {
         super(context, data, R.layout.item_list_check_string);
         mdata = data;
-        sBarray.put(0,true);
+        sBarray.put(0, true);
         this.isFilter = isFilter;
     }
 
+
     @Override
-    protected void newView(View convertView) {
+    protected void newView(View convertView)
+    {
         Holder holder = new Holder();
         holder.textView = (TextView) convertView.findViewById(R.id.textView1);
         holder.subText = (TextView) convertView.findViewById(R.id.sub_text);
-        holder.checkView =(ImageView) convertView.findViewById(R.id.img_check);
+        holder.checkView = (ImageView) convertView.findViewById(R.id.img_check);
         convertView.setTag(holder);
     }
 
+
     @Override
-    protected void holderView(View convertView, ClassifyBean s, final int position) {
+    protected void holderView(View convertView, ClassifyBean s, final int position)
+    {
         Holder holder = (Holder) convertView.getTag();
         holder.textView.setText(s.name);
-        if (isFilter){
+        if (isFilter)
+        {
             holder.subText.setVisibility(View.INVISIBLE);
-        }else {
+        }
+        else
+        {
             holder.subText.setVisibility(View.VISIBLE);
             holder.subText.setText(s.countString);
         }
-        if (sBarray.get(position)){
+        if (sBarray.get(position))
+        {
             holder.checkView.setVisibility(View.VISIBLE);
             holder.textView.setTextColor(mContext.getResources().getColor(R.color.newGreen));
-        }else {
+        }
+        else
+        {
             holder.checkView.setVisibility(View.INVISIBLE);
             holder.textView.setTextColor(mContext.getResources().getColor(R.color.black));
         }
     }
 
-    public void upDateData(List<ClassifyBean> data){
+
+    public void upDateData(List<ClassifyBean> data)
+    {
         mdata = data;
         notifyDataSetChanged();
     }
 
-    public void setCheck(int position){
+
+    public void setCheck(int position)
+    {
         sBarray.clear();
-        sBarray.put(position,true);
+        sBarray.put(position, true);
         notifyDataSetChanged();
     }
 
-    class Holder{
-        TextView textView,subText;
+
+    class Holder
+    {
+        TextView textView, subText;
         ImageView checkView;
     }
 }

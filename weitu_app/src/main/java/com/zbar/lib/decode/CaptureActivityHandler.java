@@ -1,6 +1,5 @@
 package com.zbar.lib.decode;
 
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
 
@@ -8,6 +7,7 @@ import com.libtop.weitu.R;
 import com.zbar.lib.CaptureActivity;
 import com.zbar.lib.camera.CameraBean;
 import com.zbar.lib.camera.CameraManager;
+
 
 /**
  * 作者: 陈涛(1076559197@qq.com)
@@ -18,17 +18,24 @@ import com.zbar.lib.camera.CameraManager;
  * <p/>
  * 描述: 扫描消息转发
  */
-public final class CaptureActivityHandler extends Handler {
+public final class CaptureActivityHandler extends Handler
+{
 
     DecodeThread decodeThread = null;
     CaptureActivity activity = null;
     private State state;
 
-    private enum State {
-        PREVIEW, SUCCESS, DONE
+
+    private enum State
+    {
+        PREVIEW,
+        SUCCESS,
+        DONE
     }
 
-    public CaptureActivityHandler(CaptureActivity activity) {
+
+    public CaptureActivityHandler(CaptureActivity activity)
+    {
         this.activity = activity;
         decodeThread = new DecodeThread(activity);
         decodeThread.start();
@@ -37,12 +44,16 @@ public final class CaptureActivityHandler extends Handler {
         restartPreviewAndDecode();
     }
 
-    @Override
-    public void handleMessage(Message message) {
 
-        switch (message.what) {
+    @Override
+    public void handleMessage(Message message)
+    {
+
+        switch (message.what)
+        {
             case R.id.auto_focus:
-                if (state == State.PREVIEW) {
+                if (state == State.PREVIEW)
+                {
                     CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
                 }
                 break;
@@ -57,14 +68,15 @@ public final class CaptureActivityHandler extends Handler {
 
             case R.id.decode_failed:
                 state = State.PREVIEW;
-                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(),
-                        R.id.decode);
+                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
                 break;
         }
 
     }
 
-    public void quitSynchronously() {
+
+    public void quitSynchronously()
+    {
         state = State.DONE;
         CameraManager.get().stopPreview();
         removeMessages(R.id.decode_succeeded);
@@ -73,11 +85,13 @@ public final class CaptureActivityHandler extends Handler {
         removeMessages(R.id.auto_focus);
     }
 
-    private void restartPreviewAndDecode() {
-        if (state == State.SUCCESS) {
+
+    private void restartPreviewAndDecode()
+    {
+        if (state == State.SUCCESS)
+        {
             state = State.PREVIEW;
-            CameraManager.get().requestPreviewFrame(decodeThread.getHandler(),
-                    R.id.decode);
+            CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
             CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
         }
     }

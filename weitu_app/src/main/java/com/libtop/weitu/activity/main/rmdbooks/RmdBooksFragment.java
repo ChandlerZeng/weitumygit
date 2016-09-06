@@ -32,10 +32,12 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import okhttp3.Call;
 
+
 /**
  * Created by Zeng on 2016/8/6
  */
-public class RmdBooksFragment extends ContentFragment {
+public class RmdBooksFragment extends ContentFragment
+{
     @Bind(R.id.title)
     TextView mTitleText;
     @Bind(R.id.rmd_book_list)
@@ -50,8 +52,10 @@ public class RmdBooksFragment extends ContentFragment {
     private String title;
     private String method;
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         bundle = ((ContentActivity) getActivity()).getCurrentExtra();
         title = bundle.getString("title");
@@ -59,31 +63,42 @@ public class RmdBooksFragment extends ContentFragment {
         mAdapter = new RmdBooksAdapter(mContext, listBooks);
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_rmdbooks_list;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
         loadRmdBooks();
     }
 
-    private void initView() {
+
+    private void initView()
+    {
         mTitleText.setText(title);
         mListView.setAdapter(mAdapter);
         mListView.setPullLoadEnable(false);
-        mListView.setXListViewListener(new XListView.IXListViewListener() {
+        mListView.setXListViewListener(new XListView.IXListViewListener()
+        {
             @Override
-            public void onRefresh() {
+            public void onRefresh()
+            {
                 mCurPage = 1;
                 loadRmdBooks();
             }
 
+
             @Override
-            public void onLoadMore() {
-                if (hasData) {
+            public void onLoadMore()
+            {
+                if (hasData)
+                {
                     loadRmdBooks();
                 }
             }
@@ -91,16 +106,20 @@ public class RmdBooksFragment extends ContentFragment {
         mCurPage = 1;
     }
 
+
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
     }
 
 
     @Nullable
-    @OnClick({R.id.rmd_book_btn_back,R.id.rmd_book_search_top})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.rmd_book_btn_back, R.id.rmd_book_search_top})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.rmd_book_btn_back:
                 onBackPressed();
                 break;
@@ -110,9 +129,11 @@ public class RmdBooksFragment extends ContentFragment {
         }
     }
 
+
     @Nullable
     @OnItemClick(value = R.id.rmd_book_list)
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
         //显示图书详情
         BookDto dto = listBooks.get(position - 1);
 
@@ -123,8 +144,7 @@ public class RmdBooksFragment extends ContentFragment {
         bundle.putString("auth", dto.author);
         bundle.putString("isbn", dto.isbn);
         bundle.putString("publisher", dto.publisher);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
+        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
         bundle.putBoolean("isFromMainPage", true);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         bundle.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
@@ -132,51 +152,66 @@ public class RmdBooksFragment extends ContentFragment {
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
-    private void loadRmdBooks() {
+
+    private void loadRmdBooks()
+    {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", mCurPage);
         params.put("method", method);
         params.put("lid", mPreference.getString(Preference.SchoolCode));
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
                 dismissLoading();
                 showToast("无法连接服务器，请稍后再试");
                 mListView.stopRefresh();
             }
 
+
             @Override
-            public void onResponse(String json, int id) {
+            public void onResponse(String json, int id)
+            {
                 dismissLoading();
-                if (TextUtils.isEmpty(json)) {
+                if (TextUtils.isEmpty(json))
+                {
                     showToast("没有相关数据");
                     return;
                 }
                 mListView.stopRefresh();
-                try {
+                try
+                {
                     listBooks.clear();
                     JSONArray array = new JSONArray(json);
-                    for (int i = 0; i < array.length(); i++) {
+                    for (int i = 0; i < array.length(); i++)
+                    {
                         BookDto bean = new BookDto();
                         bean.of(array.getJSONObject(i));
-                        bean.title.replaceAll("　　","").trim();
+                        bean.title.replaceAll("　　", "").trim();
                         listBooks.add(bean);
                     }
-                    if (listBooks.size() < 10) {
+                    if (listBooks.size() < 10)
+                    {
                         hasData = false;
                         mListView.setPullLoadEnable(false);
-                    } else {
+                    }
+                    else
+                    {
                         hasData = true;
                         mListView.setPullLoadEnable(true);
                     }
                     mCurPage++;
                     mAdapter.setData(listBooks);
                     mAdapter.notifyDataSetChanged();
-                    if (listBooks.size() == 0) {
+                    if (listBooks.size() == 0)
+                    {
                         showToast("没有相关数据");
                     }
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                     showToast("Json数据解析错误");
                 }

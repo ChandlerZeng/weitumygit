@@ -20,8 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|top"
             android:layout_margin="15dp"
-            android:background="@drawable/null_co"
-            />
+            android:background="@drawable/null_co"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,8 +30,7 @@
             android:gravity="center"
             android:text="暂无收藏记录"
             android:textColor="#d6d5d5"
-            android:textSize="25sp"
-            />
+            android:textSize="25sp"/>
 
     </LinearLayout>
 
@@ -49,8 +47,7 @@
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
         android:listSelector="@drawable/list_selector"
-        android:scrollingCache="false"
-        />
+        android:scrollingCache="false"/>
 
     <LinearLayout
         android:id="@+id/delete_view"
@@ -58,8 +55,7 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="#42cc98"
         android:orientation="horizontal"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/have_see"
@@ -69,14 +65,12 @@
             android:gravity="center"
             android:text="全选"
             android:textColor="#ffffff"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="0.1dp"
             android:layout_height="match_parent"
-            android:background="#ffffff"
-            />
+            android:background="#ffffff"/>
 
         <TextView
             android:id="@+id/going_down"
@@ -86,7 +80,6 @@
             android:gravity="center"
             android:text="删除"
             android:textColor="#ed1818"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp"/>
     </LinearLayout>
 </LinearLayout>

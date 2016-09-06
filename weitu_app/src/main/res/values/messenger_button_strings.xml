@@ -20,5 +20,5 @@
 -->
 
 <resources>
-  <string name="messenger_send_button_text">Send</string>
+    <string name="messenger_send_button_text">Send</string>
 </resources>

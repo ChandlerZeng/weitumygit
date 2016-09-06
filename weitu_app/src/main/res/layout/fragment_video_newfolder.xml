@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/included_title2"/>
 
@@ -26,16 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:maxLength="10"
-            android:hint="请填写标题"/>
-
+            android:hint="请填写标题"
+            android:maxLength="10"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/divider"
-        />
+        android:background="@color/divider"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -55,21 +54,13 @@
         <com.libtop.weitu.widget.TagGroup
             android:id="@+id/tag_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </com.libtop.weitu.widget.TagGroup>
-
-
+            android:layout_height="wrap_content"/>
     </LinearLayout>
-
-
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/divider"
-        />
-
+        android:background="@color/divider"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,30 +84,26 @@
             android:gravity="left"
             android:hint="50字符以内"
             android:minLines="8"/>
-
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_normal"
-        android:background="@color/greyE"
-        />
+        android:background="@color/greyE"/>
 
     <LinearLayout
         android:id="@+id/ll_video_sort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_weight="0"
             android:padding="10dp"
-            android:src="@drawable/video_sort_icon"
-            />
+            android:src="@drawable/video_sort_icon"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -141,8 +128,7 @@
             android:layout_marginLeft="@dimen/padding_normal"
             android:layout_marginRight="@dimen/padding_normal"
             android:scaleType="fitCenter"
-            android:src="@drawable/new_arrow_right"
-            />
+            android:src="@drawable/new_arrow_right"/>
     </LinearLayout>
 
     <LinearLayout
@@ -158,8 +144,7 @@
             android:layout_height="48dp"
             android:layout_weight="0"
             android:padding="10dp"
-            android:src="@drawable/video_sort_icon"
-            />
+            android:src="@drawable/video_sort_icon"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -191,14 +176,13 @@
             android:layout_height="48dp"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/arrows_right"
-            />
+            android:src="@drawable/arrows_right"/>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/divider"
-        />
+        android:background="@color/divider"/>
 
     <LinearLayout
         android:id="@+id/content"
@@ -209,7 +193,6 @@
         android:orientation="vertical"/>
 
     <Button
-        android:visibility="gone"
         android:id="@+id/btn_new_folder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -218,7 +201,5 @@
         android:text="新建"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
-        />
-
-
+        android:visibility="gone"/>
 </LinearLayout>

@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.classify.bean;
 /**
  * Created by LianTu on 2016/7/20.
  */
-public class ClassifyResultBean {
+public class ClassifyResultBean
+{
     public Object libraryName;
     public Object lid;
     public String title;

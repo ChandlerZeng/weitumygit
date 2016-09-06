@@ -15,7 +15,8 @@ import android.view.View;
 import com.libtop.weitu.R;
 
 
-public class ScheduleView extends View {
+public class ScheduleView extends View
+{
     private int nodeColor;
     private int topLineColor;
     private int bottomLineColor;
@@ -33,23 +34,27 @@ public class ScheduleView extends View {
     private int topLineHeight;
 
 
-    public ScheduleView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ScheduleView(Context context, AttributeSet attrs, int defStyleAttr)
+    {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
 
-    public ScheduleView(Context context, AttributeSet attrs) {
+    public ScheduleView(Context context, AttributeSet attrs)
+    {
         this(context, attrs, 0);
     }
 
 
-    public ScheduleView(Context context) {
+    public ScheduleView(Context context)
+    {
         this(context, null);
     }
 
 
-    private void init(Context context) {
+    private void init(Context context)
+    {
         Resources res = context.getResources();
 
         nodeColor = res.getColor(R.color.blue);
@@ -76,44 +81,51 @@ public class ScheduleView extends View {
     }
 
 
-    public void setTopLineColor(int topLineColor) {
+    public void setTopLineColor(int topLineColor)
+    {
         this.topLineColor = topLineColor;
         invalidate();
     }
 
 
-    public void setNodeColor(int nodeColor) {
+    public void setNodeColor(int nodeColor)
+    {
         this.nodeColor = nodeColor;
         invalidate();
     }
 
 
-    public void setBottomLineColor(int bottomLineColor) {
+    public void setBottomLineColor(int bottomLineColor)
+    {
         this.bottomLineColor = bottomLineColor;
         invalidate();
     }
 
 
-    public void setShouldBiggerNode(boolean shouldBiggerNode) {
+    public void setShouldBiggerNode(boolean shouldBiggerNode)
+    {
         this.shouldBiggerNode = shouldBiggerNode;
         invalidate();
     }
 
 
-    public void setHiddenTopLine(boolean hiddenTopLine) {
+    public void setHiddenTopLine(boolean hiddenTopLine)
+    {
         this.hiddenTopLine = hiddenTopLine;
         invalidate();
     }
 
 
-    public void setHiddenBottomLine(boolean hiddenBottomLine) {
+    public void setHiddenBottomLine(boolean hiddenBottomLine)
+    {
         this.hiddenBottomLine = hiddenBottomLine;
         invalidate();
     }
 
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas)
+    {
         nodePaint.setColor(nodeColor);
         topLinePaint.setColor(topLineColor);
         bottomLinePaint.setColor(bottomLineColor);
@@ -123,12 +135,14 @@ public class ScheduleView extends View {
         int radius = shouldBiggerNode ? nodeBiggerRadius : nodeNormalRadius;
         canvas.drawCircle(cx, cy, radius, nodePaint);
 
-        if (!hiddenTopLine) {
+        if (!hiddenTopLine)
+        {
             topLinePaint.setStyle(Style.FILL);
             canvas.drawLine(cx, 0, cx, cy, topLinePaint);
         }
 
-        if (!hiddenBottomLine) {
+        if (!hiddenBottomLine)
+        {
             bottomLinePaint.setStyle(Style.FILL);
             canvas.drawLine(cx, cy, cx, getHeight(), bottomLinePaint);
         }

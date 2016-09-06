@@ -26,11 +26,12 @@ import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.widget.VideoView;
 
+
 /**
  * Created by Administrator on 2016/1/4 0004.
  */
-public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCompletionListener
-        ,MediaPlayer.OnPreparedListener{
+public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener
+{
     public static String MEDIA_PATH = "vedio_path";
     public static String MEDIA_NAME = "vedio_name";
     @Bind(R.id.title)
@@ -53,31 +54,41 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
     @Bind(R.id.container)
     RelativeLayout mVideoSu;
 
-    private Animation mBHideAn,mBShowAn,mTHideAn,mTShowAn;
+    private Animation mBHideAn, mBShowAn, mTHideAn, mTShowAn;
     private boolean isPaused = false;
     private boolean thread = true;
 
-    private boolean isShowing=true;
+    private boolean isShowing = true;
 
-    private boolean isVertical=true;
+    private boolean isVertical = true;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         noNetThanExit(mContext);
         setInjectContentView(R.layout.activity_video_play2);
         init();
     }
 
-    private void setOrientation(boolean isVertical){
-        this.isVertical=isVertical;
-        if (isVertical){
+
+    private void setOrientation(boolean isVertical)
+    {
+        this.isVertical = isVertical;
+        if (isVertical)
+        {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }else {
+        }
+        else
+        {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
     }
 
-    private void init(){
+
+    private void init()
+    {
         setupAnimate();
         Vitamio.isInitialized(getApplicationContext());
         String videoPath = getIntent().getExtras().getString(MEDIA_PATH);
@@ -94,7 +105,9 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         new CustomThread().start();
     }
 
-    private void setupAnimate(){
+
+    private void setupAnimate()
+    {
         mBHideAn = AnimationUtils.loadAnimation(mContext, R.anim.push_bottom_out);
         mBShowAn = AnimationUtils.loadAnimation(mContext, R.anim.push_bottom_in);
 
@@ -104,29 +117,35 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
 
     }
 
-    private Handler mHandler=new Handler(){
+
+    private Handler mHandler = new Handler()
+    {
         @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
+        public void handleMessage(Message msg)
+        {
+            switch (msg.what)
+            {
                 case 1:
                     long curent = mVideo.getCurrentPosition();
-                    long total=mVideo.getDuration();
-                    long position=1000L*curent/total;
+                    long total = mVideo.getDuration();
+                    long position = 1000L * curent / total;
                     mSeek.setProgress((int) position);
                     setPlayProgress(mCurrentPro, curent);
-                    mSeek.setSecondaryProgress(mVideo.getBufferPercentage()*10);
+                    mSeek.setSecondaryProgress(mVideo.getBufferPercentage() * 10);
                     break;
             }
         }
     };
+
 
     /**
      * 设置显示进度
      *
      * @param position
      */
-    private void setPlayProgress(TextView textView, long position) {
-        int value =(int) position / 1000;
+    private void setPlayProgress(TextView textView, long position)
+    {
+        int value = (int) position / 1000;
         int minute = value / 60;
         int hour = minute / 60;
         int second = value % 60;
@@ -134,51 +153,67 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         textView.setText(String.format("%02d:%02d:%02d", hour, minute, second));
     }
 
+
     /**
      * 播放暂停
      */
-    private void playOrPause() {
-        if (!mVideo.isPlaying()) {
+    private void playOrPause()
+    {
+        if (!mVideo.isPlaying())
+        {
             mVideo.start();
             mPlayBtn.setImageResource(R.drawable.btn_pause);
-        } else {
+        }
+        else
+        {
             mVideo.pause();
             mPlayBtn.setImageResource(R.drawable.btn_play);
         }
         isPaused = !isPaused;
     }
 
-    private void show(){
-        if (!isShowing){
+
+    private void show()
+    {
+        if (!isShowing)
+        {
             mBottomView.setVisibility(View.VISIBLE);
             mTopView.setVisibility(View.VISIBLE);
             mBottomView.startAnimation(mBShowAn);
             mTopView.startAnimation(mTShowAn);
-            isShowing=true;
-            mHandler.postDelayed(new Runnable() {
+            isShowing = true;
+            mHandler.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     hide();
                 }
-            },5000);
+            }, 5000);
         }
 
     }
 
-    private void hide(){
-        if (isShowing){
+
+    private void hide()
+    {
+        if (isShowing)
+        {
             mBottomView.startAnimation(mBHideAn);
             mBottomView.setVisibility(View.GONE);
             mTopView.startAnimation(mTHideAn);
             mTopView.setVisibility(View.GONE);
-            isShowing=false;
+            isShowing = false;
         }
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.play_pause,R.id.video_container})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.back_btn, R.id.play_pause, R.id.video_container})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 finishSimple();
                 break;
@@ -191,25 +226,33 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         }
     }
 
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        if (!fromUser) return;
+
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+    {
+        if (!fromUser)
+        {
+            return;
+        }
         long newposition = (mVideo.getDuration() * progress) / 1000L;
         mVideo.seekTo(newposition);
-        isPaused=false;
+        isPaused = false;
         mPlayBtn.setImageResource(R.drawable.btn_pause);
 
     }
 
 
     @Override
-    public void onCompletion(MediaPlayer mp) {
+    public void onCompletion(MediaPlayer mp)
+    {
         thread = false;
         finish();
         mPlayBtn.setImageResource(R.drawable.btn_play);
     }
 
+
     @Override
-    public void onPrepared(MediaPlayer mp) {
+    public void onPrepared(MediaPlayer mp)
+    {
         mp.setPlaybackSpeed(1.0f);
         long duration = mVideo.getDuration();
         long position = mVideo.getCurrentPosition();
@@ -221,34 +264,46 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
         hide();
     }
 
-    class CustomThread extends Thread {
+
+    class CustomThread extends Thread
+    {
         @Override
-        public void run() {
-            while(thread){
-                if(!isPaused){
+        public void run()
+        {
+            while (thread)
+            {
+                if (!isPaused)
+                {
                     mHandler.sendEmptyMessage(1);
                 }
-                try {
+                try
+                {
                     sleep(100);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e)
+                {
                     e.printStackTrace();
                 }
             }
         }
     }
 
-    private void setFullScreen(){
+
+    private void setFullScreen()
+    {
         setOrientation(false);
-        ViewGroup.LayoutParams pm=mVideoSu.getLayoutParams();
-        pm.height= ViewGroup.LayoutParams.MATCH_PARENT;
+        ViewGroup.LayoutParams pm = mVideoSu.getLayoutParams();
+        pm.height = ViewGroup.LayoutParams.MATCH_PARENT;
         mVideoSu.setLayoutParams(pm);
         mVideoSu.requestLayout();
     }
 
-    private void setWindowScreen(){
+
+    private void setWindowScreen()
+    {
         setOrientation(true);
-        ViewGroup.LayoutParams pm=mVideoSu.getLayoutParams();
-        pm.height= DisplayUtils.dp2px(this,200);
+        ViewGroup.LayoutParams pm = mVideoSu.getLayoutParams();
+        pm.height = DisplayUtils.dp2px(this, 200);
         mVideoSu.setLayoutParams(pm);
         mVideoSu.requestLayout();
     }

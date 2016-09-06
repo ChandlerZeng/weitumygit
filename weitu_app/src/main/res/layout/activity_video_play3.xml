@@ -1,92 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <include layout="@layout/included_title1"/>
+
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:background="@color/black_normal">
+
         <io.vov.vitamio.widget.CenterLayout
+            android:id="@+id/video_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/video_container">
+            android:orientation="vertical">
+
             <io.vov.vitamio.widget.VideoView
                 android:id="@+id/video_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"/>
         </io.vov.vitamio.widget.CenterLayout>
+
         <LinearLayout
+            android:id="@+id/media_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:id="@+id/media_top"
             android:visibility="gone">
+
             <include layout="@layout/included_media_title_big"/>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/media_bottom_full"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:id="@+id/media_bottom_full"
             android:visibility="gone">
+
             <include layout="@layout/included_media_bottom_big"/>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/media_bottom_scale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/media_bottom_scale">
+            android:layout_alignParentBottom="true">
+
             <include layout="@layout/included_media_bottom_small"/>
         </LinearLayout>
     </RelativeLayout>
+
     <RelativeLayout
-        android:layout_marginTop="@dimen/padding_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
+        android:layout_marginTop="@dimen/padding_normal">
+
         <TextView
             android:id="@+id/tv_name"
-            android:layout_marginLeft="@dimen/padding_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
             android:text="name"
-            android:textColor="@color/main_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            />
+            android:textColor="@color/main_text"/>
 
         <TextView
             android:id="@+id/tv_time"
-            android:layout_marginRight="@dimen/padding_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/padding_normal"
             android:text="00:00"
-            android:textColor="@color/main_text"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            />
+            android:textColor="@color/main_text"/>
 
     </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_size"
-        android:layout_marginBottom="@dimen/padding_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0M"
+        android:layout_marginBottom="@dimen/padding_normal"
         android:layout_marginLeft="@dimen/padding_normal"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        />
+        android:text="0M"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/divider"
-        />
-
+        android:background="@color/divider"/>
 </LinearLayout>

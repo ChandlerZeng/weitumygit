@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.search.dto;
 /**
  * Created by LianTu on 2016/6/27.
  */
-public class AllDto {
+public class AllDto
+{
     public String artist;
     public Object lid;
     public Integer channel;

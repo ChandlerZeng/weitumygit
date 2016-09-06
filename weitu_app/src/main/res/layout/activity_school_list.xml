@@ -1,20 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         style="@style/page_title"
-        android:layout_width="fill_parent" >
+        android:layout_width="fill_parent">
 
         <ImageView
             android:id="@+id/back_btn"
             android:layout_width="@dimen/page_title_height"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
-            android:src="@drawable/back_btn" />
+            android:src="@drawable/back_btn"/>
 
         <TextView
             android:id="@+id/title"
@@ -22,12 +22,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/school_title" />
+            android:text="@string/school_title"/>
     </RelativeLayout>
 
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
         <ListView
             android:id="@+id/school_list"
@@ -41,7 +41,7 @@
             android:fadingEdge="none"
             android:fastScrollEnabled="false"
             android:listSelector="@color/transparent"
-            android:scrollingCache="false" />
+            android:scrollingCache="false"/>
 
         <TextView
             android:id="@+id/dialog"
@@ -52,13 +52,12 @@
             android:gravity="center"
             android:textColor="#ffffffff"
             android:textSize="30.0dip"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
 
         <com.libtop.weitu.widget.slidebar.SideBar
             android:id="@+id/sidrbar"
             android:layout_width="30.0dip"
             android:layout_height="fill_parent"
-            android:layout_gravity="right|center" />
+            android:layout_gravity="right|center"/>
     </FrameLayout>
-
 </LinearLayout>

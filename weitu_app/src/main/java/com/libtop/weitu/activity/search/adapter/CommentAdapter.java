@@ -25,6 +25,7 @@ import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
+
 /**
  * <p>
  * Title: CommentAdapter.java
@@ -39,19 +40,23 @@ import java.util.List;
  * @author 陆
  * @version common v1.0
  */
-public class CommentAdapter extends BaseAdapter<CommentResult> {
+public class CommentAdapter extends BaseAdapter<CommentResult>
+{
 
 
     private OnReplyClickListener onReplyClickListener;
 
 
-    public CommentAdapter(Context context, List<CommentResult> data, int resourceId, OnReplyClickListener listenner) {
+    public CommentAdapter(Context context, List<CommentResult> data, int resourceId, OnReplyClickListener listenner)
+    {
         super(context, data, R.layout.item_list_2comment);
         this.onReplyClickListener = listenner;
     }
 
+
     @Override
-    protected void newView(View convertView) {
+    protected void newView(View convertView)
+    {
         Holder holder = new Holder();
         holder.thumbImage = (ImageView) convertView.findViewById(R.id.img_head);
         holder.time = (TextView) convertView.findViewById(R.id.tv_time);
@@ -61,56 +66,65 @@ public class CommentAdapter extends BaseAdapter<CommentResult> {
         convertView.setTag(holder);
     }
 
+
     @Override
-    protected void holderView(View convertView, CommentResult commentResult, final int position) {
+    protected void holderView(View convertView, CommentResult commentResult, final int position)
+    {
         Holder holder = (Holder) convertView.getTag();
-        if(commentResult.quotedComment != null && !TextUtils.isEmpty(commentResult.quotedComment.content)){
+        if (commentResult.quotedComment != null && !TextUtils.isEmpty(commentResult.quotedComment.content))
+        {
             holder.comment2.setVisibility(View.VISIBLE);
-            SpannableStringBuilder builder= getOrangeStrBuilder(commentResult.quotedComment.username,commentResult.quotedComment.content);
+            SpannableStringBuilder builder = getOrangeStrBuilder(commentResult.quotedComment.username, commentResult.quotedComment.content);
             holder.comment2.setText(builder);
-        }else {
+        }
+        else
+        {
             holder.comment2.setVisibility(View.GONE);
         }
         holder.time.setText(DateUtil.parseToDate(commentResult.timeline));
-        SpannableStringBuilder builder2= getOrangeStrBuilder(commentResult.username,commentResult.content);
+        SpannableStringBuilder builder2 = getOrangeStrBuilder(commentResult.username, commentResult.content);
         holder.comment.setText(builder2);
         bindData(commentResult.uid, holder.thumbImage);
-        holder.tvReply.setOnClickListener(new View.OnClickListener() {
+        holder.tvReply.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                onReplyClickListener.onReplyTouch(v,position);
+            public void onClick(View v)
+            {
+                onReplyClickListener.onReplyTouch(v, position);
             }
         });
     }
 
-    public interface OnReplyClickListener {
+
+    public interface OnReplyClickListener
+    {
         void onReplyTouch(View v, int position);
     }
 
-    void bindData(String uid, ImageView image) {
+
+    void bindData(String uid, ImageView image)
+    {
 
         String url = ContantsUtil.getAvatarUrl(uid);
         if (TextUtils.isEmpty(url))
+        {
             return;
-        Picasso.with(mContext)
-                .load(url)
-                .transform(new CircleTransform())
-                .error(R.drawable.head_image)
-                .placeholder(R.drawable.head_image)
-                .tag(MultiImageSelectorFragment.TAG)
-                .fit()
-                .centerCrop()
-                .into(image);
+        }
+        Picasso.with(mContext).load(url).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).tag(MultiImageSelectorFragment.TAG).fit().centerCrop().into(image);
     }
 
-    private class Holder {
+
+    private class Holder
+    {
         ImageView thumbImage;
-        TextView time, comment2, comment,tvReply;
+        TextView time, comment2, comment, tvReply;
     }
 
-    private SpannableStringBuilder getOrangeStrBuilder(String first,String append){
+
+    private SpannableStringBuilder getOrangeStrBuilder(String first, String append)
+    {
         String builderStr = first + "：";
-        SpannableStringBuilder builder = new SpannableStringBuilder(builderStr+append);
+        SpannableStringBuilder builder = new SpannableStringBuilder(builderStr + append);
 
         ForegroundColorSpan orangeSpan = new ForegroundColorSpan(Color.parseColor("#EE5B21"));
         builder.setSpan(orangeSpan, 0, builderStr.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -118,16 +132,20 @@ public class CommentAdapter extends BaseAdapter<CommentResult> {
         return builder;
     }
 
-    private class CircleTransform implements Transformation {
+
+    private class CircleTransform implements Transformation
+    {
         @Override
-        public Bitmap transform(Bitmap source) {
+        public Bitmap transform(Bitmap source)
+        {
             int size = Math.min(source.getWidth(), source.getHeight());
 
             int x = (source.getWidth() - size) / 2;
             int y = (source.getHeight() - size) / 2;
 
             Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-            if (squaredBitmap != source) {
+            if (squaredBitmap != source)
+            {
                 source.recycle();
             }
 
@@ -135,8 +153,7 @@ public class CommentAdapter extends BaseAdapter<CommentResult> {
 
             Canvas canvas = new Canvas(bitmap);
             Paint paint = new Paint();
-            BitmapShader shader = new BitmapShader(squaredBitmap,
-                    BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
+            BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
             paint.setShader(shader);
             paint.setAntiAlias(true);
 
@@ -147,8 +164,10 @@ public class CommentAdapter extends BaseAdapter<CommentResult> {
             return bitmap;
         }
 
+
         @Override
-        public String key() {
+        public String key()
+        {
             return "circle";
         }
     }

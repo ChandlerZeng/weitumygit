@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/page_title_height" >
+        android:layout_height="@dimen/page_title_height">
 
         <ImageButton
             android:id="@+id/back_btn"
             android:layout_width="@dimen/page_title_height"
             android:layout_height="fill_parent"
             android:background="@null"
-            android:src="@drawable/back_btn" />
+            android:src="@drawable/back_btn"/>
 
         <TextView
             android:id="@+id/title"
@@ -22,7 +23,7 @@
             android:ellipsize="marquee"
             android:gravity="center"
             android:singleLine="true"
-            android:text="@string/book_detail" />
+            android:text="@string/book_detail"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -31,7 +32,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/black_normal"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/video_control_play"
@@ -39,16 +40,16 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dip"
             android:background="@null"
-            android:src="@drawable/formal_play_small" />
+            android:src="@drawable/formal_play_small"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/video_now_time"
@@ -56,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="00:00"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"/>
 
                 <TextView
                     android:id="@+id/video_all_time"
@@ -64,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="00:00"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"/>
             </RelativeLayout>
 
             <SeekBar
@@ -73,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/formal_seekbar"
                 android:progressDrawable="@drawable/seekbar_proess_layer"
-                android:thumb="@drawable/formal_seekbar_yidong" />
+                android:thumb="@drawable/formal_seekbar_yidong"/>
         </LinearLayout>
     </LinearLayout>
 

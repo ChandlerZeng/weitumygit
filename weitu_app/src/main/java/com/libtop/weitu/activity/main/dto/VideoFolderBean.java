@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.main.dto;
 /**
  * Created by LianTu on 2016/4/21.
  */
-public class VideoFolderBean {
+public class VideoFolderBean
+{
     public String id;
     public String lid;
     public Integer state;

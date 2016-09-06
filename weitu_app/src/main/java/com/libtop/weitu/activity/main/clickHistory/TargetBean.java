@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.main.clickHistory;
 /**
  * Created by LianTu on 2016/6/23.
  */
-public class TargetBean {
+public class TargetBean
+{
     public String id;
     public String lid;
     public Integer state;

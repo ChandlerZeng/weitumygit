@@ -2,13 +2,16 @@ package com.libtop.weitu.base;
 
 import android.view.View;
 
+
 /**
  * Created by Administrator on 2016/1/8 0008.
  */
-public interface IFragmentStub {
+public interface IFragmentStub
+{
 
     /**
      * 界面View对象创建时的回调方法
+     *
      * @param root
      */
     void onCreation(View root);

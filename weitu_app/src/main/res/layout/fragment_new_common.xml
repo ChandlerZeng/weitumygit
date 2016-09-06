@@ -1,47 +1,29 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <!--<RelativeLayout-->
-        <!--style="@style/page_title"-->
-        <!--android:layout_width="fill_parent" >-->
-
-        <!--<ImageButton-->
-            <!--android:id="@+id/back_btn"-->
-            <!--android:layout_width="@dimen/page_title_height"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:background="@null"-->
-            <!--android:src="@drawable/back_btn" />-->
-
-        <!--<TextView-->
-            <!--style="@style/page_title_str"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:text="发表评论" />-->
-    <!--</RelativeLayout>-->
     <include layout="@layout/included_title1"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="15dip" >
+            android:padding="15dip">
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <TextView
                     style="@style/reg_btn_style"
@@ -51,7 +33,7 @@
                     android:padding="8dip"
                     android:text="评分"
                     android:textColor="@color/main_item_text"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
 
                 <RatingBar
                     android:id="@+id/level"
@@ -62,7 +44,7 @@
                     android:isIndicator="false"
                     android:max="5"
                     android:progress="0"
-                    android:stepSize="1" />
+                    android:stepSize="1"/>
             </LinearLayout>
 
             <EditText
@@ -72,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dip"
                 android:hint="写点什么"
-                android:minHeight="150dip" />
+                android:minHeight="150dip"/>
         </LinearLayout>
 
         <LinearLayout
@@ -80,15 +62,14 @@
             android:layout_height="fill_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="15dip" >
+            android:padding="15dip">
 
             <Button
                 android:id="@+id/submit"
                 style="@style/login_btn_style"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/btn_height"
-                android:text="提交" />
+                android:text="提交"/>
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

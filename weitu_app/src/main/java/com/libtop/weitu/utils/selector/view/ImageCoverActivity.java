@@ -38,7 +38,8 @@ import java.util.Map;
 import okhttp3.Call;
 
 
-public class ImageCoverActivity extends Activity implements View.OnClickListener {
+public class ImageCoverActivity extends Activity implements View.OnClickListener
+{
     public static final int DESCRIPTION_RETURNQ = 50;
     EditText et_title, et_desca;
     private String name;
@@ -59,32 +60,35 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
     private String[] tagS;
 
 
-    private TextWatcher watcher = new TextWatcher() {
+    private TextWatcher watcher = new TextWatcher()
+    {
         private CharSequence temp;
         private int editStart;
         private int editEnd;
 
+
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
             temp = s;
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-            // TODO Auto-generated method stub
 
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
         }
 
+
         @Override
-        public void afterTextChanged(Editable s) {
-            // TODO Auto-generated method stub
+        public void afterTextChanged(Editable s)
+        {
             editStart = et_desca.getSelectionStart();
             editEnd = et_desca.getSelectionEnd();
 
-            if (temp.length() > 50) {
-                Toast.makeText(ImageCoverActivity.this,"你输入的字数已经超过了限制！",Toast.LENGTH_SHORT).show();
+            if (temp.length() > 50)
+            {
+                Toast.makeText(ImageCoverActivity.this, "你输入的字数已经超过了限制！", Toast.LENGTH_SHORT).show();
                 s.delete(editStart - 1, editEnd);
                 int tempSelection = editStart;
                 et_desca.setText(s);
@@ -93,8 +97,10 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
         }
     };
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_cover);
         mLoading = new TranLoading(this);
@@ -118,39 +124,46 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
         mPreference = new Preference(this);
         uid = mPreference.getString(Preference.uid);
         mid = getIntent().getStringExtra("id");
-        if (title != null && title.length() != 0){
+        if (title != null && title.length() != 0)
+        {
             tvTitle.setText(title);
             et_title.setText(title);
         }
         if (introduction != null && introduction.length() != 0)
+        {
             et_desca.setText(introduction);
-        if (label1 != 0) {
+        }
+        if (label1 != 0)
+        {
             if (categoriesName1 != null && categoriesName1.length() != 0)
+            {
                 tv_sort.setText(categoriesName1);
+            }
         }
         mTagGroup.setTags(tagS);
         int width = 0;
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+        {
             Point size = new Point();
             wm.getDefaultDisplay().getSize(size);
             width = size.x;
-        } else {
+        }
+        else
+        {
             width = wm.getDefaultDisplay().getWidth();
         }
         mGridWidth = width - 20;
-        if (imageUrl != null && imageUrl.length() != 0) {
-            Picasso.with(ImageCoverActivity.this)
-                    .load(imageUrl)
-                    .tag(MultiImageSelectorFragment.TAG)
-                    .resize(mGridWidth, mGridWidth)
-                    .centerCrop()
-                    .into(imgCover);
+        if (imageUrl != null && imageUrl.length() != 0)
+        {
+            Picasso.with(ImageCoverActivity.this).load(imageUrl).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(imgCover);
         }
 
-        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 finish();
             }
         });
@@ -161,11 +174,12 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
     }
 
 
-
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int id = v.getId();
-        switch (id) {
+        switch (id)
+        {
             case R.id.modify:
                 requestVidea();
                 break;
@@ -187,11 +201,14 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
         }
     }
 
-    private Handler updataHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
+
+    private Handler updataHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
-            switch (msg.what) {
+            switch (msg.what)
+            {
                 case 1:
                     Toast.makeText(ImageCoverActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     finish();
@@ -202,10 +219,13 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
         }
     };
 
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
+        switch (resultCode)
+        {
             case ImageSortActivity.DESCRIPTION_RETURNQ:
                 Bundle ab = data.getExtras();
                 name = ab.getString("name");
@@ -215,112 +235,43 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
             case DESCRIPTION_RETURNQ:
                 Bundle bb = data.getExtras();
                 String url = bb.getString("cover");
-                String a = url ;
+                String a = url;
                 String id = bb.getString("id");
-                if (!TextUtils.isEmpty(a)){
-                    Picasso.with(ImageCoverActivity.this)
-                            .load(a)
-                            .tag(MultiImageSelectorFragment.TAG)
-                            .resize(mGridWidth, mGridWidth)
-                            .centerCrop()
-                            .into(imgCover);
+                if (!TextUtils.isEmpty(a))
+                {
+                    Picasso.with(ImageCoverActivity.this).load(a).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(imgCover);
                 }
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("id", id);
                 params.put("method", "image.setAsAlbumCover");
                 showLoding();
-                HttpRequest.loadWithMap(params)
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onError(Call call, Exception e, int id) {
-
-                            }
-
-                            @Override
-                            public void onResponse(String json, int id) {
-                                dismissLoading();
-                                if (!TextUtils.isEmpty(json)) {
-
-                                    try {
-                                        JSONObject array = new JSONObject(json);
-                                        int a = array.getInt("code");
-                                        if (a == 1) {
-
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        dismissLoading();
-                                    }
-                                    return;
-                                }
-                                dismissLoading();
-                            }
-                        });
-                break;
-        }
-    }
-
-    private void showLoding(){
-        if (mLoading!=null&&!mLoading.isShowing())
-            mLoading.show();
-    }
-
-    private void dismissLoading(){
-        if (mLoading!=null&&mLoading.isShowing())
-            mLoading.dismiss();
-    }
-
-    private void requestVidea() {
-        String title = et_title.getText().toString();
-        if (title.length() == 0) {
-            Toast.makeText(ImageCoverActivity.this, "请填写专辑名称", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String desca = et_desca.getText().toString();
-        if (desca.length() == 0) {
-            Toast.makeText(ImageCoverActivity.this, "请填写简介", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (tv_sort.getText().toString().length() == 0) {
-            Toast.makeText(ImageCoverActivity.this, "请选择分类", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String[] a = mTagGroup.getTags();
-        Map<String, Object> params = new HashMap<String, Object>();
-        try {
-            JSONArray jsonarray = new JSONArray(Arrays.toString(a));
-            params.put("tags", jsonarray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        params.put("id", mid);
-        params.put("title", title);
-        params.put("introduction", desca);
-        params.put("label1", "" + label1);
-        params.put("method", "imageAlbum.update");
-        showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
+                HttpRequest.loadWithMap(params).execute(new StringCallback()
+                {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
+                    public void onError(Call call, Exception e, int id)
+                    {
 
                     }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        dismissLoading();
-                        if (!TextUtils.isEmpty(json)) {
 
-                            try {
+                    @Override
+                    public void onResponse(String json, int id)
+                    {
+                        dismissLoading();
+                        if (!TextUtils.isEmpty(json))
+                        {
+
+                            try
+                            {
                                 JSONObject array = new JSONObject(json);
-                                int code = array.getInt("code");
-                                if (code == 1) {
-                                    Message msg = updataHandler.obtainMessage();
-                                    msg.what = 1;
-                                    updataHandler.sendMessage(msg);
+                                int a = array.getInt("code");
+                                if (a == 1)
+                                {
+
                                 }
-                            } catch (JSONException e) {
+                            }
+                            catch (JSONException e)
+                            {
                                 e.printStackTrace();
                                 dismissLoading();
                             }
@@ -329,5 +280,102 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
                         dismissLoading();
                     }
                 });
+                break;
+        }
+    }
+
+
+    private void showLoding()
+    {
+        if (mLoading != null && !mLoading.isShowing())
+        {
+            mLoading.show();
+        }
+    }
+
+
+    private void dismissLoading()
+    {
+        if (mLoading != null && mLoading.isShowing())
+        {
+            mLoading.dismiss();
+        }
+    }
+
+
+    private void requestVidea()
+    {
+        String title = et_title.getText().toString();
+        if (title.length() == 0)
+        {
+            Toast.makeText(ImageCoverActivity.this, "请填写专辑名称", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String desca = et_desca.getText().toString();
+        if (desca.length() == 0)
+        {
+            Toast.makeText(ImageCoverActivity.this, "请填写简介", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (tv_sort.getText().toString().length() == 0)
+        {
+            Toast.makeText(ImageCoverActivity.this, "请选择分类", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String[] a = mTagGroup.getTags();
+        Map<String, Object> params = new HashMap<String, Object>();
+        try
+        {
+            JSONArray jsonarray = new JSONArray(Arrays.toString(a));
+            params.put("tags", jsonarray);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        params.put("id", mid);
+        params.put("title", title);
+        params.put("introduction", desca);
+        params.put("label1", "" + label1);
+        params.put("method", "imageAlbum.update");
+        showLoding();
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dismissLoading();
+                if (!TextUtils.isEmpty(json))
+                {
+
+                    try
+                    {
+                        JSONObject array = new JSONObject(json);
+                        int code = array.getInt("code");
+                        if (code == 1)
+                        {
+                            Message msg = updataHandler.obtainMessage();
+                            msg.what = 1;
+                            updataHandler.sendMessage(msg);
+                        }
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        dismissLoading();
+                    }
+                    return;
+                }
+                dismissLoading();
+            }
+        });
     }
 }

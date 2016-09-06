@@ -20,7 +20,8 @@ import io.vov.vitamio.utils.Log;
 /**
  * Created by wayne on 11/23/15.
  */
-public class UploadService {
+public class UploadService
+{
     private SocketChannel socketChannel;
     private String host;
     private int port;
@@ -35,21 +36,26 @@ public class UploadService {
     // Command command;
 
 
-    public UploadService(String host, int port, Context context, Handler handler) {
+    public UploadService(String host, int port, Context context, Handler handler)
+    {
         this.updataHandler = handler;
         this.mcontext = context;
         this.host = host;
         this.port = port;
     }
 
-    public UploadService(String host, int port, Handler handler, int type) {
+
+    public UploadService(String host, int port, Handler handler, int type)
+    {
         this.type = type;
         this.updataHandler = handler;
         this.host = host;
         this.port = port;
     }
 
-    public UploadService(String host, int port, Context context, Handler handler, ProgressBar progress, int type) {
+
+    public UploadService(String host, int port, Context context, Handler handler, ProgressBar progress, int type)
+    {
         this.type = type;
         this.progress = progress;
         this.updataHandler = handler;
@@ -58,15 +64,19 @@ public class UploadService {
         this.port = port;
     }
 
-    public boolean upload(String uid, String fid, File file) {
+
+    public boolean upload(String uid, String fid, File file)
+    {
         InetSocketAddress remote = new InetSocketAddress(host, port);
-        try {
+        try
+        {
             socketChannel = SocketChannel.open();
             socketChannel.socket().setKeepAlive(true);
             socketChannel.socket().setTcpNoDelay(true);
 
             socketChannel.connect(remote);
-            if (!socketChannel.socket().isConnected()) {
+            if (!socketChannel.socket().isConnected())
+            {
                 return false;
             }
             ByteBuffer buffer = ByteBuffer.allocateDirect(33);
@@ -78,13 +88,16 @@ public class UploadService {
             socketChannel.write(buffer);
             buffer.clear();
             buffer = ByteBuffer.allocateDirect(8);
-            while (true) {
+            while (true)
+            {
                 long i = socketChannel.read(buffer);
-                if (i == -1) {
+                if (i == -1)
+                {
                     close();
                     break;
                 }
-                if (i == 0 || buffer.position() < 8) {
+                if (i == 0 || buffer.position() < 8)
+                {
                     continue;
                 }
                 buffer.rewind();
@@ -92,19 +105,20 @@ public class UploadService {
                 mIndex = index;
                 buffer.clear();
 
-                if (index == file.length()) {
+                if (index == file.length())
+                {
                     System.out.println("文件已经传完了");
                     close();
                     return true;
                 }
 
-                RandomAccessFile randomAccessFile = new RandomAccessFile(file,
-                        "r");
+                RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
                 randomAccessFile.seek(index);
                 FileChannel fileChannel = randomAccessFile.getChannel();
                 buffer = ByteBuffer.allocateDirect(1024 * 10);
                 int size = 0;
-                while ((size = fileChannel.read(buffer)) != -1) {
+                while ((size = fileChannel.read(buffer)) != -1)
+                {
                     isWorking = true;
                     buffer.rewind();
                     buffer.limit(size);
@@ -112,7 +126,8 @@ public class UploadService {
                     socketChannel.write(buffer);
                     buffer.clear();
                 }
-                if (updataHandler != null) {
+                if (updataHandler != null)
+                {
                     Message msg = updataHandler.obtainMessage();
                     msg.what = 4;
                     Bundle b = new Bundle();
@@ -123,30 +138,42 @@ public class UploadService {
 
                 randomAccessFile.close();
                 isWorking = false;
-                Log.e("上传完毕","");
+                Log.e("上传完毕", "");
             }
 
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             isWorking = false;
             e.printStackTrace();
         }
         return false;
     }
 
-    private void close() {
-        try {
+
+    private void close()
+    {
+        try
+        {
             socketChannel.close();
             System.out.println("关闭连接");
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
         }
     }
 
-    public void stopSocket() {
+
+    public void stopSocket()
+    {
         if (socketChannel == null)
+        {
             return;
+        }
         close();
     }
+
 
     /**
      * 计算百分比
@@ -154,19 +181,24 @@ public class UploadService {
      * @param
      * @param length
      */
-    private void count(long length, long buffer) {
+    private void count(long length, long buffer)
+    {
 
         mIndex = mIndex + buffer;
         double one = mIndex * 1.0 / length;
         int cc = (int) (one * 100);
         countY = cc;
         if (progress != null)
+        {
             progress.setProgress(cc);
+        }
 
         //nt.format(count);
     }
 
-    public static byte[] intToBytes(int value) {
+
+    public static byte[] intToBytes(int value)
+    {
         byte[] byte_src = new byte[4];
         byte_src[3] = (byte) ((value & 0xFF000000) >> 24);
         byte_src[2] = (byte) ((value & 0x00FF0000) >> 16);

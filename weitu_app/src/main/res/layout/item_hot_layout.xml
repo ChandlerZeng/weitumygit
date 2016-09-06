@@ -1,30 +1,30 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <TextView
-        android:layout_marginLeft="@dimen/padding_normal"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        tools:text="1"
-        android:layout_gravity="start|top"
-        tools:background="@color/green1"
         android:id="@+id/tv_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:layout_gravity="start|top"
+        android:layout_marginLeft="@dimen/padding_normal"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        tools:background="@color/green1"
+        tools:text="1"/>
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
+        android:maxLines="2"
         android:padding="12dip"
         android:text="@string/book_name"
-        android:maxLines="2"
         android:textColor="@color/label_color"
-        android:textSize="@dimen/text_size_12" />
+        android:textSize="@dimen/text_size_12"/>
 
 </LinearLayout>

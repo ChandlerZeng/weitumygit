@@ -3,10 +3,12 @@ package com.libtop.weitu.activity.classify.bean;
 import java.io.Serializable;
 import java.util.List;
 
+
 /**
  * Created by LianTu on 2016/7/19.
  */
-public class ClassifyBean implements Serializable {
+public class ClassifyBean implements Serializable
+{
 
     /**
      * id : 5715e518984e8ea4387c7e64

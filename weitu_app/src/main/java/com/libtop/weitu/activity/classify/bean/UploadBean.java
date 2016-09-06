@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.classify.bean;
 /**
  * Created by 陆伟健 on 2016/4/25 0025.
  */
-public class UploadBean {
+public class UploadBean
+{
     /**
      * 视频名
      */
@@ -33,59 +34,87 @@ public class UploadBean {
      */
     public int progress;
 
-    public String getFileUrl() {
+
+    public String getFileUrl()
+    {
         return fileUrl;
     }
 
-    public void setFileUrl(String fileUrl) {
+
+    public void setFileUrl(String fileUrl)
+    {
         this.fileUrl = fileUrl;
     }
 
-    public String getOne() {
+
+    public String getOne()
+    {
         return one;
     }
 
-    public void setOne(String one) {
+
+    public void setOne(String one)
+    {
         this.one = one;
     }
 
-    public String getTwo() {
+
+    public String getTwo()
+    {
         return two;
     }
 
-    public void setTwo(String two) {
+
+    public void setTwo(String two)
+    {
         this.two = two;
     }
 
-    public String getThree() {
+
+    public String getThree()
+    {
         return three;
     }
 
-    public void setThree(String three) {
+
+    public void setThree(String three)
+    {
         this.three = three;
     }
 
-    public int getProgress() {
+
+    public int getProgress()
+    {
         return progress;
     }
 
-    public void setProgress(int progress) {
+
+    public void setProgress(int progress)
+    {
         this.progress = progress;
     }
 
-    public String getFileLength() {
+
+    public String getFileLength()
+    {
         return fileLength;
     }
 
-    public void setFileLength(String fileLength) {
+
+    public void setFileLength(String fileLength)
+    {
         this.fileLength = fileLength;
     }
 
-    public String getTime() {
+
+    public String getTime()
+    {
         return time;
     }
 
-    public void setTime(String time) {
+
+    public void setTime(String time)
+    {
         this.time = time;
     }
 

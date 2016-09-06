@@ -14,7 +14,8 @@ package com.libtop.weitu.activity.search.dto;
  * @author 陆
  * @version common v1.0
  */
-public class CommentResult {
+public class CommentResult
+{
 
     /**
      * id : 577d59bd984e14c160db825b

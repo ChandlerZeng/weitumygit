@@ -48,12 +48,13 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
- *
  * Created by LianTu on 2016/5/4.
  * 文档上传页面
  */
-public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.OnOptionImgClickListener{
+public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.OnOptionImgClickListener
+{
 
     @Bind(R.id.back_btn)
     ImageView mBackBtn;
@@ -84,8 +85,10 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
 
     private boolean isUploaded = true;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_doc_upload);
         initView();
@@ -93,86 +96,107 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
     }
 
 
-    private void requestDoc() {
-//        请求文档列表
-//        http://weitu.bookus.cn/document/query.json?text={"uid":"565bea2c984ec06f56befda3","page":1,"method":"document.query"}
-        if (mCurPage==1){
+    private void requestDoc()
+    {
+        //        请求文档列表
+        //        http://weitu.bookus.cn/document/query.json?text={"uid":"565bea2c984ec06f56befda3","page":1,"method":"document.query"}
+        if (mCurPage == 1)
+        {
             showLoding();
         }
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("uid", Preference.instance(mContext)
-                .getString(Preference.uid));
-        params.put("page",mCurPage);
+        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
+        params.put("page", mCurPage);
         params.put("method", "document.query");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (mLoading !=null && mLoading.isShowing()&& mCurPage==1){
-                            mLoading.dismiss();
-                            mlist.clear();
-                        }
-                        if (TextUtils.isEmpty(json)) {
-                            Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        mListview.stopRefresh();
-                        Type collectionType = new TypeToken<List<DocBean>>() {
-                        }.getType();
-                        List<DocBean> docBeans = new Gson().fromJson(json, collectionType);
-                        if (docBeans==null){
-                            return;
-                        }
-                        if (docBeans.size() < 10) {
-                            hasData = false;
-                            mListview.setPullLoadEnable(false);
-                        } else {
-                            hasData = true;
-                            mListview.setPullLoadEnable(true);
-                        }
-                        for (DocBean bean :docBeans){
-                            if (bean.state!=null)
-                                bean.stateString = "状态:" + VideaState.getState(bean.state);
-                        }
-                        mlist.addAll(docBeans);
-                        if (isUpload && !TextUtils.isEmpty(docFilePath)){
-                            mlist.get(0).filePath = docFilePath;
-                            startUpload(mlist.get(0).filePath, 0);
-                            count = 0;
-                            isUpload = false;
-                        }
-                        mCurPage++;
-                        Message msg = updataHandler2.obtainMessage();
-                        msg.what = 1;
-                        updataHandler2.sendMessage(msg);
-                        mAdapter.notifyDataSetChanged();
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (mLoading != null && mLoading.isShowing() && mCurPage == 1)
+                {
+                    mLoading.dismiss();
+                    mlist.clear();
+                }
+                if (TextUtils.isEmpty(json))
+                {
+                    Toast.makeText(mContext, R.string.netError, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mListview.stopRefresh();
+                Type collectionType = new TypeToken<List<DocBean>>()
+                {
+                }.getType();
+                List<DocBean> docBeans = new Gson().fromJson(json, collectionType);
+                if (docBeans == null)
+                {
+                    return;
+                }
+                if (docBeans.size() < 10)
+                {
+                    hasData = false;
+                    mListview.setPullLoadEnable(false);
+                }
+                else
+                {
+                    hasData = true;
+                    mListview.setPullLoadEnable(true);
+                }
+                for (DocBean bean : docBeans)
+                {
+                    if (bean.state != null)
+                    {
+                        bean.stateString = "状态:" + VideaState.getState(bean.state);
                     }
-                });
+                }
+                mlist.addAll(docBeans);
+                if (isUpload && !TextUtils.isEmpty(docFilePath))
+                {
+                    mlist.get(0).filePath = docFilePath;
+                    startUpload(mlist.get(0).filePath, 0);
+                    count = 0;
+                    isUpload = false;
+                }
+                mCurPage++;
+                Message msg = updataHandler2.obtainMessage();
+                msg.what = 1;
+                updataHandler2.sendMessage(msg);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
-    private void initView(){
-        uid = Preference.instance(mContext)
-                .getString(Preference.uid);
+
+    private void initView()
+    {
+        uid = Preference.instance(mContext).getString(Preference.uid);
         mTitleText.setText("文件列表");
         mCommitBtn.setText("上传文档");
-        mAdapter = new UploadDocAdapter(mContext,mlist, this);
+        mAdapter = new UploadDocAdapter(mContext, mlist, this);
         mListview.setAdapter(mAdapter);
         mListview.setPullLoadEnable(false);
-        mListview.setXListViewListener(new XListView.IXListViewListener() {
+        mListview.setXListViewListener(new XListView.IXListViewListener()
+        {
             @Override
-            public void onRefresh() {
-                mCurPage = 1 ;
+            public void onRefresh()
+            {
+                mCurPage = 1;
                 requestDoc();
             }
 
+
             @Override
-            public void onLoadMore() {
-                if (hasData) {
+            public void onLoadMore()
+            {
+                if (hasData)
+                {
                     requestDoc();
                 }
             }
@@ -180,10 +204,13 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
         mCurPage = 1;
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.commit})
-    public void onClick(View v) {
-        switch (v.getId()){
+    @OnClick({R.id.back_btn, R.id.commit})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
@@ -193,28 +220,36 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
         }
     }
 
-    private void lookPdf(String tempUrl){
-        if (!TextUtils.isEmpty(tempUrl)) {
+
+    private void lookPdf(String tempUrl)
+    {
+        if (!TextUtils.isEmpty(tempUrl))
+        {
             Intent intent = new Intent();
             intent.putExtra("url", tempUrl);
             intent.setClass(mContext, PdfActivity.class);
             mContext.startActivityForResult(intent, 0x5554);
-            mContext.overridePendingTransition(R.anim.zoomin,
-                    R.anim.alpha_outto);
+            mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
         }
     }
 
-    /** 根据返回选择的文件，来进行上传操作 **/
+
+    /**
+     * 根据返回选择的文件，来进行上传操作
+     **/
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode==12341){
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (resultCode == Activity.RESULT_OK)
+        {
+            if (requestCode == 12341)
+            {
                 mCurPage = 1;
                 requestDoc();
                 return;
             }
-            if (requestCode==1234){
+            if (requestCode == 1234)
+            {
                 isUpload = true;
                 docFilePath = data.getStringExtra("filePath");
                 mCurPage = 1;
@@ -225,14 +260,11 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
             Uri uri = data.getData();
             String fName = uri.getPath().toString();
             String type = getFileType(fName).toLowerCase();
-            if (type.equals("doc") || type.equals("xls")
-                    || type.equals("ppt") || type.equals("docx")
-                    || type.equals("xlsx") || type.equals("pptx")
-                    || type.equals("pdf") || type.equals("odt")
-                    || type.equals("ods")){
+            if (type.equals("doc") || type.equals("xls") || type.equals("ppt") || type.equals("docx") || type.equals("xlsx") || type.equals("pptx") || type.equals("pdf") || type.equals("odt") || type.equals("ods"))
+            {
                 fileType = StringUtil.getUpLoadType(type);
-                Toast.makeText(mContext,type,Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mContext,ContentActivity.class);
+                Toast.makeText(mContext, type, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, ContentActivity.class);
                 Bundle bd = new Bundle();
                 bd.putString(ContentActivity.FRAG_CLS, DocEditFragment.class.getName());
                 bd.putBoolean(ContentActivity.FRAG_ISBACK, false);
@@ -240,58 +272,72 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
                 bd.putBoolean("uploadDoc", true);
                 bd.putString("docPath", fName);
                 intent.putExtras(bd);
-                mContext.startActivityForResult(intent,1234);
+                mContext.startActivityForResult(intent, 1234);
 
-            }else {
-                Toast.makeText(mContext,"不支持该格式的文件",Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(mContext, "不支持该格式的文件", Toast.LENGTH_SHORT).show();
             }
 
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public String getFileType(String fName) {
-        String end = fName
-                .substring(fName.lastIndexOf(".") + 1, fName.length())
-                .toLowerCase();
+
+    public String getFileType(String fName)
+    {
+        String end = fName.substring(fName.lastIndexOf(".") + 1, fName.length()).toLowerCase();
         return end;
     }
 
-    /** 调用文件选择软件来选择文件 **/
-    private void showFileChooser() {
-        Intent intent = new Intent(mContext,FileChooserActivity.class);
-        startActivityForResult(intent,1);
+
+    /**
+     * 调用文件选择软件来选择文件
+     **/
+    private void showFileChooser()
+    {
+        Intent intent = new Intent(mContext, FileChooserActivity.class);
+        startActivityForResult(intent, 1);
     }
 
+
     @Override
-    public void onOptionImgTouch(View v, final int position) {
+    public void onOptionImgTouch(View v, final int position)
+    {
         final PopupWindow popupWindow = DisplayUtils.openPopChoice(mContext, R.layout.popup_choise);
         View popView = popupWindow.getContentView();
 
-        popView.findViewById(R.id.tv_edit).setOnClickListener(new View.OnClickListener() {
+        popView.findViewById(R.id.tv_edit).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext,ContentActivity.class);
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(mContext, ContentActivity.class);
                 Bundle bd = new Bundle();
                 bd.putString(ContentActivity.FRAG_CLS, DocEditFragment.class.getName());
                 bd.putBoolean(ContentActivity.FRAG_ISBACK, false);
                 bd.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
                 bd.putString("docBean", new Gson().toJson(mlist.get(position)));
                 intent.putExtras(bd);
-                mContext.startActivityForResult(intent,12341);
+                mContext.startActivityForResult(intent, 12341);
                 popupWindow.dismiss();
             }
         });
 
         //popwindow的删除按钮点击
-        popView.findViewById(R.id.tv_delete).setOnClickListener(new View.OnClickListener() {
+        popView.findViewById(R.id.tv_delete).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 String title = "您确定要删除？";
                 final AlertDialogUtil dialog = new AlertDialogUtil();
-                dialog.showDialog(mContext, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+                dialog.showDialog(mContext, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+                {
                     @Override
-                    public void onClick() {
+                    public void onClick()
+                    {
                         requestDelete(position);
                     }
                 }, null);
@@ -300,123 +346,159 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
         });
 
         //popwindow的取消按钮点击
-        popView.findViewById(R.id.btn_cancle).setOnClickListener(new View.OnClickListener() {
+        popView.findViewById(R.id.btn_cancle).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 popupWindow.dismiss();
             }
         });
 
     }
 
-    private void requestDelete(final int position) {
+
+    private void requestDelete(final int position)
+    {
         //2.删除文档接口
-//        http://weitu.bookus.cn/ document /delete.json?text={"id":"aaaaaaaaaaaa","method":"document.delete"}
+        //        http://weitu.bookus.cn/ document /delete.json?text={"id":"aaaaaaaaaaaa","method":"document.delete"}
         final Map<String, Object> params = new HashMap<String, Object>();
         params.put("id", mlist.get(position).id);
         params.put("method", "document.delete");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        dismissLoading();
-                        Log.w("guanglog", json);
-                        if (TextUtils.isEmpty(json)) {
-                            Toast.makeText(mContext, "删除失败", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
-                        mlist.remove(position);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dismissLoading();
+                Log.w("guanglog", json);
+                if (TextUtils.isEmpty(json))
+                {
+                    Toast.makeText(mContext, "删除失败", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
+                mlist.remove(position);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
 
     @Override
-    public void onImageTouch(View v, int position) {
-        if (!TextUtils.isEmpty(mlist.get(position).pdfUrl)){
+    public void onImageTouch(View v, int position)
+    {
+        if (!TextUtils.isEmpty(mlist.get(position).pdfUrl))
+        {
             lookPdf(mlist.get(position).pdfUrl);
         }
 
     }
 
+
     @Override
-    public void onUpload(View v, int position) {
-        if (isUploaded){
-            onImageTouch(v,position);
-        }else {
+    public void onUpload(View v, int position)
+    {
+        if (isUploaded)
+        {
+            onImageTouch(v, position);
+        }
+        else
+        {
             String a = mlist.get(0).filePath;
-            if (!TextUtils.isEmpty(a)){
-                startUpload(a,0);
+            if (!TextUtils.isEmpty(a))
+            {
+                startUpload(a, 0);
                 count = 0;
             }
         }
     }
 
-    private void getUploadUrl() {
+
+    private void getUploadUrl()
+    {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "node.server");
         showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            try {
-                                JSONObject mjson = new JSONObject(json);
-                                uploadUrl = mjson.getString("ip");
-                                uploadPost = mjson.getInt("port");
-                                requestDoc();
-                                dismissLoading();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                dismissLoading();
-                            }
-                            return;
-                        }
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    try
+                    {
+                        JSONObject mjson = new JSONObject(json);
+                        uploadUrl = mjson.getString("ip");
+                        uploadPost = mjson.getInt("port");
+                        requestDoc();
                         dismissLoading();
                     }
-                });
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        dismissLoading();
+                    }
+                    return;
+                }
+                dismissLoading();
+            }
+        });
     }
 
-    private void startUpload(final String fileUrl, final int position) {
 
-        Runnable runnable = new Runnable() {
+    private void startUpload(final String fileUrl, final int position)
+    {
+
+        Runnable runnable = new Runnable()
+        {
             @Override
-            public void run() {
-                if (mAdapter.pView.size() == 0){
+            public void run()
+            {
+                if (mAdapter.pView.size() == 0)
+                {
                     return;
                 }
                 uploadService = new UploadService(uploadUrl, uploadPost, DocUploadActivity.this, updataHandler, mAdapter.pView.get(count), fileType);
-                try {
+                try
+                {
                     File file = new File(fileUrl);
                     String fid = mlist.get(position).id;
-                    Log.w("guanglog","test file id + "+fid);
+                    Log.w("guanglog", "test file id + " + fid);
                     uploadService.upload(uid, fid, file);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                 }
 
 
             }
 
         };
-        if (thread.isAlive()) {
+        if (thread.isAlive())
+        {
             uploadService.stopSocket();
             Message msg = updataHandler.obtainMessage();
             msg.what = 2;
             updataHandler.sendMessage(msg);
-        } else {
+        }
+        else
+        {
             thread = new Thread(runnable);
             thread.start();
             Message msg = updataHandler.obtainMessage();
@@ -425,10 +507,14 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
         }
     }
 
-    private Handler updataHandler2 = new Handler() {
-        public void handleMessage(Message msg) {
+
+    private Handler updataHandler2 = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
-            switch (msg.what) {
+            switch (msg.what)
+            {
                 case 1:
                     mAdapter.setData(mlist);
                     mAdapter.notifyDataSetChanged();
@@ -436,10 +522,13 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
         }
     };
 
-    private Handler updataHandler = new Handler() {
-        public void handleMessage(Message msg) {
+    private Handler updataHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
-            switch (msg.what) {
+            switch (msg.what)
+            {
                 case 1:
                     int progress = msg.arg1;
                     mlist.get(count).progress = progress;

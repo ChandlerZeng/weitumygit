@@ -1,93 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
- <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_normal">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/padding_normal"
-        >
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:orientation="vertical"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:text="详情"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
 
-            <TextView
-                android:text="详情"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                />
+        <TextView
+            android:id="@+id/auther"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:textColor="@color/grey4"
+            android:textSize="@dimen/text_size_14"/>
 
+        <TextView
+            android:id="@+id/tv_publisher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey4"
+            android:textSize="@dimen/text_size_14"/>
 
-            <TextView
-                android:layout_marginTop="@dimen/padding_normal"
-                android:id="@+id/auther"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/grey4"
-                android:textSize="@dimen/text_size_14"
-                />
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey4"
+            android:textSize="@dimen/text_size_14"/>
 
-            <TextView
-                android:id="@+id/tv_publisher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/grey4"
-                android:textSize="@dimen/text_size_14"
-                />
+        <TextView
+            android:id="@+id/tv_isbn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey4"
+            android:textSize="@dimen/text_size_14"/>
 
-            <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/grey4"
-                android:textSize="@dimen/text_size_14"
-                />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:text="简介"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
 
-            <TextView
-                android:id="@+id/tv_isbn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/grey4"
-                android:textSize="@dimen/text_size_14"
-                />
+        <TextView
+            android:id="@+id/webview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:lineSpacingExtra="3dip"
+            android:textColor="@color/label_color"
+            android:textSize="@dimen/text_size_15"/>
 
-            <TextView
-                android:text="简介"
-                android:layout_marginTop="@dimen/padding_normal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                />
-            <TextView
-                android:id="@+id/webview"
-                android:layout_marginTop="@dimen/padding_normal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dip"
-                android:textColor="@color/label_color"
-                android:textSize="@dimen/text_size_15" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_medium"
+            android:text="目录"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
 
-            <TextView
-                android:text="目录"
-                android:layout_marginTop="@dimen/padding_medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                />
-
-            <TextView
-                android:id="@+id/tv_catalog"
-                android:layout_marginLeft="@dimen/padding_medium"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/label_color"
-                android:textSize="@dimen/text_size_15" />
-
-        </LinearLayout>
-
-
- </ScrollView>
+        <TextView
+            android:id="@+id/tv_catalog"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:textColor="@color/label_color"
+            android:textSize="@dimen/text_size_15"/>
+    </LinearLayout>
+</ScrollView>

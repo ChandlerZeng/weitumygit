@@ -1,6 +1,7 @@
 package com.libtop.weitu.utils;
 
-public class ContantsUtil {
+public class ContantsUtil
+{
 
     public static final int currentVesion = 0;
     public static final String vesion = "1.4.0";
@@ -35,17 +36,17 @@ public class ContantsUtil {
     public static final String AVATARHOST = "http://avatar.yuntu.io";//现网环境
     public static final String IMGHOST2 = "http://image.yuntu.io/cover";//现网环境
 
-//    public static final String HOST = "http://weitu.bookm.cn";//演示环境
-//    public static final String HOST_ADDON = "http://www.bookm.cn";//演示环境
-//    public static final String UHOST = "http://weitu.bookm.cn";//演示环境
-//    public static final String AVATARHOST = "http://avatar.bookm.cn";//演示环境
-//    public static final String IMGHOST2="http://image.bookm.cn/cover";//演示环境
+    //    public static final String HOST = "http://weitu.bookm.cn";//演示环境
+    //    public static final String HOST_ADDON = "http://www.bookm.cn";//演示环境
+    //    public static final String UHOST = "http://weitu.bookm.cn";//演示环境
+    //    public static final String AVATARHOST = "http://avatar.bookm.cn";//演示环境
+    //    public static final String IMGHOST2="http://image.bookm.cn/cover";//演示环境
 
-//    public static final String HOST_ADDON = "http://www.bookus.cn/";//测试环境
-//    public static final String HOST = "http://weitu.bookus.cn";//测试网环境
-//    public static final String UHOST = "http://weitu.bookus.cn";//测试网环境
-//    public static final String AVATARHOST = "http://avatar.bookus.cn";//测试环境
-//    public static final String IMGHOST2="http://image.bookus.cn/cover";//测试环境
+    //    public static final String HOST_ADDON = "http://www.bookus.cn/";//测试环境
+    //    public static final String HOST = "http://weitu.bookus.cn";//测试网环境
+    //    public static final String UHOST = "http://weitu.bookus.cn";//测试网环境
+    //    public static final String AVATARHOST = "http://avatar.bookus.cn";//测试环境
+    //    public static final String IMGHOST2="http://image.bookus.cn/cover";//测试环境
 
     private static final String IMGHOST = "http://xpimg.qiniudn.com";
 
@@ -92,13 +93,18 @@ public class ContantsUtil {
     //评论
     public static final String LIBRARY_COMMENT = HOST_ADDON + "/document";
 
-    public static final String getDocumentUrl(String id) {
+
+    public static final String getDocumentUrl(String id)
+    {
         return LIBRARY_DOCUMENT + "/" + id + ".json";
     }
 
-    public static String getFile(String lid, String isbn, long sequence, long id) {
+
+    public static String getFile(String lid, String isbn, long sequence, long id)
+    {
         return CDHOST + "/file/" + isbn + "/" + sequence + "/" + id;
     }
+
 
     public static final String CATEGORIES = "/categories";
 
@@ -110,24 +116,20 @@ public class ContantsUtil {
 
     public static final String SECHOST = "";
 
-    public static final String shareContent="这个资料对我的帮助很大！戳 微图-口袋学习利器\"http://www.yuntu.io/weitu\"下载App，海量高校特色资源随时看";
+    public static final String shareContent = "这个资料对我的帮助很大！戳 微图-口袋学习利器\"http://www.yuntu.io/weitu\"下载App，海量高校特色资源随时看";
+
 
     /**
      * 获取头像地址
      *
      * @return
      */
-    public static String getAvatarUrl(String id) {
+    public static String getAvatarUrl(String id)
+    {
         String subId = id.substring(0, 8);
-        return new StringBuffer(AVATARHOST)
-                .append("/")
-                .append(Integer.parseInt(subId, 16) % 1024)
-                .append("/")
-                .append(Integer.parseInt(subId, 16) % 2048)
-                .append("/")
-                .append(id)
-                .append("-150.jpg").toString();
+        return new StringBuffer(AVATARHOST).append("/").append(Integer.parseInt(subId, 16) % 1024).append("/").append(Integer.parseInt(subId, 16) % 2048).append("/").append(id).append("-150.jpg").toString();
     }
+
 
     /**
      * 获取图片地址
@@ -135,27 +137,16 @@ public class ContantsUtil {
      * @param id
      * @return
      */
-    public static final String getCoverUrl(String id) {
+    public static final String getCoverUrl(String id)
+    {
         String subId = id.substring(0, 8);
-        return new StringBuffer(IMGHOST2)
-                .append("/")
-                .append(Integer.parseInt(subId, 16) % 1203)
-                .append("/")
-                .append(Integer.parseInt(subId, 16) % 3825)
-                .append("/")
-                .append(id)
-                .append("_230X290.jpg").toString();
+        return new StringBuffer(IMGHOST2).append("/").append(Integer.parseInt(subId, 16) % 1203).append("/").append(Integer.parseInt(subId, 16) % 3825).append("/").append(id).append("_230X290.jpg").toString();
     }
 
-    public static final String getCoverUrlLittle(String id) {
+
+    public static final String getCoverUrlLittle(String id)
+    {
         String subId = id.substring(0, 8);
-        return new StringBuffer(IMGHOST2)
-                .append("/")
-                .append(Integer.parseInt(subId, 16) % 1203)
-                .append("/")
-                .append(Integer.parseInt(subId, 16) % 3825)
-                .append("/")
-                .append(id)
-                .append("_180X100.jpg").toString();
+        return new StringBuffer(IMGHOST2).append("/").append(Integer.parseInt(subId, 16) % 1203).append("/").append(Integer.parseInt(subId, 16) % 3825).append("/").append(id).append("_180X100.jpg").toString();
     }
 }

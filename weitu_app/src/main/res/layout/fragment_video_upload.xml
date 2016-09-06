@@ -1,51 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/included_title1" />
+    <include layout="@layout/included_title1"/>
 
     <GridView
-        android:layout_weight="1"
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:stretchMode="columnWidth"
+        android:layout_weight="1"
         android:gravity="center"
-        >
-
-    </GridView>
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"/>
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_new_folderBtn"
-        android:layout_weight="0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="@color/green1"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="@dimen/padding_normal"
-        android:gravity="center"
-        android:background="@color/green1"
-        >
+        android:visibility="gone">
+
         <ImageView
-            android:background="@drawable/asy"
-            android:layout_gravity="center"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginRight="@dimen/padding_normal"
-            />
-        <TextView
-            android:text="拍摄"
             android:layout_gravity="center"
-            android:textColor="@android:color/white"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginRight="@dimen/padding_normal"
+            android:background="@drawable/asy"/>
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="拍摄"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
-
-
 </LinearLayout>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#ffffff"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -60,8 +60,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                >
+                android:scaleType="centerCrop">
 
                 <ImageView
                     android:id="@+id/img_cover"
@@ -69,8 +68,7 @@
                     android:layout_height="200dp"
                     android:layout_centerInParent="true"
                     android:padding="@dimen/padding_normal"
-                    android:scaleType="centerCrop"
-                    />
+                    android:scaleType="centerCrop"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -81,8 +79,7 @@
                     android:padding="3dp"
                     android:text="编辑封面"
                     android:textColor="#000000"
-                    android:textSize="16sp"
-                    />
+                    android:textSize="16sp"/>
 
             </RelativeLayout>
 
@@ -114,8 +111,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider"
-                />
+                android:background="@color/divider"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -139,15 +135,12 @@
 
                 </com.libtop.weitu.widget.TagGroup>
 
-
             </LinearLayout>
-
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider"
-                />
+                android:background="@color/divider"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,25 +170,21 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/padding_normal"
-                android:background="@color/grey6"
-                />
-
+                android:background="@color/grey6"/>
 
             <LinearLayout
                 android:id="@+id/ll_video_sort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_weight="0"
                     android:padding="10dp"
-                    android:src="@drawable/video_sort_icon"
-                    />
+                    android:src="@drawable/video_sort_icon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -220,10 +209,8 @@
                     android:layout_marginLeft="@dimen/padding_normal"
                     android:layout_marginRight="@dimen/padding_normal"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/new_arrow_right"
-                    />
+                    android:src="@drawable/new_arrow_right"/>
             </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/ll_video_authority"
@@ -238,8 +225,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="0"
                     android:padding="10dp"
-                    android:src="@drawable/video_sort_icon"
-                    />
+                    android:src="@drawable/video_sort_icon"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -271,13 +257,11 @@
                     android:layout_height="48dp"
                     android:padding="10dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/arrows_right"
-                    />
+                    android:src="@drawable/arrows_right"/>
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
-
 
     <LinearLayout
         android:id="@+id/bottom_view"
@@ -286,8 +270,7 @@
         android:layout_alignParentBottom="true"
         android:background="#42cc98"
         android:orientation="horizontal"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/modify"
@@ -297,8 +280,6 @@
             android:gravity="center"
             android:text="修改"
             android:textColor="#ffffff"
-            android:textSize="18sp"
-            />
-
+            android:textSize="18sp"/>
     </LinearLayout>
 </LinearLayout>

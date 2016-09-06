@@ -36,10 +36,12 @@ import butterknife.OnClick;
 import io.vov.vitamio.utils.StringUtils;
 import okhttp3.Call;
 
+
 /**
  * Created by LianTu on 2016/4/25.
  */
-public class VideoEditFolderFragment extends ContentFragment {
+public class VideoEditFolderFragment extends ContentFragment
+{
 
     @Bind(R.id.title)
     TextView mTitleText;
@@ -60,68 +62,92 @@ public class VideoEditFolderFragment extends ContentFragment {
     private Bundle bundle;
     private VideoFolderBean videoFolderBean;
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         bundle = ((ContentActivity) getActivity()).getCurrentExtra();
         videoFolderBean = new Gson().fromJson(bundle.getString("videoFolderBean"), VideoFolderBean.class);
         EventBus.getDefault().register(this);
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_video_editfolder;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
     }
 
-    private void initView() {
+
+    private void initView()
+    {
         setTitle();
-        if (videoFolderBean != null) {
+        if (videoFolderBean != null)
+        {
             mEditTitleText.setText(videoFolderBean.title);
-            if (!TextUtils.isEmpty(videoFolderBean.introduction)) {
+            if (!TextUtils.isEmpty(videoFolderBean.introduction))
+            {
                 mDescText.setText(videoFolderBean.introduction);
             }
-            if (videoFolderBean.tags != null && videoFolderBean.tags.length != 0) {
+            if (videoFolderBean.tags != null && videoFolderBean.tags.length != 0)
+            {
                 mTagGroup.setTags(videoFolderBean.tags);
             }
         }
         mDescText.addTextChangedListener(textWatcher);
     }
 
+
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
-        if (bm != null) {
+        if (bm != null)
+        {
             videoFolderBean.categoriesName1 = bm.getString("sort");
             videoFolderBean.label1 = bm.getInt("sortId");
         }
         mSortText.setText(videoFolderBean.categoriesName1);
     }
 
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
+
     @Override
-    public void onPause() {
-        try {
+    public void onPause()
+    {
+        try
+        {
             ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mContext.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
 
         }
         super.onPause();
     }
 
+
     @Nullable
     @OnClick({R.id.back_btn, R.id.ll_video_sort, R.id.ll_video_authority, R.id.btn_new_folder})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
@@ -137,27 +163,35 @@ public class VideoEditFolderFragment extends ContentFragment {
         }
     }
 
-    private TextWatcher textWatcher = new TextWatcher() {
+
+    private TextWatcher textWatcher = new TextWatcher()
+    {
         private CharSequence temp;
         private int editStart;
         private int editEnd;
 
+
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
             temp = s;
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+        }
+
+
+        @Override
+        public void afterTextChanged(Editable s)
+        {
             editStart = mDescText.getSelectionStart();
             editEnd = mDescText.getSelectionEnd();
 
-            if (temp.length() > 50) {
+            if (temp.length() > 50)
+            {
                 Toast.makeText(mContext, "你输入的字数已经超过了限制！", Toast.LENGTH_SHORT).show();
                 s.delete(editStart - 1, editEnd);
                 int tempSelection = editStart;
@@ -167,20 +201,28 @@ public class VideoEditFolderFragment extends ContentFragment {
         }
     };
 
-    private void newFolder() {
-        if (TextUtils.isEmpty(mEditTitleText.getText())) {
+
+    private void newFolder()
+    {
+        if (TextUtils.isEmpty(mEditTitleText.getText()))
+        {
             Toast.makeText(getActivity(), "名称不能为空", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else
+        {
             requestSaveAlbum();
         }
     }
 
-    private void requestSaveAlbum() {
+
+    private void requestSaveAlbum()
+    {
         showLoding();
         //修改文件夹属性， id 是该文件夹的id
         //http://weitu.bookus.cn/mediaAlbum/update.json?text={"id":"WEROPOSLDFKSDFOSPFSDFKL","tags":"good","title":"well","introduction":"enen","label1":5000,"method":"mediaAlbum.update"}
         Map<String, Object> params = new HashMap<String, Object>();
-        if (videoFolderBean != null) {
+        if (videoFolderBean != null)
+        {
             params.put("id", videoFolderBean.id);
         }
         String[] tagStrngs = mTagGroup.getTags();
@@ -190,41 +232,56 @@ public class VideoEditFolderFragment extends ContentFragment {
         params.put("introduction", mDescText.getText().toString());
         params.put("label1", videoFolderBean.label1);
         params.put("method", "mediaAlbum.update");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(json);
-                            if (((Integer) jsonObject.get("code")) == 1) {
-                                Toast.makeText(mContext, "修改成功", Toast.LENGTH_SHORT).show();
-                                dismissLoading();
-                                onBackPressed();
-                            } else {
-                                Toast.makeText(mContext, "修改失败", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(json);
+                    if (((Integer) jsonObject.get("code")) == 1)
+                    {
+                        Toast.makeText(mContext, "修改成功", Toast.LENGTH_SHORT).show();
+                        dismissLoading();
+                        onBackPressed();
                     }
-                });
+                    else
+                    {
+                        Toast.makeText(mContext, "修改失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(MessageEvent event) {
+    public void onMessage(MessageEvent event)
+    {
         bm = event.message;
     }
 
-    private void setTitle() {
+
+    private void setTitle()
+    {
         mTitleText.setText("编辑信息");
     }
 
-    private void videoAuthority() {
+
+    private void videoAuthority()
+    {
         Bundle bd = new Bundle();
         bd.putString(ContentActivity.FRAG_CLS, VideoAuthorityFragment.class.getName());
         bd.putBoolean(ContentActivity.FRAG_ISBACK, true);
@@ -232,7 +289,9 @@ public class VideoEditFolderFragment extends ContentFragment {
         mContext.startActivity(bd, ContentActivity.class);
     }
 
-    private void videoSort() {
+
+    private void videoSort()
+    {
         Bundle bd = new Bundle();
         bd.putString(ContentActivity.FRAG_CLS, VideoSortFragment.class.getName());
         bd.putBoolean(ContentActivity.FRAG_ISBACK, true);

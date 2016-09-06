@@ -55,7 +55,9 @@ import java.util.Map;
 
 import okhttp3.Call;
 
-public class ImagePagerActivity2 extends FragmentActivity implements View.OnClickListener, PhotoViewAttacher.gotoView {
+
+public class ImagePagerActivity2 extends FragmentActivity implements View.OnClickListener, PhotoViewAttacher.gotoView
+{
     private static final String STATE_POSITION = "STATE_POSITION";
     public static final String EXTRA_IMAGE_INDEX = "image_index";
     public static final String EXTRA_IMAGE_URLS = "image_urls";
@@ -91,8 +93,10 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
     String uploadUsername;
     String imageID;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_pager2);
         where = getIntent().getIntExtra("see_pic", 1);
@@ -101,12 +105,15 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         WindowManager wm = (WindowManager) ImagePagerActivity2.this.getSystemService(Context.WINDOW_SERVICE);
         int width = 0;
         int height = 0;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+        {
             Point size = new Point();
             wm.getDefaultDisplay().getSize(size);
             width = size.x;
             height = size.y;
-        } else {
+        }
+        else
+        {
             width = wm.getDefaultDisplay().getWidth();
             height = wm.getDefaultDisplay().getHeight();
         }
@@ -130,20 +137,28 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         positionD = getIntent().getIntExtra("position", 0);
         tvTitle.setText(positionD + 1 + "/" + list.size());
         if (where == 2)
+        {
             bottomView.setVisibility(View.VISIBLE);
+        }
         // 更新下标
-        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
+        {
 
             @Override
-            public void onPageScrollStateChanged(int arg0) {
+            public void onPageScrollStateChanged(int arg0)
+            {
             }
 
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
 
             @Override
-            public void onPageSelected(int arg0) {
+            public void onPageScrolled(int arg0, float arg1, int arg2)
+            {
+            }
+
+
+            @Override
+            public void onPageSelected(int arg0)
+            {
                 pageCount = arg0;
                 setVis();
                 tvTitle.setText(pageCount + 1 + "/" + list.size());
@@ -151,13 +166,16 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
             }
 
         });
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null)
+        {
             pagerPosition = savedInstanceState.getInt(STATE_POSITION);
         }
         // 返回按钮
-        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 finish();
             }
         });
@@ -171,27 +189,39 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         imgTitle.setText(uploadUsername);
         String str = "";
         if (categoriesName1 != null && !categoriesName1.equals("null"))
+        {
             str = categoriesName1;
+        }
         if (str.length() != 0)
+        {
             titlePlay.setText(str);
+        }
         collectView.setOnClickListener(this);
         commentView.setOnClickListener(this);
         shareView.setOnClickListener(this);
-        if (favorite.equals("1")) {
+        if (favorite.equals("1"))
+        {
             collectView.setImageResource(R.drawable.collect);
-        } else {
+        }
+        else
+        {
             collectView.setImageResource(R.drawable.collect_no);
         }
     }
 
-    public void onSaveInstanceState(Bundle outState) {
+
+    public void onSaveInstanceState(Bundle outState)
+    {
         outState.putInt(STATE_POSITION, mPager.getCurrentItem());
     }
 
+
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int id = v.getId();
-        switch (id) {
+        switch (id)
+        {
             case R.id.describe:
                 bottomView.setBackgroundColor(Color.parseColor("#ffffff"));
                 break;
@@ -209,19 +239,26 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         }
     }
 
-    private List<String> changetolist(String[] urls) {
+
+    private List<String> changetolist(String[] urls)
+    {
         List<String> mlist = new ArrayList<String>();
-        for (int i = 0; i < urls.length; i++) {
+        for (int i = 0; i < urls.length; i++)
+        {
             String str = urls[i];
             mlist.add(str);
         }
         return mlist;
     }
 
-    private Handler updataHandler = new Handler() {
-        public void handleMessage(Message msg) {
+
+    private Handler updataHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
-            switch (msg.what) {
+            switch (msg.what)
+            {
                 case 1:
                     Toast.makeText(ImagePagerActivity2.this, "修改成功", Toast.LENGTH_SHORT).show();
                     setVis();
@@ -238,16 +275,16 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
                     collectView.setImageResource(R.drawable.collect);
                     Toast.makeText(ImagePagerActivity2.this, "收藏成功", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
-                    intent.putExtra("isCollect",true);
-                    setResult(DynamicCardActivity.RESULT_UPDATE,intent);
+                    intent.putExtra("isCollect", true);
+                    setResult(DynamicCardActivity.RESULT_UPDATE, intent);
                     break;
                 case 5:
                     favorite = "0";
                     collectView.setImageResource(R.drawable.collect_no);
                     Toast.makeText(ImagePagerActivity2.this, "取消收藏成功", Toast.LENGTH_SHORT).show();
                     Intent intent1 = new Intent();
-                    intent1.putExtra("isCollect",false);
-                    setResult(DynamicCardActivity.RESULT_UPDATE,intent1);
+                    intent1.putExtra("isCollect", false);
+                    setResult(DynamicCardActivity.RESULT_UPDATE, intent1);
                     break;
                 default:
                     break;
@@ -255,19 +292,22 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         }
     };
 
-    private void addView(List<String> mlist) {
-        for (int i = 0; i < mlist.size(); i++) {
+
+    private void addView(List<String> mlist)
+    {
+        for (int i = 0; i < mlist.size(); i++)
+        {
             String a = mlist.get(i);
-            LayoutInflater mInflater = (LayoutInflater) this
-                    .getSystemService(LAYOUT_INFLATER_SERVICE);
-            final View rb = (View) mInflater.inflate(R.layout.image_detail_fragment,
-                    null);
+            LayoutInflater mInflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+            final View rb = (View) mInflater.inflate(R.layout.image_detail_fragment, null);
             rb.setId(i);
             ImageView rbt;
             rbt = (ImageView) rb.findViewById(R.id.image);
-            rb.setOnClickListener(new View.OnClickListener() {
+            rb.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v)
+                {
                 }
             });
             final PhotoViewAttacher mAttacher;
@@ -275,36 +315,42 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
             mAttacher.setGotoView(this);
             photoList.add(mAttacher);
             File imageFile = new File(mlist.get(i));
-            if (!imageFile.exists()&&!TextUtils.isEmpty(a)) {
-                Picasso.with(ImagePagerActivity2.this).load(a).into(rbt, new Callback() {
+            if (!imageFile.exists() && !TextUtils.isEmpty(a))
+            {
+                Picasso.with(ImagePagerActivity2.this).load(a).into(rbt, new Callback()
+                {
                     @Override
-                    public void onSuccess() {
+                    public void onSuccess()
+                    {
                         mAttacher.update();
                     }
 
+
                     @Override
-                    public void onError() {
+                    public void onError()
+                    {
 
                     }
                 });
-            } else {
-                Picasso.with(ImagePagerActivity2.this)
-                        .load(imageFile)
-                        .placeholder(R.drawable.default_error)
-                        .tag(MultiImageSelectorFragment.TAG)
-                        .resize(width, width)
-                        .centerCrop()
-                        .into(rbt);
+            }
+            else
+            {
+                Picasso.with(ImagePagerActivity2.this).load(imageFile).placeholder(R.drawable.default_error).tag(MultiImageSelectorFragment.TAG).resize(width, width).centerCrop().into(rbt);
 
             }
             viewList.add(rb);
         }
-        Thread a = new Thread(new Runnable() {
+        Thread a = new Thread(new Runnable()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     Thread.sleep(800);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e)
+                {
                     e.printStackTrace();
                 }
                 Message msg = updataHandler.obtainMessage();
@@ -315,36 +361,48 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         a.start();
     }
 
-    PagerAdapter pagerAdapter = new PagerAdapter() {
+
+    PagerAdapter pagerAdapter = new PagerAdapter()
+    {
 
         @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
+        public boolean isViewFromObject(View arg0, Object arg1)
+        {
             return arg0 == arg1;
         }
 
+
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return viewList.size();
         }
 
+
         @Override
-        public void destroyItem(ViewGroup container, int position,
-                                Object object) {
+        public void destroyItem(ViewGroup container, int position, Object object)
+        {
             container.removeView(viewList.get(position));
         }
 
+
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(Object object)
+        {
             return super.getItemPosition(object);
         }
 
+
         @Override
-        public CharSequence getPageTitle(int position) {
+        public CharSequence getPageTitle(int position)
+        {
             return "title";
         }
 
+
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, int position)
+        {
             container.addView(viewList.get(position));
             photoList.get(position).update();
             return viewList.get(position);
@@ -352,38 +410,55 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
 
     };
 
-    private void setVis() {
+
+    private void setVis()
+    {
         bottomView.setBackgroundColor(Color.parseColor("#000000"));
     }
 
 
     @Override
-    public void go() {
+    public void go()
+    {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager.isActive())
-            try {
-                inputMethodManager.hideSoftInputFromWindow(ImagePagerActivity2.this.getCurrentFocus().getWindowToken(),
-                        InputMethodManager.HIDE_NOT_ALWAYS);
-            } catch (Exception exception) {
+        {
+            try
+            {
+                inputMethodManager.hideSoftInputFromWindow(ImagePagerActivity2.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+            catch (Exception exception)
+            {
                 exception.printStackTrace();
             }
-        if (bottomView != null) {
+        }
+        if (bottomView != null)
+        {
             if (bottomView.getVisibility() == View.VISIBLE)
+            {
                 bottomView.setVisibility(View.INVISIBLE);
-            else {
+            }
+            else
+            {
                 setVis();
                 bottomView.setVisibility(View.VISIBLE);
             }
 
         }
     }
+
 
     @Override
-    public void getView() {
-        if (bottomView != null) {
+    public void getView()
+    {
+        if (bottomView != null)
+        {
             if (bottomView.getVisibility() == View.VISIBLE)
+            {
                 bottomView.setVisibility(View.INVISIBLE);
-            else {
+            }
+            else
+            {
                 setVis();
                 bottomView.setVisibility(View.VISIBLE);
             }
@@ -391,16 +466,20 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         }
     }
 
+
     //分享点击
-    private void shareClick() {
+    private void shareClick()
+    {
         String title = "微图分享";
-        String content = "“【图片】"+"”"+ContantsUtil.shareContent;
+        String content = "“【图片】" + "”" + ContantsUtil.shareContent;
         String imageUrl = "drawable://" + R.drawable.wbshare;
-        ShareSdkUtil.showShareWithLocalImg(ImagePagerActivity2.this,title,content,imageUrl);
+        ShareSdkUtil.showShareWithLocalImg(ImagePagerActivity2.this, title, content, imageUrl);
     }
 
+
     //评论点击,图书type为4
-    private void commentClick() {
+    private void commentClick()
+    {
         Intent intent = new Intent(ImagePagerActivity2.this, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
         commentNeedDto.title = categoriesName1;
@@ -408,113 +487,150 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         commentNeedDto.photoAddress = cover;
         commentNeedDto.tid = idList.get(pageCount);
         commentNeedDto.type = 4;
-        intent.putExtra("CommentNeedDto",new Gson().toJson(commentNeedDto));
+        intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
         startActivity(intent);
     }
 
+
     //收藏点击
-    private void collectClick() {
-        if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
+    private void collectClick()
+    {
+        if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+        {
             Bundle bundle2 = new Bundle();
             bundle2.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
             startForResult(bundle2, 100, ContentActivity.class);
-        } else {
+        }
+        else
+        {
             putCollect();
         }
     }
 
-    private void putCollect() {
+
+    private void putCollect()
+    {
         mLoading.show();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("tid", imageID);
         params.put("uid", mPreference.getString(Preference.uid));
-        if (favorite.equals("0")) {
+        if (favorite.equals("0"))
+        {
             params.put("type", 4);
             params.put("method", "favorite.save");
-        } else {
+        }
+        else
+        {
             params.put("method", "favorite.delete");
         }
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            try {
-                                JSONObject mjson = new JSONObject(json);
-                                String message = mjson.getString("message");
-                                if (message.equals("设置成功")) {
-                                    Message msg = updataHandler.obtainMessage();
-                                    msg.what = 4;
-                                    updataHandler.sendMessage(msg);
-                                } else {
-                                    Message msg = updataHandler.obtainMessage();
-                                    msg.what = 5;
-                                    updataHandler.sendMessage(msg);
-                                }
-                                Bundle bundle = new Bundle();
-                                bundle.putBoolean("isDelete",true);
-                                EventBus.getDefault().post(new MessageEvent(bundle));
-                                if (mLoading.isShowing()) {
-                                    mLoading.dismiss();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                if (mLoading.isShowing()) {
-                                    mLoading.dismiss();
-                                }
-                            }
-                            return;
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    try
+                    {
+                        JSONObject mjson = new JSONObject(json);
+                        String message = mjson.getString("message");
+                        if (message.equals("设置成功"))
+                        {
+                            Message msg = updataHandler.obtainMessage();
+                            msg.what = 4;
+                            updataHandler.sendMessage(msg);
                         }
-
-                        if (mLoading.isShowing()) {
+                        else
+                        {
+                            Message msg = updataHandler.obtainMessage();
+                            msg.what = 5;
+                            updataHandler.sendMessage(msg);
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("isDelete", true);
+                        EventBus.getDefault().post(new MessageEvent(bundle));
+                        if (mLoading.isShowing())
+                        {
                             mLoading.dismiss();
                         }
                     }
-                });
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        if (mLoading.isShowing())
+                        {
+                            mLoading.dismiss();
+                        }
+                    }
+                    return;
+                }
+
+                if (mLoading.isShowing())
+                {
+                    mLoading.dismiss();
+                }
+            }
+        });
     }
 
-    public void getDetailData() {
+
+    public void getDetailData()
+    {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("id", idList.get(0));
         params.put("ip", NetworkUtil.getLocalIpAddress(ImagePagerActivity2.this));
         params.put("method", "document.get");
         //http://www.yuntu.io/image/list.json?aid=56fb2635e4b0a96fbd838dcc
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+
+                    try
+                    {
+
 
                     }
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-
-                            try {
-
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-
-                            }
-                            return;
-                        }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
 
                     }
-                });
+                    return;
+                }
+
+            }
+        });
     }
+
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 100)
+        {
             collectClick();
+        }
     }
+
 
     /**
      * 带回调的跳转
@@ -523,27 +639,26 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
      * @param requestCode
      * @param target
      */
-    public void startForResult(Bundle bundle, int requestCode, Class<?> target) {
+    public void startForResult(Bundle bundle, int requestCode, Class<?> target)
+    {
         Intent intent = new Intent(this, target);
-        if (bundle != null) {
+        if (bundle != null)
+        {
             intent.putExtras(bundle);
         }
         startActivityForResult(intent, requestCode);
-        overridePendingTransition(R.anim.slide_left_in,
-                R.anim.slide_left_out);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
-    void bindData(String url, ImageView image) {
+
+    void bindData(String url, ImageView image)
+    {
 
         if (url == null || url.length() == 0)
+        {
             return;
-        Picasso.with(this)
-                .load(url)
-                .placeholder(R.drawable.default_image)
-                .tag(MultiImageSelectorFragment.TAG)
-                .fit()
-                .centerCrop()
-                .into(image);
+        }
+        Picasso.with(this).load(url).placeholder(R.drawable.default_image).tag(MultiImageSelectorFragment.TAG).fit().centerCrop().into(image);
 
     }
 

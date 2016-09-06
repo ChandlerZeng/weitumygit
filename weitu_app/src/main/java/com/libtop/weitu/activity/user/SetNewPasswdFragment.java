@@ -28,10 +28,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * Created by LianTu on 2016/7/5.
  */
-public class SetNewPasswdFragment extends BaseFragment {
+public class SetNewPasswdFragment extends BaseFragment
+{
     @Bind(R.id.password)
     EditText mPasswdEdit; // 新密码
     @Bind(R.id.confir_password)
@@ -47,48 +49,66 @@ public class SetNewPasswdFragment extends BaseFragment {
     private static String mobile;
 
 
-    private TextWatcher watcher = new TextWatcher() {
+    private TextWatcher watcher = new TextWatcher()
+    {
         private String temp;
 
+
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
             temp = s.toString();
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+        }
+
+
+        @Override
+        public void afterTextChanged(Editable s)
+        {
 
             String newPasswd = mPasswdEdit.getText().toString();
             imgConfirPassword.setVisibility(View.VISIBLE);
-            if (!temp.equals(newPasswd)) {
+            if (!temp.equals(newPasswd))
+            {
                 imgConfirPassword.setBackgroundResource(R.drawable.wrong);
                 isNewPasswdCorrect = false;
-            }else {
+            }
+            else
+            {
                 isNewPasswdCorrect = true;
                 imgConfirPassword.setBackgroundResource(R.drawable.correct);
             }
         }
     };
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_registor_passwd;
     }
 
-    @Override
-    public void onCreation(View root) {
-        setTitle(root);
-        etOrigin.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
 
-                }else {
+    @Override
+    public void onCreation(View root)
+    {
+        setTitle(root);
+        etOrigin.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus)
+            {
+                if (hasFocus)
+                {
+
+                }
+                else
+                {
                     checkPasswork();
                 }
             }
@@ -96,35 +116,42 @@ public class SetNewPasswdFragment extends BaseFragment {
         confirPassword.addTextChangedListener(watcher);
     }
 
-    private void setTitle(View root){
-        ((TextView)root.findViewById(R.id.title)).setText("修改密码");
+
+    private void setTitle(View root)
+    {
+        ((TextView) root.findViewById(R.id.title)).setText("修改密码");
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.next_step})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.back_btn, R.id.next_step})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.next_step:
                 nextStep();
                 break;
             case R.id.back_btn:
-                ((ContentActivity)mContext).popBack();
+                ((ContentActivity) mContext).popBack();
                 break;
         }
     }
-
 
 
     /**
      * 自身用户系统登陆
      */
-    private void checkPasswork() {
+    private void checkPasswork()
+    {
         mobile = mPreference.getString(Preference.phone);
-        String password=etOrigin.getText().toString();
-        if (TextUtils.isEmpty(mobile)) {
+        String password = etOrigin.getText().toString();
+        if (TextUtils.isEmpty(mobile))
+        {
             return;
         }
-        if (TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(password))
+        {
             imgOrigin.setVisibility(View.VISIBLE);
             imgOrigin.setBackgroundResource(R.drawable.wrong);
             return;
@@ -133,32 +160,46 @@ public class SetNewPasswdFragment extends BaseFragment {
         params.put("method", "user.auth");
         params.put("phone", mobile);
         params.put("password", password);
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
 
             }
 
+
             @Override
-            public void onResponse(String jsonStr, int id) {
-                if (TextUtils.isEmpty(jsonStr)) {
+            public void onResponse(String jsonStr, int id)
+            {
+                if (TextUtils.isEmpty(jsonStr))
+                {
                     showToast("请求超时，请稍后再试");
                     return;
                 }
-                try {
+                try
+                {
                     JSONObject json = new JSONObject(jsonStr);
-                    if (json.getInt("code") == 1) {
+                    if (json.getInt("code") == 1)
+                    {
                         isOldPasswdCorrect = true;
-                    } else {
+                    }
+                    else
+                    {
                         isOldPasswdCorrect = false;
                     }
                     imgOrigin.setVisibility(View.VISIBLE);
-                    if (isOldPasswdCorrect){
+                    if (isOldPasswdCorrect)
+                    {
                         imgOrigin.setBackgroundResource(R.drawable.correct);
-                    }else {
+                    }
+                    else
+                    {
                         imgOrigin.setBackgroundResource(R.drawable.wrong);
                     }
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                     isOldPasswdCorrect = false;
                 }
@@ -166,29 +207,37 @@ public class SetNewPasswdFragment extends BaseFragment {
         });
     }
 
+
     @Override
-    public void onBackPressed() {
-        ((ContentActivity)mContext).popBack();
+    public void onBackPressed()
+    {
+        ((ContentActivity) mContext).popBack();
     }
 
-    private void nextStep() {
+
+    private void nextStep()
+    {
         String confirmPasswd = confirPassword.getText().toString();
-        String newPasswd=mPasswdEdit.getText().toString();
-        String oldPasswd=etOrigin.getText().toString();
-        String uid=mPreference.getString(Preference.uid);
-        if (CheckUtil.isNull(newPasswd)) {
+        String newPasswd = mPasswdEdit.getText().toString();
+        String oldPasswd = etOrigin.getText().toString();
+        String uid = mPreference.getString(Preference.uid);
+        if (CheckUtil.isNull(newPasswd))
+        {
             showToast("新密码不能为空");
             return;
         }
-        if (!(CheckUtil.checkLength(newPasswd, 6, 16))) {
+        if (!(CheckUtil.checkLength(newPasswd, 6, 16)))
+        {
             showToast("新密码长度为6至16位");
             return;
         }
-        if (!isOldPasswdCorrect){
+        if (!isOldPasswdCorrect)
+        {
             showToast("原密码错误");
             return;
         }
-        if (!isNewPasswdCorrect){
+        if (!isNewPasswdCorrect)
+        {
             showToast("新密码错误");
             return;
         }
@@ -199,34 +248,47 @@ public class SetNewPasswdFragment extends BaseFragment {
         params.put("newPassword", newPasswd + "");
         params.put("oldPassword", oldPasswd + "");
         showLoding();
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
 
             }
 
+
             @Override
-            public void onResponse(String jsonStr, int id) {
+            public void onResponse(String jsonStr, int id)
+            {
                 dismissLoading();
-                if (CheckUtil.isNullTxt(jsonStr)) {
+                if (CheckUtil.isNullTxt(jsonStr))
+                {
                     showToast("请求超时，请稍后再试");
                     return;
                 }
-                if (!CheckUtil.isNull(jsonStr)) {
-                    try {
+                if (!CheckUtil.isNull(jsonStr))
+                {
+                    try
+                    {
                         JSONObject json = new JSONObject(jsonStr);
-                        if (json.getInt("code") == 1) {
-                            ((ContentActivity)mContext).changeFragment(LoginFragment.class.getName()
-                                    , false, true);
+                        if (json.getInt("code") == 1)
+                        {
+                            ((ContentActivity) mContext).changeFragment(LoginFragment.class.getName(), false, true);
                             showToast("密码重置成功");
-                        } else {
+                        }
+                        else
+                        {
                             showToast("密码重置失败");
                         }
-                    } catch (JSONException e) {
+                    }
+                    catch (JSONException e)
+                    {
                         e.printStackTrace();
                         showToast("密码重置出错");
                     }
-                } else {
+                }
+                else
+                {
                     showToast("密码重置失败");
                 }
             }

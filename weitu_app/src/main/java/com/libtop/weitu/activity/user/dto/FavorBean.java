@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.user.dto;
 /**
  * Created by LianTu on 2016/7/18.
  */
-public class FavorBean {
+public class FavorBean
+{
 
     /**
      * id : 57859ee9984ed2fb4dbfb7c7

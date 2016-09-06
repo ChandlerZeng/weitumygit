@@ -1,12 +1,10 @@
 package com.libtop.weitu.activity.main.dto;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 /**
  * Created by LianTu on 2016/6/28.
  */
-public class DisplayDto {
+public class DisplayDto
+{
     public String id;
     public String lid;
     public Integer state;

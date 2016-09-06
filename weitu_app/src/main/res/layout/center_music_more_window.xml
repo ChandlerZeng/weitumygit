@@ -1,19 +1,18 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#90FFFFFF"
-                android:gravity="bottom|center_horizontal"
-                >
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#90FFFFFF"
+    android:gravity="bottom|center_horizontal">
 
     <TextView
         android:id="@+id/more_window_local"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="40dip"
+        android:layout_toLeftOf="@+id/more_window_online"
         android:clickable="true"
         android:drawableTop="@drawable/icon_upload_video"
-        android:layout_toLeftOf="@+id/more_window_online"
         android:gravity="center_horizontal"
         android:paddingBottom="@dimen/more_window_item_margin"
         android:text="视频库"/>
@@ -22,8 +21,8 @@
         android:id="@+id/more_window_online"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="40dip"
         android:layout_centerHorizontal="true"
+        android:layout_marginRight="40dip"
         android:clickable="true"
         android:drawableTop="@drawable/icon_upload_img"
         android:gravity="center_horizontal"
@@ -41,7 +40,6 @@
         android:paddingBottom="@dimen/more_window_item_margin"
         android:text="文档"/>
 
-
     <ImageView
         android:id="@+id/center_music_window_close"
         android:layout_width="38dp"
@@ -50,5 +48,4 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="18dip"
         android:background="@drawable/tabbar_compose_background_icon_close"/>
-
 </RelativeLayout>

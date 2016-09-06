@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/list_selector"
@@ -12,6 +13,7 @@
         android:background="#00000000"
         android:gravity="center"
         android:orientation="horizontal">
+
         <FrameLayout
             android:layout_width="100dp"
             android:layout_height="130dp"
@@ -25,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@drawable/default_image" />
+                android:src="@drawable/default_image"/>
 
         </FrameLayout>
 
@@ -46,14 +48,15 @@
                 android:layout_marginTop="3dp"
                 android:gravity="center|start"
                 android:textColor="#333333"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
+
             <TextView
                 android:id="@+id/book_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:gravity="top"
                 android:background="@color/green1"
+                android:gravity="top"
                 android:text="暂无分类"
                 android:textColor="@color/white"/>
 
@@ -62,12 +65,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
+                android:ellipsize="end"
                 android:gravity="top"
                 android:lines="1"
                 android:paddingRight="3dp"
-                android:ellipsize="end"
                 android:textColor="#666666"
-                android:textSize="13sp" />
+                android:textSize="13sp"/>
 
             <TextView
                 android:id="@+id/rmd_book_publisher"
@@ -76,7 +79,7 @@
                 android:gravity="top"
                 android:text="出版社：  时间:"
                 android:textColor="#333333"
-                android:textSize="12sp" />
+                android:textSize="12sp"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -95,7 +98,7 @@
                     android:maxLines="3"
                     android:text="简介：无 "
                     android:textColor="#999999"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -103,5 +106,5 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:background="@color/divider" />
+        android:background="@color/divider"/>
 </LinearLayout>

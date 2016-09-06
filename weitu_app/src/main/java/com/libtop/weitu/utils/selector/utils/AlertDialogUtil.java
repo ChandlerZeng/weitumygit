@@ -1,11 +1,10 @@
 package com.libtop.weitu.utils.selector.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.text.TextUtils;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
+
 
 /**
  * <p>
@@ -21,7 +20,8 @@ import com.libtop.weitu.utils.selector.view.MyAlertDialog;
  * @author 作者名
  * @version common v1.0
  */
-public class AlertDialogUtil {
+public class AlertDialogUtil
+{
 
 
     /**
@@ -32,10 +32,8 @@ public class AlertDialogUtil {
      * @param positiveButtonListener 点击确定的按钮的事件
      * @param cancelListener         取消按钮的时间
      */
-    public void showDialog(Context context, String messageId, String neturalButtonId,
-                           String negativeButtonId,
-                           MyAlertDialog.MyAlertDialogOnClickCallBack positiveButtonListener,
-                           MyAlertDialog.MyAlertDialogOnClickCallBack cancelListener) {
+    public void showDialog(Context context, String messageId, String neturalButtonId, String negativeButtonId, MyAlertDialog.MyAlertDialogOnClickCallBack positiveButtonListener, MyAlertDialog.MyAlertDialogOnClickCallBack cancelListener)
+    {
         MyAlertDialog dialog = new MyAlertDialog(context, R.style.DialogTheme);
 
         dialog.setMessage(messageId);
@@ -45,9 +43,12 @@ public class AlertDialogUtil {
         dialog.setNegtiveButtonContent(negativeButtonId);
 
         dialog.setPositionListener(positiveButtonListener);
-        if (cancelListener == null) {
+        if (cancelListener == null)
+        {
             dialog.setCancelListener(null);
-        } else {
+        }
+        else
+        {
             dialog.setCancelListener(cancelListener);
         }
 

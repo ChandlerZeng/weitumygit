@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="48dip"
         android:layout_height="48dip"
-        android:layout_margin="8dip" >
+        android:layout_margin="8dip">
 
         <com.libtop.weitu.widget.CircleImageView
             android:id="@+id/icon"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:src="@drawable/icon_chart_avatar" />
+            android:src="@drawable/icon_chart_avatar"/>
 
         <ImageView
             android:id="@+id/count_bg"
@@ -24,7 +25,7 @@
             android:layout_alignParentTop="true"
             android:scaleType="centerInside"
             android:src="@drawable/msg_toast"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/count"
@@ -35,7 +36,7 @@
             android:gravity="center"
             android:text="1"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_10" />
+            android:textSize="@dimen/text_size_10"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -44,7 +45,7 @@
         android:layout_marginBottom="8dip"
         android:layout_weight="1"
         android:gravity="top|left"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
@@ -53,7 +54,7 @@
             android:layout_margin="8dip"
             android:text="@string/default_str"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_18" />
+            android:textSize="@dimen/text_size_18"/>
 
         <TextView
             android:id="@+id/content"
@@ -63,7 +64,7 @@
             android:maxLines="2"
             android:singleLine="true"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_12" />
+            android:textSize="@dimen/text_size_12"/>
     </LinearLayout>
 
     <TextView
@@ -72,6 +73,5 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="4dip"
         android:textColor="@color/main_item_text"
-        android:textSize="@dimen/text_size_14" />
-
+        android:textSize="@dimen/text_size_14"/>
 </LinearLayout>

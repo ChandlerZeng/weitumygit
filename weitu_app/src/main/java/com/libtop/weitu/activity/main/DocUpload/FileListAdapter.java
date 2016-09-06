@@ -30,13 +30,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * List adapter for Files.
- * 
- * @version 2013-12-11
+ *
  * @author paulburke (ipaulpro)
+ * @version 2013-12-11
  */
-public class FileListAdapter extends BaseAdapter {
+public class FileListAdapter extends BaseAdapter
+{
 
     private final static int ICON_FOLDER = R.drawable.folder_doc;
     private final static int ICON_FILE = R.drawable.file_doc;
@@ -45,48 +47,67 @@ public class FileListAdapter extends BaseAdapter {
 
     private List<File> mData = new ArrayList<File>();
 
-    public FileListAdapter(Context context) {
+
+    public FileListAdapter(Context context)
+    {
         mInflater = LayoutInflater.from(context);
     }
 
-    public void add(File file) {
+
+    public void add(File file)
+    {
         mData.add(file);
         notifyDataSetChanged();
     }
 
-    public void remove(File file) {
+
+    public void remove(File file)
+    {
         mData.remove(file);
         notifyDataSetChanged();
     }
 
-    public void insert(File file, int index) {
+
+    public void insert(File file, int index)
+    {
         mData.add(index, file);
         notifyDataSetChanged();
     }
 
-    public void clear() {
+
+    public void clear()
+    {
         mData.clear();
         notifyDataSetChanged();
     }
 
+
     @Override
-    public File getItem(int position) {
+    public File getItem(int position)
+    {
         return mData.get(position);
     }
 
+
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
+
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return mData.size();
     }
 
-    public List<File> getListItems() {
+
+    public List<File> getListItems()
+    {
         return mData;
     }
+
 
     /**
      * Set the list items without notifying on the clear. This prevents loss of
@@ -94,17 +115,22 @@ public class FileListAdapter extends BaseAdapter {
      *
      * @param data
      */
-    public void setListItems(List<File> data) {
+    public void setListItems(List<File> data)
+    {
         mData = data;
         notifyDataSetChanged();
     }
 
+
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         View row = convertView;
 
         if (row == null)
+        {
             row = mInflater.inflate(R.layout.item_doc_list, parent, false);
+        }
 
         TextView view = (TextView) row.findViewById(R.id.tv_folder_title);
         ImageView imageView = (ImageView) row.findViewById(R.id.img_folder);

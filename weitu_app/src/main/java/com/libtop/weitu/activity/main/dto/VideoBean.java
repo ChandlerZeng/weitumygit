@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.main.dto;
 /**
  * Created by LianTu on 2016/4/25.
  */
-public class VideoBean {
+public class VideoBean
+{
     public String filePath;
     public String mimeType;
     public String thumbPath;

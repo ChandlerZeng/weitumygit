@@ -49,10 +49,12 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
 /**
  * Created by LianTu on 2016/7/18.
  */
-public class AllCollectFragment extends NotifyFragment{
+public class AllCollectFragment extends NotifyFragment
+{
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.list)
@@ -61,13 +63,13 @@ public class AllCollectFragment extends NotifyFragment{
     TextView mNullTxt;
 
     private AllCollectAdapter mAdapter;
-    private List<CollectBean> mData=new ArrayList<>();
+    private List<CollectBean> mData = new ArrayList<>();
     private boolean isCreate = false, hasData = true;
     private int curPage = 1;
 
     private String sortType = "timeline";
     private final int ALL = 0;
-    public static final int VIDEO=1,AUDIO=2,DOC=3,PHOTO=4,BOOK=5;
+    public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
     private int type = 0;
     private int pageInt = 0;
     SwipeMenuCreator creator;
@@ -75,24 +77,26 @@ public class AllCollectFragment extends NotifyFragment{
     private boolean isEdit = false;
 
     //记录点击位置
-    private Map<Integer,Boolean> map = new HashMap<>();
+    private Map<Integer, Boolean> map = new HashMap<>();
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         Bundle bundle = this.getArguments();
         pageInt = bundle.getInt("pageInt");
         type = bundle.getInt("type", 0);
-        mAdapter = new AllCollectAdapter(mContext,mData);
-        creator = new SwipeMenuCreator() {
+        mAdapter = new AllCollectAdapter(mContext, mData);
+        creator = new SwipeMenuCreator()
+        {
 
             @Override
-            public void create(SwipeMenu menu) {
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        mContext.getApplicationContext());
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                        0x3F, 0x25)));
+            public void create(SwipeMenu menu)
+            {
+                SwipeMenuItem deleteItem = new SwipeMenuItem(mContext.getApplicationContext());
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
                 deleteItem.setWidth(dp2px(135));
                 deleteItem.setIcon(R.drawable.delete_c);
                 menu.addMenuItem(deleteItem);
@@ -100,47 +104,59 @@ public class AllCollectFragment extends NotifyFragment{
         };
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_history_all;
     }
 
-    private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                getResources().getDisplayMetrics());
+
+    private int dp2px(int dp)
+    {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(MessageEvent event) {
+    public void onMessage(MessageEvent event)
+    {
         TextView tvCommit = (TextView) getActivity().findViewById(R.id.commit);
         View deleteView = getActivity().findViewById(R.id.delete_view);
         Bundle bundle = event.message;
         String from = bundle.getString("from");
         Boolean isDelete = bundle.getBoolean("isDelete");
-        if (isDelete){
+        if (isDelete)
+        {
             getData();
         }
-        if (from !=null && from.equals(UserCollectActivity.class.getName())){
+        if (from != null && from.equals(UserCollectActivity.class.getName()))
+        {
             int pageIndex = bundle.getInt("pageIndex2");
-            if (this.isVisible() && pageIndex == pageInt) {
-                if (bundle.getBoolean("delete")){
+            if (this.isVisible() && pageIndex == pageInt)
+            {
+                if (bundle.getBoolean("delete"))
+                {
                     String[] a = mAdapter.cleanView();
                     deteteData(50, a);
                     hideAndSeek();
                     return;
                 }
-                if (bundle.getBoolean("all")){
-                    mAdapter.setAllView(0,true);
+                if (bundle.getBoolean("all"))
+                {
+                    mAdapter.setAllView(0, true);
                     return;
                 }
                 isEdit = !isEdit;
-                if (isEdit) {
+                if (isEdit)
+                {
                     map.put(pageInt, true);
                     tvCommit.setText("取消");
                     deleteView.setVisibility(View.VISIBLE);
                     mAdapter.setVisableView();
-                } else {
+                }
+                else
+                {
                     map.put(pageInt, false);
                     tvCommit.setText("编辑");
                     deleteView.setVisibility(View.GONE);
@@ -150,33 +166,44 @@ public class AllCollectFragment extends NotifyFragment{
         }
     }
 
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
         getData();
         init();
     }
 
-    private void initView(){
+
+    private void initView()
+    {
         mListView.setAdapter(mAdapter);
         mListView.setClickable(true);
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        swipeRefreshLayout.measure(0,0);
+        swipeRefreshLayout.measure(0, 0);
         swipeRefreshLayout.setEnabled(false);
     }
 
-    private void init() {
+
+    private void init()
+    {
         mListView.setMenuCreator(creator);
-        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+        mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener()
+        {
             @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index)
+            {
+                switch (index)
+                {
                     case 0:
                         deteteData(position, mData.get(position).favor.id);
                         break;
@@ -184,14 +211,18 @@ public class AllCollectFragment extends NotifyFragment{
                 return false;
             }
         });
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-                                    long arg3) {
-                if(isEdit){
-                    mAdapter.setAllView(position,false);
-                }else{
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                if (isEdit)
+                {
+                    mAdapter.setAllView(position, false);
+                }
+                else
+                {
                     startByType(mData.get(position).favor.type, position);
                 }
             }
@@ -200,47 +231,52 @@ public class AllCollectFragment extends NotifyFragment{
     }
 
 
-    private void getData() {
+    private void getData()
+    {
         swipeRefreshLayout.setRefreshing(true);
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("uid",mPreference.getString(Preference.uid));
-        if (type != ALL){
-            map.put("type",type);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", mPreference.getString(Preference.uid));
+        if (type != ALL)
+        {
+            map.put("type", type);
         }
-        map.put("method","favorite.query");
+        map.put("method", "favorite.query");
         String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi()
-                .getCollect(arrays[0],arrays[1],arrays[2])
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<CollectBean>>() {
-                    @Override
-                    public void onCompleted() {
-                        
-                    }
+        subscription = WeituNetwork.getWeituApi().getCollect(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<CollectBean>>()
+        {
+            @Override
+            public void onCompleted()
+            {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
+            }
 
-                    @Override
-                    public void onNext(List<CollectBean> collectBeen) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        mData.clear();
-                        mData = collectBeen;
-                        hideAndSeek();
-                        mAdapter.updateList(mData);
 
-                    }
-                });
+            @Override
+            public void onError(Throwable e)
+            {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+
+            @Override
+            public void onNext(List<CollectBean> collectBeen)
+            {
+                swipeRefreshLayout.setRefreshing(false);
+                mData.clear();
+                mData = collectBeen;
+                hideAndSeek();
+                mAdapter.updateList(mData);
+
+            }
+        });
 
     }
 
 
-
-    private void startByType(int type, int position) {
-        switch (type){
+    private void startByType(int type, int position)
+    {
+        switch (type)
+        {
             case VIDEO:
                 openVideo(position);
                 break;
@@ -259,51 +295,65 @@ public class AllCollectFragment extends NotifyFragment{
         }
     }
 
-    private void deteteData(final int position, String... idList) {
+
+    private void deteteData(final int position, String... idList)
+    {
         if (idList == null || idList.length == 0)
+        {
             return;
+        }
         swipeRefreshLayout.setRefreshing(true);
-        HashMap<String,Object> map = new HashMap<>();
-        try {
+        HashMap<String, Object> map = new HashMap<>();
+        try
+        {
             JSONArray jsonarray = new JSONArray(Arrays.toString(idList));
             map.put("ids", jsonarray);
-        } catch (JSONException e) {
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
         map.put("method", "favorite.deleteBatch");
         String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi()
-                .getResultCode(arrays[0],arrays[1],arrays[2])
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultCodeDto>() {
-                    @Override
-                    public void onCompleted() {
+        subscription = WeituNetwork.getWeituApi().getResultCode(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<ResultCodeDto>()
+        {
+            @Override
+            public void onCompleted()
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
 
-                    @Override
-                    public void onNext(ResultCodeDto resultCodeDto) {
-                        swipeRefreshLayout.setRefreshing(false);
-                        if (resultCodeDto.code==1){
-                            getData();
-                            showToast("删除成功");
-                            Bundle bundle = new Bundle();
-                            bundle.putBoolean("isDelete",true);
-                            EventBus.getDefault().post(new MessageEvent(bundle));
-                        }else {
-                            showToast("删除失败");
-                        }
-                    }
-                });
+            @Override
+            public void onError(Throwable e)
+            {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+
+            @Override
+            public void onNext(ResultCodeDto resultCodeDto)
+            {
+                swipeRefreshLayout.setRefreshing(false);
+                if (resultCodeDto.code == 1)
+                {
+                    getData();
+                    showToast("删除成功");
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isDelete", true);
+                    EventBus.getDefault().post(new MessageEvent(bundle));
+                }
+                else
+                {
+                    showToast("删除失败");
+                }
+            }
+        });
     }
 
-    private void openAudio(int position) {
+
+    private void openAudio(int position)
+    {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).target.id;
         result.cover = mData.get(position).target.cover;
@@ -312,7 +362,9 @@ public class AllCollectFragment extends NotifyFragment{
         mContext.startActivity(intent);
     }
 
-    private void openVideo(int position) {
+
+    private void openVideo(int position)
+    {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).target.id;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
@@ -320,22 +372,25 @@ public class AllCollectFragment extends NotifyFragment{
         mContext.startActivity(intent);
     }
 
-    private void openBook(int position) {
+
+    private void openBook(int position)
+    {
         Bundle bundle = new Bundle();
         bundle.putString("name", mData.get(position).target.title);
         bundle.putString("cover", mData.get(position).target.cover);
         bundle.putString("auth", mData.get(position).target.author);
         bundle.putString("isbn", mData.get(position).target.isbn);
         bundle.putString("publisher", mData.get(position).target.publisher);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
-        bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE,true);
+        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
+        bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
-    private void openPhoto(int position) {
+
+    private void openPhoto(int position)
+    {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
         bundle.putString("id", mData.get(position).target.id);
@@ -343,31 +398,41 @@ public class AllCollectFragment extends NotifyFragment{
     }
 
 
-    private void openDoc(int position) {
+    private void openDoc(int position)
+    {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", mData.get(position).target.id);
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin,
-                R.anim.alpha_outto);
+        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
     }
+
 
     @Override
-    public void reSet() {
-        hasData=true;
-        curPage=1;
-        isCreate=false;
+    public void reSet()
+    {
+        hasData = true;
+        curPage = 1;
+        isCreate = false;
     }
+
 
     @Override
-    public void notify(String data) {
+    public void notify(String data)
+    {
 
     }
-    private void hideAndSeek(){
-        if (mData.size() == 0 && curPage == 1) {
+
+
+    private void hideAndSeek()
+    {
+        if (mData.size() == 0 && curPage == 1)
+        {
             mNullTxt.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else
+        {
             mNullTxt.setVisibility(View.GONE);
         }
     }

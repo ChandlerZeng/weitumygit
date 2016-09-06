@@ -27,10 +27,12 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
 /**
  * Created by LianTu on 2016/7/15.
  */
-public class ClickHistoryActivity extends BaseActivity {
+public class ClickHistoryActivity extends BaseActivity
+{
 
     @Bind(R.id.title)
     TextView tvTitle;
@@ -39,38 +41,46 @@ public class ClickHistoryActivity extends BaseActivity {
 
     private NotifyFragment mFragment;
 
-    public static final int VIDEO=1,AUDIO=2,DOC=3,PHOTO=4,BOOK=5;
+    public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_click_history);
         init();
     }
 
 
-    private void init() {
+    private void init()
+    {
         tvTitle.setText("我的历史");
         tvCommit.setText("清空历史");
-        FragmentTransaction tran =mFm.beginTransaction();
-        tran.replace(R.id.content_fragment,new ClickHistoryFragment());
+        FragmentTransaction tran = mFm.beginTransaction();
+        tran.replace(R.id.content_fragment, new ClickHistoryFragment());
         tran.addToBackStack(null);
         tran.commit();
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.delete,R.id.commit})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    @OnClick({R.id.back_btn, R.id.delete, R.id.commit})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
             case R.id.commit:
                 String title = "您确定要删除？";
                 final AlertDialogUtil dialog = new AlertDialogUtil();
-                dialog.showDialog(ClickHistoryActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+                dialog.showDialog(ClickHistoryActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+                {
                     @Override
-                    public void onClick() {
+                    public void onClick()
+                    {
                         clearHistory();
                     }
                 }, null);
@@ -79,52 +89,63 @@ public class ClickHistoryActivity extends BaseActivity {
         }
     }
 
+
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         finish();
     }
 
+
     //清空历史
-    private void clearHistory() {
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("method","footprint.clear");
+    private void clearHistory()
+    {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("method", "footprint.clear");
         String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi()
-                .getResultCode(arrays[0],arrays[1],arrays[2])
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ResultCodeDto>() {
-                    @Override
-                    public void onCompleted() {
+        subscription = WeituNetwork.getWeituApi().getResultCode(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<ResultCodeDto>()
+        {
+            @Override
+            public void onCompleted()
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
 
-                    }
+            @Override
+            public void onError(Throwable e)
+            {
 
-                    @Override
-                    public void onNext(ResultCodeDto resultCodeDto) {
-                        if (resultCodeDto.code==1){
-                            showToast("清除成功");
-                            Bundle bundle = new Bundle();
-                            bundle.putBoolean("isClean",true);
-                            EventBus.getDefault().post(new MessageEvent(bundle));
-                        }else {
-                            showToast("清除失败");
-                        }
-                    }
-                });
+            }
+
+
+            @Override
+            public void onNext(ResultCodeDto resultCodeDto)
+            {
+                if (resultCodeDto.code == 1)
+                {
+                    showToast("清除成功");
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isClean", true);
+                    EventBus.getDefault().post(new MessageEvent(bundle));
+                }
+                else
+                {
+                    showToast("清除失败");
+                }
+            }
+        });
     }
 
 
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         super.onDestroy();
-        if (mFragment!=null){
-            mFragment=null;
+        if (mFragment != null)
+        {
+            mFragment = null;
         }
     }
 }

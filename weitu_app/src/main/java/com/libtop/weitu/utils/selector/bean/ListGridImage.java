@@ -15,7 +15,8 @@ package com.libtop.weitu.utils.selector.bean;
  * @version common v1.0
  */
 
-public class ListGridImage {
+public class ListGridImage
+{
 
     public String introduction;
 
@@ -29,51 +30,75 @@ public class ListGridImage {
 
     public boolean pro = false;
 
-    public String getImageUrl() {
+
+    public String getImageUrl()
+    {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+
+    public void setImageUrl(String imageUrl)
+    {
         this.imageUrl = imageUrl;
     }
 
-    public boolean ischeck() {
+
+    public boolean ischeck()
+    {
         return ischeck;
     }
 
-    public void setIscheck(boolean ischeck) {
+
+    public void setIscheck(boolean ischeck)
+    {
         this.ischeck = ischeck;
     }
 
-    public String getId() {
+
+    public String getId()
+    {
         return id;
     }
 
-    public void setId(String id) {
+
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getComment() {
+
+    public String getComment()
+    {
         return comment;
     }
 
-    public void setComment(String comment) {
+
+    public void setComment(String comment)
+    {
         this.comment = comment;
     }
 
-    public String getIntroduction() {
+
+    public String getIntroduction()
+    {
         return introduction;
     }
 
-    public void setIntroduction(String introduction) {
+
+    public void setIntroduction(String introduction)
+    {
         this.introduction = introduction;
     }
 
-    public boolean isPro() {
+
+    public boolean isPro()
+    {
         return pro;
     }
 
-    public void setPro(boolean pro) {
+
+    public void setPro(boolean pro)
+    {
         this.pro = pro;
     }
 

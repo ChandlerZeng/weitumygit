@@ -3,18 +3,22 @@ package com.libtop.weitu.tool;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommonUtil {
 
-	private static Map<String, String> commons = new HashMap<String, String>();
+public class CommonUtil
+{
 
-	static {
-		commons.put("sex0", "男");
-		commons.put("sex1", "女");
-	}
+    private static Map<String, String> commons = new HashMap<String, String>();
 
-	public static String getValue(String key) {
-		String value = commons.get(key);
-		return value;
-	}
+    static
+    {
+        commons.put("sex0", "男");
+        commons.put("sex1", "女");
+    }
+
+    public static String getValue(String key)
+    {
+        String value = commons.get(key);
+        return value;
+    }
 
 }

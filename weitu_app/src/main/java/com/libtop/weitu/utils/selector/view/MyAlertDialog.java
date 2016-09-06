@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.libtop.weitu.R;
 
+
 /**
  * <p>
  * Title: MyAlertDialog.java
@@ -30,7 +31,8 @@ import com.libtop.weitu.R;
  * @author 作者名
  * @version common v1.0
  */
-public class MyAlertDialog extends Dialog {
+public class MyAlertDialog extends Dialog
+{
     private Context context;
     TextView alertdialog_title_tv, alertdialog_message_tv;
     Button alertdialog_position_button_tv, alertdialog_cancel_button_tv;
@@ -38,21 +40,29 @@ public class MyAlertDialog extends Dialog {
     RelativeLayout alertdialog_layout_container;
     private MyAlertDialog dd;
 
-    public static interface MyAlertDialogOnClickCallBack {
+
+    public static interface MyAlertDialogOnClickCallBack
+    {
         public abstract void onClick();
     }
 
-    public MyAlertDialog(Context context) {
+
+    public MyAlertDialog(Context context)
+    {
         super(context);
         init(context);
     }
 
-    public MyAlertDialog(Context context, int theme) {
+
+    public MyAlertDialog(Context context, int theme)
+    {
         super(context, theme);
         init(context);
     }
 
-    private void init(Context context) {
+
+    private void init(Context context)
+    {
         dd = this;
         setMyAlertDialogCancelable(false);
         this.context = context;
@@ -64,58 +74,73 @@ public class MyAlertDialog extends Dialog {
         alertdialog_position_button_tv = (Button) view.findViewById(R.id.alertdialog_position_button_tv);
         my_alertdialog_dividerline = view.findViewById(R.id.my_alertdialog_dividerline);
         alertdialog_cancel_button_tv = (Button) view.findViewById(R.id.alertdialog_cancel_button_tv);
-        alertdialog_cancel_button_tv.setOnClickListener(new View.OnClickListener() {
+        alertdialog_cancel_button_tv.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
+            public void onClick(View v)
+            {
                 dd.dismiss();
             }
         });
-        alertdialog_position_button_tv.setOnClickListener(new View.OnClickListener() {
+        alertdialog_position_button_tv.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
+            public void onClick(View v)
+            {
                 dd.dismiss();
             }
         });
         getWindow().setBackgroundDrawableResource(android.R.color.transparent);
     }
 
-    public void setMessageGravity(int gravity) {
+
+    public void setMessageGravity(int gravity)
+    {
         alertdialog_message_tv.setGravity(gravity);
     }
 
 
-    public void setPositivieButtonContent(String content) {
+    public void setPositivieButtonContent(String content)
+    {
         alertdialog_position_button_tv.setText(content);
     }
 
 
-    public void setNegtiveButtonContent(String content) {
+    public void setNegtiveButtonContent(String content)
+    {
         alertdialog_cancel_button_tv.setText(content);
     }
 
-    public void setCancelListener(final MyAlertDialogOnClickCallBack callBack) {
-        if (alertdialog_cancel_button_tv.getVisibility() != View.VISIBLE) {
+
+    public void setCancelListener(final MyAlertDialogOnClickCallBack callBack)
+    {
+        if (alertdialog_cancel_button_tv.getVisibility() != View.VISIBLE)
+        {
             alertdialog_cancel_button_tv.setVisibility(View.VISIBLE);
             my_alertdialog_dividerline.setVisibility(View.VISIBLE);
         }
-        alertdialog_cancel_button_tv.setOnClickListener(new View.OnClickListener() {
+        alertdialog_cancel_button_tv.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
+            public void onClick(View arg0)
+            {
                 if (dd != null)
+                {
                     dd.dismiss();
+                }
                 if (callBack != null)
+                {
                     callBack.onClick();
+                }
             }
         });
 
 
     }
+
 
     /**
      * 设置自己的view
@@ -123,35 +148,48 @@ public class MyAlertDialog extends Dialog {
      * @param view     新添加的view
      * @param isRemove 是否移除原来的view
      */
-    public void addMyView(View view, boolean isRemove) {
-        if (isRemove) {
+    public void addMyView(View view, boolean isRemove)
+    {
+        if (isRemove)
+        {
             alertdialog_layout_container.removeAllViews();
         }
         alertdialog_layout_container.addView(view);
     }
 
-    public void setPositionListener(final MyAlertDialogOnClickCallBack callBack) {
-        if (alertdialog_position_button_tv.getVisibility() != View.VISIBLE) {
+
+    public void setPositionListener(final MyAlertDialogOnClickCallBack callBack)
+    {
+        if (alertdialog_position_button_tv.getVisibility() != View.VISIBLE)
+        {
             alertdialog_position_button_tv.setVisibility(View.VISIBLE);
         }
-        alertdialog_position_button_tv.setOnClickListener(new View.OnClickListener() {
+        alertdialog_position_button_tv.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
+            public void onClick(View arg0)
+            {
                 if (dd != null)
+                {
                     dd.dismiss();
+                }
                 if (callBack != null)
+                {
                     callBack.onClick();
+                }
             }
         });
     }
 
 
-    public MyAlertDialog setTitle(String title) {
+    public MyAlertDialog setTitle(String title)
+    {
 
-        if (!TextUtils.isEmpty(title)) {
-            if (alertdialog_title_tv.getVisibility() != View.VISIBLE) {
+        if (!TextUtils.isEmpty(title))
+        {
+            if (alertdialog_title_tv.getVisibility() != View.VISIBLE)
+            {
                 alertdialog_title_tv.setVisibility(View.VISIBLE);
             }
             alertdialog_title_tv.setText(title);
@@ -160,8 +198,10 @@ public class MyAlertDialog extends Dialog {
     }
 
 
-    public MyAlertDialog setMessage(String messageContent) {
-        if (!TextUtils.isEmpty(messageContent)) {
+    public MyAlertDialog setMessage(String messageContent)
+    {
+        if (!TextUtils.isEmpty(messageContent))
+        {
             alertdialog_message_tv.setText(messageContent);
         }
         return this;
@@ -176,43 +216,48 @@ public class MyAlertDialog extends Dialog {
      * @param
      * @return
      */
-    public MyAlertDialog setMyAlertDialogCancelable(boolean cancelable) {
+    public MyAlertDialog setMyAlertDialogCancelable(boolean cancelable)
+    {
         this.setCancelable(cancelable);   // 使返回键失效
 
 
-        this.setOnKeyListener(new DialogInterface.OnKeyListener() {
+        this.setOnKeyListener(new DialogInterface.OnKeyListener()
+        {
 
             @Override
-            public boolean onKey(DialogInterface dialog, int keyCode,
-                                 KeyEvent event) {
-                // TODO Auto-generated method stub
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event)
+            {
                 return true;//键盘事件无效。
             }
 
             // 使搜索键失效
-//			public boolean onKey(DialogInterface dialog,
-//                    int keyCode, KeyEvent event) {
-//                if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-//                    return true;
-//                } else {
-//                    return false; // 默认返回 false
-//                }
-//            }
+            //			public boolean onKey(DialogInterface dialog,
+            //                    int keyCode, KeyEvent event) {
+            //                if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            //                    return true;
+            //                } else {
+            //                    return false; // 默认返回 false
+            //                }
+            //            }
         });
         return this;
     }
 
-    public void show() {
+
+    public void show()
+    {
         super.show();
         Activity owner = (Activity) context;
         if (owner == null)
+        {
             return;
+        }
         DisplayMetrics dm = new DisplayMetrics();
         owner.getWindowManager().getDefaultDisplay().getMetrics(dm);
         int screenWidth = dm.widthPixels;
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-//      Display localDisplay = owner.getWindowManager().getDefaultDisplay();
-//      localLayoutParams.width = (int)(0.8D * localDisplay.getWidth());
+        //      Display localDisplay = owner.getWindowManager().getDefaultDisplay();
+        //      localLayoutParams.width = (int)(0.8D * localDisplay.getWidth());
         localLayoutParams.width = (int) (0.8D * screenWidth);
         localLayoutParams.height = -2;
         getWindow().setAttributes(localLayoutParams);

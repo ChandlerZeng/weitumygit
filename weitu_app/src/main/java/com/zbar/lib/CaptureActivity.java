@@ -83,7 +83,8 @@ import okhttp3.Call;
  * <p/>
  * 描述: 扫描界面
  */
-public class CaptureActivity extends BaseActivity implements Callback, View.OnClickListener {
+public class CaptureActivity extends BaseActivity implements Callback, View.OnClickListener
+{
     public static final int REQUEST_IMAGE = 3;
     private CaptureActivityHandler handler;
     private boolean hasSurface;
@@ -105,51 +106,72 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
     private Dialog alertDialog;
 
 
-    public boolean isNeedCapture() {
+    public boolean isNeedCapture()
+    {
         return isNeedCapture;
     }
 
-    public void setNeedCapture(boolean isNeedCapture) {
+
+    public void setNeedCapture(boolean isNeedCapture)
+    {
         this.isNeedCapture = isNeedCapture;
     }
 
-    public int getX() {
+
+    public int getX()
+    {
         return xx;
     }
 
-    public void setX(int x) {
+
+    public void setX(int x)
+    {
         this.xx = x;
     }
 
-    public int getY() {
+
+    public int getY()
+    {
         return y;
     }
 
-    public void setY(int y) {
+
+    public void setY(int y)
+    {
         this.y = y;
     }
 
-    public int getCropWidth() {
+
+    public int getCropWidth()
+    {
         return cropWidth;
     }
 
-    public void setCropWidth(int cropWidth) {
+
+    public void setCropWidth(int cropWidth)
+    {
         this.cropWidth = cropWidth;
     }
 
-    public int getCropHeight() {
+
+    public int getCropHeight()
+    {
         return cropHeight;
     }
 
-    public void setCropHeight(int cropHeight) {
+
+    public void setCropHeight(int cropHeight)
+    {
         this.cropHeight = cropHeight;
     }
+
 
     /**
      * Called when the activity is first created.
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_qr_scan);
@@ -162,8 +184,7 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
         mCropLayout = (RelativeLayout) findViewById(R.id.capture_crop_layout);
 
         ImageView mQrLineView = (ImageView) findViewById(R.id.capture_scan_line);
-        TranslateAnimation mAnimation = new TranslateAnimation(TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.ABSOLUTE, 0f,
-                TranslateAnimation.RELATIVE_TO_PARENT, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0.9f);
+        TranslateAnimation mAnimation = new TranslateAnimation(TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0.9f);
         mAnimation.setDuration(1500);
         mAnimation.setRepeatCount(-1);
         mAnimation.setRepeatMode(Animation.INFINITE);
@@ -176,11 +197,15 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
         findViewById(R.id.back_btn).setOnClickListener(this);
     }
 
+
     boolean flag = true;
 
-    protected void light() {
+
+    protected void light()
+    {
         Drawable img_on, img_off;
-        if (flag == true) {
+        if (flag == true)
+        {
             flag = false;
             Resources res = getResources();
             img_off = res.getDrawable(R.drawable.close_light);
@@ -188,7 +213,9 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
             ligthView.setCompoundDrawables(null, img_off, null, null); //设置左图标
             // 开闪光灯
             CameraManager.get().openLight();
-        } else {
+        }
+        else
+        {
             flag = true;
             Resources res = getResources();
             img_off = res.getDrawable(R.drawable.light);
@@ -200,31 +227,40 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
 
     }
 
+
     @SuppressWarnings("deprecation")
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         SurfaceView surfaceView = (SurfaceView) findViewById(R.id.capture_preview);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
-        if (hasSurface) {
+        if (hasSurface)
+        {
             initCamera(surfaceHolder);
-        } else {
+        }
+        else
+        {
             surfaceHolder.addCallback(this);
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
         playBeep = true;
         AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
-        if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
+        if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL)
+        {
             playBeep = false;
         }
         initBeepSound();
         vibrate = true;
     }
 
+
     @Override
-    protected void onPause() {
+    protected void onPause()
+    {
         super.onPause();
-        if (handler != null) {
+        if (handler != null)
+        {
             handler.quitSynchronously();
             handler = null;
         }
@@ -232,66 +268,79 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
         CameraManager.get().closeDriver();
     }
 
+
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         inactivityTimer.shutdown();
         super.onDestroy();
     }
 
 
-    public void handleDecode(CameraBean cameraBean) {
+    public void handleDecode(CameraBean cameraBean)
+    {
         inactivityTimer.onActivity();
         playBeepSoundAndVibrate();
         int count = cameraBean.getCount();
         String isbn = cameraBean.getResult();
-//        Toast.makeText(getApplicationContext(), isbn, Toast.LENGTH_LONG).show();
-        if (URLUtil.isNetworkUrl(isbn)){
+        //        Toast.makeText(getApplicationContext(), isbn, Toast.LENGTH_LONG).show();
+        if (URLUtil.isNetworkUrl(isbn))
+        {
             Uri uri1 = Uri.parse(isbn);
-            startActivity(new Intent(Intent.ACTION_VIEW,uri1));
-        }else if (CheckUtil.isNumeric(isbn)){
-            if ( count == 13){
+            startActivity(new Intent(Intent.ACTION_VIEW, uri1));
+        }
+        else if (CheckUtil.isNumeric(isbn))
+        {
+            if (count == 13)
+            {
                 String aa = IsbnUtils.obscure(isbn);
                 loadPage(aa);
-//                    Toast.makeText(getApplicationContext(), aa, Toast.LENGTH_LONG).show();
-            }else if ( count == 10){
+                //                    Toast.makeText(getApplicationContext(), aa, Toast.LENGTH_LONG).show();
+            }
+            else if (count == 10)
+            {
                 String isbn13 = IsbnUtils.covertText10ToText13(isbn);
                 String text_isbn13 = isbn13.replaceAll("-", "");
                 String aa = IsbnUtils.obscure(text_isbn13);
                 loadPage(aa);
-//                    Toast.makeText(getApplicationContext(), aa, Toast.LENGTH_LONG).show();
+                //                    Toast.makeText(getApplicationContext(), aa, Toast.LENGTH_LONG).show();
             }
-        }else {
-            new AlertDialog.Builder(CaptureActivity.this).setTitle(R.string.content2weima)
-                    .setMessage(isbn).create().show();
-//            Toast.makeText(getApplicationContext(), R.string.notResolveType, Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            new AlertDialog.Builder(CaptureActivity.this).setTitle(R.string.content2weima).setMessage(isbn).create().show();
+            //            Toast.makeText(getApplicationContext(), R.string.notResolveType, Toast.LENGTH_LONG).show();
         }
 
 
-//        if (count == 13) {
-//            String isbn13 = IsbnUtils.convert(isbn);
-//            String aa = IsbnUtils.obscure(isbn13);
-//            loadPage(aa);
-//        } else if (count == 10){
-//            String isbn13 = IsbnUtils.covertText10ToText13(isbn);
-//            String text_isbn13 = isbn13.replaceAll("-", "");
-//            String aa = IsbnUtils.obscure(text_isbn13);
-//            loadPage(aa);
-//        }
+        //        if (count == 13) {
+        //            String isbn13 = IsbnUtils.convert(isbn);
+        //            String aa = IsbnUtils.obscure(isbn13);
+        //            loadPage(aa);
+        //        } else if (count == 10){
+        //            String isbn13 = IsbnUtils.covertText10ToText13(isbn);
+        //            String text_isbn13 = isbn13.replaceAll("-", "");
+        //            String aa = IsbnUtils.obscure(text_isbn13);
+        //            loadPage(aa);
+        //        }
         //String a = IsbnUtils.obscure(result);
-//        Intent intent = new Intent(CaptureActivity.this, SearchActivity.class);
-//        intent.putExtra("search", result);
-//        startActivity(intent);
-//        finish();
+        //        Intent intent = new Intent(CaptureActivity.this, SearchActivity.class);
+        //        intent.putExtra("search", result);
+        //        startActivity(intent);
+        //        finish();
         // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
         //延时连续扫描
-         handler.sendEmptyMessageDelayed(R.id.restart_preview,750);
-//         handler.sendEmptyMessage(R.id.restart_preview);
+        handler.sendEmptyMessageDelayed(R.id.restart_preview, 750);
+        //         handler.sendEmptyMessage(R.id.restart_preview);
 
 
     }
 
-    private void initCamera(SurfaceHolder surfaceHolder) {
-        try {
+
+    private void initCamera(SurfaceHolder surfaceHolder)
+    {
+        try
+        {
             CameraManager.get().openDriver(surfaceHolder);
 
             Point point = CameraManager.get().getCameraResolution();
@@ -312,80 +361,111 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
             setNeedCapture(true);
 
 
-        } catch (IOException ioe) {
-            return;
-        } catch (RuntimeException e) {
+        }
+        catch (IOException ioe)
+        {
             return;
         }
-        if (handler == null) {
+        catch (RuntimeException e)
+        {
+            return;
+        }
+        if (handler == null)
+        {
             handler = new CaptureActivityHandler(CaptureActivity.this);
         }
     }
 
+
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+    {
 
     }
 
+
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-        if (!hasSurface) {
+    public void surfaceCreated(SurfaceHolder holder)
+    {
+        if (!hasSurface)
+        {
             hasSurface = true;
             initCamera(holder);
         }
     }
 
+
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void surfaceDestroyed(SurfaceHolder holder)
+    {
         hasSurface = false;
 
     }
 
-    public Handler getHandler() {
+
+    public Handler getHandler()
+    {
         return handler;
     }
 
-    private void initBeepSound() {
-        if (playBeep && mediaPlayer == null) {
+
+    private void initBeepSound()
+    {
+        if (playBeep && mediaPlayer == null)
+        {
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setOnCompletionListener(beepListener);
 
             AssetFileDescriptor file = getResources().openRawResourceFd(R.raw.beep);
-            try {
+            try
+            {
                 mediaPlayer.setDataSource(file.getFileDescriptor(), file.getStartOffset(), file.getLength());
                 file.close();
                 mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
                 mediaPlayer.prepare();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 mediaPlayer = null;
             }
         }
     }
 
+
     private static final long VIBRATE_DURATION = 200L;
 
-    private void playBeepSoundAndVibrate() {
-        if (playBeep && mediaPlayer != null) {
+
+    private void playBeepSoundAndVibrate()
+    {
+        if (playBeep && mediaPlayer != null)
+        {
             mediaPlayer.start();
         }
-        if (vibrate) {
+        if (vibrate)
+        {
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
     }
 
-    private final OnCompletionListener beepListener = new OnCompletionListener() {
-        public void onCompletion(MediaPlayer mediaPlayer) {
+
+    private final OnCompletionListener beepListener = new OnCompletionListener()
+    {
+        public void onCompletion(MediaPlayer mediaPlayer)
+        {
             mediaPlayer.seekTo(0);
         }
     };
 
+
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int id = v.getId();
-        switch (id) {
+        switch (id)
+        {
             case R.id.light:
                 light();
                 break;
@@ -410,7 +490,9 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
 
     }
 
-    private void showDialog() {
+
+    private void showDialog()
+    {
         alertDialog = new Dialog(mContext);
         alertDialog.show();
         Window window = alertDialog.getWindow();
@@ -419,18 +501,25 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
         TextView cancel = (TextView) window.findViewById(R.id.cancel_btn);
         TextView sure = (TextView) window.findViewById(R.id.sure_btn);
         final EditText isbn = (EditText) window.findViewById(R.id.edit_isbn);
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 alertDialog.cancel();
             }
         });
-        sure.setOnClickListener(new View.OnClickListener() {
+        sure.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (isbn.getText().length() != 13) {
+            public void onClick(View v)
+            {
+                if (isbn.getText().length() != 13)
+                {
                     Toast.makeText(CaptureActivity.this, R.string.isbnNote, Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else
+                {
                     String aa = IsbnUtils.obscure(isbn.getText().toString());
                     loadPage(aa);
                 }
@@ -438,124 +527,160 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
         });
     }
 
-    private void loadPage(String bookId) {
-        String uid = Preference.instance(mContext)
-                .getString(Preference.uid);
+
+    private void loadPage(String bookId)
+    {
+        String uid = Preference.instance(mContext).getString(Preference.uid);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "book.getBook");
         params.put("bid", bookId);
         params.put("uid", uid);
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (TextUtils.isEmpty(json)) {
-                            Toast.makeText(CaptureActivity.this, R.string.netError, Toast.LENGTH_SHORT).show();
-                        } else {
-                            try {
-                                JSONObject jsonObject = new JSONObject(json);
-                                BookDto dto = new BookDto();
-                                dto.of(jsonObject.getJSONObject("book"));
-                                if (TextUtils.isEmpty(dto.title) || dto.title.equals("null")) {
-                                    sorry_count++;
-                                    //若三次扫描都来到这，找不到这本书的可能比较大
-                                    if (sorry_count>3){
-                                        Toast.makeText(CaptureActivity.this, R.string.noThisBook, Toast.LENGTH_SHORT).show();
-                                    }
-                                } else {
-                                    sorry_count = 0;
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("name", dto.title);
-                                    bundle.putString("cover", dto.cover);
-                                    bundle.putString("auth", dto.author);
-                                    bundle.putString("isbn", dto.id);
-                                    bundle.putString("publisher", dto.publisher);
-                                    bundle.putString("school", Preference.instance(mContext)
-                                            .getString(Preference.SchoolCode));
-                                    bundle.putBoolean("isFromCapture",true);
-                                    bundle.putString("allJson",json);
-                                    bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-                                    CaptureActivity.this.startActivity(bundle, ContentActivity.class);
-                                    Log.w("guanglog", "bookId" + dto.id);
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (TextUtils.isEmpty(json))
+                {
+                    Toast.makeText(CaptureActivity.this, R.string.netError, Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    try
+                    {
+                        JSONObject jsonObject = new JSONObject(json);
+                        BookDto dto = new BookDto();
+                        dto.of(jsonObject.getJSONObject("book"));
+                        if (TextUtils.isEmpty(dto.title) || dto.title.equals("null"))
+                        {
+                            sorry_count++;
+                            //若三次扫描都来到这，找不到这本书的可能比较大
+                            if (sorry_count > 3)
+                            {
+                                Toast.makeText(CaptureActivity.this, R.string.noThisBook, Toast.LENGTH_SHORT).show();
                             }
                         }
+                        else
+                        {
+                            sorry_count = 0;
+                            Bundle bundle = new Bundle();
+                            bundle.putString("name", dto.title);
+                            bundle.putString("cover", dto.cover);
+                            bundle.putString("auth", dto.author);
+                            bundle.putString("isbn", dto.id);
+                            bundle.putString("publisher", dto.publisher);
+                            bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
+                            bundle.putBoolean("isFromCapture", true);
+                            bundle.putString("allJson", json);
+                            bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
+                            CaptureActivity.this.startActivity(bundle, ContentActivity.class);
+                            Log.w("guanglog", "bookId" + dto.id);
+                        }
                     }
-                });
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != Activity.RESULT_OK)
+        {
             return;
         }
-        switch (requestCode) {
+        switch (requestCode)
+        {
             case REQUEST_IMAGE:
                 String a = "file:///" + data.getStringExtra("lamge");
                 ContentResolver cr = this.getContentResolver();
                 Uri uri = null;
                 Bitmap bm = null;
-                try {
+                try
+                {
                     uri = Uri.parse(a);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
                 if (bm != null)
+                {
                     bm.recycle();
+                }
                 String b = "";
-                try {
+                try
+                {
                     //对bitmap进行压缩
-//                    Bitmap original = BitmapFactory.decodeStream(cr.openInputStream(uri));
-//                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-//                    original.compress(Bitmap.CompressFormat.PNG, 100, out);
-//                    original = null;
-//                    bm = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
-//                    out = null;
+                    //                    Bitmap original = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                    //                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    //                    original.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    //                    original = null;
+                    //                    bm = BitmapFactory.decodeStream(new ByteArrayInputStream(out.toByteArray()));
+                    //                    out = null;
                     bm = BitmapFactory.decodeStream(cr.openInputStream(uri));
                     b = deCode(bm);
-                } catch (FileNotFoundException e) {
+                }
+                catch (FileNotFoundException e)
+                {
                     e.printStackTrace();
                 }
-                if (b != null ) {
-                    if (URLUtil.isNetworkUrl(b)){
+                if (b != null)
+                {
+                    if (URLUtil.isNetworkUrl(b))
+                    {
                         Uri uri1 = Uri.parse(b);
-                        startActivity(new Intent(Intent.ACTION_VIEW,uri1));
-                    }else if (CheckUtil.isNumeric(b)){
-                        if ( b.length() == 13){
+                        startActivity(new Intent(Intent.ACTION_VIEW, uri1));
+                    }
+                    else if (CheckUtil.isNumeric(b))
+                    {
+                        if (b.length() == 13)
+                        {
                             String aa = IsbnUtils.obscure(b);
                             sorry_count = 4;
                             loadPage(aa);
-//                    Toast.makeText(getApplicationContext(), aa, Toast.LENGTH_LONG).show();
+                            //                    Toast.makeText(getApplicationContext(), aa, Toast.LENGTH_LONG).show();
                         }
-                    }else {
-                        new AlertDialog.Builder(CaptureActivity.this).setTitle(R.string.content2weima)
-                                .setMessage(b).create().show();
-//                        Toast.makeText(getApplicationContext(), R.string.notResolveType, Toast.LENGTH_LONG).show();
                     }
-                }else {
+                    else
+                    {
+                        new AlertDialog.Builder(CaptureActivity.this).setTitle(R.string.content2weima).setMessage(b).create().show();
+                        //                        Toast.makeText(getApplicationContext(), R.string.notResolveType, Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
                     Toast.makeText(getApplicationContext(), R.string.notResolveType, Toast.LENGTH_LONG).show();
                 }
                 break;
         }
     }
 
-    public String deCode(Bitmap bitmap) {
-        if (bitmap == null) {
+
+    public String deCode(Bitmap bitmap)
+    {
+        if (bitmap == null)
+        {
             Log.i("deCode", "-----------------------null");
             return "null";
         }
         //防止图片文件过大崩溃
-        if (bitmap.getHeight()*bitmap.getHeight() >= 12979200){
+        if (bitmap.getHeight() * bitmap.getHeight() >= 12979200)
+        {
             Toast.makeText(getApplicationContext(), "抱歉，图片文件过大", Toast.LENGTH_LONG).show();
             return null;
         }
@@ -569,21 +694,28 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
 
         BinaryBitmap bit = new BinaryBitmap(new HybridBinarizer(source));
 
-        try {
+        try
+        {
             return multiFormatReader.decodeWithState(bit).getText();
 
-        } catch (ReaderException re) {
+        }
+        catch (ReaderException re)
+        {
             // continue
-        } finally {
+        }
+        finally
+        {
             multiFormatReader.reset();
         }
         return null;
     }
 
-    public void initHints(Hashtable<DecodeHintType, Object> hints,
-                          Vector<BarcodeFormat> decodeFormats, String CODE_STYLE) {
+
+    public void initHints(Hashtable<DecodeHintType, Object> hints, Vector<BarcodeFormat> decodeFormats, String CODE_STYLE)
+    {
         hints = new Hashtable<DecodeHintType, Object>(2);
-        if (decodeFormats == null || decodeFormats.isEmpty()) {
+        if (decodeFormats == null || decodeFormats.isEmpty())
+        {
             decodeFormats = new Vector<BarcodeFormat>();
             decodeFormats.addAll(MyDecodeFormatManager.ONE_D_FORMATS);
             decodeFormats.addAll(MyDecodeFormatManager.QR_CODE_FORMATS);
@@ -591,7 +723,8 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
         }
 
         hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
-        if (CODE_STYLE != null) {
+        if (CODE_STYLE != null)
+        {
             Log.i("initHints", "-----------------------4");
         }
 
@@ -602,17 +735,20 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
      * @param str 待验证的字符串
      * @return 如果是符合网址格式的字符串, 返回<b>true</b>,否则为<b>false</b>
      */
-    public boolean isHomepage(String str) {
+    public boolean isHomepage(String str)
+    {
         String regex = "http://(([a-zA-z0-9]|-){1,}\\.){1,}[a-zA-z0-9]{1,}-*";
         return match(regex, str);
     }
+
 
     /**
      * @param regex 正则表达式字符串
      * @param str   要匹配的字符串
      * @return 如果str 符合 regex的正则表达式格式,返回true, 否则返回 false;
      */
-    private boolean match(String regex, String str) {
+    private boolean match(String regex, String str)
+    {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
         return matcher.matches();

@@ -2,32 +2,44 @@ package com.libtop.weitu.widget.listview;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
+
 
 /**
  * Created by zeng on 2016/8/19.
  */
-public class RemakeXListView extends XListView {
-    public RemakeXListView(Context context) {
+public class RemakeXListView extends XListView
+{
+    public RemakeXListView(Context context)
+    {
         super(context);
     }
 
-    public RemakeXListView(Context context, AttributeSet attrs) {
+
+    public RemakeXListView(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
     }
 
-    public RemakeXListView(Context context, AttributeSet attrs, int defStyle) {
+
+    public RemakeXListView(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
     }
 
+
     @Override
-    public void setPullLoadEnable(boolean enable) {
+    public void setPullLoadEnable(boolean enable)
+    {
         super.setPullLoadEnable(enable);
     }
-    public void setPullLoadEnable(boolean enable,boolean hasdata){
+
+
+    public void setPullLoadEnable(boolean enable, boolean hasdata)
+    {
         super.setPullLoadEnable(enable);
-        if(!enable&!hasdata){
-//            mPullLoading = false;
+        if (!enable & !hasdata)
+        {
+            //            mPullLoading = false;
             mFooterView.show();
             mFooterView.setState(XListViewFooter.STATE_LOADED);
             //make sure "pull up" don't show a line in bottom when listview with one page

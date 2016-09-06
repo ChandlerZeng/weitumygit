@@ -1,20 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         style="@style/page_title"
-        android:layout_width="fill_parent" >
+        android:layout_width="fill_parent">
 
         <ImageButton
             android:id="@+id/slider_menu"
             android:layout_width="@dimen/page_title_height"
             android:layout_height="fill_parent"
             android:background="@null"
-            android:src="@drawable/white_back_btn" />
+            android:src="@drawable/white_back_btn"/>
 
         <TextView
             android:id="@+id/title"
@@ -22,12 +22,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/serch_list" />
+            android:text="@string/serch_list"/>
     </RelativeLayout>
 
     <com.libtop.weitu.widget.stage.StaggeredGridView
         android:id="@+id/grid_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"/>
 </LinearLayout>

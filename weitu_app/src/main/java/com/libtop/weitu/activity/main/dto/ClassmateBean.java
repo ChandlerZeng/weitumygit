@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.main.dto;
 /**
  * Created by Administrator on 2016/1/19 0019.
  */
-public class ClassmateBean {
+public class ClassmateBean
+{
     private String id;
     private String email;
     private String phone;
@@ -12,59 +13,87 @@ public class ClassmateBean {
     private String libraryId;
     private int sex;//0:男1:女
 
-    public String getId() {
+
+    public String getId()
+    {
         return id;
     }
 
-    public void setId(String id) {
+
+    public void setId(String id)
+    {
         this.id = id;
     }
 
-    public String getEmail() {
+
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getPhone() {
+
+    public String getPhone()
+    {
         return phone;
     }
 
-    public void setPhone(String phone) {
+
+    public void setPhone(String phone)
+    {
         this.phone = phone;
     }
 
-    public String getUserName() {
+
+    public String getUserName()
+    {
         return username;
     }
 
-    public void setUserName(String userName) {
+
+    public void setUserName(String userName)
+    {
         this.username = userName;
     }
 
-    public String getCharacter() {
+
+    public String getCharacter()
+    {
         return character;
     }
 
-    public void setCharacter(String character) {
+
+    public void setCharacter(String character)
+    {
         this.character = character;
     }
 
-    public String getLibraryId() {
+
+    public String getLibraryId()
+    {
         return libraryId;
     }
 
-    public void setLibraryId(String libraryId) {
+
+    public void setLibraryId(String libraryId)
+    {
         this.libraryId = libraryId;
     }
 
-    public int getSex() {
+
+    public int getSex()
+    {
         return sex;
     }
 
-    public void setSex(int sex) {
+
+    public void setSex(int sex)
+    {
         this.sex = sex;
     }
 }

@@ -1,36 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="@color/titleBar"
+    android:gravity="center"
+    android:orientation="vertical"
     android:paddingLeft="18dp"
-    android:paddingRight="18dp"
-    android:gravity="center">
+    android:paddingRight="18dp">
+
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:background="@drawable/shape_search_title_bg"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/search_icon2"/>
+
         <TextView
             android:id="@+id/edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:paddingRight="5dp"
             android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:singleLine="true"
             android:text=""
-            android:textSize="15sp"
             android:textColor="@color/black"
-            android:singleLine="true"/>
+            android:textSize="15sp"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

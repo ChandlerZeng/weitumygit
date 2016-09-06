@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="70dp"
     android:background="@drawable/shape_media_bg"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/play_pause"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:background="@null"
-        android:src="@drawable/btn_play" />
+        android:src="@drawable/btn_play"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/progress_current"
@@ -27,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:text="00:00"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/progress_total"
@@ -35,14 +37,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:text="00:00"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"/>
         </RelativeLayout>
 
         <SeekBar
             android:id="@+id/seekbar"
+            style="@style/player_seek_style"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            style="@style/player_seek_style"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"/>
     </LinearLayout>

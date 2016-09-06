@@ -1,28 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="0.7" >
+        android:layout_weight="0.7">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center_horizontal"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/fliper"
                 android:layout_width="100dip"
                 android:layout_height="100dip"
                 android:scaleType="centerInside"
-                android:src="@drawable/welcome_logo" />
+                android:src="@drawable/welcome_logo"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -30,14 +30,14 @@
                 android:layout_marginTop="15dip"
                 android:text="@string/app_name"
                 android:textColor="@color/main_item_text"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_18"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/welcome_content"
                 android:textColor="@color/main_item_text"
-                android:textSize="@dimen/text_size_10" />
+                android:textSize="@dimen/text_size_10"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -46,7 +46,7 @@
         android:layout_height="0dip"
         android:layout_weight="0.3"
         android:background="@drawable/bottom_bg_file"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/login_bottom"
@@ -55,7 +55,7 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingLeft="20dip"
-            android:paddingRight="20dip" >
+            android:paddingRight="20dip">
 
             <Button
                 android:id="@+id/login_btn"
@@ -65,7 +65,7 @@
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:layout_weight="1"
-                android:text="@string/login_fast_str" />
+                android:text="@string/login_fast_str"/>
 
             <Button
                 android:id="@+id/choose_library"
@@ -75,8 +75,7 @@
                 android:layout_marginLeft="10dip"
                 android:layout_marginRight="10dip"
                 android:layout_weight="1"
-                android:text="@string/choose_library" />
+                android:text="@string/choose_library"/>
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

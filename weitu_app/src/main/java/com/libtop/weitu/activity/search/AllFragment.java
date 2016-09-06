@@ -42,83 +42,106 @@ import java.util.Map;
 import butterknife.Bind;
 import okhttp3.Call;
 
+
 /**
  * Created by LianTu on 2016/6/6.
  */
-public class AllFragment extends NotifyFragment {
+public class AllFragment extends NotifyFragment
+{
     @Bind(R.id.list)
     ScrollRefListView mListview;
     @Bind(R.id.null_txt)
     TextView mNullTxt;
 
     private AllListAdapter mAdapter;
-    private List<AllDto> mData=new ArrayList<AllDto>();
-    private boolean isCreate = false, hasData = true,isFirstCreate = false;
+    private List<AllDto> mData = new ArrayList<AllDto>();
+    private boolean isCreate = false, hasData = true, isFirstCreate = false;
     private int curPage = 1;
 
     private String sortType = "view";
-    public static final String VIDEO="video-album",AUDIO="audio-album",DOC="document",PHOTO="image-album",BOOK="book";
+    public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book";
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        mAdapter = new AllListAdapter(mContext,mData);
+        mAdapter = new AllListAdapter(mContext, mData);
         curPage = 1;
         isFirstCreate = true;
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_search_all;
     }
 
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(MessageEvent event) {
+    public void onMessage(MessageEvent event)
+    {
         Bundle bm = event.message;
         int pageIndex = bm.getInt("pageIndex");
-        if (this.isVisible()&&pageIndex==ResultFragment.ALL&&!isFirstCreate){
+        if (this.isVisible() && pageIndex == ResultFragment.ALL && !isFirstCreate)
+        {
             sortType = bm.getString("sortType");
             curPage = 1;
             loadPage();
         }
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
     }
 
-    private void initView(){
+
+    private void initView()
+    {
         mListview.setAdapter(mAdapter);
         mListview.setPullLoadEnable(false);
-        mListview.setXListViewListener(new ScrollRefListView.IXListViewListener() {
+        mListview.setXListViewListener(new ScrollRefListView.IXListViewListener()
+        {
             @Override
-            public void onLoadMore() {
-                if (hasData) {
+            public void onLoadMore()
+            {
+                if (hasData)
+                {
                     loadPage();
                 }
             }
         });
-        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 //跳转至详细页面
                 AllDto result = mData.get(position - 1);
-                startByType(result.entityType,position-1);
+                startByType(result.entityType, position - 1);
             }
         });
     }
 
+
     @Override
-    public void load(){
-        if (!isCreate) {
+    public void load()
+    {
+        if (!isCreate)
+        {
             curPage = 1;
             mData.clear();
             mAdapter.notifyDataSetChanged();
@@ -126,65 +149,92 @@ public class AllFragment extends NotifyFragment {
             loadPage();
             return;
         }
-        if (CollectionUtils.isEmpty(mData)){
+        if (CollectionUtils.isEmpty(mData))
+        {
             mNullTxt.setText("未搜索到相关记录");
             mNullTxt.setVisibility(View.VISIBLE);
         }
     }
 
+
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         load();
     }
 
-    private void handleResult(String json){
+
+    private void handleResult(String json)
+    {
         Log.w("json", json);
-        if (curPage == 1) {
+        if (curPage == 1)
+        {
             dismissLoading();
         }
-        if (CheckUtil.isNullTxt(json)) {
+        if (CheckUtil.isNullTxt(json))
+        {
             mNullTxt.setText("未搜索到相关记录");
             mNullTxt.setVisibility(View.VISIBLE);
             return;
         }
         isFirstCreate = false;
-        if (!CheckUtil.isNull(json)) {
-            try {
-                if (curPage == 1) {
+        if (!CheckUtil.isNull(json))
+        {
+            try
+            {
+                if (curPage == 1)
+                {
                     mData.clear();
                 }
                 JSONArray array = new JSONArray(json);
-                if (array.length() < 10) {
+                if (array.length() < 10)
+                {
                     hasData = false;
                     mListview.setPullLoadEnable(false);
-                } else {
+                }
+                else
+                {
                     hasData = true;
                     mListview.setPullLoadEnable(true);
                 }
-                List<AllDto> data = JsonUtil.fromJson(json,new TypeToken<List<AllDto>>(){}.getType());
+                List<AllDto> data = JsonUtil.fromJson(json, new TypeToken<List<AllDto>>()
+                {
+                }.getType());
                 mData.addAll(data);
                 mAdapter.updateList(mData);
-                if (mData.size() == 0 && curPage == 1) {
+                if (mData.size() == 0 && curPage == 1)
+                {
                     mNullTxt.setText("未搜索到相关记录");
                     mNullTxt.setVisibility(View.VISIBLE);
-                } else {
+                }
+                else
+                {
                     mNullTxt.setVisibility(View.GONE);
                 }
                 curPage++;
-            } catch (JSONException e) {
+            }
+            catch (JSONException e)
+            {
                 e.printStackTrace();
             }
-        } else {
-            if (curPage == 1) {
+        }
+        else
+        {
+            if (curPage == 1)
+            {
                 showToast("未搜索到相关记录");
             }
         }
     }
 
-    private void startByType(String type, int position) {
-        if (!TextUtils.isEmpty(type)){
-            switch (type){
+
+    private void startByType(String type, int position)
+    {
+        if (!TextUtils.isEmpty(type))
+        {
+            switch (type)
+            {
                 case VIDEO:
                     openVideo(position);
                     break;
@@ -205,7 +255,9 @@ public class AllFragment extends NotifyFragment {
 
     }
 
-    private void openAudio(int position) {
+
+    private void openAudio(int position)
+    {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
         result.cover = mData.get(position).cover;
@@ -214,7 +266,9 @@ public class AllFragment extends NotifyFragment {
         mContext.startActivity(intent);
     }
 
-    private void openVideo(int position) {
+
+    private void openVideo(int position)
+    {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
@@ -222,81 +276,102 @@ public class AllFragment extends NotifyFragment {
         mContext.startActivity(intent);
     }
 
-    private void openBook(int position) {
+
+    private void openBook(int position)
+    {
         Bundle bundle = new Bundle();
         bundle.putString("name", mData.get(position).title);
         bundle.putString("cover", mData.get(position).cover);
         bundle.putString("isbn", mData.get(position).isbn);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
+        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
         bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
-    private void openPhoto(int position) {
+
+    private void openPhoto(int position)
+    {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
         bundle.putString("id", mData.get(position).id);
         mContext.startActivity(bundle, DynamicCardActivity.class);
     }
 
-    private void openDoc(int position) {
+
+    private void openDoc(int position)
+    {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", mData.get(position).id);
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin,
-                R.anim.alpha_outto);
+        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
     }
 
 
-    private void requestSearch(){
+    private void requestSearch()
+    {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "search.api");
         params.put("sort", sortType);
-        params.put("keyword",mPreference.getString(Preference.KEYWORD_SEARCH));
+        params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
         params.put("page", curPage);
-        if (curPage == 1) {
+        if (curPage == 1)
+        {
             showLoding();
         }
         mNullTxt.setVisibility(View.GONE);
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        dismissLoading();
-                    }
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+                dismissLoading();
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        handleResult(json);
-                    }
-                });
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                handleResult(json);
+            }
+        });
     }
 
-    private void loadPage(){
-            requestSearch();
+
+    private void loadPage()
+    {
+        requestSearch();
     }
+
 
     @Override
-    public void reSet() {
-        hasData=true;
-        curPage=1;
-        isCreate=false;
+    public void reSet()
+    {
+        hasData = true;
+        curPage = 1;
+        isCreate = false;
     }
+
 
     @Override
-    public void notify(String data) {
+    public void notify(String data)
+    {
 
     }
-    private void hideAndSeek(){
-        if (mData.size() == 0 && curPage == 1) {
+
+
+    private void hideAndSeek()
+    {
+        if (mData.size() == 0 && curPage == 1)
+        {
             mNullTxt.setText("未搜索到相关记录");
             mNullTxt.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else
+        {
             mNullTxt.setVisibility(View.GONE);
         }
     }

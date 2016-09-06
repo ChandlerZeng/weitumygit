@@ -1,14 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/no"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:text="条码号"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/state"
@@ -25,7 +25,7 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:text="书刊状态" />
+            android:text="书刊状态"/>
 
         <TextView
             android:id="@+id/address"
@@ -33,7 +33,7 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="0.45"
-            android:text="馆藏地" />
+            android:text="馆藏地"/>
 
         <TextView
             android:id="@+id/book_no"
@@ -41,17 +41,17 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:text="索书号" />
+            android:text="索书号"/>
     </LinearLayout>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:background="@color/main_divider_line" />
+        android:background="@color/main_divider_line"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
         <ListView
             android:id="@+id/list"
@@ -65,12 +65,11 @@
             android:fadingEdge="none"
             android:fastScrollEnabled="false"
             android:listSelector="@drawable/list_selector"
-            android:scrollingCache="false" />
+            android:scrollingCache="false"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="@dimen/input_height"
-            android:visibility="gone" />
+            android:visibility="gone"/>
     </RelativeLayout>
-
 </LinearLayout>

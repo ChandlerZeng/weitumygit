@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/searchBackgroud"
@@ -19,7 +20,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="11dp"
-            android:src="@drawable/arrow_back" />
+            android:src="@drawable/arrow_back"/>
 
         <TextView
             android:id="@+id/title"
@@ -31,7 +32,7 @@
             android:paddingRight="10dp"
             android:text="图书"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <ImageView
             android:id="@+id/rmd_book_search_top"
@@ -39,13 +40,12 @@
             android:layout_height="38dp"
             android:padding="10dp"
             android:src="@drawable/search_icon2"/>
-
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/divider" />
+        android:background="@color/divider"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -59,9 +59,7 @@
             android:fillViewport="true"
             android:scrollbars="none">
 
-            <include layout="@layout/included_main_books_content" />
-
+            <include layout="@layout/included_main_books_content"/>
         </ScrollView>
-
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

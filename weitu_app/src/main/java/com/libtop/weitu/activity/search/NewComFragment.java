@@ -29,136 +29,173 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * 创建评论
- * 
+ *
  * @author longbh
- * 
  */
-public class NewComFragment extends BaseFragmentDialog{
+public class NewComFragment extends BaseFragmentDialog
+{
 
-	@Bind(R.id.back_btn)
-	ImageButton backBtn;
-	@Bind(R.id.level)
-	RatingBar level;
-	@Bind(R.id.content)
-	EditText content;
-	@Bind(R.id.submit)
-	Button submit;
+    @Bind(R.id.back_btn)
+    ImageButton backBtn;
+    @Bind(R.id.level)
+    RatingBar level;
+    @Bind(R.id.content)
+    EditText content;
+    @Bind(R.id.submit)
+    Button submit;
 
-	private CallBack callback;
-	private String bid;
+    private CallBack callback;
+    private String bid;
 
-	private Preference prefrence;
-	private TranLoading dialog;
-
-	public static NewComFragment Instance(String bid) {
-		NewComFragment fragment = new NewComFragment();
-		Bundle bundle = new Bundle();
-		bundle.putString("bid", bid);
-		fragment.setArguments(bundle);
-		return fragment;
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		bid = getArguments().getString("bid");
-		dialog = new TranLoading(mContext);
-		prefrence = Preference.instance(mContext);
-	}
-
-	@Override
-	protected int getLayoutId() {
-		return R.layout.fragment_new_common;
-	}
+    private Preference prefrence;
+    private TranLoading dialog;
 
 
-	@Nullable
-	@OnClick({R.id.back_btn,R.id.submit})
-	public void onClick(View view) {
-		switch (view.getId()) {
-		case R.id.back_btn:
-			onBackPressed();
-			break;
-		case R.id.submit:
-			if (CheckUtil.isNull(prefrence.getString(Preference.UserName))) {
-				Bundle b=new Bundle();
-				b.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-				mContext.startActivity(b,ContentActivity.class);
-			} else {
-				submit();
-			}
-			break;
-		}
-	}
+    public static NewComFragment Instance(String bid)
+    {
+        NewComFragment fragment = new NewComFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("bid", bid);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
-	private void submit() {
-		if (CheckUtil.isNull(content.getText())) {
-			Toast.makeText(mContext, "写点评论吧", Toast.LENGTH_SHORT).show();
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("method", "comment.save");
-		params.put("bid", bid);
-		params.put("uid",
-				Preference.instance(mContext).getString(Preference.uid));
-		params.put("content", content.getText());
-		params.put("score", level.getProgress());
-		dialog.show();
-		HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
-			@Override
-			public void onError(Call call, Exception e, int id) {
 
-			}
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        bid = getArguments().getString("bid");
+        dialog = new TranLoading(mContext);
+        prefrence = Preference.instance(mContext);
+    }
 
-			@Override
-			public void onResponse(String json, int id) {
-				dialog.dismiss();
-				if (CheckUtil.isNullTxt(json)) {
-					Toast.makeText(mContext,"请求超时，请稍后再试",Toast.LENGTH_SHORT).show();
-					return;
-				}
-				if (CheckUtil.isNull(json)) {
-					Toast.makeText(mContext,"网络连接超时，请稍后再试",Toast.LENGTH_SHORT).show();
-				} else {
-					try {
-						JSONObject object = new JSONObject(json);
-						if (object.getInt("code") == 1) {
-							ContantsUtil.COMMON = true;
-							Toast.makeText(mContext,"评论成功，感谢您的支持",Toast.LENGTH_SHORT).show();
-							if (callback != null) {
-								callback.callBack();
-							}
-							dismiss();
-						} else {
-							Toast.makeText(mContext,"评论失败，请稍后再试",Toast.LENGTH_SHORT).show();
-						}
-					} catch (JSONException e) {
-						e.printStackTrace();
-						Toast.makeText(mContext,"数据解析出错",Toast.LENGTH_SHORT).show();
-					}
-				}
-			}
-		});
-	}
 
-	public void setCallBack(CallBack callBack) {
-		this.callback = callBack;
-	}
+    @Override
+    protected int getLayoutId()
+    {
+        return R.layout.fragment_new_common;
+    }
 
-	public interface CallBack {
-		void callBack();
-	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		dialog.dismiss();
-	}
+    @Nullable
+    @OnClick({R.id.back_btn, R.id.submit})
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
+            case R.id.back_btn:
+                onBackPressed();
+                break;
+            case R.id.submit:
+                if (CheckUtil.isNull(prefrence.getString(Preference.UserName)))
+                {
+                    Bundle b = new Bundle();
+                    b.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
+                    mContext.startActivity(b, ContentActivity.class);
+                }
+                else
+                {
+                    submit();
+                }
+                break;
+        }
+    }
 
-	@Override
-	public void onBackPressed() {
-		dismiss();
-	}
+
+    private void submit()
+    {
+        if (CheckUtil.isNull(content.getText()))
+        {
+            Toast.makeText(mContext, "写点评论吧", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("method", "comment.save");
+        params.put("bid", bid);
+        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
+        params.put("content", content.getText());
+        params.put("score", level.getProgress());
+        dialog.show();
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dialog.dismiss();
+                if (CheckUtil.isNullTxt(json))
+                {
+                    Toast.makeText(mContext, "请求超时，请稍后再试", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (CheckUtil.isNull(json))
+                {
+                    Toast.makeText(mContext, "网络连接超时，请稍后再试", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    try
+                    {
+                        JSONObject object = new JSONObject(json);
+                        if (object.getInt("code") == 1)
+                        {
+                            ContantsUtil.COMMON = true;
+                            Toast.makeText(mContext, "评论成功，感谢您的支持", Toast.LENGTH_SHORT).show();
+                            if (callback != null)
+                            {
+                                callback.callBack();
+                            }
+                            dismiss();
+                        }
+                        else
+                        {
+                            Toast.makeText(mContext, "评论失败，请稍后再试", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        Toast.makeText(mContext, "数据解析出错", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
+
+
+    public void setCallBack(CallBack callBack)
+    {
+        this.callback = callBack;
+    }
+
+
+    public interface CallBack
+    {
+        void callBack();
+    }
+
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        dialog.dismiss();
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        dismiss();
+    }
 }

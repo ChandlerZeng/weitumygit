@@ -9,38 +9,51 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-public class MainPageAdapter extends FragmentPagerAdapter {
 
-	private List<Fragment> data;
+public class MainPageAdapter extends FragmentPagerAdapter
+{
 
-	public MainPageAdapter(FragmentManager fm, List<Fragment> data) {
-		super(fm);
-		this.data = data;
-	}
+    private List<Fragment> data;
 
-	@Override
-	public Object instantiateItem(ViewGroup container, int position) {
-		Fragment f = (Fragment) super.instantiateItem(container,
-				position);
-		return f;
-	}
 
-	@Override
-	public int getCount() {
-		return data.size();
-	}
+    public MainPageAdapter(FragmentManager fm, List<Fragment> data)
+    {
+        super(fm);
+        this.data = data;
+    }
 
-	@Override
-	public Fragment getItem(int position) {
-		return data.get(position);
-	}
 
-	public int getItemPosition(Object object) {
-		return PagerAdapter.POSITION_NONE;
-	}
-	
     @Override
-    public void setPrimaryItem(View container, int position, Object object) {
-    	
+    public Object instantiateItem(ViewGroup container, int position)
+    {
+        Fragment f = (Fragment) super.instantiateItem(container, position);
+        return f;
+    }
+
+
+    @Override
+    public int getCount()
+    {
+        return data.size();
+    }
+
+
+    @Override
+    public Fragment getItem(int position)
+    {
+        return data.get(position);
+    }
+
+
+    public int getItemPosition(Object object)
+    {
+        return PagerAdapter.POSITION_NONE;
+    }
+
+
+    @Override
+    public void setPrimaryItem(View container, int position, Object object)
+    {
+
     }
 }

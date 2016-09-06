@@ -2,7 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_checked="true" android:color="@color/main_color"/>
-    <!-- not selected -->
     <item android:color="@color/label_color"/>
 
 </selector>

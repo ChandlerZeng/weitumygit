@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingLeft="8dip"
-    android:paddingRight="8dip" >
+    android:paddingRight="8dip">
 
     <TextView
         android:id="@+id/catalog"
@@ -14,81 +15,61 @@
         android:layout_marginBottom="5dip"
         android:layout_marginTop="5dip"
         android:layout_weight="1.0"
-        android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
+        android:paddingTop="10dp"
         android:text="A"
         android:textColor="@color/grey11"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
     <View
         android:id="@+id/line"
         android:layout_width="fill_parent"
         android:layout_height="0.5dip"
-        android:background="@color/main_divider_line" />
+        android:background="@color/main_divider_line"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
+        android:gravity="center_vertical"
         android:paddingBottom="12dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:gravity="center_vertical">
+        android:paddingTop="12dp">
+
         <TextView
             android:id="@+id/head"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:textColor="@color/white"
-            android:textSize="15sp"
             android:gravity="center"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
+            android:singleLine="true"
             android:text="张三"
-            android:singleLine="true"/>
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
+
         <LinearLayout
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/grey11"
                 android:singleLine="true"
-                android:text="王五"/>
-            <!--<TextView-->
-                <!--android:id="@+id/lent"-->
-                <!--android:singleLine="true"-->
-                <!--android:layout_marginTop="3dp"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="@color/grey5"-->
-                <!--android:textSize="14sp"-->
-                <!--android:text="121445366436"/>-->
+                android:text="王五"
+                android:textColor="@color/grey11"
+                android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
-    <!--<TextView-->
-        <!--android:id="@+id/title"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:layout_gravity="center_vertical"-->
-        <!--android:layout_marginLeft="5dip"-->
-        <!--android:layout_weight="1.0"-->
-        <!--android:background="@drawable/list_selector"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:paddingBottom="5dip"-->
-        <!--android:paddingTop="5dip"-->
-        <!--android:text="hhhh"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="@dimen/text_size_16" />-->
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.5dip"
-        android:background="@color/main_divider_line" />
-
+        android:background="@color/main_divider_line"/>
 </LinearLayout>

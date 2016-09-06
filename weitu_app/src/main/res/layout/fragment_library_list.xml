@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/content">
+    android:orientation="vertical">
+
     <include layout="@layout/included_title1"/>
+
     <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
         <ListView
             android:id="@+id/list"
@@ -20,7 +24,7 @@
             android:fadingEdge="none"
             android:fastScrollEnabled="false"
             android:listSelector="@color/transparent"
-            android:scrollingCache="false" />
+            android:scrollingCache="false"/>
 
         <TextView
             android:id="@+id/dialog"
@@ -31,12 +35,12 @@
             android:gravity="center"
             android:textColor="#ffffffff"
             android:textSize="30.0dip"
-            android:visibility="invisible" />
+            android:visibility="invisible"/>
 
         <com.libtop.weitu.widget.slidebar.SideBar
             android:id="@+id/sidebar"
             android:layout_width="30.0dip"
             android:layout_height="fill_parent"
-            android:layout_gravity="right|center" />
+            android:layout_gravity="right|center"/>
     </FrameLayout>
 </LinearLayout>

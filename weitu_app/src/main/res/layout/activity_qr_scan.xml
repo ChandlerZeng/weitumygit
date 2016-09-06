@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:id="@+id/capture_containter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <SurfaceView
         android:id="@+id/capture_preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
     <LinearLayout
         android:id="@+id/top_mask"
@@ -31,7 +32,7 @@
                 android:layout_height="48dp"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/arrow_back" />
+                android:src="@drawable/arrow_back"/>
 
             <TextView
                 android:id="@+id/title"
@@ -44,7 +45,7 @@
                 android:singleLine="true"
                 android:text="二维码/条形码"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -60,8 +61,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/scan_tips"
                 android:textColor="@android:color/white"
-                android:textSize="15sp" />
-
+                android:textSize="15sp"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -82,7 +82,7 @@
             android:layout_alignParentTop="true"
             android:layout_margin="5dp"
             android:background="@drawable/scan_line"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -93,7 +93,6 @@
         android:layout_below="@id/capture_crop_layout"
         android:background="@drawable/scan_mask"
         android:contentDescription="@string/app_name">
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,7 +109,7 @@
                 android:layout_weight="1"
                 android:drawableTop="@drawable/choose"
                 android:gravity="center|bottom"
-                android:text="从相册找" />
+                android:text="从相册找"/>
 
             <TextView
                 android:id="@+id/write"
@@ -120,7 +119,7 @@
                 android:layout_weight="1"
                 android:drawableTop="@drawable/write"
                 android:gravity="center|bottom"
-                android:text="手动输入" />
+                android:text="手动输入"/>
 
             <TextView
                 android:id="@+id/light"
@@ -130,7 +129,7 @@
                 android:layout_weight="1"
                 android:drawableTop="@drawable/light"
                 android:gravity="center|bottom"
-                android:text="开灯" />
+                android:text="开灯"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -144,7 +143,7 @@
         android:layout_below="@id/top_mask"
         android:layout_toLeftOf="@id/capture_crop_layout"
         android:background="@drawable/scan_mask"
-        android:contentDescription="@string/app_name" />
+        android:contentDescription="@string/app_name"/>
 
     <ImageView
         android:id="@+id/right_mask"
@@ -155,7 +154,6 @@
         android:layout_below="@id/top_mask"
         android:layout_toRightOf="@id/capture_crop_layout"
         android:background="@drawable/scan_mask"
-        android:contentDescription="@string/app_name" />
-
+        android:contentDescription="@string/app_name"/>
 
 </RelativeLayout>

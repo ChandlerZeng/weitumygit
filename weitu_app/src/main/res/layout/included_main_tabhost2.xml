@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:orientation="horizontal">
 
-
     <LinearLayout
         android:id="@+id/ll_home"
         android:layout_width="wrap_content"
@@ -14,24 +13,21 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img_home"
             android:layout_width="@dimen/home_img_size"
             android:layout_height="@dimen/home_img_size"
-            android:background="@drawable/selector_main_home"
-            />
+            android:background="@drawable/selector_main_home"/>
+
         <TextView
             android:id="@+id/tv_home"
             android:textColor="@drawable/selector_main_text"
             style="@style/main_tabhost_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tab_mian"
-            />
-
+            android:text="@string/tab_mian"/>
     </LinearLayout>
 
     <LinearLayout
@@ -41,26 +37,23 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img_collect_status"
             android:layout_width="@dimen/home_img_size"
             android:layout_height="@dimen/home_img_size"
-            android:background="@drawable/selector_main_msg"
-            />
+            android:background="@drawable/selector_main_msg"/>
+
         <TextView
             android:id="@+id/tv_collect_status"
             style="@style/main_tabhost_text"
             android:textColor="@drawable/selector_main_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tab_collect"
-            />
+            android:text="@string/tab_collect"/>
 
     </LinearLayout>
-
 
     <ImageView
         android:id="@+id/weibo"
@@ -68,8 +61,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:src="@drawable/ten"
-        />
+        android:src="@drawable/ten"/>
 
     <LinearLayout
         android:id="@+id/ll_clazz"
@@ -78,23 +70,21 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img_clazz"
             android:layout_width="@dimen/home_img_size"
             android:layout_height="@dimen/home_img_size"
-            android:background="@drawable/selector_main_clazz"
-            />
+            android:background="@drawable/selector_main_clazz"/>
+
         <TextView
             android:id="@+id/tv_clazz"
             android:textColor="@drawable/selector_main_text"
             style="@style/main_tabhost_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tab_clazz"
-            />
+            android:text="@string/tab_clazz"/>
 
     </LinearLayout>
 
@@ -105,25 +95,20 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/img_personal"
             android:layout_width="@dimen/home_img_size"
             android:layout_height="@dimen/home_img_size"
-            android:background="@drawable/selector_main_personal"
-            />
+            android:background="@drawable/selector_main_personal"/>
+
         <TextView
             android:id="@+id/tv_personal"
             android:textColor="@drawable/selector_main_text"
             style="@style/main_tabhost_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tab_personal"
-            />
-
+            android:text="@string/tab_personal"/>
     </LinearLayout>
-
-
 </LinearLayout>

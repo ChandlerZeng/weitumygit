@@ -1,23 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/content_fragment"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1" >
-    </FrameLayout>
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:id="@+id/tab_bottom"
         android:layout_width="fill_parent"
         android:layout_height="52dip"
         android:background="#404042"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/main"
@@ -26,7 +25,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:checked="true"
-            android:drawableTop="@drawable/main_radio_selector" />
+            android:drawableTop="@drawable/main_radio_selector"/>
 
         <RadioButton
             android:id="@+id/search"
@@ -34,7 +33,7 @@
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:drawableTop="@drawable/search_radio_selector" />
+            android:drawableTop="@drawable/search_radio_selector"/>
 
         <RadioButton
             android:id="@+id/mine"
@@ -42,7 +41,6 @@
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:drawableTop="@drawable/min_radio_selector" />
+            android:drawableTop="@drawable/min_radio_selector"/>
     </LinearLayout>
-
 </LinearLayout>

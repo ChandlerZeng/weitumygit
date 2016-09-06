@@ -3,7 +3,8 @@ package com.libtop.weitu.activity.source.Bean;
 /**
  * Created by LianTu on 2016/6/23.
  */
-public class MediaAlbumBean {
+public class MediaAlbumBean
+{
     public String id;
     public String lid;
     public Integer state;
