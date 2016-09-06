@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_margin="5dp"
-              android:background="@drawable/my_alertdialog_bg"
-              android:gravity="center_vertical|center_horizontal"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/my_alertdialog_bg"
+    android:gravity="center_vertical|center_horizontal"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/alertdialog_title_tv"
@@ -17,14 +18,12 @@
         android:textSize="18sp"
         android:visibility="gone"/>
 
-
     <RelativeLayout
         android:id="@+id/alertdialog_layout_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
-
 
         <TextView
             android:id="@+id/alertdialog_message_tv"
@@ -62,7 +61,6 @@
 
     </RelativeLayout>
 
-
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.2dip"
@@ -71,8 +69,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/alertdialog_cancel_button_tv"

@@ -7,38 +7,46 @@ import android.provider.MediaStore;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.utils.SdCardUtil;
 
+
 /**
  * Created by Administrator on 2016/1/7 0007.
  */
-public class PhotoActivity extends BaseActivity {
-    protected static final int REQUEST_CODE_CAMERA =0x0001;
+public class PhotoActivity extends BaseActivity
+{
+    protected static final int REQUEST_CODE_CAMERA = 0x0001;
     protected static final int REQUEST_CODE_PHOTO = 0x0002;
     protected static final int REQUEST_CODE_PHOTO_DEAL = 0x0003;
+
 
     /**
      * 打开相机
      */
-    protected void openCamera(){
+    protected void openCamera()
+    {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra("return-data", false);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(SdCardUtil.TEMP));
         startActivityForResult(intent, REQUEST_CODE_CAMERA);
     }
 
+
     /**
      * 打开照片选择
      */
-    protected void pickUpPhoto(){
+    protected void pickUpPhoto()
+    {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, REQUEST_CODE_PHOTO);
     }
 
+
     /*
-	 * 对图片进行剪裁，通过Intent来调用系统自带的图片剪裁API
+     * 对图片进行剪裁，通过Intent来调用系统自带的图片剪裁API
 	 */
-    protected void cropPhoto(Uri uri) {
+    protected void cropPhoto(Uri uri)
+    {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");

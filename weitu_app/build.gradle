@@ -29,8 +29,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
 
-            applicationVariants.all {variant ->
-                variant.outputs.each {output ->
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         def fileName = "Weitu_${defaultConfig.versionName}.apk"

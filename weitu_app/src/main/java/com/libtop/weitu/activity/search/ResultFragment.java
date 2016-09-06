@@ -28,10 +28,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnPageChange;
 
+
 /**
  * Created by Administrator on 2015/12/23 0023.
  */
-public class ResultFragment extends NotifyFragment {
+public class ResultFragment extends NotifyFragment
+{
     @Bind(R.id.viewpager)
     ViewPager mViewPager;
     @Bind(R.id.radioGroup)
@@ -45,36 +47,41 @@ public class ResultFragment extends NotifyFragment {
 
     private int pageIndex = 0;
 
-    public static final int ALL=0,BOOK=1,VIDEO=2,AUDIO=3,DOC=4,IMAGE=5;
+    public static final int ALL = 0, BOOK = 1, VIDEO = 2, AUDIO = 3, DOC = 4, IMAGE = 5;
 
     private boolean isThreeSpinner = true;
     private ClassifyCheckAdapter filterCheckAdapter;
     private ListPopupWindow mListFilterPop;
     //记录页面所选择的排序方法
-    private HashMap<Integer,Integer> map = new HashMap<>();
+    private HashMap<Integer, Integer> map = new HashMap<>();
     private List<ClassifyBean> filterList = new ArrayList<>();
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        mFrags=new ArrayList<Fragment>();
+        mFrags = new ArrayList<Fragment>();
         mFrags.add(new AllFragment());
         mFrags.add(new BooksFragment());
         mFrags.add(new VideosFragment());
         mFrags.add(new AudiosFragment());
         mFrags.add(new DocsFragment());
         mFrags.add(new ImagesFragment());
-        mAdapter=new MainPageAdapter(getChildFragmentManager(),mFrags);
+        mAdapter = new MainPageAdapter(getChildFragmentManager(), mFrags);
         initFilter();
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_result_types_layout;
     }
 
-    private void initFilter(){
+
+    private void initFilter()
+    {
         ImageView imgSearchFilter = (ImageView) getActivity().findViewById(R.id.search_filter);
         imgSearchFilter.setOnClickListener(new View.OnClickListener()
         {
@@ -85,44 +92,51 @@ public class ResultFragment extends NotifyFragment {
             }
         });
         LinearLayout llBoard = (LinearLayout) getActivity().findViewById(R.id.ll_board);
-            String[] filters = new String[]{"阅读最多","评论最多","收藏最多"};
-            for (int i=0;i<filters.length;i++){
-                ClassifyBean classifyBean = new ClassifyBean();
-                classifyBean.name = filters[i];
-                filterList.add(classifyBean);
-            }
-            filterCheckAdapter = new ClassifyCheckAdapter(mContext,filterList,true);
-            mListFilterPop = new ListPopupWindow(mContext);
-            mListFilterPop.setAdapter(filterCheckAdapter);
-            mListFilterPop.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-            mListFilterPop.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
-            mListFilterPop.setAnchorView(llBoard);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
-            mListFilterPop.setBackgroundDrawable(new ColorDrawable(0x99000000));
-            mListFilterPop.setModal(true);//设置是否是模式
-            mListFilterPop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("pageIndex",pageIndex);
-                    map.put(pageIndex,position);
-                    if (isThreeSpinner){
-                        bundle.putString("sortType",sortTransform(position+1));
-                    }else {
-                        bundle.putString("sortType",sortTransform(position));
-                    }
-                    EventBus.getDefault().post(new MessageEvent(bundle));
-                    filterCheckAdapter.setCheck(position);
-                    mListFilterPop.dismiss();
+        String[] filters = new String[]{"阅读最多", "评论最多", "收藏最多"};
+        for (int i = 0; i < filters.length; i++)
+        {
+            ClassifyBean classifyBean = new ClassifyBean();
+            classifyBean.name = filters[i];
+            filterList.add(classifyBean);
+        }
+        filterCheckAdapter = new ClassifyCheckAdapter(mContext, filterList, true);
+        mListFilterPop = new ListPopupWindow(mContext);
+        mListFilterPop.setAdapter(filterCheckAdapter);
+        mListFilterPop.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        mListFilterPop.setHeight(LinearLayout.LayoutParams.MATCH_PARENT);
+        mListFilterPop.setAnchorView(llBoard);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
+        mListFilterPop.setBackgroundDrawable(new ColorDrawable(0x99000000));
+        mListFilterPop.setModal(true);//设置是否是模式
+        mListFilterPop.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Bundle bundle = new Bundle();
+                bundle.putInt("pageIndex", pageIndex);
+                map.put(pageIndex, position);
+                if (isThreeSpinner)
+                {
+                    bundle.putString("sortType", sortTransform(position + 1));
                 }
-            });
+                else
+                {
+                    bundle.putString("sortType", sortTransform(position));
+                }
+                EventBus.getDefault().post(new MessageEvent(bundle));
+                filterCheckAdapter.setCheck(position);
+                mListFilterPop.dismiss();
+            }
+        });
     }
 
 
-    private void threeFilter(){
+    private void threeFilter()
+    {
         filterList.clear();
         String[] filters = getResources().getStringArray(R.array.spinner_array2);
-        for (int i=0;i<filters.length;i++){
+        for (int i = 0; i < filters.length; i++)
+        {
             ClassifyBean classifyBean = new ClassifyBean();
             classifyBean.name = filters[i];
             filterList.add(classifyBean);
@@ -130,10 +144,13 @@ public class ResultFragment extends NotifyFragment {
         filterCheckAdapter.upDateData(filterList);
     }
 
-    private void fourFilter(){
+
+    private void fourFilter()
+    {
         filterList.clear();
         String[] filters = getResources().getStringArray(R.array.spinner_array);
-        for (int i=0;i<filters.length;i++){
+        for (int i = 0; i < filters.length; i++)
+        {
             ClassifyBean classifyBean = new ClassifyBean();
             classifyBean.name = filters[i];
             filterList.add(classifyBean);
@@ -141,20 +158,23 @@ public class ResultFragment extends NotifyFragment {
         filterCheckAdapter.upDateData(filterList);
     }
 
-    private String sortTransform(int position){
+
+    private String sortTransform(int position)
+    {
         String sortType = "timeline";
-        switch (position){
+        switch (position)
+        {
             case 0:
-                sortType="timeline";
+                sortType = "timeline";
                 break;
             case 1:
-                sortType="view";
+                sortType = "view";
                 break;
             case 2:
-                sortType="comment";
+                sortType = "comment";
                 break;
             case 3:
-                sortType="favorite";
+                sortType = "favorite";
                 break;
         }
         return sortType;
@@ -162,75 +182,94 @@ public class ResultFragment extends NotifyFragment {
 
 
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
     }
 
-    private void initView(){
+
+    private void initView()
+    {
         mViewPager.setAdapter(mAdapter);
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                onCheckedChanged1(group,checkedId);
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                onCheckedChanged1(group, checkedId);
             }
         });
         //设置首次进入选择图书页面
         mViewPager.setCurrentItem(1);
     }
 
+
     @Override
-    public void notify(String data) {
-        int current=mViewPager.getCurrentItem();
-        int max=mAdapter.getCount();
-        for (int i=0;i<max;i++){
-            NotifyFragment frag=(NotifyFragment)mAdapter.getItem(i);
+    public void notify(String data)
+    {
+        int current = mViewPager.getCurrentItem();
+        int max = mAdapter.getCount();
+        for (int i = 0; i < max; i++)
+        {
+            NotifyFragment frag = (NotifyFragment) mAdapter.getItem(i);
             frag.reSet();
-            if (current==i){
+            if (current == i)
+            {
                 frag.load();
             }
         }
     }
 
-    public void onCheckedChanged1(RadioGroup group, int checkedId) {
-        pageIndex=-1;
+
+    public void onCheckedChanged1(RadioGroup group, int checkedId)
+    {
+        pageIndex = -1;
         fourFilter();
         isThreeSpinner = false;
-        switch (checkedId){
-            case R.id.search_all:{
-                    pageIndex = ALL;
-                    isThreeSpinner = true;
-                    threeFilter();
+        switch (checkedId)
+        {
+            case R.id.search_all:
+            {
+                pageIndex = ALL;
+                isThreeSpinner = true;
+                threeFilter();
             }
-                break;
-            case R.id.search_books:{
-                    pageIndex = BOOK;
-                    isThreeSpinner = true;
-                    threeFilter();
+            break;
+            case R.id.search_books:
+            {
+                pageIndex = BOOK;
+                isThreeSpinner = true;
+                threeFilter();
             }
-                break;
+            break;
             case R.id.search_video:
-                pageIndex=VIDEO;
+                pageIndex = VIDEO;
                 break;
             case R.id.search_audio:
-                pageIndex=AUDIO;
+                pageIndex = AUDIO;
                 break;
             case R.id.search_document:
-                pageIndex=DOC;
+                pageIndex = DOC;
                 break;
             case R.id.search_images:
-                pageIndex=IMAGE;
+                pageIndex = IMAGE;
                 break;
         }
-        if (map.get(pageIndex)==null){
-            map.put(pageIndex,0);
+        if (map.get(pageIndex) == null)
+        {
+            map.put(pageIndex, 0);
         }
         filterCheckAdapter.setCheck(map.get(pageIndex));
         mViewPager.setCurrentItem(pageIndex);
     }
 
-    @Nullable @OnPageChange(value = R.id.viewpager)
-    public void onPageSelected(int i) {
-        switch (i){
+
+    @Nullable
+    @OnPageChange(value = R.id.viewpager)
+    public void onPageSelected(int i)
+    {
+        switch (i)
+        {
             case ALL:
                 mRadioGroup.check(R.id.search_all);
                 break;
@@ -253,7 +292,8 @@ public class ResultFragment extends NotifyFragment {
     }
 
 
-    public void setCreate() {
+    public void setCreate()
+    {
         isCreate = false;
     }
 

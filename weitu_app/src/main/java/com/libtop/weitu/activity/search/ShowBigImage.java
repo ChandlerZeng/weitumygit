@@ -13,46 +13,54 @@ import com.squareup.picasso.Picasso;
 
 /**
  * 下载显示大图
- * 
  */
-public class ShowBigImage extends ImgActivity {
+public class ShowBigImage extends ImgActivity
+{
 
-	private PhotoView image;
+    private PhotoView image;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.activity_show_big_image);
-		super.onCreate(savedInstanceState);
 
-		image = (PhotoView) findViewById(R.id.image);
-		String url = getIntent().getStringExtra("url");
-		Picasso.with(mContext)
-				.load(url)
-				.into(image, new Callback() {
-					@Override
-					public void onSuccess() {
-						dismissLoading();
-					}
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        setContentView(R.layout.activity_show_big_image);
+        super.onCreate(savedInstanceState);
 
-					@Override
-					public void onError() {
-						dismissLoading();
-					}
-				});
+        image = (PhotoView) findViewById(R.id.image);
+        String url = getIntent().getStringExtra("url");
+        Picasso.with(mContext).load(url).into(image, new Callback()
+        {
+            @Override
+            public void onSuccess()
+            {
+                dismissLoading();
+            }
 
-		image.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
-			@Override
-			public void onViewTap(View view, float x, float y) {
-				finish();
-				overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
-			}
-		});
 
-	}
+            @Override
+            public void onError()
+            {
+                dismissLoading();
+            }
+        });
 
-	@Override
-	public void onBackPressed() {
-		finish();
-		overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
-	}
+        image.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener()
+        {
+            @Override
+            public void onViewTap(View view, float x, float y)
+            {
+                finish();
+                overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
+    }
 }

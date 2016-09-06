@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+
 /**
  * <p>
  * Title: SelectedAdapter.java
@@ -28,22 +29,31 @@ import java.util.List;
  * @author 作者名
  * @version common v1.0
  */
-public class SelectedAdapter extends BaseAdapter<DisplayDto> {
+public class SelectedAdapter extends BaseAdapter<DisplayDto>
+{
 
     private int type;
     private String mMethod;
 
-    public SelectedAdapter(Context context, List<DisplayDto> data, int resourceId, String method) {
+
+    public SelectedAdapter(Context context, List<DisplayDto> data, int resourceId, String method)
+    {
         super(context, data, R.layout.selected_layout);
         this.mMethod = method;
         if (method.equals("mediaAlbum.list"))
+        {
             type = 1;
+        }
         else if (method.equals("imageAlbum.list"))
+        {
             type = 2;
+        }
     }
 
+
     @Override
-    protected void newView(View convertView) {
+    protected void newView(View convertView)
+    {
         Holder holder = new Holder();
         holder.title = (TextView) convertView.findViewById(R.id.title);
         holder.time = (TextView) convertView.findViewById(R.id.time);
@@ -55,42 +65,53 @@ public class SelectedAdapter extends BaseAdapter<DisplayDto> {
         convertView.setTag(holder);
     }
 
+
     @Override
-    protected void holderView(View convertView, DisplayDto displayDto, int position) {
+    protected void holderView(View convertView, DisplayDto displayDto, int position)
+    {
         Holder holder = (Holder) convertView.getTag();
         holder.title.setText(displayDto.title);
-        if (!TextUtils.isEmpty(displayDto.categoriesName1)){
+        if (!TextUtils.isEmpty(displayDto.categoriesName1))
+        {
             holder.label.setText(displayDto.categoriesName1);
         }
-        if (!TextUtils.isEmpty(displayDto.categoriesName2)){
-            holder.label.setText(displayDto.categoriesName1+"/"+displayDto.categoriesName2);
+        if (!TextUtils.isEmpty(displayDto.categoriesName2))
+        {
+            holder.label.setText(displayDto.categoriesName1 + "/" + displayDto.categoriesName2);
         }
 
         holder.Content.setText(displayDto.introduction);
 
-        if(!TextUtils.isEmpty(displayDto.cover)){
-            Picasso.with(mContext)
-                    .load(displayDto.cover)
-                    .placeholder(R.drawable.default_image)
-                    .error(R.drawable.default_image)
-                    .fit()
-                    .into(holder.imageView);
+        if (!TextUtils.isEmpty(displayDto.cover))
+        {
+            Picasso.with(mContext).load(displayDto.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).fit().into(holder.imageView);
         }
 
-        if (mMethod.equals("mediaAlbum.list")) {
+        if (mMethod.equals("mediaAlbum.list"))
+        {
             if (type == 1)
+            {
                 holder.textImage.setImageResource(R.drawable.delicate_video);
+            }
             else
+            {
                 holder.textImage.setImageResource(R.drawable.delicate_music);
-        } else if (mMethod.equals("document.list")) {
+            }
+        }
+        else if (mMethod.equals("document.list"))
+        {
             holder.textImage.setImageResource(R.drawable.delicate_doc);
-        } else if (mMethod.equals("imageAlbum.list")) {
+        }
+        else if (mMethod.equals("imageAlbum.list"))
+        {
             holder.textImage.setImageResource(R.drawable.delicate_img);
         }
         holder.time.setText(DateUtil.parseToDate(displayDto.timeline));
     }
 
-    class Holder {
+
+    class Holder
+    {
         public TextView title, time, imageText, label, Content;
         public ImageView imageView, textImage;
     }

@@ -37,7 +37,9 @@ import java.util.Map;
 import butterknife.Bind;
 import okhttp3.Call;
 
-public class SearchPreFragment extends NotifyFragment implements SearchAdapter.OnDeleteImgClickListener {
+
+public class SearchPreFragment extends NotifyFragment implements SearchAdapter.OnDeleteImgClickListener
+{
 
     @Bind(R.id.search_scrollview)
     ScrollView scrollView;
@@ -63,13 +65,15 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
     private HotListAdapter hotListAdapter;
     private InputMethodManager imm;
 
-    private boolean expanded=false;
-    private boolean isCleared=false;
+    private boolean expanded = false;
+    private boolean isCleared = false;
 
     private static final String TAG = "SearchPreFragment";
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         mBo = new SearchBo(mContext);
         mData = mBo.lists();
@@ -81,83 +85,109 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
                 getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_search_pre2;
     }
 
-    private void loadHotSearch() {
+
+    private void loadHotSearch()
+    {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "hotSearch.top");
         params.put("top", 10);
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        dismissLoading();
-                        if (TextUtils.isEmpty(json)) {
-                            showToast("没有相关数据");
-                            return;
-                        }
-                        mHotList.clear();
-                        mHotList = JsonUtil.fromJson(json, new TypeToken<List<HotSearchDto>>() {
-                        }.getType());
-                        hotListAdapter.setData(mHotList);
-                        hotListAdapter.notifyDataSetChanged();
-                        if (mHotList.size() == 0) {
-                            showToast("没有相关数据");
-                        }
-                    }
-                });
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dismissLoading();
+                if (TextUtils.isEmpty(json))
+                {
+                    showToast("没有相关数据");
+                    return;
+                }
+                mHotList.clear();
+                mHotList = JsonUtil.fromJson(json, new TypeToken<List<HotSearchDto>>()
+                {
+                }.getType());
+                hotListAdapter.setData(mHotList);
+                hotListAdapter.notifyDataSetChanged();
+                if (mHotList.size() == 0)
+                {
+                    showToast("没有相关数据");
+                }
+            }
+        });
     }
 
+
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
-        if (!ContantsUtil.UPDATE_SEARCH) {
+        if (!ContantsUtil.UPDATE_SEARCH)
+        {
             mData.clear();
             mData.addAll(mBo.lists());
             ContantsUtil.UPDATE_SEARCH = true;
         }
-        expanded=false;
-        isCleared=false;
+        expanded = false;
+        isCleared = false;
         initView();
         setListViewHeight(mList, mData.size(), false);
         addSearchBtn();
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
         loadHotSearch();
     }
 
-    public void setListViewHeight(ListView listView, int size, boolean expanded) {
-        if (size == 0) {
+
+    public void setListViewHeight(ListView listView, int size, boolean expanded)
+    {
+        if (size == 0)
+        {
             llSearchHistory.setVisibility(View.GONE);
-        } else {
+        }
+        else
+        {
             llSearchHistory.setVisibility(View.VISIBLE);
             ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
             //获取ListView每个Item高度
             View item = mAdapter.getView(0, null, listView);
             item.measure(0, 0);
             int height = item.getMeasuredHeight();
-            if (size > 0 & size <= 2) {
+            if (size > 0 & size <= 2)
+            {
                 layoutParams.height = size * height;
                 mExpandableText.setVisibility(View.GONE);
                 mHistoryClearText.setVisibility(View.GONE);
-            } else {
-                if (expanded) {
+            }
+            else
+            {
+                if (expanded)
+                {
                     mExpandableText.setVisibility(View.GONE);
                     mHistoryClearText.setVisibility(View.VISIBLE);
                     layoutParams.height = size * height;
-                } else {
+                }
+                else
+                {
                     mExpandableText.setVisibility(View.VISIBLE);
                     layoutParams.height = 2 * height;
                 }
@@ -167,27 +197,36 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
 
     }
 
+
     @Override
-    public void onPause() {
+    public void onPause()
+    {
         super.onPause();
         Log.d(TAG, "onPause");
         removeSearchBtn();
         mHistoryClearText.setVisibility(View.GONE);
     }
 
-    private void initView() {
+
+    private void initView()
+    {
         setListViewHeight(mList, mData.size(), false);
-        mExpandableText.setOnClickListener(new View.OnClickListener() {
+        mExpandableText.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                expanded=true;
-                if (imm.isActive()) {
+            public void onClick(View v)
+            {
+                expanded = true;
+                if (imm.isActive())
+                {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
                 setListViewHeight(mList, mData.size(), true);
-                mHistoryClearText.setOnClickListener(new View.OnClickListener() {
+                mHistoryClearText.setOnClickListener(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         mData.clear();
                         mBo.clear();
                         mAdapter.notifyDataSetChanged();
@@ -199,22 +238,27 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
         });
         mList.setAdapter(mAdapter);
         gvHot.setAdapter(hotListAdapter);
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position, long arg3) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
                 mActivity.search(mData.get(position).getName());
             }
         });
-        gvHot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gvHot.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 mActivity.search(mHotList.get(position).title);
             }
         });
-        mTrashBtn.setOnClickListener(new View.OnClickListener() {
+        mTrashBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 mData.clear();
                 mBo.clear();
                 mAdapter.notifyDataSetChanged();
@@ -223,39 +267,53 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
                 setListViewHeight(mList, 0, false);
             }
         });
-        mList.setOnTouchListener(new View.OnTouchListener() {
+        mList.setOnTouchListener(new View.OnTouchListener()
+        {
 
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_UP||expanded) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if (event.getAction() == MotionEvent.ACTION_UP || expanded)
+                {
                     scrollView.requestDisallowInterceptTouchEvent(false);
                     gvHot.requestDisallowInterceptTouchEvent(true);
                     mList.requestDisallowInterceptTouchEvent(true);
-                } else {
+                }
+                else
+                {
                     scrollView.requestDisallowInterceptTouchEvent(true);
-                    if (imm.isActive()) {
+                    if (imm.isActive())
+                    {
                         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     }
                 }
                 return false;
             }
         });
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
+        scrollView.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (imm.isActive()) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    if (imm.isActive())
+                    {
                         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     }
                 }
                 return false;
             }
         });
-        gvHot.setOnTouchListener(new View.OnTouchListener() {
+        gvHot.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (imm.isActive()) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                if (event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    if (imm.isActive())
+                    {
                         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     }
                 }
@@ -264,36 +322,49 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
         });
     }
 
-    private void addSearchBtn() {
+
+    private void addSearchBtn()
+    {
         ImageView imgSearchFilter = (ImageView) mContext.findViewById(R.id.search_filter);
         TextView textView = (TextView) mContext.findViewById(R.id.search);
         textView.setVisibility(View.VISIBLE);
         imgSearchFilter.setVisibility(View.GONE);
     }
 
-    private void removeSearchBtn() {
+
+    private void removeSearchBtn()
+    {
         ImageView imgSearchFilter = (ImageView) mContext.findViewById(R.id.search_filter);
         TextView textView = (TextView) mContext.findViewById(R.id.search);
         textView.setVisibility(View.GONE);
         imgSearchFilter.setVisibility(View.VISIBLE);
     }
 
+
     @Override
-    public void notify(String data) {
+    public void notify(String data)
+    {
 
     }
+
+
     @Override
-    public void onDeleteImgTouch(View v, Search search, int position) {
-        isCleared=true;
-        if (imm.isActive()) {
+    public void onDeleteImgTouch(View v, Search search, int position)
+    {
+        isCleared = true;
+        if (imm.isActive())
+        {
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
         mBo.delete(search);
         mData.remove(search);
         mAdapter.notifyDataSetChanged();
-        if(expanded){
+        if (expanded)
+        {
             setListViewHeight(mList, mData.size(), true);
-        }else{
+        }
+        else
+        {
             setListViewHeight(mList, mData.size(), false);
         }
     }

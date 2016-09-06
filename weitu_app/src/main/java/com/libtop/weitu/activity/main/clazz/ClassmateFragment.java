@@ -34,10 +34,12 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import okhttp3.Call;
 
+
 /**
  * Created by Administrator on 2016/1/19 0019.
  */
-public class ClassmateFragment extends BaseFragment {
+public class ClassmateFragment extends BaseFragment
+{
     @Bind(R.id.title)
     TextView mTitleText;
     @Bind(R.id.list)
@@ -52,32 +54,41 @@ public class ClassmateFragment extends BaseFragment {
 
     private MemberPop mPop;
 
-    private List<ClassmateBean> mDatas=new ArrayList<ClassmateBean>();
+    private List<ClassmateBean> mDatas = new ArrayList<ClassmateBean>();
     private MateSortAdapter mAdapter;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPop=new MemberPop(mContext);
-    }
 
     @Override
-    protected int getLayoutId() {
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        mPop = new MemberPop(mContext);
+    }
+
+
+    @Override
+    protected int getLayoutId()
+    {
         return R.layout.fragment_classmate_list;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         setTitle();
         mAdapter = new MateSortAdapter(mContext, mDatas);
         mListView.setAdapter(mAdapter);
         mSideBar.setTextView(mDialog);
         mSideBar.setLetterSize(DisplayUtils.dp2px(mContext, 14));
-        mSideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+        mSideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener()
+        {
             @Override
-            public void onTouchingLetterChanged(String s) {
+            public void onTouchingLetterChanged(String s)
+            {
                 int position = mAdapter.getPositionForSection(s.charAt(0));
-                if (position != -1) {
+                if (position != -1)
+                {
                     mListView.setSelection(position);
                 }
             }
@@ -85,82 +96,107 @@ public class ClassmateFragment extends BaseFragment {
         load();
     }
 
+
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
     }
 
-    private void setTitle(){
+
+    private void setTitle()
+    {
         mTitleText.setText("班级成员");
     }
 
+
     @Nullable
     @OnClick(R.id.back_btn)
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
         }
     }
 
-    private void load(){
+
+    private void load()
+    {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("uid", mPreference.getString(Preference.uid));
         params.put("method", "user.classmate");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        dismissLoading();
-                        if (TextUtils.isEmpty(json)){
-                            showToast("未找到相关记录");
-                            return;
-                        }
-                        List<ClassmateBean> date= JsonUtil.fromJson(json,new TypeToken<List<ClassmateBean>>(){}.getType());
-                        if (CollectionUtils.isEmpty(date)){
-                            showToast("未找到相关记录");
-                            return;
-                        }
-                        sortList(date);
-                        mDatas=date;
-                        mAdapter.update(mDatas);
-                    }
-                });
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dismissLoading();
+                if (TextUtils.isEmpty(json))
+                {
+                    showToast("未找到相关记录");
+                    return;
+                }
+                List<ClassmateBean> date = JsonUtil.fromJson(json, new TypeToken<List<ClassmateBean>>()
+                {
+                }.getType());
+                if (CollectionUtils.isEmpty(date))
+                {
+                    showToast("未找到相关记录");
+                    return;
+                }
+                sortList(date);
+                mDatas = date;
+                mAdapter.update(mDatas);
+            }
+        });
     }
 
+
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         mContext.finish();
     }
 
 
-    @Nullable @OnItemClick(value = R.id.list)
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    @Nullable
+    @OnItemClick(value = R.id.list)
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
         mPop.setData(mDatas.get(position));
         mPop.showOnParent(mRoot);
     }
 
 
-    private void sortList(List<ClassmateBean> date){
-        Collections.sort(date, new Comparator<ClassmateBean>() {
+    private void sortList(List<ClassmateBean> date)
+    {
+        Collections.sort(date, new Comparator<ClassmateBean>()
+        {
             @Override
-            public int compare(ClassmateBean lhs, ClassmateBean rhs) {
-                char mine=lhs.getCharacter().toUpperCase().charAt(0);
-                char other=rhs.getCharacter().toUpperCase().charAt(0);
-                return mine-other;
+            public int compare(ClassmateBean lhs, ClassmateBean rhs)
+            {
+                char mine = lhs.getCharacter().toUpperCase().charAt(0);
+                char other = rhs.getCharacter().toUpperCase().charAt(0);
+                return mine - other;
             }
         });
     }
 
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         mPop.dismiss();
         super.onDestroy();
     }

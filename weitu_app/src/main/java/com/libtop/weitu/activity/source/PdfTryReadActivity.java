@@ -45,10 +45,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * Created by LianTu on 2016-8-6.
  */
-public class PdfTryReadActivity extends BaseActivity implements OnPageChangeListener {
+public class PdfTryReadActivity extends BaseActivity implements OnPageChangeListener
+{
     @Bind(R.id.pdfView)
     PDFView pdfView;
     @Bind(R.id.page)
@@ -85,21 +87,29 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
     private boolean isCollectShow;
     private boolean isChangeScreen = true;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_pdf3);
         pdfUrl = getIntent().getStringExtra("url");
         String bookString = getIntent().getStringExtra("BookDetailDto");
-        isCollectShow = getIntent().getBooleanExtra("isCollectShow",false);
+        isCollectShow = getIntent().getBooleanExtra("isCollectShow", false);
         if (isCollectShow)
+        {
             imgCollect.setBackgroundResource(R.drawable.collect);
+        }
         else
+        {
             imgCollect.setBackgroundResource(R.drawable.collect_no);
-        bookDetailDto = new Gson().fromJson(bookString,BookDetailDto.class);
+        }
+        bookDetailDto = new Gson().fromJson(bookString, BookDetailDto.class);
         data = bookDetailDto.book;
         if (!TextUtils.isEmpty(pdfUrl))
+        {
             initActivity(pdfUrl);
+        }
         initView();
 
     }
@@ -107,8 +117,10 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
 
     @Nullable
     @OnClick({R.id.img_collect, R.id.img_comment, R.id.img_share, R.id.img_rotate, R.id.back_btn})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.img_collect:
                 collectClick();
                 break;
@@ -127,158 +139,207 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
         }
     }
 
+
     //旋转屏幕点击
-    private void rotateClick() {
+    private void rotateClick()
+    {
         rotateFlag = !rotateFlag;
-        if (rotateFlag) {
+        if (rotateFlag)
+        {
             //横屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else {
+        }
+        else
+        {
             //竖屏
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 
-    private void shareClick() {
+
+    private void shareClick()
+    {
         String title = "微图分享";
-        String content = "“【书】"+data.title+"”"+ ContantsUtil.shareContent;
+        String content = "“【书】" + data.title + "”" + ContantsUtil.shareContent;
         String imageUrl = "drawable://" + R.drawable.wbshare;
-        ShareSdkUtil.showShareWithLocalImg(mContext,title,content,imageUrl);
+        ShareSdkUtil.showShareWithLocalImg(mContext, title, content, imageUrl);
     }
 
-    private void collectClick() {
-        if (isCollectShow){
+
+    private void collectClick()
+    {
+        if (isCollectShow)
+        {
             requestCancelCollect();
-        }else {
+        }
+        else
+        {
             requestCollect();
         }
     }
 
-    private void requestCancelCollect() {
+
+    private void requestCancelCollect()
+    {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("uid"
-                , mPreference.getString(Preference.uid));
-        params.put("tid",data.isbn);
+        params.put("uid", mPreference.getString(Preference.uid));
+        params.put("tid", data.isbn);
         params.put("method", "favorite.delete");
         showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        Log.w("json", json);
-                        dismissLoading();
-                        if (CheckUtil.isNullTxt(json)) {
-                            return;
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                Log.w("json", json);
+                dismissLoading();
+                if (CheckUtil.isNullTxt(json))
+                {
+                    return;
+                }
+                if (!CheckUtil.isNull(json))
+                {
+                    JSONObject mjson = null;
+                    try
+                    {
+                        mjson = new JSONObject(json);
+                        if (mjson.getInt("code") == 1)
+                        {
+                            Toast.makeText(mContext, "取消收藏成功", Toast.LENGTH_SHORT).show();
+                            isCollectShow = false;
+                            imgCollect.setBackgroundResource(R.drawable.collect_no);
                         }
-                        if (!CheckUtil.isNull(json)) {
-                            JSONObject mjson = null;
-                            try {
-                                mjson = new JSONObject(json);
-                                if (mjson.getInt("code") == 1) {
-                                    Toast.makeText(mContext, "取消收藏成功", Toast.LENGTH_SHORT).show();
-                                    isCollectShow = false;
-                                    imgCollect.setBackgroundResource(R.drawable.collect_no);
-                                } else {
-                                    Toast.makeText(mContext, "取消收藏失败", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            showToast("未搜索到相关记录");
+                        else
+                        {
+                            Toast.makeText(mContext, "取消收藏失败", Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    showToast("未搜索到相关记录");
+                }
+            }
+        });
     }
 
-    private void requestCollect() {
+
+    private void requestCollect()
+    {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("uid"
-                , mPreference.getString(Preference.uid));
+        params.put("uid", mPreference.getString(Preference.uid));
         params.put("tid", data.isbn);
-        params.put("type",5);
+        params.put("type", 5);
         params.put("method", "favorite.save");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                Log.w("json", json);
+                dismissLoading();
+                if (CheckUtil.isNullTxt(json))
+                {
+                    return;
+                }
+                if (!CheckUtil.isNull(json))
+                {
+                    JSONObject mjson = null;
+                    try
+                    {
+                        mjson = new JSONObject(json);
+                        if (mjson.getInt("code") == 1)
+                        {
+                            Toast.makeText(mContext, "收藏成功", Toast.LENGTH_SHORT).show();
+                            isCollectShow = true;
+                            imgCollect.setBackgroundResource(R.drawable.collect);
+                        }
+                        else
+                        {
+                            Toast.makeText(mContext, "收藏失败", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
                     }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        Log.w("json", json);
-                        dismissLoading();
-                        if (CheckUtil.isNullTxt(json)) {
-                            return;
-                        }
-                        if (!CheckUtil.isNull(json)) {
-                            JSONObject mjson = null;
-                            try {
-                                mjson = new JSONObject(json);
-                                if (mjson.getInt("code") == 1) {
-                                    Toast.makeText(mContext, "收藏成功", Toast.LENGTH_SHORT).show();
-                                    isCollectShow = true;
-                                    imgCollect.setBackgroundResource(R.drawable.collect);
-                                } else {
-                                    Toast.makeText(mContext, "收藏失败", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                        } else {
-                            showToast("未搜索到相关记录");
-                        }
-                    }
-                });
+                }
+                else
+                {
+                    showToast("未搜索到相关记录");
+                }
+            }
+        });
 
     }
 
+
     //书本的type为5
-    private void commentClick() {
+    private void commentClick()
+    {
         Intent intent = new Intent(mContext, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
         commentNeedDto.title = data.title;
         commentNeedDto.author = data.author;
         commentNeedDto.publisher = data.publisher;
-        String imgPath = ContantsUtil.IMG_BASE+data.cover;
+        String imgPath = ContantsUtil.IMG_BASE + data.cover;
         commentNeedDto.photoAddress = imgPath;
         commentNeedDto.tid = data.isbn;
         commentNeedDto.type = 5;
-        intent.putExtra("CommentNeedDto",new Gson().toJson(commentNeedDto));
+        intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
         startActivity(intent);
     }
 
 
-
-    private void initActivity(String path) {
+    private void initActivity(String path)
+    {
         showLoding();
-        FileLoader.getInstance(mContext).loadCallBack(path, new FileLoader.CallBack() {
+        FileLoader.getInstance(mContext).loadCallBack(path, new FileLoader.CallBack()
+        {
             @Override
-            public void callBack(File file) {
+            public void callBack(File file)
+            {
                 dismissLoading();
-                if (file != null && file.exists() && file.length() > 0) {
-                    pdfView.fromFile(file).defaultPage(0)
-                            .onPageChange(PdfTryReadActivity.this).load();
+                if (file != null && file.exists() && file.length() > 0)
+                {
+                    pdfView.fromFile(file).defaultPage(0).onPageChange(PdfTryReadActivity.this).load();
 
-                } else {
+                }
+                else
+                {
                     showToast("该文档不存在");
                 }
             }
         });
     }
 
+
     @Override
-    public void onPageChanged(int page, int pageCount) {
+    public void onPageChanged(int page, int pageCount)
+    {
         currentPage = page;
-        if(currentPage>1 && !isOpen){
+        if (currentPage > 1 && !isOpen)
+        {
             showToast("私有内容只能看第一页");
             return;
         }
@@ -286,43 +347,56 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
         pageSeekBar.setMax(pageCount - 1);
         pageSeekBar.setProgress(currentPage - 1);
         title.setText(page + "/" + pageCount);
-        if (page == lastPage) {
+        if (page == lastPage)
+        {
             isPageChange = false;
-        } else {
+        }
+        else
+        {
             isPageChange = true;
         }
         lastPage = page;
     }
 
+
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         Bundle bundle = new Bundle();
         bundle.putString("target", BookDetailFragment.class.getName());
-        bundle.putBoolean("isCollectShow",isCollectShow);
+        bundle.putBoolean("isCollectShow", isCollectShow);
         EventBus.getDefault().post(new MessageEvent(bundle));
         finish();
         overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
     }
 
 
-
-    private void initView() {
-        if (bookDetailDto.favorite == 1) {
+    private void initView()
+    {
+        if (bookDetailDto.favorite == 1)
+        {
             imgCollect.setImageResource(R.drawable.collect);
-        } else {
+        }
+        else
+        {
             imgCollect.setImageResource(R.drawable.collect_no);
         }
         title.setText(data.title);
-        pdfView.setOnClickListener(new View.OnClickListener() {
+        pdfView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 //没有换页的点击
-                if (showFlag && !isPageChange && !pdfView.isZooming()) {
+                if (showFlag && !isPageChange && !pdfView.isZooming())
+                {
                     pageSeekBar.setProgress(currentPage - 1);
                     titleContainer.setVisibility(View.VISIBLE);
                     rlBottom.setVisibility(View.VISIBLE);
                     showFlag = false;
-                } else {
+                }
+                else
+                {
                     titleContainer.setVisibility(View.GONE);
                     rlBottom.setVisibility(View.GONE);
                     showFlag = true;
@@ -330,14 +404,18 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
             }
         });
 
-        pageSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        pageSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (!isOpen){
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                if (!isOpen)
+                {
                     showToast("私有内容只能看第一页");
                     return;
                 }
-                if (!isChangeScreen){
+                if (!isChangeScreen)
+                {
                     pdfView.jumpTo(progress + 1);
                 }
                 isChangeScreen = false;
@@ -345,20 +423,26 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
                 title.setText((progress + 1) + "/" + allPage);
             }
 
+
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
 
             }
 
+
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
 
             }
         });
 
-        pdfView.setOnLongClickListener(new View.OnLongClickListener() {
+        pdfView.setOnLongClickListener(new View.OnLongClickListener()
+        {
             @Override
-            public boolean onLongClick(View v) {
+            public boolean onLongClick(View v)
+            {
                 titleContainer.setVisibility(View.GONE);
                 rlBottom.setVisibility(View.GONE);
                 return false;
@@ -366,8 +450,10 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
         });
     }
 
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
     }
 

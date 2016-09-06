@@ -16,12 +16,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * 文件夹Adapter
  * Created by Nereo on 2015/4/7.
  * Updated by nereo on 2016/1/19.
  */
-public class FolderAdapter extends BaseAdapter {
+public class FolderAdapter extends BaseAdapter
+{
 
     private Context mContext;
     private LayoutInflater mInflater;
@@ -32,106 +34,146 @@ public class FolderAdapter extends BaseAdapter {
 
     int lastSelected = 0;
 
-    public FolderAdapter(Context context){
+
+    public FolderAdapter(Context context)
+    {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mImageSize = mContext.getResources().getDimensionPixelOffset(R.dimen.folder_cover_size);
     }
 
+
     /**
      * 设置数据集
+     *
      * @param folders
      */
-    public void setData(List<Folder> folders) {
-        if(folders != null && folders.size()>0){
+    public void setData(List<Folder> folders)
+    {
+        if (folders != null && folders.size() > 0)
+        {
             mFolders = folders;
-        }else{
+        }
+        else
+        {
             mFolders.clear();
         }
         notifyDataSetChanged();
     }
 
-    @Override
-    public int getCount() {
-        return mFolders.size()+1;
-    }
 
     @Override
-    public Folder getItem(int i) {
-        if(i == 0) return null;
-        return mFolders.get(i-1);
+    public int getCount()
+    {
+        return mFolders.size() + 1;
     }
 
+
     @Override
-    public long getItemId(int i) {
+    public Folder getItem(int i)
+    {
+        if (i == 0)
+        {
+            return null;
+        }
+        return mFolders.get(i - 1);
+    }
+
+
+    @Override
+    public long getItemId(int i)
+    {
         return i;
     }
 
+
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View view, ViewGroup viewGroup)
+    {
         ViewHolder holder;
-        if(view == null){
+        if (view == null)
+        {
             view = mInflater.inflate(R.layout.list_item_folder, viewGroup, false);
             holder = new ViewHolder(view);
-        }else{
+        }
+        else
+        {
             holder = (ViewHolder) view.getTag();
         }
-        if (holder != null) {
-            if(i == 0){
+        if (holder != null)
+        {
+            if (i == 0)
+            {
                 holder.name.setText(R.string.folder_all);
                 holder.path.setText("/sdcard");
-                holder.size.setText(String.format("%d%s",
-                        getTotalImageSize(), mContext.getResources().getString(R.string.photo_unit)));
-                if(mFolders.size()>0){
+                holder.size.setText(String.format("%d%s", getTotalImageSize(), mContext.getResources().getString(R.string.photo_unit)));
+                if (mFolders.size() > 0)
+                {
                     Folder f = mFolders.get(0);
-                    Picasso.with(mContext)
-                            .load(new File(f.cover.path))
-                            .error(R.drawable.default_error)
-                            .resizeDimen(R.dimen.folder_cover_size, R.dimen.folder_cover_size)
-                            .centerCrop()
-                            .into(holder.cover);
+                    Picasso.with(mContext).load(new File(f.cover.path)).error(R.drawable.default_error).resizeDimen(R.dimen.folder_cover_size, R.dimen.folder_cover_size).centerCrop().into(holder.cover);
                 }
-            }else {
+            }
+            else
+            {
                 holder.bindData(getItem(i));
             }
-            if(lastSelected == i){
+            if (lastSelected == i)
+            {
                 holder.indicator.setVisibility(View.VISIBLE);
-            }else{
+            }
+            else
+            {
                 holder.indicator.setVisibility(View.INVISIBLE);
             }
         }
         return view;
     }
 
-    private int getTotalImageSize(){
+
+    private int getTotalImageSize()
+    {
         int result = 0;
-        if(mFolders != null && mFolders.size()>0){
-            for (Folder f: mFolders){
+        if (mFolders != null && mFolders.size() > 0)
+        {
+            for (Folder f : mFolders)
+            {
                 result += f.images.size();
             }
         }
         return result;
     }
 
-    public void setSelectIndex(int i) {
-        if(lastSelected == i) return;
+
+    public void setSelectIndex(int i)
+    {
+        if (lastSelected == i)
+        {
+            return;
+        }
 
         lastSelected = i;
         notifyDataSetChanged();
     }
 
-    public int getSelectIndex(){
+
+    public int getSelectIndex()
+    {
         return lastSelected;
     }
 
-    class ViewHolder{
+
+    class ViewHolder
+    {
         ImageView cover;
         TextView name;
         TextView path;
         TextView size;
         ImageView indicator;
-        ViewHolder(View view){
-            cover = (ImageView)view.findViewById(R.id.cover);
+
+
+        ViewHolder(View view)
+        {
+            cover = (ImageView) view.findViewById(R.id.cover);
             name = (TextView) view.findViewById(R.id.name);
             path = (TextView) view.findViewById(R.id.path);
             size = (TextView) view.findViewById(R.id.size);
@@ -139,26 +181,30 @@ public class FolderAdapter extends BaseAdapter {
             view.setTag(this);
         }
 
-        void bindData(Folder data) {
-            if(data == null){
+
+        void bindData(Folder data)
+        {
+            if (data == null)
+            {
                 return;
             }
             name.setText(data.name);
             path.setText(data.path);
-            if (data.images != null) {
+            if (data.images != null)
+            {
                 size.setText(String.format("%d%s", data.images.size(), mContext.getResources().getString(R.string.photo_unit)));
-            }else{
-                size.setText("*"+mContext.getResources().getString(R.string.photo_unit));
+            }
+            else
+            {
+                size.setText("*" + mContext.getResources().getString(R.string.photo_unit));
             }
             // 显示图片
-            if (data.cover != null) {
-                Picasso.with(mContext)
-                        .load(new File(data.cover.path))
-                        .placeholder(R.drawable.default_error)
-                        .resizeDimen(R.dimen.folder_cover_size, R.dimen.folder_cover_size)
-                        .centerCrop()
-                        .into(cover);
-            }else{
+            if (data.cover != null)
+            {
+                Picasso.with(mContext).load(new File(data.cover.path)).placeholder(R.drawable.default_error).resizeDimen(R.dimen.folder_cover_size, R.dimen.folder_cover_size).centerCrop().into(cover);
+            }
+            else
+            {
                 cover.setImageResource(R.drawable.default_error);
             }
         }

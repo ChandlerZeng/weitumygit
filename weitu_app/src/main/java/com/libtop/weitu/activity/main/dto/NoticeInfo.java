@@ -5,17 +5,21 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+
 /**
  * Created by Administrator on 2016/1/14 0014.
  */
-public class NoticeInfo implements Serializable{
+public class NoticeInfo implements Serializable
+{
     public String id;
     public String title;
     public long dateLine;
 
-    public void form(JSONObject object) throws JSONException {
+
+    public void form(JSONObject object) throws JSONException
+    {
         this.id = object.getString("id");
-        this.title = object.getString("title").replaceAll(" ","").trim();
-        this.dateLine=object.getLong("dateLine");
+        this.title = object.getString("title").replaceAll(" ", "").trim();
+        this.dateLine = object.getLong("dateLine");
     }
 }

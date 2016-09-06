@@ -18,30 +18,39 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+
 /**
  * Created by LianTu on 2016/4/21.
  */
-public class VideoListAdapter2 extends BaseAdapter<VideoFolderBean> {
+public class VideoListAdapter2 extends BaseAdapter<VideoFolderBean>
+{
     final int mGridWidth;
     private OnOptionImgClickListener mOptionImgClickListener;
 
-    public VideoListAdapter2(Context context, List<VideoFolderBean> data, OnOptionImgClickListener listenner) {
+
+    public VideoListAdapter2(Context context, List<VideoFolderBean> data, OnOptionImgClickListener listenner)
+    {
         super(context, data, R.layout.item_lv_video_folder);
         this.mOptionImgClickListener = listenner;
         int width = 0;
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+        {
             Point size = new Point();
             wm.getDefaultDisplay().getSize(size);
             width = size.x;
-        } else {
+        }
+        else
+        {
             width = wm.getDefaultDisplay().getWidth();
         }
         mGridWidth = width / 5;
     }
 
+
     @Override
-    protected void newView(View convertView) {
+    protected void newView(View convertView)
+    {
         Holder holder = new Holder();
         holder.title = (TextView) convertView.findViewById(R.id.tv_folder_title);
         holder.videoNum = (TextView) convertView.findViewById(R.id.tv_video_num);
@@ -52,15 +61,19 @@ public class VideoListAdapter2 extends BaseAdapter<VideoFolderBean> {
         convertView.setTag(holder);
     }
 
+
     @Override
-    protected void holderView(final View convertView, VideoFolderBean videoFolderBean, final int position) {
+    protected void holderView(final View convertView, VideoFolderBean videoFolderBean, final int position)
+    {
         Holder holder = (Holder) convertView.getTag();
         holder.title.setText(videoFolderBean.title);
         holder.videoNum.setText(videoFolderBean.mediaCount + "个视频");
         holder.authority.setText(videoFolderBean.categoriesName1);
-        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+        holder.imageButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 mOptionImgClickListener.onOptionImgTouch(v, position);
 
             }
@@ -69,25 +82,26 @@ public class VideoListAdapter2 extends BaseAdapter<VideoFolderBean> {
 
     }
 
-    private static class Holder {
+
+    private static class Holder
+    {
         TextView title, videoNum, authority;
         ImageButton imageButton;
         ImageView imgFolder;
     }
 
-    public interface OnOptionImgClickListener {
+
+    public interface OnOptionImgClickListener
+    {
         void onOptionImgTouch(View v, int position);
     }
 
-    void bindData(String url, ImageView image) {
-        if (!TextUtils.isEmpty(url)){
-            Picasso.with(mContext)
-                    .load(url)
-                    .placeholder(R.drawable.folder_green)
-                    .tag(MultiImageSelectorFragment.TAG)
-                    .resize(mGridWidth + 20, mGridWidth)
-                    .centerCrop()
-                    .into(image);
+
+    void bindData(String url, ImageView image)
+    {
+        if (!TextUtils.isEmpty(url))
+        {
+            Picasso.with(mContext).load(url).placeholder(R.drawable.folder_green).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth + 20, mGridWidth).centerCrop().into(image);
         }
     }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#00000000"
-              android:gravity="center"
-              android:orientation="vertical">
-
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -20,8 +20,7 @@
             android:layout_height="110dp"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/checkmark"
@@ -38,8 +37,7 @@
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_margin="5dp"
-            android:background="#ebebeb"
-            >
+            android:background="#ebebeb">
 
             <ImageView
                 android:id="@+id/see"
@@ -47,8 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@drawable/default_image"
-                />
+                android:src="@drawable/default_image"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,8 +54,7 @@
                 android:background="#66000000"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/doc_size"
@@ -69,9 +65,7 @@
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="0M"
-                    android:textColor="@color/white"
-                    />
-
+                    android:textColor="@color/white"/>
             </LinearLayout>
         </FrameLayout>
 
@@ -92,8 +86,7 @@
                 android:layout_marginTop="3dp"
                 android:gravity="center|left"
                 android:textColor="#333333"
-                android:textSize="15sp"
-                />
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/doc_type"
@@ -106,8 +99,7 @@
                 android:paddingRight="2dp"
                 android:text="暂无分类"
                 android:textColor="@color/white"
-                android:textSize="12sp"
-                />
+                android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/doc_author"
@@ -116,19 +108,16 @@
                 android:layout_marginTop="3dp"
                 android:gravity="top"
                 android:textColor="#666666"
-                android:textSize="13sp"
-                />
+                android:textSize="13sp"/>
 
             <TextView
                 android:id="@+id/doc_time"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-
                 android:gravity="top"
                 android:text="时间:2016/06/01"
                 android:textColor="#333333"
-                android:textSize="12sp"
-                />
+                android:textSize="12sp"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -136,8 +125,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_weight="1"
                 android:gravity="center|top"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/doc_introduction"
@@ -148,8 +136,7 @@
                     android:gravity="top"
                     android:maxLines="3"
                     android:textColor="#999999"
-                    android:textSize="12sp"
-                    />
+                    android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -157,6 +144,5 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:background="@color/divider"
-        />
+        android:background="@color/divider"/>
 </LinearLayout>

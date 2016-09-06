@@ -8,16 +8,20 @@ import com.libtop.weitu.base.BaseActivity;
 /**
  * Created by Administrator on 2016/1/8 0008.
  */
-public class ImgActivity extends BaseActivity {
+public class ImgActivity extends BaseActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
     }
 
+
     @Override
-    protected void onDestroy() {
+    protected void onDestroy()
+    {
         super.onDestroy();
     }
 }

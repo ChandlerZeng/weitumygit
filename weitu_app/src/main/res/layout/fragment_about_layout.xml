@@ -1,20 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="48dp"
-        android:background="@color/titleBar"
-        android:layout_width="fill_parent" >
+        android:background="@color/titleBar">
 
         <ImageButton
             android:id="@+id/back_btn"
             android:layout_width="@dimen/page_title_height"
             android:layout_height="fill_parent"
-            android:src="@drawable/arrow_back"
-            android:background="@null" />
+            android:background="@null"
+            android:src="@drawable/arrow_back"/>
 
         <TextView
             android:id="@+id/title"
@@ -22,42 +22,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/black"
-            android:text="关于微图" />
+            android:text="关于微图"
+            android:textColor="@color/black"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/searchBackgroud"
-        >
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_marginTop="65dp"
-            android:layout_gravity="center"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@drawable/logo_about"
-            />
+            android:layout_gravity="center"
+            android:layout_marginTop="65dp"
+            android:background="@drawable/logo_about"/>
 
         <TextView
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center"
             style="@style/page_title_str"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/green2"
-            android:text="微图APP" />
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="微图APP"
+            android:textColor="@color/green2"/>
 
         <TextView
-            android:layout_marginTop="21dp"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/main_text"
-            android:text="@string/weituIntrodution" />
-
+            android:layout_gravity="center"
+            android:layout_marginTop="21dp"
+            android:text="@string/weituIntrodution"
+            android:textColor="@color/main_text"/>
     </LinearLayout>
-
 </LinearLayout>

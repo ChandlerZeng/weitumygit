@@ -1,16 +1,16 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="fill_parent"
         android:layout_height="35dip"
         android:background="@color/white"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/search_history"
@@ -22,7 +22,7 @@
             android:checked="true"
             android:gravity="center"
             android:text="查询记录"
-            android:textColor="@color/group_tap_textcolor_radiobutton" />
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
 
         <RadioButton
             android:id="@+id/click_history"
@@ -33,19 +33,18 @@
             android:button="@null"
             android:gravity="center"
             android:text="浏览记录"
-            android:textColor="@color/group_tap_textcolor_radiobutton" />
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
     </RadioGroup>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="12dip"
-        android:background="@color/ee" />
+        android:background="@color/ee"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="@color/transparent" />
-
+        android:background="@color/transparent"/>
 </LinearLayout>

@@ -46,7 +46,8 @@ import java.util.Map;
 import okhttp3.Call;
 
 
-public class ImageUploadActivity extends Activity implements View.OnClickListener {
+public class ImageUploadActivity extends Activity implements View.OnClickListener
+{
     private String tags, introduction, categoriesName1;
     private int label1;
     /**
@@ -69,15 +70,17 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
     TagGroup mTagGroup;
     private String[] tagS;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_upload);
         resultList = getIntent().getStringArrayListExtra(DEFAULT_SELECTED_LIST);
         resultList.add("");
         mtitle = getIntent().getStringExtra("title");
         tags = getIntent().getStringExtra("tags");
-//        tagS = tags.split(",");
+        //        tagS = tags.split(",");
         aid = getIntent().getStringExtra("aid");
         introduction = getIntent().getStringExtra("introduction");
         categoriesName1 = getIntent().getStringExtra("categoriesName1");
@@ -93,15 +96,22 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
         mTagGroup = (TagGroup) findViewById(R.id.tag_group);
         et_title = (EditText) findViewById(R.id.et_title);
         if (mtitle != null && mtitle.length() != 0)
+        {
             et_title.setText(mtitle);
+        }
         et_desca = (EditText) findViewById(R.id.et_desca);
         if (introduction != null && introduction.length() != 0)
+        {
             et_desca.setText(introduction);
+        }
         tvView = (TextView) findViewById(R.id.tv_sort);
         //tagGroup = (TagGroup) findViewById(R.id.et_tag);
-        if (label1 != 0) {
+        if (label1 != 0)
+        {
             if (categoriesName1 != null && categoriesName1.length() != 0)
+            {
                 tvView.setText(categoriesName1);
+            }
         }
         titleView.setText("上传照片");
         goView = (TextView) findViewById(R.id.going_down);
@@ -112,10 +122,13 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
         goView.setOnClickListener(this);
         findViewById(R.id.back_btn).setOnClickListener(this);
         findViewById(R.id.ll_video_sort).setOnClickListener(this);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == resultList.size() - 1) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                if (position == resultList.size() - 1)
+                {
                     Intent i = new Intent(ImageUploadActivity.this, MultiImageSelectorActivity2.class);
                     // 是否显示拍摄图片
                     i.putExtra(MultiImageSelectorActivity2.EXTRA_SHOW_CAMERA, false);
@@ -132,44 +145,54 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
 
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int id = v.getId();
-        switch (id) {
+        switch (id)
+        {
             case R.id.going_down:
                 String title = et_title.getText().toString();
-                if (title.length() == 0) {
+                if (title.length() == 0)
+                {
                     Toast.makeText(ImageUploadActivity.this, "请填写专辑名称", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-//                if (tagGroup.getTags().length > 4) {
-//                    Toast.makeText(ImageUploadActivity.this, "标签超过4项", Toast.LENGTH_SHORT).show();
-//                    return;
-//                } else if (tagGroup.getTags().length == 0) {
-//                    Toast.makeText(ImageUploadActivity.this, "请输入标签", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                //                if (tagGroup.getTags().length > 4) {
+                //                    Toast.makeText(ImageUploadActivity.this, "标签超过4项", Toast.LENGTH_SHORT).show();
+                //                    return;
+                //                } else if (tagGroup.getTags().length == 0) {
+                //                    Toast.makeText(ImageUploadActivity.this, "请输入标签", Toast.LENGTH_SHORT).show();
+                //                    return;
+                //                }
                 String[] a = mTagGroup.getTags();
                 String desca = et_desca.getText().toString();
-                if (desca.length() == 0) {
+                if (desca.length() == 0)
+                {
                     Toast.makeText(ImageUploadActivity.this, "请填写简介", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String labelname = tvView.getText().toString();
-                if (labelname.length() == 0) {
+                if (labelname.length() == 0)
+                {
                     Toast.makeText(ImageUploadActivity.this, "请选择分类", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (resultList.size() < 2) {
+                if (resultList.size() < 2)
+                {
                     Toast.makeText(ImageUploadActivity.this, "请添加图片", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (aid != null && aid.length() != 0) {
+                if (aid != null && aid.length() != 0)
+                {
                     Message msg = updataHandler.obtainMessage();
                     msg.what = 1;
                     updataHandler.sendMessage(msg);
-                } else
+                }
+                else
+                {
                     saveImageList(title, desca, a);
+                }
                 break;
             case R.id.back_btn:
                 finish();
@@ -184,76 +207,105 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
     }
 
 
-    class ImageGridAdapter extends BaseAdapter {
+    class ImageGridAdapter extends BaseAdapter
+    {
         List<String> mlist;
         private LayoutInflater mInflater;
         final int mGridWidth;
 
-        public ImageGridAdapter(List<String> list) {
+
+        public ImageGridAdapter(List<String> list)
+        {
             this.mlist = list;
             mInflater = (LayoutInflater) ImageUploadActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             int width = 0;
             WindowManager wm = (WindowManager) ImageUploadActivity.this.getSystemService(Context.WINDOW_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+            {
                 Point size = new Point();
                 wm.getDefaultDisplay().getSize(size);
                 width = size.x;
-            } else {
+            }
+            else
+            {
                 width = wm.getDefaultDisplay().getWidth();
             }
             mGridWidth = width / 4;
         }
 
+
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return mlist.size();
         }
 
-        public Object getItem(int position) {
+
+        public Object getItem(int position)
+        {
             return mlist.get(position);
         }
 
-        public void setData(List<String> list) {
+
+        public void setData(List<String> list)
+        {
             this.mlist = list;
         }
 
+
         @Override
-        public long getItemId(int position) {
+        public long getItemId(int position)
+        {
             return position;
         }
 
+
         @Override
-        public View getView(int i, View view, ViewGroup parent) {
+        public View getView(int i, View view, ViewGroup parent)
+        {
             ViewHolder holder;
-            if (view == null) {
+            if (view == null)
+            {
                 view = mInflater.inflate(R.layout.list_item_image, parent, false);
                 holder = new ViewHolder(view);
-            } else {
+            }
+            else
+            {
                 holder = (ViewHolder) view.getTag();
             }
 
-            if (holder != null) {
+            if (holder != null)
+            {
                 if (i == mlist.size())
+                {
                     holder.setImageView();
+                }
                 else
+                {
                     holder.bindData(getStr(i));
+                }
             }
             return view;
         }
 
 
-        public String getStr(int i) {
+        public String getStr(int i)
+        {
 
             return mlist.get(i);
 
         }
 
-        class ViewHolder {
+
+        class ViewHolder
+        {
             ImageView image;
             ImageView indicator;
             View mask;
 
-            ViewHolder(View view) {
+
+            ViewHolder(View view)
+            {
                 image = (ImageView) view.findViewById(R.id.image);
                 indicator = (ImageView) view.findViewById(R.id.checkmark);
                 indicator.setVisibility(View.GONE);
@@ -261,31 +313,35 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
                 view.setTag(this);
             }
 
-            void setImageView() {
+
+            void setImageView()
+            {
                 image.setImageResource(R.drawable.add_pic);
             }
 
-            void bindData(String url) {
+
+            void bindData(String url)
+            {
 
                 File imageFile = new File(url);
-                if (imageFile.exists()) {
+                if (imageFile.exists())
+                {
                     // 显示图片
-                    Picasso.with(ImageUploadActivity.this)
-                            .load(imageFile)
-                            .placeholder(R.drawable.default_error)
-                            .tag(MultiImageSelectorFragment.TAG)
-                            .resize(mGridWidth, mGridWidth)
-                            .centerCrop()
-                            .into(image);
-                } else {
+                    Picasso.with(ImageUploadActivity.this).load(imageFile).placeholder(R.drawable.default_error).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(image);
+                }
+                else
+                {
                     image.setImageResource(R.drawable.add_pic);
                 }
             }
         }
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (resultCode) {
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch (resultCode)
+        {
             case ImageSortActivity.DESCRIPTION_RETURNQ:
                 Bundle ab = data.getExtras();
                 name = ab.getString("name");
@@ -300,9 +356,12 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
         }
     }
 
-    private void addlenght(List<String> aresultList) {
+
+    private void addlenght(List<String> aresultList)
+    {
         resultList.remove(resultList.size() - 1);
-        for (int i = 0; i < aresultList.size(); i++) {
+        for (int i = 0; i < aresultList.size(); i++)
+        {
             String a = aresultList.get(i);
             resultList.add(a);
         }
@@ -311,13 +370,18 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
         imageGridAdapter.notifyDataSetChanged();
     }
 
-    private void saveImageList(String title, String introduction, String[] label) {
+
+    private void saveImageList(String title, String introduction, String[] label)
+    {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
-        try {
+        try
+        {
             JSONArray jsonarray = new JSONArray(Arrays.toString(label));
             params.put("tags", jsonarray);
-        } catch (JSONException e) {
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
         mtitle = title;
@@ -326,58 +390,80 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
         params.put("label1", codeId);
         params.put("uid", mPreference.getString(Preference.uid));//lid
         params.put("method", "imageAlbum.save");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            try {
-                                JSONObject mjson = new JSONObject(json);
-                                fid = mjson.getString("id");
-                                Message msg = updataHandler.obtainMessage();
-                                msg.what = 1;
-                                updataHandler.sendMessage(msg);
-                                dismissLoading();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                dismissLoading();
-                            }
-                            return;
-                        }
 
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    try
+                    {
+                        JSONObject mjson = new JSONObject(json);
+                        fid = mjson.getString("id");
+                        Message msg = updataHandler.obtainMessage();
+                        msg.what = 1;
+                        updataHandler.sendMessage(msg);
                         dismissLoading();
                     }
-                });
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        dismissLoading();
+                    }
+                    return;
+                }
+
+                dismissLoading();
+            }
+        });
     }
 
-    private void showLoding(){
-        if (mLoading!=null&&!mLoading.isShowing())
+
+    private void showLoding()
+    {
+        if (mLoading != null && !mLoading.isShowing())
+        {
             mLoading.show();
+        }
     }
 
-    private void dismissLoading(){
-        if (mLoading!=null&&mLoading.isShowing())
+
+    private void dismissLoading()
+    {
+        if (mLoading != null && mLoading.isShowing())
+        {
             mLoading.dismiss();
+        }
     }
 
-    private Handler updataHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
+
+    private Handler updataHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
-            switch (msg.what) {
+            switch (msg.what)
+            {
                 case 1:
                     resultList.remove(resultList.size() - 1);
                     Intent intent = new Intent(ImageUploadActivity.this, ImageEditActivity.class);
                     intent.putExtra("iswhere", 2);
                     if (aid != null)
+                    {
                         intent.putExtra("aid", aid);
+                    }
                     else
+                    {
                         intent.putExtra("aid", fid);
+                    }
                     intent.putExtra("isagin", isagin);
                     intent.putExtra("title", mtitle);
                     intent.putExtra("uid", mPreference.getString(Preference.uid));
@@ -397,13 +483,13 @@ public class ImageUploadActivity extends Activity implements View.OnClickListene
 
 
     //    private String[] getViewText() {
-//
-//        int count = mAddPhotoLayout.getChildCount();
-//        String[] Slist = new String[count];
-//        for (int i = 0; i < count; i++) {
-//            String a = ((TextView) mAddPhotoLayout.getChildAt(i)).getText().toString().trim();
-//            Slist[i] = a;
-//        }
-//        return Slist;
-//    }
+    //
+    //        int count = mAddPhotoLayout.getChildCount();
+    //        String[] Slist = new String[count];
+    //        for (int i = 0; i < count; i++) {
+    //            String a = ((TextView) mAddPhotoLayout.getChildAt(i)).getText().toString().trim();
+    //            Slist[i] = a;
+    //        }
+    //        return Slist;
+    //    }
 }

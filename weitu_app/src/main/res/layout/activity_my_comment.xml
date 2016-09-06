@@ -23,9 +23,7 @@
             android:gravity="center"
             android:text="暂无我的评论"
             android:textColor="#d6d5d5"
-            android:textSize="25sp"
-            />
-
+            android:textSize="25sp"/>
     </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -33,20 +31,20 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-    <com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuListView
-        android:id="@+id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:cacheColorHint="#00000000"
-        android:descendantFocusability="blocksDescendants"
-        android:divider="@color/main_divider_line"
-        android:dividerHeight="0.8dip"
-        android:fadingEdge="none"
-        android:fastScrollEnabled="false"
-        android:listSelector="@drawable/list_selector"
-        android:scrollingCache="false"
-        />
+
+        <com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuListView
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/white"
+            android:cacheColorHint="#00000000"
+            android:descendantFocusability="blocksDescendants"
+            android:divider="@color/main_divider_line"
+            android:dividerHeight="0.8dip"
+            android:fadingEdge="none"
+            android:fastScrollEnabled="false"
+            android:listSelector="@drawable/list_selector"
+            android:scrollingCache="false"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
@@ -55,8 +53,7 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="#42cc98"
         android:orientation="horizontal"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/have_see"
@@ -66,14 +63,12 @@
             android:gravity="center"
             android:text="全选"
             android:textColor="#ffffff"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="0.1dp"
             android:layout_height="match_parent"
-            android:background="#ffffff"
-            />
+            android:background="#ffffff"/>
 
         <TextView
             android:id="@+id/going_down"
@@ -83,7 +78,6 @@
             android:gravity="center"
             android:text="删除"
             android:textColor="#ed1818"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp"/>
     </LinearLayout>
 </LinearLayout>

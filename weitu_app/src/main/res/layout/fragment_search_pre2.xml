@@ -1,6 +1,6 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:id="@+id/search_scrollview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true">
@@ -22,7 +22,7 @@
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="12dip"
-                android:background="@color/ee" />
+                android:background="@color/ee"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                     android:layout_weight="1"
                     android:text="搜索历史"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/trash"
@@ -44,13 +44,13 @@
                     android:layout_height="wrap_content"
                     android:text="清空历史"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/green1" />
+                    android:textColor="@color/green1"/>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/divider" />
+                android:background="@color/divider"/>
 
             <ListView
                 android:id="@+id/list"
@@ -64,7 +64,7 @@
                 android:fadingEdge="none"
                 android:fastScrollEnabled="false"
                 android:listSelector="@drawable/list_selector"
-                android:scrollingCache="false" />
+                android:scrollingCache="false"/>
 
             <TextView
                 android:id="@+id/search_expandable_text"
@@ -75,7 +75,8 @@
                 android:text="展开全部搜索历史"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black"
-                android:visibility="gone" />
+                android:visibility="gone"/>
+
             <TextView
                 android:id="@+id/search_history_clear"
                 android:layout_width="match_parent"
@@ -85,13 +86,13 @@
                 android:text="清空全部搜索历史"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/black"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="12dip"
-            android:background="@color/ee" />
+            android:background="@color/ee"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -99,12 +100,12 @@
             android:layout_margin="@dimen/padding_normal"
             android:text="热门搜索"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider" />
+            android:background="@color/divider"/>
 
         <com.libtop.weitu.widget.gridview.FixedGridView
             android:id="@+id/gv_hot"
@@ -113,9 +114,9 @@
             android:layout_margin="5dp"
             android:clipToPadding="false"
             android:horizontalSpacing="@dimen/space_size"
-            android:numColumns="2"
             android:listSelector="@drawable/list_selector"
+            android:numColumns="2"
             android:paddingBottom="?android:attr/actionBarSize"
-            android:verticalSpacing="@dimen/space_size" />
+            android:verticalSpacing="@dimen/space_size"/>
     </LinearLayout>
 </ScrollView>

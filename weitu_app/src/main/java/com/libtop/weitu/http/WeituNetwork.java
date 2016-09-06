@@ -13,31 +13,27 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 /**
  * Created by LianTu on 2016/7/6.
  */
-public class WeituNetwork {
+public class WeituNetwork
+{
 
     private static WeituApi weituApi;
-    private static OkHttpClient okHttpClient ;
+    private static OkHttpClient okHttpClient;
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
 
-    public static WeituApi getWeituApi() {
-        if (weituApi == null) {
+
+    public static WeituApi getWeituApi()
+    {
+        if (weituApi == null)
+        {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-            okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .addInterceptor(logging)
-                    .build();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .client(okHttpClient)
-                    .baseUrl(ContantsUtil.HOST)
-                    .addConverterFactory(gsonConverterFactory)
-                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
-                    .build();
+            okHttpClient = new OkHttpClient.Builder().readTimeout(30, TimeUnit.SECONDS).connectTimeout(30, TimeUnit.SECONDS).addInterceptor(logging).build();
+            Retrofit retrofit = new Retrofit.Builder().client(okHttpClient).baseUrl(ContantsUtil.HOST).addConverterFactory(gsonConverterFactory).addCallAdapterFactory(rxJavaCallAdapterFactory).build();
             weituApi = retrofit.create(WeituApi.class);
         }
         return weituApi;

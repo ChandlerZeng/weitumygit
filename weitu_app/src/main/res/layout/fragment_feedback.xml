@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/included_title1"/>
 
@@ -13,17 +13,17 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="15dip" >
+        android:padding="15dip">
 
         <Button
             style="@style/reg_btn_style"
-            android:textColor="@color/black"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="3dip"
             android:gravity="left"
-            android:textSize="@dimen/text_size_12"
-            android:text="@string/feed_back_label" />
+            android:padding="3dip"
+            android:text="@string/feed_back_label"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_12"/>
 
         <EditText
             android:id="@+id/content"
@@ -31,7 +31,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="@string/feed_back_hint"
-            android:minHeight="150dip" />
+            android:minHeight="150dip"/>
     </LinearLayout>
 
     <LinearLayout
@@ -39,14 +39,13 @@
         android:layout_height="fill_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="15dip" >
+        android:padding="15dip">
 
         <Button
             android:id="@+id/send_info"
             style="@style/login_btn_style"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/btn_height"
-            android:text="@string/submit_relay_str" />
+            android:text="@string/submit_relay_str"/>
     </LinearLayout>
-
 </LinearLayout>

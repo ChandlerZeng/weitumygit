@@ -1,7 +1,6 @@
 package com.libtop.weitu.http;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.libtop.weitu.application.AppApplication;
 import com.libtop.weitu.tool.Preference;
@@ -17,20 +16,18 @@ import com.zhy.http.okhttp.request.RequestCall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.Call;
-import okhttp3.Response;
+
 
 /**
  * Created by LianTu on 2016/7/29.
  */
-public class HttpRequest {
+public class HttpRequest
+{
 
     private static String sid;
     public static String uid;
@@ -44,64 +41,69 @@ public class HttpRequest {
      *
      * @param context
      */
-    public static void initParams(Context context) {
+    public static void initParams(Context context)
+    {
         sid = Preference.instance(context).getString(Preference.SID);
         uid = Preference.instance(context).getString(Preference.uid);
-        aesKey = ArrayUtils.hexToByte(Preference.instance(context).getString(
-                Preference.AESKEY));
+        aesKey = ArrayUtils.hexToByte(Preference.instance(context).getString(Preference.AESKEY));
     }
 
-    public static void reset() {
+
+    public static void reset()
+    {
         sid = null;
         uid = null;
         aesKey = null;
     }
 
 
-
-     public static RequestCall loadWithMap(Map<String,Object> map) {
+    public static RequestCall loadWithMap(Map<String, Object> map)
+    {
         String[] arrays = MapUtil.map2Parameter(map);
-        return OkHttpUtils
-                .post()
-                .url(ContantsUtil.HOST+"/"+arrays[0]+"/"+arrays[1])
-                .addParams("text",arrays[2])
-                .build();
-     }
+        return OkHttpUtils.post().url(ContantsUtil.HOST + "/" + arrays[0] + "/" + arrays[1]).addParams("text", arrays[2]).build();
+    }
 
-    public static void loadWithMapSec(final Map<String,Object> map, final CallBackSec callBackSec) {
-        getKey(AppApplication.getContext(), new HttpRequest.CallBack1() {
+
+    public static void loadWithMapSec(final Map<String, Object> map, final CallBackSec callBackSec)
+    {
+        getKey(AppApplication.getContext(), new HttpRequest.CallBack1()
+        {
             @Override
-            public void callback(boolean isSucess) {
-                if (isSucess){
-                    HttpRequest.loadSec(map)
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onError(Call call, Exception e, int id) {
-                                    callBackSec.onError(call,e,id);
-                                }
+            public void callback(boolean isSucess)
+            {
+                if (isSucess)
+                {
+                    HttpRequest.loadSec(map).execute(new StringCallback()
+                    {
+                        @Override
+                        public void onError(Call call, Exception e, int id)
+                        {
+                            callBackSec.onError(call, e, id);
+                        }
 
-                                @Override
-                                public void onResponse(String response, int id) {
-                                    callBackSec.onResponse(response,id);
-                                }
-                            });
-                }else {
-                    callBackSec.onError(null,new Exception("请求AES的Key出错"),0);
+
+                        @Override
+                        public void onResponse(String response, int id)
+                        {
+                            callBackSec.onResponse(response, id);
+                        }
+                    });
+                }
+                else
+                {
+                    callBackSec.onError(null, new Exception("请求AES的Key出错"), 0);
                 }
             }
         });
     }
 
-    private static RequestCall loadSec(Map<String,Object> map) {
-            JSONObject jsonObject = new JSONObject(map);
-            String requestJson = jsonObject.toString();
-            String encode = AESUtils.encrypt(aesKey, requestJson);
-            return OkHttpUtils
-                    .post()
-                    .url(ContantsUtil.HOST)
-                    .addParams("text",encode)
-                    .addParams("sid",sid)
-                    .build();
+
+    private static RequestCall loadSec(Map<String, Object> map)
+    {
+        JSONObject jsonObject = new JSONObject(map);
+        String requestJson = jsonObject.toString();
+        String encode = AESUtils.encrypt(aesKey, requestJson);
+        return OkHttpUtils.post().url(ContantsUtil.HOST).addParams("text", encode).addParams("sid", sid).build();
     }
 
 
@@ -110,17 +112,24 @@ public class HttpRequest {
      *
      * @author longbh
      */
-    private interface CallBack1 {
+    private interface CallBack1
+    {
         public void callback(boolean isSucess);
     }
 
-    public interface CallBackSec {
+
+    public interface CallBackSec
+    {
         public void onError(Call call, Exception e, int id);
+
         public void onResponse(String response, int id);
     }
 
-    private static void getKey(final Context context, final CallBack1 callBackSec) {
-        if (!CheckUtil.isNull(sid)) {
+
+    private static void getKey(final Context context, final CallBack1 callBackSec)
+    {
+        if (!CheckUtil.isNull(sid))
+        {
             callBackSec.callback(true);
             return;
         }
@@ -132,35 +141,40 @@ public class HttpRequest {
         params.put("key", publicKey); // 传递公匙到服务器
         JSONObject jsonObj = new JSONObject(params);
         String jsonStr = jsonObj.toString();
-        OkHttpUtils
-                .post()
-                .url(ContantsUtil.HOST)//
-                .addParams("text", jsonStr)
-                .build()//
-                .execute(new StringCallback() {
+        OkHttpUtils.post().url(ContantsUtil.HOST)//
+                .addParams("text", jsonStr).build()//
+                .execute(new StringCallback()
+                {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
+                    public void onError(Call call, Exception e, int id)
+                    {
                         callBackSec.callback(false);
                     }
 
+
                     @Override
-                    public void onResponse(String result, int id) {
-                        if (CheckUtil.isNull(result)) {
+                    public void onResponse(String result, int id)
+                    {
+                        if (CheckUtil.isNull(result))
+                        {
                             return;
-                        } else {
-                            try {
+                        }
+                        else
+                        {
+                            try
+                            {
                                 JSONObject preJson = new JSONObject(result);
-                                String decodeTxt = RSAUtils.decrypt(
-                                        preJson.getString("cipher"), publicKey, privateKey);
+                                String decodeTxt = RSAUtils.decrypt(preJson.getString("cipher"), publicKey, privateKey);
                                 JSONObject resultJson = new JSONObject(decodeTxt);
                                 sid = resultJson.getString("sid");
                                 String keyString = resultJson.getString("key");
                                 Preference.instance(context).putString(Preference.SID, sid);
                                 aesKey = ArrayUtils.hexToByte(keyString);
-                                Preference.instance(context).putString(Preference.AESKEY,
-                                        keyString);
+                                Preference.instance(context).putString(Preference.AESKEY, keyString);
                                 callBackSec.callback(true);
-                            } catch (JSONException e) {
+                            }
+                            catch (JSONException e)
+                            {
                                 e.printStackTrace();
                             }
                         }

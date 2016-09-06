@@ -51,12 +51,12 @@
     <dimen name="com_facebook_tooltip_horizontal_padding">10dp</dimen>
 
     <style name="tooltip_bubble_text">
-	    <item name="android:textColor">@android:color/white</item>
-	    <item name="android:gravity">left</item>
-	    <item name="android:textSize">12sp</item>
-	    <item name="android:shadowDy">-1</item>
-	    <item name="android:shadowRadius">0.25</item>
-	    <item name="android:shadowColor">#40000000</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:shadowDy">-1</item>
+        <item name="android:shadowRadius">0.25</item>
+        <item name="android:shadowColor">#40000000</item>
     </style>
 
     <color name="com_facebook_button_background_color">#415dae</color>

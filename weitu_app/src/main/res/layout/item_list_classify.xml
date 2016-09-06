@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:background="@color/white"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:background="@color/white"
-        >
+        android:paddingTop="12dp">
+
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
@@ -22,19 +24,20 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             tools:text="文学"/>
+
         <TextView
             android:id="@+id/resCount"
-            android:layout_marginLeft="@dimen/padding_normal"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_weight="1"
             android:textColor="@color/main_text"
             android:textSize="12sp"
             tools:text="我的收藏"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/arrows_right" />
+            android:src="@drawable/arrows_right"/>
     </LinearLayout>
-
 </LinearLayout>

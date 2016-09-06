@@ -16,10 +16,12 @@ import android.widget.ProgressBar;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.bean.UploadBean;
 
+
 /**
  * Created by 陆伟健 on 2016/4/25 0025.
  */
-public class UploadProgress extends ProgressBar {
+public class UploadProgress extends ProgressBar
+{
     String text;
     private String title;
     private String time;
@@ -44,17 +46,22 @@ public class UploadProgress extends ProgressBar {
     private int widthLength;
 
 
-    public UploadProgress(Context context) {
+    public UploadProgress(Context context)
+    {
         super(context);
         initText(context);
     }
 
-    public UploadProgress(Context context, AttributeSet attrs, int defStyle) {
+
+    public UploadProgress(Context context, AttributeSet attrs, int defStyle)
+    {
         super(context, attrs, defStyle);
         initText(context);
     }
 
-    public UploadProgress(Context context, AttributeSet attrs) {
+
+    public UploadProgress(Context context, AttributeSet attrs)
+    {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.mySize);
         one_size = a.getDimension(R.styleable.mySize_one_size, 0);
@@ -64,25 +71,31 @@ public class UploadProgress extends ProgressBar {
         initText(context);
     }
 
-    public void setUploadBean(UploadBean uploadBean) {
+
+    public void setUploadBean(UploadBean uploadBean)
+    {
         this.uploadBean = uploadBean;
         postInvalidate();
     }
 
+
     @Override
-    public synchronized void setProgress(int progress) {
-        // TODO Auto-generated method stub
+    public synchronized void setProgress(int progress)
+    {
         setText(progress);
         super.setProgress(progress);
 
     }
 
+
     @Override
-    protected void onDraw(Canvas canvas) {
-        // TODO Auto-generated method stub
+    protected void onDraw(Canvas canvas)
+    {
         super.onDraw(canvas);
-        if(uploadBean==null)
+        if (uploadBean == null)
+        {
             return;
+        }
         heightLength = this.getHeight();
         widthLength = this.getWidth();
         int y1 = heightPiont(1, heightLength);
@@ -97,17 +110,20 @@ public class UploadProgress extends ProgressBar {
     }
 
 
-    private void drawBit(Canvas canvas) {
+    private void drawBit(Canvas canvas)
+    {
         int x = widthLength - 30;
         int y = heightLength - 30;
         Bitmap bmpCat = BitmapFactory.decodeResource(getResources(), R.drawable.default_file);
-        Bitmap newbm = zoomImg(bmpCat,x,y);
+        Bitmap newbm = zoomImg(bmpCat, x, y);
         newbm = createBitmap(newbm, "");
         canvas.drawBitmap(newbm, 10, 10, null);
     }
 
+
     //初始化，画笔
-    private void initText(Context context) {
+    private void initText(Context context)
+    {
         onePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         twoPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         threePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -120,64 +136,78 @@ public class UploadProgress extends ProgressBar {
         this.mContext = context;
     }
 
-    private void setText() {
+
+    private void setText()
+    {
         setText(this.getProgress());
     }
 
+
     //设置文字内容
-    private void setText(int progress) {
+    private void setText(int progress)
+    {
         int i = (progress * 100) / this.getMax();
         this.text = String.valueOf(i) + "%";
     }
 
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        Rect rect = this.getTextRect();
-//        int textHeight = rect.height();
-//        //int width = measuredWidth(widthMeasureSpec);
-//        widthLength = widthMeasureSpec;
-//        int height = measuredHieght(heightMeasureSpec);
-//        setMeasuredDimension(widthMeasureSpec, height);
-//    }
+    //    @Override
+    //    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    //        Rect rect = this.getTextRect();
+    //        int textHeight = rect.height();
+    //        //int width = measuredWidth(widthMeasureSpec);
+    //        widthLength = widthMeasureSpec;
+    //        int height = measuredHieght(heightMeasureSpec);
+    //        setMeasuredDimension(widthMeasureSpec, height);
+    //    }
 
-    private Rect getTextRect() {
+
+    private Rect getTextRect()
+    {
         Rect rect = new Rect();
         return rect;
     }
 
-//    private int measuredWidth(int m) {
-//        int mode = MeasureSpec.getMode(m);
-//        int size = MeasureSpec.getSize(m);
-//        int length = px2dip(mContext, 50f);
-//        int width = 0;
-//        if (mode == MeasureSpec.EXACTLY) {
-//            //宽度为match_parent时，固定为50dip。
-//            width = length;
-//        } else if (mode == MeasureSpec.AT_MOST) {
-//            // warp_parent，固定为50dip。
-//            if (px2dip(mContext, 50f) < px2dip(mContext, size))
-//                width = textWidth;
-//            else
-//                width = length;
-//        }
-//        return width;
-//    }
+    //    private int measuredWidth(int m) {
+    //        int mode = MeasureSpec.getMode(m);
+    //        int size = MeasureSpec.getSize(m);
+    //        int length = px2dip(mContext, 50f);
+    //        int width = 0;
+    //        if (mode == MeasureSpec.EXACTLY) {
+    //            //宽度为match_parent时，固定为50dip。
+    //            width = length;
+    //        } else if (mode == MeasureSpec.AT_MOST) {
+    //            // warp_parent，固定为50dip。
+    //            if (px2dip(mContext, 50f) < px2dip(mContext, size))
+    //                width = textWidth;
+    //            else
+    //                width = length;
+    //        }
+    //        return width;
+    //    }
 
-    private int measuredHieght(int heightMeasureSpec) {
+
+    private int measuredHieght(int heightMeasureSpec)
+    {
         int mode = View.MeasureSpec.getMode(heightMeasureSpec);
         int size = View.MeasureSpec.getSize(heightMeasureSpec);
         int length = px2dip(mContext, 250f);
         int Height = 0;
-        if (mode == View.MeasureSpec.EXACTLY) {
+        if (mode == View.MeasureSpec.EXACTLY)
+        {
             //高度为match_parent时，固定为50dip。
             Height = length;
             heightLength = length;
-        } else if (mode == View.MeasureSpec.AT_MOST) {
+        }
+        else if (mode == View.MeasureSpec.AT_MOST)
+        {
             // 如果warp_parent低于50dip，固定为50dip。
-            if (px2dip(mContext, 50f) < px2dip(mContext, size)) {
+            if (px2dip(mContext, 50f) < px2dip(mContext, size))
+            {
                 Height = heightMeasureSpec;
                 heightLength = heightMeasureSpec;
-            } else {
+            }
+            else
+            {
                 Height = length;
                 heightLength = length;
             }
@@ -185,7 +215,9 @@ public class UploadProgress extends ProgressBar {
         return Height;
     }
 
-    private Bitmap createBitmap(Bitmap src, String str) {
+
+    private Bitmap createBitmap(Bitmap src, String str)
+    {
         int w = src.getWidth();
         int h = src.getHeight();
         String mstrTitle = uploadBean.getFileLength();
@@ -204,26 +236,32 @@ public class UploadProgress extends ProgressBar {
     }
 
 
-    public int px2dip(Context context, float pxValue) {
+    public int px2dip(Context context, float pxValue)
+    {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
-    private int heightPiont(int times, int heigit) {
+
+    private int heightPiont(int times, int heigit)
+    {
         int lenght = 0;
         times = times - 1;
         lenght = heigit / 3 * times + 35;
         return lenght;
     }
 
+
     /**
-     *  处理图片
+     * 处理图片
+     *
      * @param bm 所要转换的bitmap
      * @param
      * @param
      * @return 指定宽高的bitmap
      */
-    public  Bitmap zoomImg(Bitmap bm, int newWidth ,int newHeight){
+    public Bitmap zoomImg(Bitmap bm, int newWidth, int newHeight)
+    {
         // 获得图片的宽高
         int width = bm.getWidth();
         int height = bm.getHeight();

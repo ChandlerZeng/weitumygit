@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/null_txt"
@@ -17,7 +17,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
         <com.libtop.weitu.widget.listview.ScrollRefListView
             android:id="@+id/list"
@@ -31,6 +31,6 @@
             android:fadingEdge="none"
             android:fastScrollEnabled="false"
             android:listSelector="@drawable/list_selector"
-            android:scrollingCache="false" />
+            android:scrollingCache="false"/>
     </RelativeLayout>
 </LinearLayout>

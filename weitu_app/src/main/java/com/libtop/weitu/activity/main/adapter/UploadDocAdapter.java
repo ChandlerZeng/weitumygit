@@ -16,21 +16,27 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Created by Administrator on 2016/4/25 0025.
  */
-public class UploadDocAdapter extends BaseAdapter<DocBean> {
+public class UploadDocAdapter extends BaseAdapter<DocBean>
+{
     public Context mContext;
     private OnOptionImgClickListener mOptionImgClickListener;
     public List<ProgressBar> pView = new ArrayList<ProgressBar>();
 
-    public UploadDocAdapter(Context context, List<DocBean> mlist,UploadDocAdapter.OnOptionImgClickListener optionImgClickListener) {
-        super(context, mlist,R.layout.item_doc_upload);
+
+    public UploadDocAdapter(Context context, List<DocBean> mlist, UploadDocAdapter.OnOptionImgClickListener optionImgClickListener)
+    {
+        super(context, mlist, R.layout.item_doc_upload);
         this.mOptionImgClickListener = optionImgClickListener;
     }
 
+
     @Override
-    protected void newView(View convertView) {
+    protected void newView(View convertView)
+    {
         Holder holder = new Holder();
         holder.uploadProgress = (ProgressBar) convertView.findViewById(R.id.pgsBar);
         holder.view = (View) convertView.findViewById(R.id.go_pro);
@@ -42,8 +48,10 @@ public class UploadDocAdapter extends BaseAdapter<DocBean> {
         convertView.setTag(holder);
     }
 
+
     @Override
-    protected void holderView(View convertView, DocBean docBean, final int position) {
+    protected void holderView(View convertView, DocBean docBean, final int position)
+    {
         Holder holder = (Holder) convertView.getTag();
         pView.add(holder.uploadProgress);
 
@@ -54,30 +62,38 @@ public class UploadDocAdapter extends BaseAdapter<DocBean> {
         String str = sdf.format(new Date(duration_temp));
         holder.twoView.setText(str);
         holder.threeView.setText(docBean.stateString);
-        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+        holder.imageButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 mOptionImgClickListener.onOptionImgTouch(v, position);
 
             }
         });
-        holder.view.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 mOptionImgClickListener.onUpload(v, position);
 
             }
         });
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        holder.imageView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 mOptionImgClickListener.onImageTouch(v, position);
 
             }
         });
     }
 
-    static class Holder {
+
+    static class Holder
+    {
         public View view;
         public ProgressBar uploadProgress;
         public TextView oneView, twoView, threeView;
@@ -85,7 +101,9 @@ public class UploadDocAdapter extends BaseAdapter<DocBean> {
         public ImageView imageView;
     }
 
-    public interface OnOptionImgClickListener {
+
+    public interface OnOptionImgClickListener
+    {
         void onOptionImgTouch(View v, int position);
 
         void onImageTouch(View v, int position);
@@ -94,27 +112,37 @@ public class UploadDocAdapter extends BaseAdapter<DocBean> {
     }
 
 
-    public String cal(long msecond) {
+    public String cal(long msecond)
+    {
         int second = (int) msecond;
         int h = 0;
         int d = 0;
         int s = 0;
         int temp = second % 3600;
-        if (second > 3600) {
+        if (second > 3600)
+        {
             h = second / 3600;
-            if (temp != 0) {
-                if (temp > 60) {
+            if (temp != 0)
+            {
+                if (temp > 60)
+                {
                     d = temp / 60;
-                    if (temp % 60 != 0) {
+                    if (temp % 60 != 0)
+                    {
                         s = temp % 60;
                     }
-                } else {
+                }
+                else
+                {
                     s = temp;
                 }
             }
-        } else {
+        }
+        else
+        {
             d = second / 60;
-            if (second % 60 != 0) {
+            if (second % 60 != 0)
+            {
                 s = second % 60;
             }
         }

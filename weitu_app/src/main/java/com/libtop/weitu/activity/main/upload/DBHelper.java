@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+
 /**
  * <p>
  * Title: DBHelper.java
@@ -21,40 +22,52 @@ import android.util.Log;
  * @author 作者名
  * @version common v1.0
  */
-public class DBHelper extends SQLiteOpenHelper {
+public class DBHelper extends SQLiteOpenHelper
+{
     public static String sqlite = "test13";
     public static int factory = 1;
     public String tablename;
     private Context mcontext;
     public static final String TABLENAME = "yuntu";
 
-    public DBHelper(Context context) {
+
+    public DBHelper(Context context)
+    {
         super(context, sqlite, null, factory);
         this.mcontext = context;
     }
 
+
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
         db.execSQL("create table yuntu(id string, score1 string)");
 
     }
 
+
     /**
      * 删除视频ID
      */
-    public void Droptablename(String id) {
+    public void Droptablename(String id)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
-        try {
+        try
+        {
             db.execSQL("delete from yuntu WHERE id = " + "'" + id + "'");
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Log.e("删除表中名 ", e.getMessage());
         }
     }
 
+
     /**
      * 添加视频ID
      */
-    public void insertTalbe(String id, String url) {
+    public void insertTalbe(String id, String url)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("id", id);
@@ -63,14 +76,17 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public Cursor query(String sql, String[] args) {
+    public Cursor query(String sql, String[] args)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, args);
         return cursor;
     }
 
+
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
 
     }
 }

@@ -38,7 +38,9 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.selector.view.ImageSelectActivity;
 
-public class MoreWindow extends PopupWindow implements OnClickListener {
+
+public class MoreWindow extends PopupWindow implements OnClickListener
+{
 
     private String TAG = MoreWindow.class.getSimpleName();
     Activity mContext;
@@ -52,27 +54,33 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
 
     private Preference mPreference;
 
-    public MoreWindow(Activity context) {
+
+    public MoreWindow(Activity context)
+    {
         mContext = context;
     }
 
-    public void init() {
+
+    public void init()
+    {
         Rect frame = new Rect();
         mContext.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         statusBarHeight = frame.top;
         DisplayMetrics metrics = new DisplayMetrics();
-        mContext.getWindowManager().getDefaultDisplay()
-                .getMetrics(metrics);
+        mContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mWidth = metrics.widthPixels;
         mHeight = metrics.heightPixels;
-        mPreference=new Preference(mContext);
+        mPreference = new Preference(mContext);
 
         setWidth(mWidth);
         setHeight(mHeight);
     }
 
-    private Bitmap blur() {
-        if (null != overlay) {
+
+    private Bitmap blur()
+    {
+        if (null != overlay)
+        {
             return overlay;
         }
         long startMs = System.currentTimeMillis();
@@ -99,7 +107,9 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
         return overlay;
     }
 
-    private Animation showAnimation1(final View view, int fromY, int toY) {
+
+    private Animation showAnimation1(final View view, int fromY, int toY)
+    {
         AnimationSet set = new AnimationSet(true);
         TranslateAnimation go = new TranslateAnimation(0, 0, fromY, toY);
         go.setDuration(300);
@@ -109,19 +119,25 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
         set.addAnimation(go1);
         set.addAnimation(go);
 
-        set.setAnimationListener(new AnimationListener() {
+        set.setAnimationListener(new AnimationListener()
+        {
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onAnimationEnd(Animation animation)
+            {
             }
 
+
             @Override
-            public void onAnimationRepeat(Animation animation) {
+            public void onAnimationRepeat(Animation animation)
+            {
 
             }
 
+
             @Override
-            public void onAnimationStart(Animation animation) {
+            public void onAnimationStart(Animation animation)
+            {
 
             }
 
@@ -130,24 +146,28 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
     }
 
 
-    public void showMoreWindow(View anchor, int bottomMargin) {
+    public void showMoreWindow(View anchor, int bottomMargin)
+    {
         final RelativeLayout layout = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.center_music_more_window, null);
         setContentView(layout);
 
         ImageView close = (ImageView) layout.findViewById(R.id.center_music_window_close);
-//        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//        params.bottomMargin = bottomMargin;
-//        params.addRule(RelativeLayout.BELOW, R.id.more_window_online);
-//        params.addRule(RelativeLayout.RIGHT_OF, R.id.more_window_local);
-//        params.topMargin = 200;
-//        params.leftMargin = 18;
-//        close.setLayoutParams(params);
+        //        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        //        params.bottomMargin = bottomMargin;
+        //        params.addRule(RelativeLayout.BELOW, R.id.more_window_online);
+        //        params.addRule(RelativeLayout.RIGHT_OF, R.id.more_window_local);
+        //        params.topMargin = 200;
+        //        params.leftMargin = 18;
+        //        close.setLayoutParams(params);
 
-        close.setOnClickListener(new OnClickListener() {
+        close.setOnClickListener(new OnClickListener()
+        {
 
             @Override
-            public void onClick(View v) {
-                if (isShowing()) {
+            public void onClick(View v)
+            {
+                if (isShowing())
+                {
                     closeAnimation(layout);
                 }
             }
@@ -161,18 +181,24 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
         showAtLocation(anchor, Gravity.BOTTOM, 0, statusBarHeight);
     }
 
-    private void showAnimation(ViewGroup layout) {
-        for (int i = 0; i < layout.getChildCount(); i++) {
+
+    private void showAnimation(ViewGroup layout)
+    {
+        for (int i = 0; i < layout.getChildCount(); i++)
+        {
             final View child = layout.getChildAt(i);
-            if (child.getId() == R.id.center_music_window_close) {
+            if (child.getId() == R.id.center_music_window_close)
+            {
                 continue;
             }
             child.setOnClickListener(this);
             child.setVisibility(View.INVISIBLE);
-            mHandler.postDelayed(new Runnable() {
+            mHandler.postDelayed(new Runnable()
+            {
 
                 @Override
-                public void run() {
+                public void run()
+                {
                     child.setVisibility(View.VISIBLE);
                     ValueAnimator fadeAnim = ObjectAnimator.ofFloat(child, "translationY", 600, 0);
                     fadeAnim.setDuration(600);
@@ -186,17 +212,23 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
 
     }
 
-    private void closeAnimation(ViewGroup layout) {
-        for (int i = 0; i < layout.getChildCount(); i++) {
+
+    private void closeAnimation(ViewGroup layout)
+    {
+        for (int i = 0; i < layout.getChildCount(); i++)
+        {
             final View child = layout.getChildAt(i);
-            if (child.getId() == R.id.center_music_window_close) {
+            if (child.getId() == R.id.center_music_window_close)
+            {
                 continue;
             }
             child.setOnClickListener(this);
-            mHandler.postDelayed(new Runnable() {
+            mHandler.postDelayed(new Runnable()
+            {
 
                 @Override
-                public void run() {
+                public void run()
+                {
                     child.setVisibility(View.VISIBLE);
                     ValueAnimator fadeAnim = ObjectAnimator.ofFloat(child, "translationY", 0, 600);
                     fadeAnim.setDuration(400);
@@ -204,39 +236,44 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
                     kickAnimator.setDuration(200);
                     fadeAnim.setEvaluator(kickAnimator);
                     fadeAnim.start();
-                    fadeAnim.addListener(new AnimatorListener() {
+                    fadeAnim.addListener(new AnimatorListener()
+                    {
 
                         @Override
-                        public void onAnimationStart(Animator animation) {
-                            // TODO Auto-generated method stub
-
+                        public void onAnimationStart(Animator animation)
+                        {
                         }
 
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                            // TODO Auto-generated method stub
 
+                        @Override
+                        public void onAnimationRepeat(Animator animation)
+                        {
                         }
 
+
                         @Override
-                        public void onAnimationEnd(Animator animation) {
+                        public void onAnimationEnd(Animator animation)
+                        {
                             child.setVisibility(View.INVISIBLE);
                         }
 
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                            // TODO Auto-generated method stub
 
+                        @Override
+                        public void onAnimationCancel(Animator animation)
+                        {
                         }
                     });
                 }
             }, (layout.getChildCount() - i - 1) * 30);
 
-            if (child.getId() == R.id.more_window_local) {
-                mHandler.postDelayed(new Runnable() {
+            if (child.getId() == R.id.more_window_local)
+            {
+                mHandler.postDelayed(new Runnable()
+                {
 
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         dismiss();
                     }
                 }, (layout.getChildCount() - i) * 30 + 80);
@@ -245,15 +282,21 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
 
     }
 
+
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.more_window_local:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    ((BaseActivity)mContext).startActivity(bundle1, ContentActivity.class);
-                } else {
+                    ((BaseActivity) mContext).startActivity(bundle1, ContentActivity.class);
+                }
+                else
+                {
                     Intent intent3 = new Intent(mContext, VideoSelectActivity.class);
                     mContext.startActivity(intent3);
                 }
@@ -261,22 +304,28 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
                 dismiss();
                 break;
             case R.id.more_window_online:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    ((BaseActivity)mContext).startActivity(bundle1, ContentActivity.class);
-                } else {
+                    ((BaseActivity) mContext).startActivity(bundle1, ContentActivity.class);
+                }
+                else
+                {
                     Intent intent3 = new Intent(mContext, ImageSelectActivity.class);
                     mContext.startActivity(intent3);
                 }
                 dismiss();
                 break;
             case R.id.more_window_delete:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid))) {
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
                     Bundle bundle1 = new Bundle();
                     bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    ((BaseActivity)mContext).startActivity(bundle1, ContentActivity.class);
-                } else {
+                    ((BaseActivity) mContext).startActivity(bundle1, ContentActivity.class);
+                }
+                else
+                {
                     Intent intent3 = new Intent(mContext, DocUploadActivity.class);
                     mContext.startActivity(intent3);
                 }
@@ -287,13 +336,17 @@ public class MoreWindow extends PopupWindow implements OnClickListener {
         }
     }
 
-    public void destroy() {
-        if (null != overlay) {
+
+    public void destroy()
+    {
+        if (null != overlay)
+        {
             overlay.recycle();
             overlay = null;
             System.gc();
         }
-        if (null != mBitmap) {
+        if (null != mBitmap)
+        {
             mBitmap.recycle();
             mBitmap = null;
             System.gc();

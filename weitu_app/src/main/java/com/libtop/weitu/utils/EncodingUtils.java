@@ -2,78 +2,127 @@ package com.libtop.weitu.utils;
 
 import java.io.UnsupportedEncodingException;
 
+
 /**
  * Created by LianTu on 2016/8/1.
  */
-public final class EncodingUtils {
-    public static String getString(byte[] data, int offset, int length, String charset) {
-        if(data == null) {
+public final class EncodingUtils
+{
+    public static String getString(byte[] data, int offset, int length, String charset)
+    {
+        if (data == null)
+        {
             throw new IllegalArgumentException("Parameter may not be null");
-        } else if(charset != null && charset.length() != 0) {
-            try {
+        }
+        else if (charset != null && charset.length() != 0)
+        {
+            try
+            {
                 return new String(data, offset, length, charset);
-            } catch (UnsupportedEncodingException var5) {
+            }
+            catch (UnsupportedEncodingException var5)
+            {
                 return new String(data, offset, length);
             }
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException("charset may not be null or empty");
         }
     }
 
-    public static String getString(byte[] data, String charset) {
-        if(data == null) {
+
+    public static String getString(byte[] data, String charset)
+    {
+        if (data == null)
+        {
             throw new IllegalArgumentException("Parameter may not be null");
-        } else {
+        }
+        else
+        {
             return getString(data, 0, data.length, charset);
         }
     }
 
-    public static byte[] getBytes(String data, String charset) {
-        if(data == null) {
+
+    public static byte[] getBytes(String data, String charset)
+    {
+        if (data == null)
+        {
             throw new IllegalArgumentException("data may not be null");
-        } else if(charset != null && charset.length() != 0) {
-            try {
+        }
+        else if (charset != null && charset.length() != 0)
+        {
+            try
+            {
                 return data.getBytes(charset);
-            } catch (UnsupportedEncodingException var3) {
+            }
+            catch (UnsupportedEncodingException var3)
+            {
                 return data.getBytes();
             }
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException("charset may not be null or empty");
         }
     }
 
-    public static byte[] getAsciiBytes(String data) {
-        if(data == null) {
+
+    public static byte[] getAsciiBytes(String data)
+    {
+        if (data == null)
+        {
             throw new IllegalArgumentException("Parameter may not be null");
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 return data.getBytes("US-ASCII");
-            } catch (UnsupportedEncodingException var2) {
+            }
+            catch (UnsupportedEncodingException var2)
+            {
                 throw new Error("HttpClient requires ASCII support");
             }
         }
     }
 
-    public static String getAsciiString(byte[] data, int offset, int length) {
-        if(data == null) {
+
+    public static String getAsciiString(byte[] data, int offset, int length)
+    {
+        if (data == null)
+        {
             throw new IllegalArgumentException("Parameter may not be null");
-        } else {
-            try {
+        }
+        else
+        {
+            try
+            {
                 return new String(data, offset, length, "US-ASCII");
-            } catch (UnsupportedEncodingException var4) {
+            }
+            catch (UnsupportedEncodingException var4)
+            {
                 throw new Error("HttpClient requires ASCII support");
             }
         }
     }
 
-    public static String getAsciiString(byte[] data) {
-        if(data == null) {
+
+    public static String getAsciiString(byte[] data)
+    {
+        if (data == null)
+        {
             throw new IllegalArgumentException("Parameter may not be null");
-        } else {
+        }
+        else
+        {
             return getAsciiString(data, 0, data.length);
         }
     }
 
-    private EncodingUtils() {
+
+    private EncodingUtils()
+    {
     }
 }

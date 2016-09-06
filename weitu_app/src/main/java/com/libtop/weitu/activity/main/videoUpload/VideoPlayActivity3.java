@@ -42,12 +42,12 @@ import io.vov.vitamio.MediaPlayer;
 import io.vov.vitamio.Vitamio;
 import io.vov.vitamio.widget.VideoView;
 
+
 /**
  * Created by Administrator on 2016/2/3 0003.
  */
-public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCompletionListener
-        , MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener
-        , AdapterView.OnItemClickListener {
+public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, AdapterView.OnItemClickListener
+{
     public static String MEDIA_PATH = "vedio_path";
     public static String MEDIA_NAME = "vedio_name";
 
@@ -121,8 +121,10 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
     private boolean notShowButtom = false;
     private VideoBean videoBean;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         Log.e("test draw time start", System.currentTimeMillis() + "");
         super.onCreate(savedInstanceState);
         noNetThanExit(mContext);
@@ -130,24 +132,32 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         init();
     }
 
-    private void setOrientation(int flag) {
+
+    private void setOrientation(int flag)
+    {
         status_flag = flag;
-        if (status_flag == STATUS_SCALE) {
+        if (status_flag == STATUS_SCALE)
+        {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        } else {
+        }
+        else
+        {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
     }
 
 
-    private void init() {
+    private void init()
+    {
         setupAnimate();
         Vitamio.isInitialized(getApplicationContext());
         playingIndex = getIntent().getExtras().getInt("index");
 
-        videoBean = new Gson().fromJson(getIntent().getExtras().getString("videoBean"),VideoBean.class);
-        if (videoBean!=null){
-            if (!TextUtils.isEmpty(videoBean.title)){
+        videoBean = new Gson().fromJson(getIntent().getExtras().getString("videoBean"), VideoBean.class);
+        if (videoBean != null)
+        {
+            if (!TextUtils.isEmpty(videoBean.title))
+            {
                 mVideoName.setText(videoBean.title);
             }
             long duration_temp = videoBean.videDduration * 1000;
@@ -155,11 +165,14 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
             long seconds = (duration_temp % (1000 * 60)) / 1000;
             long hours = (duration_temp / (1000 * 60 * 60));
             long minutes = (duration_temp % (1000 * 60 * 60)) / (1000 * 60);
-            if (duration_temp <1000*60*60){
-                hms = String.format("%02d:%02d",minutes,seconds);
-            }else {
+            if (duration_temp < 1000 * 60 * 60)
+            {
+                hms = String.format("%02d:%02d", minutes, seconds);
+            }
+            else
+            {
 
-                hms = String.format("%02d:%02d",hours,minutes);
+                hms = String.format("%02d:%02d", hours, minutes);
             }
             mVideoTime.setText(hms);
             mVideoSize.setText(TransformUtil.bytes2kb(videoBean.videoSize));
@@ -189,12 +202,19 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
 
 
         new CustomThread().start();
-        mSmallSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mSmallSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
                 if (isTouch)
+                {
                     TouchLength = progress;
-                if (!fromUser) return;
+                }
+                if (!fromUser)
+                {
+                    return;
+                }
                 long newposition = (mVideo.getDuration() * progress) / 1000L;
                 mVideo.seekTo(newposition);
                 isPaused = false;
@@ -202,23 +222,34 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
                 mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
             }
 
+
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
                 isTouch = true;
             }
 
+
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
                 isTouch = false;
                 setmProgress(TouchLength);
             }
         });
-        mBigSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        mBigSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
                 if (isTouch)
+                {
                     setmProgress(progress);
-                if (!fromUser) return;
+                }
+                if (!fromUser)
+                {
+                    return;
+                }
                 long newposition = (mVideo.getDuration() * progress) / 1000L;
                 mVideo.seekTo(newposition);
                 isPaused = false;
@@ -226,45 +257,56 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
                 mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
             }
 
+
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar)
+            {
                 isTouch = true;
             }
 
+
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(SeekBar seekBar)
+            {
                 isTouch = false;
                 setmProgress(TouchLength);
             }
         });
     }
+
 
     /**
      * 设置视频进度
      *
      * @param lenth
      */
-    private void setmProgress(int lenth) {
+    private void setmProgress(int lenth)
+    {
         long value = (long) (mVideo.getDuration() / MaxLength * lenth);
         mVideo.seekTo(value);
 
     }
+
 
     /**
      * 滑动改变视频进度
      *
      * @param lenth
      */
-    private void touchProgress(int lenth) {
+    private void touchProgress(int lenth)
+    {
         long go = 0;
         lenth = lenth * 100;
         long duration = mVideo.getDuration();
         long position = mVideo.getCurrentPosition();
-        if (lenth > 0) {
+        if (lenth > 0)
+        {
             go = position + (long) lenth;
 
             mVideo.seekTo(go);
-        } else {
+        }
+        else
+        {
             go = position + (long) lenth;
 
             mVideo.seekTo(go);
@@ -274,7 +316,8 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
     }
 
 
-    private void setupAnimate() {
+    private void setupAnimate()
+    {
         mBHideAn = AnimationUtils.loadAnimation(mContext, R.anim.push_bottom_out);
         mBShowAn = AnimationUtils.loadAnimation(mContext, R.anim.push_bottom_in);
 
@@ -284,20 +327,27 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
 
     }
 
-    private Handler mHandler = new Handler() {
+
+    private Handler mHandler = new Handler()
+    {
         @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
+        public void handleMessage(Message msg)
+        {
+            switch (msg.what)
+            {
                 case 1:
                     long current = mVideo.getCurrentPosition();
                     long total = mVideo.getDuration();
                     long position = 1000L * current / total;
-                    if (status_flag == STATUS_SCALE) {
+                    if (status_flag == STATUS_SCALE)
+                    {
                         mSmallSeek.setProgress((int) position);
                         mCurrentPro.setText(getPlayProgress(current));
                         mTotalPro.setText(getPlayProgress(total));
                         mSmallSeek.setSecondaryProgress(mVideo.getBufferPercentage() * 10);
-                    } else {
+                    }
+                    else
+                    {
                         mBigSeek.setProgress((int) position);
                         mBigPro.setText(getPlayProgress(current) + "/" + getPlayProgress(total));
                         mBigSeek.setSecondaryProgress(mVideo.getBufferPercentage() * 10);
@@ -307,12 +357,14 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         }
     };
 
+
     /**
      * 设置显示进度
      *
      * @param position
      */
-    private String getPlayProgress(long position) {
+    private String getPlayProgress(long position)
+    {
         int value = (int) position / MaxLength;
         int minute = value / 60;
         int second = value % 60;
@@ -324,13 +376,17 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
     /**
      * 播放暂停
      */
-    private void playOrPause() {
-        if (!mVideo.isPlaying()) {
+    private void playOrPause()
+    {
+        if (!mVideo.isPlaying())
+        {
             mVideo.start();
             mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
             mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
 
-        } else {
+        }
+        else
+        {
             mVideo.pause();
             mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
             mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
@@ -338,16 +394,21 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         isPaused = !isPaused;
     }
 
-    private void show() {
-        if (!isShowing) {
+
+    private void show()
+    {
+        if (!isShowing)
+        {
             mFBottomView.setVisibility(View.VISIBLE);
             mTopView.setVisibility(View.VISIBLE);
             mFBottomView.startAnimation(mBShowAn);
             mTopView.startAnimation(mTShowAn);
             isShowing = true;
-            mHandler.postDelayed(new Runnable() {
+            mHandler.postDelayed(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     hide();
                 }
             }, 5000);
@@ -355,8 +416,11 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
 
     }
 
-    private void hide() {
-        if (isShowing) {
+
+    private void hide()
+    {
+        if (isShowing)
+        {
             mFBottomView.startAnimation(mBHideAn);
             mFBottomView.setVisibility(View.GONE);
             mTopView.startAnimation(mTHideAn);
@@ -365,12 +429,13 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         }
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn, R.id.back_btn_inner, R.id.play_pause_big
-            , R.id.play_pause_small, R.id.video_container, R.id.fullscreen
-            , R.id.scale})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.back_btn, R.id.back_btn_inner, R.id.play_pause_big, R.id.play_pause_small, R.id.video_container, R.id.fullscreen, R.id.scale})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
             case R.id.back_btn_inner:
                 finishSimple();
@@ -380,7 +445,10 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
                 playOrPause();
                 break;
             case R.id.video_container:
-                if (status_flag == STATUS_FULLSCREEN) show();
+                if (status_flag == STATUS_FULLSCREEN)
+                {
+                    show();
+                }
                 break;
             case R.id.fullscreen:
                 setFullScreen();
@@ -393,14 +461,17 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
 
 
     @Override
-    public void onCompletion(MediaPlayer mp) {
+    public void onCompletion(MediaPlayer mp)
+    {
         thread = false;
         mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
         mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
     }
 
+
     @Override
-    public void onPrepared(MediaPlayer mp) {
+    public void onPrepared(MediaPlayer mp)
+    {
         mp.setPlaybackSpeed(1.0f);
         long duration = mVideo.getDuration();
         long position = mVideo.getCurrentPosition();
@@ -410,25 +481,31 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         mBPlayBtn.setClickable(true);
         mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
         mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
-        if (status_flag == STATUS_SCALE) {
+        if (status_flag == STATUS_SCALE)
+        {
             mCurrentPro.setText(getPlayProgress(position));
             mTotalPro.setText(getPlayProgress(duration));
-        } else {
+        }
+        else
+        {
             mBigPro.setText(getPlayProgress(position) + "/" + getPlayProgress(duration));
             hide();
         }
-        mVideo.setVideoLayout(VideoView.VIDEO_LAYOUT_FIT_PARENT,0);
+        mVideo.setVideoLayout(VideoView.VIDEO_LAYOUT_FIT_PARENT, 0);
     }
 
+
     @Override
-    public boolean onError(MediaPlayer mp, int what, int extra) {
+    public boolean onError(MediaPlayer mp, int what, int extra)
+    {
         showToast("该视频不存在");
         return true;
     }
 
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
         playingIndex = position;
         mListAdapter.notifyDataSetChanged();
         TextView tv = (TextView) mPagers.get(0);
@@ -437,7 +514,8 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         mTitleText.setText(mr.title);
         mInTitleText.setText(mr.title);
 
-        if (mVideo.isPlaying()) {
+        if (mVideo.isPlaying())
+        {
             mVideo.stopPlayback();
 
         }
@@ -450,23 +528,33 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         mVideo.setVideoURI(Uri.parse(mr.url));
     }
 
-    class CustomThread extends Thread {
+
+    class CustomThread extends Thread
+    {
         @Override
-        public void run() {
-            while (thread) {
-                if (!isPaused) {
+        public void run()
+        {
+            while (thread)
+            {
+                if (!isPaused)
+                {
                     mHandler.sendEmptyMessage(1);
                 }
-                try {
+                try
+                {
                     sleep(1000);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e)
+                {
                     e.printStackTrace();
                 }
             }
         }
     }
 
-    private void setFullScreen() {
+
+    private void setFullScreen()
+    {
         setOrientation(STATUS_FULLSCREEN);
         ViewGroup.LayoutParams pm = mVideoSu.getLayoutParams();
         pm.height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -477,7 +565,9 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         mSBottomView.setVisibility(View.GONE);
     }
 
-    private void setWindowScreen() {
+
+    private void setWindowScreen()
+    {
         hide();
         setOrientation(STATUS_SCALE);
         ViewGroup.LayoutParams pm = mVideoSu.getLayoutParams();
@@ -487,20 +577,25 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         mSBottomView.setVisibility(View.VISIBLE);
     }
 
+
     private List<View> mPagers = new ArrayList<View>();
 
-    private void initInfo() {
+
+    private void initInfo()
+    {
         TextView textView = new TextView(mContext);
-        ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                , ViewGroup.LayoutParams.FILL_PARENT);
+        ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
         int horPadding = DisplayUtils.dp2px(mContext, 12);
         int topPadding = DisplayUtils.dp2px(mContext, 16);
         textView.setLayoutParams(p);
         textView.setPadding(horPadding, topPadding, horPadding, 0);
         String txt;
-        try {
+        try
+        {
             txt = mRes.get(playingIndex).introduction;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             txt = "123";
         }
         textView.setText(TextUtils.isEmpty(txt) ? "暂无" : txt);
@@ -522,26 +617,36 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
 
     }
 
-    private android.widget.BaseAdapter mListAdapter = new android.widget.BaseAdapter() {
+
+    private android.widget.BaseAdapter mListAdapter = new android.widget.BaseAdapter()
+    {
 
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return mRes.size();
         }
 
+
         @Override
-        public Object getItem(int position) {
+        public Object getItem(int position)
+        {
             return mRes.get(position);
         }
 
+
         @Override
-        public long getItemId(int position) {
+        public long getItemId(int position)
+        {
             return position;
         }
 
+
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            if (convertView == null)
+            {
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.item_list_string2, null);
             }
             TextView tv = (TextView) convertView.findViewById(R.id.text);
@@ -551,38 +656,53 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
             tv.setSingleLine(true);
             tv.setGravity(Gravity.CENTER);
             if (position == playingIndex)
+            {
                 tv.setTextColor(mContext.getResources().getColor(R.color.green2));
-            else tv.setTextColor(mContext.getResources().getColor(R.color.grey3));
+            }
+            else
+            {
+                tv.setTextColor(mContext.getResources().getColor(R.color.grey3));
+            }
             return convertView;
         }
     };
 
-    private PagerAdapter mPageAdapter = new PagerAdapter() {
+    private PagerAdapter mPageAdapter = new PagerAdapter()
+    {
         @Override
-        public int getCount() {
+        public int getCount()
+        {
             return mPagers.size();
         }
 
+
         @Override
-        public boolean isViewFromObject(View view, Object object) {
+        public boolean isViewFromObject(View view, Object object)
+        {
             return view == object;
         }
 
+
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, int position)
+        {
             View v = mPagers.get(position);
             container.addView(v);
             return v;
         }
 
+
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(ViewGroup container, int position, Object object)
+        {
             container.removeView(mPagers.get(position));
         }
     };
 
+
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         Log.e("test draw time end", System.currentTimeMillis() + "");
     }

@@ -23,10 +23,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * Created by Administrator on 2016/1/14 0014.
  */
-public class NoticeContentFragment extends ContentFragment{
+public class NoticeContentFragment extends ContentFragment
+{
     @Bind(R.id.title)
     TextView mTitleText;
     @Bind(R.id.news_detail_title)
@@ -36,26 +38,34 @@ public class NoticeContentFragment extends ContentFragment{
     @Bind(R.id.webview)
     WebView mWeb;
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_web_content;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         setTitle();
         setUpWebView();
         requestInfo();
     }
 
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         mWeb.destroy();
         super.onDestroy();
     }
 
-    private void setUpWebView(){
-        WebSettings settings=mWeb.getSettings();
+
+    private void setUpWebView()
+    {
+        WebSettings settings = mWeb.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -67,20 +77,28 @@ public class NoticeContentFragment extends ContentFragment{
         settings.setDefaultTextEncodingName("UTF-8");
     }
 
-    private void setTitle(){
+
+    private void setTitle()
+    {
         mTitleText.setText(R.string.news_detail);
-        String title=((ContentActivity)mContext).getCurrentExtra().getString("title");
-        String date=((ContentActivity)mContext).getCurrentExtra().getString("date");
-        if(title!=null&!title.equals("")){
+        String title = ((ContentActivity) mContext).getCurrentExtra().getString("title");
+        String date = ((ContentActivity) mContext).getCurrentExtra().getString("date");
+        if (title != null & !title.equals(""))
+        {
             mNewsTitleText.setVisibility(View.VISIBLE);
             mNewsTitleText.setText(title);
-        }else {
+        }
+        else
+        {
             mNewsTitleText.setVisibility(View.GONE);
         }
-        if(date!=null&!date.equals("")){
+        if (date != null & !date.equals(""))
+        {
             mNewsDateText.setVisibility(View.VISIBLE);
             mNewsDateText.setText(date);
-        }else {
+        }
+        else
+        {
             mNewsDateText.setVisibility(View.GONE);
         }
     }
@@ -88,44 +106,61 @@ public class NoticeContentFragment extends ContentFragment{
 
     @Nullable
     @OnClick(R.id.back_btn)
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
         }
     }
 
-    private void requestInfo(){
-        String id=((ContentActivity)mContext).getCurrentExtra().getString("id");
-        if (TextUtils.isEmpty(id)) return;
+
+    private void requestInfo()
+    {
+        String id = ((ContentActivity) mContext).getCurrentExtra().getString("id");
+        if (TextUtils.isEmpty(id))
+        {
+            return;
+        }
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "notice.get");
-        params.put("id",id);
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        params.put("id", id);
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
 
             }
 
+
             @Override
-            public void onResponse(String json, int id) {
+            public void onResponse(String json, int id)
+            {
                 dismissLoading();
-                if (TextUtils.isEmpty(json)) {
+                if (TextUtils.isEmpty(json))
+                {
                     showToast("没有相关数据");
                     return;
                 }
-                try {
-                    JSONObject jObj=new JSONObject(json);
-                    String content=jObj.getString("content");
-                    mWeb.loadDataWithBaseURL(null,content,"text/html","UTF-8",null);
-                    mWeb.setWebViewClient(new WebViewClient() {
+                try
+                {
+                    JSONObject jObj = new JSONObject(json);
+                    String content = jObj.getString("content");
+                    mWeb.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
+                    mWeb.setWebViewClient(new WebViewClient()
+                    {
                         @Override
-                        public void onPageFinished(WebView view, String url) {
+                        public void onPageFinished(WebView view, String url)
+                        {
                         }
                     });
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
             }

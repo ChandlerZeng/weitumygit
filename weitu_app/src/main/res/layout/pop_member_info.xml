@@ -1,149 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/green3"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:id="@+id/container"
-        android:gravity="center">
+        android:background="@color/green3"
+        android:gravity="center"
+        android:orientation="vertical">
+
         <TextView
+            android:id="@+id/head"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:textSize="19sp"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:id="@+id/head"
-            android:text="灰机"
+            android:background="@color/green1"
             android:gravity="center"
-            android:background="@color/green1"/>
+            android:singleLine="true"
+            android:text="灰机"
+            android:textColor="@color/white"
+            android:textSize="19sp"/>
+
         <TextView
             android:id="@+id/name"
-            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:layout_marginTop="8dp"
+            android:text="维吉尔"
             android:textColor="@color/white"
-            android:text="维吉尔"/>
+            android:textSize="20sp"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:paddingTop="15dp"
+        android:orientation="vertical"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:orientation="vertical">
+        android:paddingTop="15dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/grey5"
+                android:ems="4"
                 android:text="性别"
-                android:ems="4"/>
+                android:textColor="@color/grey5"
+                android:textSize="18sp"/>
+
             <TextView
                 android:id="@+id/sex"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:text="男"
                 android:textColor="@color/grey3"
-                android:text="男"/>
+                android:textSize="20sp"/>
         </LinearLayout>
+
         <View
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/grey5"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/grey5"
+                android:ems="4"
                 android:text="手机号"
-                android:ems="4"/>
+                android:textColor="@color/grey5"
+                android:textSize="18sp"/>
+
             <TextView
                 android:id="@+id/mobile"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:text="12345678901"
                 android:textColor="@color/grey3"
-                android:text="12345678901"/>
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <View
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/grey5"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/grey5"
+                android:ems="4"
                 android:text="邮箱"
-                android:ems="4"/>
+                android:textColor="@color/grey5"
+                android:textSize="18sp"/>
+
             <TextView
                 android:id="@+id/mail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:text="12345678901"
                 android:textColor="@color/grey3"
-                android:text="12345678901"/>
+                android:textSize="20sp"/>
         </LinearLayout>
+
         <View
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/grey5"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textColor="@color/grey5"
+                android:ems="4"
                 android:text="借阅证号"
-                android:ems="4"/>
+                android:textColor="@color/grey5"
+                android:textSize="18sp"/>
+
             <TextView
                 android:id="@+id/lent"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
+                android:text="12345678901"
                 android:textColor="@color/grey3"
-                android:text="12345678901"/>
+                android:textSize="20sp"/>
         </LinearLayout>
+
         <View
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/grey5"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011, 2012 Chris Banes.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p/>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,9 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.ViewConfiguration;
 
-public class CupcakeGestureDetector implements GestureDetector {
+
+public class CupcakeGestureDetector implements GestureDetector
+{
 
     protected OnGestureListener mListener;
     private static final String LOG_TAG = "CupcakeGestureDetector";
@@ -30,41 +32,58 @@ public class CupcakeGestureDetector implements GestureDetector {
     final float mTouchSlop;
     final float mMinimumVelocity;
 
+
     @Override
-    public void setOnGestureListener(OnGestureListener listener) {
+    public void setOnGestureListener(OnGestureListener listener)
+    {
         this.mListener = listener;
     }
 
-    public CupcakeGestureDetector(Context context) {
-        final ViewConfiguration configuration = ViewConfiguration
-                .get(context);
+
+    public CupcakeGestureDetector(Context context)
+    {
+        final ViewConfiguration configuration = ViewConfiguration.get(context);
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mTouchSlop = configuration.getScaledTouchSlop();
     }
 
+
     private VelocityTracker mVelocityTracker;
     private boolean mIsDragging;
 
-    float getActiveX(MotionEvent ev) {
+
+    float getActiveX(MotionEvent ev)
+    {
         return ev.getX();
     }
 
-    float getActiveY(MotionEvent ev) {
+
+    float getActiveY(MotionEvent ev)
+    {
         return ev.getY();
     }
 
-    public boolean isScaling() {
+
+    public boolean isScaling()
+    {
         return false;
     }
 
+
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
+    public boolean onTouchEvent(MotionEvent ev)
+    {
+        switch (ev.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+            {
                 mVelocityTracker = VelocityTracker.obtain();
-                if (null != mVelocityTracker) {
+                if (null != mVelocityTracker)
+                {
                     mVelocityTracker.addMovement(ev);
-                } else {
+                }
+                else
+                {
                     Log.i(LOG_TAG, "Velocity tracker is null");
                 }
 
@@ -74,41 +93,50 @@ public class CupcakeGestureDetector implements GestureDetector {
                 break;
             }
 
-            case MotionEvent.ACTION_MOVE: {
+            case MotionEvent.ACTION_MOVE:
+            {
                 final float x = getActiveX(ev);
                 final float y = getActiveY(ev);
                 final float dx = x - mLastTouchX, dy = y - mLastTouchY;
 
-                if (!mIsDragging) {
+                if (!mIsDragging)
+                {
                     // Use Pythagoras to see if drag length is larger than
                     // touch slop
-                    mIsDragging = (float)Math.sqrt((dx * dx) + (dy * dy)) >= mTouchSlop;
+                    mIsDragging = (float) Math.sqrt((dx * dx) + (dy * dy)) >= mTouchSlop;
                 }
 
-                if (mIsDragging) {
+                if (mIsDragging)
+                {
                     mListener.onDrag(dx, dy);
                     mLastTouchX = x;
                     mLastTouchY = y;
 
-                    if (null != mVelocityTracker) {
+                    if (null != mVelocityTracker)
+                    {
                         mVelocityTracker.addMovement(ev);
                     }
                 }
                 break;
             }
 
-            case MotionEvent.ACTION_CANCEL: {
+            case MotionEvent.ACTION_CANCEL:
+            {
                 // Recycle Velocity Tracker
-                if (null != mVelocityTracker) {
+                if (null != mVelocityTracker)
+                {
                     mVelocityTracker.recycle();
                     mVelocityTracker = null;
                 }
                 break;
             }
 
-            case MotionEvent.ACTION_UP: {
-                if (mIsDragging) {
-                    if (null != mVelocityTracker) {
+            case MotionEvent.ACTION_UP:
+            {
+                if (mIsDragging)
+                {
+                    if (null != mVelocityTracker)
+                    {
                         mLastTouchX = getActiveX(ev);
                         mLastTouchY = getActiveY(ev);
 
@@ -116,20 +144,20 @@ public class CupcakeGestureDetector implements GestureDetector {
                         mVelocityTracker.addMovement(ev);
                         mVelocityTracker.computeCurrentVelocity(1000);
 
-                        final float vX = mVelocityTracker.getXVelocity(), vY = mVelocityTracker
-                                .getYVelocity();
+                        final float vX = mVelocityTracker.getXVelocity(), vY = mVelocityTracker.getYVelocity();
 
                         // If the velocity is greater than minVelocity, call
                         // listener
-                        if (Math.max(Math.abs(vX), Math.abs(vY)) >= mMinimumVelocity) {
-                            mListener.onFling(mLastTouchX, mLastTouchY, -vX,
-                                    -vY);
+                        if (Math.max(Math.abs(vX), Math.abs(vY)) >= mMinimumVelocity)
+                        {
+                            mListener.onFling(mLastTouchX, mLastTouchY, -vX, -vY);
                         }
                     }
                 }
 
                 // Recycle Velocity Tracker
-                if (null != mVelocityTracker) {
+                if (null != mVelocityTracker)
+                {
                     mVelocityTracker.recycle();
                     mVelocityTracker = null;
                 }

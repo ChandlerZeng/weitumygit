@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +16,7 @@ import com.libtop.weitu.utils.viewpagerbitmap.ImagePagerActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+
 
 /**
  * <p>
@@ -32,7 +32,8 @@ import java.util.ArrayList;
  * @author 作者名
  * @version common v1.0
  */
-public class MultiImageSelectorActivity2 extends FragmentActivity implements MultiImageSelectorFragment.Callback, View.OnClickListener {
+public class MultiImageSelectorActivity2 extends FragmentActivity implements MultiImageSelectorFragment.Callback, View.OnClickListener
+{
     private String tags, introduction, title, categoriesName1;
     private int label1;
     public static final int DESCRIPTION_RETURNQ = 30;
@@ -79,8 +80,10 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
     TextView button;
     private boolean isagin;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_default2);
         isagin = getIntent().getBooleanExtra("isagin", false);
@@ -95,9 +98,9 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
         mDefaultCount = intent.getIntExtra(EXTRA_SELECT_COUNT, 9);
         int mode = intent.getIntExtra(EXTRA_SELECT_MODE, MODE_MULTI);
         boolean isShow = intent.getBooleanExtra(EXTRA_SHOW_CAMERA, true);
-//        if (mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {
-//            resultList = intent.getStringArrayListExtra(EXTRA_DEFAULT_SELECTED_LIST);
-//        }
+        //        if (mode == MODE_MULTI && intent.hasExtra(EXTRA_DEFAULT_SELECTED_LIST)) {
+        //            resultList = intent.getStringArrayListExtra(EXTRA_DEFAULT_SELECTED_LIST);
+        //        }
 
         Bundle bundle = new Bundle();
         bundle.putInt(MultiImageSelectorFragment.EXTRA_SELECT_COUNT, mDefaultCount);
@@ -106,14 +109,14 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
         bundle.putBoolean("ismy", false);
         bundle.putStringArrayList(MultiImageSelectorFragment.EXTRA_DEFAULT_SELECTED_LIST, resultList);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.image_grid, Fragment.instantiate(this, MultiImageSelectorFragment.class.getName(), bundle))
-                .commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.image_grid, Fragment.instantiate(this, MultiImageSelectorFragment.class.getName(), bundle)).commit();
 
         // 返回按钮
-        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -127,13 +130,17 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
         haveSee.setOnClickListener(this);
     }
 
-    private void updateDoneText() {
-//        mSubmitButton.setText(String.format("%s(%d/%d)",
-//                getString(R.string.action_done), resultList.size(), mDefaultCount));
+
+    private void updateDoneText()
+    {
+        //        mSubmitButton.setText(String.format("%s(%d/%d)",
+        //                getString(R.string.action_done), resultList.size(), mDefaultCount));
     }
 
+
     @Override
-    public void onSingleImageSelected(String path) {
+    public void onSingleImageSelected(String path)
+    {
         Intent data = new Intent();
         resultList.add(path);
         data.putStringArrayListExtra(EXTRA_RESULT, resultList);
@@ -142,36 +149,46 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
         finish();
     }
 
+
     @Override
-    public void onImageSelected(String path) {
-        if (!resultList.contains(path)) {
+    public void onImageSelected(String path)
+    {
+        if (!resultList.contains(path))
+        {
             resultList.add(path);
         }
         // 有图片之后，改变按钮状态
-        if (resultList.size() > 0) {
+        if (resultList.size() > 0)
+        {
             updateDoneText();
-//            if(!mSubmitButton.isEnabled()){
-//                mSubmitButton.setEnabled(true);
-//            }
+            //            if(!mSubmitButton.isEnabled()){
+            //                mSubmitButton.setEnabled(true);
+            //            }
         }
     }
 
+
     @Override
-    public void onImageUnselected(String path) {
-        if (resultList.contains(path)) {
+    public void onImageUnselected(String path)
+    {
+        if (resultList.contains(path))
+        {
             resultList.remove(path);
         }
         updateDoneText();
         // 当为选择图片时候的状态
-//        if(resultList.size() == 0){
-//            mSubmitButton.setText(R.string.action_done);
-//            mSubmitButton.setEnabled(false);
-//        }
+        //        if(resultList.size() == 0){
+        //            mSubmitButton.setText(R.string.action_done);
+        //            mSubmitButton.setEnabled(false);
+        //        }
     }
 
+
     @Override
-    public void onCameraShot(File imageFile) {
-        if (imageFile != null) {
+    public void onCameraShot(File imageFile)
+    {
+        if (imageFile != null)
+        {
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(imageFile)));
             Intent data = new Intent();
             resultList.add(imageFile.getAbsolutePath());
@@ -181,21 +198,28 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
         }
     }
 
+
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int id = v.getId();
-        switch (id) {
+        switch (id)
+        {
             case R.id.have_see:
-                if (resultList != null && resultList.size() > 0) {
+                if (resultList != null && resultList.size() > 0)
+                {
                     Intent intent = new Intent(MultiImageSelectorActivity2.this, ImagePagerActivity.class);
                     intent.putExtra(ImagePagerActivity.DEFAULT_SELECTED_LIST, resultList);
                     startActivity(intent);
-                } else {
+                }
+                else
+                {
                     Toast.makeText(MultiImageSelectorActivity2.this, "请选择至少一张图片", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.going_down:
-                if (where == 1) {
+                if (where == 1)
+                {
                     Intent intent = new Intent(MultiImageSelectorActivity2.this, ImageUploadActivity.class);
                     intent.putExtra(ImageUploadActivity.DEFAULT_SELECTED_LIST, resultList);
                     intent.putExtra("title", title);
@@ -205,10 +229,14 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
                     intent.putExtra("categoriesName1", categoriesName1);
                     intent.putExtra("introduction", introduction);
                     if (isagin != false)
+                    {
                         intent.putExtra("isagin", isagin);
+                    }
                     startActivity(intent);
                     finish();
-                } else {
+                }
+                else
+                {
                     Intent data = new Intent();
                     data.putExtra(DEFAULT_SELECTED_LIST, resultList);
                     setResult(DESCRIPTION_RETURNQ, data);
@@ -216,7 +244,8 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
                 }
                 break;
             case R.id.commit2:
-                if (buttonClickedListener != null) {
+                if (buttonClickedListener != null)
+                {
                     buttonClickedListener.onclicked("");
                 }
                 break;
@@ -225,12 +254,14 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
         }
     }
 
+
     /**
      * 定义一个接口
      *
      * @author zqy
      */
-    public interface OnButtonClickedListener {
+    public interface OnButtonClickedListener
+    {
         /**
          * 里面传个值
          *
@@ -239,12 +270,15 @@ public class MultiImageSelectorActivity2 extends FragmentActivity implements Mul
         public void onclicked(String s);
     }
 
+
     private OnButtonClickedListener buttonClickedListener;
+
 
     /**
      * @param buttonClickedListener 写一个对外公开的方法
      */
-    public void setButtonClickedListener(OnButtonClickedListener buttonClickedListener) {
+    public void setButtonClickedListener(OnButtonClickedListener buttonClickedListener)
+    {
         this.buttonClickedListener = buttonClickedListener;
     }
 }

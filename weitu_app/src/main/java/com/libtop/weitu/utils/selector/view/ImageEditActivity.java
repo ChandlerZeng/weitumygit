@@ -37,7 +37,9 @@ import java.util.Map;
 
 import okhttp3.Call;
 
-public class ImageEditActivity extends Activity implements View.OnClickListener {
+
+public class ImageEditActivity extends Activity implements View.OnClickListener
+{
     String aid, uid;
     protected TranLoading mLoading;
     private LinkedHashMap<String, List<ListGridImage>> linkedHashMap;
@@ -61,8 +63,10 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
     private int pageCount = 1;
     private boolean isagin = false;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_edit);
         where = getIntent().getIntExtra("iswhere", 1);
@@ -78,15 +82,19 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
         titleView = (TextView) findViewById(R.id.title);
         listView = (XListView) findViewById(R.id.show_image);
         listView.setPullLoadEnable(false);
-        listView.setXListViewListener(new XListView.IXListViewListener() {
+        listView.setXListViewListener(new XListView.IXListViewListener()
+        {
             @Override
-            public void onRefresh() {
+            public void onRefresh()
+            {
                 pageCount = 1;
                 getImageList();
             }
 
+
             @Override
-            public void onLoadMore() {
+            public void onLoadMore()
+            {
                 pageCount++;
                 getImageList();
             }
@@ -94,24 +102,30 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
         linkedHashMap = new LinkedHashMap<String, List<ListGridImage>>();
         linkedHashMap2 = new LinkedHashMap<String, List<ListGridImage>>();
         bottomView = (View) findViewById(R.id.bottom_view);
-        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 exitApp();
             }
         });
-        if (where == 1) {
+        if (where == 1)
+        {
             listGridAdapter = new ListGridAdapter(ImageEditActivity.this, linkedHashMap);
             listView.setAdapter(listGridAdapter);
             //看图片
-            if (!TextUtils.isEmpty(title)) {
+            if (!TextUtils.isEmpty(title))
+            {
                 titleView.setText(title);
             }
             getImageList();
             TextView textView = (TextView) findViewById(R.id.going_down);
             textView.setText("上传照片");
             textView.setOnClickListener(this);
-        } else if (where == 2) {
+        }
+        else if (where == 2)
+        {
             isagin = getIntent().getBooleanExtra("isagin", false);
             listGridAdapter = new ListGridAdapter(ImageEditActivity.this, linkedHashMap);
             listView.setAdapter(listGridAdapter);
@@ -121,18 +135,23 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
             TextView textView = (TextView) findViewById(R.id.going_down);
             textView.setText("上传照片");
             textView.setOnClickListener(this);
-            if (isagin) {
+            if (isagin)
+            {
                 getImageList();
 
                 getUploadUrl();
 
-            } else {
+            }
+            else
+            {
                 linkedHashMap.put("上传图片", changeData());
                 listGridAdapter.setData(linkedHashMap);
                 listGridAdapter.notifyDataSetChanged();
                 getUploadUrl();
             }
-        } else if (where == 3) {
+        }
+        else if (where == 3)
+        {
             bottomView.setVisibility(View.VISIBLE);
             listGridAdapter = new ListGridAdapter(ImageEditActivity.this, linkedHashMap, true, 1);
             listView.setAdapter(listGridAdapter);
@@ -141,7 +160,9 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
             findViewById(R.id.move).setOnClickListener(this);
             findViewById(R.id.delete).setOnClickListener(this);
             getImageList();
-        } else {
+        }
+        else
+        {
             listGridAdapter = new ListGridAdapter(ImageEditActivity.this, linkedHashMap, false, 2);
             listView.setAdapter(listGridAdapter);
             //管理图片
@@ -154,9 +175,11 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
     }
 
 
-    private List<ListGridImage> changeData() {
+    private List<ListGridImage> changeData()
+    {
         List<ListGridImage> a = new ArrayList<ListGridImage>();
-        for (int i = 0; i < resultList.size(); i++) {
+        for (int i = 0; i < resultList.size(); i++)
+        {
             ListGridImage listGridImage = new ListGridImage();
             listGridImage.setImageUrl(resultList.get(i));
             listGridImage.setPro(true);
@@ -165,124 +188,167 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
         return a;
     }
 
-    private void showLoding(){
-        if (mLoading!=null&&!mLoading.isShowing())
+
+    private void showLoding()
+    {
+        if (mLoading != null && !mLoading.isShowing())
+        {
             mLoading.show();
+        }
     }
 
-    private void dismissLoading(){
-        if (mLoading!=null&&mLoading.isShowing())
+
+    private void dismissLoading()
+    {
+        if (mLoading != null && mLoading.isShowing())
+        {
             mLoading.dismiss();
+        }
     }
 
-    public void getImageList() {
+
+    public void getImageList()
+    {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", pageCount);
         params.put("aid", aid);
         params.put("uid", uid);
         params.put("method", "image.query");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
-
-                    @Override
-                    public void onResponse(String json, int requestId) {
-                        if (!TextUtils.isEmpty(json)) {
-                            try {
-                                if (pageCount == 1)
-                                    linkedHashMap.clear();
+            }
 
 
-                                linkedHashMap2.clear();
-                                JSONObject mjson = new JSONObject(json);
-                                JSONObject njson = mjson.getJSONObject("images");
-                                Iterator it = njson.keys();
-                                List<String> keyListstr = new ArrayList<String>();
-                                while (it.hasNext()) {
-                                    keyListstr.add(it.next().toString());
-                                }
-                                int pagecount = 0;
-                                for (int i = 0; i < keyListstr.size(); i++) {
-                                    JSONArray ajson = njson.getJSONArray(keyListstr.get(i));
-                                    List<ListGridImage> a = new ArrayList<ListGridImage>();
-                                    for (int j = 0; j < ajson.length(); j++) {
-                                        JSONObject xjson = ajson.getJSONObject(j);
-                                        String id = xjson.isNull("id") ? "" : xjson.getString("id");
-                                        String url = xjson.isNull("url") ? "" : xjson.getString("url");
-                                        if (TextUtils.isEmpty(url)){
-                                            url= "http://nt1.libtop.com/f/"+id+".jpg";
-                                        }
-                                        String introduction = xjson.isNull("introduction") ? "" : xjson.getString("introduction");
-                                        ListGridImage listGridImage = new ListGridImage();
-                                        listGridImage.setImageUrl(url);
-                                        listGridImage.id = id;
-                                        listGridImage.setIntroduction(introduction);
-                                        a.add(listGridImage);
-                                        pagecount++;
-                                    }
-                                    addHaspMap(keyListstr.get(i), a);
-                                    //  linkedHashMap.put(keyListstr.get(i), a);
-                                }
-                                Message msg = updataHandler.obtainMessage();
-                                msg.what = 2;
-                                if (pagecount > 19)
-                                    msg.arg1 = 1;
-                                else
-                                    msg.arg1 = 0;
-                                updataHandler.sendMessage(msg);
-
-                                dismissLoading();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                dismissLoading();
-                            }
-                            return;
+            @Override
+            public void onResponse(String json, int requestId)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    try
+                    {
+                        if (pageCount == 1)
+                        {
+                            linkedHashMap.clear();
                         }
+
+
+                        linkedHashMap2.clear();
+                        JSONObject mjson = new JSONObject(json);
+                        JSONObject njson = mjson.getJSONObject("images");
+                        Iterator it = njson.keys();
+                        List<String> keyListstr = new ArrayList<String>();
+                        while (it.hasNext())
+                        {
+                            keyListstr.add(it.next().toString());
+                        }
+                        int pagecount = 0;
+                        for (int i = 0; i < keyListstr.size(); i++)
+                        {
+                            JSONArray ajson = njson.getJSONArray(keyListstr.get(i));
+                            List<ListGridImage> a = new ArrayList<ListGridImage>();
+                            for (int j = 0; j < ajson.length(); j++)
+                            {
+                                JSONObject xjson = ajson.getJSONObject(j);
+                                String id = xjson.isNull("id") ? "" : xjson.getString("id");
+                                String url = xjson.isNull("url") ? "" : xjson.getString("url");
+                                if (TextUtils.isEmpty(url))
+                                {
+                                    url = "http://nt1.libtop.com/f/" + id + ".jpg";
+                                }
+                                String introduction = xjson.isNull("introduction") ? "" : xjson.getString("introduction");
+                                ListGridImage listGridImage = new ListGridImage();
+                                listGridImage.setImageUrl(url);
+                                listGridImage.id = id;
+                                listGridImage.setIntroduction(introduction);
+                                a.add(listGridImage);
+                                pagecount++;
+                            }
+                            addHaspMap(keyListstr.get(i), a);
+                            //  linkedHashMap.put(keyListstr.get(i), a);
+                        }
+                        Message msg = updataHandler.obtainMessage();
+                        msg.what = 2;
+                        if (pagecount > 19)
+                        {
+                            msg.arg1 = 1;
+                        }
+                        else
+                        {
+                            msg.arg1 = 0;
+                        }
+                        updataHandler.sendMessage(msg);
 
                         dismissLoading();
                     }
-                });
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        dismissLoading();
+                    }
+                    return;
+                }
+
+                dismissLoading();
+            }
+        });
     }
 
 
-    private void addHaspMap(String key, List<ListGridImage> list) {
+    private void addHaspMap(String key, List<ListGridImage> list)
+    {
         boolean some = false;
-        for (Map.Entry<String, List<ListGridImage>> entry : linkedHashMap2.entrySet()) {
-            if (key.equals((String) entry.getKey())) {
+        for (Map.Entry<String, List<ListGridImage>> entry : linkedHashMap2.entrySet())
+        {
+            if (key.equals((String) entry.getKey()))
+            {
                 addListData((List<ListGridImage>) entry.getValue(), list);
                 some = true;
             }
         }
-        if (!some) {
+        if (!some)
+        {
             linkedHashMap2.put(key, list);
         }
     }
 
-    private void addListData(List<ListGridImage> olist, List<ListGridImage> tlist) {
-        for (int i = 0; i < tlist.size(); i++) {
+
+    private void addListData(List<ListGridImage> olist, List<ListGridImage> tlist)
+    {
+        for (int i = 0; i < tlist.size(); i++)
+        {
             olist.add(tlist.get(i));
         }
     }
 
-    private Handler updataHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
+
+    private Handler updataHandler = new Handler()
+    {
+        public void handleMessage(Message msg)
+        {
             super.handleMessage(msg);
-            if (ImageEditActivity.this == null) {
+            if (ImageEditActivity.this == null)
+            {
 
             }
-            switch (msg.what) {
+            switch (msg.what)
+            {
                 case 2:
-                    if (isagin) {
+                    if (isagin)
+                    {
                         linkedHashMap.put("上传图片", changeData());
                         listView.setPullLoadEnable(false);
-                    } else
+                    }
+                    else
+                    {
                         listView.setPullLoadEnable(true);
-                    for (Map.Entry<String, List<ListGridImage>> entry : linkedHashMap2.entrySet()) {
+                    }
+                    for (Map.Entry<String, List<ListGridImage>> entry : linkedHashMap2.entrySet())
+                    {
                         linkedHashMap.put(entry.getKey(), entry.getValue());
                     }
                     listGridAdapter.setData(linkedHashMap);
@@ -290,9 +356,13 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
                     listView.stopRefresh();
 
                     if (msg.arg1 == 1)
+                    {
                         listView.setPullLoadEnable(true);
+                    }
                     else
+                    {
                         listView.setPullLoadEnable(false);
+                    }
 
                     break;
                 case 3:
@@ -301,13 +371,17 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
                     break;
                 case 4:
                     if (stopUp)
+                    {
                         return;
+                    }
                     List<ListGridImage> a = linkedHashMap.get("上传图片");
                     a.get(count).setPro(false);
                     listGridAdapter.notifyDataSetChanged();
                     count++;
                     if (count < resultList.size())
+                    {
                         getFid();
+                    }
                     break;
                 case 5:
                     Toast.makeText(ImageEditActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
@@ -324,85 +398,109 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
         }
     };
 
-    private void getUploadUrl() {
+
+    private void getUploadUrl()
+    {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "node.server");
         showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
-                            try {
-                                JSONObject mjson = new JSONObject(json);
-                                uploadUrl = mjson.getString("ip");
-                                uploadPost = mjson.getInt("port");
-                                getFid();
-                                dismissLoading();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                dismissLoading();
-                            }
-                            return;
-                        }
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    //   showToast("没有相关数据");
+                    try
+                    {
+                        JSONObject mjson = new JSONObject(json);
+                        uploadUrl = mjson.getString("ip");
+                        uploadPost = mjson.getInt("port");
+                        getFid();
                         dismissLoading();
                     }
-                });
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        dismissLoading();
+                    }
+                    return;
+                }
+                dismissLoading();
+            }
+        });
     }
 
 
-    private void getFid() {
+    private void getFid()
+    {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("uid", uid);
         params.put("aid", aid);
         params.put("title", title);
         params.put("method", "image.save");
         showLoding();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                // mLoading.dismiss();
+                if (!TextUtils.isEmpty(json))
+                {
+                    //   showToast("没有相关数据");
+                    try
+                    {
+                        dismissLoading();
+                        JSONObject mjson = new JSONObject(json);
+                        fid = "";
+                        fid = mjson.getString("id");
+                        startUpload();
                     }
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        // mLoading.dismiss();
-                        if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
-                            try {
-                                dismissLoading();
-                                JSONObject mjson = new JSONObject(json);
-                                fid = "";
-                                fid = mjson.getString("id");
-                                startUpload();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                dismissLoading();
-                            }
-                            return;
-                        }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
                         dismissLoading();
                     }
-                });
+                    return;
+                }
+                dismissLoading();
+            }
+        });
     }
 
-    public void startUpload() {
 
-        Runnable runnable = new Runnable() {
+    public void startUpload()
+    {
+
+        Runnable runnable = new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 uploadService = new UploadService(uploadUrl, uploadPost, ImageEditActivity.this, updataHandler, null, 12);
-                try {
+                try
+                {
                     File file = new File(resultList.get(count));
                     uploadService.upload(uid, fid, file);
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
 
                 }
             }
@@ -414,15 +512,21 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
 
     }
 
+
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int id = v.getId();
-        switch (id) {
+        switch (id)
+        {
             case R.id.move:
                 List<String> alist1 = getListData();
-                if (alist1.isEmpty()){
-                    Toast.makeText(ImageEditActivity.this,"抱歉！没有图片可以移动",Toast.LENGTH_SHORT).show();
-                }else {
+                if (alist1.isEmpty())
+                {
+                    Toast.makeText(ImageEditActivity.this, "抱歉！没有图片可以移动", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
                     Intent intent = new Intent(ImageEditActivity.this, ImageSelectActivity.class);
                     intent.putExtra("choosePic", 2);
                     startActivityForResult(intent, 10);
@@ -431,7 +535,8 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
             case R.id.delete:
                 List<String> alist = getListData();
                 String[] sss = new String[alist.size()];
-                for (int i = 0; i < alist.size(); i++) {
+                for (int i = 0; i < alist.size(); i++)
+                {
                     sss[i] = alist.get(i);
                 }
                 showMyDialog2("", sss);
@@ -461,16 +566,20 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
         }
     }
 
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
+        switch (resultCode)
+        {
             case ImageSelectActivity.SELECT_RETURNQ:
                 Bundle ab = data.getExtras();
                 String name = ab.getString("aid");
                 List<String> alist = getListData();
                 String[] sss = new String[alist.size()];
-                for (int i = 0; i < alist.size(); i++) {
+                for (int i = 0; i < alist.size(); i++)
+                {
                     sss[i] = alist.get(i);
                 }
                 showMyDialog(name, sss);
@@ -481,165 +590,221 @@ public class ImageEditActivity extends Activity implements View.OnClickListener 
 
     }
 
+
     /**
      * 遍历取数据
      */
-    private List<String> getListData() {
+    private List<String> getListData()
+    {
         List<String> alist = new ArrayList<String>();
         List<ListGridImage> list = new ArrayList<ListGridImage>();
         List<List<ListGridImage>> imageList = new ArrayList<List<ListGridImage>>();
         // Iterator iter = linkedHashMap.entrySet().iterator();
-        for (Map.Entry<String, List<ListGridImage>> entry : linkedHashMap.entrySet()) {
+        for (Map.Entry<String, List<ListGridImage>> entry : linkedHashMap.entrySet())
+        {
             imageList.add((List<ListGridImage>) entry.getValue());
         }
 
-        for (int i = 0; i < imageList.size(); i++) {
+        for (int i = 0; i < imageList.size(); i++)
+        {
             List<ListGridImage> mlist = imageList.get(i);
             for (int j = 0; j < mlist.size(); j++)
+            {
                 list.add(mlist.get(j));
+            }
         }
 
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++)
+        {
             if (list.get(i).ischeck())
+            {
                 alist.add(list.get(i).id);
+            }
         }
         return alist;
     }
 
+
     /**
      * 退出提醒
      */
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
+        {
             exitApp();
         }
         return false;
     }
 
-    public void exitApp() {
-        if (uploadService != null) {
-            if (uploadService.isWorking) {
+
+    public void exitApp()
+    {
+        if (uploadService != null)
+        {
+            if (uploadService.isWorking)
+            {
                 showMyDialog3();
-            } else {
+            }
+            else
+            {
                 finish();
             }
-        } else {
+        }
+        else
+        {
             finish();
         }
     }
 
 
-    private void showMyDialog3() {
+    private void showMyDialog3()
+    {
         String title = "有图片正在上传，需要退出吗?";
         final AlertDialogUtil dialog = new AlertDialogUtil();
-        dialog.showDialog(ImageEditActivity.this, title, "确定", "我错了", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+        dialog.showDialog(ImageEditActivity.this, title, "确定", "我错了", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+        {
             @Override
-            public void onClick() {
-                if (thread.isAlive()) {
+            public void onClick()
+            {
+                if (thread.isAlive())
+                {
                     stopUp = true;
                     uploadService.stopSocket();
                     finish();
-                } else {
+                }
+                else
+                {
                     finish();
                 }
             }
         }, null);
     }
 
-    private void showMyDialog(final String name, final String[] sss) {
+
+    private void showMyDialog(final String name, final String[] sss)
+    {
         String title = "里面包含" + sss.length + "张图片确定要移动吗?";
         final AlertDialogUtil dialog = new AlertDialogUtil();
-        dialog.showDialog(ImageEditActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+        dialog.showDialog(ImageEditActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+        {
             @Override
-            public void onClick() {
+            public void onClick()
+            {
 
                 Map<String, Object> params = new HashMap<String, Object>();
-                try {
+                try
+                {
                     JSONArray jsonarray = new JSONArray(Arrays.toString(sss));
                     params.put("id", jsonarray);
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
                 params.put("aid", name);
                 params.put("method", "image.changeAlbum");
                 showLoding();
-                HttpRequest.loadWithMap(params)
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onError(Call call, Exception e, int id) {
+                HttpRequest.loadWithMap(params).execute(new StringCallback()
+                {
+                    @Override
+                    public void onError(Call call, Exception e, int id)
+                    {
 
-                            }
+                    }
 
-                            @Override
-                            public void onResponse(String json, int id) {
-                                if (!TextUtils.isEmpty(json)) {
-                                    try {
-                                        dismissLoading();
-                                        JSONObject mjson = new JSONObject(json);
-                                        int codeId = mjson.getInt("code");
-                                        if (codeId == 1) {
-                                            Message msg = updataHandler.obtainMessage();
-                                            msg.what = 3;
-                                            updataHandler.sendMessage(msg);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        dismissLoading();
-                                    }
-                                    return;
+
+                    @Override
+                    public void onResponse(String json, int id)
+                    {
+                        if (!TextUtils.isEmpty(json))
+                        {
+                            try
+                            {
+                                dismissLoading();
+                                JSONObject mjson = new JSONObject(json);
+                                int codeId = mjson.getInt("code");
+                                if (codeId == 1)
+                                {
+                                    Message msg = updataHandler.obtainMessage();
+                                    msg.what = 3;
+                                    updataHandler.sendMessage(msg);
                                 }
+                            }
+                            catch (JSONException e)
+                            {
+                                e.printStackTrace();
                                 dismissLoading();
                             }
-                        });
+                            return;
+                        }
+                        dismissLoading();
+                    }
+                });
             }
         }, null);
     }
 
-    private void showMyDialog2(final String name, final String[] sss) {
+
+    private void showMyDialog2(final String name, final String[] sss)
+    {
         String title = "里面包含" + sss.length + "张图片确定要删除吗?";
         final AlertDialogUtil dialog = new AlertDialogUtil();
-        dialog.showDialog(ImageEditActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+        dialog.showDialog(ImageEditActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+        {
             @Override
-            public void onClick() {
+            public void onClick()
+            {
 
                 Map<String, Object> params = new HashMap<String, Object>();
-                try {
+                try
+                {
                     JSONArray jsonarray = new JSONArray(Arrays.toString(sss));
                     params.put("id", jsonarray);
-                } catch (JSONException e) {
+                }
+                catch (JSONException e)
+                {
                     e.printStackTrace();
                 }
                 params.put("method", "image.delete");
                 showLoding();
-                HttpRequest.loadWithMap(params)
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onError(Call call, Exception e, int id) {
+                HttpRequest.loadWithMap(params).execute(new StringCallback()
+                {
+                    @Override
+                    public void onError(Call call, Exception e, int id)
+                    {
 
-                            }
+                    }
 
-                            @Override
-                            public void onResponse(String json, int id) {
-                                if (!TextUtils.isEmpty(json)) {
-                                    try {
-                                        dismissLoading();
-                                        JSONObject mjson = new JSONObject(json);
-                                        int codeId = mjson.getInt("code");
-                                        if (codeId == 1) {
-                                            Message msg = updataHandler.obtainMessage();
-                                            msg.what = 5;
-                                            updataHandler.sendMessage(msg);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        dismissLoading();
-                                    }
-                                    return;
+
+                    @Override
+                    public void onResponse(String json, int id)
+                    {
+                        if (!TextUtils.isEmpty(json))
+                        {
+                            try
+                            {
+                                dismissLoading();
+                                JSONObject mjson = new JSONObject(json);
+                                int codeId = mjson.getInt("code");
+                                if (codeId == 1)
+                                {
+                                    Message msg = updataHandler.obtainMessage();
+                                    msg.what = 5;
+                                    updataHandler.sendMessage(msg);
                                 }
+                            }
+                            catch (JSONException e)
+                            {
+                                e.printStackTrace();
                                 dismissLoading();
                             }
-                        });
+                            return;
+                        }
+                        dismissLoading();
+                    }
+                });
             }
         }, null);
     }

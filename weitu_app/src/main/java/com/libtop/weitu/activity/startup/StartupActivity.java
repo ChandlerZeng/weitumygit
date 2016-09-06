@@ -21,10 +21,12 @@ import com.libtop.weitu.utils.CheckUtil;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+
 /**
  * Created by Administrator on 2016/1/8 0008.
  */
-public class StartupActivity extends BaseActivity  {
+public class StartupActivity extends BaseActivity
+{
     @Nullable
     @Bind(R.id.view_bottom)
     LinearLayout mBottomView;
@@ -33,31 +35,40 @@ public class StartupActivity extends BaseActivity  {
 
     public static Activity instance;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_startup);
         startHandler();
 
-        instance=this;
+        instance = this;
     }
 
-    private void showBottom() {
+
+    private void showBottom()
+    {
         mInfoText.setText(R.string.welcome_content);
         mBottomView.setVisibility(View.VISIBLE);
-        mBottomView.startAnimation(AnimationUtils.loadAnimation(mContext,
-                R.anim.push_bottom_in));
+        mBottomView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.push_bottom_in));
     }
 
-    private void startHandler() {
+
+    private void startHandler()
+    {
         Handler handle = new Handler();
-        handle.postDelayed(new Runnable() {
+        handle.postDelayed(new Runnable()
+        {
             @Override
-            public void run() {
-                if (CheckUtil.isNull(mPreference
-                        .getString(Preference.SchoolName))) {
+            public void run()
+            {
+                if (CheckUtil.isNull(mPreference.getString(Preference.SchoolName)))
+                {
                     showBottom();
-                } else {
+                }
+                else
+                {
                     startActivity(null, MainActivity.class);
                     finish();
                 }
@@ -66,16 +77,21 @@ public class StartupActivity extends BaseActivity  {
         }, 2000);
     }
 
+
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         finish();
     }
 
+
     @Nullable
-    @OnClick({R.id.login_btn,R.id.choose_library})
-    public void onClick(View v) {
+    @OnClick({R.id.login_btn, R.id.choose_library})
+    public void onClick(View v)
+    {
         Bundle bundle = new Bundle();
-        switch (v.getId()) {
+        switch (v.getId())
+        {
             case R.id.login_btn:
                 bundle.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
                 break;

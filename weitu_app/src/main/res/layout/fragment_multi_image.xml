@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/searchBackgroud">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/searchBackgroud">
 
     <GridView
         android:id="@+id/grid"
@@ -62,7 +63,5 @@
             android:textSize="14sp"
             android:visibility="gone"
             tools:text="预览(1)"/>
-
     </RelativeLayout>
-
 </RelativeLayout>

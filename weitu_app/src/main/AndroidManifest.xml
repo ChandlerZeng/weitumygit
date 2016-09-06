@@ -2,6 +2,7 @@
 <manifest
     package="com.libtop.weitu"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <!-- 极光推送要求权限 -->
     <permission
         android:name="com.libtop.weitu.permission.JPUSH_MESSAGE"
@@ -171,10 +172,11 @@
         <activity android:name="com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity"/>
 
         <!-- 音频播放视图 -->
-        <activity android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"
-                  android:configChanges="orientation|keyboardHidden"
-                  android:screenOrientation="portrait"
-                  android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name="com.libtop.weitu.activity.source.AudioPlayActivity2"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <!-- 视频播放视图 -->
         <activity
@@ -286,7 +288,7 @@
             </intent-filter>
         </service>
 
-        <!-- Required JPUSH SDK 核心功能 TODO 是否废弃? -->
+        <!-- Required JPUSH SDK 核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"

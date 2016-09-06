@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include
         layout="@layout/cmp_customer_actionbar"
@@ -26,7 +27,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="#f2f2f3"/>
-
     </FrameLayout>
 
     <LinearLayout
@@ -36,16 +36,14 @@
         android:background="@color/black_normal"
         android:gravity="center|left"
         android:orientation="horizontal"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/describe_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:src="@drawable/describe"
-            />
+            android:src="@drawable/describe"/>
 
         <EditText
             android:id="@+id/describe"
@@ -58,8 +56,7 @@
             android:hint="添加描述"
             android:textColor="#999999"
             android:textColorHint="#ffffff"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/button"
@@ -72,9 +69,6 @@
             android:text="修改"
             android:textColor="#49C120"
             android:textSize="18sp"
-            android:visibility="gone"
-            />
+            android:visibility="gone"/>
     </LinearLayout>
-
-
 </LinearLayout>

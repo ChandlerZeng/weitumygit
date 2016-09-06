@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.List;
 
+
 /**
  * <p>
  * Title: ImageGridAdapter2.java
@@ -33,7 +34,8 @@ import java.util.List;
  * @author 作者名
  * @version common v1.0
  */
-public class ImageGridAdapter2 extends BaseAdapter {
+public class ImageGridAdapter2 extends BaseAdapter
+{
     List<ListGridImage> mlist;
     private LayoutInflater mInflater;
     final int mGridWidth;
@@ -41,34 +43,43 @@ public class ImageGridAdapter2 extends BaseAdapter {
     boolean mAdministration = false;
 
 
-    public ImageGridAdapter2(List<ListGridImage> list, Context context) {
+    public ImageGridAdapter2(List<ListGridImage> list, Context context)
+    {
         this.mcontext = context;
         this.mlist = list;
         mInflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int width = 0;
         WindowManager wm = (WindowManager) mcontext.getSystemService(Context.WINDOW_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+        {
             Point size = new Point();
             wm.getDefaultDisplay().getSize(size);
             width = size.x;
-        } else {
+        }
+        else
+        {
             width = wm.getDefaultDisplay().getWidth();
         }
         mGridWidth = width / 4;
     }
 
-    public ImageGridAdapter2(List<ListGridImage> list, Context context, boolean Administration) {
+
+    public ImageGridAdapter2(List<ListGridImage> list, Context context, boolean Administration)
+    {
         this.mAdministration = Administration;
         this.mcontext = context;
         this.mlist = list;
         mInflater = (LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int width = 0;
         WindowManager wm = (WindowManager) mcontext.getSystemService(Context.WINDOW_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+        {
             Point size = new Point();
             wm.getDefaultDisplay().getSize(size);
             width = size.x;
-        } else {
+        }
+        else
+        {
             width = wm.getDefaultDisplay().getWidth();
         }
         mGridWidth = width / 4;
@@ -76,30 +87,41 @@ public class ImageGridAdapter2 extends BaseAdapter {
 
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return mlist.size();
     }
 
-    public Object getItem(int position) {
+
+    public Object getItem(int position)
+    {
         return mlist.get(position);
     }
 
+
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
+
     @Override
-    public View getView(int i, View view, ViewGroup parent) {
+    public View getView(int i, View view, ViewGroup parent)
+    {
         ViewHolder holder;
-        if (view == null) {
+        if (view == null)
+        {
             view = mInflater.inflate(R.layout.list_item_image, parent, false);
             holder = new ViewHolder(view);
-        } else {
+        }
+        else
+        {
             holder = (ViewHolder) view.getTag();
         }
 
-        if (holder != null) {
+        if (holder != null)
+        {
             holder.setVis(mlist.get(i).isPro());
             holder.setCheck(mlist.get(i).ischeck());
             holder.bindData(getStr(i));
@@ -107,75 +129,96 @@ public class ImageGridAdapter2 extends BaseAdapter {
         return view;
     }
 
-    public void setData(List<ListGridImage> list) {
+
+    public void setData(List<ListGridImage> list)
+    {
         this.mlist = list;
     }
 
-    public String getStr(int i) {
+
+    public String getStr(int i)
+    {
 
         return mlist.get(i).getImageUrl();
 
     }
 
-    class ViewHolder {
+
+    class ViewHolder
+    {
         ImageView image;
         ImageView indicator;
         ProgressBar progressBar;
         View mask;
 
-        ViewHolder(View view) {
+
+        ViewHolder(View view)
+        {
             image = (ImageView) view.findViewById(R.id.image);
             indicator = (ImageView) view.findViewById(R.id.checkmark);
             if (mAdministration)
+            {
                 indicator.setVisibility(View.VISIBLE);
+            }
             else
+            {
                 indicator.setVisibility(View.GONE);
+            }
             mask = view.findViewById(R.id.mask);
             progressBar = (ProgressBar) view.findViewById(R.id.pro);
             view.setTag(this);
         }
 
-        void setImageView() {
+
+        void setImageView()
+        {
             image.setImageResource(R.drawable.add_pic);
         }
 
-        void setCheck(boolean isCheak) {
+
+        void setCheck(boolean isCheak)
+        {
             if (isCheak)
+            {
                 indicator.setImageResource(R.drawable.btn_selected);
+            }
             else
+            {
                 indicator.setImageResource(R.drawable.btn_unselected);
+            }
         }
 
-        void setVis(boolean isCheak) {
+
+        void setVis(boolean isCheak)
+        {
             if (isCheak)
+            {
                 progressBar.setVisibility(View.VISIBLE);
+            }
             else
+            {
                 progressBar.setVisibility(View.GONE);
+            }
         }
 
-        void bindData(String url) {
+
+        void bindData(String url)
+        {
 
             String a = url;
 
             File imageFile = new File(url);
-            if (imageFile.exists()) {
-                Picasso.with(mcontext)
-                        .load(imageFile)
-                        .placeholder(R.drawable.default_error)
-                        .tag(MultiImageSelectorFragment.TAG)
-                        .resize(mGridWidth, mGridWidth)
-                        .centerCrop()
-                        .into(image);
-            } else {
+            if (imageFile.exists())
+            {
+                Picasso.with(mcontext).load(imageFile).placeholder(R.drawable.default_error).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(image);
+            }
+            else
+            {
                 if (a == null || a.length() == 0)
+                {
                     return;
-                Picasso.with(mcontext)
-                        .load(a)
-                        .placeholder(R.drawable.default_error)
-                        .tag(MultiImageSelectorFragment.TAG)
-                        .resize(mGridWidth, mGridWidth)
-                        .centerCrop()
-                        .into(image);
+                }
+                Picasso.with(mcontext).load(a).placeholder(R.drawable.default_error).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(image);
             }
         }
     }

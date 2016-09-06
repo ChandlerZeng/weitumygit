@@ -20,17 +20,22 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * Created by Administrator on 2016/1/11 0011.
  */
-public class FeedBackFragment extends BaseFragment{
+public class FeedBackFragment extends BaseFragment
+{
     @Bind(R.id.content)
     EditText mContentEdit;
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.send_info})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.back_btn, R.id.send_info})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
@@ -40,31 +45,45 @@ public class FeedBackFragment extends BaseFragment{
         }
     }
 
+
     @Override
-    public void onBackPressed() {
-        if (((ContentActivity)mContext).getCurrentExtra().getBoolean(ContentActivity.FRAG_ISBACK)){
-            ((ContentActivity)mContext).popBack();
-        }else{
+    public void onBackPressed()
+    {
+        if (((ContentActivity) mContext).getCurrentExtra().getBoolean(ContentActivity.FRAG_ISBACK))
+        {
+            ((ContentActivity) mContext).popBack();
+        }
+        else
+        {
             mContext.finish();
         }
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_feedback;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         setTitle(root);
     }
 
-    private void setTitle(View root){
-        ((TextView)root.findViewById(R.id.title)).setText("我有建议");
+
+    private void setTitle(View root)
+    {
+        ((TextView) root.findViewById(R.id.title)).setText("我有建议");
     }
 
-    private void sendBack(String content) {
-        if(CheckUtil.isNull(content)){
+
+    private void sendBack(String content)
+    {
+        if (CheckUtil.isNull(content))
+        {
             showToast("说点什么吧");
             return;
         }
@@ -73,22 +92,30 @@ public class FeedBackFragment extends BaseFragment{
         params.put("method", "suggestion.save");
         params.put("uid", Preference.instance(mContext).getString(Preference.uid));
         params.put("content", content);
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
 
             }
 
+
             @Override
-            public void onResponse(String json, int id) {
+            public void onResponse(String json, int id)
+            {
                 dismissLoading();
-                if (CheckUtil.isNullTxt(json)) {
+                if (CheckUtil.isNullTxt(json))
+                {
                     showToast("请求超时，请稍后再试");
                     return;
                 }
-                if (CheckUtil.isNull(json)) {
+                if (CheckUtil.isNull(json))
+                {
                     showToast("网络连接超时，请稍后再试");
-                } else {
+                }
+                else
+                {
                     Toast.makeText(mContext, "感谢您提的宝贵意见", Toast.LENGTH_SHORT).show();
                     mContext.finish();
                 }

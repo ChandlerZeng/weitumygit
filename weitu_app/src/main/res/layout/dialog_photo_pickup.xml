@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:id="@+id/container_dialog"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/pop_layout"
@@ -12,13 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_single_normal"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/btn_take_photo"
@@ -26,9 +27,9 @@
                 android:layout_height="@dimen/page_title_height"
                 android:background="@null"
                 android:text="@string/choose_camera"
-                android:textColor="@color/main_color" />
-            
-            <View 
+                android:textColor="@color/main_color"/>
+
+            <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.8dip"
                 android:background="@color/pickup_divider_line"/>
@@ -39,7 +40,7 @@
                 android:layout_height="@dimen/page_title_height"
                 android:background="@null"
                 android:text="@string/choose_photo_sd"
-                android:textColor="@color/main_color" />
+                android:textColor="@color/main_color"/>
         </LinearLayout>
 
         <Button
@@ -50,7 +51,6 @@
             android:layout_marginTop="10dip"
             android:background="@drawable/preference_single_item"
             android:text="@string/cancel_str"
-            android:textColor="@color/main_color" />
+            android:textColor="@color/main_color"/>
     </LinearLayout>
-
 </RelativeLayout>

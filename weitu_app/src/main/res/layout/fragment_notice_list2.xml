@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey8">
+    android:background="@color/grey8"
+    android:orientation="vertical">
+
     <include layout="@layout/included_title1"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/divider"/>
+
     <com.libtop.weitu.widget.listview.RemakeXListView
-        android:background="@color/white"
+        android:id="@+id/notice_list2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:id="@+id/notice_list2"
+        android:background="@color/white"
+        android:cacheColorHint="@color/transparent"
         android:divider="@null"
-        android:listSelector="@drawable/list_selector"
-        android:cacheColorHint="@color/transparent">
-    </com.libtop.weitu.widget.listview.RemakeXListView>
-    <!--<TextView
-        android:id="@+id/footer_Text"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey2"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="学霸大人，你已经看完所有内容了～"/>-->
+        android:listSelector="@drawable/list_selector"/>
 </LinearLayout>

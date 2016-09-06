@@ -30,10 +30,12 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import okhttp3.Call;
 
+
 /**
  * Created by Administrator on 2016/1/8 0008.
  */
-public class LibraryFragment extends ContentFragment{
+public class LibraryFragment extends ContentFragment
+{
     @Bind(R.id.list)
     ListView mLibListView;
     @Bind(R.id.sidebar)
@@ -44,37 +46,47 @@ public class LibraryFragment extends ContentFragment{
     TextView mTitleText;
 
 
-    private List<SchoolDto> mDatas=new ArrayList<SchoolDto>();
+    private List<SchoolDto> mDatas = new ArrayList<SchoolDto>();
     private SortAdapter mAdapter;
     private int from = 0;
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         Bundle bundle = mContext.getIntent().getExtras();
-        if (bundle != null) {
+        if (bundle != null)
+        {
             from = bundle.getInt("from", 0);
         }
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_library_list;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         super.onCreation(root);
         mTitleText.setText(R.string.choose_library);
         mAdapter = new SortAdapter(mContext, mDatas);
         mLibListView.setAdapter(mAdapter);
         mSideBar.setTextView(mDialog);
-        mSideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+        mSideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener()
+        {
             @Override
-            public void onTouchingLetterChanged(String s) {
+            public void onTouchingLetterChanged(String s)
+            {
                 // 该字母首次出现的位置
                 int position = mAdapter.getPositionForSection(s.charAt(0));
-                if (position != -1) {
+                if (position != -1)
+                {
                     mLibListView.setSelection(position);
                 }
             }
@@ -83,31 +95,40 @@ public class LibraryFragment extends ContentFragment{
     }
 
 
-
-    private void loadData() {
+    private void loadData()
+    {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "library.list");
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
 
             }
 
+
             @Override
-            public void onResponse(String json, int id) {
+            public void onResponse(String json, int id)
+            {
                 dismissLoading();
-                if (!CheckUtil.isNull(json)) {
-                    try {
+                if (!CheckUtil.isNull(json))
+                {
+                    try
+                    {
                         mDatas.clear();
                         JSONArray array = new JSONArray(json);
-                        for (int i = 0; i < array.length(); i++) {
+                        for (int i = 0; i < array.length(); i++)
+                        {
                             SchoolDto dto = new SchoolDto();
                             dto.of(array.getJSONObject(i));
                             mDatas.add(dto);
                         }
                         mAdapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
+                    }
+                    catch (JSONException e)
+                    {
                         e.printStackTrace();
                         showToast("数据解析出错");
                     }
@@ -116,25 +137,34 @@ public class LibraryFragment extends ContentFragment{
         });
     }
 
+
     @Nullable
     @OnItemClick(value = R.id.list)
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+    {
         SchoolDto dto = mDatas.get(position);
         mPreference.putString(Preference.SchoolName, dto.name);
         mPreference.putString(Preference.SchoolCode, dto.code);
         mPreference.putString(Preference.SchoolId, dto.id);
-        if (from == 0) {
+        if (from == 0)
+        {
             mActivity.popBack();
-        } else {
+        }
+        else
+        {
             mContext.setResult(Activity.RESULT_OK);
             mContext.finish();
             mContext.startActivity(null, MainActivity.class);
         }
     }
 
-    @Nullable @OnClick(R.id.back_btn)
-    public void viewClick(View v){
-        switch (v.getId()){
+
+    @Nullable
+    @OnClick(R.id.back_btn)
+    public void viewClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;

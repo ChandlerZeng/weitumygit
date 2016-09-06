@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetLeft="65dp"
-    android:drawable="@drawable/shape_bg_g2" >
-</inset>
+<inset
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/shape_bg_g2"
+    android:insetLeft="65dp"/>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -21,13 +22,13 @@
             android:singleLine="true"
             android:text="28381348583148684"
             android:textColor="@drawable/selector_search_text_tab"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/vertical"
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="@color/grey7" />
+            android:background="@color/grey7"/>
     </LinearLayout>
 
     <TextView
@@ -35,5 +36,5 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_alignParentBottom="true"
-        android:background="@color/grey7" />
+        android:background="@color/grey7"/>
 </LinearLayout>

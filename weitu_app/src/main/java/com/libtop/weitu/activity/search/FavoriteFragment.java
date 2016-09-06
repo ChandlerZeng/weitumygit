@@ -24,102 +24,134 @@ import java.util.Map;
 import butterknife.Bind;
 import okhttp3.Call;
 
-public class FavoriteFragment extends NotifyFragment {
 
-	@Bind( R.id.list)
-	ListView listview;
+public class FavoriteFragment extends NotifyFragment
+{
 
-	private List<BookItem> data;
-	private BookFavorateAdapter adapter;
-	private boolean isCreate = false;
-	private BookDetailFragment mParent;
+    @Bind(R.id.list)
+    ListView listview;
 
-	public static FavoriteFragment Instance() {
-		FavoriteFragment fragment = new FavoriteFragment();
-		return fragment;
-	}
+    private List<BookItem> data;
+    private BookFavorateAdapter adapter;
+    private boolean isCreate = false;
+    private BookDetailFragment mParent;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (data == null) {
-			data = new ArrayList<BookItem>();
-		}
-		mParent = (BookDetailFragment)getParentFragment();
-		adapter = new BookFavorateAdapter(mContext, data);
-	}
 
-	@Override
-	protected int getLayoutId() {
-		return R.layout.fragment_book_layout;
-	}
+    public static FavoriteFragment Instance()
+    {
+        FavoriteFragment fragment = new FavoriteFragment();
+        return fragment;
+    }
 
-	@Override
-	public void onCreation(View root) {
-		initView();
-	}
 
-	private void initView() {
-		listview.setAdapter(adapter);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        if (data == null)
+        {
+            data = new ArrayList<BookItem>();
+        }
+        mParent = (BookDetailFragment) getParentFragment();
+        adapter = new BookFavorateAdapter(mContext, data);
+    }
 
-	public void loadInfo(List<BookItem> temps) {
-		if (data == null) {
-			data = temps;
-		} else {
-			data.clear();
-			data.addAll(temps);
-		}
-	}
 
-	@Override
-	public void notify(String data) {
-		if (!isCreate) {
-			loadData();
-			isCreate = true;
-		}
-	}
+    @Override
+    protected int getLayoutId()
+    {
+        return R.layout.fragment_book_layout;
+    }
 
-	private void loadData() {
-		data.clear();
-		adapter.notifyDataSetChanged();
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("lid",mParent.getSchool());
-		params.put("bid", mParent.getDto().mid);
-		params.put("method", "book.getIndex");
-		showLoding();
-		HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
-			@Override
-			public void onError(Call call, Exception e, int id) {
 
-			}
+    @Override
+    public void onCreation(View root)
+    {
+        initView();
+    }
 
-			@Override
-			public void onResponse(String json, int id) {
-				dismissLoading();
-				if (CheckUtil.isNullTxt(json)) {
-					Toast.makeText(mContext, "请求超时，请稍后再试", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				if (!CheckUtil.isNull(json)) {
-					try {
-						JSONArray array = new JSONArray(json);
-						for (int i = 0; i < array.length(); i++) {
-							JSONObject item = array.getJSONObject(i);
-							BookItem book = new BookItem();
-							book.of(item);
-							data.add(book);
-						}
-						adapter.notifyDataSetChanged();
-					} catch (JSONException e) {
-						e.printStackTrace();
-						Toast.makeText(mContext, "数据解析失败", Toast.LENGTH_SHORT)
-								.show();
-					}
-				}
-			}
-		});
-	}
+
+    private void initView()
+    {
+        listview.setAdapter(adapter);
+    }
+
+
+    public void loadInfo(List<BookItem> temps)
+    {
+        if (data == null)
+        {
+            data = temps;
+        }
+        else
+        {
+            data.clear();
+            data.addAll(temps);
+        }
+    }
+
+
+    @Override
+    public void notify(String data)
+    {
+        if (!isCreate)
+        {
+            loadData();
+            isCreate = true;
+        }
+    }
+
+
+    private void loadData()
+    {
+        data.clear();
+        adapter.notifyDataSetChanged();
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("lid", mParent.getSchool());
+        params.put("bid", mParent.getDto().mid);
+        params.put("method", "book.getIndex");
+        showLoding();
+        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dismissLoading();
+                if (CheckUtil.isNullTxt(json))
+                {
+                    Toast.makeText(mContext, "请求超时，请稍后再试", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!CheckUtil.isNull(json))
+                {
+                    try
+                    {
+                        JSONArray array = new JSONArray(json);
+                        for (int i = 0; i < array.length(); i++)
+                        {
+                            JSONObject item = array.getJSONObject(i);
+                            BookItem book = new BookItem();
+                            book.of(item);
+                            data.add(book);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        Toast.makeText(mContext, "数据解析失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
 
 
 }

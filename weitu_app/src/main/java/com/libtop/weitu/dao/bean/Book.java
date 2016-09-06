@@ -7,43 +7,63 @@ import de.greenrobot.dao.DaoException;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
+
 /**
  * Entity mapped to table book.
  */
-public class Book {
+public class Book
+{
 
     private Long id;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String name;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String author;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String cover;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String isbn;
     private boolean favorate;
     private boolean want_see;
     private boolean see_pre;
     private long update_time;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     private transient BookDao myDao;
 
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
-    public Book() {
+
+    public Book()
+    {
     }
 
-    public Book(Long id) {
+
+    public Book(Long id)
+    {
         this.id = id;
     }
 
-    public Book(Long id, String name, String author, String cover, String isbn, boolean favorate, boolean want_see, boolean see_pre, long update_time) {
+
+    public Book(Long id, String name, String author, String cover, String isbn, boolean favorate, boolean want_see, boolean see_pre, long update_time)
+    {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -55,113 +75,184 @@ public class Book {
         this.update_time = update_time;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    public void __setDaoSession(DaoSession daoSession) {
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    public void __setDaoSession(DaoSession daoSession)
+    {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getBookDao() : null;
     }
 
-    public Long getId() {
+
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    /** Not-null value. */
-    public String getName() {
+
+    /**
+     * Not-null value.
+     */
+    public String getName()
+    {
         return name;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setName(String name) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    /** Not-null value. */
-    public String getAuthor() {
+
+    /**
+     * Not-null value.
+     */
+    public String getAuthor()
+    {
         return author;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setAuthor(String author) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setAuthor(String author)
+    {
         this.author = author;
     }
 
-    /** Not-null value. */
-    public String getCover() {
+
+    /**
+     * Not-null value.
+     */
+    public String getCover()
+    {
         return cover;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setCover(String cover) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setCover(String cover)
+    {
         this.cover = cover;
     }
 
-    /** Not-null value. */
-    public String getIsbn() {
+
+    /**
+     * Not-null value.
+     */
+    public String getIsbn()
+    {
         return isbn;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setIsbn(String isbn) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setIsbn(String isbn)
+    {
         this.isbn = isbn;
     }
 
-    public boolean getFavorate() {
+
+    public boolean getFavorate()
+    {
         return favorate;
     }
 
-    public void setFavorate(boolean favorate) {
+
+    public void setFavorate(boolean favorate)
+    {
         this.favorate = favorate;
     }
 
-    public boolean getWant_see() {
+
+    public boolean getWant_see()
+    {
         return want_see;
     }
 
-    public void setWant_see(boolean want_see) {
+
+    public void setWant_see(boolean want_see)
+    {
         this.want_see = want_see;
     }
 
-    public boolean getSee_pre() {
+
+    public boolean getSee_pre()
+    {
         return see_pre;
     }
 
-    public void setSee_pre(boolean see_pre) {
+
+    public void setSee_pre(boolean see_pre)
+    {
         this.see_pre = see_pre;
     }
 
-    public long getUpdate_time() {
+
+    public long getUpdate_time()
+    {
         return update_time;
     }
 
-    public void setUpdate_time(long update_time) {
+
+    public void setUpdate_time(long update_time)
+    {
         this.update_time = update_time;
     }
 
-    /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
-    public void delete() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context.
+     */
+    public void delete()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.delete(this);
     }
 
-    /** Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context. */
-    public void update() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context.
+     */
+    public void update()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.update(this);
     }
 
-    /** Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context. */
-    public void refresh() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context.
+     */
+    public void refresh()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.refresh(this);
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,7 +15,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider" />
+            android:background="@color/divider"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                 android:layout_weight="1"
                 android:text="本校热门图书排行榜"
                 android:textColor="@color/grey3"
-                android:textSize="16sp" />
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/tv_school2"
@@ -38,8 +39,7 @@
                 android:layout_margin="5dp"
                 android:text="华南农业大学"
                 android:textColor="@color/green1"
-                android:textSize="12sp" />
-
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <com.libtop.weitu.widget.gridview.FixedGridView
@@ -54,12 +54,12 @@
             android:listSelector="@drawable/list_selector"
             android:numColumns="3"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="20dp" />
+            android:verticalSpacing="20dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/divider" />
+            android:background="@color/divider"/>
 
         <TextView
             android:id="@+id/rmd_books_favorite_more_text"
@@ -70,17 +70,17 @@
             android:padding="5dp"
             android:text="查看更多热门书籍 >"
             android:textColor="@color/grey4"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/divider" />
+            android:background="@color/divider"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="#f2f2f2" />
+            android:background="#f2f2f2"/>
     </LinearLayout>
 
     <LinearLayout
@@ -98,7 +98,7 @@
             android:layout_weight="1"
             android:text="推荐图书"
             android:textColor="@color/grey3"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <com.libtop.weitu.widget.gridview.FixedGridView
             android:id="@+id/grid_view_rmd_books"
@@ -112,12 +112,12 @@
             android:listSelector="@drawable/list_selector"
             android:numColumns="3"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="20dp" />
+            android:verticalSpacing="20dp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/divider" />
+            android:background="@color/divider"/>
 
         <TextView
             android:id="@+id/rmd_books_recommend_more_text"
@@ -128,13 +128,12 @@
             android:padding="5dp"
             android:text="查看更多推荐书籍 >"
             android:textColor="@color/grey4"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:background="@color/white" />
-
+            android:background="@color/white"/>
     </LinearLayout>
 </LinearLayout>
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:id="@+id/second"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:padding="8dip" >
+    android:padding="8dip">
 
     <LinearLayout
         android:id="@+id/fl_board"
@@ -14,16 +14,13 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
-        android:gravity="center"
-        >
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerInside"
-            />
-
+            android:scaleType="centerInside"/>
     </LinearLayout>
 
     <LinearLayout
@@ -32,7 +29,7 @@
         android:layout_marginLeft="15dip"
         android:layout_toRightOf="@id/fl_board"
         android:gravity="top|left"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
@@ -49,7 +46,6 @@
             android:paddingBottom="3dip"
             android:paddingTop="3dip"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/text_size_14"/>
     </LinearLayout>
-
 </RelativeLayout>

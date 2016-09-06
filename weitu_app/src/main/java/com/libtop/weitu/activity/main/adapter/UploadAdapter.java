@@ -30,10 +30,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Created by Administrator on 2016/4/25 0025.
  */
-public class UploadAdapter extends BaseAdapter {
+public class UploadAdapter extends BaseAdapter
+{
     private LayoutInflater mInflater;
     public Context mContext;
     public List<VideoBean> mlist;
@@ -42,46 +44,62 @@ public class UploadAdapter extends BaseAdapter {
     progressView holder;
     final int mGridWidth;
 
-    public UploadAdapter(Context context, List<VideoBean> list, OnOptionImgClickListener listenner) {
+
+    public UploadAdapter(Context context, List<VideoBean> list, OnOptionImgClickListener listenner)
+    {
         this.mOptionImgClickListener = listenner;
         this.mlist = list;
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         int width = 0;
         WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2)
+        {
             Point size = new Point();
             wm.getDefaultDisplay().getSize(size);
             width = size.x;
-        } else {
+        }
+        else
+        {
             width = wm.getDefaultDisplay().getWidth();
         }
         mGridWidth = width / 5;
     }
 
+
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return mlist.size();
     }
 
+
     @Override
-    public Object getItem(int position) {
+    public Object getItem(int position)
+    {
         return mlist.get(position);
     }
 
-    public void setData(List<VideoBean> list) {
+
+    public void setData(List<VideoBean> list)
+    {
         this.mlist = list;
     }
 
+
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return position;
     }
 
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent)
+    {
+
+        if (convertView == null)
+        {
             convertView = mInflater.inflate(R.layout.upload_adapter, null);
             holder = new progressView();
             holder.uploadProgress = (ProgressBar) convertView.findViewById(R.id.pgsBar);
@@ -95,7 +113,9 @@ public class UploadAdapter extends BaseAdapter {
             holder.imageButton = (ImageButton) convertView.findViewById(R.id.imgBtn_video_choice);
             holder.imageView = (ImageView) convertView.findViewById(R.id.see);
             convertView.setTag(holder);
-        } else {
+        }
+        else
+        {
             holder = (progressView) convertView.getTag();
         }
         pView.add(holder.uploadProgress);
@@ -107,11 +127,14 @@ public class UploadAdapter extends BaseAdapter {
         holder.oneView.setText(mlist.get(position).titleChange + ".mp4");
         long duration_temp = mlist.get(position).createTime;
         String str;
-        if (duration_temp == 0) {
+        if (duration_temp == 0)
+        {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
             Date curDate = new Date(System.currentTimeMillis());//获取当前时间
             str = formatter.format(curDate);
-        } else {
+        }
+        else
+        {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             str = sdf.format(new Date(duration_temp));
         }
@@ -120,23 +143,29 @@ public class UploadAdapter extends BaseAdapter {
         holder.video_duration.setText(hms);
 
         bindData(mlist.get(position).coverUrl, holder.imageView, mlist.get(position).filePath);
-        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+        holder.imageButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 mOptionImgClickListener.onOptionImgTouch(v, position);
 
             }
         });
-        holder.view.setOnClickListener(new View.OnClickListener() {
+        holder.view.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 mOptionImgClickListener.onUpload(v, position);
 
             }
         });
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        holder.imageView.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 mOptionImgClickListener.onImageTouch(v, position);
 
             }
@@ -144,7 +173,9 @@ public class UploadAdapter extends BaseAdapter {
         return convertView;
     }
 
-    class progressView {
+
+    class progressView
+    {
         public View view, video;
         public ProgressBar uploadProgress;
         public TextView oneView, twoView, threeView, video_duration, video_size;
@@ -152,13 +183,16 @@ public class UploadAdapter extends BaseAdapter {
         public ImageView imageView;
     }
 
-    public interface OnOptionImgClickListener {
+
+    public interface OnOptionImgClickListener
+    {
         void onOptionImgTouch(View v, int position);
 
         void onImageTouch(View v, int position);
 
         void onUpload(View v, int position);
     }
+
 
     /**
      * 加载本地图片
@@ -167,37 +201,52 @@ public class UploadAdapter extends BaseAdapter {
      * @param url
      * @return
      */
-    public Bitmap getLoacalBitmap(String url) {
-        try {
+    public Bitmap getLoacalBitmap(String url)
+    {
+        try
+        {
             FileInputStream fis = new FileInputStream(url);
             return BitmapFactory.decodeStream(fis);
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e)
+        {
             e.printStackTrace();
             return null;
         }
     }
 
-    public String cal(long msecond) {
+
+    public String cal(long msecond)
+    {
         int second = (int) msecond;
         int h = 0;
         int d = 0;
         int s = 0;
         int temp = second % 3600;
-        if (second > 3600) {
+        if (second > 3600)
+        {
             h = second / 3600;
-            if (temp != 0) {
-                if (temp > 60) {
+            if (temp != 0)
+            {
+                if (temp > 60)
+                {
                     d = temp / 60;
-                    if (temp % 60 != 0) {
+                    if (temp % 60 != 0)
+                    {
                         s = temp % 60;
                     }
-                } else {
+                }
+                else
+                {
                     s = temp;
                 }
             }
-        } else {
+        }
+        else
+        {
             d = second / 60;
-            if (second % 60 != 0) {
+            if (second % 60 != 0)
+            {
                 s = second % 60;
             }
         }
@@ -205,22 +254,23 @@ public class UploadAdapter extends BaseAdapter {
         return d + ":" + s;
     }
 
-    void bindData(String url, ImageView image, String fileurl) {
+
+    void bindData(String url, ImageView image, String fileurl)
+    {
         Bitmap bitmap1 = ThumbnailUtils.createVideoThumbnail(fileurl, MediaStore.Video.Thumbnails.MICRO_KIND);
         String a = url;
-        if (bitmap1 != null) {
+        if (bitmap1 != null)
+        {
             image.setImageBitmap(bitmap1);
 
-        } else {
+        }
+        else
+        {
             if (a == null || a.length() == 0)
+            {
                 return;
-            Picasso.with(mContext)
-                    .load(a)
-                    .placeholder(R.drawable.default_image)
-                    .tag(MultiImageSelectorFragment.TAG)
-                    .resize(mGridWidth + 20, mGridWidth)
-                    .centerCrop()
-                    .into(image);
+            }
+            Picasso.with(mContext).load(a).placeholder(R.drawable.default_image).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth + 20, mGridWidth).centerCrop().into(image);
         }
     }
 

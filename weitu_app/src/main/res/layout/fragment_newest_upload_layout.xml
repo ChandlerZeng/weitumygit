@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    style="@style/content">
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -15,9 +18,9 @@
             android:id="@+id/newest_upload_btn_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="11dp"
             android:clickable="true"
-            android:src="@drawable/arrow_back" />
+            android:padding="11dp"
+            android:src="@drawable/arrow_back"/>
 
         <TextView
             android:id="@+id/title"
@@ -29,23 +32,23 @@
             android:paddingRight="10dp"
             android:text="最新上传"
             android:textColor="@color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <ImageView
             android:id="@+id/newest_upload_search_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
             android:layout_margin="5dp"
-            android:src="@drawable/icon_serach" />
-
+            android:clickable="true"
+            android:src="@drawable/icon_serach"/>
     </LinearLayout>
+
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="fill_parent"
         android:layout_height="35dip"
         android:background="@color/white"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/newest_upload_all"
@@ -57,7 +60,7 @@
             android:checked="true"
             android:gravity="center"
             android:text="综合"
-            android:textColor="@color/group_tap_textcolor_radiobutton" />
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
 
         <RadioButton
             android:id="@+id/newest_upload_books"
@@ -68,7 +71,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="图书"
-            android:textColor="@color/group_tap_textcolor_radiobutton" />
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
 
         <RadioButton
             android:id="@+id/newest_upload_video"
@@ -79,7 +82,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="视频"
-            android:textColor="@color/group_tap_textcolor_radiobutton" />
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+
         <RadioButton
             android:id="@+id/newest_upload_audio"
             android:layout_width="0dp"
@@ -89,7 +93,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="音频"
-            android:textColor="@color/group_tap_textcolor_radiobutton" />
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+
         <RadioButton
             android:id="@+id/newest_upload_document"
             android:layout_width="0dp"
@@ -99,7 +104,8 @@
             android:button="@null"
             android:gravity="center"
             android:text="文档"
-            android:textColor="@color/group_tap_textcolor_radiobutton" />
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+
         <RadioButton
             android:id="@+id/newest_upload_images"
             android:layout_width="0dp"
@@ -109,12 +115,13 @@
             android:button="@null"
             android:gravity="center"
             android:text="图库"
-            android:textColor="@color/group_tap_textcolor_radiobutton" />
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
     </RadioGroup>
+
     <com.libtop.weitu.widget.NoSlideViewPager
         android:id="@+id/newest_upload_viewpager"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:background="@color/transparent" />
+        android:background="@color/transparent"/>
 </LinearLayout>

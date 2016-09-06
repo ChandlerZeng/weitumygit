@@ -50,7 +50,8 @@ import okhttp3.Call;
 /**
  * Created by LianTu on 2016/4/25.
  */
-public class DocEditFragment extends ContentFragment{
+public class DocEditFragment extends ContentFragment
+{
 
     @Bind(R.id.title)
     TextView mTitleText;
@@ -76,81 +77,105 @@ public class DocEditFragment extends ContentFragment{
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        bundle = ((ContentActivity)getActivity()).getCurrentExtra();
+        bundle = ((ContentActivity) getActivity()).getCurrentExtra();
         docBean = new Gson().fromJson(bundle.getString("docBean"), DocBean.class);
         EventBus.getDefault().register(this);
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_doc_edit;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         setTitle();
         mDescText.addTextChangedListener(watcher);
-        if (!TextUtils.isEmpty(bundle.getString("docPath"))){
+        if (!TextUtils.isEmpty(bundle.getString("docPath")))
+        {
             File file = new File(bundle.getString("docPath"));
-            String fileName = file.getName().substring(0,file.getName().lastIndexOf("."));
+            String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
             mEditTitleText.setText(fileName);
         }
-        if (docBean!=null){
+        if (docBean != null)
+        {
             mEditTitleText.setText(docBean.title);
-            if (docBean.tags!=null&&docBean.tags.length!=0){
+            if (docBean.tags != null && docBean.tags.length != 0)
+            {
                 mTagGroup.setTags(docBean.tags);
             }
-            if (!TextUtils.isEmpty(docBean.categoriesName1)){
+            if (!TextUtils.isEmpty(docBean.categoriesName1))
+            {
                 mSortText.setText(docBean.categoriesName1);
             }
-            if (!TextUtils.isEmpty(docBean.introduction)){
+            if (!TextUtils.isEmpty(docBean.introduction))
+            {
                 mDescText.setText(docBean.introduction);
             }
-        }else {
+        }
+        else
+        {
             docBean = new DocBean();
         }
-        if (bundle.getBoolean("uploadDoc")){
+        if (bundle.getBoolean("uploadDoc"))
+        {
             mTitleText.setText("上传文档");
             mBtnUploadDoc.setText("发布");
         }
     }
 
+
     @Override
-    public void onStart() {
+    public void onStart()
+    {
         super.onStart();
-        if (bm != null){
+        if (bm != null)
+        {
             String sortText = bm.getString("sort");
             docBean.label1 = bm.getInt("sortId");
             mSortText.setText(sortText);
         }
     }
 
-    private TextWatcher watcher = new TextWatcher() {
+
+    private TextWatcher watcher = new TextWatcher()
+    {
         private CharSequence temp;
         private int editStart;
         private int editEnd;
 
+
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, int before, int count)
+        {
             temp = s;
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count,
-                                      int after) {
-        }
 
         @Override
-        public void afterTextChanged(Editable s) {
-            // TODO Auto-generated method stub
+        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        {
+        }
+
+
+        @Override
+        public void afterTextChanged(Editable s)
+        {
             editStart = mDescText.getSelectionStart();
             editEnd = mDescText.getSelectionEnd();
 
-            if (temp.length() > 50) {
-                if (mContext!=null){
-                    Toast.makeText(mContext,"你输入的字数已经超过了限制！",Toast.LENGTH_SHORT).show();
+            if (temp.length() > 50)
+            {
+                if (mContext != null)
+                {
+                    Toast.makeText(mContext, "你输入的字数已经超过了限制！", Toast.LENGTH_SHORT).show();
                 }
                 s.delete(editStart - 1, editEnd);
                 int tempSelection = editStart;
@@ -160,26 +185,36 @@ public class DocEditFragment extends ContentFragment{
         }
     };
 
+
     @Override
-    public void onDestroy() {
+    public void onDestroy()
+    {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
+
     @Override
-    public void onPause() {
-        try {
+    public void onPause()
+    {
+        try
+        {
             ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mContext.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
 
         }
         super.onPause();
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn,R.id.ll_video_sort,R.id.ll_video_authority,R.id.btn_new_folder})
-    public void onClick(View v) {
-        switch (v.getId()){
+    @OnClick({R.id.back_btn, R.id.ll_video_sort, R.id.ll_video_authority, R.id.btn_new_folder})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
@@ -195,78 +230,102 @@ public class DocEditFragment extends ContentFragment{
         }
     }
 
-    private void newFolder() {
-        if (TextUtils.isEmpty(mEditTitleText.getText())) {
+
+    private void newFolder()
+    {
+        if (TextUtils.isEmpty(mEditTitleText.getText()))
+        {
             Toast.makeText(getActivity(), "名称不能为空", Toast.LENGTH_SHORT).show();
-        }else {
-            if (TextUtils.isEmpty(mSortText.getText().toString())||mSortText.getText().toString().equals("请选择分类")){
-                Toast.makeText(getActivity(),"请选择分类",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            if (TextUtils.isEmpty(mSortText.getText().toString()) || mSortText.getText().toString().equals("请选择分类"))
+            {
+                Toast.makeText(getActivity(), "请选择分类", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (bundle.getBoolean("uploadDoc")){
+            if (bundle.getBoolean("uploadDoc"))
+            {
                 requestUpDoc();
-            }else {
+            }
+            else
+            {
                 requestSaveAlbum();
             }
         }
     }
 
-    private boolean tagOver8(String[] tags){
+
+    private boolean tagOver8(String[] tags)
+    {
         boolean result = false;
-        if (tags!=null){
-            for (String tag:tags){
-                if (tag.length()>8){
+        if (tags != null)
+        {
+            for (String tag : tags)
+            {
+                if (tag.length() > 8)
+                {
                     result = true;
                 }
             }
         }
-        return  result;
+        return result;
     }
 
-    private void requestUpDoc() {
+
+    private void requestUpDoc()
+    {
         //4.上传文档接口
         //http://weitu.bookus.cn/document/save.json?text={"uid":"565bea2c984ec06f56befda3","tags":["good"],"title":"well","introduction":"enen","label1":100000,"method":"document.save"}
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("uid",Preference.instance(mContext)
-                .getString(Preference.uid));
+        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
         String[] ss = mTagGroup.getTags();
 
-        try {
+        try
+        {
             JSONArray jsonarray = new JSONArray(Arrays.toString(ss));
-            params.put("tags",jsonarray);
-        } catch (JSONException e) {
+            params.put("tags", jsonarray);
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
-        params.put("title",mEditTitleText.getText().toString());
-        params.put("introduction",mDescText.getText().toString());
-        params.put("label1",bm.getInt("sortId"));
+        params.put("title", mEditTitleText.getText().toString());
+        params.put("introduction", mDescText.getText().toString());
+        params.put("label1", bm.getInt("sortId"));
         params.put("method", "document.save");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        dismissLoading();
-                        Log.w("guanglog", json);
-                        if (TextUtils.isEmpty(json)) {
-                            showToast("上传失败");
-                            return;
-                        }
-                        Intent data = new Intent();
-                        data.putExtra("filePath", bundle.getString("docPath"));
-                        getActivity().setResult(Activity.RESULT_OK, data);
-                        onBackPressed();
-                    }
-                });
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dismissLoading();
+                Log.w("guanglog", json);
+                if (TextUtils.isEmpty(json))
+                {
+                    showToast("上传失败");
+                    return;
+                }
+                Intent data = new Intent();
+                data.putExtra("filePath", bundle.getString("docPath"));
+                getActivity().setResult(Activity.RESULT_OK, data);
+                onBackPressed();
+            }
+        });
 
     }
 
-    private void requestSaveAlbum() {
+
+    private void requestSaveAlbum()
+    {
         showLoding();
         //3.文档编辑信息接口
         //http://weitu.bookus.cn/document/update.json?text={"id":"572b21ef984ed96c492170f9","tags":["good"],"title":"well","introduction":"enen","label1":5000,"method":"document.update"}
@@ -275,53 +334,71 @@ public class DocEditFragment extends ContentFragment{
         String[] ss = mTagGroup.getTags();
         JsonArray jsonArray = new JsonArray();
         jsonArray.add(Arrays.toString(ss));
-        try {
+        try
+        {
             JSONArray jsonarray = new JSONArray(Arrays.toString(ss));
-            params.put("tags",jsonarray);
-        } catch (JSONException e) {
+            params.put("tags", jsonarray);
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
-        params.put("title",mEditTitleText.getText().toString());
-        params.put("introduction",mDescText.getText().toString());
-        params.put("label1",docBean.label1);
-        params.put("method","document.update");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        params.put("title", mEditTitleText.getText().toString());
+        params.put("introduction", mDescText.getText().toString());
+        params.put("label1", docBean.label1);
+        params.put("method", "document.update");
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(json);
-                            if (((Integer) jsonObject.get("code")) == 1) {
-                                Toast.makeText(mContext, "修改成功", Toast.LENGTH_SHORT).show();
-                                getActivity().setResult(Activity.RESULT_OK);
-                                dismissLoading();
-                                onBackPressed();
-                            } else {
-                                Toast.makeText(mContext,"修改失败",Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                try
+                {
+                    JSONObject jsonObject = new JSONObject(json);
+                    if (((Integer) jsonObject.get("code")) == 1)
+                    {
+                        Toast.makeText(mContext, "修改成功", Toast.LENGTH_SHORT).show();
+                        getActivity().setResult(Activity.RESULT_OK);
+                        dismissLoading();
+                        onBackPressed();
                     }
-                });
+                    else
+                    {
+                        Toast.makeText(mContext, "修改失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (JSONException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(MessageEvent event) {
+    public void onMessage(MessageEvent event)
+    {
         bm = event.message;
     }
 
-    private void setTitle(){
+
+    private void setTitle()
+    {
         mTitleText.setText("编辑信息");
     }
 
-    private void videoAuthority() {
+
+    private void videoAuthority()
+    {
         Bundle bd = new Bundle();
         bd.putString(ContentActivity.FRAG_CLS, VideoAuthorityFragment.class.getName());
         bd.putBoolean(ContentActivity.FRAG_ISBACK, true);
@@ -329,7 +406,9 @@ public class DocEditFragment extends ContentFragment{
         mContext.startActivity(bd, ContentActivity.class);
     }
 
-    private void videoSort() {
+
+    private void videoSort()
+    {
         Bundle bd = new Bundle();
         bd.putString(ContentActivity.FRAG_CLS, VideoSortFragment.class.getName());
         bd.putBoolean(ContentActivity.FRAG_ISBACK, true);

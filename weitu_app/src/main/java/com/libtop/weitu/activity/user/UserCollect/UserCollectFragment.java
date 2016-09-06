@@ -19,10 +19,12 @@ import java.util.List;
 
 import butterknife.Bind;
 
+
 /**
  * Created by LianTu on 2016/7/18.
  */
-public class UserCollectFragment extends NotifyFragment{
+public class UserCollectFragment extends NotifyFragment
+{
     @Bind(R.id.viewpager)
     NoSlideViewPager mViewPager;
     @Bind(R.id.radioGroup)
@@ -33,14 +35,16 @@ public class UserCollectFragment extends NotifyFragment{
 
     private int pageIndex = 0;
 
-    public static final int ALL=0,BOOK=1,VIDEO=2,AUDIO=3,DOC=4,IMAGE=5;
+    public static final int ALL = 0, BOOK = 1, VIDEO = 2, AUDIO = 3, DOC = 4, IMAGE = 5;
 
     private ArrayAdapter<CharSequence> adapter = null;
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        mFrags=new ArrayList<Fragment>();
+        mFrags = new ArrayList<Fragment>();
         AllCollectFragment f1 = new AllCollectFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("pageInt", 0);
@@ -84,77 +88,95 @@ public class UserCollectFragment extends NotifyFragment{
         mFrags.add(f5);
         mFrags.add(f6);
 
-        mAdapter=new MainPageAdapter(getChildFragmentManager(),mFrags);
+        mAdapter = new MainPageAdapter(getChildFragmentManager(), mFrags);
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_history_layout;
     }
 
 
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
     }
 
-    private void initView(){
+
+    private void initView()
+    {
         mViewPager.setPagingEnabled(false);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(0);
-        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                onCheckedChanged1(group,checkedId);
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                onCheckedChanged1(group, checkedId);
             }
         });
     }
 
+
     @Override
-    public void onDestroyView() {
+    public void onDestroyView()
+    {
         super.onDestroyView();
     }
 
+
     @Override
-    public void notify(String data) {
-        int current=mViewPager.getCurrentItem();
-        int max=mAdapter.getCount();
-        for (int i=0;i<max;i++){
-            NotifyFragment frag=(NotifyFragment)mAdapter.getItem(i);
+    public void notify(String data)
+    {
+        int current = mViewPager.getCurrentItem();
+        int max = mAdapter.getCount();
+        for (int i = 0; i < max; i++)
+        {
+            NotifyFragment frag = (NotifyFragment) mAdapter.getItem(i);
             frag.reSet();
-            if (current==i){
+            if (current == i)
+            {
                 frag.load();
             }
         }
     }
 
-    public void onCheckedChanged1(RadioGroup group, int checkedId) {
-        pageIndex=-1;
-        switch (checkedId){
-            case R.id.search_all:{
+
+    public void onCheckedChanged1(RadioGroup group, int checkedId)
+    {
+        pageIndex = -1;
+        switch (checkedId)
+        {
+            case R.id.search_all:
+            {
                 pageIndex = ALL;
             }
             break;
-            case R.id.search_books:{
-                pageIndex=BOOK;
+            case R.id.search_books:
+            {
+                pageIndex = BOOK;
             }
             break;
             case R.id.search_video:
-                pageIndex=VIDEO;
+                pageIndex = VIDEO;
                 break;
             case R.id.search_audio:
-                pageIndex=AUDIO;
+                pageIndex = AUDIO;
                 break;
             case R.id.search_document:
-                pageIndex=DOC;
+                pageIndex = DOC;
                 break;
             case R.id.search_images:
-                pageIndex=IMAGE;
+                pageIndex = IMAGE;
                 break;
         }
         Bundle bundle = new Bundle();
-        bundle.putString("from",UserCollectFragment.class.getName());
-        bundle.putInt("pageIndex",pageIndex);
+        bundle.putString("from", UserCollectFragment.class.getName());
+        bundle.putInt("pageIndex", pageIndex);
         EventBus.getDefault().post(new MessageEvent(bundle));
         mViewPager.setCurrentItem(pageIndex);
     }

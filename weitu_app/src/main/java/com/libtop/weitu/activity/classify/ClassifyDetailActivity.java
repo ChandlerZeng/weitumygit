@@ -46,10 +46,12 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
 /**
  * Created by LianTu on 2016/7/20.
  */
-public class ClassifyDetailActivity extends BaseActivity{
+public class ClassifyDetailActivity extends BaseActivity
+{
 
     @Bind(R.id.title)
     TextView mTitleText;
@@ -68,21 +70,22 @@ public class ClassifyDetailActivity extends BaseActivity{
     private int mCurentPage = 1;
     private ClassifyDetailAdapter mAdapter;
     private List<ClassifyResultBean> mData;
-    private ListPopupWindow mListPop,mListFilterPop;
+    private ListPopupWindow mListPop, mListFilterPop;
     private boolean hasData = false;
 
-    private long code,subCode;
+    private long code, subCode;
     private String filterString = "view";
 
     private List<ClassifyBean> lists = new ArrayList<ClassifyBean>();
-    private ClassifyCheckAdapter filterCheckAdapter,classifyCheckAdapter;
+    private ClassifyCheckAdapter filterCheckAdapter, classifyCheckAdapter;
 
 
-    public static final String VIDEO="video-album",AUDIO="audio-album",DOC="document",PHOTO="image-album",BOOK="book";
+    public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book";
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_classify_detail);
         code = mContext.getIntent().getExtras().getLong("code");
@@ -95,34 +98,45 @@ public class ClassifyDetailActivity extends BaseActivity{
         getData();
     }
 
-    private void initListView() {
+
+    private void initListView()
+    {
         mListView.setAdapter(mAdapter);
         mListView.setPullLoadEnable(false);
-        mListView.setXListViewListener(new XListView.IXListViewListener() {
+        mListView.setXListViewListener(new XListView.IXListViewListener()
+        {
             @Override
-            public void onRefresh() {
-                mCurentPage = 1 ;
+            public void onRefresh()
+            {
+                mCurentPage = 1;
                 getData();
             }
 
+
             @Override
-            public void onLoadMore() {
-                if (hasData) {
+            public void onLoadMore()
+            {
+                if (hasData)
+                {
                     getData();
                 }
             }
         });
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startByType(mData.get(position-1).entityType,position-1);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                startByType(mData.get(position - 1).entityType, position - 1);
             }
         });
         mCurentPage = 1;
     }
 
-    private void initPopView(){
-        classifyCheckAdapter = new ClassifyCheckAdapter(mContext,lists,false);
+
+    private void initPopView()
+    {
+        classifyCheckAdapter = new ClassifyCheckAdapter(mContext, lists, false);
         mListPop = new ListPopupWindow(this);
         mListPop.setAdapter(classifyCheckAdapter);
         mListPop.setWidth(ListPopupWindow.MATCH_PARENT);
@@ -130,10 +144,11 @@ public class ClassifyDetailActivity extends BaseActivity{
         mListPop.setAnchorView(titleBar);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
         mListPop.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         mListPop.setModal(true);//设置是否是模式
-        mListPop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListPop.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 mSubTitleText.setText(lists.get(position).name);
                 subCode = lists.get(position).code;
                 classifyCheckAdapter.setCheck(position);
@@ -142,22 +157,25 @@ public class ClassifyDetailActivity extends BaseActivity{
                 mListPop.dismiss();
             }
         });
-        mListPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        mListPop.setOnDismissListener(new PopupWindow.OnDismissListener()
+        {
             @Override
-            public void onDismiss() {
+            public void onDismiss()
+            {
                 imgArrow.setImageResource(R.drawable.arrow_down);
             }
         });
 
 
-        String[] filters = new String[]{"综合","浏览数最多","评论数最多","收藏数最多","最新上传"};
+        String[] filters = new String[]{"综合", "浏览数最多", "评论数最多", "收藏数最多", "最新上传"};
         List<ClassifyBean> filterList = new ArrayList<>();
-        for (int i=0;i<filters.length;i++){
+        for (int i = 0; i < filters.length; i++)
+        {
             ClassifyBean classifyBean = new ClassifyBean();
             classifyBean.name = filters[i];
             filterList.add(classifyBean);
         }
-        filterCheckAdapter = new ClassifyCheckAdapter(mContext,filterList,true);
+        filterCheckAdapter = new ClassifyCheckAdapter(mContext, filterList, true);
         mListFilterPop = new ListPopupWindow(this);
         mListFilterPop.setAdapter(filterCheckAdapter);
         mListFilterPop.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
@@ -165,10 +183,11 @@ public class ClassifyDetailActivity extends BaseActivity{
         mListFilterPop.setAnchorView(titleBar);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
         mListFilterPop.setBackgroundDrawable(new ColorDrawable(0x99000000));
         mListFilterPop.setModal(true);//设置是否是模式
-        mListFilterPop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListFilterPop.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 setFilter(position);
                 filterCheckAdapter.setCheck(position);
                 mCurentPage = 1;
@@ -178,8 +197,11 @@ public class ClassifyDetailActivity extends BaseActivity{
         });
     }
 
-    private void setFilter(int position){
-        switch (position){
+
+    private void setFilter(int position)
+    {
+        switch (position)
+        {
             //综合
             case 0:
                 filterString = "view";
@@ -204,77 +226,93 @@ public class ClassifyDetailActivity extends BaseActivity{
     }
 
 
-    private void getData() {
-//        http://weitu.bookus.cn/search/categories.json?text={"label1":100000,"label2":0,"sort":"favorite","page":1,"method":"search.categories"}
+    private void getData()
+    {
+        //        http://weitu.bookus.cn/search/categories.json?text={"label1":100000,"label2":0,"sort":"favorite","page":1,"method":"search.categories"}
         unsubscribe();
-        Map<String,Object> map = new HashMap<>();
-        map.put("label1",code);
-        map.put("label2",subCode);
-        map.put("sort",filterString);
-        map.put("page",mCurentPage);
-        map.put("method","search.categories");
+        Map<String, Object> map = new HashMap<>();
+        map.put("label1", code);
+        map.put("label2", subCode);
+        map.put("sort", filterString);
+        map.put("page", mCurentPage);
+        map.put("method", "search.categories");
         String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi()
-                .getClassifyDetail(arrays[0],arrays[1],arrays[2])
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ClassifyDetailBean>() {
-                    @Override
-                    public void onCompleted() {
+        subscription = WeituNetwork.getWeituApi().getClassifyDetail(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ClassifyDetailBean>()
+        {
+            @Override
+            public void onCompleted()
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        if (mData.isEmpty()) {
-                            noView.setVisibility(View.VISIBLE);
-                            mListView.setVisibility(View.GONE);
-                        }
-                    }
 
-                    @Override
-                    public void onNext(ClassifyDetailBean classifyDetailBean) {
-                        mListView.stopRefresh();
-                        lists.clear();
-                        int size = classifyDetailBean.categories.subCategories.size();
-                        ClassifyBean classifyBean = new ClassifyBean();
-                        classifyBean.name = "全部";
-                        classifyBean.code = 0;
-                        classifyBean.countString = classifyDetailBean.categories.subCategories.get(0).name + "等"+size+"类";
-                        lists.add(classifyBean);
-                        for (ClassifyBean classifyBean1 : classifyDetailBean.categories.subCategories){
-                            classifyBean1.countString = "共"+classifyBean1.count+"种资源";
-                        }
-                        lists.addAll(classifyDetailBean.categories.subCategories);
-                        classifyCheckAdapter.setData(lists);
-                        classifyCheckAdapter.notifyDataSetChanged();
-                        if (mCurentPage == 1)
-                            mData.clear();
-                        mData.addAll(classifyDetailBean.result);
-                        if (classifyDetailBean.result.size() < 10) {
-                            hasData = false;
-                            mListView.setPullLoadEnable(false);
-                        } else {
-                            hasData = true;
-                            mListView.setPullLoadEnable(true);
-                        }
-                        mCurentPage++;
-                        if (mData.isEmpty()) {
-                            noView.setVisibility(View.VISIBLE);
-                            mListView.setVisibility(View.GONE);
-                        } else {
-                            noView.setVisibility(View.GONE);
-                            mListView.setVisibility(View.VISIBLE);
-                            mAdapter.setNewData(mData);
-                        }
-                    }
-                });
+            @Override
+            public void onError(Throwable e)
+            {
+                if (mData.isEmpty())
+                {
+                    noView.setVisibility(View.VISIBLE);
+                    mListView.setVisibility(View.GONE);
+                }
+            }
+
+
+            @Override
+            public void onNext(ClassifyDetailBean classifyDetailBean)
+            {
+                mListView.stopRefresh();
+                lists.clear();
+                int size = classifyDetailBean.categories.subCategories.size();
+                ClassifyBean classifyBean = new ClassifyBean();
+                classifyBean.name = "全部";
+                classifyBean.code = 0;
+                classifyBean.countString = classifyDetailBean.categories.subCategories.get(0).name + "等" + size + "类";
+                lists.add(classifyBean);
+                for (ClassifyBean classifyBean1 : classifyDetailBean.categories.subCategories)
+                {
+                    classifyBean1.countString = "共" + classifyBean1.count + "种资源";
+                }
+                lists.addAll(classifyDetailBean.categories.subCategories);
+                classifyCheckAdapter.setData(lists);
+                classifyCheckAdapter.notifyDataSetChanged();
+                if (mCurentPage == 1)
+                {
+                    mData.clear();
+                }
+                mData.addAll(classifyDetailBean.result);
+                if (classifyDetailBean.result.size() < 10)
+                {
+                    hasData = false;
+                    mListView.setPullLoadEnable(false);
+                }
+                else
+                {
+                    hasData = true;
+                    mListView.setPullLoadEnable(true);
+                }
+                mCurentPage++;
+                if (mData.isEmpty())
+                {
+                    noView.setVisibility(View.VISIBLE);
+                    mListView.setVisibility(View.GONE);
+                }
+                else
+                {
+                    noView.setVisibility(View.GONE);
+                    mListView.setVisibility(View.VISIBLE);
+                    mAdapter.setNewData(mData);
+                }
+            }
+        });
     }
 
+
     @Nullable
-    @OnClick({R.id.back_btn, R.id.commit,R.id.img_search, R.id.search_filter, R.id.title})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.back_btn, R.id.commit, R.id.img_search, R.id.search_filter, R.id.title})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 mContext.finish();
                 break;
@@ -290,30 +328,42 @@ public class ClassifyDetailActivity extends BaseActivity{
         }
     }
 
+
     //标题点击更改分类
-    private void titleClick(View v) {
+    private void titleClick(View v)
+    {
         imgArrow.setImageResource(R.drawable.arrow_up);
         mListPop.show();
     }
 
+
     //更改筛选
-    private void searchFilterClick() {
+    private void searchFilterClick()
+    {
         mListFilterPop.show();
     }
 
+
     //点击搜索
-    private void searchClick() {
+    private void searchClick()
+    {
         mContext.startActivity(null, SearchActivity.class);
     }
 
+
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         mContext.finish();
     }
 
-    private void startByType(String type, int position) {
-        if (!TextUtils.isEmpty(type)){
-            switch (type){
+
+    private void startByType(String type, int position)
+    {
+        if (!TextUtils.isEmpty(type))
+        {
+            switch (type)
+            {
                 case VIDEO:
                     openVideo(position);
                     break;
@@ -333,7 +383,9 @@ public class ClassifyDetailActivity extends BaseActivity{
 
     }
 
-    private void openAudio(int position) {
+
+    private void openAudio(int position)
+    {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
         result.cover = mData.get(position).cover;
@@ -342,7 +394,9 @@ public class ClassifyDetailActivity extends BaseActivity{
         mContext.startActivity(intent);
     }
 
-    private void openVideo(int position) {
+
+    private void openVideo(int position)
+    {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
@@ -350,32 +404,36 @@ public class ClassifyDetailActivity extends BaseActivity{
         mContext.startActivity(intent);
     }
 
-    private void openBook(int position) {
+
+    private void openBook(int position)
+    {
         Bundle bundle = new Bundle();
         bundle.putString("name", mData.get(position).title);
         bundle.putString("cover", mData.get(position).cover);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
+        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
-    private void openPhoto(int position) {
+
+    private void openPhoto(int position)
+    {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
         bundle.putString("id", mData.get(position).id);
         mContext.startActivity(bundle, DynamicCardActivity.class);
     }
 
-    private void openDoc(int position) {
+
+    private void openDoc(int position)
+    {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", mData.get(position).id);
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin,
-                R.anim.alpha_outto);
+        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
     }
 
 }

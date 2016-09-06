@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white">
+
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black_normal">
+
         <io.vov.vitamio.widget.CenterLayout
+            android:id="@+id/video_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/video_container">
+            android:orientation="vertical">
+
             <io.vov.vitamio.widget.VideoView
                 android:id="@+id/video_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"/>
         </io.vov.vitamio.widget.CenterLayout>
+
         <LinearLayout
+            android:id="@+id/media_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:id="@+id/media_top">
+            android:layout_alignParentTop="true">
+
             <include layout="@layout/included_media_top"/>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/media_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/media_bottom">
+            android:layout_alignParentBottom="true">
+
             <include layout="@layout/included_media_bottom"/>
         </LinearLayout>
     </RelativeLayout>

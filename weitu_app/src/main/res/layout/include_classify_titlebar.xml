@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/titlebar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/titleBar"
-    android:gravity="center_vertical"
-    android:id="@+id/titlebar"
-    >
+    android:gravity="center_vertical">
 
     <ImageView
         android:id="@+id/back_btn"
@@ -26,18 +26,18 @@
 
     <ImageView
         android:id="@+id/img_arrow"
-        android:layout_toRightOf="@+id/title"
-        android:layout_marginTop="5dp"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/title"
         android:padding="10dp"
         android:src="@drawable/arrow_down"/>
 
     <TextView
         android:id="@+id/tv_sort"
-        android:layout_below="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"
         android:text="全部"
@@ -46,19 +46,19 @@
 
     <ImageView
         android:id="@+id/img_search"
-        android:layout_toLeftOf="@+id/search_filter"
         android:layout_width="38dp"
         android:layout_height="38dp"
-        android:padding="10dp"
         android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/search_filter"
+        android:padding="10dp"
         android:src="@drawable/search_icon2"/>
 
     <ImageView
         android:id="@+id/search_filter"
         android:layout_width="38dp"
         android:layout_height="38dp"
-        android:padding="10dp"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
         android:src="@drawable/search_filter"/>
 </RelativeLayout>

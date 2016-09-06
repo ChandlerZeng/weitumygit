@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:textColor="@color/white"
-    android:textSize="14sp"
-    android:text="标题"
+<TextView
+    android:id="@+id/text"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="left"
-    android:paddingTop="13dp"
-    android:paddingRight="12dp"
-    android:singleLine="true"
-    android:paddingLeft="12dp"
     android:paddingBottom="13dp"
-    android:id="@+id/text">
-
-</TextView>
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="13dp"
+    android:singleLine="true"
+    android:text="标题"
+    android:textColor="@color/white"
+    android:textSize="14sp"/>

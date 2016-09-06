@@ -7,92 +7,141 @@ import de.greenrobot.dao.DaoException;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
+
 /**
  * Entity mapped to table search.
  */
-public class Search {
+public class Search
+{
 
     private Long id;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String name;
     private long update_time;
 
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     private transient DaoSession daoSession;
 
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     private transient SearchDao myDao;
 
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
-    public Search() {
+
+    public Search()
+    {
     }
 
-    public Search(Long id) {
+
+    public Search(Long id)
+    {
         this.id = id;
     }
 
-    public Search(Long id, String name, long update_time) {
+
+    public Search(Long id, String name, long update_time)
+    {
         this.id = id;
         this.name = name;
         this.update_time = update_time;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
-    public void __setDaoSession(DaoSession daoSession) {
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    public void __setDaoSession(DaoSession daoSession)
+    {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getSearchDao() : null;
     }
 
-    public Long getId() {
+
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    /** Not-null value. */
-    public String getName() {
+
+    /**
+     * Not-null value.
+     */
+    public String getName()
+    {
         return name;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setName(String name) {
+
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
+    public void setName(String name)
+    {
         this.name = name;
     }
 
-    public long getUpdate_time() {
+
+    public long getUpdate_time()
+    {
         return update_time;
     }
 
-    public void setUpdate_time(long update_time) {
+
+    public void setUpdate_time(long update_time)
+    {
         this.update_time = update_time;
     }
 
-    /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */
-    public void delete() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context.
+     */
+    public void delete()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.delete(this);
     }
 
-    /** Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context. */
-    public void update() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#update(Object)}. Entity must attached to an entity context.
+     */
+    public void update()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.update(this);
     }
 
-    /** Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context. */
-    public void refresh() {
-        if (myDao == null) {
+
+    /**
+     * Convenient call for {@link AbstractDao#refresh(Object)}. Entity must attached to an entity context.
+     */
+    public void refresh()
+    {
+        if (myDao == null)
+        {
             throw new DaoException("Entity is detached from DAO context");
-        }    
+        }
         myDao.refresh(this);
     }
 

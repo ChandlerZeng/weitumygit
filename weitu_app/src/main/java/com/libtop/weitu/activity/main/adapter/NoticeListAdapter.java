@@ -15,10 +15,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * Created by Administrator on 2016/1/14 0014.
  */
-public class NoticeListAdapter extends BaseAdapter<NoticeInfo> {
+public class NoticeListAdapter extends BaseAdapter<NoticeInfo>
+{
     private Context context;
     private Set set = new HashSet();
     private String dateStr;
@@ -26,14 +28,18 @@ public class NoticeListAdapter extends BaseAdapter<NoticeInfo> {
     private List<String> idList = new ArrayList<String>();
     private List<NoticeInfo> lists;
 
-    public NoticeListAdapter(Context context, List<NoticeInfo> data) {
+
+    public NoticeListAdapter(Context context, List<NoticeInfo> data)
+    {
         super(context, data, R.layout.item_list_notice2);
         this.context = context;
         this.lists = data;
     }
 
+
     @Override
-    protected void newView(View convertView) {
+    protected void newView(View convertView)
+    {
         Holder holder = new Holder();
         holder.titleText = (TextView) convertView.findViewById(R.id.news_title_txt);
         holder.timeStr = (TextView) convertView.findViewById(R.id.news_date_txt);
@@ -44,42 +50,56 @@ public class NoticeListAdapter extends BaseAdapter<NoticeInfo> {
         convertView.setTag(holder);
     }
 
+
     @Override
-    protected void holderView(View convertView, NoticeInfo noticeInfo, int position) {
+    protected void holderView(View convertView, NoticeInfo noticeInfo, int position)
+    {
         Holder holder = (Holder) convertView.getTag();
         String titleStr = noticeInfo.title.trim();
 
-        if (position == 0){
+        if (position == 0)
+        {
             holder.timeline.setHiddenTopLine(true);
-        } else {
+        }
+        else
+        {
             holder.timeline.setHiddenTopLine(false);
         }
 
-        if (!titleStr.equals("")) {
+        if (!titleStr.equals(""))
+        {
             holder.titleText.setVisibility(View.VISIBLE);
             holder.titleText.setText(titleStr);
-        } else {
+        }
+        else
+        {
             holder.titleText.setVisibility(View.GONE);
         }
 
         dateStr = DateUtil.getSendTimeDistance(noticeInfo.dateLine);
         noticeId = noticeInfo.id;
-        if (!set.contains(dateStr)){
+        if (!set.contains(dateStr))
+        {
             set.add(dateStr);
             idList.add(noticeId);
         }
 
-        if (idList.contains(noticeId) & !titleStr.equals("")) {
+        if (idList.contains(noticeId) & !titleStr.equals(""))
+        {
             holder.timeline.setShouldBiggerNode(true);
             holder.timeStr.setVisibility(View.VISIBLE);
             holder.timeStr.setText(dateStr);
-        } else {
+        }
+        else
+        {
             holder.timeline.setShouldBiggerNode(false);
             holder.timeStr.setVisibility(View.GONE);
         }
     }
 
-    private class Holder {
+
+    private class Holder
+    {
         TextView titleText;
         TextView timeStr;
         ScheduleView timeline;

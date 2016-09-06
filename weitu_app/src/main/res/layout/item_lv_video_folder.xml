@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:descendantFocusability="blocksDescendants"
-              android:gravity="center"
-              android:orientation="horizontal"
-              android:paddingBottom="@dimen/padding_normal"
-              android:paddingTop="@dimen/padding_normal"
-    >
-    <!--android:background="@drawable/folder_green"-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/padding_normal"
+    android:paddingTop="@dimen/padding_normal">
+
     <ImageView
         android:id="@+id/img_folder"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginRight="@dimen/padding_normal"
-        android:layout_marginLeft="@dimen/padding_normal"
         android:layout_gravity="center_vertical"
-        android:layout_weight="0"
-        />
+        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/padding_normal"
+        android:layout_weight="0"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -53,7 +52,6 @@
             android:paddingRight="5dp"
             android:text="完全公开"
             android:textColor="@color/white"/>
-
     </RelativeLayout>
 
     <ImageButton
@@ -62,6 +60,4 @@
         android:layout_height="50dp"
         android:background="@drawable/video_choice_selector"
         android:focusable="false"/>
-
-
 </LinearLayout>

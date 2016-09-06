@@ -40,6 +40,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import okhttp3.Call;
 
+
 /**
  * <p>
  * Title: DelicateFragment.java
@@ -55,7 +56,8 @@ import okhttp3.Call;
  * @version common v1.0
  */
 
-public class DelicateFragment extends ContentFragment {
+public class DelicateFragment extends ContentFragment
+{
     @Bind(R.id.delicate)
     XListView listview;
     @Bind(R.id.title)
@@ -71,53 +73,70 @@ public class DelicateFragment extends ContentFragment {
 
     private ListPopupWindow mListFilterPop;
     private ClassifyCheckAdapter filterCheckAdapter;
-//    comment:评论数最多；favorite:收藏数最多；timeline:最新上传；view:浏览数最多
+    //    comment:评论数最多；favorite:收藏数最多；timeline:最新上传；view:浏览数最多
     private String filterString = "view";
 
     private boolean hasData = true;
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         bundle = ((ContentActivity) getActivity()).getCurrentExtra();
         method = bundle.getString("method");
         type = bundle.getInt("type");
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.delicate_layout;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         selectedAdapter = new SelectedAdapter(mContext, mData, 0, method);
         listview.setAdapter(selectedAdapter);
         listview.setPullLoadEnable(false);
-        listview.setXListViewListener(new XListView.IXListViewListener() {
+        listview.setXListViewListener(new XListView.IXListViewListener()
+        {
             @Override
-            public void onRefresh() {
+            public void onRefresh()
+            {
                 page = 1;
                 getNoticeData();
             }
 
+
             @Override
-            public void onLoadMore() {
-                if (hasData) {
+            public void onLoadMore()
+            {
+                if (hasData)
+                {
                     getNoticeData();
                 }
             }
         });
         page = 1;
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (method) {
-                    case "mediaAlbum.list": {
-                        if (type == 1) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                switch (method)
+                {
+                    case "mediaAlbum.list":
+                    {
+                        if (type == 1)
+                        {
                             openVideo(position - 1);
-                        } else {
+                        }
+                        else
+                        {
                             openAudio(position - 1);
                         }
                     }
@@ -133,21 +152,28 @@ public class DelicateFragment extends ContentFragment {
         });
         getNoticeData();
         if (method.equals("document.list"))
+        {
             tvTitle.setText("文档");
+        }
         else if (method.equals("imageAlbum.list"))
+        {
             tvTitle.setText("图库");
+        }
         initPopView();
     }
 
-    private void initPopView() {
-        String[] filters = new String[]{"综合","浏览数最多","评论数最多","收藏数最多","最新上传"};
+
+    private void initPopView()
+    {
+        String[] filters = new String[]{"综合", "浏览数最多", "评论数最多", "收藏数最多", "最新上传"};
         List<ClassifyBean> filterList = new ArrayList<>();
-        for (int i=0;i<filters.length;i++){
+        for (int i = 0; i < filters.length; i++)
+        {
             ClassifyBean classifyBean = new ClassifyBean();
             classifyBean.name = filters[i];
             filterList.add(classifyBean);
         }
-        filterCheckAdapter = new ClassifyCheckAdapter(mContext,filterList,true);
+        filterCheckAdapter = new ClassifyCheckAdapter(mContext, filterList, true);
         mListFilterPop = new ListPopupWindow(mContext);
         mListFilterPop.setAdapter(filterCheckAdapter);
         mListFilterPop.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
@@ -155,10 +181,11 @@ public class DelicateFragment extends ContentFragment {
         mListFilterPop.setAnchorView(titleBar);//设置ListPopupWindow的锚点，即关联PopupWindow的显示位置和这个锚点
         mListFilterPop.setBackgroundDrawable(new ColorDrawable(0x99000000));
         mListFilterPop.setModal(true);//设置是否是模式
-        mListFilterPop.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListFilterPop.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 setFilter(position);
                 filterCheckAdapter.setCheck(position);
                 getNoticeData();
@@ -167,8 +194,11 @@ public class DelicateFragment extends ContentFragment {
         });
     }
 
-    private void setFilter(int position){
-        switch (position){
+
+    private void setFilter(int position)
+    {
+        switch (position)
+        {
             //综合
             case 0:
                 filterString = "view";
@@ -192,17 +222,21 @@ public class DelicateFragment extends ContentFragment {
         }
     }
 
-    private void openAudio(int position) {
+
+    private void openAudio(int position)
+    {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
-        result.introduction=mData.get(position).introduction;
+        result.introduction = mData.get(position).introduction;
         result.cover = mData.get(position).cover;
         Intent intent = new Intent(mContext, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
 
-    private void openVideo(int position) {
+
+    private void openVideo(int position)
+    {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).id;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
@@ -211,89 +245,114 @@ public class DelicateFragment extends ContentFragment {
     }
 
 
-    private void openPhoto(int position) {
+    private void openPhoto(int position)
+    {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
         bundle.putString("id", mData.get(position).id);
         mContext.startActivity(bundle, DynamicCardActivity.class);
     }
 
-    private void openDoc(int position) {
+
+    private void openDoc(int position)
+    {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", mData.get(position).id);
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin,
-                R.anim.alpha_outto);
+        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
     }
 
 
-    private void getNoticeData() {
-        if(page==1)
-        showLoding();
+    private void getNoticeData()
+    {
+        if (page == 1)
+        {
+            showLoding();
+        }
         Map<String, Object> params = new HashMap<String, Object>();
-        if (type == 1){
+        if (type == 1)
+        {
             tvTitle.setText("视频");
             params.put("type", 1);
-        } else if (type == 2){
+        }
+        else if (type == 2)
+        {
             tvTitle.setText("音频");
             params.put("type", 2);
         }
-        params.put("sort",filterString);
+        params.put("sort", filterString);
         params.put("method", method);
         params.put("page", page);
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                    }
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        dismissLoading();
-                        listview.stopRefresh();
-                        if (!TextUtils.isEmpty(json)) {
-                            try {
-                                if (page ==1) {
-                                    mData.clear();
-                                }
-                                List<DisplayDto> mlist = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>() {
-                                }.getType());
-                                mData.addAll(mlist);
-                                if (mlist.size() < 10) {
-                                    hasData = false;
-                                    listview.setPullLoadEnable(false);
-                                } else {
-                                    hasData = true;
-                                    listview.setPullLoadEnable(true);
-                                }
-                                page++;
-                                selectedAdapter.setData(mData);
-                                selectedAdapter.notifyDataSetChanged();
 
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            return;
+            @Override
+            public void onResponse(String json, int id)
+            {
+                dismissLoading();
+                listview.stopRefresh();
+                if (!TextUtils.isEmpty(json))
+                {
+                    try
+                    {
+                        if (page == 1)
+                        {
+                            mData.clear();
                         }
-                        if (mData.size() == 0) {
-                            showToast("没有相关数据");
+                        List<DisplayDto> mlist = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>()
+                        {
+                        }.getType());
+                        mData.addAll(mlist);
+                        if (mlist.size() < 10)
+                        {
+                            hasData = false;
+                            listview.setPullLoadEnable(false);
                         }
+                        else
+                        {
+                            hasData = true;
+                            listview.setPullLoadEnable(true);
+                        }
+                        page++;
+                        selectedAdapter.setData(mData);
+                        selectedAdapter.notifyDataSetChanged();
+
                     }
-                });
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
+                if (mData.size() == 0)
+                {
+                    showToast("没有相关数据");
+                }
+            }
+        });
     }
 
+
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
     }
 
 
     @Nullable
-    @OnClick({R.id.back_btn, R.id.container,R.id.img_search,R.id.search_filter})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.back_btn, R.id.container, R.id.img_search, R.id.search_filter})
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 onBackPressed();
                 break;
@@ -306,13 +365,17 @@ public class DelicateFragment extends ContentFragment {
         }
     }
 
+
     //更改筛选
-    private void searchFilterClick() {
+    private void searchFilterClick()
+    {
         mListFilterPop.show();
     }
 
+
     //点击搜索
-    private void searchClick() {
+    private void searchClick()
+    {
         mContext.startActivity(null, SearchActivity.class);
     }
 

@@ -30,21 +30,27 @@ import java.util.List;
 
 import io.vov.vitamio.utils.Log;
 
+
 /**
  * Created by LianTu on 2016/7/12.
  */
-public class MyCommentAdapter extends BaseAdapter<CommentResult> {
+public class MyCommentAdapter extends BaseAdapter<CommentResult>
+{
 
 
     private boolean visable = false;
     private boolean allCheck = false;
 
-    public MyCommentAdapter(Context context, List<CommentResult> data) {
+
+    public MyCommentAdapter(Context context, List<CommentResult> data)
+    {
         super(context, data, R.layout.item_list_2mycomment);
     }
 
+
     @Override
-    protected void newView(View convertView) {
+    protected void newView(View convertView)
+    {
         Holder holder = new Holder();
         holder.view = (View) convertView.findViewById(R.id.check_layout);
         holder.thumbImage = (ImageView) convertView.findViewById(R.id.img_head);
@@ -56,96 +62,125 @@ public class MyCommentAdapter extends BaseAdapter<CommentResult> {
         convertView.setTag(holder);
     }
 
+
     @Override
-    protected void holderView(View convertView, CommentResult commentResult, final int position) {
+    protected void holderView(View convertView, CommentResult commentResult, final int position)
+    {
         Holder holder = (Holder) convertView.getTag();
-        if(commentResult.quotedComment != null && !TextUtils.isEmpty(commentResult.quotedComment.content)){
+        if (commentResult.quotedComment != null && !TextUtils.isEmpty(commentResult.quotedComment.content))
+        {
             holder.comment2.setVisibility(View.VISIBLE);
-            SpannableStringBuilder builder= getBlueStrBuilder(commentResult.quotedComment.username,commentResult.quotedComment.content);
+            SpannableStringBuilder builder = getBlueStrBuilder(commentResult.quotedComment.username, commentResult.quotedComment.content);
             holder.comment2.setText(builder);
-        }else {
+        }
+        else
+        {
             holder.comment2.setVisibility(View.GONE);
         }
         holder.checkMark.setChecked(allCheck);
         holder.time.setText(DateUtil.parseToDate(commentResult.timeline));
-        SpannableStringBuilder builder2= getBlueStrBuilder(commentResult.username,commentResult.content);
+        SpannableStringBuilder builder2 = getBlueStrBuilder(commentResult.username, commentResult.content);
         holder.comment.setText(builder2);
-        SpannableStringBuilder builder3= getGreenStrBuilder(commentResult.typeName,commentResult.title);
+        SpannableStringBuilder builder3 = getGreenStrBuilder(commentResult.typeName, commentResult.title);
         holder.tvTitle.setText(builder3);
         bindData(commentResult.uid, holder.thumbImage);
         if (visable)
+        {
             holder.view.setVisibility(View.VISIBLE);
+        }
         else
+        {
             holder.view.setVisibility(View.GONE);
-        holder.checkMark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        }
+        holder.checkMark.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
                 mData.get(position).ischecked = isChecked;
             }
         });
     }
 
 
-    void bindData(String uid, ImageView image) {
+    void bindData(String uid, ImageView image)
+    {
 
         String url = ContantsUtil.getAvatarUrl(uid);
         if (TextUtils.isEmpty(url))
+        {
             return;
-        Picasso.with(mContext)
-                .load(url)
-                .transform(new CircleTransform())
-                .error(R.drawable.head_image)
-                .placeholder(R.drawable.head_image)
-                .tag(MultiImageSelectorFragment.TAG)
-                .fit()
-                .centerCrop()
-                .into(image);
+        }
+        Picasso.with(mContext).load(url).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).tag(MultiImageSelectorFragment.TAG).fit().centerCrop().into(image);
     }
 
-    public void setVisableView() {
+
+    public void setVisableView()
+    {
         if (visable)
+        {
             visable = false;
+        }
         else
+        {
             visable = true;
+        }
         notifyDataSetChanged();
     }
 
-    public void setAllView() {
+
+    public void setAllView()
+    {
         if (allCheck)
+        {
             allCheck = false;
+        }
         else
+        {
             allCheck = true;
+        }
         for (int i = 0; i < mData.size(); i++)
+        {
             mData.get(i).ischecked = allCheck;
+        }
         notifyDataSetChanged();
     }
 
-    public String[] cleanView() {
+
+    public String[] cleanView()
+    {
         List<CommentResult> list = new ArrayList<CommentResult>();
-        for (int i = 0; i < mData.size(); i++) {
-            if (mData.get(i).ischecked) {
+        for (int i = 0; i < mData.size(); i++)
+        {
+            if (mData.get(i).ischecked)
+            {
                 Log.e("" + mData.get(i).ischecked);
                 list.add(mData.get(i));
             }
         }
         String[] str = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++)
+        {
             str[i] = list.get(i).id;
         }
         allCheck = false;
         return str;
     }
 
-    private class Holder {
+
+    private class Holder
+    {
         CheckBox checkMark;
         View view;
         ImageView thumbImage;
-        TextView time, comment2, comment,tvTitle;
+        TextView time, comment2, comment, tvTitle;
     }
 
-    private SpannableStringBuilder getBlueStrBuilder(String first,String append){
+
+    private SpannableStringBuilder getBlueStrBuilder(String first, String append)
+    {
         String builderStr = first + "：";
-        SpannableStringBuilder builder = new SpannableStringBuilder(builderStr+append);
+        SpannableStringBuilder builder = new SpannableStringBuilder(builderStr + append);
 
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
         ForegroundColorSpan orangeSpan = new ForegroundColorSpan(Color.parseColor("#1185E7"));
@@ -154,9 +189,11 @@ public class MyCommentAdapter extends BaseAdapter<CommentResult> {
         return builder;
     }
 
-    private SpannableStringBuilder getGreenStrBuilder(String first,String append){
-        String builderStr = "【"+first + "】";
-        SpannableStringBuilder builder = new SpannableStringBuilder(builderStr+append);
+
+    private SpannableStringBuilder getGreenStrBuilder(String first, String append)
+    {
+        String builderStr = "【" + first + "】";
+        SpannableStringBuilder builder = new SpannableStringBuilder(builderStr + append);
 
         //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
         ForegroundColorSpan orangeSpan = new ForegroundColorSpan(Color.parseColor("#2DBE60"));
@@ -165,16 +202,20 @@ public class MyCommentAdapter extends BaseAdapter<CommentResult> {
         return builder;
     }
 
-    private class CircleTransform implements Transformation {
+
+    private class CircleTransform implements Transformation
+    {
         @Override
-        public Bitmap transform(Bitmap source) {
+        public Bitmap transform(Bitmap source)
+        {
             int size = Math.min(source.getWidth(), source.getHeight());
 
             int x = (source.getWidth() - size) / 2;
             int y = (source.getHeight() - size) / 2;
 
             Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-            if (squaredBitmap != source) {
+            if (squaredBitmap != source)
+            {
                 source.recycle();
             }
 
@@ -182,8 +223,7 @@ public class MyCommentAdapter extends BaseAdapter<CommentResult> {
 
             Canvas canvas = new Canvas(bitmap);
             Paint paint = new Paint();
-            BitmapShader shader = new BitmapShader(squaredBitmap,
-                    BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
+            BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
             paint.setShader(shader);
             paint.setAntiAlias(true);
 
@@ -194,8 +234,10 @@ public class MyCommentAdapter extends BaseAdapter<CommentResult> {
             return bitmap;
         }
 
+
         @Override
-        public String key() {
+        public String key()
+        {
             return "circle";
         }
     }

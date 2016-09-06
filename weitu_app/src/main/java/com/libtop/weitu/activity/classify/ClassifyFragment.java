@@ -28,10 +28,12 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
 /**
  * Created by LianTu on 2016/7/19.
  */
-public class ClassifyFragment extends BaseFragment {
+public class ClassifyFragment extends BaseFragment
+{
 
     @Bind(R.id.list)
     ListView listView;
@@ -41,67 +43,87 @@ public class ClassifyFragment extends BaseFragment {
     private ClassifyAdapter mAdapter;
     private List<ClassifyBean> mData = new ArrayList<>();
 
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         mAdapter = new ClassifyAdapter(mContext, mData);
         mCache = ACache.get(mContext);
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_classify2;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
         getData();
     }
 
-    private void getData() {
+
+    private void getData()
+    {
         List<ClassifyBean> classifyBeens = (List<ClassifyBean>) mCache.getAsObject("classifyBeens");
         if (classifyBeens != null && !classifyBeens.isEmpty())
+        {
             handleResult(classifyBeens);
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("method", "categories.root");
         String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi()
-                .getClassify(arrays[0], arrays[1], arrays[2])
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<ClassifyBean>>() {
-                    @Override
-                    public void onCompleted() {
+        subscription = WeituNetwork.getWeituApi().getClassify(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<ClassifyBean>>()
+        {
+            @Override
+            public void onCompleted()
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
 
-                    @Override
-                    public void onNext(List<ClassifyBean> classifyBeens) {
-                        mCache.put("classifyBeens", (Serializable) classifyBeens);
-                        handleResult(classifyBeens);
-                    }
-                });
+            @Override
+            public void onError(Throwable e)
+            {
+            }
+
+
+            @Override
+            public void onNext(List<ClassifyBean> classifyBeens)
+            {
+                mCache.put("classifyBeens", (Serializable) classifyBeens);
+                handleResult(classifyBeens);
+            }
+        });
     }
 
-    private void handleResult(List<ClassifyBean> classifyBeens) {
+
+    private void handleResult(List<ClassifyBean> classifyBeens)
+    {
         mData.clear();
         if (classifyBeens == null && classifyBeens.isEmpty())
+        {
             return;
+        }
         mData = classifyBeens;
         mAdapter.setData(mData);
         mAdapter.notifyDataSetChanged();
     }
 
-    private void initView() {
+
+    private void initView()
+    {
         listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 ClassifyBean classifyBean = mData.get(position);
                 Intent intent = new Intent(mContext, ClassifyDetailActivity.class);
                 intent.putExtra("code", classifyBean.code);
@@ -111,17 +133,22 @@ public class ClassifyFragment extends BaseFragment {
         });
     }
 
+
     @Nullable
     @OnClick({R.id.search})
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.search:
                 searchClick();
                 break;
         }
     }
 
-    private void searchClick() {
+
+    private void searchClick()
+    {
         mContext.startActivity(null, SearchActivity.class);
     }
 

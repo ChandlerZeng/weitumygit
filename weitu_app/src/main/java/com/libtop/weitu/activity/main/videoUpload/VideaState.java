@@ -14,7 +14,8 @@ package com.libtop.weitu.activity.main.videoUpload;
  * @author 作者名
  * @version common v1.0
  */
-public class VideaState {
+public class VideaState
+{
     /**
      * 新创建
      */
@@ -60,9 +61,12 @@ public class VideaState {
      */
     public final static int DELETEED = 40;
 
-    public static String getState(int state) {
+
+    public static String getState(int state)
+    {
         String a = "";
-        switch (state){
+        switch (state)
+        {
             case NEW:
                 a = "新创建";
                 break;

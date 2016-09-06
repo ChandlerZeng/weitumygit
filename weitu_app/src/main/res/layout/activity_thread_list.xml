@@ -1,28 +1,28 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         style="@style/page_title"
-        android:layout_width="fill_parent" >
+        android:layout_width="fill_parent">
 
         <ImageButton
             android:id="@+id/back_btn"
             android:layout_width="@dimen/page_title_height"
             android:layout_height="fill_parent"
             android:background="@null"
-            android:src="@drawable/back_btn" />
+            android:src="@drawable/back_btn"/>
 
         <TextView
             style="@style/page_title_str"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="老师列表" />
+            android:text="老师列表"/>
     </RelativeLayout>
 
     <ListView
@@ -36,6 +36,5 @@
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
         android:listSelector="@drawable/list_selector"
-        android:scrollingCache="false" />
-
+        android:scrollingCache="false"/>
 </LinearLayout>

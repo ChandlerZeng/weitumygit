@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingLeft="8dip"
-    android:paddingRight="8dip" >
+    android:paddingRight="8dip">
 
     <TextView
         android:id="@+id/catalog"
@@ -20,13 +21,13 @@
         android:paddingTop="5dip"
         android:text="A"
         android:textColor="@color/main_color"
-        android:textSize="@dimen/text_size_18" />
+        android:textSize="@dimen/text_size_18"/>
 
     <View
         android:id="@+id/line"
         android:layout_width="fill_parent"
         android:layout_height="0.8dip"
-        android:background="@color/main_divider_line" />
+        android:background="@color/main_divider_line"/>
 
     <TextView
         android:id="@+id/title"
@@ -41,11 +42,10 @@
         android:paddingTop="5dip"
         android:text="hhhh"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_16" />
+        android:textSize="@dimen/text_size_16"/>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.8dip"
-        android:background="@color/main_divider_line" />
-
+        android:background="@color/main_divider_line"/>
 </LinearLayout>

@@ -17,43 +17,58 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+
 /**
  * Created by LianTu on 2016/7/20.
  */
-public class ClassifyDetailAdapter extends BaseAdapter{
+public class ClassifyDetailAdapter extends BaseAdapter
+{
     private LayoutInflater mInflater;
     private Context context;
     private List<ClassifyResultBean> mlist;
 
-    public ClassifyDetailAdapter(Context context, List<ClassifyResultBean> list) {
+
+    public ClassifyDetailAdapter(Context context, List<ClassifyResultBean> list)
+    {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mlist = list;
     }
 
+
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return mlist.size();
     }
 
+
     @Override
-    public Object getItem(int position) {
+    public Object getItem(int position)
+    {
         return mlist.get(position);
     }
 
+
     @Override
-    public long getItemId(int position) {
+    public long getItemId(int position)
+    {
         return 0;
     }
 
-    public void setData(List<ClassifyResultBean> list) {
+
+    public void setData(List<ClassifyResultBean> list)
+    {
         this.mlist = list;
     }
 
+
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent)
+    {
         ViewHolder holder1 = null;
-        if (convertView == null) {
+        if (convertView == null)
+        {
             convertView = mInflater.inflate(R.layout.item_list_result3, null);
             holder1 = new ViewHolder();
             holder1.iconCover = (ImageView) convertView.findViewById(R.id.see);
@@ -67,59 +82,64 @@ public class ClassifyDetailAdapter extends BaseAdapter{
             holder1.introductionText = (TextView) convertView.findViewById(R.id.doc_introduction);
             holder1.tvTag = (TextView) convertView.findViewById(R.id.tv_tag);
             convertView.setTag(holder1);
-        } else {
+        }
+        else
+        {
             holder1 = (ViewHolder) convertView.getTag();
         }
 
         String typeF = mlist.get(position).entityType;
-        if (typeF.equals(ClassifyDetailActivity.BOOK )) {
+        if (typeF.equals(ClassifyDetailActivity.BOOK))
+        {
             holder1.fraOne.setVisibility(View.GONE);
             holder1.fraTwo.setVisibility(View.VISIBLE);
             holder1.introductionText.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else
+        {
             holder1.fraOne.setVisibility(View.VISIBLE);
             holder1.fraTwo.setVisibility(View.GONE);
             holder1.introductionText.setVisibility(View.GONE);
         }
 
         ClassifyResultBean classifyResultBean = mlist.get(position);
-        if (!TextUtils.isEmpty(classifyResultBean.categoriesName1)){
+        if (!TextUtils.isEmpty(classifyResultBean.categoriesName1))
+        {
             holder1.tvTag.setText(classifyResultBean.categoriesName1);
         }
-        if (!TextUtils.isEmpty(classifyResultBean.categoriesName2)){
-            holder1.tvTag.setText(classifyResultBean.categoriesName1+"/"+classifyResultBean.categoriesName2);
+        if (!TextUtils.isEmpty(classifyResultBean.categoriesName2))
+        {
+            holder1.tvTag.setText(classifyResultBean.categoriesName1 + "/" + classifyResultBean.categoriesName2);
         }
 
         holder1.titleText.setText(classifyResultBean.title);
         holder1.uploaderText.setText("上传者:" + classifyResultBean.uploadUsername);
         holder1.introductionText.setText(classifyResultBean.introduction);
-        if (typeF.equals(ClassifyDetailActivity.DOC)) {
-            String a = ContantsUtil.IMGHOST2+"/" + classifyResultBean.cover;
-            Picasso.with(context).load(a)
-                    .error(R.drawable.default_image)
-                    .placeholder(R.drawable.default_image)
-                    .fit()
-                    .into(holder1.iconCover);
-        } else {
+        if (typeF.equals(ClassifyDetailActivity.DOC))
+        {
+            String a = ContantsUtil.IMGHOST2 + "/" + classifyResultBean.cover;
+            Picasso.with(context).load(a).error(R.drawable.default_image).placeholder(R.drawable.default_image).fit().into(holder1.iconCover);
+        }
+        else
+        {
             String a = ContantsUtil.getCoverUrlLittle(classifyResultBean.id);
-            Picasso.with(context)
-                    .load(a)
-                    .error(R.drawable.default_image)
-                    .placeholder(R.drawable.default_image)
-                    .fit()
-                    .into(holder1.iconCover);
+            Picasso.with(context).load(a).error(R.drawable.default_image).placeholder(R.drawable.default_image).fit().into(holder1.iconCover);
         }
 
         return convertView;
     }
 
-    protected class ViewHolder {
+
+    protected class ViewHolder
+    {
         ImageView iconCover, iconCover2;
-        TextView titleText,tvTag, uploaderText, timeText, imageText, introductionText;
-        View  fraOne, fraTwo;
+        TextView titleText, tvTag, uploaderText, timeText, imageText, introductionText;
+        View fraOne, fraTwo;
     }
 
-    public void setNewData(List<ClassifyResultBean> list) {
+
+    public void setNewData(List<ClassifyResultBean> list)
+    {
         this.mlist = list;
         notifyDataSetChanged();
     }

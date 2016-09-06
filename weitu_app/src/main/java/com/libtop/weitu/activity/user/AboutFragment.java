@@ -13,34 +13,42 @@ import com.libtop.weitu.base.BaseFragmentDialog;
 
 import butterknife.OnClick;
 
+
 /**
  * 关于微图界面
  *
  * @author Administrator
- *
  */
-public class AboutFragment extends BaseFragmentDialog {
+public class AboutFragment extends BaseFragmentDialog
+{
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
         getDialog().getWindow().getAttributes().windowAnimations = R.style.dialog_fragment_fade_anim;
     }
 
+
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_about_layout;
     }
 
+
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
     }
 
 
     @Nullable
     @OnClick(R.id.back_btn)
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.back_btn:
                 dismiss();
                 break;

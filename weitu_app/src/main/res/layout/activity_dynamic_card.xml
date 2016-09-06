@@ -1,20 +1,16 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/top_view"
-        layout="@layout/included_title1" />
+        layout="@layout/included_title1"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_below="@+id/top_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_below="@+id/top_view"/>
 
 </RelativeLayout>

@@ -18,48 +18,60 @@ public class PdfActivity extends BaseActivity implements OnPageChangeListener
 
 {
 
-	@Bind(R.id.pdfView)
-	PDFView pdfView;
-	@Bind(R.id.page)
-	TextView title;
+    @Bind(R.id.pdfView)
+    PDFView pdfView;
+    @Bind(R.id.page)
+    TextView title;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setInjectContentView(R.layout.activity_pdf_layout);
-		noNetThanExit(mContext);
-		initActivity();
-	}
 
-	private void initActivity() {
-		Bundle bundle = getIntent().getExtras();
-		String path = bundle.getString("url");
-		showLoding();
-		FileLoader.getInstance(mContext).loadCallBack(path, new FileLoader.CallBack() {
-			@Override
-			public void callBack(File file) {
-				dismissLoading();
-				if (file != null&&file.exists()&&file.length()>0) {
-					pdfView.fromFile(file).defaultPage(0)
-                          .onPageChange(PdfActivity.this).load();
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setInjectContentView(R.layout.activity_pdf_layout);
+        noNetThanExit(mContext);
+        initActivity();
+    }
 
-				}else {
-					setResult(0x5555);
-					finish();
-					overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
-				}
-			}
-		});
-	}
 
-	@Override
-	public void onPageChanged(int page, int pageCount) {
-		title.setText(page + "/" + pageCount);
-	}
+    private void initActivity()
+    {
+        Bundle bundle = getIntent().getExtras();
+        String path = bundle.getString("url");
+        showLoding();
+        FileLoader.getInstance(mContext).loadCallBack(path, new FileLoader.CallBack()
+        {
+            @Override
+            public void callBack(File file)
+            {
+                dismissLoading();
+                if (file != null && file.exists() && file.length() > 0)
+                {
+                    pdfView.fromFile(file).defaultPage(0).onPageChange(PdfActivity.this).load();
 
-	@Override
-	public void onBackPressed() {
-		finish();
-		overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
-	}
+                }
+                else
+                {
+                    setResult(0x5555);
+                    finish();
+                    overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void onPageChanged(int page, int pageCount)
+    {
+        title.setText(page + "/" + pageCount);
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
+    }
 }

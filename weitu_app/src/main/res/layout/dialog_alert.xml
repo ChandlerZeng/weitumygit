@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
     android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="13dip" >
+    android:padding="13dip">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             style="@style/page_title"
             android:layout_width="fill_parent"
             android:gravity="center"
-            android:orientation="vertical" 
-            android:textSize="@dimen/text_size_16"
+            android:orientation="vertical"
+            android:text="@string/toast_label"
             android:textColor="@color/white"
-            android:text="@string/toast_label"/>
+            android:textSize="@dimen/text_size_16"/>
 
         <TextView
             android:id="@+id/dialog_operate_content"
@@ -30,13 +31,13 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/label_color"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"/>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/cancel_btn"
@@ -44,7 +45,7 @@
                 android:layout_width="0dip"
                 android:layout_height="@dimen/page_title_height"
                 android:layout_weight="1"
-                android:text="@string/cancel_str" />
+                android:text="@string/cancel_str"/>
 
             <Button
                 android:id="@+id/ok_btn"
@@ -52,8 +53,7 @@
                 android:layout_width="0dip"
                 android:layout_height="@dimen/page_title_height"
                 android:layout_weight="1"
-                android:text="@string/ok_str" />
+                android:text="@string/ok_str"/>
         </LinearLayout>
     </LinearLayout>
-
 </RelativeLayout>

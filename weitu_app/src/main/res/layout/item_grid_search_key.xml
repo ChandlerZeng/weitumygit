@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
+        android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/shape_search_bg2"
-        android:textColor="@color/grey5"
-        android:textSize="14sp"
         android:gravity="center"
-        android:text="abcd"
-        android:singleLine="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:id="@+id/text"/>
+        android:singleLine="true"
+        android:text="abcd"
+        android:textColor="@color/grey5"
+        android:textSize="14sp"/>
 </LinearLayout>

@@ -1,21 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
     style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         style="@style/page_title"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/page_title_height" >
+        android:layout_height="@dimen/page_title_height">
 
         <ImageButton
             android:id="@+id/back_btn"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:src="@drawable/white_back_btn"
-            android:background="@null"/>
+            android:background="@null"
+            android:src="@drawable/white_back_btn"/>
 
         <TextView
             android:id="@+id/title"
@@ -23,14 +23,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/about_us" />
+            android:text="@string/about_us"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <WebView
             android:id="@+id/web_content"
@@ -38,7 +38,6 @@
             android:layout_height="fill_parent"
             android:background="@android:color/transparent"
             android:layerType="software"
-            android:paddingTop="@dimen/page_title_height" />
+            android:paddingTop="@dimen/page_title_height"/>
     </LinearLayout>
-
 </LinearLayout>

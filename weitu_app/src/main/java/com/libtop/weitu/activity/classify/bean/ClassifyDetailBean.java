@@ -2,10 +2,12 @@ package com.libtop.weitu.activity.classify.bean;
 
 import java.util.List;
 
+
 /**
  * Created by LianTu on 2016/7/20.
  */
-public class ClassifyDetailBean {
+public class ClassifyDetailBean
+{
 
     /**
      * id : 5715e518984e8ea4387c7e64

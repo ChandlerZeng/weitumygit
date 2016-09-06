@@ -1,22 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dip"
-        android:background="@color/main_divider_line" />
+        android:background="@color/main_divider_line"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ListView
                 android:id="@+id/list"
@@ -30,7 +30,7 @@
                 android:fadingEdge="none"
                 android:fastScrollEnabled="false"
                 android:listSelector="@drawable/list_selector"
-                android:scrollingCache="false" />
+                android:scrollingCache="false"/>
 
             <ListView
                 android:id="@+id/cd"
@@ -45,7 +45,7 @@
                 android:fastScrollEnabled="false"
                 android:listSelector="@drawable/list_selector"
                 android:scrollingCache="false"
-                android:visibility="gone" />
+                android:visibility="gone"/>
         </LinearLayout>
 
         <LinearLayout
@@ -53,21 +53,20 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/top"
                 style="@style/login_text_style"
                 android:layout_width="75dip"
                 android:layout_height="42dip"
-                android:layout_marginRight="12dip"
                 android:layout_marginBottom="15dip"
+                android:layout_marginRight="12dip"
                 android:background="@color/main_color"
                 android:gravity="center"
                 android:text="@string/top"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_15" />
+                android:textSize="@dimen/text_size_15"/>
         </LinearLayout>
     </RelativeLayout>
-
 </LinearLayout>

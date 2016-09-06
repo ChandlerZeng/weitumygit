@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <!--<com.joanzapata.pdfview.PDFView-->
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"
@@ -61,8 +60,7 @@
         android:background="@color/white"
         android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
-        android:clickable="true"
-        >
+        android:clickable="true">
 
         <SeekBar
             android:id="@+id/page_seekbar"
@@ -76,8 +74,7 @@
             android:layout_alignBottom="@+id/img_rotate"
             android:progressDrawable="@drawable/doc_seekbar"
             android:thumb="@drawable/greencircle"
-            android:layout_marginBottom="5dp"
-            />
+            android:layout_marginBottom="5dp"/>
 
         <ImageView
             android:id="@+id/img_rotate"
@@ -87,8 +84,7 @@
             android:layout_alignRight="@+id/img_share"
             android:background="@drawable/rotate"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:id="@+id/img_head"
@@ -100,7 +96,8 @@
             android:scaleType="centerCrop"
             android:layout_alignBottom="@+id/ll_sort"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"/>
+
         <TextView
             android:id="@+id/tv_publisher"
             tools:text="华南大学周老师"
@@ -111,8 +108,7 @@
             android:textColor="@color/black"
             android:layout_marginBottom="@dimen/padding_normal"
             android:layout_above="@+id/ll_sort"
-            android:layout_toRightOf="@+id/img_head"
-            />
+            android:layout_toRightOf="@+id/img_head"/>
 
         <LinearLayout
             android:id="@+id/ll_sort"
@@ -121,17 +117,15 @@
             android:layout_toRightOf="@+id/img_head"
             android:layout_toLeftOf="@id/img_collect"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8dp"
-            >
+            android:layout_marginBottom="8dp">
+
             <TextView
                 android:text="暂无分类"
                 android:id="@+id/tv_play_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:background="@color/green1"
-                />
-
+                android:background="@color/green1"/>
         </LinearLayout>
 
         <ImageView
@@ -142,7 +136,7 @@
             android:layout_alignBottom="@+id/img_comment"
             android:layout_marginRight="@dimen/divider_margin"
             android:layout_toLeftOf="@+id/divider_left"
-            android:layout_toStartOf="@+id/divider_left" />
+            android:layout_toStartOf="@+id/divider_left"/>
 
         <View
             android:id="@+id/divider_left"
@@ -152,8 +146,7 @@
             android:layout_alignBottom="@+id/img_head"
             android:layout_marginRight="@dimen/divider_margin"
             android:layout_toLeftOf="@+id/img_comment"
-            android:layout_toStartOf="@+id/img_comment" />
-
+            android:layout_toStartOf="@+id/img_comment"/>
 
         <ImageView
             android:id="@+id/img_comment"
@@ -162,8 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/img_share"
             android:layout_toLeftOf="@+id/divider_riht"
-            android:layout_marginRight="@dimen/divider_margin"
-            />
+            android:layout_marginRight="@dimen/divider_margin"/>
 
         <View
             android:id="@+id/divider_riht"
@@ -173,7 +165,8 @@
             android:layout_alignBottom="@+id/img_head"
             android:layout_marginRight="@dimen/divider_margin"
             android:layout_toLeftOf="@+id/img_share"
-            android:layout_toStartOf="@+id/img_share" />
+            android:layout_toStartOf="@+id/img_share"/>
+
         <ImageView
             android:id="@+id/img_share"
             android:background="@drawable/share"
@@ -182,7 +175,6 @@
             android:layout_alignBottom="@+id/img_head"
             android:layout_marginRight="@dimen/padding_normal"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
-
 </FrameLayout>

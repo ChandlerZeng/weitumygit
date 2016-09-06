@@ -10,44 +10,54 @@ import com.libtop.weitu.base.BaseAdapter;
 
 import java.util.List;
 
-public class BookFavorateAdapter extends BaseAdapter<BookItem> {
 
-	public BookFavorateAdapter(Context context, List<BookItem> data) {
-		super(context, data, R.layout.item_favorate_book);
-	}
+public class BookFavorateAdapter extends BaseAdapter<BookItem>
+{
 
-	@Override
-	protected void newView(View convertView) {
-		ViewHolder holder = new ViewHolder();
-		holder.bookNo = (TextView) convertView.findViewById(R.id.book_no);
-		holder.no = (TextView) convertView.findViewById(R.id.no);
-		holder.address = (TextView) convertView.findViewById(R.id.address);
-		holder.state = (TextView) convertView.findViewById(R.id.state);
-		convertView.setTag(holder);
-	}
+    public BookFavorateAdapter(Context context, List<BookItem> data)
+    {
+        super(context, data, R.layout.item_favorate_book);
+    }
 
-	@Override
-	protected void holderView(View convertView, BookItem item,int position) {
-		ViewHolder holder = (ViewHolder) convertView.getTag();
-		holder.bookNo.setText(item.number);
-		holder.no.setText(item.code);
-		holder.address.setText(item.location);
-		if ("可借".equals(item.status)) {
-			holder.state.setText(item.status);
-			holder.state.setTextColor(mContext.getResources().getColor(
-					R.color.main_color));
-		} else {
-			holder.state.setText(item.status);
-			holder.state.setTextColor(mContext.getResources().getColor(
-					R.color.main_text));
-		}
-	}
 
-	class ViewHolder {
-		TextView bookNo;
-		TextView no;
-		TextView address;
-		TextView state;
-	}
+    @Override
+    protected void newView(View convertView)
+    {
+        ViewHolder holder = new ViewHolder();
+        holder.bookNo = (TextView) convertView.findViewById(R.id.book_no);
+        holder.no = (TextView) convertView.findViewById(R.id.no);
+        holder.address = (TextView) convertView.findViewById(R.id.address);
+        holder.state = (TextView) convertView.findViewById(R.id.state);
+        convertView.setTag(holder);
+    }
+
+
+    @Override
+    protected void holderView(View convertView, BookItem item, int position)
+    {
+        ViewHolder holder = (ViewHolder) convertView.getTag();
+        holder.bookNo.setText(item.number);
+        holder.no.setText(item.code);
+        holder.address.setText(item.location);
+        if ("可借".equals(item.status))
+        {
+            holder.state.setText(item.status);
+            holder.state.setTextColor(mContext.getResources().getColor(R.color.main_color));
+        }
+        else
+        {
+            holder.state.setText(item.status);
+            holder.state.setTextColor(mContext.getResources().getColor(R.color.main_text));
+        }
+    }
+
+
+    class ViewHolder
+    {
+        TextView bookNo;
+        TextView no;
+        TextView address;
+        TextView state;
+    }
 
 }

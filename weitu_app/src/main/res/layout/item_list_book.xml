@@ -1,38 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:id="@+id/second"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:padding="8dip" >
+    android:padding="8dip">
 
     <LinearLayout
         android:id="@+id/check_layout"
         android:layout_width="60dp"
         android:layout_height="110dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_centerInParent="true"
+        android:clickable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:clickable="false"
-        android:layout_alignParentLeft="true"
-        android:layout_centerInParent="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="gone"
-        android:layout_alignWithParentIfMissing="true"
-        >
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/checkmark"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerInParent="true"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:clickable="false"
             android:layout_gravity="center"
             android:background="@null"
             android:button="@drawable/check_btn"
             android:checked="false"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:paddingLeft="5dp"/>
     </LinearLayout>
 
@@ -40,25 +40,16 @@
         android:id="@+id/fl_board"
         android:layout_width="130dp"
         android:layout_height="120dp"
-        android:layout_toRightOf="@+id/check_layout"
         android:layout_centerVertical="true"
         android:layout_margin="5dp"
-        android:gravity="center"
-        >
+        android:layout_toRightOf="@+id/check_layout"
+        android:gravity="center">
 
-        <!--<ImageView
-            android:id="@+id/icon"
-            android:layout_width="@dimen/news_img_width"
-            android:layout_height="@dimen/news_img_height"
-            android:scaleType="centerInside"
-            />-->
         <ImageView
             android:id="@+id/icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerInside"
-            />
-
+            android:scaleType="centerInside"/>
     </LinearLayout>
 
     <LinearLayout
@@ -67,7 +58,7 @@
         android:layout_marginLeft="15dip"
         android:layout_toRightOf="@id/fl_board"
         android:gravity="top|left"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
@@ -80,11 +71,11 @@
             android:id="@+id/tv_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="暂无分类"
-            android:textColor="@color/white"
             android:background="@color/green1"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
+            android:text="暂无分类"
+            android:textColor="@color/white"
             android:textSize="12sp"/>
 
         <TextView
@@ -95,7 +86,7 @@
             android:paddingBottom="3dip"
             android:paddingTop="3dip"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/text_size_14"/>
 
         <TextView
             android:id="@+id/publisher"
@@ -105,21 +96,20 @@
             android:paddingBottom="3dip"
             android:paddingTop="3dip"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/text_size_14"/>
 
         <TextView
             android:id="@+id/tv_desc"
-            tools:text="简介afdsfdsfdsfdsfdsfdsfsdfdsf"
-            android:lines="3"
-            android:ellipsize="end"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="bottom"
             android:layout_marginRight="4dip"
+            android:ellipsize="end"
+            android:gravity="bottom"
+            android:lines="3"
             android:paddingBottom="3dip"
             android:paddingTop="3dip"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/text_size_14"
+            tools:text="简介afdsfdsfdsfdsfdsfdsfsdfdsf"/>
     </LinearLayout>
-
 </RelativeLayout>

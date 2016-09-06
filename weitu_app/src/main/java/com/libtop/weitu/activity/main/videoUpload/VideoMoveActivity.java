@@ -33,7 +33,9 @@ import java.util.Map;
 
 import okhttp3.Call;
 
-public class VideoMoveActivity extends Activity implements View.OnClickListener {
+
+public class VideoMoveActivity extends Activity implements View.OnClickListener
+{
     private VideoListAdapter mAdapter;
     protected Preference mPreference;
     private List<VideoFolderBean> mInfos = new ArrayList<VideoFolderBean>();
@@ -42,8 +44,10 @@ public class VideoMoveActivity extends Activity implements View.OnClickListener 
     protected TranLoading mLoading;
     Handler handler;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_move);
         mLoading = new TranLoading(VideoMoveActivity.this);
@@ -55,17 +59,22 @@ public class VideoMoveActivity extends Activity implements View.OnClickListener 
         findViewById(R.id.exit).setOnClickListener(this);
         findViewById(R.id.ll_new_folderBtn).setOnClickListener(this);
         requestVideos();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 setFid(position);
             }
         });
-        handler = new Handler() {
+        handler = new Handler()
+        {
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(Message msg)
+            {
                 super.handleMessage(msg);
-                switch (msg.what) {
+                switch (msg.what)
+                {
                     case 1:
                         Toast.makeText(VideoMoveActivity.this, "移动成功", Toast.LENGTH_SHORT).show();
                         break;
@@ -79,40 +88,51 @@ public class VideoMoveActivity extends Activity implements View.OnClickListener 
         };
     }
 
-    private void requestVideos() {
+
+    private void requestVideos()
+    {
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("page", 1);
         params.put("uid", mPreference.getString(Preference.uid));
         params.put("method", "mediaAlbum.query");
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (TextUtils.isEmpty(json)) {
-                            return;
-                        }
-                        mInfos.clear();
-                        Type collectionType = new TypeToken<List<VideoFolderBean>>() {
-                        }.getType();
-                        List<VideoFolderBean> beans = new Gson().fromJson(json, collectionType);
-                        for (VideoFolderBean bean : beans) {
-                            mInfos.add(bean);
-                        }
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (TextUtils.isEmpty(json))
+                {
+                    return;
+                }
+                mInfos.clear();
+                Type collectionType = new TypeToken<List<VideoFolderBean>>()
+                {
+                }.getType();
+                List<VideoFolderBean> beans = new Gson().fromJson(json, collectionType);
+                for (VideoFolderBean bean : beans)
+                {
+                    mInfos.add(bean);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
+
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         int a = v.getId();
-        switch (a) {
+        switch (a)
+        {
             case R.id.exit:
                 finish();
                 break;
@@ -127,56 +147,73 @@ public class VideoMoveActivity extends Activity implements View.OnClickListener 
         }
     }
 
+
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
         requestVideos();
     }
 
-    private void setFid(final int position) {
+
+    private void setFid(final int position)
+    {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("id", fid);
         params.put("aid", mInfos.get(position).id);
         params.put("method", "media.changeAlbum");
         mLoading.show();
-        HttpRequest.loadWithMap(params)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    if (mLoading.isShowing())
+                    {
+                        mLoading.dismiss();
                     }
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            if (mLoading.isShowing()){
-                                mLoading.dismiss();
-                            }
-                            try {
-                                JSONObject mjson = new JSONObject(json);
-                                int code = mjson.getInt("code");
-                                Message msg = handler.obtainMessage();
-                                if (code == 1) {
-                                    msg.what = 1;
-                                    handler.sendMessage(msg);
-                                } else {
-                                    msg.what = 2;
-                                    handler.sendMessage(msg);
-                                }
-                                finish();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                if (mLoading.isShowing()){
-                                    mLoading.dismiss();
-                                }
-                            }
-                            return;
+                    try
+                    {
+                        JSONObject mjson = new JSONObject(json);
+                        int code = mjson.getInt("code");
+                        Message msg = handler.obtainMessage();
+                        if (code == 1)
+                        {
+                            msg.what = 1;
+                            handler.sendMessage(msg);
                         }
-                        if (mLoading.isShowing()){
+                        else
+                        {
+                            msg.what = 2;
+                            handler.sendMessage(msg);
+                        }
+                        finish();
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                        if (mLoading.isShowing())
+                        {
                             mLoading.dismiss();
                         }
                     }
-                });
+                    return;
+                }
+                if (mLoading.isShowing())
+                {
+                    mLoading.dismiss();
+                }
+            }
+        });
     }
 
 

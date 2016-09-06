@@ -5,10 +5,12 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 
+
 /**
  * Created by LianTu on 2016/5/5.
  */
-public class DocBean implements Serializable{
+public class DocBean implements Serializable
+{
     public String id;
     public String uploadUid;
     public String uploadUsername;
@@ -38,14 +40,16 @@ public class DocBean implements Serializable{
     public Integer likes;
     public String cover;
 
-    public void of(JSONObject object) throws JSONException {
+
+    public void of(JSONObject object) throws JSONException
+    {
         this.id = object.getString("id");
         this.title = object.getString("title");
         this.cover = object.getString("cover");
-        this.uploadUsername=object.getString("uploadUsername");
-        this.hot=object.getInt("hot");
-        this.view=object.getInt("view");
-        this.favorite=object.getInt("favorite");
+        this.uploadUsername = object.getString("uploadUsername");
+        this.hot = object.getInt("hot");
+        this.view = object.getInt("view");
+        this.favorite = object.getInt("favorite");
         this.pdfUrl = object.getString("downloadUrl");
 
     }
