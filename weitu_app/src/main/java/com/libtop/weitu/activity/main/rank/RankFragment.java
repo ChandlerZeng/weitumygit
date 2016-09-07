@@ -39,6 +39,7 @@ public class RankFragment extends ContentFragment {
     private int pageIndex = 0;
 
     public static final int HOT_SUB = 0, HOT_RES = 1, NEWEST_SUB = 2, NEWEST_RES = 3;
+    public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
 
 
     @Override
