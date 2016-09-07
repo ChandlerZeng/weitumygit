@@ -81,7 +81,7 @@
                 android:text="出版社："
                 android:paddingRight="3dp"
                 android:paddingBottom="3dp"
-                android:textColor="#333333"
+                android:textColor="#666666"
                 android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>

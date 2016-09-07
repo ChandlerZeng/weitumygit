@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.clickHistory.ResultBean;
 import com.libtop.weitu.activity.main.rank.RankFragment;
+import com.libtop.weitu.activity.main.rank.RankPageFragment;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.squareup.picasso.Picasso;
 
@@ -42,11 +44,11 @@ public class RankAdapter extends BaseAdapter
         if (lists != null && position < lists.size())
         {
             int type = lists.get(position).type;
-            if (type == RankFragment.VIDEO || type == RankFragment.AUDIO)
+            if (type == RankPageFragment.VIDEO || type == RankPageFragment.AUDIO)
             {
                 return SUBJECT;
             }
-            else if (type == RankFragment.BOOK)
+            else if (type == RankPageFragment.BOOK)
             {
                 return BOOK;
             }
@@ -154,7 +156,7 @@ public class RankAdapter extends BaseAdapter
                     holder = (viewHolder2) convertView.getTag();
                 }
 
-                Picasso.with(context).load(resultBean.target.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                Picasso.with(context).load(ContantsUtil.IMG_BASE + resultBean.target.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
                 holder.tvTitle.setText(resultBean.target.title);
 
                 if (!TextUtils.isEmpty(resultBean.target.introduction))

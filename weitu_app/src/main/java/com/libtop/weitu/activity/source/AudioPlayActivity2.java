@@ -204,13 +204,10 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         mCurrentIndex = 0;
         String result = getIntent().getExtras().getString("resultBean");
         searchResult = new Gson().fromJson(result, SearchResult.class);
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
-        {
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
-            {
-                if (!fromUser || mPlayer == null)
-                {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (!fromUser || mPlayer == null) {
                     return;
                 }
                 long newposition = (mPlayer.getDuration() * progress) / 1000L;
@@ -221,15 +218,13 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar)
-            {
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar)
-            {
+            public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
         loadIndex();
@@ -360,6 +355,10 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        finishSimple();
+    }
 
     private void shareClick()
     {

@@ -38,7 +38,7 @@
             android:drawableLeft="@drawable/main_tag_unchecked_clazz"
             android:drawablePadding="@dimen/padding_small"
             android:clickable="true"
-            android:background="@drawable/find_classify_selector"/>
+            android:background="@drawable/selector_find_classify"/>
         <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
             android:id="@+id/rank"
             android:layout_width="0dp"
@@ -53,7 +53,7 @@
             android:drawableLeft="@drawable/main_tag_unchecked_clazz"
             android:drawablePadding="@dimen/padding_small"
             android:clickable="true"
-            android:background="@drawable/find_rank_selector"/>
+            android:background="@drawable/selector_find_rank"/>
     </LinearLayout>
 
     <View
@@ -99,11 +99,11 @@
         android:listSelector="@drawable/list_selector"
         android:background="@color/white"
         android:gravity="center"
-        android:horizontalSpacing="5dp"
+        android:horizontalSpacing="@dimen/padding_tiny"
         android:isScrollContainer="false"
         android:numColumns="2"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/padding_normal" />
+        android:verticalSpacing="@dimen/padding_small" />
 
     <View
         android:layout_width="match_parent"

@@ -54,7 +54,7 @@ import rx.schedulers.Schedulers;
 
 
 /**
- * Created by LianTu on 2016/7/15.
+ * Created by Zeng on 2016/9/7.
  */
 public class RankPageFragment extends BaseFragment
 {
@@ -70,6 +70,7 @@ public class RankPageFragment extends BaseFragment
 
     private final int ALL = 0;
     public static final int HOT_SUB = 0, HOT_RES = 1, NEWEST_SUB = 2, NEWEST_RES = 3;
+    public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
     private int type = 0;
 
 
@@ -77,7 +78,6 @@ public class RankPageFragment extends BaseFragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-//        EventBus.getDefault().register(this);
         Bundle bundle = this.getArguments();
         type = bundle.getInt("type", 0);
         mAdapter = new RankAdapter(mContext, mData);
@@ -93,7 +93,6 @@ public class RankPageFragment extends BaseFragment
     @Override
     public void onDestroy()
     {
-//        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -179,17 +178,20 @@ public class RankPageFragment extends BaseFragment
     {
         switch (type)
         {
-            case 5:
+            case BOOK:
                 openBook(position);
                 break;
-            case HOT_RES:
+            case VIDEO:
                 openVideo(position);
                 break;
-            case NEWEST_SUB:
+            case AUDIO:
                 openAudio(position);
                 break;
-            case NEWEST_RES:
+            case DOC:
                 openDoc(position);
+                break;
+            case PHOTO:
+                openPhoto(position);
                 break;
         }
     }
@@ -228,7 +230,7 @@ public class RankPageFragment extends BaseFragment
         bundle.putString("publisher", mData.get(position).target.publisher);
         bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
         bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }

@@ -21,7 +21,7 @@ import butterknife.OnPageChange;
 
 
 /**
- * Created by LianTu on 2016/7/15.
+ * Created by Zeng on 2016/9/7.
  */
 public class RankFragment extends ContentFragment {
     @Bind(R.id.viewpager)
@@ -39,7 +39,7 @@ public class RankFragment extends ContentFragment {
     private int pageIndex = 0;
 
     public static final int HOT_SUB = 0, HOT_RES = 1, NEWEST_SUB = 2, NEWEST_RES = 3;
-    public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
+
 
 
     @Override
@@ -48,7 +48,7 @@ public class RankFragment extends ContentFragment {
         mFrags = new ArrayList<Fragment>();
         RankPageFragment f1 = new RankPageFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt("type", 5);
+        bundle.putInt("type", 0);
         f1.setArguments(bundle);
 
         RankPageFragment f2 = new RankPageFragment();

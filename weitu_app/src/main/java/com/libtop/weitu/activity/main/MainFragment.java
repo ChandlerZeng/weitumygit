@@ -18,14 +18,17 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyFragment;
-import com.libtop.weitu.activity.main.adapter.MainImageAdapter;
+import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
+import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.rank.RankFragment;
+import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
@@ -35,14 +38,17 @@ import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.base.BaseFragment;
+import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
+import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.gridview.FixedGridView;
 import com.libtop.weitu.widget.listview.ChangeListView;
 import com.zbar.lib.CaptureActivity;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,6 +61,7 @@ import butterknife.OnClick;
 import cn.lightsky.infiniteindicator.InfiniteIndicator;
 import cn.lightsky.infiniteindicator.page.OnPageClickListener;
 import cn.lightsky.infiniteindicator.page.Page;
+import okhttp3.Call;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -91,15 +98,20 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     TextView classigyText;
     @Bind(R.id.rank)
     TextView rankText;
+    @Bind(R.id.subject_more)
+    TextView subjectMore;
+    @Bind(R.id.file_more)
+    TextView fileMore;
     @Bind(R.id.ll_news)
     LinearLayout llNews;
 
     SubjectFileAdapter subjectFileAdapter;
-    MainImageAdapter mainImageAdapter;
+    MoreSubjectAdapter moreSubjectAdapter;
     private ArrayList<Page> pageViews;
     private List<DocBean> bList = new ArrayList<DocBean>();
 
     private List<BookDto> bookDtos=new ArrayList<BookDto>();
+    private List<DisplayDto> displayDtoList=new ArrayList<DisplayDto>();
     private List<ImageSliderDto> slideList =new ArrayList<ImageSliderDto>();
 
     private CompositeSubscription _subscriptions = new CompositeSubscription();
@@ -134,8 +146,8 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private void initView() {
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        mainImageAdapter = new MainImageAdapter(mContext, bList);
-        mGrid.setAdapter(mainImageAdapter);
+        moreSubjectAdapter = new MoreSubjectAdapter(mContext, displayDtoList);
+        mGrid.setAdapter(moreSubjectAdapter);
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -149,7 +161,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 BookDto bookDto = bookDtos.get(position);
-                openBook(bookDto.title,bookDto.cover,bookDto.author,bookDto.isbn,bookDto.publisher);
+                openBook(bookDto.title, bookDto.cover, bookDto.author, bookDto.isbn, bookDto.publisher);
             }
         });
         mScroll.smoothScrollTo(0, 0);
@@ -290,7 +302,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     @Nullable
-    @OnClick({R.id.open_clazz, R.id.edit, R.id.banner, R.id.classify, R.id.rank})
+    @OnClick({R.id.open_clazz, R.id.edit, R.id.banner, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.open_clazz:
@@ -315,6 +327,14 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                 Bundle bundle3 = new Bundle();
                 bundle3.putString(ContentActivity.FRAG_CLS, RankFragment.class.getName());
                 mContext.startActivity(bundle3, ContentActivity.class);
+                break;
+            case R.id.subject_more:
+                Bundle bundle4 = new Bundle();
+                bundle4.putString(ContentActivity.FRAG_CLS, MoreSubjectFragment.class.getName());
+                mContext.startActivity(bundle4, ContentActivity.class);
+                break;
+            case R.id.file_more:
+
                 break;
         }
     }
@@ -425,9 +445,14 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
 
     private void loadSubjectRecommand() {
+        requestImages();
+//        requestBooks();
+    }
+
+    private void requestBooks(){
         List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("bookLists");
         if(docBeans!=null&&!docBeans.isEmpty()){
-            handleSubjectRecommend(docBeans);
+            handleBookResult(docBeans);
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "book.listRecommend");
@@ -451,13 +476,12 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                             @Override
                             public void onNext(List<DocBean> docBeens) {
                                 mCache.put("bookLists", (Serializable) docBeens);
-                                handleSubjectRecommend(docBeens);
+                                handleBookResult(docBeens);
                             }
                         })
         );
     }
-
-    private void handleSubjectRecommend(List<DocBean> docBeens) {
+    private void handleBookResult(List<DocBean> docBeens) {
         bList.clear();
         bList = docBeens;
         if (bList.isEmpty())
@@ -465,8 +489,49 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         if (bList.size()>4){
             bList = bList.subList(0,4);
         }
-        mainImageAdapter.setData(bList);
-        mainImageAdapter.notifyDataSetChanged();
+//        moreSubjectAdapter.setData(bList);
+    }
+    private void requestImages()
+    {
+        List<DisplayDto> displayDtoList1= (List<DisplayDto>) mCache.getAsObject("displayDtos");
+        if(displayDtoList1!=null&&!displayDtoList1.isEmpty()){
+            handleImageResult(displayDtoList1);
+        }
+        int page = 1;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("method", "imageAlbum.list");
+        params.put("page", page);
+        HttpRequest.loadWithMap(params).execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+            }
+
+
+            @Override
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    try {
+                        List<DisplayDto> listDisplayDtos = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>() {
+                        }.getType());
+                        mCache.put("displayDtos", (Serializable) listDisplayDtos);
+                        handleImageResult(listDisplayDtos);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private void handleImageResult(List<DisplayDto> displayDtos) {
+        displayDtoList.clear();
+        displayDtoList = displayDtos;
+        if (displayDtoList.isEmpty())
+            return;
+        if (displayDtoList.size()>4){
+            displayDtoList = displayDtoList.subList(0,4);
+        }
+        moreSubjectAdapter.setData(displayDtoList);
     }
 
     private void loadSubjectFile(){
