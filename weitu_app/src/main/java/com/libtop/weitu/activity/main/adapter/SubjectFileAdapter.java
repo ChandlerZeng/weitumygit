@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 /**
- * Created by LianTu on 2016/6/22.
+ * Created by Zeng on 2016/9/6.
  */
 public class SubjectFileAdapter extends CommonAdapter<BookDto> {
 
@@ -36,6 +36,10 @@ public class SubjectFileAdapter extends CommonAdapter<BookDto> {
         if(!CheckUtil.isNull(object.publisher)){
             helper.setText(R.id.subject_file_date,object.publisher);
         }
+    }
+    public void setData(List<BookDto> data){
+        datas = data;
+        notifyDataSetChanged();
     }
 
 }

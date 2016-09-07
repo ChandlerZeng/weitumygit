@@ -25,6 +25,7 @@ import com.libtop.weitu.activity.main.adapter.MainImageAdapter;
 import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
+import com.libtop.weitu.activity.main.rank.RankFragment;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
@@ -306,12 +307,14 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             case R.id.classify:
                 Bundle bundle2 = new Bundle();
 //                bundle2.putBoolean("isFromMainPage", true);
-                bundle2.putBoolean(ContentActivity.FRAG_ISBACK, false);
+//                bundle2.putBoolean(ContentActivity.FRAG_ISBACK, false);
                 bundle2.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
                 mContext.startActivity(bundle2, ContentActivity.class);
                 break;
             case R.id.rank:
-
+                Bundle bundle3 = new Bundle();
+                bundle3.putString(ContentActivity.FRAG_CLS, RankFragment.class.getName());
+                mContext.startActivity(bundle3, ContentActivity.class);
                 break;
         }
     }
@@ -511,7 +514,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         if (bookDtos.size()>2){
             bookDtos = bookDtos.subList(0,2);
         }
-        subjectFileAdapter.replaceAll(bookDtos);
+        subjectFileAdapter.setData(bookDtos);
     }
 
 }

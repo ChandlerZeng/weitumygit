@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/included_title1"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider"/>
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/hot_subject"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/group_tap_btn_selector"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:text="热门主题"
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+
+        <RadioButton
+            android:id="@+id/hot_resource"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/group_tap_btn_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="热门资源"
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+
+        <RadioButton
+            android:id="@+id/newest_subject"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/group_tap_btn_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="最新主题"
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+
+        <RadioButton
+            android:id="@+id/newest_resource"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/group_tap_btn_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="最新资源"
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+    </RadioGroup>
+
+    <com.libtop.weitu.widget.NoSlideViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@color/transparent"/>
+</LinearLayout>

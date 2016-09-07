@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.classify.adapter.ClassifyAdapter;
 import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.search.SearchActivity;
@@ -33,7 +32,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by LianTu on 2016/7/19.
  */
-public class ClassifyFragment extends ContentFragment
+public class ClassifyFragment extends BaseFragment
 {
 
     @Bind(R.id.list)
@@ -68,6 +67,11 @@ public class ClassifyFragment extends ContentFragment
         getData();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        mContext.finish();
+    }
 
     private void getData()
     {
