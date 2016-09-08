@@ -3,6 +3,7 @@ package com.libtop.weitu.activity.main.subsubject;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.main.dto.DocBean;
+import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
@@ -75,6 +77,13 @@ public class MoreSubjectFragment extends ContentFragment {
             @Override
             public void onClick(View v) {
                 mContext.finish();
+            }
+        });
+        subGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DisplayDto dto = displayDtoList.get(position);
+                openPhoto(dto.id);
             }
         });
         moreSubjectAdapter = new MoreSubjectAdapter(mContext,displayDtoList);
@@ -153,5 +162,11 @@ public class MoreSubjectFragment extends ContentFragment {
         if (displayDtoList.isEmpty())
             return;
         moreSubjectAdapter.setData(displayDtoList);
+    }
+    private void openPhoto(String id) {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", "img");
+        bundle.putString("id", id);
+        mContext.startActivity(bundle, DynamicCardActivity.class);
     }
 }

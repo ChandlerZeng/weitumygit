@@ -12,6 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/divider"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_small"
+        android:background="@color/grey_bg"/>
     <GridView
         android:id="@+id/sub_grid_view"
         android:layout_width="match_parent"

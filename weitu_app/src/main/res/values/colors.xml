@@ -51,6 +51,7 @@
     <color name="grey14">#d1d1d1</color>
     <color name="grey9">#50514e</color>
     <color name="grey10">#e7e8e5</color>
+    <color name="grey_bg">#ebebeb</color>
 
     <color name="yellow1">#ddb600</color>
     <color name="green4">#4d9400</color>

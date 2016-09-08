@@ -28,6 +28,7 @@ import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.rank.RankFragment;
+import com.libtop.weitu.activity.main.subsubject.MoreRmdFileFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
@@ -151,8 +152,10 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DocBean bean = bList.get(position);
-                openBook(bean.title,bean.cover,bean.author,bean.isbn,bean.publisher);
+//                DocBean bean = bList.get(position);
+//                openBook(bean.title,bean.cover,bean.author,bean.isbn,bean.publisher);
+                DisplayDto dto = displayDtoList.get(position);
+                openPhoto(dto.id);
             }
         });
         subjectFileAdapter = new SubjectFileAdapter(mContext,bookDtos);
@@ -318,8 +321,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                 break;
             case R.id.classify:
                 Bundle bundle2 = new Bundle();
-//                bundle2.putBoolean("isFromMainPage", true);
-//                bundle2.putBoolean(ContentActivity.FRAG_ISBACK, false);
                 bundle2.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
                 mContext.startActivity(bundle2, ContentActivity.class);
                 break;
@@ -334,7 +335,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                 mContext.startActivity(bundle4, ContentActivity.class);
                 break;
             case R.id.file_more:
-
+                Bundle bundle5 = new Bundle();
+                bundle5.putString(ContentActivity.FRAG_CLS, MoreRmdFileFragment.class.getName());
+                mContext.startActivity(bundle5, ContentActivity.class);
                 break;
         }
     }
