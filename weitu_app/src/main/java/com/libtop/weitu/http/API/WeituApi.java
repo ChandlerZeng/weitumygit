@@ -6,6 +6,7 @@ import com.libtop.weitu.activity.main.clickHistory.ResultBean;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.dto.NoticeInfo;
+import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.activity.search.dto.CommentResult;
 import com.libtop.weitu.activity.source.Bean.MediaResultBean;
 import com.libtop.weitu.activity.user.dto.CollectBean;
@@ -56,4 +57,7 @@ public interface WeituApi
 
     @GET("{type}/{method}")
     Observable<List<NoticeInfo>> getNoticeInfo(@Path("type") String type, @Path("method") String method, @Query("text") String requestJson);
+
+    @GET("{type}/{method}")
+    Observable<List<BookDto>> getBookDto(@Path("type") String type, @Path("method") String method, @Query("text") String requestJson);
 }

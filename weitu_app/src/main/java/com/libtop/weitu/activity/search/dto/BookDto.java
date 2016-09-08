@@ -9,7 +9,7 @@ public class BookDto
 
     public String id;
     public String isbn;
-    public String isbnList;
+//    public String isbnList;
     public String title;
     public String author;
     public String cover;
@@ -23,7 +23,7 @@ public class BookDto
     {
         this.id = object.getString("id");
         this.isbn = object.getString("isbn");
-        this.isbnList = object.getString("isbnList");
+//        this.isbnList = object.getString("isbnList");
         this.title = object.getString("title");
         this.author = object.getString("author");
         this.cover = object.getString("cover");

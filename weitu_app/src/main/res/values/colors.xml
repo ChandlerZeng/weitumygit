@@ -51,6 +51,7 @@
     <color name="grey14">#d1d1d1</color>
     <color name="grey9">#50514e</color>
     <color name="grey10">#e7e8e5</color>
+    <color name="grey_bg">#ebebeb</color>
 
     <color name="yellow1">#ddb600</color>
     <color name="green4">#4d9400</color>
@@ -72,5 +73,11 @@
     <color name="num1">#ff6600</color>
     <color name="num2">#ff9933</color>
     <color name="num3">#ffcc66</color>
+
+    <color name="classify_blue">#46A0EC</color>
+    <color name="classify_blue_pressed">#46A0BB</color>
+    <color name="rank_red">#FF6064</color>
+    <color name="rank_red_pressed">#CF6064</color>
+
 
 </resources>

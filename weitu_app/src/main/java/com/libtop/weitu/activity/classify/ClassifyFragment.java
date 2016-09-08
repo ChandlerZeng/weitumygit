@@ -67,6 +67,11 @@ public class ClassifyFragment extends BaseFragment
         getData();
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        mContext.finish();
+    }
 
     private void getData()
     {

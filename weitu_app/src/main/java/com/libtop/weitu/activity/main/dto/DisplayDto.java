@@ -1,9 +1,11 @@
 package com.libtop.weitu.activity.main.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by LianTu on 2016/6/28.
  */
-public class DisplayDto
+public class DisplayDto implements Serializable
 {
     public String id;
     public String lid;

@@ -12,43 +12,44 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
-import com.libtop.weitu.activity.login.LoginFragment;
-import com.libtop.weitu.activity.main.adapter.MainIconAdapter;
-import com.libtop.weitu.activity.main.adapter.MainImageAdapter;
-import com.libtop.weitu.activity.main.adapter.NoticeAdapter;
-import com.libtop.weitu.activity.main.clazz.ClassmateFragment;
-import com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity;
+import com.libtop.weitu.activity.classify.ClassifyFragment;
+import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
+import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
+import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
-import com.libtop.weitu.activity.main.dto.NoticeInfo;
-import com.libtop.weitu.activity.main.notice.NoticeContentFragment;
-import com.libtop.weitu.activity.main.notice.NoticeFragment;
-import com.libtop.weitu.activity.main.rmdbooks.MainBooksFragment;
+import com.libtop.weitu.activity.main.rank.RankFragment;
+import com.libtop.weitu.activity.main.subsubject.MoreRmdFileFragment;
+import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
+import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.activity.search.dto.SearchResult;
 import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.base.BaseFragment;
+import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
-import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.DateUtil;
+import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.gridview.FixedGridView;
 import com.libtop.weitu.widget.listview.ChangeListView;
 import com.zbar.lib.CaptureActivity;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,16 +59,14 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import butterknife.OnItemClick;
 import cn.lightsky.infiniteindicator.InfiniteIndicator;
 import cn.lightsky.infiniteindicator.page.OnPageClickListener;
 import cn.lightsky.infiniteindicator.page.Page;
-import rx.Observable;
+import okhttp3.Call;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-
 
 /**
  * <p>
@@ -83,409 +82,158 @@ import rx.subscriptions.CompositeSubscription;
  * @author 陆
  * @version common v1.0
  */
-public class MainFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageClickListener
-{
+public class MainFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageClickListener {
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.scroll)
     ScrollView mScroll;
-    private MainIconAdapter mAdapter;
     @Bind(R.id.grid_view)
     FixedGridView mGrid;
     @Bind(R.id.infinite_anim_circle)
     InfiniteIndicator mAnimLineIndicator;
     @Bind(R.id.list_view)
     ChangeListView changeListView;
-    @Bind(R.id.tv_school)
-    TextView tvSchool;
-
-    @Bind(R.id.news_more_text)
-    TextView newsMoreText;
-
-
-    @Bind(R.id.grid_view2)
-    FixedGridView mGrid2;
-    @Bind(R.id.grid_view3)
-    FixedGridView mGrid3;
+    @Bind(R.id.edit)
+    EditText editText;
+    @Bind(R.id.classify)
+    TextView classigyText;
+    @Bind(R.id.rank)
+    TextView rankText;
+    @Bind(R.id.subject_more)
+    TextView subjectMore;
+    @Bind(R.id.file_more)
+    TextView fileMore;
     @Bind(R.id.ll_news)
     LinearLayout llNews;
 
-    NoticeAdapter noticeAdapter;
-    MainImageAdapter mainImageAdapter, mainImageAdapter2;
+    SubjectFileAdapter subjectFileAdapter;
+    MoreSubjectAdapter moreSubjectAdapter;
     private ArrayList<Page> pageViews;
-    private List<DocBean> uploadList = new ArrayList<DocBean>();
     private List<DocBean> bList = new ArrayList<DocBean>();
 
-    private List<NoticeInfo> mInfos = new ArrayList<NoticeInfo>();
-    private List<ImageSliderDto> slideList = new ArrayList<ImageSliderDto>();
+    private List<BookDto> bookDtos=new ArrayList<BookDto>();
+    private List<DisplayDto> displayDtoList=new ArrayList<DisplayDto>();
+    private List<ImageSliderDto> slideList =new ArrayList<ImageSliderDto>();
 
     private CompositeSubscription _subscriptions = new CompositeSubscription();
 
-    private final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4;
-
-    private int newestIndex;
     private ACache mCache;
-
-    private boolean isUpdateSchoolNews = true;
 
 
     @Override
-    protected int getLayoutId()
-    {
+    protected int getLayoutId() {
         return R.layout.fragment_main_layout3;
     }
 
-
     @Override
-    public void onCreation(View root)
-    {
+    public void onCreation(View root) {
         mCache = ACache.get(mContext);
         initView();
-        //        initData();
-        //        testAnimLineIndicator();
         initLoad();
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onRefresh()
-            {
-                _subscriptions.clear();
-                uploadList.clear();
-                newestIndex = 0;
+            public void onRefresh() {
                 initLoad();
             }
         });
     }
 
-
-    private void initLoad()
-    {
-        loadBookRecommand();
-        requestNotics();
+    private void initLoad() {
+        loadSubjectRecommand();
+        loadSubjectFile();
         requestImageSlider();
-        loadNewestUpload();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
-
-    private void initView()
-    {
+    private void initView() {
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        if (mAdapter == null)
-        {
-            mAdapter = new MainIconAdapter(mContext);
-        }
-        mGrid.setAdapter(mAdapter);
-        mainImageAdapter = new MainImageAdapter(mContext, bList);
-        mainImageAdapter2 = new MainImageAdapter(mContext, uploadList, true);
-        mGrid2.setAdapter(mainImageAdapter);
-        mGrid3.setAdapter(mainImageAdapter2);
-        mGrid2.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        moreSubjectAdapter = new MoreSubjectAdapter(mContext, displayDtoList);
+        mGrid.setAdapter(moreSubjectAdapter);
+        mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                DocBean bean = bList.get(position);
-                openBook(bean.title, bean.cover, bean.author, bean.isbn, bean.publisher);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                DocBean bean = bList.get(position);
+//                openBook(bean.title,bean.cover,bean.author,bean.isbn,bean.publisher);
+                DisplayDto dto = displayDtoList.get(position);
+                openPhoto(dto.id);
             }
         });
-        mGrid3.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        subjectFileAdapter = new SubjectFileAdapter(mContext,bookDtos);
+        changeListView.setAdapter(subjectFileAdapter);
+        changeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                DocBean bean = uploadList.get(position);
-                switch (bean.type)
-                {
-                    case VIDEO:
-                        openVideo(bean.id);
-                        break;
-                    case AUDIO:
-                        openAudio(bean.id, bean.cover);
-                        break;
-                    case DOC:
-                        openDoc(bean.id);
-                        break;
-                    case PHOTO:
-                        openPhoto(bean.id);
-                        break;
-                }
-            }
-        });
-        noticeAdapter = new NoticeAdapter(mContext, mInfos);
-        changeListView.setAdapter(noticeAdapter);
-        changeListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Bundle bundle1 = new Bundle();
-                bundle1.putString(ContentActivity.FRAG_CLS, NoticeContentFragment.class.getName());
-                bundle1.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
-                bundle1.putBoolean(ContentActivity.FRAG_ISBACK, false);
-                bundle1.putString("id", mInfos.get(position).id);
-                bundle1.putString("title", mInfos.get(position).title);
-                bundle1.putString("date", DateUtil.parseToDate(mInfos.get(position).dateLine));
-                mContext.startActivity(bundle1, ContentActivity.class);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BookDto bookDto = bookDtos.get(position);
+                openBook(bookDto.title, bookDto.cover, bookDto.author, bookDto.isbn, bookDto.publisher);
             }
         });
         mScroll.smoothScrollTo(0, 0);
     }
 
-
-    private void loadNewestUpload()
-    {
-        List<DocBean> docBeens = (List<DocBean>) mCache.getAsObject("newestLists");
-        if (docBeens != null && !docBeens.isEmpty())
-        {
-            mainImageAdapter2.setData(docBeens);
-            mainImageAdapter2.notifyDataSetChanged();
-            uploadList = docBeens;
-        }
-        swipeRefreshLayout.setRefreshing(true);
-        Observable<List<DocBean>> newestVideoObservable = getNewestVideoObservable();
-        Observable<List<DocBean>> newestAudioObservable = getNewestAudioObservable();
-        Observable<List<DocBean>> newestDocObservable = getNewestDocObservable();
-        Observable<List<DocBean>> newestPhotoObservable = getNewestPhotoObservable();
-        _subscriptions.add(Observable.concat(newestVideoObservable, newestAudioObservable, newestDocObservable, newestPhotoObservable).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<DocBean>>()
-        {
-            @Override
-            public void onCompleted()
-            {
-
-            }
-
-
-            @Override
-            public void onError(Throwable e)
-            {
-                newestIndex++;
-                if (newestIndex > 3)
-                {
-                    newestIndex = 0;
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-
-            @Override
-            public void onNext(List<DocBean> docBeens)
-            {
-                handleNewestResult(docBeens);
-            }
-        }));
-
-    }
-
-
-    private void handleNewestResult(List<DocBean> docBeens)
-    {
-        newestIndex++;
-        swipeRefreshLayout.setRefreshing(false);
-        if (docBeens.isEmpty() || docBeens.size() < 3)
-        {
-            return;
-        }
-        for (DocBean docBean : docBeens)
-        {
-            docBean.type = newestIndex;
-        }
-        if (newestIndex > 3)
-        {
-            newestIndex = 0;
-        }
-        if (uploadList.size() >= 12)
-        {
-            uploadList.clear();
-        }
-        uploadList.addAll(docBeens.subList(0, 3));
-        mCache.put("newestLists", (Serializable) uploadList);
-        mainImageAdapter2.setData(uploadList);
-        mainImageAdapter2.notifyDataSetChanged();
-    }
-
-
-    //获取最新视频
-    private Observable<List<DocBean>> getNewestVideoObservable()
-    {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "mediaAlbum.latest");
-        params.put("type", 1);
-        String[] arrays = MapUtil.map2Parameter(params);
-        return WeituNetwork.getWeituApi().getNewest(arrays[0], arrays[1], arrays[2]);
-    }
-
-
-    //获取最新音频
-    private Observable<List<DocBean>> getNewestAudioObservable()
-    {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "mediaAlbum.latest");
-        params.put("type", 2);
-        String[] arrays = MapUtil.map2Parameter(params);
-        return WeituNetwork.getWeituApi().getNewest(arrays[0], arrays[1], arrays[2]);
-    }
-
-
-    //获取最新文档
-    private Observable<List<DocBean>> getNewestDocObservable()
-    {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "document.latest");
-        String[] arrays = MapUtil.map2Parameter(params);
-        return WeituNetwork.getWeituApi().getNewest(arrays[0], arrays[1], arrays[2]);
-    }
-
-
-    //获取最新图片
-    private Observable<List<DocBean>> getNewestPhotoObservable()
-    {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "imageAlbum.latest");
-        String[] arrays = MapUtil.map2Parameter(params);
-        return WeituNetwork.getWeituApi().getNewest(arrays[0], arrays[1], arrays[2]);
-    }
-
-
-    private void requestImageSlider()
-    {
-        List<ImageSliderDto> imageSliderDtos = (List<ImageSliderDto>) mCache.getAsObject("imageSliderDtos");
-        if (imageSliderDtos != null && !imageSliderDtos.isEmpty())
-        {
+    private void requestImageSlider() {
+        List<ImageSliderDto> imageSliderDtos= (List<ImageSliderDto>) mCache.getAsObject("imageSliderDtos");
+        if(imageSliderDtos!=null&&!imageSliderDtos.isEmpty()){
             handleImageSlideResult(imageSliderDtos);
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "focus.list");
         String[] arrays = MapUtil.map2Parameter(params);
-        _subscriptions.add(WeituNetwork.getWeituApi().getImageSlider(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<ImageSliderDto>>()
-        {
-            @Override
-            public void onCompleted()
-            {
+        _subscriptions.add(
+                WeituNetwork.getWeituApi()
+                        .getImageSlider(arrays[0], arrays[1], arrays[2])
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<List<ImageSliderDto>>() {
+                            @Override
+                            public void onCompleted() {
 
-            }
+                            }
 
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.w("guanglog", "error + " + e);
+                            }
 
-            @Override
-            public void onError(Throwable e)
-            {
-                Log.w("guanglog", "error + " + e);
-            }
-
-
-            @Override
-            public void onNext(List<ImageSliderDto> imageSliderDtos)
-            {
-                mCache.put("imageSliderDtos", (Serializable) imageSliderDtos);
-                handleImageSlideResult(imageSliderDtos);
-            }
-        }));
+                            @Override
+                            public void onNext(List<ImageSliderDto> imageSliderDtos) {
+                                mCache.put("imageSliderDtos", (Serializable) imageSliderDtos);
+                                handleImageSlideResult(imageSliderDtos);
+                            }
+                        })
+        );
     }
 
-
-    private void handleImageSlideResult(List<ImageSliderDto> imageSliderDtos)
-    {
+    private void handleImageSlideResult(List<ImageSliderDto> imageSliderDtos) {
         if (imageSliderDtos.isEmpty())
-        {
             return;
-        }
         slideList.clear();
         slideList = imageSliderDtos;
         initImageSlide();
     }
 
-
     @Override
-    public void onDestroyView()
-    {
+    public void onDestroyView() {
         super.onDestroyView();
         _subscriptions.clear();
     }
 
-
-    private void initImageSlide()
-    {
+    private void initImageSlide(){
         initData();
         testAnimLineIndicator();
     }
 
 
-    private void requestNotics()
-    {
-        List<NoticeInfo> noticeInfos = (List<NoticeInfo>) mCache.getAsObject("noticeInfos");
-        if (noticeInfos != null && !noticeInfos.isEmpty())
-        {
-            handleNoticeResult(noticeInfos);
-        }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "notice.list");
-        params.put("lid", mPreference.getString(Preference.SchoolCode));
-        String[] arrays = MapUtil.map2Parameter(params);
-        _subscriptions.add(WeituNetwork.getWeituApi().getNoticeInfo(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<NoticeInfo>>()
-        {
-            @Override
-            public void onCompleted()
-            {
-
-            }
-
-
-            @Override
-            public void onError(Throwable e)
-            {
-                List<NoticeInfo> noticeInfos = (List<NoticeInfo>) mCache.getAsObject("noticeInfos");
-                if (noticeInfos == null)
-                {
-                    setNewsGone();
-                }
-            }
-
-
-            @Override
-            public void onNext(List<NoticeInfo> noticeInfos)
-            {
-                mCache.put("noticeInfos", (Serializable) noticeInfos);
-                handleNoticeResult(noticeInfos);
-            }
-        }));
-    }
-
-
-    private void handleNoticeResult(List<NoticeInfo> noticeInfos)
-    {
-        if (noticeInfos.isEmpty())
-        {
-            setNewsGone();
-            return;
-        }
-        setNewsVisible();
-        mInfos.clear();
-        mInfos = noticeInfos;
-        if (mInfos.size() > 3)
-        {
-            mInfos = mInfos.subList(0, 3);
-        }
-        noticeAdapter.setData(mInfos);
-    }
-
-
-    private void setNewsVisible()
-    {
+    private void setNewsVisible(){
         llNews.setVisibility(View.VISIBLE);
-        newsMoreText.setVisibility(View.VISIBLE);
         changeListView.setVisibility(View.VISIBLE);
     }
 
-
-    private void setNewsGone()
-    {
+    private void setNewsGone(){
         llNews.setVisibility(View.GONE);
-        newsMoreText.setVisibility(View.GONE);
         changeListView.setVisibility(View.GONE);
     }
 
-
-    private void openAudio(String id, String cover)
-    {
+    private void openAudio(String id,String cover) {
         SearchResult result = new SearchResult();
         result.id = id;
         result.cover = cover;
@@ -494,9 +242,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         mContext.startActivity(intent);
     }
 
-
-    private void openVideo(String id)
-    {
+    private void openVideo(String id) {
         SearchResult result = new SearchResult();
         result.id = id;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
@@ -504,47 +250,40 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         mContext.startActivity(intent);
     }
 
-
-    private void openBook(String bookName, String cover, String author, String isbn, String publisher)
-    {
+    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
         Bundle bundle = new Bundle();
         bundle.putString("name", bookName);
         bundle.putString("cover", cover);
         bundle.putString("auth", author);
         bundle.putString("isbn", isbn);
         bundle.putString("publisher", publisher);
-        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
+        bundle.putString("school", Preference.instance(mContext)
+                .getString(Preference.SchoolCode));
         bundle.putBoolean("isFromMainPage", true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
-
-    private void openPhoto(String id)
-    {
+    private void openPhoto(String id) {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
         bundle.putString("id", id);
         mContext.startActivity(bundle, DynamicCardActivity.class);
     }
 
-
-    private void openDoc(String id)
-    {
+    private void openDoc(String id) {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", id);
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
+        mContext.overridePendingTransition(R.anim.zoomin,
+                R.anim.alpha_outto);
     }
 
-
-    private void initData()
-    {
-        if (slideList.isEmpty())
-        {
+    private void initData() {
+        if (slideList.isEmpty()){
             return;
         }
         pageViews = new ArrayList<>();
@@ -553,106 +292,78 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     }
 
-
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
-        if (mPreference.getString(Preference.SchoolCode).equals("10564"))
-        {
-            setNewsVisible();
-            requestNotics();
-        }
-        else
-        {
-            setNewsGone();
-        }
         mAnimLineIndicator.start();
     }
 
-
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         mAnimLineIndicator.stop();
     }
 
-
     @Nullable
-    @OnClick({R.id.search, R.id.container, R.id.open_clazz, R.id.banner, R.id.search_top, R.id.news_more_text})
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
+    @OnClick({R.id.open_clazz, R.id.edit, R.id.banner, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.open_clazz:
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 1);
                 bundle.putString(ContentActivity.FRAG_CLS, LibraryFragment.class.getName());
                 mContext.startActivity(bundle, CaptureActivity.class);
                 break;
-            case R.id.search_top:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
-                {
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    mContext.startActivity(bundle1, ContentActivity.class);
-                }
-                else
-                {
-                    Intent intent = new Intent(mContext, ClickHistoryActivity.class);
-                    startActivity(intent);
-                }
-                break;
-            case R.id.container:
+            case R.id.edit:
                 mContext.startActivity(null, SearchActivity.class);
                 break;
             case R.id.banner:
                 break;
-            case R.id.news_more_text:
-                Bundle bundle6 = new Bundle();
-                bundle6.putString("method", "notice.list");
-                bundle6.putString("lid", "10564");
-                bundle6.putString(ContentActivity.FRAG_CLS, NoticeFragment.class.getName());
-                mContext.startActivity(bundle6, ContentActivity.class);
+            case R.id.classify:
+                Bundle bundle2 = new Bundle();
+                bundle2.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
+                mContext.startActivity(bundle2, ContentActivity.class);
+                break;
+            case R.id.rank:
+                Bundle bundle3 = new Bundle();
+                bundle3.putString(ContentActivity.FRAG_CLS, RankFragment.class.getName());
+                mContext.startActivity(bundle3, ContentActivity.class);
+                break;
+            case R.id.subject_more:
+                Bundle bundle4 = new Bundle();
+                bundle4.putString(ContentActivity.FRAG_CLS, MoreSubjectFragment.class.getName());
+                mContext.startActivity(bundle4, ContentActivity.class);
+                break;
+            case R.id.file_more:
+                Bundle bundle5 = new Bundle();
+                bundle5.putString(ContentActivity.FRAG_CLS, MoreRmdFileFragment.class.getName());
+                mContext.startActivity(bundle5, ContentActivity.class);
                 break;
         }
     }
 
-
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-    {
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
-
     @Override
-    public void onPageSelected(int position)
-    {
+    public void onPageSelected(int position) {
 
     }
 
-
     @Override
-    public void onPageScrollStateChanged(int state)
-    {
+    public void onPageScrollStateChanged(int state) {
 
     }
 
-
     @Override
-    public void onPageClick(int position, Page page)
-    {
+    public void onPageClick(int position, Page page) {
         ImageSliderDto imageSliderDto = slideList.get(position);
         if (TextUtils.isEmpty(imageSliderDto.domain))
-        {
             return;
-        }
-        if (imageSliderDto.type == 1)
-        {
-            switch (imageSliderDto.domain)
-            {
+        if (imageSliderDto.type==1){
+            switch (imageSliderDto.domain){
                 case "audio-album":
                     openAudio(position);
                     break;
@@ -666,13 +377,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                     openPhoto(position);
                     break;
             }
-        }
-        else if (imageSliderDto.type == 2)
-        {
+        }else if (imageSliderDto.type == 2){
             if (TextUtils.isEmpty(imageSliderDto.url))
-            {
                 return;
-            }
             Uri uri = Uri.parse(imageSliderDto.url);
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
@@ -680,9 +387,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         }
     }
 
-
-    private void openAudio(int position)
-    {
+    private void openAudio(int position) {
         SearchResult result = new SearchResult();
         result.id = slideList.get(position).id;
         Intent intent = new Intent(mContext, AudioPlayActivity2.class);
@@ -690,9 +395,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         mContext.startActivity(intent);
     }
 
-
-    private void openVideo(int position)
-    {
+    private void openVideo(int position) {
         SearchResult result = new SearchResult();
         result.id = slideList.get(position).tid;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
@@ -701,37 +404,31 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
 
-    private void openPhoto(int position)
-    {
+    private void openPhoto(int position) {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
         bundle.putString("id", slideList.get(position).id);
         mContext.startActivity(bundle, DynamicCardActivity.class);
     }
 
-
-    private void openDoc(int position)
-    {
+    private void openDoc(int position) {
         Intent intent = new Intent();
         intent.putExtra("url", "");
         intent.putExtra("doc_id", slideList.get(position).id);
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
+        mContext.overridePendingTransition(R.anim.zoomin,
+                R.anim.alpha_outto);
     }
 
 
-    private void testAnimLineIndicator()
-    {
-        int windowWidth = mPreference.getInt("windowWidth", -1);
-        int width;
-        if (windowWidth == -1)
-        {
+    private void testAnimLineIndicator() {
+        int windowWidth =mPreference.getInt("windowWidth",-1);
+        int width ;
+        if (windowWidth==-1){
             width = getWinWidth();
-            mPreference.putInt("windowWidth", width);
-        }
-        else
-        {
+            mPreference.putInt("windowWidth",width);
+        }else {
             width = mPreference.getInt("windowWidth");
         }
         mAnimLineIndicator.getLayoutParams().height = width * 22 / 75;
@@ -741,10 +438,8 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         mAnimLineIndicator.setPosition(InfiniteIndicator.IndicatorPosition.Center_Bottom);
     }
 
-
     //等到屏幕宽度
-    private int getWinWidth()
-    {
+    private int getWinWidth(){
         DisplayMetrics displaymetrics = new DisplayMetrics();
         mContext.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int screenWidth = displaymetrics.widthPixels;
@@ -752,115 +447,142 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
 
-    @Nullable
-    @OnItemClick(value = R.id.grid_view)
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    {
-        switch (view.getId())
-        {
-            case R.drawable.intelligence_search://智能检索
-                mContext.startActivity(null, SearchActivity.class);
-                break;
-            case R.drawable.book_icon://图书
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
-                {
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    mContext.startActivity(bundle1, ContentActivity.class);
-                }
-                else
-                {
-                    Bundle bundle2 = new Bundle();
-                    bundle2.putString("method", "book.listRecommend");
-                    bundle2.putString(ContentActivity.FRAG_CLS, MainBooksFragment.class.getName());
-                    mContext.startActivity(bundle2, ContentActivity.class);
-                }
-                break;
-            case R.drawable.class_icon:
-                Bundle bundle3 = new Bundle();
-                bundle3.putString(ContentActivity.FRAG_CLS, ClassmateFragment.class.getName());
-                mContext.startActivity(bundle3, ContentActivity.class);
-                break;
-            case R.drawable.video_icon://视频
-                Bundle bundle4 = new Bundle();
-                bundle4.putString("method", "mediaAlbum.list");
-                bundle4.putInt("type", 1);
-                bundle4.putString(ContentActivity.FRAG_CLS, DelicateFragment.class.getName());
-                mContext.startActivity(bundle4, ContentActivity.class);
-                break;
-            case R.drawable.music_icon://音频
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("method", "mediaAlbum.list");
-                bundle2.putInt("type", 2);
-                bundle2.putString(ContentActivity.FRAG_CLS, DelicateFragment.class.getName());
-                mContext.startActivity(bundle2, ContentActivity.class);
-                break;
-            case R.drawable.doc_icon://文档
-                Bundle bundle = new Bundle();
-                bundle.putString("method", "document.list");
-                bundle.putString(ContentActivity.FRAG_CLS, DelicateFragment.class.getName());
-                mContext.startActivity(bundle, ContentActivity.class);
-                break;
-            case R.drawable.image_icon://图库
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("method", "imageAlbum.list");
-                bundle1.putString(ContentActivity.FRAG_CLS, DelicateFragment.class.getName());
-                mContext.startActivity(bundle1, ContentActivity.class);
-                break;
-        }
+    private void loadSubjectRecommand() {
+        requestImages();
+//        requestBooks();
     }
 
-
-    private void loadBookRecommand()
-    {
-        List<DocBean> docBeans = (List<DocBean>) mCache.getAsObject("bookLists");
-        if (docBeans != null && !docBeans.isEmpty())
-        {
+    private void requestBooks(){
+        List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("bookLists");
+        if(docBeans!=null&&!docBeans.isEmpty()){
             handleBookResult(docBeans);
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "book.listRecommend");
         String[] arrays = MapUtil.map2Parameter(params);
-        _subscriptions.add(WeituNetwork.getWeituApi().getNewest(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<DocBean>>()
-        {
-            @Override
-            public void onCompleted()
-            {
+        _subscriptions.add(
+                WeituNetwork.getWeituApi()
+                        .getNewest(arrays[0], arrays[1], arrays[2])
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<List<DocBean>>() {
+                            @Override
+                            public void onCompleted() {
 
-            }
+                            }
 
+                            @Override
+                            public void onError(Throwable e) {
 
-            @Override
-            public void onError(Throwable e)
-            {
+                            }
 
-            }
-
-
-            @Override
-            public void onNext(List<DocBean> docBeens)
-            {
-                mCache.put("bookLists", (Serializable) docBeens);
-                handleBookResult(docBeens);
-            }
-        }));
+                            @Override
+                            public void onNext(List<DocBean> docBeens) {
+                                mCache.put("bookLists", (Serializable) docBeens);
+                                handleBookResult(docBeens);
+                            }
+                        })
+        );
     }
-
-
-    private void handleBookResult(List<DocBean> docBeens)
-    {
+    private void handleBookResult(List<DocBean> docBeens) {
         bList.clear();
         bList = docBeens;
         if (bList.isEmpty())
-        {
+            return;
+        if (bList.size()>4){
+            bList = bList.subList(0,4);
+        }
+//        moreSubjectAdapter.setData(bList);
+    }
+    private void requestImages()
+    {
+        List<DisplayDto> displayDtoList1= (List<DisplayDto>) mCache.getAsObject("displayDtos");
+        if(displayDtoList1!=null&&!displayDtoList1.isEmpty()){
+            handleImageResult(displayDtoList1);
+        }
+        int page = 1;
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("method", "imageAlbum.list");
+        params.put("page", page);
+        HttpRequest.loadWithMap(params).execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+            }
+
+
+            @Override
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    try {
+                        List<DisplayDto> listDisplayDtos = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>() {
+                        }.getType());
+                        mCache.put("displayDtos", (Serializable) listDisplayDtos);
+                        handleImageResult(listDisplayDtos);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    private void handleImageResult(List<DisplayDto> displayDtos) {
+        displayDtoList.clear();
+        displayDtoList = displayDtos;
+        if (displayDtoList.isEmpty())
+            return;
+        if (displayDtoList.size()>4){
+            displayDtoList = displayDtoList.subList(0,4);
+        }
+        moreSubjectAdapter.setData(displayDtoList);
+    }
+
+    private void loadSubjectFile(){
+        final List<BookDto> bookDtos= (List<BookDto>) mCache.getAsObject("bookDtos");
+        if(bookDtos!=null&&!bookDtos.isEmpty()){
+            handleSubjectFile(bookDtos);
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("method", "book.listRecommend");
+        params.put("lid", mPreference.getString(Preference.SchoolCode));
+        String[] arrays = MapUtil.map2Parameter(params);
+        _subscriptions.add(
+                WeituNetwork.getWeituApi()
+                        .getBookDto(arrays[0], arrays[1], arrays[2])
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<List<BookDto>>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(List<BookDto> bookDtos) {
+                                mCache.put("bookDtos", (Serializable) bookDtos);
+                                handleSubjectFile(bookDtos);
+                            }
+                        })
+        );
+    }
+
+    private void handleSubjectFile(List<BookDto> booklists) {
+        if (booklists.isEmpty()) {
+            setNewsGone();
             return;
         }
-        if (bList.size() > 6)
-        {
-            bList = bList.subList(0, 6);
+        setNewsVisible();
+        bookDtos.clear();
+        bookDtos = booklists;
+        if (bookDtos.size()>2){
+            bookDtos = bookDtos.subList(0,2);
         }
-        mainImageAdapter.setData(bList);
-        mainImageAdapter.notifyDataSetChanged();
+        subjectFileAdapter.setData(bookDtos);
     }
 
 }
