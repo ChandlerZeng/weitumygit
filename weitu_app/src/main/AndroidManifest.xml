@@ -223,6 +223,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
+        <!-- 新建主题视图 -->
+        <activity android:name="com.libtop.weitu.activity.main.NewThemeActivity"/>
+
+        <!-- 主题详情视图 -->
+        <activity android:name="com.libtop.weitu.activity.main.ThemeDetailActivity"/>
+
         <!-- ShareSdk 需要注册的 Activity -->
         <activity
             android:name="com.mob.tools.MobUIShell"

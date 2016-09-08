@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:fab="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:background="@color/searchBackgroud"
+             android:layout_height="match_parent">
+
+    <GridView
+        android:id="@+id/gv_main_theme"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:listSelector="@drawable/list_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab_main_new_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/new_theme"
+        fab:fab_colorNormal="@color/newGreen"
+        fab:fab_colorPressed="@color/green1"
+        fab:fab_colorRipple="@color/grey4" />
+</FrameLayout>
