@@ -1,7 +1,6 @@
 package com.libtop.weitu.activity.main;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,9 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentActivity;
-import com.libtop.weitu.activity.classify.ClassifyFragment;
-import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.startup.StartupActivity;
 import com.libtop.weitu.activity.user.UserCenterFragment;
 import com.libtop.weitu.activity.user.UserCollect.UserCollectActivity;
@@ -29,7 +25,6 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.base.FragmentFactory;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.PopupW.MoreWindow;
 import com.libtop.weitu.widget.NoSlideViewPager;
@@ -100,7 +95,7 @@ public class MainActivity extends BaseActivity
         mViewPager.setAdapter(mAdapter);
 
         imgHome.setBackgroundResource(R.drawable.main_tag_checked_home);
-        home.setTextColor(getResources().getColor(R.color.green2));
+        home.setTextColor(getResources().getColor(R.color.newGreen));
 
     }
 
@@ -129,11 +124,11 @@ public class MainActivity extends BaseActivity
     public void initFragment()
     {
         MainFragment one = new MainFragment();
-        ClassifyFragment two = new ClassifyFragment();
-        UserCenterFragment four = new UserCenterFragment();
+        DiscoverFragment two = new DiscoverFragment();
+        UserCenterFragment three = new UserCenterFragment();
         fragmentList.add(one);
         fragmentList.add(two);
-        fragmentList.add(four);
+        fragmentList.add(three);
     }
 
 
@@ -273,12 +268,12 @@ public class MainActivity extends BaseActivity
 
 
     @Nullable
-    @OnClick({R.id.ll_home, R.id.ll_clazz, R.id.ll_collect_status, R.id.ll_personal, R.id.weibo})
+    @OnClick({R.id.ll_home, R.id.ll_discover, R.id.ll_personal})
     public void onClick(View v)
     {
         imgHome.setBackgroundResource(R.drawable.main_tag_unchecked_home);
         home.setTextColor(ContextCompat.getColor(mContext, R.color.grey1));
-        imgClazz.setBackgroundResource(R.drawable.main_tag_unchecked_clazz);
+        imgClazz.setBackgroundResource(R.drawable.main_tag_unchecked_discover);
         clazz.setTextColor(ContextCompat.getColor(mContext, R.color.grey1));
         imgPersonal.setBackgroundResource(R.drawable.main_tag_unchecked_personal);
         personal.setTextColor(ContextCompat.getColor(mContext, R.color.grey1));
@@ -286,33 +281,18 @@ public class MainActivity extends BaseActivity
         {
             case R.id.ll_home:
                 imgHome.setBackgroundResource(R.drawable.main_tag_checked_home);
-                home.setTextColor(ContextCompat.getColor(mContext, R.color.green2));
+                home.setTextColor(ContextCompat.getColor(mContext, R.color.newGreen));
                 mViewPager.setCurrentItem(0);
                 break;
-            case R.id.ll_clazz:
-                imgClazz.setBackgroundResource(R.drawable.main_tag_checked_clazz);
-                clazz.setTextColor(ContextCompat.getColor(mContext, R.color.green2));
+            case R.id.ll_discover:
+                imgClazz.setBackgroundResource(R.drawable.main_tag_checked_discover);
+                clazz.setTextColor(ContextCompat.getColor(mContext, R.color.newGreen));
                 mViewPager.setCurrentItem(1);
-                break;
-            case R.id.ll_collect_status:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
-                {
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    mContext.startActivity(bundle1, ContentActivity.class);
-                }
-                else
-                {
-                    openCollect();
-                }
                 break;
             case R.id.ll_personal:
                 imgPersonal.setBackgroundResource(R.drawable.main_tag_checked_personal);
-                personal.setTextColor(ContextCompat.getColor(mContext, R.color.green2));
+                personal.setTextColor(ContextCompat.getColor(mContext, R.color.newGreen));
                 mViewPager.setCurrentItem(2);
-                break;
-            case R.id.weibo:
-                showMoreWindow(v);
                 break;
         }
     }
@@ -395,64 +375,6 @@ public class MainActivity extends BaseActivity
 
             }
         });
-    }
-
-
-    private void setState(int position, boolean isViewPage)
-    {
-        Drawable h = getResources().getDrawable(R.drawable.main_tag_unchecked_home);
-        Drawable h2 = getResources().getDrawable(R.drawable.main_tag_checked_home);
-        h.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
-        h2.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
-        Drawable c = getResources().getDrawable(R.drawable.main_tag_unchecked_clazz);
-        Drawable c2 = getResources().getDrawable(R.drawable.main_tag_checked_clazz);
-        c.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
-        c2.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
-        Drawable m = getResources().getDrawable(R.drawable.main_tag_unchecked_collect);
-        Drawable m2 = getResources().getDrawable(R.drawable.main_tag_checked_collect);
-        m.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
-        m2.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
-        Drawable p = getResources().getDrawable(R.drawable.main_tag_unchecked_personal);
-        Drawable p2 = getResources().getDrawable(R.drawable.main_tag_checked_personal);
-        p.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
-        p2.setBounds(0, 0, h.getMinimumWidth(), h.getMinimumHeight());
-        home.setCompoundDrawables(null, h, null, null);
-        clazz.setCompoundDrawables(null, c, null, null);
-        personal.setCompoundDrawables(null, p, null, null);
-        home.setTextColor(ContextCompat.getColor(mContext, R.color.grey1));
-        clazz.setTextColor(ContextCompat.getColor(mContext, R.color.grey1));
-        personal.setTextColor(ContextCompat.getColor(mContext, R.color.grey1));
-
-        if (position > 1)
-        {
-            position = position + 1;
-        }
-
-        switch (position)
-        {
-            case 1:
-                home.setCompoundDrawables(null, h2, null, null);
-                home.setTextColor(ContextCompat.getColor(mContext, R.color.green2));
-                break;
-            case 2:
-                break;
-            case 3:
-                clazz.setCompoundDrawables(null, c2, null, null);
-                clazz.setTextColor(ContextCompat.getColor(mContext, R.color.green2));
-                break;
-            case 4:
-                personal.setCompoundDrawables(null, p2, null, null);
-                personal.setTextColor(ContextCompat.getColor(mContext, R.color.green2));
-                break;
-        }
-        if (position > 1)
-        {
-            position = position - 1;
-        }
-        if (isViewPage)
-        {
-            mViewPager.setCurrentItem(position - 1);
-        }
     }
 
 }

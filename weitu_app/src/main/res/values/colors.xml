@@ -72,5 +72,7 @@
     <color name="num1">#ff6600</color>
     <color name="num2">#ff9933</color>
     <color name="num3">#ffcc66</color>
+    <color name="black_semi_transparent">#E8E8E8</color>
+    <color name="hint">#C0C0C0</color>
 
 </resources>

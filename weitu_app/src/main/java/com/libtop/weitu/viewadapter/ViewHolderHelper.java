@@ -49,17 +49,6 @@ public class ViewHolderHelper
     }
 
 
-    public static ViewHolderHelper get(Context context, View convertView, ViewGroup parent, int layoutId, int position, OnViewInflateListener listener)
-    {
-        if (convertView == null || convertView.getTag(layoutId) == null)
-        {
-            return new ViewHolderHelper(context, parent, layoutId, position, listener);
-        }
-
-        return (ViewHolderHelper) convertView.getTag(layoutId);
-    }
-
-
     @SuppressWarnings("unchecked")
     public <T extends View> T getView(int viewId)
     {
@@ -71,6 +60,17 @@ public class ViewHolderHelper
         }
 
         return (T) view;
+    }
+
+
+    public static ViewHolderHelper get(Context context, View convertView, ViewGroup parent, int layoutId, int position, OnViewInflateListener listener)
+    {
+        if (convertView == null || convertView.getTag(layoutId) == null)
+        {
+            return new ViewHolderHelper(context, parent, layoutId, position, listener);
+        }
+
+        return (ViewHolderHelper) convertView.getTag(layoutId);
     }
 
 

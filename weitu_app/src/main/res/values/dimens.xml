@@ -57,4 +57,7 @@
     <dimen name="scheduleview_node_normal_radius">0.1dp</dimen>
     <dimen name="scheduleview_node_bigger_radius">6dp</dimen>
 
+    <dimen name="list_item_height_default">30dp</dimen>
+    <dimen name="text_fontsize_normal">16sp</dimen>
+
 </resources>

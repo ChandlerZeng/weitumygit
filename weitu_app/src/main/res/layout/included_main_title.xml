@@ -3,34 +3,66 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@color/green1"
+    android:background="@color/titleBar"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/open_clazz"
+    <FrameLayout
         android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="11dp"
-        android:src="@drawable/isbn"/>
+        android:layout_height="48dp">
+        <ImageView
+            android:id="@+id/open_alarm"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="11dp"
+            android:src="@drawable/alarm"/>
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        <TextView
+            android:text="99"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
         android:layout_weight="1"
         android:gravity="center"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
-        android:singleLine="true"
-        android:text="学校图书馆"
-        android:textColor="@color/white"
-        android:textSize="22sp"/>
+        android:layout_height="48dp">
+
+        <Button
+            android:id="@+id/btn_main_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/blackunder"
+            android:gravity="center"
+            android:text="主题"
+            android:textColor="@color/grey3"
+            android:textSize="@dimen/text_size_18"/>
+
+        <View
+            android:layout_width="38dp"
+            android:layout_height="match_parent"
+            />
+
+
+        <Button
+            android:id="@+id/btn_main_resource"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:text="资源"
+            android:textColor="@color/grey4"
+            android:textSize="@dimen/text_size_18"/>
+
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/search_top"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:padding="11dp"
-        android:src="@drawable/search_icon"/>
+        android:src="@drawable/search_icon2"/>
 </LinearLayout>
