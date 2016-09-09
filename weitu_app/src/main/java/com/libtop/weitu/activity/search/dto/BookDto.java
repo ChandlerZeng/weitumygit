@@ -3,8 +3,10 @@ package com.libtop.weitu.activity.search.dto;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 
-public class BookDto
+
+public class BookDto implements Serializable
 {
 
     public String id;

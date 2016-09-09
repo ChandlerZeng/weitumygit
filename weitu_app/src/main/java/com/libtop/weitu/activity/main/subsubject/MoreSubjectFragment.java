@@ -131,6 +131,7 @@ public class MoreSubjectFragment extends ContentFragment {
     }
     private void requestImages()
     {
+        showLoding();
         int page = 1;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "imageAlbum.list");
@@ -144,6 +145,7 @@ public class MoreSubjectFragment extends ContentFragment {
             @Override
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
+                    dismissLoading();
                     try {
                         List<DisplayDto> listDisplayDtos = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>() {
                         }.getType());

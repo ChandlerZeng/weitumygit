@@ -80,6 +80,7 @@ public class MoreRmdFileFragment extends ContentFragment {
 
     private void initView() {
         title.setText("推荐文件");
+        rmdFileList.setPullLoadEnable(false);
         rmdFileList.setAdapter(mAdapter);
         rmdFileList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
@@ -146,8 +147,6 @@ public class MoreRmdFileFragment extends ContentFragment {
         HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                dismissLoading();
-                showToast("无法连接服务器，请稍后再试");
                 rmdFileList.stopRefresh();
             }
 

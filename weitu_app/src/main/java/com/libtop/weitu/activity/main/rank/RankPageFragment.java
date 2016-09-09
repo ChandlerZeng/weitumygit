@@ -102,21 +102,13 @@ public class RankPageFragment extends BaseFragment
     {
         initView();
         getData();
-        init();
     }
 
 
     private void initView()
     {
+        swipeRefreshLayout.setRefreshing(false);
         mListView.setAdapter(mAdapter);
-        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        swipeRefreshLayout.measure(0, 0);
-        swipeRefreshLayout.setEnabled(false);
-    }
-
-
-    private void init()
-    {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -124,13 +116,16 @@ public class RankPageFragment extends BaseFragment
                 startByType(mData.get(position).type, position);
             }
         });
-        mListView.setAdapter(mAdapter);
+//        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
+//        swipeRefreshLayout.measure(0, 0);
+//        swipeRefreshLayout.setEnabled(false);
     }
 
 
     private void getData()
     {
-        swipeRefreshLayout.setRefreshing(true);
+        showLoding();
+//        swipeRefreshLayout.setRefreshing(true);
         HashMap<String, Object> map = new HashMap<>();
         map.put("uid", mPreference.getString(Preference.uid));
         if (type != ALL)
@@ -151,15 +146,15 @@ public class RankPageFragment extends BaseFragment
             @Override
             public void onError(Throwable e)
             {
-                swipeRefreshLayout.setRefreshing(false);
+//                swipeRefreshLayout.setRefreshing(false);
 
             }
 
 
             @Override
-            public void onNext(List<ResultBean> resultBeen)
-            {
-                swipeRefreshLayout.setRefreshing(false);
+            public void onNext(List<ResultBean> resultBeen) {
+                dismissLoading();
+//                swipeRefreshLayout.setRefreshing(false);
                 mData.clear();
                 mData = resultBeen;
                 if (mData.isEmpty())
