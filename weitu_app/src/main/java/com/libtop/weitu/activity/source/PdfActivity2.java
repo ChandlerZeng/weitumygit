@@ -20,7 +20,6 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
-import com.libtop.weitu.activity.main.subsubject.SelectSubjectFragment;
 import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
 import com.libtop.weitu.activity.source.Bean.DocResultBean;
@@ -57,8 +56,6 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
     TextView title;
     @Bind(R.id.title_container)
     LinearLayout titleContainer;
-    @Bind(R.id.ll_include)
-    LinearLayout llInclude;
     @Bind(R.id.rl_pdf_bottom)
     RelativeLayout rlBottom;
     @Bind(R.id.page_seekbar)
@@ -99,7 +96,7 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
 
 
     @Nullable
-    @OnClick({R.id.img_collect, R.id.img_comment, R.id.img_share, R.id.img_rotate, R.id.back_btn, R.id.ll_include})
+    @OnClick({R.id.img_collect, R.id.img_comment, R.id.img_share, R.id.img_rotate, R.id.back_btn})
     public void onClick(View v)
     {
         switch (v.getId())
@@ -118,11 +115,6 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
                 break;
             case R.id.back_btn:
                 onBackPressed();
-                break;
-            case R.id.ll_include:
-                Bundle bundle = new Bundle();
-                bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
-                mContext.startActivity(bundle,ContentActivity.class);
                 break;
         }
     }
@@ -365,14 +357,14 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
         {
             imgCollect.setImageResource(R.drawable.collect_no);
         }
-        /*if (!TextUtils.isEmpty(docResultBean.document.categoriesName1))
+        if (!TextUtils.isEmpty(docResultBean.document.categoriesName1))
         {
             tvSort.setText(docResultBean.document.categoriesName1);
-        }*/
-        /*if (!TextUtils.isEmpty(docResultBean.document.categoriesName2))
+        }
+        if (!TextUtils.isEmpty(docResultBean.document.categoriesName2))
         {
             tvSort.setText(docResultBean.document.categoriesName1 + "/" + docResultBean.document.categoriesName2);
-        }*/
+        }
         title.setText(docResultBean.document.title);
         tvPublisher.setText(docResultBean.document.uploadUsername);
         pdfView.setOnClickListener(new View.OnClickListener()
