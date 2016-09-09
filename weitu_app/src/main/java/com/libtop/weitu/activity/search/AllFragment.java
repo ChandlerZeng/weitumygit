@@ -31,8 +31,6 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,12 +59,16 @@ public class AllFragment extends NotifyFragment
     private String sortType = "view";
     public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book";
 
+    private int fragmentType;
+    private String thisFragmentType = VIDEO;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        Bundle bundle = this.getArguments();
+        fragmentType = bundle.getInt("type", 0);
         mAdapter = new AllListAdapter(mContext, mData);
         curPage = 1;
         isFirstCreate = true;
@@ -181,43 +183,45 @@ public class AllFragment extends NotifyFragment
         isFirstCreate = false;
         if (!CheckUtil.isNull(json))
         {
-            try
+            List<AllDto> data = JsonUtil.fromJson(json, new TypeToken<List<AllDto>>()
             {
-                if (curPage == 1)
-                {
-                    mData.clear();
-                }
-                JSONArray array = new JSONArray(json);
-                if (array.length() < 10)
-                {
-                    hasData = false;
-                    mListview.setPullLoadEnable(false);
-                }
-                else
-                {
-                    hasData = true;
-                    mListview.setPullLoadEnable(true);
-                }
-                List<AllDto> data = JsonUtil.fromJson(json, new TypeToken<List<AllDto>>()
-                {
-                }.getType());
-                mData.addAll(data);
-                mAdapter.updateList(mData);
-                if (mData.size() == 0 && curPage == 1)
-                {
-                    mNullTxt.setText("未搜索到相关记录");
-                    mNullTxt.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    mNullTxt.setVisibility(View.GONE);
-                }
-                curPage++;
-            }
-            catch (JSONException e)
+            }.getType());
+            if (data == null || data.isEmpty())
             {
-                e.printStackTrace();
+                return;
             }
+            if (curPage == 1)
+            {
+                mData.clear();
+            }
+
+            if (data != null && data.size() < 10)
+            {
+                hasData = false;
+                mListview.setPullLoadEnable(false);
+            }
+            else
+            {
+                hasData = true;
+                mListview.setPullLoadEnable(true);
+            }
+            for (AllDto allDto:data){
+                if (TextUtils.isEmpty(allDto.entityType)){
+                    allDto.entityType = thisFragmentType;
+                }
+            }
+            mData.addAll(data);
+            mAdapter.setData(mData);
+            if (mData.size() == 0 && curPage == 1)
+            {
+                mNullTxt.setText("未搜索到相关记录");
+                mNullTxt.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                mNullTxt.setVisibility(View.GONE);
+            }
+            curPage++;
         }
         else
         {
@@ -227,7 +231,6 @@ public class AllFragment extends NotifyFragment
             }
         }
     }
-
 
     private void startByType(String type, int position)
     {
@@ -313,11 +316,8 @@ public class AllFragment extends NotifyFragment
 
     private void requestSearch()
     {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "search.api");
-        params.put("sort", sortType);
-        params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
-        params.put("page", curPage);
+
+        Map<String,Object> params = requestMap();
         if (curPage == 1)
         {
             showLoding();
@@ -338,6 +338,65 @@ public class AllFragment extends NotifyFragment
                 handleResult(json);
             }
         });
+    }
+
+    private Map<String, Object> requestMap(){
+        Map<String, Object> params = new HashMap<String, Object>();
+        switch (fragmentType)
+        {
+            case ResultFragment.ALL:
+                //ALL
+                params.put("method", "search.api");
+                params.put("sort", sortType);
+                params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
+                params.put("page", curPage);
+                break;
+            case ResultFragment.THEME:
+                params.put("method", "book.query");
+                params.put("key", mPreference.getString(Preference.KEYWORD_SEARCH));
+                params.put("lid", mPreference.getString(Preference.SchoolCode));
+                params.put("page", curPage);
+                thisFragmentType = BOOK;
+                break;
+            case ResultFragment.BOOK:
+                params.put("method", "book.query");
+                params.put("key", mPreference.getString(Preference.KEYWORD_SEARCH));
+                params.put("lid", mPreference.getString(Preference.SchoolCode));
+                params.put("page", curPage);
+                thisFragmentType = BOOK;
+                break;
+            case ResultFragment.VIDEO:
+                params.put("method", "mediaAlbum.search");
+                params.put("sort", sortType);
+                params.put("type", 1);
+                params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
+                params.put("page", curPage);
+                thisFragmentType = VIDEO;
+                break;
+            case ResultFragment.AUDIO:
+                params.put("method", "mediaAlbum.search");
+                params.put("sort", sortType);
+                params.put("type", 2);
+                params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
+                params.put("page", curPage);
+                thisFragmentType = AUDIO;
+                break;
+            case ResultFragment.DOC:
+                params.put("method", "document.search");
+                params.put("sort", "timeline");
+                params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
+                params.put("page", curPage);
+                thisFragmentType = DOC;
+                break;
+            case ResultFragment.IMAGE:
+                params.put("method", "imageAlbum.search");
+                params.put("sort", "timeline");
+                params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
+                params.put("page", curPage);
+                thisFragmentType = PHOTO;
+                break;
+        }
+        return params;
     }
 
 

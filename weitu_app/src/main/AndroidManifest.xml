@@ -229,6 +229,10 @@
         <!-- 主题详情视图 -->
         <activity android:name="com.libtop.weitu.activity.main.ThemeDetailActivity"/>
 
+        <!-- 主题信息视图 -->
+        <activity android:name="com.libtop.weitu.activity.main.ThemeInfoActivity"/>
+
+
         <!-- ShareSdk 需要注册的 Activity -->
         <activity
             android:name="com.mob.tools.MobUIShell"

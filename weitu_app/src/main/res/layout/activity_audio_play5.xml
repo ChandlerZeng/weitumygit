@@ -11,8 +11,9 @@
 
     <ScrollView
         android:id="@+id/scl_parent"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,113 +127,6 @@
                 android:layout_height="1px"
                 android:background="@color/main_text"/>
 
-            <RelativeLayout
-                android:id="@+id/rl_pdf_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom"
-                android:background="@color/grey_BG"
-                android:clickable="true">
-
-                <ImageView
-                    android:id="@+id/img_head"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignBottom="@+id/img_play"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="@dimen/padding_normal"
-                    android:layout_marginRight="@dimen/padding_normal"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/avatar_normal"/>
-
-                <TextView
-                    android:id="@+id/tv_uploader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/tv_play_time"
-                    android:layout_marginBottom="@dimen/padding_normal"
-                    android:layout_toRightOf="@+id/img_head"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    tools:text="华南大学周老师"/>
-
-                <ImageView
-                    android:id="@+id/img_play"
-                    android:layout_width="0px"
-                    android:layout_height="0px"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/padding_normal"
-                    android:layout_toRightOf="@+id/img_head"
-                    android:background="@drawable/playphoto"
-                    android:visibility="invisible"/>
-
-                <TextView
-                    android:id="@+id/tv_play_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="8dp"
-                    android:layout_toRightOf="@+id/img_head"
-                    android:background="@color/green1"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="暂无分类"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"/>
-
-                <ImageView
-                    android:id="@+id/img_collect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/img_comment"
-                    android:layout_marginRight="@dimen/divider_margin_audio"
-                    android:layout_toLeftOf="@+id/divider_left"
-                    android:layout_toStartOf="@+id/divider_left"
-                    android:background="@drawable/collect_no"/>
-
-                <View
-                    android:id="@+id/divider_left"
-                    android:layout_width="1dp"
-                    android:layout_height="15dp"
-                    android:layout_alignBottom="@+id/img_play"
-                    android:layout_marginRight="@dimen/divider_margin_audio"
-                    android:layout_toLeftOf="@+id/img_comment"
-                    android:layout_toStartOf="@+id/img_comment"
-                    android:background="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/img_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/img_share"
-                    android:layout_marginRight="@dimen/divider_margin_audio"
-                    android:layout_toLeftOf="@+id/divider_riht"
-                    android:background="@drawable/comment"/>
-
-                <View
-                    android:id="@+id/divider_riht"
-                    android:layout_width="1dp"
-                    android:layout_height="15dp"
-                    android:layout_alignBottom="@+id/img_play"
-                    android:layout_marginRight="@dimen/divider_margin_audio"
-                    android:layout_toLeftOf="@+id/img_share"
-                    android:layout_toStartOf="@+id/img_share"
-                    android:background="@color/white"/>
-
-                <ImageView
-                    android:id="@+id/img_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/img_play"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/padding_normal"
-                    android:background="@drawable/share"/>
-            </RelativeLayout>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/scl_horizontal"
                 android:layout_width="match_parent"
@@ -291,4 +185,6 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <include layout="@layout/included_tools_bottom" />
 </LinearLayout>

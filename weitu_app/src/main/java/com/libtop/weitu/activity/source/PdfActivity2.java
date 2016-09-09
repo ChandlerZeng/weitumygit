@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,18 +55,12 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
     TextView title;
     @Bind(R.id.title_container)
     LinearLayout titleContainer;
-    @Bind(R.id.rl_pdf_bottom)
-    RelativeLayout rlBottom;
     @Bind(R.id.page_seekbar)
     SeekBar pageSeekBar;
-    @Bind(R.id.img_head)
-    ImageView imageHead;
-    @Bind(R.id.tv_publisher)
-    TextView tvPublisher;
-    @Bind(R.id.tv_play_time)
-    TextView tvSort;
     @Bind(R.id.img_collect)
     ImageView imgCollect;
+    @Bind(R.id.ll_tool_bottom)
+    LinearLayout llBottom;
 
     private boolean showFlag = true;
     private boolean isPageChange = false;
@@ -96,18 +89,21 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
 
 
     @Nullable
-    @OnClick({R.id.img_collect, R.id.img_comment, R.id.img_share, R.id.img_rotate, R.id.back_btn})
+    @OnClick({R.id.ll_tool_include,R.id.ll_tool_collect, R.id.ll_tool_comment, R.id.ll_tool_share, R.id.img_rotate, R.id.back_btn})
     public void onClick(View v)
     {
         switch (v.getId())
         {
-            case R.id.img_collect:
+            case R.id.ll_tool_include:
+                includeClick();
+                break;
+            case R.id.ll_tool_collect:
                 collectClick();
                 break;
-            case R.id.img_comment:
+            case R.id.ll_tool_comment:
                 commentClick();
                 break;
-            case R.id.img_share:
+            case R.id.ll_tool_share:
                 shareClick();
                 break;
             case R.id.img_rotate:
@@ -117,6 +113,11 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
                 onBackPressed();
                 break;
         }
+    }
+
+
+    private void includeClick()
+    {
     }
 
 
@@ -357,16 +358,7 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
         {
             imgCollect.setImageResource(R.drawable.collect_no);
         }
-        if (!TextUtils.isEmpty(docResultBean.document.categoriesName1))
-        {
-            tvSort.setText(docResultBean.document.categoriesName1);
-        }
-        if (!TextUtils.isEmpty(docResultBean.document.categoriesName2))
-        {
-            tvSort.setText(docResultBean.document.categoriesName1 + "/" + docResultBean.document.categoriesName2);
-        }
         title.setText(docResultBean.document.title);
-        tvPublisher.setText(docResultBean.document.uploadUsername);
         pdfView.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -377,13 +369,13 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
                 {
                     pageSeekBar.setProgress(currentPage - 1);
                     titleContainer.setVisibility(View.VISIBLE);
-                    rlBottom.setVisibility(View.VISIBLE);
+                    llBottom.setVisibility(View.VISIBLE);
                     showFlag = false;
                 }
                 else
                 {
                     titleContainer.setVisibility(View.GONE);
-                    rlBottom.setVisibility(View.GONE);
+                    llBottom.setVisibility(View.GONE);
                     showFlag = true;
                 }
             }
@@ -426,7 +418,7 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
             public boolean onLongClick(View v)
             {
                 titleContainer.setVisibility(View.GONE);
-                rlBottom.setVisibility(View.GONE);
+                llBottom.setVisibility(View.GONE);
                 return false;
             }
         });

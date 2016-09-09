@@ -26,6 +26,17 @@
             android:textColor="@color/group_tap_textcolor_radiobutton"/>
 
         <RadioButton
+            android:id="@+id/search_theme"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/group_tap_btn_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:text="主题"
+            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+
+        <RadioButton
             android:id="@+id/search_books"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
