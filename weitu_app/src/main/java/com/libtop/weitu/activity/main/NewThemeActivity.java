@@ -67,6 +67,7 @@ public class NewThemeActivity extends BaseActivity
 
     private void completeClick()
     {
+        finish();
     }
 
 

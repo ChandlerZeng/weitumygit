@@ -6,50 +6,18 @@
     android:background="@color/searchBackgroud"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/title_container"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/titleBar"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="资源分类"
-            android:textColor="@color/black"
-            android:textSize="18sp"/>
-
-        <LinearLayout
-            android:id="@+id/search"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentRight="true"
-            android:gravity="center">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:src="@drawable/search_icon2"/>
-        </LinearLayout>
-    </RelativeLayout>
+    <include layout="@layout/included_title1"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/greyD"/>
+        android:layout_height="0.5dp"
+        android:background="@color/divider"/>
 
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_small"
         android:background="@color/white"
         android:cacheColorHint="#00000000"
         android:descendantFocusability="blocksDescendants"

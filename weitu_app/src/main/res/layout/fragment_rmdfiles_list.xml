@@ -17,7 +17,7 @@
         android:layout_marginTop="@dimen/padding_small"
         android:id="@+id/rmd_file_list"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:cacheColorHint="@color/transparent"
         android:divider="@null"

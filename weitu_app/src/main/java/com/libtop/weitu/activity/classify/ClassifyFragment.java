@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifyAdapter;
@@ -37,6 +39,10 @@ public class ClassifyFragment extends BaseFragment
 
     @Bind(R.id.list)
     ListView listView;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.back_btn)
+    ImageView backBtn;
 
     private ACache mCache;
 
@@ -123,6 +129,7 @@ public class ClassifyFragment extends BaseFragment
 
     private void initView()
     {
+        title.setText("分类");
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -140,13 +147,13 @@ public class ClassifyFragment extends BaseFragment
 
 
     @Nullable
-    @OnClick({R.id.search})
+    @OnClick({R.id.back_btn})
     public void onClick(View v)
     {
         switch (v.getId())
         {
-            case R.id.search:
-                searchClick();
+            case R.id.back_btn:
+                mContext.finish();
                 break;
         }
     }
