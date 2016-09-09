@@ -9,5 +9,9 @@ public class ResultBean
     public String id;
     public Integer type;
     public TargetBean target;
+    public String cover;
+    public String title;
+    public String uploadUsername;
+
 
 }

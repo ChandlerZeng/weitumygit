@@ -47,7 +47,7 @@ public class ResultFragment extends NotifyFragment
 
     private int pageIndex = 0;
 
-    public static final int ALL = 0, BOOK = 1, VIDEO = 2, AUDIO = 3, DOC = 4, IMAGE = 5;
+    public static final int ALL = 0,THEME =1, BOOK = 2, VIDEO = 3, AUDIO = 4, DOC = 5, IMAGE = 6;
 
     private boolean isThreeSpinner = true;
     private ClassifyCheckAdapter filterCheckAdapter;
@@ -62,14 +62,24 @@ public class ResultFragment extends NotifyFragment
     {
         super.onCreate(savedInstanceState);
         mFrags = new ArrayList<Fragment>();
-        mFrags.add(new AllFragment());
-        mFrags.add(new BooksFragment());
-        mFrags.add(new VideosFragment());
-        mFrags.add(new AudiosFragment());
-        mFrags.add(new DocsFragment());
-        mFrags.add(new ImagesFragment());
+        AllFragment f1 = newFragmentByType(ALL);
+        AllFragment f2 = newFragmentByType(THEME);
+        AllFragment f3 = newFragmentByType(BOOK);
+        AllFragment f4 = newFragmentByType(VIDEO);
+        AllFragment f5 = newFragmentByType(AUDIO);
+        AllFragment f6 = newFragmentByType(DOC);
+        AllFragment f7 = newFragmentByType(IMAGE);
         mAdapter = new MainPageAdapter(getChildFragmentManager(), mFrags);
         initFilter();
+    }
+
+    private AllFragment newFragmentByType(int type){
+        AllFragment af = new AllFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("type", type);
+        af.setArguments(bundle);
+        mFrags.add(af);
+        return af;
     }
 
 
@@ -235,6 +245,11 @@ public class ResultFragment extends NotifyFragment
                 threeFilter();
             }
             break;
+            case R.id.search_theme:
+            {
+                pageIndex = THEME;
+            }
+            break;
             case R.id.search_books:
             {
                 pageIndex = BOOK;
@@ -272,6 +287,9 @@ public class ResultFragment extends NotifyFragment
         {
             case ALL:
                 mRadioGroup.check(R.id.search_all);
+                break;
+            case THEME:
+                mRadioGroup.check(R.id.search_theme);
                 break;
             case BOOK:
                 mRadioGroup.check(R.id.search_books);

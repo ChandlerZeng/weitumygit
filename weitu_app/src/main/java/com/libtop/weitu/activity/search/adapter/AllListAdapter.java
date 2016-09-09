@@ -28,7 +28,7 @@ public class AllListAdapter extends BaseAdapter
     private List<AllDto> lists;
     private Context context;
     private LayoutInflater inflater;
-    private final int MEDIA = 0, OTHER = 1;
+    private final int SUBJECT = 0, BOOK = 1,OTHER = 2;
 
 
     public AllListAdapter(Context context, List<AllDto> lists)
@@ -45,17 +45,18 @@ public class AllListAdapter extends BaseAdapter
         if (lists != null && position < lists.size())
         {
             String type = lists.get(position).entityType;
-            if (!TextUtils.isEmpty(type))
+            if (type.equals(AllFragment.VIDEO) || type.equals(AllFragment.AUDIO))
             {
-                if (type.equals(AllFragment.VIDEO) || type.equals(AllFragment.AUDIO))
-                {
-                    return MEDIA;
-                }
-                else
-                {
-                    return OTHER;
+                return SUBJECT;
+            }
+            else if (type.equals(AllFragment.BOOK))
+            {
+                return BOOK;
+            }
+            else
+            {
+                return OTHER;
 
-                }
             }
         }
         return super.getItemViewType(position);
@@ -65,7 +66,7 @@ public class AllListAdapter extends BaseAdapter
     @Override
     public int getViewTypeCount()
     {
-        return 2;
+        return 3;
     }
 
 
@@ -95,96 +96,128 @@ public class AllListAdapter extends BaseAdapter
     {
         int type = getItemViewType(position);
         AllDto allDto = lists.get(position);
+        //通常只修改复制黏贴修改这部分代码
         switch (type)
         {
-            case OTHER:
+            case SUBJECT:
             {
-                viewHolder1 holder1 = null;
+                viewHolder1 holder = null;
                 if (convertView == null)
                 {
-                    convertView = inflater.inflate(R.layout.item_list_book, null);
-                    holder1 = new viewHolder1();
-                    holder1.imageView = (ImageView) convertView.findViewById(R.id.icon);
-                    holder1.tvTitle = (TextView) convertView.findViewById(R.id.title);
-                    holder1.tvTag = (TextView) convertView.findViewById(R.id.tv_tag);
-                    holder1.tvAuthor = (TextView) convertView.findViewById(R.id.author);
-                    holder1.tvPublisher = (TextView) convertView.findViewById(R.id.publisher);
-                    holder1.tvDesc = (TextView) convertView.findViewById(R.id.tv_desc);
-                    convertView.setTag(holder1);
+                    convertView = inflater.inflate(R.layout.item_list_rank_subject, null);
+                    holder = new viewHolder1();
+                    holder.imageView = (ImageView) convertView.findViewById(R.id.subject_file_image);
+                    holder.tvTitle = (TextView) convertView.findViewById(R.id.subject_file_title);
+                    holder.tvDesc = (TextView) convertView.findViewById(R.id.subject_file_desc);
+                    holder.tvMember = (TextView) convertView.findViewById(R.id.subject_file_member);
+                    convertView.setTag(holder);
                 }
                 else
                 {
-                    holder1 = (viewHolder1) convertView.getTag();
+                    holder = (viewHolder1) convertView.getTag();
                 }
-                if (allDto.entityType.equals(AllFragment.DOC))
+
+                Picasso.with(context).load(allDto.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                holder.tvTitle.setText(allDto.title);
+
+                if (!TextUtils.isEmpty(allDto.introduction))
                 {
-                    if (TextUtils.isEmpty(allDto.cover))
-                    {
-                        allDto.cover = "http://";
-                    }
-                    Picasso.with(context).load(allDto.cover).placeholder(R.drawable.pdf).error(R.drawable.pdf).centerInside().fit().into(holder1.imageView);
-                }
-                else if (allDto.entityType.equals(AllFragment.BOOK))
-                {
-                    Picasso.with(context).load(ContantsUtil.IMG_BASE + allDto.cover).fit().centerInside().error(R.drawable.default_image).into(holder1.imageView);
+                    holder.tvDesc.setText(allDto.introduction);
                 }
                 else
                 {
-                    Picasso.with(context).load(ContantsUtil.getCoverUrl(allDto.id)).fit().centerInside().error(R.drawable.default_image).into(holder1.imageView);
+                    holder.tvDesc.setText("");
                 }
-                holder1.tvTitle.setText(allDto.title);
-                if (!TextUtils.isEmpty(allDto.categoriesName1))
+                if (!TextUtils.isEmpty(allDto.uploadUsername))
                 {
-                    holder1.tvTag.setText(allDto.categoriesName1);
+                    holder.tvMember.setText("成员："+allDto.uploadUsername);
                 }
-                if (!TextUtils.isEmpty(allDto.categoriesName2))
+                else
                 {
-                    holder1.tvTag.setText(allDto.categoriesName1 + "/" + allDto.categoriesName2);
+                    holder.tvMember.setText("");
+                }
+
+                break;
+            }
+            case BOOK:
+            {
+                viewHolder2 holder = null;
+                if (convertView == null)
+                {
+                    convertView = inflater.inflate(R.layout.item_list_rank_book, null);
+                    holder = new viewHolder2();
+                    holder.imageView = (ImageView) convertView.findViewById(R.id.subject_file_image);
+                    holder.tvTitle = (TextView) convertView.findViewById(R.id.subject_file_title);
+                    holder.tvDesc = (TextView) convertView.findViewById(R.id.subject_file_desc);
+                    holder.tvAuthor = (TextView) convertView.findViewById(R.id.subject_file_author);
+                    holder.tvPublisher = (TextView) convertView.findViewById(R.id.subject_file_publisher);
+                    convertView.setTag(holder);
+                }
+                else
+                {
+                    holder = (viewHolder2) convertView.getTag();
+                }
+
+                Picasso.with(context).load(ContantsUtil.IMG_BASE + allDto.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                holder.tvTitle.setText(allDto.title);
+
+                if (!TextUtils.isEmpty(allDto.introduction))
+                {
+                    holder.tvDesc.setText(allDto.introduction);
+                }
+                else
+                {
+                    holder.tvDesc.setText("");
                 }
                 if (!TextUtils.isEmpty(allDto.author))
                 {
-                    holder1.tvAuthor.setText(allDto.author);
-                }
-                if (!TextUtils.isEmpty(allDto.publisher))
-                {
-                    holder1.tvPublisher.setText(allDto.publisher);
-                }
-                if (!TextUtils.isEmpty(allDto.introduction))
-                {
-                    holder1.tvDesc.setText(allDto.introduction);
-                }
-                break;
-            }
-            case MEDIA:
-            {
-                viewHolder2 holder2 = null;
-                if (convertView == null)
-                {
-                    convertView = inflater.inflate(R.layout.item_list_other, null);
-                    holder2 = new viewHolder2();
-                    holder2.imageView = (ImageView) convertView.findViewById(R.id.icon);
-                    holder2.tvTitle = (TextView) convertView.findViewById(R.id.title);
-                    holder2.tvTag = (TextView) convertView.findViewById(R.id.tv_tag);
-                    holder2.tvUploader = (TextView) convertView.findViewById(R.id.tv_uploader);
-                    holder2.tvTime = (TextView) convertView.findViewById(R.id.tv_time);
-                    convertView.setTag(holder2);
+                    holder.tvAuthor.setText("作者："+allDto.author);
                 }
                 else
                 {
-                    holder2 = (viewHolder2) convertView.getTag();
+                    holder.tvAuthor.setText("");
                 }
-                Picasso.with(context).load(ContantsUtil.getCoverUrl(allDto.id)).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder2.imageView);
-                holder2.tvTitle.setText(allDto.title);
-                if (!TextUtils.isEmpty(allDto.categoriesName1))
+                if (!TextUtils.isEmpty(allDto.author))
                 {
-                    holder2.tvTag.setText(allDto.categoriesName1);
+                    holder.tvPublisher.setText("出版社："+allDto.publisher);
                 }
-                if (!TextUtils.isEmpty(allDto.categoriesName2))
+                else
                 {
-                    holder2.tvTag.setText(allDto.categoriesName1 + "/" + allDto.categoriesName2);
+                    holder.tvPublisher.setText("");
                 }
-                holder2.tvUploader.setText("上传：" + allDto.uploadUsername);
-                holder2.tvTime.setText("时间：" + DateUtil.parseToDate(allDto.timeline));
+
+                break;
+            }
+            case OTHER:
+            {
+                viewHolder3 holder = null;
+                if (convertView == null)
+                {
+                    convertView = inflater.inflate(R.layout.item_list_rank_other, null);
+                    holder = new viewHolder3();
+                    holder.imageView = (ImageView) convertView.findViewById(R.id.subject_file_image);
+                    holder.tvTitle = (TextView) convertView.findViewById(R.id.subject_file_title);
+                    holder.tvUploader = (TextView) convertView.findViewById(R.id.subject_file_uploader);
+                    holder.tvDate = (TextView) convertView.findViewById(R.id.subject_file_date);
+                    convertView.setTag(holder);
+                }
+                else
+                {
+                    holder = (viewHolder3) convertView.getTag();
+                }
+
+                Picasso.with(context).load(allDto.cover).placeholder(R.drawable.pdf).error(R.drawable.pdf).centerInside().fit().into(holder.imageView);
+                holder.tvTitle.setText(allDto.title);
+                if (!TextUtils.isEmpty(allDto.uploadUsername))
+                {
+                    holder.tvUploader.setText("上传："+allDto.uploadUsername);
+                }
+                else
+                {
+                    holder.tvUploader.setText("");
+                }
+                String date = DateUtil.parseToDate(allDto.timeline);
+                holder.tvDate.setText("时间："+date);
                 break;
             }
         }
@@ -192,7 +225,7 @@ public class AllListAdapter extends BaseAdapter
     }
 
 
-    public void updateList(List<AllDto> lists)
+    public void setData(List<AllDto> lists)
     {
         this.lists = lists;
         notifyDataSetChanged();
@@ -204,20 +237,25 @@ public class AllListAdapter extends BaseAdapter
     {
         ImageView imageView;
         TextView tvTitle;
-        TextView tvTag;
-        TextView tvAuthor;
-        TextView tvPublisher;
         TextView tvDesc;
+        TextView tvMember;
     }
-
 
     class viewHolder2
     {
         ImageView imageView;
         TextView tvTitle;
-        TextView tvTag;
+        TextView tvDesc;
+        TextView tvAuthor;
+        TextView tvPublisher;
+    }
+
+    class viewHolder3
+    {
+        ImageView imageView;
+        TextView tvTitle;
         TextView tvUploader;
-        TextView tvTime;
+        TextView tvDate;
     }
 
 }

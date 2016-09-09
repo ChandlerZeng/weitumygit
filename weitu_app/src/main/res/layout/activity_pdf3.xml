@@ -23,8 +23,8 @@
 
         <ImageView
             android:id="@+id/back_btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/back_btn_size"
+            android:layout_height="@dimen/back_btn_size"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/arrow_back"/>
@@ -53,128 +53,44 @@
             android:textSize="18sp"/>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_pdf_bottom"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:layout_gravity="bottom"
-        android:layout_alignParentBottom="true"
-        android:clickable="true">
-
-        <SeekBar
-            android:id="@+id/page_seekbar"
-            android:paddingLeft="@dimen/padding_medium"
-            android:paddingRight="@dimen/padding_normal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxHeight="1dp"
-            android:minHeight="1dp"
-            android:layout_toLeftOf="@+id/img_rotate"
-            android:layout_alignBottom="@+id/img_rotate"
-            android:progressDrawable="@drawable/doc_seekbar"
-            android:thumb="@drawable/greencircle"
-            android:layout_marginBottom="5dp"/>
-
-        <ImageView
-            android:id="@+id/img_rotate"
-            android:layout_marginTop="@dimen/padding_normal"
-            android:layout_marginLeft="@dimen/padding_normal"
-            android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/img_share"
-            android:background="@drawable/rotate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <ImageView
-            android:id="@+id/img_head"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/head_image"
-            android:layout_marginRight="@dimen/padding_normal"
-            android:layout_marginLeft="@dimen/padding_normal"
-            android:scaleType="centerCrop"
-            android:layout_alignBottom="@+id/ll_sort"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-
-        <TextView
-            android:id="@+id/tv_publisher"
-            tools:text="华南大学周老师"
-            android:singleLine="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="@dimen/padding_normal"
-            android:layout_above="@+id/ll_sort"
-            android:layout_toRightOf="@+id/img_head"/>
+        >
 
         <LinearLayout
-            android:id="@+id/ll_sort"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/img_head"
-            android:layout_toLeftOf="@id/img_collect"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8dp">
-
-            <TextView
-                android:text="暂无分类"
-                android:id="@+id/tv_play_time"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <SeekBar
+                android:id="@+id/page_seekbar"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingRight="@dimen/padding_normal"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:background="@color/green1"/>
+                android:maxHeight="1dp"
+                android:minHeight="1dp"
+                android:progressDrawable="@drawable/doc_seekbar"
+                android:thumb="@drawable/greencircle"/>
+
+            <ImageView
+                android:id="@+id/img_rotate"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/padding_normal"
+                android:background="@drawable/rotate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
+        <include
+            android:id="@+id/ll_tool_bottom"
+            layout="@layout/included_tools_bottom" />
 
-        <ImageView
-            android:id="@+id/img_collect"
-            android:background="@drawable/collect_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_comment"
-            android:layout_marginRight="@dimen/divider_margin"
-            android:layout_toLeftOf="@+id/divider_left"
-            android:layout_toStartOf="@+id/divider_left"/>
-
-        <View
-            android:id="@+id/divider_left"
-            android:layout_width="2dp"
-            android:layout_height="18dp"
-            android:background="@color/divider"
-            android:layout_alignBottom="@+id/img_head"
-            android:layout_marginRight="@dimen/divider_margin"
-            android:layout_toLeftOf="@+id/img_comment"
-            android:layout_toStartOf="@+id/img_comment"/>
-
-        <ImageView
-            android:id="@+id/img_comment"
-            android:background="@drawable/comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_share"
-            android:layout_toLeftOf="@+id/divider_riht"
-            android:layout_marginRight="@dimen/divider_margin"/>
-
-        <View
-            android:id="@+id/divider_riht"
-            android:layout_width="2dp"
-            android:layout_height="18dp"
-            android:background="@color/divider"
-            android:layout_alignBottom="@+id/img_head"
-            android:layout_marginRight="@dimen/divider_margin"
-            android:layout_toLeftOf="@+id/img_share"
-            android:layout_toStartOf="@+id/img_share"/>
-
-        <ImageView
-            android:id="@+id/img_share"
-            android:background="@drawable/share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/img_head"
-            android:layout_marginRight="@dimen/padding_normal"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
-    </RelativeLayout>
+    </LinearLayout>
 </FrameLayout>

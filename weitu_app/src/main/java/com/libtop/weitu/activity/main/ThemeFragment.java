@@ -77,7 +77,9 @@ public class ThemeFragment extends BaseFragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+                DisplayDto dpDto = (DisplayDto) parent.getItemAtPosition(position);
                 Intent intent = new Intent(mContext, ThemeDetailActivity.class);
+                intent.putExtra("cover",dpDto.cover);
                 startActivity(intent);
             }
         });

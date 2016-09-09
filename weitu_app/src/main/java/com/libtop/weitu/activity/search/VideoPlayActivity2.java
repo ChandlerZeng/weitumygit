@@ -100,8 +100,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     TextView mCurrentPro;
     @Bind(R.id.progress_total)
     TextView mTotalPro;
-    @Bind(R.id.tv_play_time)
-    TextView tvTag;
 
     @Bind(R.id.progress_big)
     TextView mBigPro;
@@ -121,9 +119,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     @Bind(R.id.container)
     RelativeLayout mVideoSu;
 
-    @Bind(R.id.rl_pdf_bottom)
-    RelativeLayout rlPdfBottom;
-
     @Bind(R.id.ll_bottom)
     LinearLayout llBottom;
 
@@ -139,10 +134,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
 
     @Bind(R.id.back_btn)
     ImageView backBtn;
-
-    @Bind(R.id.tv_publisher)
-    TextView tvPublisher;
-
 
     private Animation mBHideAn, mBShowAn, mTHideAn, mTShowAn;
     private boolean isPaused = false;
@@ -231,7 +222,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         notShowButtom = getIntent().getExtras().getBoolean("notShowButtom");
         mTitleText.setText(name);
         mInTitleText.setText(name);
-        tvPublisher.setText(mediaAlbumBean.uploadUsername);
         mBPlayBtn.setClickable(false);
         mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
 
@@ -494,18 +484,21 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
 
 
     @Nullable
-    @OnClick({R.id.img_collect, R.id.img_comment, R.id.img_share, R.id.back_btn, R.id.back_btn_inner, R.id.play_pause_big, R.id.play_pause_small, R.id.video_container, R.id.fullscreen, R.id.scale})
+    @OnClick({R.id.ll_tool_collect, R.id.ll_tool_comment, R.id.ll_tool_share, R.id.back_btn, R.id.back_btn_inner, R.id.play_pause_big, R.id.play_pause_small, R.id.video_container, R.id.fullscreen, R.id.scale})
     public void onClick(View v)
     {
         switch (v.getId())
         {
-            case R.id.img_collect:
+            case R.id.ll_tool_include:
+                includeClick();
+                break;
+            case R.id.ll_tool_collect:
                 collectClick();
                 break;
-            case R.id.img_comment:
+            case R.id.ll_tool_comment:
                 commentClick();
                 break;
-            case R.id.img_share:
+            case R.id.ll_tool_share:
                 shareClick();
                 break;
             case R.id.back_btn:
@@ -535,6 +528,11 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         }
     }
 
+
+    private void includeClick()
+    {
+
+    }
 
     @Override
     public void onBackPressed()
@@ -1024,14 +1022,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
                     if (!TextUtils.isEmpty(mediaAlbumBean.introduction))
                     {
                         mIntroText.setText(mediaAlbumBean.introduction);
-                    }
-                    if (mediaAlbumBean.categoriesName1 != null || mediaAlbumBean.categoriesName2 != null)
-                    {
-                        tvTag.setText(mediaAlbumBean.categoriesName1 + "/" + mediaAlbumBean.categoriesName2);
-                    }
-                    else
-                    {
-                        tvTag.setText("暂无分类");
                     }
                     isOpen = (mediaAlbumBean.open == 1);
                     lists.clear();

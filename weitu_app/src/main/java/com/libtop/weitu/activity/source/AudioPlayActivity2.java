@@ -80,9 +80,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     @Bind(R.id.introduction)
     TextView mIntroText;
 
-    @Bind(R.id.tv_uploader)
-    TextView mUploader;
-
     @Bind(R.id.img_audio_photo)
     ImageView imgAudio;
 
@@ -103,9 +100,6 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
     @Bind(R.id.info)
     RadioButton radioButton;
-
-    @Bind(R.id.tv_play_time)
-    TextView tvTag;
 
     private boolean isPaused = false;
     private MediaPlayer mPlayer;
@@ -323,18 +317,21 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
 
     @Nullable
-    @OnClick({R.id.img_collect, R.id.img_comment, R.id.img_share, R.id.back_btn, R.id.top_right, R.id.play_pause, R.id.prev, R.id.next})
+    @OnClick({R.id.ll_tool_include,R.id.ll_tool_collect, R.id.ll_tool_comment, R.id.ll_tool_share, R.id.back_btn, R.id.top_right, R.id.play_pause, R.id.prev, R.id.next})
     public void onClick(View v)
     {
         switch (v.getId())
         {
-            case R.id.img_collect:
+            case R.id.ll_tool_include:
+                includeClick();
+                break;
+            case R.id.ll_tool_collect:
                 collectClick();
                 break;
-            case R.id.img_comment:
+            case R.id.ll_tool_comment:
                 commentClick();
                 break;
-            case R.id.img_share:
+            case R.id.ll_tool_share:
                 shareClick();
                 break;
             case R.id.back_btn:
@@ -354,6 +351,12 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
                 break;
         }
     }
+
+
+    private void includeClick()
+    {
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -548,17 +551,8 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         mPlayBtn.setClickable(false);
         isPaused = false;
         mPlayer.prepareAsync();
-        if (!TextUtils.isEmpty(mediaAlbumBean.categoriesName1))
-        {
-            tvTag.setText(mediaAlbumBean.categoriesName1);
-        }
-        if (!TextUtils.isEmpty(mediaAlbumBean.categoriesName2))
-        {
-            tvTag.setText(mediaAlbumBean.categoriesName1 + "/" + mediaAlbumBean.categoriesName2);
-        }
         mTitleText.setText(TextUtils.isEmpty(title) ? "未知标题" : title);
         mIntroText.setText("简介:" + (TextUtils.isEmpty(intro) ? "暂无" : intro));
-        mUploader.setText(uploader1);
     }
 
 
