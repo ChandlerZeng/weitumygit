@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.ContentActivity;
+import com.libtop.weitu.activity.main.subsubject.SelectSubjectFragment;
 import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
 import com.libtop.weitu.activity.search.dto.SearchResult;
@@ -355,6 +357,9 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
 
     private void includeClick()
     {
+        Bundle bundle = new Bundle();
+        bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        mContext.startActivity(bundle,ContentActivity.class);
     }
 
 
