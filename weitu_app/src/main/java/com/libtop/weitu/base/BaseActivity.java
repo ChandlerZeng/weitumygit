@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.libtop.weitu.R;
@@ -31,6 +33,8 @@ public class BaseActivity extends FragmentActivity
     protected Preference mPreference;
     protected TranLoading mLoading;
     protected FragmentManager mFm;
+
+    protected InputMethodManager imm;
 
 
     @Override
@@ -177,6 +181,13 @@ public class BaseActivity extends FragmentActivity
         {
             finish();
             Toast.makeText(context, "请检查网络后重试", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    protected void hideKeyBoard(View v){
+        imm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isActive()){
+            imm.hideSoftInputFromWindow(v.getWindowToken(),0);
         }
     }
 }

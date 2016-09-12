@@ -7,17 +7,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.search.adapter.CommentAdapter;
@@ -27,10 +30,11 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.test.CommentBean;
+import com.libtop.weitu.test.Comments;
+import com.libtop.weitu.test.HttpRequestTest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.widget.dialog.TranLoading;
-import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
@@ -55,17 +59,22 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     ListView listView;
     @Bind(R.id.title)
     TextView title;
+    @Bind(R.id.sub_title)
+    TextView subTitle;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout refreshLayout;
-    private TranLoading mLoading;
     private CommentAdapter commentAdapter;
 
     private List<CommentResult> list;
+    private List<Comments> list2;//TODO
 
     private CommentNeedDto commentNeedDto;
 
     private boolean isReply = false;
     private String cid;
+
+    private CommentBean commentBean; //TODO
+    private List<Comments> commentsList = new ArrayList<>(); //TODO
 
 
     @Override
@@ -77,46 +86,26 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         commentNeedDto = JsonUtil.fromJson(json, new TypeToken<CommentNeedDto>()
         {
         }.getType());
-        refreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        refreshLayout.setEnabled(false);
-        View headerView = getLayoutInflater().inflate(R.layout.header_commet, null);
-        ImageView imgHead = (ImageView) headerView.findViewById(R.id.img_head);
-        TextView tvTitle = (TextView) headerView.findViewById(R.id.tv_title);
-        TextView tvAuthor = (TextView) headerView.findViewById(R.id.tv_author);
-        TextView tvPublisher = (TextView) headerView.findViewById(R.id.tv_publisher);
+
         if (!TextUtils.isEmpty(commentNeedDto.title))
         {
-            tvTitle.setText(commentNeedDto.title);
+            subTitle.setText(commentNeedDto.title);
         }
-        if (!TextUtils.isEmpty(commentNeedDto.author))
-        {
-            tvAuthor.setText("");
-        }
-        if (!TextUtils.isEmpty(commentNeedDto.publisher))
-        {
-            tvPublisher.setText("");
-        }
-        if (!TextUtils.isEmpty(commentNeedDto.photoAddress))
-        {
-            Picasso.with(this).load(commentNeedDto.photoAddress).fit().into(imgHead);
-        }
-        listView.addHeaderView(headerView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                if (position == 0)
-                {
-                    onBackPressed();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+//                    onBackPressed();
                 }
             }
         });
-        mLoading = new TranLoading(this);
+
         title.setText("评论");
-        list = new ArrayList<CommentResult>();
-        getData();
-        commentAdapter = new CommentAdapter(this, list, 0, this);
+        list2 = new ArrayList<Comments>();
+//        getData();
+        getFakeData();
+        commentAdapter = new CommentAdapter(this, list2, this);
         listView.setAdapter(commentAdapter);
     }
 
@@ -125,7 +114,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     //    http://weitu.bookus.cn/comment/list.json?text={"uid":"565bea2c984ec06f56befda3","tid":"563c69b4984e338019914a66","page":1,"method":"comment.list"}
     private void getData()
     {
-        refreshLayout.setRefreshing(true);
+        showLoding();
         HashMap<String, Object> map = new HashMap<>();
         map.put("tid", commentNeedDto.tid);
         map.put("page", 1);
@@ -151,12 +140,13 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             @Override
             public void onNext(List<CommentResult> commentResults)
             {
-                refreshLayout.setRefreshing(false);
+                dismissLoading();
                 list.clear();
                 list.addAll(commentResults);
-                commentAdapter.setData(list);
+                commentAdapter.setData(list2);
                 commentAdapter.notifyDataSetChanged();
                 editText.setText("");
+                isReply=false;
             }
         });
     }
@@ -172,13 +162,13 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                 onBackPressed();
                 break;
             case R.id.commit:
-                upload();
+                upload(v);
                 break;
         }
     }
 
 
-    private void upload()
+    private void upload(View v)
     {
         String str = editText.getText().toString().trim();
         if (str == null || str.length() == 0)
@@ -186,6 +176,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             Toast.makeText(CommentActivity.this, "评论不能为空!", Toast.LENGTH_SHORT).show();
             return;
         }
+        hideKeyBoard(v);
         if (isReply)
         {
             putReply(str);
@@ -199,7 +190,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
 
     private void putReply(String content)
     {
-        refreshLayout.setRefreshing(true);
+        showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("tid", commentNeedDto.tid);
         params.put("cid", cid);
@@ -227,7 +218,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                 }
                 else
                 {
-                    refreshLayout.setRefreshing(false);
+                    dismissLoading();
                 }
             }
         });
@@ -237,7 +228,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     private void putComment(String content)
     {
         //        http://weitu.bookus.cn/comment/save.json?text={"uid":"565bea2c984ec06f56befda3","tid":"563c69b4984e338019914a66","type":1,"content":"我觉得很有意思哦",method":"comment.save"}
-        refreshLayout.setRefreshing(true);
+        showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("tid", commentNeedDto.tid);
         params.put("uid", mPreference.getString(Preference.uid));
@@ -264,7 +255,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                 }
                 else
                 {
-                    refreshLayout.setRefreshing(false);
+                    dismissLoading();
                 }
             }
         });
@@ -279,7 +270,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             switch (msg.what)
             {
                 case 1:
-                    commentAdapter.setData(list);
+                    commentAdapter.setData(list2);
                     commentAdapter.notifyDataSetChanged();
                     editText.setText("");
                     break;
@@ -299,10 +290,14 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     {
         CommentResult commentResult = list.get(position);
         isReply = true;
-        if (commentResult.quotedComment != null && !TextUtils.isEmpty(commentResult.quotedComment.content))
+        if (commentResult.content != null && !TextUtils.isEmpty(commentResult.content))
         {
-            cid = commentResult.quotedComment.id;
+            cid = commentResult.id;
             editText.requestFocus();
+            String first = "回复";
+            SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.username);
+            editText.setText(spannableString);
+            editText.setSelection(spannableString.length());
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         }
@@ -311,5 +306,46 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             cid = commentResult.id;
             editText.requestFocus();
         }
+    }
+    private SpannableStringBuilder getGreenStrBuilder(String first, String append)
+    {
+        String builderAppend = append + " ";
+        SpannableStringBuilder builder = new SpannableStringBuilder(first + builderAppend);
+
+        ForegroundColorSpan greenSpan = new ForegroundColorSpan(Color.parseColor("#47885D"));
+        builder.setSpan(greenSpan, first.length(), first.length()+builderAppend.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return builder;
+    }
+    private void getFakeData()
+    {
+        //  http://192.168.0.9/resource/comment/list
+        Map<String, Object> map = new HashMap<>();
+        String method = "resource/comment/list";
+        map.put("method", method);
+        HttpRequestTest.loadWithMapPublic(map).execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+            }
+
+
+            @Override
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    try {
+                        Gson gson = new Gson();
+                        CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
+                        }.getType());
+                        commentsList.clear();
+                        if (data.comments!=null) {
+                            commentsList.addAll(data.comments);
+                        }
+                        commentAdapter.setData(commentsList);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 }
