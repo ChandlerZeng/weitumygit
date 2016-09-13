@@ -6,8 +6,11 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.Html;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
@@ -25,6 +28,7 @@ import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
+import com.libtop.weitu.widget.listview.ChangeListView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -50,7 +54,6 @@ public class CommentAdapter extends CommonAdapter<Comments>
 
 
     private OnReplyClickListener onReplyClickListener;
-    private boolean expanded = false;
     private CommentReplyAdapter mAdapter;
 
 
@@ -65,12 +68,13 @@ public class CommentAdapter extends CommonAdapter<Comments>
         ImageView headImage = helper.getView(R.id.img_head);
         RelativeLayout commentLayout1 = helper.getView(R.id.comment_layout1);
         LinearLayout commentLayout2 = helper.getView(R.id.comment_layout2);
-        final ListView listView = helper.getView(R.id.list_reply);
+        ChangeListView listView = helper.getView(R.id.list_reply);
         TextView tvUser = helper.getView(R.id.tv_user_name);
         TextView tvTime = helper.getView(R.id.tv_time);
         TextView tvcomment = helper.getView(R.id.tv_commnet1);
         final TextView tvcommentmore = helper.getView(R.id.tv_commnet_more);
         TextView tvLike = helper.getView(R.id.tv_like);
+//        tvLike.setVisibility(View.VISIBLE);
         TextView tvReply = helper.getView(R.id.tv_reply);
         if(object!=null){
             commentLayout1.setVisibility(View.VISIBLE);
@@ -80,16 +84,40 @@ public class CommentAdapter extends CommonAdapter<Comments>
             }
             tvUser.setText(object.user.name);
             tvTime.setText(DateUtil.parseToStringWithoutSS(object.t_create));
-//            if (object.quotedComment != null && !TextUtils.isEmpty(object.quotedComment.content))
+            if(object.count_praise!=0){
+                tvLike.setText(object.count_praise+"");
+//                helper.setText(R.id.tv_like, object.count_praise);
+            }else {
+                tvLike.setText("点赞");
+//                helper.setText(R.id.tv_like,"点赞");
+            }
+            if(object.count_reply!=0){
+                tvReply.setText(object.count_reply+"");
+            }else {
+                tvReply.setText("回复");
+            }
             if (object.content != null && !TextUtils.isEmpty(object.content))
             {
                 tvcomment.setVisibility(View.VISIBLE);
                 tvcomment.setText(object.content);
                 if(object.replys.size()>0){
                     commentLayout2.setVisibility(View.VISIBLE);
-                    mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,object.replys);
+                    if(object.replys.size()>5){
+                        if(object.isExpanded){
+                            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,object.replys);
+                            tvcommentmore.setVisibility(View.VISIBLE);
+                            tvcommentmore.setText("收起评论");
+                        } else {
+                            List<ReplyBean> replyBeans = object.replys.subList(0,5);
+                            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyBeans);
+                            tvcommentmore.setVisibility(View.VISIBLE);
+                            tvcommentmore.setText("展开更多");
+                        }
+                    }else{
+                        mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,object.replys);
+                        tvcommentmore.setVisibility(View.GONE);
+                    }
                     listView.setAdapter(mAdapter);
-                    setListViewHeight(listView,object.replys.size(),expanded,tvcommentmore);
                 } else {
                     commentLayout2.setVisibility(View.GONE);
                 }
@@ -107,12 +135,12 @@ public class CommentAdapter extends CommonAdapter<Comments>
             tvcommentmore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!expanded){
-                        expanded = true;
-                        setListViewHeight(listView,object.replys.size(),expanded,tvcommentmore);
+                    if(!object.isExpanded){
+                        object.isExpanded = true;
+                        notifyDataSetChanged();
                     } else {
-                        expanded = false;
-                        setListViewHeight(listView,object.replys.size(),expanded,tvcommentmore);
+                        object.isExpanded = false;
+                        notifyDataSetChanged();
                     }
                 }
             });
@@ -194,33 +222,35 @@ public class CommentAdapter extends CommonAdapter<Comments>
         public void convert(ViewHolderHelper helper, ReplyBean object, int position) {
             if(object.content!=null){
                 String user_name = object.user.name;
+                String content = "  "+object.content;
                 String reply_user_name;
                 String reply;
                 if(object.reply_user!=null && object.reply_user.name!=null&&!TextUtils.isEmpty(object.reply_user.name)){
                    reply_user_name = object.reply_user.name;
                     reply = " "+"回复"+" ";
-                    SpannableStringBuilder spannableString = getGreenStrBuilder(user_name,reply,reply_user_name);
-                    helper.setText(R.id.sub_comment,spannableString+" "+object.content);
+                    SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name, content);
+                    helper.setText(R.id.sub_comment,spannableString);
                 } else {
                     reply_user_name = "";
                     reply = "";
-                    SpannableStringBuilder spannableString = getGreenStrBuilder(user_name,reply,reply_user_name);
-                    helper.setText(R.id.sub_comment,spannableString+" "+object.content);
+                    SpannableString spannableString = getGreenStr(user_name,reply,reply_user_name,content);
+                    helper.setText(R.id.sub_comment,spannableString);
                 }
             }
         }
-        private SpannableStringBuilder getGreenStrBuilder(String userName,String reply ,String replyUserName)
-        {
-            SpannableStringBuilder builder = new SpannableStringBuilder(userName + reply + replyUserName);
-            ForegroundColorSpan greenSpan = new ForegroundColorSpan(Color.parseColor("#47885D"));
-            if(reply!=null && !TextUtils.isEmpty(reply) && replyUserName!=null &&  !TextUtils.isEmpty(replyUserName)){
-                builder.setSpan(greenSpan, 0, userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                builder.setSpan(greenSpan, userName.length()+reply.length(), userName.length()+reply.length()+replyUserName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else {
-                builder.setSpan(greenSpan, 0, userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
 
-            return builder;
+        private SpannableString getGreenStr(String userName,String reply ,String replyUserName, String content)
+        {
+
+            SpannableString spannableString = new SpannableString(userName + reply + replyUserName + content);
+//            if(reply!=null && !TextUtils.isEmpty(reply) && replyUserName!=null &&  !TextUtils.isEmpty(replyUserName)){
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), 0, userName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), userName.length() + reply.length(), userName.length() + reply.length() + replyUserName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            } else {
+//                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), 0, userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
+
+            return spannableString;
         }
     }
 

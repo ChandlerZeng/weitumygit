@@ -35,6 +35,8 @@ import com.libtop.weitu.test.Comments;
 import com.libtop.weitu.test.HttpRequestTest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.widget.listview.RemakeXListView;
+import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
@@ -56,13 +58,11 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     @Bind(R.id.edit_comment)
     EditText editText;
     @Bind(R.id.list_comment)
-    ListView listView;
+    RemakeXListView xListView;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.sub_title)
     TextView subTitle;
-    @Bind(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout refreshLayout;
     private CommentAdapter commentAdapter;
 
     private List<CommentResult> list;
@@ -76,12 +76,19 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     private CommentBean commentBean; //TODO
     private List<Comments> commentsList = new ArrayList<>(); //TODO
 
+    private int mCurPage = 1;
+    private boolean hasData = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_comment);
+        initView();
+    }
+
+    private void initView(){
         String json = getIntent().getStringExtra("CommentNeedDto");
         commentNeedDto = JsonUtil.fromJson(json, new TypeToken<CommentNeedDto>()
         {
@@ -91,8 +98,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         {
             subTitle.setText(commentNeedDto.title);
         }
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        xListView.setPullLoadEnable(false);
+        xListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
@@ -101,12 +108,26 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             }
         });
 
+        xListView.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                mCurPage = 1;
+                getFakeData();
+            }
+
+            @Override
+            public void onLoadMore() {
+                if(hasData){
+                    getFakeData();
+                }
+            }
+        });
         title.setText("评论");
         list2 = new ArrayList<Comments>();
-//        getData();
+//        getData(); TODO
         getFakeData();
         commentAdapter = new CommentAdapter(this, list2, this);
-        listView.setAdapter(commentAdapter);
+        xListView.setAdapter(commentAdapter);
     }
 
 
@@ -284,8 +305,30 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         }
     };
 
-
     @Override
+    public void onReplyTouch(View v, int position) //TODO
+    {
+        Comments commentResult = list2.get(position);
+        isReply = true;
+        if (commentResult.content != null && !TextUtils.isEmpty(commentResult.content))
+        {
+//            cid = commentResult.id;
+            editText.requestFocus();
+            String first = "回复";
+            SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.user.name);
+            editText.setText(spannableString);
+            editText.setSelection(spannableString.length());
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        }
+        else
+        {
+//            cid = commentResult.id;
+            editText.requestFocus();
+        }
+    }
+
+    /*@Override
     public void onReplyTouch(View v, int position)
     {
         CommentResult commentResult = list.get(position);
@@ -306,7 +349,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             cid = commentResult.id;
             editText.requestFocus();
         }
-    }
+    }*/
     private SpannableStringBuilder getGreenStrBuilder(String first, String append)
     {
         String builderAppend = append + " ";
@@ -318,10 +361,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     }
     private void getFakeData()
     {
-        //  http://192.168.0.9/resource/comment/list
+        //  http://192.168.0.9/resource/comment/list private
+        //  http://115.28.189.104/resource/comment/list public
         Map<String, Object> map = new HashMap<>();
         String method = "resource/comment/list";
         map.put("method", method);
+        map.put("page", mCurPage);
         HttpRequestTest.loadWithMapPublic(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -331,6 +376,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             @Override
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
+                    xListView.stopRefresh();
                     try {
                         Gson gson = new Gson();
                         CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
@@ -339,6 +385,17 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                         if (data.comments!=null) {
                             commentsList.addAll(data.comments);
                         }
+                        if (commentsList.size() < 20)
+                        {
+                            hasData = false;
+                            xListView.setPullLoadEnable(false, hasData);
+                        }
+                        else
+                        {
+                            hasData = true;
+                            xListView.setPullLoadEnable(true);
+                        }
+                        mCurPage++;
                         commentAdapter.setData(commentsList);
 
                     } catch (Exception e) {

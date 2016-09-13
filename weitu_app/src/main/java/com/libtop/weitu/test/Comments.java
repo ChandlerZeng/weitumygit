@@ -39,5 +39,6 @@ public class Comments {
 
     public Resource resource;
     public List<ReplyBean> replys;
+    public boolean isExpanded = false;
 
 }
