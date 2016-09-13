@@ -2,20 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/searchBackgroud"
+    android:background="@color/grey_bg"
     android:orientation="vertical">
 
     <include layout="@layout/included_title_comment" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey_bg"/>
 
-    <com.libtop.weitu.widget.listview.RemakeXListView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <com.libtop.weitu.widget.listview.RemakeXListView
             android:id="@+id/list_comment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:descendantFocusability="afterDescendants"
             android:divider="#dadada"
             android:dividerHeight="1px"
             android:listSelector="#00000000" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +34,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_gravity="center"
             android:layout_margin="@dimen/padding_left"

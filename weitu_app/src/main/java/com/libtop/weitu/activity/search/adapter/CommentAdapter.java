@@ -6,18 +6,14 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.Html;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +27,8 @@ import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.listview.ChangeListView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import org.w3c.dom.Comment;
 
 import java.util.List;
 
@@ -53,14 +51,21 @@ public class CommentAdapter extends CommonAdapter<Comments>
 {
 
 
+    private OnCommentClickListener onCommentClickListener;
     private OnReplyClickListener onReplyClickListener;
+    private OnReplyItemClickListener onReplyItemClickListener;
+    private OnLikeClickListener onLikeClickListener;
     private CommentReplyAdapter mAdapter;
 
 
-    public CommentAdapter(Context context, List<Comments> data, OnReplyClickListener listenner)
+    public CommentAdapter(Context context, List<Comments> data, OnReplyClickListener listenner,OnReplyItemClickListener itemClickListener,OnLikeClickListener likeClickListener
+            ,OnCommentClickListener commentClickListener)
     {
         super(context, R.layout.item_list_comment, data);
+        this.onCommentClickListener = commentClickListener;
         this.onReplyClickListener = listenner;
+        this.onReplyItemClickListener = itemClickListener;
+        this.onLikeClickListener = likeClickListener;
     }
 
     @Override
@@ -68,13 +73,14 @@ public class CommentAdapter extends CommonAdapter<Comments>
         ImageView headImage = helper.getView(R.id.img_head);
         RelativeLayout commentLayout1 = helper.getView(R.id.comment_layout1);
         LinearLayout commentLayout2 = helper.getView(R.id.comment_layout2);
+        LinearLayout likeLayout = helper.getView(R.id.likeLayout);
+        LinearLayout replyLayout = helper.getView(R.id.replyLayout);
         ChangeListView listView = helper.getView(R.id.list_reply);
         TextView tvUser = helper.getView(R.id.tv_user_name);
         TextView tvTime = helper.getView(R.id.tv_time);
         TextView tvcomment = helper.getView(R.id.tv_commnet1);
         final TextView tvcommentmore = helper.getView(R.id.tv_commnet_more);
         TextView tvLike = helper.getView(R.id.tv_like);
-//        tvLike.setVisibility(View.VISIBLE);
         TextView tvReply = helper.getView(R.id.tv_reply);
         if(object!=null){
             commentLayout1.setVisibility(View.VISIBLE);
@@ -86,10 +92,8 @@ public class CommentAdapter extends CommonAdapter<Comments>
             tvTime.setText(DateUtil.parseToStringWithoutSS(object.t_create));
             if(object.count_praise!=0){
                 tvLike.setText(object.count_praise+"");
-//                helper.setText(R.id.tv_like, object.count_praise);
             }else {
                 tvLike.setText("点赞");
-//                helper.setText(R.id.tv_like,"点赞");
             }
             if(object.count_reply!=0){
                 tvReply.setText(object.count_reply+"");
@@ -126,12 +130,34 @@ public class CommentAdapter extends CommonAdapter<Comments>
             {
                 tvcomment.setVisibility(View.GONE);
             }
-            tvReply.setOnClickListener(new View.OnClickListener() {
+            replyLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onReplyClickListener.onReplyTouch(v, position);
                 }
             });
+
+            tvcomment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCommentClickListener.onCommentTouch(v,position,object);
+                }
+            });
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    onReplyItemClickListener.onReplyItemTouch(view, position, object.replys.get(position));
+                }
+            });
+
+            likeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onLikeClickListener.onLikeTouch(v,position, object);
+                }
+            });
+
             tvcommentmore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -150,9 +176,25 @@ public class CommentAdapter extends CommonAdapter<Comments>
 
     }
 
+
     public interface OnReplyClickListener
     {
         void onReplyTouch(View v, int position);
+    }
+
+    public interface OnReplyItemClickListener
+    {
+        void onReplyItemTouch(View v, int position,ReplyBean replyBean);
+    }
+
+    public interface OnLikeClickListener
+    {
+        void onLikeTouch(View v, int position,Comments comment);
+    }
+
+    public interface OnCommentClickListener
+    {
+        void onCommentTouch(View v,int position,Comments comment);
     }
 
 
@@ -213,6 +255,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
     class CommentReplyAdapter extends CommonAdapter<ReplyBean>{
 
         private List<ReplyBean> replyBeans;
+        private Context context;
         public CommentReplyAdapter(Context context, int itemLayoutId, List<ReplyBean> replyList) {
             super(context, R.layout.item_comment_reply_list, replyList);
             this.replyBeans = replyList;
@@ -239,58 +282,14 @@ public class CommentAdapter extends CommonAdapter<Comments>
             }
         }
 
+
+
         private SpannableString getGreenStr(String userName,String reply ,String replyUserName, String content)
         {
-
             SpannableString spannableString = new SpannableString(userName + reply + replyUserName + content);
-//            if(reply!=null && !TextUtils.isEmpty(reply) && replyUserName!=null &&  !TextUtils.isEmpty(replyUserName)){
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), 0, userName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), userName.length() + reply.length(), userName.length() + reply.length() + replyUserName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            } else {
-//                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), 0, userName.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            }
-
             return spannableString;
         }
     }
-
-    public void setListViewHeight(ListView listView, int size, boolean expanded,TextView textView)
-    {
-        if (size == 0)
-        {
-            listView.setVisibility(View.GONE);
-        }
-        else
-        {
-            listView.setVisibility(View.VISIBLE);
-            ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
-            //获取ListView每个Item高度
-            View item = mAdapter.getView(0, null, listView);
-            item.measure(0, 0);
-            int height = item.getMeasuredHeight();
-            if (size > 0 & size <= 5)
-            {
-                layoutParams.height = size * height;
-                textView.setVisibility(View.GONE);
-            }
-            else
-            {
-                if (expanded)
-                {
-                    textView.setVisibility(View.VISIBLE);
-                    textView.setText("收起评论");
-                    layoutParams.height = size * height;
-                }
-                else
-                {
-                    textView.setVisibility(View.VISIBLE);
-                    textView.setText("展开更多");
-                    layoutParams.height = 5 * height;
-                }
-            }
-            listView.setLayoutParams(layoutParams);
-        }
-
-    }
-
 }

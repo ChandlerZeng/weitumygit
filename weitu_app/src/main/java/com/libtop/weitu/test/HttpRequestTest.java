@@ -18,6 +18,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +77,24 @@ public class HttpRequestTest
         String[] arrays = MapUtil.map2Parameter(map);
         return OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + arrays[0] ).build();
     }
+    public static RequestCall loadWithMapPublic2(Map<String, Object> map)
+    {
+        String[] arrays = mapToParameter(map);
+        return OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + arrays[0]).addParams("text",arrays[1]).build();
+    }
+    public static String[] mapToParameter(Map<String, Object> map)
+    {
+        JSONObject jsonObject = new JSONObject(map);
+        String requestJson = jsonObject.toString();
 
+        String method = (String) map.get("method");
+//        String[] methods = method.split("\\.");
+        ArrayList<String> lists = new ArrayList<>();
+//        lists.addAll(Arrays.asList(method));
+        lists.add(method);
+        lists.add(requestJson);
+        return lists.toArray(new String[2]);
+    }
 
     public static void loadWithMapSec(final Map<String, Object> map, final CallBackSec callBackSec)
     {
