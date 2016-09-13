@@ -19,6 +19,7 @@ import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.DocUpload.DocUploadActivity;
 import com.libtop.weitu.activity.main.LibraryFragment;
+import com.libtop.weitu.activity.main.MyLikeActivity;
 import com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
 import com.libtop.weitu.activity.user.UserCollect.UserCollectActivity;
@@ -65,13 +66,18 @@ public class UserCenterFragment extends BaseFragment
 
 
     @Nullable
-    @OnClick({R.id.ll_upload_video, R.id.ll_upload_doc, R.id.ll_upload_photo, R.id.ll_history, R.id.ll_setting, R.id.collected, R.id.comment, R.id.about_us, R.id.setting, R.id.left_msg, R.id.library, R.id.rl_login_msg})
+    @OnClick({R.id.ll_my_like,R.id.ll_upload_video, R.id.ll_upload_doc, R.id.ll_upload_photo, R.id.ll_history, R.id.ll_setting, R.id.collected, R.id.comment, R.id.about_us, R.id.setting, R.id.left_msg, R.id.library, R.id.rl_login_msg})
     public void onClick(View v)
     {
         Bundle bundle = new Bundle();
         String cls = "";
         switch (v.getId())
         {
+
+            case R.id.ll_my_like:
+                Intent intentWhat = new Intent(mContext, MyLikeActivity.class);
+                startActivity(intentWhat);
+                break;
 
             case R.id.ll_upload_video:
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid)))

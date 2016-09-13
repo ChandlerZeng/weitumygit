@@ -102,62 +102,18 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header_content"
-        android:layout_marginBottom="@dimen/padding_normal"
-        android:layout_marginTop="@dimen/padding_medium"
-        android:layout_toRightOf="@+id/icon"
-        android:paddingLeft="12dip">
-
-        <ImageView
-            android:id="@+id/img_collect"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/divider_margin_audio"
-            android:background="@drawable/collect"/>
-
-        <View
-            android:id="@+id/divider_left"
-            android:layout_width="1dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="@dimen/divider_margin_audio"
-            android:background="@color/grey13"/>
-
-        <ImageView
-            android:id="@+id/img_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/divider_margin_audio"
-            android:background="@drawable/comment"/>
-
-        <View
-            android:id="@+id/divider_riht"
-            android:layout_width="1dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="@dimen/divider_margin_audio"
-            android:background="@color/grey13"/>
-
-        <ImageView
-            android:id="@+id/img_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/share"/>
-    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_normal"
-        android:layout_below="@+id/banner"
+        android:layout_below="@+id/icon"
         android:background="@color/searchBackgroud"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="fill_parent"
         android:layout_height="35dip"
-        android:layout_below="@+id/banner"
+        android:layout_below="@+id/icon"
         android:layout_marginTop="@dimen/padding_medium"
         android:background="@drawable/gray_input_bg"
         android:orientation="horizontal">
@@ -219,6 +175,23 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radioGroup"
+        android:layout_above="@+id/in_bottom"
         android:background="@color/white"/>
+
+    <View
+        android:layout_above="@+id/in_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider"
+        />
+
+    <include
+        android:id="@+id/in_bottom"
+        layout="@layout/included_tools_bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
 
 </RelativeLayout>

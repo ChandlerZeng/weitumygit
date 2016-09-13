@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_normal"
+        android:background="@color/searchBackgroud"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/padding_normal"
+        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/padding_normal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_my_like_head"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="@dimen/padding_normal"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_my_like_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/newGreen"
+                    android:text="抽刀断"/>
+
+                <TextView
+                    android:layout_marginTop="6dp"
+                    android:id="@+id/tv_my_like_time"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/grey4"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="2016-08-23 10:04"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/ll_my_like_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginBottom="@dimen/padding_normal"
+            android:text="在这里给大家介绍一本书。"
+            android:textColor="@color/grey3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/ll_my_like_inside"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_comment_inside"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_normal">
+
+            <ImageView
+                android:id="@+id/img_item_my_like_photo"
+                android:layout_marginRight="@dimen/padding_normal"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_item_my_like_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey3"
+                    android:ellipsize="end"
+                    android:lines="2"
+                    android:text="Java web开发设计指南"/>
+
+                <TextView
+                    android:id="@+id/tv_item_my_like_uploader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey4"
+                    android:text="作者：威廉姆斯著"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_normal"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/like_grey"/>
+
+            <TextView
+                android:id="@+id/tv_my_like_like_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/grey4"
+                android:layout_marginLeft="@dimen/padding_normal"
+                android:layout_marginRight="@dimen/divider_margin"
+                android:text="56"/>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/comment_grey"/>
+
+            <TextView
+                android:id="@+id/tv_my_like_comment_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/grey4"
+                android:layout_marginLeft="@dimen/padding_normal"
+                android:text="56"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

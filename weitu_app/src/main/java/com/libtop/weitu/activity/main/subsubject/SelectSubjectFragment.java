@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentFragment;
-import com.libtop.weitu.activity.main.NewThemeActivity;
+import com.libtop.weitu.activity.main.NewSubjectActivity;
 import com.libtop.weitu.activity.main.adapter.SelectSubjectAdapter;
 import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.dao.ResultCodeDto;
@@ -240,7 +240,7 @@ public class SelectSubjectFragment extends ContentFragment {
 
     private void createNewTheme(){
         Intent intent = new Intent();
-        intent.setClass(getActivity(), NewThemeActivity.class);
+        intent.setClass(getActivity(), NewSubjectActivity.class);
         startActivityForResult(intent,100);
     }
 
