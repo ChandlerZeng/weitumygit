@@ -18,7 +18,7 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.CollectionUtils;
+import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.widget.listview.ScrollRefListView;
 import com.libtop.weitu.widget.stage.StaggeredGridView;
@@ -169,7 +169,7 @@ public class ThemesFragment extends NotifyFragment
             isCreate = true;
             return;
         }
-        if (CollectionUtils.isEmpty(mData))
+        if (CollectionUtil.isEmpty(mData))
         {
             mNullText.setText("未搜索到相关记录");
             mNullText.setVisibility(View.VISIBLE);

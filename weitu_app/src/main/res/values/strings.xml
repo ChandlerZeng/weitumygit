@@ -80,6 +80,10 @@
     <string name="tab_collect">收藏</string>
     <string name="tab_personal">我的</string>
 
+    <!-- 通知模块 -->
+    <string name="system_notice">系统通知</string>
+    <string name="school_notice">校内通知</string>
+
     <string name="folder_all">相册</string>
     <string name="preview">Preview</string>
     <string name="msg_no_camera">No system camera found</string>
@@ -127,5 +131,8 @@
     <string name="network_error_and_touch_retry">网络不佳&#160;&#160;点击屏幕重新加载？</string>
     <string name="empty_data_and_touch_retry">暂无数据&#160;&#160;点击屏幕可重新获取</string>
     <string name="empty_data_prompt">空空如也</string>
+
+    <!-- 与PagingListView/PagingGridView相关 -->
+    <string name="in_loading">加载中&#8230;</string>
 
 </resources>

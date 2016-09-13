@@ -2,9 +2,6 @@ package com.libtop.weitu.test;
 
 import com.google.gson.Gson;
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
  * Created by zeng on 2016/9/9.
  */

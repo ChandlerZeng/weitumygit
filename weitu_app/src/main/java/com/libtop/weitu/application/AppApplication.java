@@ -20,11 +20,17 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class AppApplication extends Application
 {
     private static AppApplication mInstance;
+    private static Context context;
+
     private static DaoMaster daoMaster;
     private static DaoSession daoSession;
     private static String DB_NAME = "com.metasoft.library";
 
-    private static Context context;
+
+    public synchronized static AppApplication getInstance()
+    {
+        return mInstance;
+    }
 
 
     public static Context getContext()
@@ -37,7 +43,10 @@ public class AppApplication extends Application
     public void onCreate()
     {
         super.onCreate();
+
+        mInstance = this;
         context = getApplicationContext();
+
         //捕捉全局异常，取消默认弹窗，重新启动App
         if (!BuildConfig.DEBUG)
         {
@@ -48,12 +57,6 @@ public class AppApplication extends Application
         //图片初始化
         SdCardUtil.initFileDir(getApplicationContext());
         SpeechUtility.createUtility(getApplicationContext(), "appid=56824e38");
-
-        //个推初始化
-        if (mInstance == null)
-        {
-            mInstance = this;
-        }
     }
 
 

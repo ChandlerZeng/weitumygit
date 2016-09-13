@@ -7,7 +7,7 @@
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="48dp"
         android:layout_height="48dp">
         <ImageView
@@ -19,9 +19,16 @@
 
         <TextView
             android:text="99"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="4dp"
+            android:padding="2dp"
+            android:textSize="@dimen/text_size_12"
+            android:background="@drawable/bg_red_oval"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    </FrameLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

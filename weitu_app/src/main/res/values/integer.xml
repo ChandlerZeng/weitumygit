@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="activity_fade_time">250</integer>
+    <integer name="activity_scale_time">250</integer>
+
+</resources>
