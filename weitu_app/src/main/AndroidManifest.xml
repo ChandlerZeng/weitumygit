@@ -232,6 +232,11 @@
         <!-- 主题信息视图 -->
         <activity android:name="com.libtop.weitu.activity.main.ThemeInfoActivity"/>
 
+        <!-- 通知视图(系统通知与校内通知) -->
+        <activity
+            android:name="com.libtop.weitu.activity.notice.NoticeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"/>
 
         <!-- ShareSdk 需要注册的 Activity -->
         <activity

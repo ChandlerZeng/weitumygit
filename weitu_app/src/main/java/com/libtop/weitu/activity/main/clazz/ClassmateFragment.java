@@ -16,7 +16,7 @@ import com.libtop.weitu.activity.main.dto.ClassmateBean;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.CollectionUtils;
+import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.DisplayUtils;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.widget.slidebar.SideBar;
@@ -150,7 +150,7 @@ public class ClassmateFragment extends BaseFragment
                 List<ClassmateBean> date = JsonUtil.fromJson(json, new TypeToken<List<ClassmateBean>>()
                 {
                 }.getType());
-                if (CollectionUtils.isEmpty(date))
+                if (CollectionUtil.isEmpty(date))
                 {
                     showToast("未找到相关记录");
                     return;

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/searchBackgroud"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/activity_notice_view_back_imageview"
+            android:layout_width="@dimen/back_btn_size"
+            android:layout_height="@dimen/back_btn_size"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/arrow_back"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/activity_notice_view_system_notice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/blackunder"
+                android:gravity="center"
+                android:text="@string/system_notice"
+                android:textColor="@color/grey3"
+                android:textSize="@dimen/text_size_18"/>
+
+            <View
+                android:layout_width="38dp"
+                android:layout_height="match_parent"/>
+
+            <Button
+                android:id="@+id/activity_notice_view_school_notice_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:text="@string/school_notice"
+                android:textColor="@color/grey4"
+                android:textSize="@dimen/text_size_18"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View style="@style/my_divide_line_style_horizontal"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_notice_view_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="6dp"
+        android:background="@color/white"/>
+
+</LinearLayout>

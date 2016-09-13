@@ -18,7 +18,7 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.CollectionUtils;
+import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.widget.listview.ScrollRefListView;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -151,7 +151,7 @@ public class AudiosFragment extends NotifyFragment
             isCreate = true;
             return;
         }
-        if (CollectionUtils.isEmpty(mData))
+        if (CollectionUtil.isEmpty(mData))
         {
             mNullTxt.setText("未搜索到相关记录");
             mNullTxt.setVisibility(View.VISIBLE);
@@ -288,7 +288,7 @@ public class AudiosFragment extends NotifyFragment
                 List<SearchResult> s = JsonUtil.fromJson(result, new TypeToken<List<SearchResult>>()
                 {
                 }.getType());
-                if (CollectionUtils.isEmpty(s))
+                if (CollectionUtil.isEmpty(s))
                 {
                     mNullTxt.setText("未搜索到相关记录");
                     mNullTxt.setVisibility(View.VISIBLE);

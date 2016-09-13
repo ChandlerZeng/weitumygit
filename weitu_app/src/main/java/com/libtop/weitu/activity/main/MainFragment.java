@@ -1,5 +1,6 @@
 package com.libtop.weitu.activity.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.notice.NoticeActivity;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseFragment;
@@ -141,8 +143,10 @@ public class MainFragment extends BaseFragment
 
     private void alarmClick()
     {
-
+        Intent intent = new Intent(getActivity(), NoticeActivity.class);
+        startActivity(intent);
     }
+
 
     @OnClick({R.id.open_alarm, R.id.btn_main_theme, R.id.btn_main_resource, R.id.search_top})
     public void onClick(View view)

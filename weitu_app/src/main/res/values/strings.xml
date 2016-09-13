@@ -80,6 +80,10 @@
     <string name="tab_collect">收藏</string>
     <string name="tab_personal">我的</string>
 
+    <!-- 通知模块 -->
+    <string name="system_notice">系统通知</string>
+    <string name="school_notice">校内通知</string>
+
     <string name="folder_all">相册</string>
     <string name="preview">Preview</string>
     <string name="msg_no_camera">No system camera found</string>

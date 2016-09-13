@@ -283,4 +283,11 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <!-- 视图横向分割线样式 -->
+    <style name="my_divide_line_style_horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.49dp</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+
 </resources>
