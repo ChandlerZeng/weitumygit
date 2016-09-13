@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    style="@style/my_layout_style_common">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:text="abc"/>
-</LinearLayout>
+    <com.paging.listview.PagingListView
+        android:id="@+id/fragment_notice_system_view_paginglistview"
+        style="@style/my_listview_style_default"
+        android:background="@color/white"/>
+
+    <include layout="@layout/content_layout_network_loading"/>
+
+</FrameLayout>

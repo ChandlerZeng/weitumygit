@@ -14,6 +14,13 @@
         <item name="android:activityCloseExitAnimation">@anim/close_exit_anim</item>
     </style>
 
+    <!-- 视图一般样式 -->
+    <style name="my_layout_style_common">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/layout_bg</item>
+    </style>
+
     <style name="Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -295,6 +302,19 @@
     <style name="menu_labels_style">
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- 默认列表样式（平角透明底带分隔线） -->
+    <style name="my_listview_style_default" parent="@android:style/Widget.ListView">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:cacheColorHint">@color/transparent</item>
+        <item name="android:divider">@color/listview_divider</item>
+        <item name="android:dividerHeight">0.49dp</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:footerDividersEnabled">false</item>
+        <item name="android:listSelector">@drawable/list_selector</item>
     </style>
 
     <!-- 视图横向分割线样式 -->

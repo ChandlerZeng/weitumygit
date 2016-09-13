@@ -5,6 +5,7 @@
 
     <!-- 字体大小 -->
     <dimen name="text_size_10">10sp</dimen>
+    <dimen name="text_size_11">11sp</dimen>
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="text_size_13">13sp</dimen>
     <dimen name="text_size_14">14sp</dimen>
@@ -25,7 +26,7 @@
     <dimen name="user_center_item">42dip</dimen>
     <dimen name="padding_left">8dip</dimen>
     <dimen name="search_input_height">48dip</dimen>
-    <dimen name="news_img_width">90dip</dimen>
+    <dimen name="news_img_width">90dip</dimen>w
     <dimen name="news_img_height">95dip</dimen>
     <dimen name="photo_width">80dip</dimen>
     <dimen name="photo_height">80dip</dimen>

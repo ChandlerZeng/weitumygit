@@ -1,5 +1,8 @@
 <resources>
 
+    <!-- 视图布局背景色 -->
+    <color name="layout_bg">#FFEFEFEF</color>
+
     <!--old-->
     <color name="transparent">#00000000</color>
     <color name="grey_transparent">#e0f5f5f5</color>
@@ -81,5 +84,8 @@
     <color name="rank_red">#FF6064</color>
     <color name="rank_red_pressed">#CF6064</color>
 
+    <color name="listview_divider">#FFEEEEEE</color>
+
+    <color name="user_name_green">#FF47885D</color>
 
 </resources>
