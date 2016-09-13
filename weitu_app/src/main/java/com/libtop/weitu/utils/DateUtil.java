@@ -44,6 +44,15 @@ public class DateUtil
         return str;
     }
 
+    public static String parseToStringWithoutSS(long curentTime)
+    {
+        Calendar now = Calendar.getInstance();
+        now.setTimeInMillis(curentTime);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String str = formatter.format(now.getTime());
+        return str;
+    }
+
 
     public static String parseToHHString(long curentTime)
     {

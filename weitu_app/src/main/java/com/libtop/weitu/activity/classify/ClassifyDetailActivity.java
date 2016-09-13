@@ -12,16 +12,20 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.adapter.ClassifyCheckAdapter;
 import com.libtop.weitu.activity.classify.adapter.ClassifyDetailAdapter;
+import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyDetailBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
+import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
@@ -30,10 +34,16 @@ import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.test.CategoryResult;
+import com.libtop.weitu.test.HttpRequestTest;
+import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.widget.listview.XListView;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +52,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import okhttp3.Call;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -65,7 +76,10 @@ public class ClassifyDetailActivity extends BaseActivity
     View titleBar;
     @Bind(R.id.img_arrow)
     ImageView imgArrow;
+    @Bind(R.id.radioGroup)
+    RadioGroup radioGroup;
 
+    private String method;
     private String mAction;
     private int mCurentPage = 1;
     private ClassifyDetailAdapter mAdapter;
@@ -77,7 +91,9 @@ public class ClassifyDetailActivity extends BaseActivity
     private String filterString = "view";
 
     private List<ClassifyBean> lists = new ArrayList<ClassifyBean>();
+    private List<CategoryResult> categoryResultList = new ArrayList<>();
     private ClassifyCheckAdapter filterCheckAdapter, classifyCheckAdapter;
+    private ClassifySubDetailAdapter subresAdapter;
 
 
     public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book";
@@ -93,6 +109,7 @@ public class ClassifyDetailActivity extends BaseActivity
         mTitleText.setText(name);
         mData = new ArrayList<ClassifyResultBean>();
         mAdapter = new ClassifyDetailAdapter(mContext, mData);
+        subresAdapter = new ClassifySubDetailAdapter(mContext,categoryResultList);
         initPopView();
         initListView();
         getData();
@@ -101,32 +118,32 @@ public class ClassifyDetailActivity extends BaseActivity
 
     private void initListView()
     {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                radioButtonClicked(checkedId);
+            }
+        });
         mListView.setAdapter(mAdapter);
         mListView.setPullLoadEnable(false);
-        mListView.setXListViewListener(new XListView.IXListViewListener()
-        {
+        mListView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
-            public void onRefresh()
-            {
+            public void onRefresh() {
                 mCurentPage = 1;
                 getData();
             }
 
 
             @Override
-            public void onLoadMore()
-            {
-                if (hasData)
-                {
+            public void onLoadMore() {
+                if (hasData) {
                     getData();
                 }
             }
         });
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startByType(mData.get(position - 1).entityType, position - 1);
             }
         });
@@ -306,6 +323,43 @@ public class ClassifyDetailActivity extends BaseActivity
         });
     }
 
+    private void getFakeData()
+    {
+        //  http://192.168.0.9/category/resource/list
+        Map<String, Object> map = new HashMap<>();
+        map.put("method", method);
+        HttpRequestTest.loadWithMapPublic(map).execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+            }
+
+
+            @Override
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    try {
+                        Gson gson = new Gson();
+                        SubjectResource data = gson.fromJson(json, new TypeToken<SubjectResource>() {
+                        }.getType());
+                        categoryResultList.clear();
+
+                        if (method.equals("category/resource/list")){
+                            categoryResultList.addAll(data.resources);
+                        }
+                        else {
+                            categoryResultList.addAll(data.subjects);
+                        }
+                        subresAdapter.setNewData(categoryResultList);
+                        mListView.setAdapter(subresAdapter);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
 
     @Nullable
     @OnClick({R.id.back_btn, R.id.commit, R.id.img_search, R.id.search_filter, R.id.title})
@@ -348,6 +402,19 @@ public class ClassifyDetailActivity extends BaseActivity
     private void searchClick()
     {
         mContext.startActivity(null, SearchActivity.class);
+    }
+
+    private void radioButtonClicked(int checkedId){
+        switch (checkedId){
+            case R.id.subject:
+                method = "category/subject/list";
+                getFakeData();
+                break;
+            case R.id.resource:
+                method = "category/resource/list";
+                getFakeData();
+                break;
+        }
     }
 
 
