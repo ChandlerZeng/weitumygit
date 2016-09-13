@@ -32,6 +32,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.ContentActivity;
+import com.libtop.weitu.activity.main.subsubject.SelectSubjectFragment;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
 import com.libtop.weitu.activity.search.dto.SearchResult;
 import com.libtop.weitu.activity.source.Bean.MediaAlbumBean;
@@ -484,7 +486,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
 
 
     @Nullable
-    @OnClick({R.id.ll_tool_collect, R.id.ll_tool_comment, R.id.ll_tool_share, R.id.back_btn, R.id.back_btn_inner, R.id.play_pause_big, R.id.play_pause_small, R.id.video_container, R.id.fullscreen, R.id.scale})
+    @OnClick({R.id.ll_tool_include, R.id.ll_tool_collect, R.id.ll_tool_comment, R.id.ll_tool_share, R.id.back_btn, R.id.back_btn_inner, R.id.play_pause_big, R.id.play_pause_small, R.id.video_container, R.id.fullscreen, R.id.scale})
     public void onClick(View v)
     {
         switch (v.getId())
@@ -531,7 +533,9 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
 
     private void includeClick()
     {
-
+        Bundle bundle = new Bundle();
+        bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        mContext.startActivity(bundle,ContentActivity.class);
     }
 
     @Override

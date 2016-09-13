@@ -36,6 +36,8 @@ public class ContantsUtil
 //    public static final String AVATARHOST = "http://avatar.yuntu.io";//现网环境
 //    public static final String IMGHOST2 = "http://image.yuntu.io/cover";//现网环境
 
+        public static final String API_FAKE_HOST_PRIVATE = "http://192.168.0.9";//演示环境 TODO
+        public static final String API_FAKE_HOST_PUBLIC = "http://115.28.189.104";//演示环境 TODO
         public static final String HOST = "http://weitu.bookm.cn";//演示环境
         public static final String HOST_ADDON = "http://www.bookm.cn";//演示环境
         public static final String UHOST = "http://weitu.bookm.cn";//演示环境

@@ -67,8 +67,8 @@ public class MainFragment extends BaseFragment
     private void initViewPager()
     {
         viewpager.setAdapter(adapter);
-        ThemeFragment themeFragment =new  ThemeFragment();
-        datas.add(themeFragment);
+        SubjectFragment subjectFragment =new SubjectFragment();
+        datas.add(subjectFragment);
         ResourceFragment resourceFragment =new  ResourceFragment();
         datas.add(resourceFragment);
         adapter.notifyDataSetChanged();

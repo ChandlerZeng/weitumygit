@@ -249,18 +249,21 @@ public class BookDetailFragment extends ContentFragment
 
 
     @Nullable
-    @OnClick({R.id.img_collect, R.id.img_comment, R.id.img_share, R.id.search, R.id.back_btn})
+    @OnClick({R.id.ll_tool_include,R.id.ll_tool_collect, R.id.ll_tool_comment, R.id.ll_tool_share, R.id.search, R.id.back_btn})
     public void onClick(View view)
     {
         switch (view.getId())
         {
-            case R.id.img_collect:
+            case R.id.ll_tool_include:
+                includeClick();
+                break;
+            case R.id.ll_tool_collect:
                 collectClick();
                 break;
-            case R.id.img_comment:
+            case R.id.ll_tool_comment:
                 commentClick();
                 break;
-            case R.id.img_share:
+            case R.id.ll_tool_share:
                 shareClick();
                 break;
             case R.id.search:
@@ -269,6 +272,11 @@ public class BookDetailFragment extends ContentFragment
                 onBackPressed();
                 break;
         }
+    }
+
+
+    private void includeClick()
+    {
     }
 
 

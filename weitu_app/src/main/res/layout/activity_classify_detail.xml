@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@color/grey_bg">
+    android:background="@color/grey_bg"
+    android:orientation="vertical">
 
-    <include layout="@layout/include_classify_titlebar"/>
+    <include layout="@layout/include_classify_titlebar" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/grey_bg"/>
+        android:background="@color/grey_bg" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -30,7 +29,7 @@
             android:checked="true"
             android:gravity="center"
             android:text="主题"
-            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+            android:textColor="@color/group_tap_textcolor_radiobutton" />
 
         <RadioButton
             android:id="@+id/resource"
@@ -41,13 +40,13 @@
             android:button="@null"
             android:gravity="center"
             android:text="资源"
-            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+            android:textColor="@color/group_tap_textcolor_radiobutton" />
     </RadioGroup>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_small"
-        android:background="@color/grey_bg"/>
+        android:background="@color/grey_bg" />
 
     <LinearLayout
         android:id="@+id/nullCo"
@@ -64,27 +63,19 @@
             android:gravity="center"
             android:text="暂无数据"
             android:textColor="#d6d5d5"
-            android:textSize="25sp"/>
+            android:textSize="25sp" />
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <com.libtop.weitu.widget.listview.XListView
+        android:id="@+id/list"
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:background="@color/transparent">
-        <com.libtop.weitu.widget.listview.XListView
-            android:id="@+id/list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:cacheColorHint="#00000000"
-            android:descendantFocusability="blocksDescendants"
-            android:divider="@color/main_divider_line"
-            android:dividerHeight="0.8dip"
-            android:fadingEdge="none"
-            android:listSelector="@drawable/list_selector"/>
-
-        </android.support.v4.view.ViewPager>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:cacheColorHint="#00000000"
+        android:descendantFocusability="blocksDescendants"
+        android:divider="@color/main_divider_line"
+        android:dividerHeight="0.8dip"
+        android:fadingEdge="none"
+        android:listSelector="@drawable/list_selector" />
 
 </LinearLayout>

@@ -15,7 +15,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
-public class NewThemeActivity extends BaseActivity
+public class EditSubjectActivity extends BaseActivity
 {
 
 
@@ -23,17 +23,20 @@ public class NewThemeActivity extends BaseActivity
     TextView title;
     @Bind(R.id.img_cover)
     ImageView imgCover;
-    @Bind(R.id.et_theme_title)
-    EditText etThemeTitle;
-    @Bind(R.id.et_theme_desc)
-    EditText etThemeDesc;
+    @Bind(R.id.et_subject_title)
+    EditText etSubjectTitle;
+    @Bind(R.id.et_subject_desc)
+    EditText etSubjectDesc;
+    @Bind(R.id.tv_subject_sort)
+    TextView tvSubjectSort;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setInjectContentView(R.layout.activity_main_new_theme);
+        setInjectContentView(R.layout.activity_main_new_subject);
         initView();
     }
 
@@ -41,6 +44,9 @@ public class NewThemeActivity extends BaseActivity
     private void initView()
     {
         title.setText("新建主题");
+        etSubjectTitle.setText("");
+        etSubjectDesc.setText("");
+        tvSubjectSort.setText("");
     }
 
 

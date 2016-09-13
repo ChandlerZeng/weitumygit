@@ -218,6 +218,7 @@
 
             <LinearLayout
                 android:id="@+id/collected"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -240,6 +241,44 @@
                     android:layout_marginLeft="@dimen/padding_normal"
                     android:layout_weight="1"
                     android:text="我的收藏"
+                    android:textColor="@color/main_text"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/arrows_right"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/grey7"/>
+
+            <LinearLayout
+                android:id="@+id/ll_my_like"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:paddingTop="12dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/my_like"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_weight="1"
+                    android:text="我赞过的"
                     android:textColor="@color/main_text"
                     android:textSize="16sp"/>
 
@@ -294,6 +333,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_history"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -330,6 +370,12 @@
                 android:layout_height="0.5dp"
                 android:background="@color/grey7"/>
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/padding_normal"
+                android:background="@color/grey2"/>
+
             <LinearLayout
                 android:id="@+id/left_msg"
                 android:layout_width="match_parent"
@@ -353,7 +399,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_normal"
                     android:layout_weight="1"
-                    android:text="我有建议"
+                    android:text="反馈"
                     android:textColor="@color/main_text"
                     android:textSize="16sp"/>
 
@@ -362,11 +408,6 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/arrows_right"/>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/padding_normal"
-                android:background="@color/grey2"/>
 
             <LinearLayout
                 android:id="@+id/ll_setting"

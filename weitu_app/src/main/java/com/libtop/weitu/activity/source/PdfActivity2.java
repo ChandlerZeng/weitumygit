@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
+import com.libtop.weitu.activity.main.subsubject.SelectSubjectFragment;
 import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
 import com.libtop.weitu.activity.source.Bean.DocResultBean;
@@ -118,6 +119,9 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
 
     private void includeClick()
     {
+        Bundle bundle = new Bundle();
+        bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        mContext.startActivity(bundle,ContentActivity.class);
     }
 
 
@@ -348,8 +352,7 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
     }
 
 
-    private void initView()
-    {
+    private void initView() {
         if (docResultBean.favorite == 1)
         {
             imgCollect.setImageResource(R.drawable.collect);

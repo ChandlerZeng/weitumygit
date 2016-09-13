@@ -67,7 +67,7 @@
                     android:textColor="@color/black"/>
 
                 <EditText
-                    android:id="@+id/et_theme_title"
+                    android:id="@+id/et_subject_title"
                     style="@style/login_input_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                     android:textColor="@color/black"/>
 
                 <EditText
-                    android:id="@+id/et_theme_desc"
+                    android:id="@+id/et_subject_desc"
                     style="@style/login_input_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:id="@+id/tv_sort"
+                    android:id="@+id/tv_subject_sort"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="请选择分类"

@@ -88,4 +88,16 @@
 
     <color name="user_name_green">#FF47885D</color>
 
+    <!--comment-->
+    <color name="comment_user_name">#47885D</color>
+    <color name="comment_title">#333333</color>
+    <color name="comment_subtitle">#999999</color>
+    <color name="comment_reply">#EFEFEF</color>
+    <color name="comment_reply_user">#86B085</color>
+    <color name="comment_more">#2AB5CC</color>
+    <color name="comment_send_text">#FFFFFF</color>
+    <color name="comment_send_button">#2DBE60</color>
+
+    <color name="bg_comment_inside">#efefef</color>
+
 </resources>
