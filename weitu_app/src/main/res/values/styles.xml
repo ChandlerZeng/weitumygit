@@ -1,5 +1,19 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 页面淡入淡出主题 -->
+    <style name="my_theme_style_fade" parent="@android:style/Theme.Holo.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/my_animation_activity_style_fade</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- 页面淡入淡出动画 -->
+    <style name="my_animation_activity_style_fade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/open_enter_anim</item>
+        <item name="android:activityOpenExitAnimation">@anim/open_exit_anim</item>
+        <item name="android:activityCloseEnterAnimation">@anim/close_enter_anim</item>
+        <item name="android:activityCloseExitAnimation">@anim/close_exit_anim</item>
+    </style>
+
     <style name="Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
