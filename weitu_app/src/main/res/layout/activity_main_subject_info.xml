@@ -18,6 +18,7 @@
         android:background="@color/searchBackgroud">
 
         <ImageView
+            android:id="@+id/img_subject_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/padding_normal"/>
@@ -40,7 +41,7 @@
             android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/tv_theme_info_title"
+            android:id="@+id/tv_subject_info_title"
             style="@style/login_input_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +70,7 @@
             android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/tv_theme_info_sort"
+            android:id="@+id/tv_subject_info_sort"
             style="@style/login_input_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +99,7 @@
             android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/tv_theme_info_desc"
+            android:id="@+id/tv_subject_info_desc"
             style="@style/login_input_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,7 +111,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_theme_info_watch"
+        android:id="@+id/tv_subject_info_watch"
         android:background="@color/green1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

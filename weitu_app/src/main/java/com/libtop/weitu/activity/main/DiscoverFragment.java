@@ -305,7 +305,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     }
 
     @Nullable
-    @OnClick({R.id.open_clazz, R.id.edit, R.id.banner, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
+    @OnClick({R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.open_clazz:
@@ -316,8 +316,6 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
                 break;
             case R.id.edit:
                 mContext.startActivity(null, SearchActivity.class);
-                break;
-            case R.id.banner:
                 break;
             case R.id.classify:
                 Bundle bundle2 = new Bundle();

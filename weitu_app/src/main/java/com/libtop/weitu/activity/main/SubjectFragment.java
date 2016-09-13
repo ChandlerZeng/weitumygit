@@ -33,7 +33,7 @@ import okhttp3.Call;
 /**
  * Created by LianTu on 2016-9-6.
  */
-public class ThemeFragment extends BaseFragment
+public class SubjectFragment extends BaseFragment
 {
 
     @Bind(R.id.gv_main_theme)
@@ -47,7 +47,7 @@ public class ThemeFragment extends BaseFragment
     @Override
     protected int getLayoutId()
     {
-        return R.layout.fragment_main_theme;
+        return R.layout.fragment_main_subject;
     }
 
 
@@ -78,7 +78,7 @@ public class ThemeFragment extends BaseFragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 DisplayDto dpDto = (DisplayDto) parent.getItemAtPosition(position);
-                Intent intent = new Intent(mContext, ThemeDetailActivity.class);
+                Intent intent = new Intent(mContext, SubjectDetailActivity.class);
                 intent.putExtra("cover",dpDto.cover);
                 startActivity(intent);
             }
@@ -132,6 +132,7 @@ public class ThemeFragment extends BaseFragment
         public void convert(ViewHolderHelper helper, DisplayDto displayDto, int position)
         {
             ImageView themeCover = helper.getView(R.id.img_item_theme);
+            ImageView newCover = helper.getView(R.id.img_item_theme_new);
             Picasso.with(context).load(displayDto.cover).fit().into(themeCover);
 
             helper.setText(R.id.tv_item_theme, displayDto.title);
@@ -153,7 +154,7 @@ public class ThemeFragment extends BaseFragment
 
     private void newThemeClick()
     {
-        Intent intent = new Intent(mContext, NewThemeActivity.class);
+        Intent intent = new Intent(mContext, NewSubjectActivity.class);
         mContext.startActivity(intent);
     }
 }

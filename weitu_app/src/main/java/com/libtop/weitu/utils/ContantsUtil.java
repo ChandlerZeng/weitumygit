@@ -30,17 +30,17 @@ public class ContantsUtil
     public static final String IS_DEVELOPING = "功能正在开发中,敬请期待...";
 
     //搜索库 HOST_ADDON
-//    public static final String HOST = "http://channel-wt.yuntu.io";//现网环境
-//    public static final String UHOST = "http://channel-pp.yuntu.io";//现网环境
-//    public static final String HOST_ADDON = "http://www.yuntu.io/";//现网环境
-//    public static final String AVATARHOST = "http://avatar.yuntu.io";//现网环境
-//    public static final String IMGHOST2 = "http://image.yuntu.io/cover";//现网环境
+    public static final String HOST = "http://channel-wt.yuntu.io";//现网环境
+    public static final String UHOST = "http://channel-pp.yuntu.io";//现网环境
+    public static final String HOST_ADDON = "http://www.yuntu.io/";//现网环境
+    public static final String AVATARHOST = "http://avatar.yuntu.io";//现网环境
+    public static final String IMGHOST2 = "http://image.yuntu.io/cover";//现网环境
 
-        public static final String HOST = "http://weitu.bookm.cn";//演示环境
-        public static final String HOST_ADDON = "http://www.bookm.cn";//演示环境
-        public static final String UHOST = "http://weitu.bookm.cn";//演示环境
-        public static final String AVATARHOST = "http://avatar.bookm.cn";//演示环境
-        public static final String IMGHOST2="http://image.bookm.cn/cover";//演示环境
+//        public static final String HOST = "http://weitu.bookm.cn";//演示环境
+//        public static final String HOST_ADDON = "http://www.bookm.cn";//演示环境
+//        public static final String UHOST = "http://weitu.bookm.cn";//演示环境
+//        public static final String AVATARHOST = "http://avatar.bookm.cn";//演示环境
+//        public static final String IMGHOST2="http://image.bookm.cn/cover";//演示环境
 
     //    public static final String HOST_ADDON = "http://www.bookus.cn/";//测试环境
     //    public static final String HOST = "http://weitu.bookus.cn";//测试网环境

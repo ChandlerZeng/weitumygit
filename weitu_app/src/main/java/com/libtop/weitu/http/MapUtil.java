@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -24,5 +25,15 @@ public class MapUtil
         lists.addAll(Arrays.asList(methods));
         lists.add(requestJson);
         return lists.toArray(new String[3]);
+    }
+
+    public static Map<String,String> mapObject2String(Map<String, Object> map)
+    {
+        Map<String,String> map1 = new HashMap<>();
+        for (String key : map.keySet()){
+            Object object = map.get(key);
+            map1.put(key,String.valueOf(object));
+        }
+        return  map1;
     }
 }

@@ -224,13 +224,19 @@
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <!-- 新建主题视图 -->
-        <activity android:name="com.libtop.weitu.activity.main.NewThemeActivity"/>
+        <activity android:name=".activity.main.NewSubjectActivity"/>
 
         <!-- 主题详情视图 -->
-        <activity android:name="com.libtop.weitu.activity.main.ThemeDetailActivity"/>
+        <activity android:name=".activity.main.SubjectDetailActivity"/>
 
         <!-- 主题信息视图 -->
-        <activity android:name="com.libtop.weitu.activity.main.ThemeInfoActivity"/>
+        <activity android:name=".activity.main.SubjectInfoActivity"/>
+
+        <!-- 编辑主题视图 -->
+        <activity android:name=".activity.main.EditSubjectActivity"/>
+
+        <!-- 我赞过的视图 -->
+        <activity android:name=".activity.main.MyLikeActivity"/>
 
 
         <!-- ShareSdk 需要注册的 Activity -->

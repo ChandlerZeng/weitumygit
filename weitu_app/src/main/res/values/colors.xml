@@ -81,5 +81,7 @@
     <color name="rank_red">#FF6064</color>
     <color name="rank_red_pressed">#CF6064</color>
 
+    <color name="bg_comment_inside">#efefef</color>
+
 
 </resources>
