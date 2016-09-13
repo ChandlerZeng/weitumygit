@@ -58,6 +58,11 @@
     <dimen name="scheduleview_node_normal_radius">0.1dp</dimen>
     <dimen name="scheduleview_node_bigger_radius">6dp</dimen>
 
+    <!-- 与PagingListView/PagingGridView相关 -->
+    <dimen name="loading_view_progress_size">50dp</dimen>
+    <dimen name="loading_view_margin_layout">10dp</dimen>
+    <dimen name="loading_view_margin_right">5dp</dimen>
+
     <dimen name="list_item_height_default">30dp</dimen>
     <dimen name="text_fontsize_normal">16sp</dimen>
     <dimen name="back_btn_size">44dp</dimen>

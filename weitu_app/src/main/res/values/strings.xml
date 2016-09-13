@@ -132,4 +132,7 @@
     <string name="empty_data_and_touch_retry">暂无数据&#160;&#160;点击屏幕可重新获取</string>
     <string name="empty_data_prompt">空空如也</string>
 
+    <!-- 与PagingListView/PagingGridView相关 -->
+    <string name="in_loading">加载中&#8230;</string>
+
 </resources>
