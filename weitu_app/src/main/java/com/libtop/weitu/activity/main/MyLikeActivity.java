@@ -31,6 +31,8 @@ import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +76,7 @@ public class MyLikeActivity extends BaseActivity
         HashMap<String, Object> params = new HashMap<>();
         params.put("uid", mPreference.getString(Preference.uid));
         params.put("method", "footprint.query");
+        JSONObject jsonObject = new JSONObject();
         HttpRequest.loadWithMap(params).execute(new StringCallback()
         {
             @Override
@@ -101,8 +104,10 @@ public class MyLikeActivity extends BaseActivity
 
     private void initView()
     {
+        boolean isComment = getIntent().getBooleanExtra("isComment",false);
         title.setText("我赞过的");
-
+        if (isComment)
+            title.setText("我的评论");
         myLikeAdapter = new MyLikeAdapter(mContext);
         lvMyLike.setAdapter(myLikeAdapter);
         lvMyLike.setOnItemClickListener(new AdapterView.OnItemClickListener()

@@ -69,6 +69,8 @@ public class SubjectDetailActivity extends BaseActivity
 
     private HeaderViewHolder headerViewHolder;
 
+    private String coverString;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,16 +90,19 @@ public class SubjectDetailActivity extends BaseActivity
         swipeRefreshLayout.setProgressViewOffset(true,50,100);
         swipeRefreshLayout.setEnabled(false);
 
-        String cover = getIntent().getStringExtra("cover");
-        if (!TextUtils.isEmpty(cover)){
-            Picasso.with(mContext).load(cover).fit().into(pullZoomListView.getHeaderImageView());
+        coverString = getIntent().getStringExtra("cover");
+        if (!TextUtils.isEmpty(coverString)){
+            Picasso.with(mContext).load(coverString).fit().into(pullZoomListView.getHeaderImageView());
         }
 
         pullZoomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                startByType(mData.get(position).type, position);
+                if (position>1){
+                    ResultBean resultBean = (ResultBean) arg0.getAdapter().getItem(position);
+                    startByType(resultBean.type, resultBean);
+                }
             }
         });
         pullZoomListView.setAdapter(rankAdapter);
@@ -170,57 +175,57 @@ public class SubjectDetailActivity extends BaseActivity
 
     }
 
-    private void startByType(int type, int position)
+    private void startByType(int type, ResultBean resultBean)
     {
         switch (type)
         {
             case BOOK:
-                openBook(position);
+                openBook(resultBean);
                 break;
             case VIDEO:
-                openVideo(position);
+                openVideo(resultBean);
                 break;
             case AUDIO:
-                openAudio(position);
+                openAudio(resultBean);
                 break;
             case DOC:
-                openDoc(position);
+                openDoc(resultBean);
                 break;
             case PHOTO:
-                openPhoto(position);
+                openPhoto(resultBean);
                 break;
         }
     }
 
-    private void openAudio(int position)
+    private void openAudio(ResultBean resultBean)
     {
         SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
-        result.cover = mData.get(position).target.cover;
+        result.id = resultBean.target.id;
+        result.cover = resultBean.target.cover;
         Intent intent = new Intent(mContext, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
 
 
-    private void openVideo(int position)
+    private void openVideo(ResultBean resultBean)
     {
         SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
+        result.id = resultBean.target.id;
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
     }
 
 
-    private void openBook(int position)
+    private void openBook(ResultBean resultBean)
     {
         Bundle bundle = new Bundle();
-        bundle.putString("name", mData.get(position).target.title);
-        bundle.putString("cover", mData.get(position).target.cover);
-        bundle.putString("auth", mData.get(position).target.author);
-        bundle.putString("isbn", mData.get(position).target.isbn);
-        bundle.putString("publisher", mData.get(position).target.publisher);
+        bundle.putString("name", resultBean.target.title);
+        bundle.putString("cover", resultBean.target.cover);
+        bundle.putString("auth", resultBean.target.author);
+        bundle.putString("isbn", resultBean.target.isbn);
+        bundle.putString("publisher", resultBean.target.publisher);
         bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
         bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
@@ -229,20 +234,20 @@ public class SubjectDetailActivity extends BaseActivity
     }
 
 
-    private void openPhoto(int position)
+    private void openPhoto(ResultBean resultBean)
     {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
-        bundle.putString("id", mData.get(position).target.id);
+        bundle.putString("id", resultBean.target.id);
         mContext.startActivity(bundle, DynamicCardActivity.class);
     }
 
 
-    private void openDoc(int position)
+    private void openDoc(ResultBean resultBean)
     {
         Intent intent = new Intent();
         intent.putExtra("url", "");
-        intent.putExtra("doc_id", mData.get(position).target.id);
+        intent.putExtra("doc_id", resultBean.target.id);
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
         mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
@@ -344,6 +349,7 @@ public class SubjectDetailActivity extends BaseActivity
     private void titleClick()
     {
         Intent intent = new Intent(mContext,SubjectInfoActivity.class);
+        intent.putExtra("cover",coverString);
         startActivity(intent);
     }
 }

@@ -242,7 +242,11 @@ public class AllCollectFragment extends NotifyFragment
         }
         map.put("method", "favorite.query");
         String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi().getCollect(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<CollectBean>>()
+        subscription = WeituNetwork.getWeituApi()
+                .getCollect(arrays[0], arrays[1], arrays[2])
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<CollectBean>>()
         {
             @Override
             public void onCompleted()
