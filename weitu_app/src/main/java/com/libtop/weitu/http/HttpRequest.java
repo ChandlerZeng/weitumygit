@@ -64,7 +64,7 @@ public class HttpRequest
     }
 
     public static RequestCall newLoad(String url,Map<String,Object> map){
-        return OkHttpUtils.post().url(url).params(MapUtil.mapObject2String(map)).build();
+        return OkHttpUtils.get().url(url).params(MapUtil.mapObject2String(map)).build();
     }
 
 

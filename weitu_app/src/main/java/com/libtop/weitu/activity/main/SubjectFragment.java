@@ -64,7 +64,7 @@ public class SubjectFragment extends BaseFragment
     {
         super.onCreation(root);
         initView();
-        getThemeData();
+        getSubjectData();
     }
 
 
@@ -86,7 +86,7 @@ public class SubjectFragment extends BaseFragment
     }
 
 
-    private void getThemeData()
+    private void getSubjectData()
     {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();

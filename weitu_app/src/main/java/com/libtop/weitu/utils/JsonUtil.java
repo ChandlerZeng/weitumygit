@@ -24,6 +24,7 @@ import java.util.Map;
 public class JsonUtil
 {
 
+    private static final String TAG = "JsonUtil.class";
     private static Gson gson = null;
     private static com.google.gson.JsonParser parser = null;
 
@@ -43,6 +44,56 @@ public class JsonUtil
 
         gson = builder.disableHtmlEscaping().create();
         parser = new com.google.gson.JsonParser();
+    }
+
+    /**
+     * 将JSON数据转换为实体类对象
+     *
+     * @param jsonObject 原始JSONObject对象
+     * @param name       待转换的对象对应的JSONObject键名
+     * @param clazz      实体类的类名.需为继承 Bean 的类
+     * @return T 实体类对象
+     */
+    public static <T> T readBean(JSONObject jsonObject, String name, Class<T> clazz)
+    {
+        String json = null;
+        try
+        {
+            json = jsonObject.getJSONObject(name).toString();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            LogUtil.d(TAG, "readBean:" + e.toString());
+            return null;
+        }
+
+        return fromJson(json,clazz);
+    }
+
+    /**
+     * 将JSON数据转换为实体类，以实体类对象数组的形式返回
+     *
+     * @param jsonObject 原始JSONObject对象
+     * @param name       待转换的数组对象对应的JSONObject键名
+     * @param clazz      实体类的类名.需为继承 Bean 的类
+     * @return ArrayList&lt;T&gt; 实体类对象数组
+     */
+    public static <T> T readBeanArray(JSONObject jsonObject, String name, Class<T> clazz)
+    {
+        String array = null;
+        try
+        {
+            array = jsonObject.getJSONArray(name).toString();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            LogUtil.d(TAG, "readBeanArray:" + e.toString());
+            return null;
+        }
+
+        return fromJson(array, new TypeToken<T>(){}.getType());
     }
 
     public static String toJson(Object object)

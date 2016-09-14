@@ -161,7 +161,8 @@ public class UserCenterFragment extends BaseFragment
                 mContext.startActivity(bundle1, ContentActivity.class);
                 break;
             case R.id.comment:
-                Intent intent = new Intent(mContext, MyCommentActivity.class);
+                Intent intent = new Intent(mContext, MyLikeActivity.class);
+                intent.putExtra("isComment",true);
                 startActivity(intent);
                 break;
             case R.id.about_us:

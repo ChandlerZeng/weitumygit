@@ -112,7 +112,8 @@
 
     <TextView
         android:id="@+id/tv_subject_info_watch"
-        android:background="@color/green1"
+        android:background="@drawable/shape_bg_subject_follow"
+        android:textColor="@color/newGreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_normal"
