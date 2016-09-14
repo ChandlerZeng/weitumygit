@@ -128,7 +128,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                         @Override
                         public void onClick()
                         {
-                            deleteComment(cid,commentsList.get(position));
+                            deleteComment(cid, commentsList.get(position - 1));
                         }
                     }, null);
                 }
@@ -437,7 +437,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             showToast("删除成功");
-                            commentAdapter.removeItem(comments);
+                            commentsList.remove(comments);
+                            commentAdapter.notifyDataSetChanged();
                             dismissLoading();
                         }
                     }
@@ -509,6 +510,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             }
         }
     }
+
+    @Override
+    public void onReplyItemDeleted(View v, int position, ReplyBean replyBean) {
+
+    }
+
     private void likeClicked(String cid){
         String api = "resource/comment/praise";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)

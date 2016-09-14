@@ -153,7 +153,11 @@ public class CommentAdapter extends CommonAdapter<Comments>
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    onReplyItemClickListener.onReplyItemTouch(view, position, object.replys.get(position));
+                    if(object.user.uid.equals("1")){
+                        onReplyItemClickListener.onReplyItemDeleted(view,position,object.replys.get(position));
+                    }else {
+                        onReplyItemClickListener.onReplyItemTouch(view, position, object.replys.get(position));
+                    }
                 }
             });
 
@@ -191,6 +195,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
     public interface OnReplyItemClickListener
     {
         void onReplyItemTouch(View v, int position,ReplyBean replyBean);
+        void onReplyItemDeleted(View v,int position,ReplyBean replyBean);
     }
 
     public interface OnLikeClickListener
@@ -297,11 +302,6 @@ public class CommentAdapter extends CommonAdapter<Comments>
                 spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), userName.length() + reply.length(), userName.length() + reply.length() + replyUserName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             return spannableString;
         }
-    }
-
-    public void removeItem(Comments comment){
-        removeItem(comment);
-        notifyDataSetChanged();
     }
 
     public void removeSubItem(ReplyBean replyBean){
