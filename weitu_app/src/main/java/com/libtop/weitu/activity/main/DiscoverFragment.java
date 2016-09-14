@@ -42,8 +42,12 @@ import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.test.Resource;
+import com.libtop.weitu.test.Subject;
+import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.gridview.FixedGridView;
@@ -111,8 +115,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     private ArrayList<Page> pageViews;
     private List<DocBean> bList = new ArrayList<DocBean>();
 
-    private List<BookDto> bookDtos=new ArrayList<BookDto>();
-    private List<DisplayDto> displayDtoList=new ArrayList<DisplayDto>();
+    private List<Resource> reourceList=new ArrayList<>();
+    private List<Subject> subjectList=new ArrayList<>();
     private List<ImageSliderDto> slideList =new ArrayList<ImageSliderDto>();
 
     private CompositeSubscription _subscriptions = new CompositeSubscription();
@@ -140,31 +144,31 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     private void initLoad() {
         loadSubjectRecommand();
-        loadSubjectFile();
+        loadResourceFile();
         requestImageSlider();
         swipeRefreshLayout.setRefreshing(false);
     }
 
     private void initView() {
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        moreSubjectAdapter = new MoreSubjectAdapter(mContext, displayDtoList);
+        moreSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
         mGrid.setAdapter(moreSubjectAdapter);
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                DocBean bean = bList.get(position);
 //                openBook(bean.title,bean.cover,bean.author,bean.isbn,bean.publisher);
-                DisplayDto dto = displayDtoList.get(position);
-                openPhoto(dto.id);
+                Subject subject = subjectList.get(position);
+//                openPhoto(subject.sid);
             }
         });
-        subjectFileAdapter = new SubjectFileAdapter(mContext,bookDtos);
+        subjectFileAdapter = new SubjectFileAdapter(mContext,reourceList);
         changeListView.setAdapter(subjectFileAdapter);
         changeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BookDto bookDto = bookDtos.get(position);
-                openBook(bookDto.title, bookDto.cover, bookDto.author, bookDto.isbn, bookDto.publisher);
+                Resource resource = reourceList.get(position);
+//                openBook(bookDto.title, bookDto.cover, bookDto.author, bookDto.isbn, bookDto.publisher);
             }
         });
         mScroll.smoothScrollTo(0, 0);
@@ -446,7 +450,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
 
     private void loadSubjectRecommand() {
-        requestImages();
+        requestSubject();
 //        requestBooks();
     }
 
@@ -492,17 +496,14 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         }
 //        moreSubjectAdapter.setData(bList);
     }
-    private void requestImages()
+    private void requestSubject()
     {
-        List<DisplayDto> displayDtoList1= (List<DisplayDto>) mCache.getAsObject("displayDtos");
-        if(displayDtoList1!=null&&!displayDtoList1.isEmpty()){
-            handleImageResult(displayDtoList1);
+        List<Subject> subjectList= (List<Subject>) mCache.getAsObject("subjectList");
+        if(subjectList!=null&&!subjectList.isEmpty()){
+            handleSubjectResult(subjectList);
         }
-        int page = 1;
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "imageAlbum.list");
-        params.put("page", page);
-        HttpRequest.loadWithMap(params).execute(new StringCallback() {
+        String api = "/find/subject/recommend/top";
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
             }
@@ -512,10 +513,13 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
                     try {
-                        List<DisplayDto> listDisplayDtos = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>() {
+                        Gson gson = new Gson();
+                        SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
-                        mCache.put("displayDtos", (Serializable) listDisplayDtos);
-                        handleImageResult(listDisplayDtos);
+                        List<Subject> list = new ArrayList<>();
+                        list = subjectResource.subjects;
+                        mCache.put("subjectList", (Serializable) list);
+                        handleSubjectResult(list);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -524,63 +528,56 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         });
     }
 
-    private void handleImageResult(List<DisplayDto> displayDtos) {
-        displayDtoList.clear();
-        displayDtoList = displayDtos;
-        if (displayDtoList.isEmpty())
+    private void handleSubjectResult(List<Subject> subList) {
+        subjectList.clear();
+        subjectList = subList;
+        if (subjectList.isEmpty())
             return;
-        if (displayDtoList.size()>4){
-            displayDtoList = displayDtoList.subList(0,4);
+        if (subjectList.size()>4){
+            subjectList = subjectList.subList(0,4);
         }
-        moreSubjectAdapter.setData(displayDtoList);
+        moreSubjectAdapter.setData(subjectList);
     }
 
-    private void loadSubjectFile(){
-        final List<BookDto> bookDtos= (List<BookDto>) mCache.getAsObject("bookDtos");
-        if(bookDtos!=null&&!bookDtos.isEmpty()){
-            handleSubjectFile(bookDtos);
+    private void loadResourceFile(){
+        List<Resource> resourceList= (List<Resource>) mCache.getAsObject("resourceList");
+        if(resourceList!=null&&!resourceList.isEmpty()){
+            handleResourceFile(resourceList);
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "book.listRecommend");
-        params.put("lid", mPreference.getString(Preference.SchoolCode));
-        String[] arrays = MapUtil.map2Parameter(params);
-        _subscriptions.add(
-                WeituNetwork.getWeituApi()
-                        .getBookDto(arrays[0], arrays[1], arrays[2])
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<List<BookDto>>() {
-                            @Override
-                            public void onCompleted() {
+        String api = "/find/resource/recommend/top";
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+            }
 
-                            }
 
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(List<BookDto> bookDtos) {
-                                mCache.put("bookDtos", (Serializable) bookDtos);
-                                handleSubjectFile(bookDtos);
-                            }
-                        })
-        );
+            @Override
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    try {
+                        Gson gson = new Gson();
+                        SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
+                        }.getType());
+                        List<Resource> list = new ArrayList<>();
+                        list = subjectResource.resources;
+                        mCache.put("resourceList", (Serializable) list);
+                        handleResourceFile(list);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
-    private void handleSubjectFile(List<BookDto> booklists) {
-        if (booklists.isEmpty()) {
-            setNewsGone();
+    private void handleResourceFile(List<Resource> resources) {
+        reourceList.clear();
+        reourceList = resources;
+        if (reourceList.isEmpty())
             return;
+        if (reourceList.size() > 2) {
+            reourceList = reourceList.subList(0, 2);
         }
-        setNewsVisible();
-        bookDtos.clear();
-        bookDtos = booklists;
-        if (bookDtos.size()>2){
-            bookDtos = bookDtos.subList(0,2);
-        }
-        subjectFileAdapter.setData(bookDtos);
+        subjectFileAdapter.setData(reourceList);
     }
-
 }

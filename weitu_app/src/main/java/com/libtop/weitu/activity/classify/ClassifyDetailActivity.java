@@ -41,6 +41,7 @@ import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.test.HttpRequestTest;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -79,7 +80,8 @@ public class ClassifyDetailActivity extends BaseActivity
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
 
-    private String method;
+    private String type = "subject";
+    private String api = "/category/subject/list";
     private String mAction;
     private int mCurentPage = 1;
     private ClassifyDetailAdapter mAdapter;
@@ -112,7 +114,8 @@ public class ClassifyDetailActivity extends BaseActivity
         subresAdapter = new ClassifySubDetailAdapter(mContext,categoryResultList);
         initPopView();
         initListView();
-        getData();
+//        getData();
+        getFakeData();
     }
 
 
@@ -144,7 +147,7 @@ public class ClassifyDetailActivity extends BaseActivity
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startByType(mData.get(position - 1).entityType, position - 1);
+//                startByType(mData.get(position - 1).entityType, position - 1);
             }
         });
         mCurentPage = 1;
@@ -327,8 +330,8 @@ public class ClassifyDetailActivity extends BaseActivity
     {
         //  http://192.168.0.9/category/resource/list
         Map<String, Object> map = new HashMap<>();
-        map.put("method", method);
-        HttpRequestTest.loadWithMapPublic(map).execute(new StringCallback() {
+        map.put("type", type);
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
             }
@@ -343,10 +346,9 @@ public class ClassifyDetailActivity extends BaseActivity
                         }.getType());
                         categoryResultList.clear();
 
-                        if (method.equals("category/resource/list")){
+                        if (api.equals("/category/resource/list")) {
                             categoryResultList.addAll(data.resources);
-                        }
-                        else {
+                        } else {
                             categoryResultList.addAll(data.subjects);
                         }
                         subresAdapter.setNewData(categoryResultList);
@@ -407,11 +409,11 @@ public class ClassifyDetailActivity extends BaseActivity
     private void radioButtonClicked(int checkedId){
         switch (checkedId){
             case R.id.subject:
-                method = "category/subject/list";
+                api = "/category/subject/list";
                 getFakeData();
                 break;
             case R.id.resource:
-                method = "category/resource/list";
+                api = "/category/resource/list";
                 getFakeData();
                 break;
         }

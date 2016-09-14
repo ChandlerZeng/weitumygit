@@ -22,7 +22,7 @@
     <LinearLayout
         android:layout_marginTop="@dimen/padding_left"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:orientation="horizontal">
         <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
             android:id="@+id/classify"
@@ -35,8 +35,8 @@
             android:textSize="18sp"
             android:textColor="@color/white"
             android:gravity="center_vertical"
-            android:drawableLeft="@drawable/main_tag_unchecked_clazz"
-            android:drawablePadding="@dimen/padding_small"
+            android:drawableLeft="@drawable/find_icon_classify"
+            android:drawablePadding="@dimen/padding_normal"
             android:clickable="true"
             android:background="@drawable/selector_find_classify"/>
         <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
@@ -50,8 +50,8 @@
             android:textSize="18sp"
             android:textColor="@color/white"
             android:gravity="center_vertical"
-            android:drawableLeft="@drawable/main_tag_unchecked_clazz"
-            android:drawablePadding="@dimen/padding_small"
+            android:drawableLeft="@drawable/find_icon_rank"
+            android:drawablePadding="@dimen/padding_normal"
             android:clickable="true"
             android:background="@drawable/selector_find_rank"/>
     </LinearLayout>

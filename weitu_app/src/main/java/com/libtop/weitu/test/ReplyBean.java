@@ -2,10 +2,12 @@ package com.libtop.weitu.test;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
+
 /**
  * Created by zeng on 2016/9/12.
  */
-public class ReplyBean {
+public class ReplyBean implements Serializable {
 
     /**
      * id : 1
@@ -18,10 +20,10 @@ public class ReplyBean {
      * reply_user : {"uid":2,"mobile":13800000002,"name":"小旭","logo":"http://imgsrc.baidu.com/forum/w%3D580/sign=7e774f6f4710b912bfc1f6f6f3fcfcb5/aab04e90f603738d1a1104f6b31bb051f919ec38.jpg","sex":0}
      */
 
-    public int id;
-    public int cid;
-    public int uid;
-    public int reply_uid;
+    public String id;
+    public String cid;
+    public String uid;
+    public String reply_uid;
     public String content;
     public long t_create;
     /**

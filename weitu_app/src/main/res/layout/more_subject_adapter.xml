@@ -20,9 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:gravity="center"
+        android:gravity="start"
         android:lines="2"
         android:padding="@dimen/padding_small"
         android:textColor="#333333"
-        android:textSize="14sp"/>
+        android:textSize="13sp"/>
 </LinearLayout>

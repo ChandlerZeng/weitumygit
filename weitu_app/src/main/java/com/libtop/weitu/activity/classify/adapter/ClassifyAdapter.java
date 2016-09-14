@@ -38,7 +38,7 @@ public class ClassifyAdapter extends BaseAdapter<ClassifyBean>
     {
         ViewHolder holder = (ViewHolder) convertView.getTag();
         holder.classifyText.setText(classifyBean.name);
-        holder.resText.setText("共" + classifyBean.count + "种资源");
+//        holder.resText.setText("共" + classifyBean.count + "种资源");
     }
 
 

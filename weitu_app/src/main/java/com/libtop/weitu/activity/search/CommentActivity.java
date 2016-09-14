@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -116,23 +117,42 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             }
         });
 
+        xListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                if(commentsList.get(position-1).uid.equals("1")){
+                    String title = "您确定要删除？";
+                    final AlertDialogUtil dialog = new AlertDialogUtil();
+                    dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+                    {
+                        @Override
+                        public void onClick()
+                        {
+                            deleteComment(cid, commentsList.get(position - 1));
+                        }
+                    }, null);
+                }
+                return false;
+            }
+        });
+
         xListView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
                 mCurPage = 1;
-                getFakeData();
+                getCommentList();
             }
 
             @Override
             public void onLoadMore() {
                 if (hasData) {
-                    getFakeData();
+                    getCommentList();
                 }
             }
         });
         title.setText("评论");
 //        getData(); TODO
-        getFakeData();
+        getCommentList();
         commentAdapter = new CommentAdapter(this, commentsList, this,this,this,this);
         xListView.setAdapter(commentAdapter);
     }
@@ -190,13 +210,13 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                 onBackPressed();
                 break;
             case R.id.commit:
-                upload(v);
+                sendComment(v);
                 break;
         }
     }
 
 
-    private void upload(View v)
+    private void sendComment(View v)
     {
         String str = editText.getText().toString().trim();
         if (str == null || str.length() == 0)
@@ -213,17 +233,16 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         }
         else if (isReply)
         {
-//            putReply(str);
             String cid = map.get("cid").toString();
-            putReply2(str,cid);
+            putReply(str,cid);
         }
         else
         {
-//            putComment(str);
-            putComment2(str);
+            putComment(str);
         }
+        xListView.setSelection(1);
     }
-    private void putReply2(String content,String cid) //TODO
+    private void putReply(String content,String cid) //TODO
     {
         showLoding();
         String api = "resource/comment/reply";
@@ -231,70 +250,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         String rid = 1+"";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
                 .addParams("uid",uid)
-                .addParams("rid",rid)
-                .addParams("cid",cid)
-                .addParams("content", content)
-                .build()
-                .execute(new StringCallback(){
-            @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-
-            @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
-                    //   showToast("没有相关数据");
-                    getFakeData();
-                    return;
-                } else {
-                    dismissLoading();
-                }
-            }
-        });
-    }
-
-    private void putReply(String content)
-    {
-        showLoding();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("tid", commentNeedDto.tid);
-        params.put("cid", cid);
-        params.put("uid", mPreference.getString(Preference.uid));
-        params.put("type", commentNeedDto.type);
-        params.put("content", content);
-        params.put("method", "comment.save");
-        HttpRequest.loadWithMap(params).execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-
-            @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
-                    //   showToast("没有相关数据");
-                    getData();
-                    return;
-                } else {
-                    dismissLoading();
-                }
-            }
-        });
-    }
-
-    private void putComment2(String content)
-    {
-        //  http://115.28.189.104/resource/comment/add
-        showLoding();
-        String api = "resource/comment/add";
-        String uid = 1+"";
-        String rid = 1+"";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .addParams("uid", uid)
                 .addParams("rid", rid)
+                .addParams("cid", cid)
                 .addParams("content", content)
                 .build()
                 .execute(new StringCallback() {
@@ -308,7 +265,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
-                            getFakeData();
+                            getCommentList();
                             return;
                         } else {
                             dismissLoading();
@@ -316,64 +273,46 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                     }
                 });
     }
+
     private void putComment(String content)
     {
-        //        http://weitu.bookus.cn/comment/save.json?text={"uid":"565bea2c984ec06f56befda3","tid":"563c69b4984e338019914a66","type":1,"content":"我觉得很有意思哦",method":"comment.save"}
+        //  http://115.28.189.104/resource/comment/add
         showLoding();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("tid", commentNeedDto.tid);
-        params.put("uid", mPreference.getString(Preference.uid));
-        params.put("type", commentNeedDto.type);
-        params.put("content", content);
-        params.put("method", "comment.save");
-        HttpRequest.loadWithMap(params).execute(new StringCallback()
-        {
-            @Override
-            public void onError(Call call, Exception e, int id)
-            {
+        String api = "resource/comment/add";
+        Map<String, Object> map = new HashMap<>();
+        map.put("content",content);
+        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
+                .addParams("content", content)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
 
-            }
+                    }
 
 
-            @Override
-            public void onResponse(String json, int id)
-            {
-                if (!TextUtils.isEmpty(json))
-                {
-                    //   showToast("没有相关数据");
-                    getData();
-                    return;
-                }
-                else
-                {
-                    dismissLoading();
-                }
-            }
-        });
+                    @Override
+                    public void onResponse(String json, int id) {
+                        if (!TextUtils.isEmpty(json)) {
+                            dismissLoading();
+                            showToast("评论成功");
+                            try {
+                                Gson gson = new Gson();
+                                CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
+                                }.getType());
+                                if (data.comment != null) {
+                                    commentsList.add(0,data.comment);
+                                }
+                                commentAdapter.setData(commentsList);
+                                editText.setText("");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                });
     }
-
-
-    private Handler updataHandler = new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            super.handleMessage(msg);
-            switch (msg.what)
-            {
-                case 1:
-                    commentAdapter.setData(commentsList);
-                    commentAdapter.notifyDataSetChanged();
-                    editText.setText("");
-                    break;
-                case 2:
-                    getData();
-                    break;
-                default:
-                    break;
-            }
-
-        }
-    };
 
     @Override
     public void onReplyTouch(View v, int position) //TODO
@@ -382,7 +321,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         isReply = true;
         if (commentResult.content != null && !TextUtils.isEmpty(commentResult.content))
         {
-            int cid = commentResult.cid;
+            String cid = commentResult.cid;
             map.put("cid",cid);
             editText.requestFocus();
             String first = "回复";
@@ -399,49 +338,27 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         }
     }
 
-    /*@Override
-    public void onReplyTouch(View v, int position)
-    {
-        CommentResult commentResult = list.get(position);
-        isReply = true;
-        if (commentResult.content != null && !TextUtils.isEmpty(commentResult.content))
-        {
-            cid = commentResult.id;
-            editText.requestFocus();
-            String first = "回复";
-            SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.username);
-            editText.setText(spannableString);
-            editText.setSelection(spannableString.length());
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
-        }
-        else
-        {
-            cid = commentResult.id;
-            editText.requestFocus();
-        }
-    }*/
     private SpannableStringBuilder getGreenStrBuilder(String first, String append)
     {
         String builderAppend = append + " ";
         SpannableStringBuilder builder = new SpannableStringBuilder(first + builderAppend);
 
         ForegroundColorSpan greenSpan = new ForegroundColorSpan(Color.parseColor("#47885D"));
-        builder.setSpan(greenSpan, first.length(), first.length()+builderAppend.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(greenSpan, first.length(), first.length() + builderAppend.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return builder;
     }
-    private void getFakeData()
+    private void getCommentList()
     {
         //  http://192.168.0.9/resource/comment/list private
         //  http://115.28.189.104/resource/comment/list public
         showLoding();
         Map<String, Object> map = new HashMap<>();
-        String method = "resource/comment/list";
-        map.put("method", method);
+        String api = "/resource/comment/list";
         map.put("page", mCurPage);
-        HttpRequestTest.loadWithMapPublic(map).execute(new StringCallback() {
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                Log.e("CommentActivity", e.getMessage());
             }
 
 
@@ -479,7 +396,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         });
     }
 
-    private void deleteComment(String cid){
+    private void deleteReplyComment(String cid, final ReplyBean replyBean){
         showLoding();
         String api = "resource/comment/del";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
@@ -496,9 +413,32 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             showToast("删除成功");
-                            getFakeData();
-                            return;
-                        } else {
+                            commentAdapter.removeSubItem(replyBean);
+                            dismissLoading();
+                        }
+                    }
+                });
+    }
+
+    private void deleteComment(String cid, final Comments comments){
+        showLoding();
+        String api = "resource/comment/del";
+        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
+                .addParams("cid", cid)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+
+                    @Override
+                    public void onResponse(String json, int id) {
+                        if (!TextUtils.isEmpty(json)) {
+                            showToast("删除成功");
+                            commentsList.remove(comments);
+                            commentAdapter.notifyDataSetChanged();
                             dismissLoading();
                         }
                     }
@@ -509,10 +449,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
         showLoding();
         String api = "resource/comment/reply";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .addParams("uid", mPreference.getString(mPreference.uid))
                 .addParams("reply_uid",replyUid)
-                .addParams("rid", 1 + "")
-                .addParams("cid", cid)
                 .addParams("content", content)
                 .build()
                 .execute(new StringCallback(){
@@ -525,8 +462,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                     @Override
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
-                            getFakeData();
+                            showToast("回复评论成功");
+                            getCommentList();
                             return;
                         } else {
                             dismissLoading();
@@ -536,11 +473,11 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     }
 
     @Override
-    public void onReplyItemTouch(View v, int position,ReplyBean replyBean) {
+    public void onReplyItemTouch(View v, final int position, final ReplyBean replyBean) {
         String userUid = String.valueOf(replyBean.user.uid);
         final String cid =String.valueOf(replyBean.cid);
         String replyUid =String.valueOf(replyBean.reply_uid);
-        if(userUid.equals(mPreference.getString(Preference.uid))){
+        if(userUid.equals("1")){
             String title = "您确定要删除？";
             final AlertDialogUtil dialog = new AlertDialogUtil();
             dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
@@ -548,7 +485,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
                 @Override
                 public void onClick()
                 {
-                    deleteComment(cid);
+                    deleteReplyComment(cid, replyBean);
                 }
             }, null);
         }else{
@@ -573,6 +510,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
             }
         }
     }
+
+    @Override
+    public void onReplyItemDeleted(View v, int position, ReplyBean replyBean) {
+
+    }
+
     private void likeClicked(String cid){
         String api = "resource/comment/praise";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
@@ -640,8 +583,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnRe
     @Override
     public void onCommentTouch(View v, int position, Comments comment) {
         Bundle bundle = new Bundle();
-        bundle.putInt("cid",comment.cid);
-        startActivity(bundle, CommentDetailActivity.class.getClass());
+        bundle.putString("cid", comment.cid);
+        startActivity(bundle, CommentDetailActivity.class);
 
     }
+
 }
