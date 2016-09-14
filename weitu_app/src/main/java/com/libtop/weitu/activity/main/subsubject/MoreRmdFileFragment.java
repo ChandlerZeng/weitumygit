@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
@@ -20,13 +22,17 @@ import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.test.Resource;
+import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.widget.listview.XListView;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +59,7 @@ public class MoreRmdFileFragment extends ContentFragment {
     @Bind(R.id.rmd_file_list)
     XListView rmdFileList;
 
-    private List<BookDto> listBooks = new ArrayList<BookDto>();
+    private List<Resource> resourceList = new ArrayList<>();
     private SubjectFileAdapter mAdapter;
     private int mCurPage = 1;
     private boolean hasData = true;
@@ -61,7 +67,7 @@ public class MoreRmdFileFragment extends ContentFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new SubjectFileAdapter(mContext, listBooks);
+        mAdapter = new SubjectFileAdapter(mContext, resourceList);
     }
 
 
@@ -74,7 +80,7 @@ public class MoreRmdFileFragment extends ContentFragment {
     @Override
     public void onCreation(View root) {
         initView();
-        loadRmdBooks();
+        loadResourceFile();
     }
 
 
@@ -86,13 +92,13 @@ public class MoreRmdFileFragment extends ContentFragment {
             @Override
             public void onRefresh() {
                 mCurPage = 1;
-                loadRmdBooks();
+                loadResourceFile();
             }
 
             @Override
             public void onLoadMore() {
                 if (hasData) {
-                    loadRmdBooks();
+                    loadResourceFile();
                 }
             }
         });
@@ -120,74 +126,49 @@ public class MoreRmdFileFragment extends ContentFragment {
     @OnItemClick(value = R.id.rmd_file_list)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //显示图书详情
-        BookDto dto = listBooks.get(position - 1);
 
-        ContantsUtil.UPDATE_HISTORY = false;
-        Bundle bundle = new Bundle();
-        bundle.putString("name", dto.title);
-        bundle.putString("cover", dto.cover);
-        bundle.putString("auth", dto.author);
-        bundle.putString("isbn", dto.isbn);
-        bundle.putString("publisher", dto.publisher);
-        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
-        bundle.putBoolean("isFromMainPage", true);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        bundle.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
-        mContext.startActivity(bundle, ContentActivity.class);
     }
 
-
-    private void loadRmdBooks() {
-        showLoding();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("page", mCurPage);
-        params.put("method", "book.listRecommend");
-        params.put("lid", mPreference.getString(Preference.SchoolCode));
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+    private void loadResourceFile(){
+        String api = "/find/resource/recommend/list";
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                rmdFileList.stopRefresh();
             }
 
 
             @Override
             public void onResponse(String json, int id) {
-                dismissLoading();
-                rmdFileList.stopRefresh();
-                if (TextUtils.isEmpty(json)) {
-                    showToast("没有相关数据");
-                    return;
-                }
-                try {
-                    if (mCurPage == 1) {
-                        listBooks.clear();
+                if (!TextUtils.isEmpty(json)) {
+                    rmdFileList.stopRefresh();
+                    try {
+                        Gson gson = new Gson();
+                        SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
+                        }.getType());
+                        List<Resource> list = new ArrayList<>();
+                        list = subjectResource.resources;
+                        if(list.size()<10){
+                            hasData=false;
+                            rmdFileList.setPullLoadEnable(false);
+                        }else{
+                            hasData=true;
+                            rmdFileList.setPullLoadEnable(true);
+                        }
+                        handleResourceFile(list);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    JSONArray array = new JSONArray(json);
-                    for (int i = 0; i < array.length(); i++) {
-                        BookDto bean = new BookDto();
-                        bean.of(array.getJSONObject(i));
-                        bean.title.replaceAll("　　", "").trim();
-                        listBooks.add(bean);
-                    }
-                    if (array.length() < 10) {
-                        hasData = false;
-                        rmdFileList.setPullLoadEnable(false);
-                    } else {
-                        hasData = true;
-                        rmdFileList.setPullLoadEnable(true);
-                    }
-                    mCurPage++;
-                    mAdapter.setData(listBooks);
-                    mAdapter.notifyDataSetChanged();
-                    if (listBooks.size() == 0) {
-                        showToast("没有相关数据");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    showToast("Json数据解析错误");
                 }
             }
         });
+    }
+
+    private void handleResourceFile(List<Resource> resources) {
+        resourceList.clear();
+        resourceList = resources;
+        if (resourceList.isEmpty())
+            return;
+
+        mAdapter.setData(resourceList);
     }
 }

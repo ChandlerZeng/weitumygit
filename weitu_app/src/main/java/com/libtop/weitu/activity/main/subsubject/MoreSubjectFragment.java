@@ -18,9 +18,13 @@ import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.test.Subject;
+import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +52,7 @@ public class MoreSubjectFragment extends ContentFragment {
 
     private MoreSubjectAdapter moreSubjectAdapter;
     private List<DocBean> bList = new ArrayList<DocBean>();
-    private List<DisplayDto> displayDtoList = new ArrayList<DisplayDto>();
+    private List<Subject> subjectList = new ArrayList<>();
 
     private CompositeSubscription _subscriptions = new CompositeSubscription();
 
@@ -82,16 +86,16 @@ public class MoreSubjectFragment extends ContentFragment {
         subGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                DisplayDto dto = displayDtoList.get(position);
-                openPhoto(dto.id);
+                Subject subject = subjectList.get(position);
+//                openPhoto(subject.sid);
             }
         });
-        moreSubjectAdapter = new MoreSubjectAdapter(mContext,displayDtoList);
+        moreSubjectAdapter = new MoreSubjectAdapter(mContext,subjectList);
         subGridView.setAdapter(moreSubjectAdapter);
 
     }
     private void loadSubjectRecommand() {
-        requestImages();
+        requestSubject();
 //        requestBooks();
     }
 
@@ -129,14 +133,11 @@ public class MoreSubjectFragment extends ContentFragment {
             return;
 //        moreSubjectAdapter.setData(bList);
     }
-    private void requestImages()
+    private void requestSubject()
     {
         showLoding();
-        int page = 1;
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "imageAlbum.list");
-        params.put("page", page);
-        HttpRequest.loadWithMap(params).execute(new StringCallback() {
+        String api = "/find/subject/recommend/list";
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
             }
@@ -147,9 +148,11 @@ public class MoreSubjectFragment extends ContentFragment {
                 if (!TextUtils.isEmpty(json)) {
                     dismissLoading();
                     try {
-                        List<DisplayDto> listDisplayDtos = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>() {
+                        SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
-                        handleImageResult(listDisplayDtos);
+                        List<Subject> list = new ArrayList<>();
+                        list = subjectResource.subjects;
+                        handleSubjectResult(list);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -158,12 +161,12 @@ public class MoreSubjectFragment extends ContentFragment {
         });
     }
 
-    private void handleImageResult(List<DisplayDto> displayDtos) {
-        displayDtoList.clear();
-        displayDtoList = displayDtos;
-        if (displayDtoList.isEmpty())
+    private void handleSubjectResult(List<Subject> subList) {
+        subjectList.clear();
+        subjectList = subList;
+        if (subjectList.isEmpty())
             return;
-        moreSubjectAdapter.setData(displayDtoList);
+        moreSubjectAdapter.setData(subjectList);
     }
     private void openPhoto(String id) {
         Bundle bundle = new Bundle();

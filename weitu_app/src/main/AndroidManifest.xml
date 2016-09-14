@@ -368,7 +368,8 @@
             android:name="JPUSH_APPKEY"
             android:value="957a9fd2a8bdd8018297b63f" />
 
-        <activity android:name=".activity.comment.CommentDetailActivity"></activity>
+        <activity android:name=".activity.comment.CommentDetailActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
     </application>
 
 </manifest>

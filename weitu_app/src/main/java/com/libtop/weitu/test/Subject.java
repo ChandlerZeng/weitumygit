@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Subject implements CategoryResult{
 
-        public int sid;
+        public String sid;
         public String name;
         public String intro;
         public String cover;
@@ -32,6 +32,7 @@ public class Subject implements CategoryResult{
          */
 
         public UserBean user;
+        public boolean ischecked = false;
 
         public static class CategoryBean {
             public int id;
@@ -42,17 +43,4 @@ public class Subject implements CategoryResult{
                 return new Gson().fromJson(str, CategoryBean.class);
             }
         }
-
-        public static class UserBean {
-            public int uid;
-            public long mobile;
-            public String name;
-            public String logo;
-            public int sex;
-
-            public static UserBean objectFromData(String str) {
-
-                return new Gson().fromJson(str, UserBean.class);
-        }
-    }
 }

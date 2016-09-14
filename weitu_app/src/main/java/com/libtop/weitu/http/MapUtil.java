@@ -29,6 +29,8 @@ public class MapUtil
 
     public static Map<String,String> mapObject2String(Map<String, Object> map)
     {
+        if (map==null)
+            return null;
         Map<String,String> map1 = new HashMap<>();
         for (String key : map.keySet()){
             Object object = map.get(key);

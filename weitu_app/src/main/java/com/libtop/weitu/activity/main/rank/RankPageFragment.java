@@ -1,56 +1,30 @@
 package com.libtop.weitu.activity.main.rank;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.TypedValue;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentActivity;
-import com.libtop.weitu.activity.ContentFragment;
-import com.libtop.weitu.activity.main.adapter.AllHistoryAdapter;
-import com.libtop.weitu.activity.main.adapter.RankAdapter;
-import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
-import com.libtop.weitu.activity.main.clickHistory.ResultBean;
-import com.libtop.weitu.activity.search.BookDetailFragment;
-import com.libtop.weitu.activity.search.VideoPlayActivity2;
-import com.libtop.weitu.activity.search.dto.SearchResult;
-import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weitu.activity.source.AudioPlayActivity2;
-import com.libtop.weitu.activity.source.PdfActivity2;
-import com.libtop.weitu.activity.user.SwipeMenu.SwipeMenu;
-import com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuCreator;
-import com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuItem;
+import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuListView;
 import com.libtop.weitu.base.BaseFragment;
-import com.libtop.weitu.base.impl.NotifyFragment;
-import com.libtop.weitu.dao.ResultCodeDto;
-import com.libtop.weitu.eventbus.MessageEvent;
-import com.libtop.weitu.http.MapUtil;
-import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.tool.Preference;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.test.CategoryResult;
+import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.utils.ContantsUtil;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import okhttp3.Call;
 
 
 /**
@@ -65,13 +39,13 @@ public class RankPageFragment extends BaseFragment
     @Bind(R.id.null_txt)
     TextView mNullTxt;
 
-    private RankAdapter mAdapter;
-    private List<ResultBean> mData = new ArrayList<>();
+    private ClassifySubDetailAdapter mAdapter;
+    private List<CategoryResult> categoryResultList = new ArrayList<>();
 
     private final int ALL = 0;
     public static final int HOT_SUB = 0, HOT_RES = 1, NEWEST_SUB = 2, NEWEST_RES = 3;
     public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
-    private int type = 0;
+    private String type;
 
 
     @Override
@@ -79,8 +53,8 @@ public class RankPageFragment extends BaseFragment
     {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        type = bundle.getInt("type", 0);
-        mAdapter = new RankAdapter(mContext, mData);
+        type = bundle.getString("type", "subject");
+        mAdapter = new ClassifySubDetailAdapter(mContext, categoryResultList);
     }
 
 
@@ -113,7 +87,7 @@ public class RankPageFragment extends BaseFragment
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                startByType(mData.get(position).type, position);
+//                startByType(categoryResultList.get(position).type, position);
             }
         });
 //        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
@@ -121,8 +95,40 @@ public class RankPageFragment extends BaseFragment
 //        swipeRefreshLayout.setEnabled(false);
     }
 
-
     private void getData()
+    {
+        showLoding();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("type", type);
+        String api = "/find/rank/list";
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+            }
+
+
+            @Override
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    dismissLoading();
+                    Gson gson = new Gson();
+                    SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
+                    }.getType());
+                    categoryResultList.clear();
+                    if (type.equals("subject")) {
+                        categoryResultList.addAll(subjectResource.subjects);
+                    } else {
+                        categoryResultList.addAll(subjectResource.resources);
+                    }
+                    if (categoryResultList.isEmpty()) {
+                        hideAndSeek();
+                    }
+                    mAdapter.setNewData(categoryResultList);
+                }
+            }
+        });
+    }
+    /*private void getData()
     {
         showLoding();
 //        swipeRefreshLayout.setRefreshing(true);
@@ -166,14 +172,14 @@ public class RankPageFragment extends BaseFragment
         });
 
 
-    }
+    }*/
 
 
     private void startByType(int type, int position)
     {
         switch (type)
         {
-            case BOOK:
+            /*case BOOK:
                 openBook(position);
                 break;
             case VIDEO:
@@ -187,14 +193,14 @@ public class RankPageFragment extends BaseFragment
                 break;
             case PHOTO:
                 openPhoto(position);
-                break;
+                break;*/
         }
     }
 
 
 
 
-    private void openAudio(int position)
+    /*private void openAudio(int position)
     {
         SearchResult result = new SearchResult();
         result.id = mData.get(position).target.id;
@@ -248,11 +254,11 @@ public class RankPageFragment extends BaseFragment
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
         mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
-    }
+    }*/
 
     private void hideAndSeek()
     {
-        if (mData.size() == 0)
+        if (categoryResultList.size() == 0)
         {
             mNullTxt.setVisibility(View.VISIBLE);
         }

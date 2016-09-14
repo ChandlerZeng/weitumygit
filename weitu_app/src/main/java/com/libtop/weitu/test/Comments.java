@@ -1,14 +1,15 @@
 package com.libtop.weitu.test;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by zeng on 2016/9/12.
  */
-public class Comments {
-    public int cid;
-    public int uid;
-    public int rid;
+public class Comments implements Serializable{
+    public String cid;
+    public String uid;
+    public String rid;
     public String content;
     public int my_praise;
     public int count_praise;

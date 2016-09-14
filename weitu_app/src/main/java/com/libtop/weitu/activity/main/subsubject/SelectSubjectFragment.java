@@ -23,8 +23,13 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.test.Subject;
+import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.JsonUtil;
 import com.melnykov.fab.FloatingActionButton;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -63,7 +68,7 @@ public class SelectSubjectFragment extends ContentFragment {
     @Bind(R.id.select_sub_new_theme)
     FloatingActionButton newTheme;
 
-    private List<CollectBean> selectSubs = new ArrayList<CollectBean>();
+    private List<Subject> selectSubDatas = new ArrayList<>();
     private SelectSubjectAdapter mAdapter;
     private int mCurPage = 1;
     private boolean hasData = true;
@@ -71,7 +76,7 @@ public class SelectSubjectFragment extends ContentFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new SelectSubjectAdapter(mContext, selectSubs);
+        mAdapter = new SelectSubjectAdapter(mContext, selectSubDatas);
         EventBus.getDefault().register(this);
     }
 
@@ -140,46 +145,31 @@ public class SelectSubjectFragment extends ContentFragment {
         {
             e.printStackTrace();
         }
-        map.put("method", "favorite.deleteBatch");
-        String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi().getResultCode(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<ResultCodeDto>()
-        {
+        String api = "/subject/resource/include";
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
             @Override
-            public void onCompleted()
-            {
-
+            public void onError(Call call, Exception e, int id) {
             }
 
 
             @Override
-            public void onError(Throwable e)
-            {
-                showToast("收录失败,请稍后再试");
-            }
-
-
-            @Override
-            public void onNext(ResultCodeDto resultCodeDto)
-            {
-                if (resultCodeDto.code == 1)
-                {
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    dismissLoading();
                     showToast("收录成功");
                     Bundle bundle = new Bundle();
-                    bundle.putBoolean("isDelete", true);
+                    bundle.putBoolean("isIncluded", true);
                     EventBus.getDefault().post(new MessageEvent(bundle));
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             onBackPressed();
                         }
                     }, 1000);
-                }
-                else
-                {
+                }else{
                     showToast("收录失败,请稍后再试");
                 }
             }
         });
-
     }
 
 
@@ -193,36 +183,28 @@ public class SelectSubjectFragment extends ContentFragment {
     private void loadCollected() {
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "favorite.query");
-        params.put("uid", mPreference.getString(Preference.uid));
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec() {
+        String api = "/subject/my_all/list";
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                dismissLoading();
             }
 
 
             @Override
             public void onResponse(String json, int id) {
-                dismissLoading();
-                if (TextUtils.isEmpty(json)) {
-                    showToast("没有相关数据");
-                    return;
-                }
-                selectSubs.clear();
-                Gson gson = new Gson();
-                List<CollectBean> collectBeanList = gson.fromJson(json, new TypeToken<List<CollectBean>>() {
-                }.getType());
-                for (int i = 0; i < collectBeanList.size(); i++) {
-                    CollectBean bean = new CollectBean();
-                    bean = collectBeanList.get(i);
-                    bean.target.title.replaceAll("　　", "").trim();
-                    selectSubs.add(bean);
-                }
-                mAdapter.setData(selectSubs);
-                mAdapter.notifyDataSetChanged();
-                if (selectSubs.size() == 0) {
-                    showToast("没有相关数据");
+                if (!TextUtils.isEmpty(json)) {
+                    dismissLoading();
+                    try {
+                        SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
+                        }.getType());
+                        selectSubDatas = subjectResource.subjects;
+                        mAdapter.setData(selectSubDatas);
+                        if (selectSubDatas.size() == 0) {
+                            showToast("没有相关主题");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -231,17 +213,17 @@ public class SelectSubjectFragment extends ContentFragment {
     public void onMessage(MessageEvent event)
     {
         Bundle bundle = event.message;
-        Boolean isDelete = bundle.getBoolean("isDelete");
-        if (isDelete)
+        Boolean isIncluded = bundle.getBoolean("isIncluded",false);
+        if (isIncluded)
         {
-            loadCollected();
+//            loadCollected();
         }
     }
 
     private void createNewTheme(){
         Intent intent = new Intent();
         intent.setClass(getActivity(), NewSubjectActivity.class);
-        startActivityForResult(intent,100);
+        startActivityForResult(intent, 100);
     }
 
     @Override

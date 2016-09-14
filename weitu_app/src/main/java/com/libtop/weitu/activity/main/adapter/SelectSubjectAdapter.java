@@ -7,6 +7,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.SelectSubBean;
 import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.activity.user.dto.CollectBean;
+import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
@@ -21,45 +22,41 @@ import io.vov.vitamio.utils.Log;
 /**
  * Created by Zeng on 2016/9/8.
  */
-public class SelectSubjectAdapter extends CommonAdapter<CollectBean> {
+public class SelectSubjectAdapter extends CommonAdapter<Subject> {
 
-    public SelectSubjectAdapter(Context context, List<CollectBean> data) {
+    public SelectSubjectAdapter(Context context, List<Subject> data) {
         super(context, R.layout.item_list_select_subject, data);
     }
 
     @Override
-    public void convert(ViewHolderHelper helper, CollectBean object, int position) {
+    public void convert(ViewHolderHelper helper, Subject object, int position) {
         ImageView fileImage = helper.getView(R.id.subject_image);
-        if(object.favor.type==5){
-            Picasso.with(context).load(ContantsUtil.IMG_BASE + object.target.cover).placeholder(R.drawable.default_image).into(fileImage);
-        } else {
-            Picasso.with(context).load(object.target.cover).placeholder(R.drawable.default_image).into(fileImage);
-        }
-        helper.setText(R.id.subject_title, object.target.title);
-        helper.setChecked(R.id.checkBox, datas.get(position).target.ischecked);
+        Picasso.with(context).load(object.cover).placeholder(R.drawable.default_image).into(fileImage);
+        helper.setText(R.id.subject_title, object.name);
+        helper.setChecked(R.id.checkBox, datas.get(position).ischecked);
     }
-    public void setData(List<CollectBean> data){
+    public void setData(List<Subject> data){
         datas = data;
         notifyDataSetChanged();
     }
     public void setCheckStatus(int position )
     {
-            if (datas.get(position).target.ischecked == true)
+            if (datas.get(position).ischecked == true)
             {
-                datas.get(position).target.ischecked = false;
+                datas.get(position).ischecked = false;
             }
             else
             {
-                datas.get(position).target.ischecked = true;
+                datas.get(position).ischecked = true;
             }
         notifyDataSetChanged();
     }
     public String[] selectSubId()
     {
-        List<CollectBean> list = new ArrayList<CollectBean>();
+        List<Subject> list = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++)
         {
-            if (datas.get(i).target.ischecked)
+            if (datas.get(i).ischecked)
             {
                 list.add(datas.get(i));
             }
@@ -67,7 +64,7 @@ public class SelectSubjectAdapter extends CommonAdapter<CollectBean> {
         String[] subIds = new String[list.size()];
         for (int i = 0; i < list.size(); i++)
         {
-            subIds[i] = list.get(i).favor.id;
+            subIds[i] = list.get(i).sid;
         }
         return subIds;
     }

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
+import com.libtop.weitu.test.CommentBean;
 import com.libtop.weitu.test.Comments;
 import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.utils.DateUtil;
@@ -30,6 +31,7 @@ import com.squareup.picasso.Transformation;
 
 import org.w3c.dom.Comment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -56,6 +58,8 @@ public class CommentAdapter extends CommonAdapter<Comments>
     private OnReplyItemClickListener onReplyItemClickListener;
     private OnLikeClickListener onLikeClickListener;
     private CommentReplyAdapter mAdapter;
+
+    private List<ReplyBean> replyList = new ArrayList<>();
 
 
     public CommentAdapter(Context context, List<Comments> data, OnReplyClickListener listenner,OnReplyItemClickListener itemClickListener,OnLikeClickListener likeClickListener
@@ -104,21 +108,22 @@ public class CommentAdapter extends CommonAdapter<Comments>
             {
                 tvcomment.setVisibility(View.VISIBLE);
                 tvcomment.setText(object.content);
-                if(object.replys.size()>0){
+                replyList = object.replys;
+                if(replyList.size()>0){
                     commentLayout2.setVisibility(View.VISIBLE);
-                    if(object.replys.size()>5){
+                    if(replyList.size()>5){
                         if(object.isExpanded){
-                            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,object.replys);
+                            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyList);
                             tvcommentmore.setVisibility(View.VISIBLE);
                             tvcommentmore.setText("收起评论");
                         } else {
-                            List<ReplyBean> replyBeans = object.replys.subList(0,5);
+                            List<ReplyBean> replyBeans = replyList.subList(0,5);
                             mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyBeans);
                             tvcommentmore.setVisibility(View.VISIBLE);
                             tvcommentmore.setText("展开更多");
                         }
                     }else{
-                        mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,object.replys);
+                        mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyList);
                         tvcommentmore.setVisibility(View.GONE);
                     }
                     listView.setAdapter(mAdapter);
@@ -143,6 +148,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
                     onCommentClickListener.onCommentTouch(v,position,object);
                 }
             });
+
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -206,7 +212,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
         {
             return;
         }
-        Picasso.with(context).load(url).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).tag(MultiImageSelectorFragment.TAG).fit().centerCrop().into(image);
+        Picasso.with(context).load(url).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(image);
     }
 
 
@@ -292,4 +298,15 @@ public class CommentAdapter extends CommonAdapter<Comments>
             return spannableString;
         }
     }
+
+    public void removeItem(Comments comment){
+        removeItem(comment);
+        notifyDataSetChanged();
+    }
+
+    public void removeSubItem(ReplyBean replyBean){
+        replyList.remove(replyBean);
+        notifyDataSetChanged();
+    }
+
 }
