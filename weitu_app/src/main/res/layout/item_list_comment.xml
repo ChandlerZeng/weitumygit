@@ -56,15 +56,16 @@
             android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/likeLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/list_selector"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/icon_praise"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_margin="@dimen/padding_small"
-                    android:src="@drawable/icon_like"/>
+                    android:src="@drawable/icon_comment_unpraised"/>
                 <TextView
                     android:id="@+id/tv_like"
                     android:layout_width="wrap_content"

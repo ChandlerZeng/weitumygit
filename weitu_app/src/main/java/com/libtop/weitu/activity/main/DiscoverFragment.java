@@ -156,19 +156,20 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                DocBean bean = bList.get(position);
-//                openBook(bean.title,bean.cover,bean.author,bean.isbn,bean.publisher);
                 Subject subject = subjectList.get(position);
-//                openPhoto(subject.sid);
+                Intent intent = new Intent(mContext, SubjectDetailActivity.class);
+                intent.putExtra("cover",subject.cover);
+                startActivity(intent);
             }
         });
+
         subjectFileAdapter = new SubjectFileAdapter(mContext,reourceList);
         changeListView.setAdapter(subjectFileAdapter);
         changeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Resource resource = reourceList.get(position);
-//                openBook(bookDto.title, bookDto.cover, bookDto.author, bookDto.isbn, bookDto.publisher);
+                openBook(resource.name, resource.cover, resource.uploader_name, resource.rid, resource.user.name);
             }
         });
         mScroll.smoothScrollTo(0, 0);
@@ -263,8 +264,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         bundle.putString("publisher", publisher);
         bundle.putString("school", Preference.instance(mContext)
                 .getString(Preference.SchoolCode));
-        bundle.putBoolean("isFromMainPage", true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
+        bundle.putBoolean("isFromMainPage", false);
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }

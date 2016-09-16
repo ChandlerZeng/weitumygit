@@ -23,6 +23,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.login.LoginFragment;
+import com.libtop.weitu.activity.main.subsubject.SelectSubjectFragment;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.activity.search.dto.BookDetailDto;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
@@ -151,7 +152,11 @@ public class BookDetailFragment extends ContentFragment
         schoolCode = bundle.getString("school");
         isFromCapture = bundle.getBoolean("isFromCapture");
         allBookString = bundle.getString("allJson");
-        imgPath = ContantsUtil.IMG_BASE + bundle.getString("cover");
+        if(bundle.getString("cover").contains("http")){
+            imgPath = bundle.getString("cover");
+        } else {
+            imgPath = ContantsUtil.IMG_BASE + bundle.getString("cover");
+        }
         Picasso.with(mContext).load(imgPath).fit().into(icon);
         viewpager.setAdapter(adapter);
         radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -277,6 +282,9 @@ public class BookDetailFragment extends ContentFragment
 
     private void includeClick()
     {
+        Bundle bundle = new Bundle();
+        bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        mContext.startActivity(bundle,ContentActivity.class);
     }
 
 
