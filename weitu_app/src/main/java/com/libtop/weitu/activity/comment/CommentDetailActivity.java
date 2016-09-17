@@ -117,7 +117,7 @@ public class CommentDetailActivity extends BaseActivity {
     private List<UserBean> praiseUserList = new ArrayList<>();
     private List<ReplyBean> replyBeanList = new ArrayList<>();
     private UserBean user = new UserBean();
-    private Comments commentsData = new Comments();
+    private Comments commentsData;
 
     private PraiseHeadAdapter praiseHeadAdapter;
     private ReplyListAdapter replyListAdapter;
@@ -183,7 +183,9 @@ public class CommentDetailActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.comment_detail_link_layout:
-                openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+                if(commentsData!=null){
+                    openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+                }
                 break;
             case R.id.commit:
                 sendComment(view);
@@ -197,11 +199,13 @@ public class CommentDetailActivity extends BaseActivity {
     @Override
     public void onBackPressed(){
         mContext.finish();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("isCommentUpdate", true);
-        bundle.putInt("position", position);
-        bundle.putSerializable("comments", commentsData);
-        EventBus.getDefault().post(new MessageEvent(bundle));
+        if(commentsData!=null){
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("comments", commentsData);
+            bundle.putBoolean("isCommentUpdate", true);
+            bundle.putInt("position", position);
+            EventBus.getDefault().post(new MessageEvent(bundle));
+        }
     }
 
     private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
@@ -244,7 +248,10 @@ public class CommentDetailActivity extends BaseActivity {
                         CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
                         }.getType());
                         if(data.comment!=null){
+                            commentsData = new Comments();
                             commentsData = data.comment;
+                        } else{
+                            return;
                         }
 
                         if (data.comment.content != null) {

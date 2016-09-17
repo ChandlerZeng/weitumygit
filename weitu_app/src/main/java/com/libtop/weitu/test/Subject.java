@@ -1,6 +1,5 @@
 package com.libtop.weitu.test;
 
-import com.google.gson.Gson;
 
 /**
  * Created by zeng on 2016/9/9.
@@ -31,13 +30,4 @@ public class Subject implements CategoryResult{
         public UserBean user;
         public boolean ischecked = false;
 
-        public static class CategoryBean {
-            public int id;
-            public String name;
-
-            public static CategoryBean objectFromData(String str) {
-
-                return new Gson().fromJson(str, CategoryBean.class);
-            }
-        }
 }

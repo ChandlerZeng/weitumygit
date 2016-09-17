@@ -499,9 +499,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     }
     private void requestSubject()
     {
-        List<Subject> subjectList= (List<Subject>) mCache.getAsObject("subjectList");
-        if(subjectList!=null&&!subjectList.isEmpty()){
-            handleSubjectResult(subjectList);
+        List<Subject> subjectLists= (List<Subject>) mCache.getAsObject("subjectList");
+        if(subjectLists!=null&&!subjectLists.isEmpty()){
+            handleSubjectResult(subjectLists);
         }
         String api = "/find/subject/recommend/top";
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
@@ -517,10 +517,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
                         Gson gson = new Gson();
                         SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
-                        List<Subject> list = new ArrayList<>();
-                        list = subjectResource.subjects;
-                        mCache.put("subjectList", (Serializable) list);
-                        handleSubjectResult(list);
+                        List<Subject> listSub = new ArrayList<>();
+                        listSub = subjectResource.subjects;
+                        mCache.put("subjectList", (Serializable) listSub);
+                        handleSubjectResult(listSub);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
