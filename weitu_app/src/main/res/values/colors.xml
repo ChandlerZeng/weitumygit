@@ -85,6 +85,8 @@
     <color name="rank_red_pressed">#CF6064</color>
 
     <color name="listview_divider">#FFEEEEEE</color>
+    <color name="listview_item_bg_clicked">#FFF0F0F0</color>
+    <color name="listview_item_bg_special">#FFF0FBFF</color>
 
     <color name="user_name_green">#FF47885D</color>
 

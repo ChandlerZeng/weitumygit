@@ -14,6 +14,7 @@ import com.libtop.weitu.config.WTConstants;
 import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.test.News;
 import com.libtop.weitu.utils.CollectionUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
@@ -162,8 +163,7 @@ public class SchoolNoticeFragment extends MyBaseFragment implements NetworkLoadi
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
             News news = (News) parent.getAdapter().getItem(position);
-
-            //TODO
+            ContextUtil.readSchoolNoticeDetail(getActivity(), news.getId(), news.getTitle(), news.getT_create());
         }
     };
 

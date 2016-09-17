@@ -8,6 +8,7 @@
         android:id="@+id/listview_item_layout_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/listview_selector_with_new"
         android:orientation="horizontal"
         android:padding="@dimen/padding_normal">
 
