@@ -310,7 +310,7 @@ public class BookDetailFragment extends ContentFragment
         commentNeedDto.tid = dto.isbn;
         commentNeedDto.type = 5;
         intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
-        startActivity(intent);
+        mContext.startActivityWithFlag(intent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
 

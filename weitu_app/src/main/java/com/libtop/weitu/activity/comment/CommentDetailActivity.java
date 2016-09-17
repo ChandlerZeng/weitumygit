@@ -1,6 +1,7 @@
 package com.libtop.weitu.activity.comment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -26,6 +27,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.ContentActivity;
+import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
@@ -36,6 +39,7 @@ import com.libtop.weitu.test.PraiseBean;
 import com.libtop.weitu.test.Reply;
 import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.test.UserBean;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
@@ -179,6 +183,7 @@ public class CommentDetailActivity extends BaseActivity {
                 onBackPressed();
                 break;
             case R.id.comment_detail_link_layout:
+                openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
                 break;
             case R.id.commit:
                 sendComment(view);
@@ -197,6 +202,22 @@ public class CommentDetailActivity extends BaseActivity {
         bundle.putInt("position", position);
         bundle.putSerializable("comments", commentsData);
         EventBus.getDefault().post(new MessageEvent(bundle));
+    }
+
+    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
+        Bundle bundle = new Bundle();
+        bundle.putString("name", bookName);
+        bundle.putString("cover", cover);
+        bundle.putString("auth", author);
+        bundle.putString("isbn", isbn);
+        bundle.putString("publisher", publisher);
+        bundle.putString("school", Preference.instance(mContext)
+                .getString(Preference.SchoolCode));
+        bundle.putBoolean("isFromMainPage", true);
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
+        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
+
+        mContext.startActivity(bundle, ContentActivity.class);
     }
 
     private void getData(String cid)

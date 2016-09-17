@@ -109,6 +109,8 @@
         android:layout_marginBottom="@dimen/padding_normal"
         android:background="@color/comment_reply">
         <com.libtop.weitu.widget.listview.ChangeListView
+            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_normal"
             android:id="@+id/list_reply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -117,6 +119,7 @@
             android:divider="@null"
             android:listSelector="@drawable/list_selector"/>
         <TextView
+            android:layout_marginLeft="@dimen/padding_normal"
             android:visibility="gone"
             android:id="@+id/tv_commnet_more"
             android:layout_width="match_parent"

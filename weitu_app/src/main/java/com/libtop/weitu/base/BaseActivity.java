@@ -107,6 +107,18 @@ public class BaseActivity extends FragmentActivity
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
+    /**
+     * 覆写startactivity方法，加入切换动�?
+     */
+    public void startActivityWithFlag(Intent intent, int flag)
+    {
+        if (flag!=0){
+            intent.setFlags(flag);
+        }
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+    }
+
 
     @Override
     protected void onDestroy()
