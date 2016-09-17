@@ -1,5 +1,6 @@
 package com.libtop.weitu.activity.main.subsubject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentFragment;
+import com.libtop.weitu.activity.main.SubjectDetailActivity;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.main.dto.DocBean;
@@ -87,7 +89,9 @@ public class MoreSubjectFragment extends ContentFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Subject subject = subjectList.get(position);
-//                openPhoto(subject.sid);
+                Intent intent = new Intent(mContext, SubjectDetailActivity.class);
+                intent.putExtra("cover",subject.cover);
+                startActivity(intent);
             }
         });
         moreSubjectAdapter = new MoreSubjectAdapter(mContext,subjectList);

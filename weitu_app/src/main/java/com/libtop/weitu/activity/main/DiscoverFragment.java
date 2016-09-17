@@ -169,7 +169,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Resource resource = reourceList.get(position);
-                openBook(resource.name, resource.cover, resource.uploader_name, resource.rid, resource.user.name);
+                openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
             }
         });
         mScroll.smoothScrollTo(0, 0);
@@ -264,8 +264,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         bundle.putString("publisher", publisher);
         bundle.putString("school", Preference.instance(mContext)
                 .getString(Preference.SchoolCode));
-        bundle.putBoolean("isFromMainPage", false);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
+        bundle.putBoolean("isFromMainPage", true);
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }

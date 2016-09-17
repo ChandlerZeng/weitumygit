@@ -110,7 +110,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         {
         }.getType());
 
-        if (!TextUtils.isEmpty(commentNeedDto.title))
+        if (commentNeedDto.title!=null && !TextUtils.isEmpty(commentNeedDto.title))
         {
             subTitle.setText(commentNeedDto.title);
         }
@@ -615,6 +615,20 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         bundle.putInt("position", position);
         startForResult(bundle, 200, CommentDetailActivity.class);
 //        startActivity(bundle, CommentDetailActivity.class);
+    }
+
+    @Override
+    public void onCommentContentLongClick(View v, final int position, Comments comment) {
+        if (commentsList.get(position ).uid.equals("1")) {
+            String title = "您确定要删除？";
+            final AlertDialogUtil dialog = new AlertDialogUtil();
+            dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+                @Override
+                public void onClick() {
+                    deleteComment(cid, commentsList.get(position));
+                }
+            }, null);
+        }
     }
 
     @Override

@@ -25,6 +25,7 @@ import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyDetailBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
+import com.libtop.weitu.activity.main.SubjectDetailActivity;
 import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
@@ -39,6 +40,8 @@ import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.test.HttpRequestTest;
+import com.libtop.weitu.test.Resource;
+import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
@@ -97,6 +100,9 @@ public class ClassifyDetailActivity extends BaseActivity
     private ClassifyCheckAdapter filterCheckAdapter, classifyCheckAdapter;
     private ClassifySubDetailAdapter subresAdapter;
 
+    private List<Subject> subjectList = new ArrayList<>();
+    private List<Resource> resourceList = new ArrayList<>();
+
 
     public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book";
 
@@ -148,6 +154,14 @@ public class ClassifyDetailActivity extends BaseActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                startByType(mData.get(position - 1).entityType, position - 1);
+                if (type.equals("subject")) {
+                    Subject subject = subjectList.get(position);
+                    Intent intent = new Intent(mContext, SubjectDetailActivity.class);
+                    intent.putExtra("cover", subject.cover);
+                    startActivity(intent);
+                } else if (type.equals("resource")) {
+                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+                }
             }
         });
         mCurentPage = 1;
@@ -348,8 +362,10 @@ public class ClassifyDetailActivity extends BaseActivity
 
                         if (api.equals("/category/resource/list")) {
                             categoryResultList.addAll(data.resources);
+                            resourceList = data.resources;
                         } else {
                             categoryResultList.addAll(data.subjects);
+                            subjectList = data.subjects;
                         }
                         subresAdapter.setNewData(categoryResultList);
                         mListView.setAdapter(subresAdapter);
@@ -410,10 +426,12 @@ public class ClassifyDetailActivity extends BaseActivity
         switch (checkedId){
             case R.id.subject:
                 api = "/category/subject/list";
+                type = "subject";
                 getFakeData();
                 break;
             case R.id.resource:
                 api = "/category/resource/list";
+                type = "resource";
                 getFakeData();
                 break;
         }
@@ -445,7 +463,7 @@ public class ClassifyDetailActivity extends BaseActivity
                     openPhoto(position);
                     break;
                 case BOOK:
-                    openBook(position);
+//                    openBook(position);
                     break;
             }
         }
@@ -474,13 +492,17 @@ public class ClassifyDetailActivity extends BaseActivity
     }
 
 
-    private void openBook(int position)
-    {
+    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
         Bundle bundle = new Bundle();
-        bundle.putString("name", mData.get(position).title);
-        bundle.putString("cover", mData.get(position).cover);
-        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
+        bundle.putString("name", bookName);
+        bundle.putString("cover", cover);
+        bundle.putString("auth", author);
+        bundle.putString("isbn", isbn);
+        bundle.putString("publisher", publisher);
+        bundle.putString("school", Preference.instance(mContext)
+                .getString(Preference.SchoolCode));
+        bundle.putBoolean("isFromMainPage", true);
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }

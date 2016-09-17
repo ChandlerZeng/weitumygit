@@ -1,5 +1,6 @@
 package com.libtop.weitu.activity.main.rank;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -10,12 +11,18 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
+import com.libtop.weitu.activity.main.SubjectDetailActivity;
+import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuListView;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CategoryResult;
+import com.libtop.weitu.test.Resource;
+import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -41,6 +48,8 @@ public class RankPageFragment extends BaseFragment
 
     private ClassifySubDetailAdapter mAdapter;
     private List<CategoryResult> categoryResultList = new ArrayList<>();
+    private List<Subject> subjectList = new ArrayList<>();
+    private List<Resource> resourceList = new ArrayList<>();
 
     private final int ALL = 0;
     public static final int HOT_SUB = 0, HOT_RES = 1, NEWEST_SUB = 2, NEWEST_RES = 3;
@@ -88,11 +97,16 @@ public class RankPageFragment extends BaseFragment
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 //                startByType(categoryResultList.get(position).type, position);
+                if(type.equals("subject")){
+                    Subject subject = subjectList.get(position);
+                    Intent intent = new Intent(mContext, SubjectDetailActivity.class);
+                    intent.putExtra("cover",subject.cover);
+                    startActivity(intent);
+                }else if(type.equals("resource")){
+                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+                }
             }
         });
-//        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-//        swipeRefreshLayout.measure(0, 0);
-//        swipeRefreshLayout.setEnabled(false);
     }
 
     private void getData()
@@ -117,8 +131,10 @@ public class RankPageFragment extends BaseFragment
                     categoryResultList.clear();
                     if (type.equals("subject")) {
                         categoryResultList.addAll(subjectResource.subjects);
+                        subjectList= subjectResource.subjects;
                     } else {
                         categoryResultList.addAll(subjectResource.resources);
+                        resourceList = subjectResource.resources;
                     }
                     if (categoryResultList.isEmpty()) {
                         hideAndSeek();
@@ -128,133 +144,22 @@ public class RankPageFragment extends BaseFragment
             }
         });
     }
-    /*private void getData()
-    {
-        showLoding();
-//        swipeRefreshLayout.setRefreshing(true);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("uid", mPreference.getString(Preference.uid));
-        if (type != ALL)
-        {
-            map.put("type", type);
-        }
-        map.put("method", "footprint.query");
-        String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi().getHistory(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<ResultBean>>()
-        {
-            @Override
-            public void onCompleted()
-            {
 
-            }
-
-
-            @Override
-            public void onError(Throwable e)
-            {
-//                swipeRefreshLayout.setRefreshing(false);
-
-            }
-
-
-            @Override
-            public void onNext(List<ResultBean> resultBeen) {
-                dismissLoading();
-//                swipeRefreshLayout.setRefreshing(false);
-                mData.clear();
-                mData = resultBeen;
-                if (mData.isEmpty())
-                {
-                    hideAndSeek();
-                }
-                mAdapter.setData(mData);
-            }
-        });
-
-
-    }*/
-
-
-    private void startByType(int type, int position)
-    {
-        switch (type)
-        {
-            /*case BOOK:
-                openBook(position);
-                break;
-            case VIDEO:
-                openVideo(position);
-                break;
-            case AUDIO:
-                openAudio(position);
-                break;
-            case DOC:
-                openDoc(position);
-                break;
-            case PHOTO:
-                openPhoto(position);
-                break;*/
-        }
-    }
-
-
-
-
-    /*private void openAudio(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
-        result.cover = mData.get(position).target.cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openVideo(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
-        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openBook(int position)
-    {
+    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
         Bundle bundle = new Bundle();
-        bundle.putString("name", mData.get(position).target.title);
-        bundle.putString("cover", mData.get(position).target.cover);
-        bundle.putString("auth", mData.get(position).target.author);
-        bundle.putString("isbn", mData.get(position).target.isbn);
-        bundle.putString("publisher", mData.get(position).target.publisher);
-        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
-        bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
+        bundle.putString("name", bookName);
+        bundle.putString("cover", cover);
+        bundle.putString("auth", author);
+        bundle.putString("isbn", isbn);
+        bundle.putString("publisher", publisher);
+        bundle.putString("school", Preference.instance(mContext)
+                .getString(Preference.SchoolCode));
+        bundle.putBoolean("isFromMainPage", true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
 
-
-    private void openPhoto(int position)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "img");
-        bundle.putString("id", mData.get(position).target.id);
-        mContext.startActivity(bundle, DynamicCardActivity.class);
-    }
-
-
-    private void openDoc(int position)
-    {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", mData.get(position).target.id);
-        intent.setClass(mContext, PdfActivity2.class);
-        mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
-    }*/
 
     private void hideAndSeek()
     {

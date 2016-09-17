@@ -284,6 +284,7 @@ public class BookDetailFragment extends ContentFragment
     {
         Bundle bundle = new Bundle();
         bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
         mContext.startActivity(bundle,ContentActivity.class);
     }
 

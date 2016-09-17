@@ -140,6 +140,14 @@ public class CommentAdapter extends CommonAdapter<Comments>
                 }
             });
 
+            tvcomment.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onCommentListener.onCommentContentLongClick(v, position, object);
+                    return true;
+                }
+            });
+
             tvcomment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,6 +200,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
         void onReplyItemDeleted(View v,int position,ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object);
         void onLikeTouch(View v, int position,Comments comment);
         void onCommentContentClick(View v,int position,Comments comment);
+        void onCommentContentLongClick(View v,int position,Comments comment);
 
     }
 
