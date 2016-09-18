@@ -24,12 +24,12 @@ public class OpenResUtil
 
     public static final int VIDEO = 0, AUDIO = 1, DOC = 4, PHOTO = 2, BOOK = 3;
 
-    public static void startByType(Context context,int type, String id)
+    public static void startByType(Context context,int type, String id,boolean isFragIsBack)
     {
         switch (type)
         {
             case BOOK:
-                openBook(context,id);
+                openBook(context,id,isFragIsBack);
                 break;
             case VIDEO:
                 openVideo(context,id);
@@ -44,6 +44,11 @@ public class OpenResUtil
                 openPhoto(context,id);
                 break;
         }
+    }
+
+    public static void startByType(Context context,int type, String id)
+    {
+        startByType(context,type,id,false);
     }
 
     public static void openVideo(Context context,String id)
@@ -67,7 +72,7 @@ public class OpenResUtil
         context.startActivity(intent);
     }
 
-    public static void openBook(Context context,String isbn)
+    public static void openBook(Context context,String isbn,boolean isFragIsBack)
     {
         Bundle bundle = new Bundle();
         bundle.putString("name", "");
@@ -78,7 +83,7 @@ public class OpenResUtil
         bundle.putString("publisher", "");
         bundle.putString("school", Preference.instance(context).getString(Preference.SchoolCode));
         bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, isFragIsBack);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
         ((BaseActivity)context).startActivity(bundle, ContentActivity.class);
     }

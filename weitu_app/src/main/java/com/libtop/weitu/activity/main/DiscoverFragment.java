@@ -50,6 +50,7 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.OpenResUtil;
 import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.gridview.FixedGridView;
 import com.libtop.weitu.widget.listview.ChangeListView;
@@ -171,7 +172,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Resource resource = reourceList.get(position);
-                openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+//                openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+                OpenResUtil.startByType(mContext, resource.type, resource.rid);
             }
         });
         mScroll.smoothScrollTo(0, 0);

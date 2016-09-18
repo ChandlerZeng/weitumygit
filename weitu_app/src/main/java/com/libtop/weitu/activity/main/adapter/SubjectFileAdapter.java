@@ -36,7 +36,7 @@ public class SubjectFileAdapter extends CommonAdapter<Resource> {
             helper.setText(R.id.subject_file_publisher,"上传："+object.uploader_name);
         }
         if(!CheckUtil.isNull(object.t_upload)){
-            helper.setText(R.id.subject_file_date, DateUtil.parseToStringWithoutSS(object.t_upload));
+            helper.setText(R.id.subject_file_date,"时间："+ DateUtil.parseToStringWithoutSS(object.t_upload));
         }
     }
     public void setData(List<Resource> data){

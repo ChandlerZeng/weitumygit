@@ -109,6 +109,7 @@ public class ClassifySubDetailAdapter extends BaseAdapter
         String date = DateUtil.parseToDate(resource.t_upload);
         helper.setText(R.id.subject_file_date, date);
 
+
         ImageView coverIv = helper.getView(R.id.subject_file_image);
         Picasso.with(context).load(resource.cover).error(R.drawable.default_image).placeholder(R.drawable.default_image).fit().into(coverIv);
 

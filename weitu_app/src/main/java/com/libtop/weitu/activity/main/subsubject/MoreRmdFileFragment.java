@@ -26,6 +26,7 @@ import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.OpenResUtil;
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -126,8 +127,9 @@ public class MoreRmdFileFragment extends ContentFragment {
     @OnItemClick(value = R.id.rmd_file_list)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //显示图书详情
-        Resource resource = resourceList.get(position);
-        openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+        Resource resource = resourceList.get(position-1);
+//        openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+        OpenResUtil.startByType(mContext, resource.type, resource.rid,true);
     }
 
     private void loadResourceFile(){
