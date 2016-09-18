@@ -24,15 +24,15 @@ public class MoreSubjectAdapter extends CommonAdapter<Subject>
 {
 
     public MoreSubjectAdapter(Context context, List<Subject> datas) {
-        super(context, R.layout.more_subject_adapter, datas);
+        super(context, R.layout.item_fragment_theme, datas);
     }
 
     @Override
     public void convert(ViewHolderHelper helper, Subject object, int position) {
-        ImageView imageView = helper.getView(R.id.image);
-        ImageView imageNew = helper.getView(R.id.img_item_subject_new);
+        ImageView imageView = helper.getView(R.id.img_item_theme);
+        ImageView imageNew = helper.getView(R.id.img_item_theme_new);
         Picasso.with(context).load(object.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(imageView);
-        helper.setText(R.id.title, object.name);
+        helper.setText(R.id.tv_item_theme, object.name);
         if(object.has_new==0){
             imageNew.setVisibility(View.GONE);
         }else if(object.has_new == 1) {

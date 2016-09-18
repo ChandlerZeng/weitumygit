@@ -6,8 +6,6 @@
               android:layout_height="match_parent"
     >
     <FrameLayout
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="2dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!-- A CardView that contains a TextView -->
@@ -19,6 +17,8 @@
             android:layout_gravity="center"
             card_view:cardBackgroundColor="@color/white"
             card_view:cardElevation="4dp"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardPreventCornerOverlap="true"
             card_view:cardCornerRadius="6dp">
 
             <LinearLayout
