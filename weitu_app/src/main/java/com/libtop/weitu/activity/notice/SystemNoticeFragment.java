@@ -18,6 +18,7 @@ import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.test.SystemNotice;
 import com.libtop.weitu.test.User;
 import com.libtop.weitu.utils.CollectionUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
@@ -168,7 +169,20 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
         {
             SystemNotice notice = (SystemNotice) parent.getAdapter().getItem(position);
 
-            //TODO
+            switch (notice.getType())
+            {
+                case SystemNoticeConfig.NOTICE_TYPE_FOLLOW_SUBJECT:
+                    ContextUtil.readSubjectDetail(getActivity());
+                    break;
+
+                case SystemNoticeConfig.NOTICE_TYPE_RESOURCE_COMMENT:
+                case SystemNoticeConfig.NOTICE_TYPE_COMMENT_REPLY:
+                    ContextUtil.readCommentDetail(getActivity(), notice.getExtra_id());
+                    break;
+
+                default:
+                    break;
+            }
         }
     };
 
@@ -221,8 +235,7 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
             TextView createTimeTv = helper.getView(R.id.listview_item_create_time_textview);
             TextView contentTv = helper.getView(R.id.listview_item_content_textview);
 
-            int bgColor = context.getResources().getColor((notice.getHas_read() == 1) ? R.color.grey_transparent : R.color.white);
-            //TODO 根据已读状态设备背景色
+            layoutView.setSelected(notice.getHas_read() == 0);
 
             if (user != null)
             {
