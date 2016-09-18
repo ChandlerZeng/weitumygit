@@ -91,8 +91,8 @@ public class MoreRmdFileFragment extends ContentFragment {
         rmdFileList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                mCurPage = 1;
                 loadResourceFile();
+                mCurPage = 1;
             }
 
             @Override
@@ -126,7 +126,8 @@ public class MoreRmdFileFragment extends ContentFragment {
     @OnItemClick(value = R.id.rmd_file_list)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //显示图书详情
-
+        Resource resource = resourceList.get(position);
+        openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
     }
 
     private void loadResourceFile(){
@@ -141,17 +142,18 @@ public class MoreRmdFileFragment extends ContentFragment {
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
                     rmdFileList.stopRefresh();
+                    mCurPage++;
                     try {
                         Gson gson = new Gson();
                         SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
                         List<Resource> list = new ArrayList<>();
                         list = subjectResource.resources;
-                        if(list.size()<10){
-                            hasData=false;
+                        if (list.size() < 10) {
+                            hasData = false;
                             rmdFileList.setPullLoadEnable(false);
-                        }else{
-                            hasData=true;
+                        } else {
+                            hasData = true;
                             rmdFileList.setPullLoadEnable(true);
                         }
                         handleResourceFile(list);
@@ -171,4 +173,20 @@ public class MoreRmdFileFragment extends ContentFragment {
 
         mAdapter.setData(resourceList);
     }
+
+    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
+        Bundle bundle = new Bundle();
+        bundle.putString("name", bookName);
+        bundle.putString("cover", cover);
+        bundle.putString("auth", author);
+        bundle.putString("isbn", isbn);
+        bundle.putString("publisher", publisher);
+        bundle.putString("school", Preference.instance(mContext)
+                .getString(Preference.SchoolCode));
+        bundle.putBoolean("isFromMainPage", true);
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
+        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
+        mContext.startActivity(bundle, ContentActivity.class);
+    }
+
 }

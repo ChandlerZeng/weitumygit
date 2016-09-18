@@ -359,7 +359,7 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     {
         Bundle bundle = new Bundle();
         bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
-        mContext.startActivity(bundle,ContentActivity.class);
+        mContext.startActivity(bundle, ContentActivity.class);
     }
 
 
@@ -382,12 +382,14 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     {
         Intent intent = new Intent(mContext, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
-        commentNeedDto.title = mediaAlbumBean.uploadUsername;
-        commentNeedDto.author = mediaAlbumBean.artist;
-        commentNeedDto.publisher = mediaAlbumBean.uploadUsername;
-        commentNeedDto.photoAddress = mediaAlbumBean.cover;
-        commentNeedDto.tid = searchResult.id;
-        commentNeedDto.type = 2;
+        if(commentNeedDto.title!=null){
+            commentNeedDto.title = mediaAlbumBean.uploadUsername;
+            commentNeedDto.author = mediaAlbumBean.artist;
+            commentNeedDto.publisher = mediaAlbumBean.uploadUsername;
+            commentNeedDto.photoAddress = mediaAlbumBean.cover;
+            commentNeedDto.tid = searchResult.id;
+            commentNeedDto.type = 2;
+        }
         intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
         startActivity(intent);
     }

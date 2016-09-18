@@ -23,6 +23,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.login.LoginFragment;
+import com.libtop.weitu.activity.main.subsubject.SelectSubjectFragment;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.activity.search.dto.BookDetailDto;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
@@ -71,7 +72,7 @@ public class BookDetailFragment extends ContentFragment
     ImageButton search;
 
     @Bind(R.id.back_btn)
-    ImageButton backBtn;
+    ImageView backBtn;
     @Bind(R.id.title)
     TextView titleView;
     @Bind(R.id.viewpager)
@@ -151,16 +152,17 @@ public class BookDetailFragment extends ContentFragment
         schoolCode = bundle.getString("school");
         isFromCapture = bundle.getBoolean("isFromCapture");
         allBookString = bundle.getString("allJson");
-        imgPath = ContantsUtil.IMG_BASE + bundle.getString("cover");
+        if(bundle.getString("cover").contains("http")){
+            imgPath = bundle.getString("cover");
+        } else {
+            imgPath = ContantsUtil.IMG_BASE + bundle.getString("cover");
+        }
         Picasso.with(mContext).load(imgPath).fit().into(icon);
         viewpager.setAdapter(adapter);
-        radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener()
-        {
+        radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int id)
-            {
-                switch (id)
-                {
+            public void onCheckedChanged(RadioGroup group, int id) {
+                switch (id) {
                     case R.id.info:
                         viewpager.setCurrentItem(0);
                         break;
@@ -177,16 +179,13 @@ public class BookDetailFragment extends ContentFragment
             }
         });
 
-        viewpager.setOnPageChangeListener(new OnPageChangeListener()
-        {
+        viewpager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
-            public void onPageSelected(int position)
-            {
+            public void onPageSelected(int position) {
                 NotifyFragment fragment = (NotifyFragment) datas.get(position);
                 fragment.notify("");
-                switch (position)
-                {
+                switch (position) {
                     case 0:
                         radioGroup.check(R.id.info);
                         break;
@@ -203,14 +202,12 @@ public class BookDetailFragment extends ContentFragment
 
 
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2)
-            {
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
             }
 
 
             @Override
-            public void onPageScrollStateChanged(int arg0)
-            {
+            public void onPageScrollStateChanged(int arg0) {
             }
         });
         loadData(key);
@@ -277,6 +274,10 @@ public class BookDetailFragment extends ContentFragment
 
     private void includeClick()
     {
+        Bundle bundle = new Bundle();
+        bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
+        mContext.startActivity(bundle, ContentActivity.class);
     }
 
 
@@ -294,14 +295,16 @@ public class BookDetailFragment extends ContentFragment
     {
         Intent intent = new Intent(mContext, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
-        commentNeedDto.title = dto.title;
-        commentNeedDto.author = dto.author;
-        commentNeedDto.publisher = dto.publisher;
-        commentNeedDto.photoAddress = imgPath;
-        commentNeedDto.tid = dto.isbn;
+        if(dto!=null){
+            commentNeedDto.title = dto.title;
+            commentNeedDto.author = dto.author;
+            commentNeedDto.publisher = dto.publisher;
+            commentNeedDto.photoAddress = imgPath;
+            commentNeedDto.tid = dto.isbn;
+        }
         commentNeedDto.type = 5;
         intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
-        startActivity(intent);
+        mContext.startActivityWithFlag(intent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
     }
 
 

@@ -11,7 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/grey_bg"/>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,7 +70,8 @@
             android:layout_width="fill_parent"
             android:layout_height="80dp"
             android:gravity="center"
-            android:layout_margin="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_marginRight="@dimen/padding_medium"
             android:background="@color/grey_bg"
             android:orientation="horizontal">
             <FrameLayout
@@ -78,7 +82,7 @@
                 android:background="@color/white">
 
                 <ImageView
-                    android:id="@+id/subject_file_image"
+                    android:id="@+id/resource_file_image"
                     android:layout_width="60dp"
                     android:layout_height="70dp"
                     android:padding="@dimen/padding_small"
@@ -94,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="2"
-                android:background="#00000000"
+                android:background="@drawable/list_selector"
                 android:gravity="center|start"
                 android:orientation="vertical">
 
@@ -134,25 +138,31 @@
                 android:id="@+id/likeLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/list_selector"
                 android:orientation="horizontal">
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:id="@+id/like_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_margin="@dimen/padding_small"
-                    android:src="@drawable/icon_like"/>
+                    android:src="@drawable/icon_comment_unpraised"/>
             </LinearLayout>
             <GridView
                 android:id="@+id/comment_detail_grid_view"
                 android:layout_margin="@dimen/padding_small"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
                 android:scrollbars="none"
                 android:numColumns="8">
 
             </GridView>
-
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider"/>
         <LinearLayout
             android:id="@+id/comment_layout2"
             android:layout_width="match_parent"
@@ -172,6 +182,8 @@
                 android:listSelector="@drawable/list_selector"/>
         </LinearLayout>
     </LinearLayout>
+</ScrollView>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -217,4 +229,8 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider"/>
 </LinearLayout>

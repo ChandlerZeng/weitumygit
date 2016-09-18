@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -110,6 +111,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     @Bind(R.id.ll_news)
     LinearLayout llNews;
 
+
     SubjectFileAdapter subjectFileAdapter;
     MoreSubjectAdapter moreSubjectAdapter;
     private ArrayList<Page> pageViews;
@@ -156,19 +158,20 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                DocBean bean = bList.get(position);
-//                openBook(bean.title,bean.cover,bean.author,bean.isbn,bean.publisher);
                 Subject subject = subjectList.get(position);
-//                openPhoto(subject.sid);
+                Intent intent = new Intent(mContext, SubjectDetailActivity.class);
+                intent.putExtra("cover",subject.cover);
+                startActivity(intent);
             }
         });
+
         subjectFileAdapter = new SubjectFileAdapter(mContext,reourceList);
         changeListView.setAdapter(subjectFileAdapter);
         changeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Resource resource = reourceList.get(position);
-//                openBook(bookDto.title, bookDto.cover, bookDto.author, bookDto.isbn, bookDto.publisher);
+                openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
             }
         });
         mScroll.smoothScrollTo(0, 0);
@@ -498,9 +501,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     }
     private void requestSubject()
     {
-        List<Subject> subjectList= (List<Subject>) mCache.getAsObject("subjectList");
-        if(subjectList!=null&&!subjectList.isEmpty()){
-            handleSubjectResult(subjectList);
+        List<Subject> subjectLists= (List<Subject>) mCache.getAsObject("subjectList");
+        if(subjectLists!=null&&!subjectLists.isEmpty()){
+            handleSubjectResult(subjectLists);
         }
         String api = "/find/subject/recommend/top";
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
@@ -516,10 +519,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
                         Gson gson = new Gson();
                         SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
-                        List<Subject> list = new ArrayList<>();
-                        list = subjectResource.subjects;
-                        mCache.put("subjectList", (Serializable) list);
-                        handleSubjectResult(list);
+                        List<Subject> listSub = new ArrayList<>();
+                        listSub = subjectResource.subjects;
+                        mCache.put("subjectList", (Serializable) listSub);
+                        handleSubjectResult(listSub);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

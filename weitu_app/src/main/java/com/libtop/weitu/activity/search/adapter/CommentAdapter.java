@@ -18,18 +18,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.test.CommentBean;
 import com.libtop.weitu.test.Comments;
 import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.utils.DateUtil;
-import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.listview.ChangeListView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-
-import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,43 +34,27 @@ import java.util.List;
 /**
  * <p>
  * Title: CommentAdapter.java
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
- * CreateTime：16/5/31
- * </p>
- *
- * @author 陆
- * @version common v1.0
+ * Created by Zeng 2016/9/16
+ * @version common v2.0
  */
 public class CommentAdapter extends CommonAdapter<Comments>
 {
-
-
-    private OnCommentClickListener onCommentClickListener;
-    private OnReplyClickListener onReplyClickListener;
-    private OnReplyItemClickListener onReplyItemClickListener;
-    private OnLikeClickListener onLikeClickListener;
+    private OnCommentListener onCommentListener;
     private CommentReplyAdapter mAdapter;
 
-    private List<ReplyBean> replyList = new ArrayList<>();
+    public List<ReplyBean> replyList = new ArrayList<>();
 
 
-    public CommentAdapter(Context context, List<Comments> data, OnReplyClickListener listenner,OnReplyItemClickListener itemClickListener,OnLikeClickListener likeClickListener
-            ,OnCommentClickListener commentClickListener)
+    public CommentAdapter(Context context, List<Comments> data, OnCommentListener onCommentListener)
     {
         super(context, R.layout.item_list_comment, data);
-        this.onCommentClickListener = commentClickListener;
-        this.onReplyClickListener = listenner;
-        this.onReplyItemClickListener = itemClickListener;
-        this.onLikeClickListener = likeClickListener;
+        this.onCommentListener = onCommentListener;
     }
 
     @Override
     public void convert(ViewHolderHelper helper, final Comments object, final int position) {
         ImageView headImage = helper.getView(R.id.img_head);
+        ImageView praiseIcon = helper.getView(R.id.icon_praise);
         RelativeLayout commentLayout1 = helper.getView(R.id.comment_layout1);
         LinearLayout commentLayout2 = helper.getView(R.id.comment_layout2);
         LinearLayout likeLayout = helper.getView(R.id.likeLayout);
@@ -94,6 +74,11 @@ public class CommentAdapter extends CommonAdapter<Comments>
             }
             tvUser.setText(object.user.name);
             tvTime.setText(DateUtil.parseToStringWithoutSS(object.t_create));
+            if(object.my_praise==0){
+                praiseIcon.setImageResource(R.drawable.icon_comment_unpraised);
+            }else {
+                praiseIcon.setImageResource(R.drawable.icon_comment_praised);
+            }
             if(object.count_praise!=0){
                 tvLike.setText(object.count_praise+"");
             }else {
@@ -138,14 +123,29 @@ public class CommentAdapter extends CommonAdapter<Comments>
             replyLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onReplyClickListener.onReplyTouch(v, position);
+//                    onCommentListener.onReplyTouch(v, position);
+                    if(object.replys!=null && object.replys.size()!=0){
+                        onCommentListener.onReplyTouch(v, position, object.replys,object);
+                    }else{
+                        ReplyBean replyBean = new ReplyBean();
+                        List<ReplyBean> replyBeans = new ArrayList<ReplyBean>();
+                        onCommentListener.onReplyTouch(v, position, replyBeans,object);
+                    }
+                }
+            });
+
+            tvcomment.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    onCommentListener.onCommentContentLongClick(v, position, object);
+                    return true;
                 }
             });
 
             tvcomment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onCommentClickListener.onCommentTouch(v,position,object);
+                    onCommentListener.onCommentContentClick(v, position, object);
                 }
             });
 
@@ -153,10 +153,10 @@ public class CommentAdapter extends CommonAdapter<Comments>
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if(object.user.uid.equals("1")){
-                        onReplyItemClickListener.onReplyItemDeleted(view,position,object.replys.get(position));
+                    if(object.replys.get(position).user.uid.equals("1")){
+                        onCommentListener.onReplyItemDeleted(view,position,object.replys.get(position),object.replys,object);
                     }else {
-                        onReplyItemClickListener.onReplyItemTouch(view, position, object.replys.get(position));
+                        onCommentListener.onReplyItemTouch(view, position, object.replys.get(position),object.replys,object);
                     }
                 }
             });
@@ -164,7 +164,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
             likeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onLikeClickListener.onLikeTouch(v,position, object);
+                    onCommentListener.onLikeTouch(v,position, object);
                 }
             });
 
@@ -187,25 +187,15 @@ public class CommentAdapter extends CommonAdapter<Comments>
     }
 
 
-    public interface OnReplyClickListener
+    public interface OnCommentListener
     {
-        void onReplyTouch(View v, int position);
-    }
-
-    public interface OnReplyItemClickListener
-    {
-        void onReplyItemTouch(View v, int position,ReplyBean replyBean);
-        void onReplyItemDeleted(View v,int position,ReplyBean replyBean);
-    }
-
-    public interface OnLikeClickListener
-    {
+        void onReplyTouch(View v, int position,List<ReplyBean> replyBeans,Comments object);
+        void onReplyItemTouch(View v, int position,ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object);
+        void onReplyItemDeleted(View v,int position,ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object);
         void onLikeTouch(View v, int position,Comments comment);
-    }
+        void onCommentContentClick(View v,int position,Comments comment);
+        void onCommentContentLongClick(View v,int position,Comments comment);
 
-    public interface OnCommentClickListener
-    {
-        void onCommentTouch(View v,int position,Comments comment);
     }
 
 
@@ -267,9 +257,9 @@ public class CommentAdapter extends CommonAdapter<Comments>
 
         private List<ReplyBean> replyBeans;
         private Context context;
-        public CommentReplyAdapter(Context context, int itemLayoutId, List<ReplyBean> replyList) {
-            super(context, R.layout.item_comment_reply_list, replyList);
-            this.replyBeans = replyList;
+        public CommentReplyAdapter(Context context, int itemLayoutId, List<ReplyBean> replyLists) {
+            super(context, R.layout.item_comment_reply_list, replyLists);
+            replyList= replyLists;
         }
 
         @Override
@@ -304,9 +294,19 @@ public class CommentAdapter extends CommonAdapter<Comments>
         }
     }
 
-    public void removeSubItem(ReplyBean replyBean){
-        replyList.remove(replyBean);
+    public void removeSubItem(ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object){
+        replyBeans.remove(replyBean);
+        object.count_reply = object.count_reply-1;
         notifyDataSetChanged();
     }
 
+    public void replySubItem(ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object){
+        replyBeans.add(0, replyBean);
+        object.count_reply=object.count_reply+1;
+        if(replyBeans.size()==1){
+            object.replys.add(replyBean);
+            mAdapter.notifyDataSetChanged();
+        }
+        notifyDataSetChanged();
+    }
 }
