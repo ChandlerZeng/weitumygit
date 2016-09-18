@@ -20,6 +20,7 @@ import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.DocUpload.DocUploadActivity;
 import com.libtop.weitu.activity.main.LibraryFragment;
 import com.libtop.weitu.activity.main.MyLikeActivity;
+import com.libtop.weitu.activity.main.MyLikeActivity2;
 import com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
 import com.libtop.weitu.activity.user.UserCollect.UserCollectActivity;

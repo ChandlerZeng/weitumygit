@@ -139,14 +139,14 @@ public class ClassifyDetailActivity extends BaseActivity
             @Override
             public void onRefresh() {
                 mCurentPage = 1;
-                getData();
+                getFakeData();
             }
 
 
             @Override
             public void onLoadMore() {
                 if (hasData) {
-                    getData();
+                    getFakeData();
                 }
             }
         });
@@ -354,6 +354,7 @@ public class ClassifyDetailActivity extends BaseActivity
             @Override
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
+                    mListView.stopRefresh();
                     try {
                         Gson gson = new Gson();
                         SubjectResource data = gson.fromJson(json, new TypeToken<SubjectResource>() {

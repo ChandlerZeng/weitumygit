@@ -163,43 +163,52 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
 
-    //    影音，书本，文档，图库的评论列表接口
-    //    http://weitu.bookus.cn/comment/list.json?text={"uid":"565bea2c984ec06f56befda3","tid":"563c69b4984e338019914a66","page":1,"method":"comment.list"}
-    private void getData()
+    private void getCommentList()
     {
+        //  http://192.168.0.9/resource/comment/list private
+        //  http://115.28.189.104/resource/comment/list public
         showLoding();
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("tid", commentNeedDto.tid);
-        map.put("page", 1);
-        map.put("method", "comment.list");
-        map.put("uid", mPreference.getString(Preference.uid));
-        String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi().getComment(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<CommentResult>>()
-        {
+        Map<String, Object> map = new HashMap<>();
+        String api = "/resource/comment/list";
+        map.put("page", mCurPage);
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
             @Override
-            public void onCompleted()
-            {
-                Log.w("guanglog", "completed");
+            public void onError(Call call, Exception e, int id) {
+                Log.e("CommentActivity", e.getMessage());
             }
 
 
             @Override
-            public void onError(Throwable e)
-            {
-                Log.w("guanglog", "error + " + e);
-            }
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    xListView.stopRefresh();
+                    dismissLoading();
+                    try {
+                        Gson gson = new Gson();
+                        CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
+                        }.getType());
+                        commentsList.clear();
+                        if (data.comments != null) {
+                            commentsList.addAll(data.comments);
+                        }
+                        if (commentsList.size() < 20) {
+                            hasData = false;
+                            xListView.setPullLoadEnable(false);
+                        } else {
+                            hasData = true;
+                            xListView.setPullLoadEnable(true);
+                        }
+                        mCurPage++;
+                        commentAdapter.setData(commentsList);
+                        editText.setText("");
+                        editText.setHint("发表评论");
+                        isReply = false;
+                        isItemReply = false;
 
-
-            @Override
-            public void onNext(List<CommentResult> commentResults)
-            {
-                dismissLoading();
-                list.clear();
-                list.addAll(commentResults);
-                commentAdapter.setData(commentsList);
-                commentAdapter.notifyDataSetChanged();
-                editText.setText("");
-                isReply=false;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
@@ -270,8 +279,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                                 Reply data = gson.fromJson(json, new TypeToken<Reply>() {
                                 }.getType());
                                 if (data.reply != null) {
-//                                    replyItems.add(0,data);
-//                                    data.reply.reply_user=null;
                                     commentAdapter.replySubItem(data.reply, replyItems, comments);
                                 }
                                 editText.setText("");
@@ -353,7 +360,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         }
         else
         {
-//            cid = commentResult.id;
             editText.requestFocus();
         }
     }
@@ -367,55 +373,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         builder.setSpan(greenSpan, first.length(), first.length() + builderAppend.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return builder;
     }
-    private void getCommentList()
-    {
-        //  http://192.168.0.9/resource/comment/list private
-        //  http://115.28.189.104/resource/comment/list public
-        showLoding();
-        Map<String, Object> map = new HashMap<>();
-        String api = "/resource/comment/list";
-        map.put("page", mCurPage);
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                Log.e("CommentActivity", e.getMessage());
-            }
 
-
-            @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
-                    xListView.stopRefresh();
-                    dismissLoading();
-                    try {
-                        Gson gson = new Gson();
-                        CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
-                        }.getType());
-                        commentsList.clear();
-                        if (data.comments != null) {
-                            commentsList.addAll(data.comments);
-                        }
-                        if (commentsList.size() < 20) {
-                            hasData = false;
-                            xListView.setPullLoadEnable(false);
-                        } else {
-                            hasData = true;
-                            xListView.setPullLoadEnable(true);
-                        }
-                        mCurPage++;
-                        commentAdapter.setData(commentsList);
-                        editText.setText("");
-                        editText.setHint("发表评论");
-                        isReply = false;
-                        isItemReply = false;
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }
 
     private void deleteReplyComment(String cid, final ReplyBean replyBean, final List<ReplyBean> replyBeans,final Comments object){
         showLoding();
@@ -650,7 +608,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         Bundle bundle = event.message;
         Comments comments = (Comments) bundle.getSerializable("comments");
         int position = bundle.getInt("position");
-        Boolean isCommentUpdate = bundle.getBoolean("isCommentUpdate");
+        Boolean isCommentUpdate = bundle.getBoolean("isCommentUpdate",false);
         if (isCommentUpdate)
         {
             replaceComment(position, comments);

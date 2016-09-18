@@ -91,8 +91,8 @@ public class MoreRmdFileFragment extends ContentFragment {
         rmdFileList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
-                mCurPage = 1;
                 loadResourceFile();
+                mCurPage = 1;
             }
 
             @Override
@@ -142,6 +142,7 @@ public class MoreRmdFileFragment extends ContentFragment {
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
                     rmdFileList.stopRefresh();
+                    mCurPage++;
                     try {
                         Gson gson = new Gson();
                         SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {

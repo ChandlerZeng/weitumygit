@@ -15,13 +15,13 @@
         android:textColor="@color/main_item_text"
         android:visibility="gone"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <LinearLayout
+        android:id="@+id/llLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuListView
-            android:id="@+id/list"
+        <com.libtop.weitu.widget.listview.XListView
+            android:id="@+id/xlist"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -33,5 +33,5 @@
             android:fastScrollEnabled="false"
             android:listSelector="@drawable/list_selector"
             android:scrollingCache="false"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </LinearLayout>

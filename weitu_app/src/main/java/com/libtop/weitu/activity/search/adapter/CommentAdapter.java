@@ -39,12 +39,6 @@ import java.util.List;
  */
 public class CommentAdapter extends CommonAdapter<Comments>
 {
-
-
-//    private OnCommentClickListener onCommentClickListener;
-//    private OnReplyClickListener onReplyClickListener;
-//    private OnReplyItemClickListener onReplyItemClickListener;
-//    private OnLikeClickListener onLikeClickListener;
     private OnCommentListener onCommentListener;
     private CommentReplyAdapter mAdapter;
 
@@ -311,8 +305,6 @@ public class CommentAdapter extends CommonAdapter<Comments>
         object.count_reply=object.count_reply+1;
         if(replyBeans.size()==1){
             object.replys.add(replyBean);
-//            replyList = replyBeans;
-//            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyList);
             mAdapter.notifyDataSetChanged();
         }
         notifyDataSetChanged();

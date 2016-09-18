@@ -70,7 +70,8 @@
             android:layout_width="fill_parent"
             android:layout_height="80dp"
             android:gravity="center"
-            android:layout_margin="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_medium"
+            android:layout_marginRight="@dimen/padding_medium"
             android:background="@color/grey_bg"
             android:orientation="horizontal">
             <FrameLayout
@@ -137,6 +138,7 @@
                 android:id="@+id/likeLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:background="@drawable/list_selector"
                 android:orientation="horizontal">
                 <ImageView
@@ -151,6 +153,7 @@
                 android:layout_margin="@dimen/padding_small"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
                 android:scrollbars="none"
                 android:numColumns="8">
 

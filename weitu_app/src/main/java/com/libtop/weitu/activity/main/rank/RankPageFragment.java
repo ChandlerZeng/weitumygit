@@ -2,10 +2,10 @@ package com.libtop.weitu.activity.main.rank;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -15,7 +15,6 @@ import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
 import com.libtop.weitu.activity.search.BookDetailFragment;
-import com.libtop.weitu.activity.user.SwipeMenu.SwipeMenuListView;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CategoryResult;
@@ -24,6 +23,7 @@ import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
@@ -39,10 +39,10 @@ import okhttp3.Call;
  */
 public class RankPageFragment extends BaseFragment
 {
-    @Bind(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.list)
-    SwipeMenuListView mListView;
+    @Bind(R.id.llLayout)
+    LinearLayout llLayout;
+    @Bind(R.id.xlist)
+    XListView xListView;
     @Bind(R.id.null_txt)
     TextView mNullTxt;
 
@@ -55,6 +55,8 @@ public class RankPageFragment extends BaseFragment
     public static final int HOT_SUB = 0, HOT_RES = 1, NEWEST_SUB = 2, NEWEST_RES = 3;
     public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
     private String type;
+    private int page = 1;
+    private boolean hasData = false;
 
 
     @Override
@@ -90,20 +92,35 @@ public class RankPageFragment extends BaseFragment
 
     private void initView()
     {
-        swipeRefreshLayout.setRefreshing(false);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        xListView.setAdapter(mAdapter);
+        xListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 //                startByType(categoryResultList.get(position).type, position);
-                if(type.equals("subject")){
+                if (type.equals("subject")) {
                     Subject subject = subjectList.get(position);
                     Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                    intent.putExtra("cover",subject.cover);
+                    intent.putExtra("cover", subject.cover);
                     startActivity(intent);
-                }else if(type.equals("resource")){
+                } else if (type.equals("resource")) {
                     openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+                }
+            }
+        });
+
+        xListView.setPullLoadEnable(false);
+        xListView.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                getData();
+                page = 1;
+            }
+
+            @Override
+            public void onLoadMore() {
+                if(hasData){
+                    getData();
                 }
             }
         });
@@ -125,6 +142,7 @@ public class RankPageFragment extends BaseFragment
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
                     dismissLoading();
+                    xListView.stopRefresh();
                     Gson gson = new Gson();
                     SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
                     }.getType());
@@ -132,10 +150,25 @@ public class RankPageFragment extends BaseFragment
                     if (type.equals("subject")) {
                         categoryResultList.addAll(subjectResource.subjects);
                         subjectList= subjectResource.subjects;
+                        if (subjectList.size() < 10) {
+                            hasData = false;
+                            xListView.setPullLoadEnable(false);
+                        } else {
+                            hasData = true;
+                            xListView.setPullLoadEnable(true);
+                        }
                     } else {
                         categoryResultList.addAll(subjectResource.resources);
                         resourceList = subjectResource.resources;
+                        if (resourceList.size() < 10) {
+                            hasData = false;
+                            xListView.setPullLoadEnable(false);
+                        } else {
+                            hasData = true;
+                            xListView.setPullLoadEnable(true);
+                        }
                     }
+                    page++;
                     if (categoryResultList.isEmpty()) {
                         hideAndSeek();
                     }

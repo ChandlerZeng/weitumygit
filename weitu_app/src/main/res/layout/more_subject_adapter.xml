@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="170dp"
-    android:layout_height="140dp"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
     android:background="@drawable/selector_find_subject"
-    android:layout_margin="@dimen/padding_small"
+    android:layout_margin="@dimen/padding_normal"
+    android:padding="@dimen/padding_tiny"
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/image"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:padding="@dimen/padding_small"
-        android:src="@drawable/default_image"/>
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/default_image"/>
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/img_item_subject_new"
+            android:layout_margin="4dp"
+            android:background="@drawable/new_tag"
+            android:layout_width="33dp"
+            android:layout_height="33dp"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/title"

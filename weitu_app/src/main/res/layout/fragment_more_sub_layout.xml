@@ -27,6 +27,6 @@
         android:horizontalSpacing="@dimen/padding_tiny"
         android:isScrollContainer="false"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/padding_small"/>
+        android:verticalSpacing="@dimen/padding_left"/>
 
 </LinearLayout>

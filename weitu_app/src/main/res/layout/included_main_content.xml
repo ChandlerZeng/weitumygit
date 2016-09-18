@@ -103,7 +103,7 @@
         android:isScrollContainer="false"
         android:numColumns="2"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/padding_small" />
+        android:verticalSpacing="@dimen/padding_left" />
 
     <View
         android:layout_width="match_parent"
