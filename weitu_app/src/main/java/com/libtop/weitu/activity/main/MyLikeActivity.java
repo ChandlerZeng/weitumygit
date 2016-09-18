@@ -11,34 +11,26 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentActivity;
-import com.libtop.weitu.activity.main.clickHistory.ResultBean;
-import com.libtop.weitu.activity.search.BookDetailFragment;
-import com.libtop.weitu.activity.search.VideoPlayActivity2;
-import com.libtop.weitu.activity.search.dto.SearchResult;
-import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weitu.activity.source.AudioPlayActivity2;
-import com.libtop.weitu.activity.source.PdfActivity2;
+import com.libtop.weitu.activity.comment.CommentDetailActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.test.CommentBean;
+import com.libtop.weitu.test.Comments;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.OpenResUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import okhttp3.Call;
 
 
@@ -57,7 +49,7 @@ public class MyLikeActivity extends BaseActivity
 
     private MyLikeAdapter myLikeAdapter;
 
-    private List<ResultBean> mData = new ArrayList<>();
+    private List<Comments> mData = new ArrayList<>();
 
 
     @Override
@@ -73,11 +65,7 @@ public class MyLikeActivity extends BaseActivity
     private void reqestData()
     {
         showLoding();
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("uid", mPreference.getString(Preference.uid));
-        params.put("method", "footprint.query");
-        JSONObject jsonObject = new JSONObject();
-        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        HttpRequest.newLoad(ContantsUtil.USER_COMMENT_LIST).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -91,11 +79,9 @@ public class MyLikeActivity extends BaseActivity
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    List<ResultBean> mlist = JsonUtil.fromJson(json, new TypeToken<List<ResultBean>>()
-                    {
-                    }.getType());
-                    myLikeAdapter.addAll(mlist);
-                    mData.addAll(mlist);
+                    CommentBean commentBean = JsonUtil.fromJson(json, CommentBean.class);
+                    myLikeAdapter.addAll(commentBean.comments);
+                    mData.addAll(commentBean.comments);
                 }
             }
         });
@@ -115,90 +101,16 @@ public class MyLikeActivity extends BaseActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                //TODO 打开具体评论内容
+                Intent intent = new Intent(mContext,CommentDetailActivity.class);
+                intent.putExtra("cid",mData.get(position).cid);
+                intent.putExtra("position",position);
+                startActivity(intent);
             }
         });
     }
 
-    private void startByType(int type, int position)
-    {
-        switch (type)
-        {
-            case BOOK:
-                openBook(position);
-                break;
-            case VIDEO:
-                openVideo(position);
-                break;
-            case AUDIO:
-                openAudio(position);
-                break;
-            case DOC:
-                openDoc(position);
-                break;
-            case PHOTO:
-                openPhoto(position);
-                break;
-        }
-    }
 
-    private void openAudio(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
-        result.cover = mData.get(position).target.cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openVideo(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
-        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openBook(int position)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", mData.get(position).target.title);
-        bundle.putString("cover", mData.get(position).target.cover);
-        bundle.putString("auth", mData.get(position).target.author);
-        bundle.putString("isbn", mData.get(position).target.isbn);
-        bundle.putString("publisher", mData.get(position).target.publisher);
-        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
-        bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        mContext.startActivity(bundle, ContentActivity.class);
-    }
-
-
-    private void openPhoto(int position)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "img");
-        bundle.putString("id", mData.get(position).target.id);
-        mContext.startActivity(bundle, DynamicCardActivity.class);
-    }
-
-
-    private void openDoc(int position)
-    {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", mData.get(position).target.id);
-        intent.setClass(mContext, PdfActivity2.class);
-        mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
-    }
-
-    private class MyLikeAdapter extends CommonAdapter<ResultBean>{
+    private class MyLikeAdapter extends CommonAdapter<Comments>{
 
 
 
@@ -209,7 +121,7 @@ public class MyLikeActivity extends BaseActivity
 
 
         @Override
-        public void convert(ViewHolderHelper helper, final ResultBean resultBean, final int position)
+        public void convert(ViewHolderHelper helper, final Comments comments, final int position)
         {
             ImageView photoCover = helper.getView(R.id.img_item_my_like_photo);
             ImageView headCover = helper.getView(R.id.img_my_like_head);
@@ -219,18 +131,20 @@ public class MyLikeActivity extends BaseActivity
                 @Override
                 public void onClick(View v)
                 {
-                    startByType(resultBean.type, position);
+                    OpenResUtil.startByType(mContext,comments.resource.type, comments.resource.rid);
                 }
             });
-            Picasso.with(context).load(resultBean.target.cover).fit().into(headCover);
-            Picasso.with(context).load(resultBean.target.cover).fit().into(photoCover);
+            Picasso.with(context).load(comments.user.logo)
+                    .transform(new CropCircleTransformation())
+                    .fit().into(headCover);
+            Picasso.with(context).load(comments.resource.cover).fit().into(photoCover);
 
-            helper.setText(R.id.tv_my_like_name,"user name");
-            helper.setText(R.id.ll_my_like_content,"This is content.....................");
-            helper.setText(R.id.tv_item_my_like_title,resultBean.target.title);
-            helper.setText(R.id.tv_item_my_like_uploader,resultBean.target.uploadUsername);
-            helper.setText(R.id.tv_my_like_like_num,"66");
-            helper.setText(R.id.tv_my_like_comment_num,"77");
+            helper.setText(R.id.tv_my_like_name,comments.user.name);
+            helper.setText(R.id.ll_my_like_content,comments.content);
+            helper.setText(R.id.tv_item_my_like_title,comments.resource.name);
+            helper.setText(R.id.tv_item_my_like_uploader,comments.resource.uploader_name);
+            helper.setText(R.id.tv_my_like_like_num,comments.count_praise+"");
+            helper.setText(R.id.tv_my_like_comment_num,comments.count_reply+"");
         }
     }
 

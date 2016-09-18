@@ -9,21 +9,18 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.test.Subject;
+import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -42,7 +39,7 @@ public class SubjectFragment extends BaseFragment
     FloatingActionButton fabMainNewTheme;
 
     private ThemeAdapter themeAdapter;
-
+    
 
     @Override
     protected int getLayoutId()
@@ -77,7 +74,7 @@ public class SubjectFragment extends BaseFragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                DisplayDto dpDto = (DisplayDto) parent.getItemAtPosition(position);
+                Subject dpDto = (Subject) parent.getItemAtPosition(position);
                 Intent intent = new Intent(mContext, SubjectDetailActivity.class);
                 intent.putExtra("cover",dpDto.cover);
                 startActivity(intent);
@@ -89,12 +86,7 @@ public class SubjectFragment extends BaseFragment
     private void getSubjectData()
     {
         showLoding();
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("type", 1);
-        params.put("sort", "view");
-        params.put("method", "mediaAlbum.list");
-        params.put("page", 1);
-        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        HttpRequest.newLoad(ContantsUtil.SUBJECT_MY_ALL_LIST).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -108,17 +100,15 @@ public class SubjectFragment extends BaseFragment
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    List<DisplayDto> mlist = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>()
-                    {
-                    }.getType());
-                    themeAdapter.addAll(mlist);
+                    SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class );
+                    themeAdapter.addAll(subjectResource.subjects);
                 }
             }
         });
     }
 
 
-    private class ThemeAdapter extends CommonAdapter<DisplayDto>
+    private class ThemeAdapter extends CommonAdapter<Subject>
     {
 
 
@@ -129,13 +119,13 @@ public class SubjectFragment extends BaseFragment
 
 
         @Override
-        public void convert(ViewHolderHelper helper, DisplayDto displayDto, int position)
+        public void convert(ViewHolderHelper helper, Subject subject, int position)
         {
             ImageView themeCover = helper.getView(R.id.img_item_theme);
             ImageView newCover = helper.getView(R.id.img_item_theme_new);
-            Picasso.with(context).load(displayDto.cover).fit().into(themeCover);
+            Picasso.with(context).load(subject.cover).fit().into(themeCover);
 
-            helper.setText(R.id.tv_item_theme, displayDto.title);
+            helper.setText(R.id.tv_item_theme, subject.name);
         }
     }
 
