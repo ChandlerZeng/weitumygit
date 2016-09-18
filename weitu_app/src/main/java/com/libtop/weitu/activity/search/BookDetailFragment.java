@@ -529,6 +529,8 @@ public class BookDetailFragment extends ContentFragment
                     dto = bookDetailDto.book;
                     if (dto != null)
                     {
+                        String path = ContantsUtil.IMG_BASE + dto.cover;
+                        Picasso.with(mContext).load(path).fit().into(icon);
                         InfoFragment fragment = InfoFragment.Instance();
                         fragment.loadInfo(dto);
                         datas.add(fragment);

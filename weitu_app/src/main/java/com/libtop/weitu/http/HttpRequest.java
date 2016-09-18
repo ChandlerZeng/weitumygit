@@ -63,6 +63,10 @@ public class HttpRequest
         return OkHttpUtils.get().url(ContantsUtil.HOST + "/" + arrays[0] + "/" + arrays[1]).addParams("text", arrays[2]).build();
     }
 
+    public static RequestCall newLoad(String url){
+        return newLoad(url,null);
+    }
+
     public static RequestCall newLoad(String url,Map<String,Object> map){
         return OkHttpUtils.get().url(url).params(MapUtil.mapObject2String(map)).build();
     }

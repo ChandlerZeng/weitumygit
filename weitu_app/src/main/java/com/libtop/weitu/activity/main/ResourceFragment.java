@@ -9,25 +9,20 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.DocUpload.DocUploadActivity;
-import com.libtop.weitu.activity.main.clickHistory.ResultBean;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
-import com.libtop.weitu.activity.search.BookDetailFragment;
-import com.libtop.weitu.activity.search.VideoPlayActivity2;
-import com.libtop.weitu.activity.search.dto.SearchResult;
-import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weitu.activity.source.AudioPlayActivity2;
-import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.test.Resource;
+import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.OpenResUtil;
 import com.libtop.weitu.utils.selector.view.ImageSelectActivity;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
@@ -35,7 +30,6 @@ import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -56,7 +50,7 @@ public class ResourceFragment extends BaseFragment
 
     public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
 
-    private List<ResultBean> mData = new ArrayList<>();
+    private List<Resource> mData = new ArrayList<>();
 
     @Override
     protected int getLayoutId()
@@ -84,10 +78,7 @@ public class ResourceFragment extends BaseFragment
     private void getResourceData()
     {
         showLoding();
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("uid", mPreference.getString(Preference.uid));
-        params.put("method", "footprint.query");
-        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        HttpRequest.newLoad(ContantsUtil.RESOURCE_MY_ALL_LIST).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -101,11 +92,9 @@ public class ResourceFragment extends BaseFragment
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    List<ResultBean> mlist = JsonUtil.fromJson(json, new TypeToken<List<ResultBean>>()
-                    {
-                    }.getType());
-                    resourceAdapter.addAll(mlist);
-                    mData.addAll(mlist);
+                    SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
+                    resourceAdapter.addAll(subjectResource.resources);
+                    mData.addAll(subjectResource.resources);
                 }
             }
         });
@@ -120,92 +109,16 @@ public class ResourceFragment extends BaseFragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                ResultBean resultBean = (ResultBean) parent.getItemAtPosition(position);
-                startByType(resultBean.type, position);
+                Resource resource = (Resource) parent.getItemAtPosition(position);
+                OpenResUtil.startByType(mContext,resource.type, resource.rid);
             }
         });
     }
 
-    private void startByType(int type, int position)
-    {
-        switch (type)
-        {
-            case BOOK:
-                openBook(position);
-                break;
-            case VIDEO:
-                openVideo(position);
-                break;
-            case AUDIO:
-                openAudio(position);
-                break;
-            case DOC:
-                openDoc(position);
-                break;
-            case PHOTO:
-                openPhoto(position);
-                break;
-        }
-    }
-
-    private void openAudio(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
-        result.cover = mData.get(position).target.cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
 
 
-    private void openVideo(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
-        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
 
-
-    private void openBook(int position)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", mData.get(position).target.title);
-        bundle.putString("cover", mData.get(position).target.cover);
-        bundle.putString("auth", mData.get(position).target.author);
-        bundle.putString("isbn", mData.get(position).target.isbn);
-        bundle.putString("publisher", mData.get(position).target.publisher);
-        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
-        bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        mContext.startActivity(bundle, ContentActivity.class);
-    }
-
-
-    private void openPhoto(int position)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "img");
-        bundle.putString("id", mData.get(position).target.id);
-        mContext.startActivity(bundle, DynamicCardActivity.class);
-    }
-
-
-    private void openDoc(int position)
-    {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", mData.get(position).target.id);
-        intent.setClass(mContext, PdfActivity2.class);
-        mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
-    }
-
-
-    private class ResourceAdapter extends CommonAdapter<ResultBean>
+    private class ResourceAdapter extends CommonAdapter<Resource>
     {
 
 
@@ -216,13 +129,13 @@ public class ResourceFragment extends BaseFragment
 
 
         @Override
-        public void convert(ViewHolderHelper helper, ResultBean resultBean, int position)
+        public void convert(ViewHolderHelper helper, Resource resource, int position)
         {
             ImageView resourceCover = helper.getView(R.id.img_item_resource);
-            Picasso.with(context).load(resultBean.target.cover).fit().into(resourceCover);
+            Picasso.with(context).load(resource.cover).fit().into(resourceCover);
 
-            helper.setText(R.id.tv_item_resource_title,resultBean.target.title);
-            helper.setText(R.id.tv_item_resource_uploader,resultBean.target.uploadUsername);
+            helper.setText(R.id.tv_item_resource_title,resource.name);
+            helper.setText(R.id.tv_item_resource_uploader,resource.uploader_name);
         }
     }
 

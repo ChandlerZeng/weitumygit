@@ -12,36 +12,29 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentActivity;
-import com.libtop.weitu.activity.main.adapter.RankAdapter;
-import com.libtop.weitu.activity.main.clickHistory.ResultBean;
-import com.libtop.weitu.activity.search.BookDetailFragment;
-import com.libtop.weitu.activity.search.VideoPlayActivity2;
-import com.libtop.weitu.activity.search.dto.SearchResult;
-import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weitu.activity.source.AudioPlayActivity2;
-import com.libtop.weitu.activity.source.PdfActivity2;
+import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.http.MapUtil;
-import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.test.CategoryResult;
+import com.libtop.weitu.test.Resource;
+import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.OpenResUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.PullZoomListView;
 import com.squareup.picasso.Picasso;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import okhttp3.Call;
 
 
 /**
@@ -56,10 +49,12 @@ public class SubjectDetailActivity extends BaseActivity
     PullZoomListView pullZoomListView;
     @Bind(R.id.title_container)
     LinearLayout titleContainer;
+    @Bind(R.id.title)
+    TextView title;
 
 
-    private RankAdapter rankAdapter;
-    private List<ResultBean> mData = new ArrayList<>();
+    private ClassifySubDetailAdapter classifySubDetailAdapter;
+    private List<CategoryResult> mData = new ArrayList<>();
 
     private boolean isFollow = true;
 
@@ -71,13 +66,15 @@ public class SubjectDetailActivity extends BaseActivity
 
     private String coverString;
 
+    private String titleString;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_main_subject_detail);
-        rankAdapter = new RankAdapter(mContext, mData);
+        classifySubDetailAdapter = new ClassifySubDetailAdapter(mContext, mData);
         initView();
         getData();
 
@@ -100,17 +97,18 @@ public class SubjectDetailActivity extends BaseActivity
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (position>1){
-                    ResultBean resultBean = (ResultBean) arg0.getAdapter().getItem(position);
-                    startByType(resultBean.type, resultBean);
+                    Resource resource = (Resource) arg0.getAdapter().getItem(position);
+                    OpenResUtil.startByType(mContext,resource.type, resource.rid);
                 }
             }
         });
-        pullZoomListView.setAdapter(rankAdapter);
+        pullZoomListView.setAdapter(classifySubDetailAdapter);
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.header_subject_detail,null);
         headerViewHolder = new HeaderViewHolder(view);
         pullZoomListView.addHeaderView(view);
-        headerViewHolder.tvThemeDetailTitle.setText("Java测试");
+        titleString = "Java测试";
+        headerViewHolder.tvThemeDetailTitle.setText(titleString);
         headerViewHolder.tvThemeDetailFollowNum.setText("66");
         pullZoomListView.setOnScrollListener(new AbsListView.OnScrollListener()
         {
@@ -126,8 +124,10 @@ public class SubjectDetailActivity extends BaseActivity
                 int scrollY = pullZoomListView.getScrolledY();
                 if (scrollY<315){
                     titleContainer.setAlpha(scrollY/(float)315);
+                    title.setText("");
                 }else {
                     titleContainer.setAlpha(1);
+                    title.setText(titleString);
                 }
             }
         });
@@ -142,115 +142,25 @@ public class SubjectDetailActivity extends BaseActivity
     private void getData()
     {
         swipeRefreshLayout.setRefreshing(true);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("uid", mPreference.getString(Preference.uid));
-        map.put("method", "footprint.query");
-        String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi().getHistory(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<ResultBean>>()
+        HttpRequest.newLoad(ContantsUtil.SUBJECT_RESOURCE_LIST).execute(new StringCallback()
         {
             @Override
-            public void onCompleted()
-            {
-
-            }
-
-
-            @Override
-            public void onError(Throwable e)
+            public void onError(Call call, Exception e, int id)
             {
                 swipeRefreshLayout.setRefreshing(false);
             }
 
 
             @Override
-            public void onNext(List<ResultBean> resultBeen)
+            public void onResponse(String json, int id)
             {
                 swipeRefreshLayout.setRefreshing(false);
+                SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
                 mData.clear();
-                mData = resultBeen;
-                rankAdapter.setData(mData);
+                mData.addAll(subjectResource.resources);
+                classifySubDetailAdapter.setData(mData);
             }
         });
-
-
-    }
-
-    private void startByType(int type, ResultBean resultBean)
-    {
-        switch (type)
-        {
-            case BOOK:
-                openBook(resultBean);
-                break;
-            case VIDEO:
-                openVideo(resultBean);
-                break;
-            case AUDIO:
-                openAudio(resultBean);
-                break;
-            case DOC:
-                openDoc(resultBean);
-                break;
-            case PHOTO:
-                openPhoto(resultBean);
-                break;
-        }
-    }
-
-    private void openAudio(ResultBean resultBean)
-    {
-        SearchResult result = new SearchResult();
-        result.id = resultBean.target.id;
-        result.cover = resultBean.target.cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openVideo(ResultBean resultBean)
-    {
-        SearchResult result = new SearchResult();
-        result.id = resultBean.target.id;
-        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openBook(ResultBean resultBean)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", resultBean.target.title);
-        bundle.putString("cover", resultBean.target.cover);
-        bundle.putString("auth", resultBean.target.author);
-        bundle.putString("isbn", resultBean.target.isbn);
-        bundle.putString("publisher", resultBean.target.publisher);
-        bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
-        bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        mContext.startActivity(bundle, ContentActivity.class);
-    }
-
-
-    private void openPhoto(ResultBean resultBean)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "img");
-        bundle.putString("id", resultBean.target.id);
-        mContext.startActivity(bundle, DynamicCardActivity.class);
-    }
-
-
-    private void openDoc(ResultBean resultBean)
-    {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", resultBean.target.id);
-        intent.setClass(mContext, PdfActivity2.class);
-        mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
     }
 
 
