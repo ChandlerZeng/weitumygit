@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/grey2"
     android:orientation="vertical">
 
     <FrameLayout
@@ -409,6 +409,11 @@
                     android:src="@drawable/arrows_right"/>
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/grey7"/>
+
             <LinearLayout
                 android:id="@+id/ll_setting"
                 android:layout_width="match_parent"
@@ -441,6 +446,11 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/arrows_right"/>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/grey7"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
