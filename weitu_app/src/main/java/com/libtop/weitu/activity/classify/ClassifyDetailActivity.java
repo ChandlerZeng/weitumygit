@@ -26,7 +26,6 @@ import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyDetailBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
-import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
@@ -39,14 +38,12 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.CategoryResult;
-import com.libtop.weitu.test.HttpRequestTest;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.utils.OpenResUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -121,7 +118,7 @@ public class ClassifyDetailActivity extends BaseActivity
         subresAdapter = new ClassifySubDetailAdapter(mContext,categoryResultList);
         initPopView();
         initListView();
-//        getData();
+        getData();
         getFakeData();
     }
 
@@ -163,7 +160,7 @@ public class ClassifyDetailActivity extends BaseActivity
                 } else if (type.equals("resource")) {
 //                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
                     Resource resource = resourceList.get(position-1);
-                    OpenResUtil.startByType(mContext, resource.type, resource.rid);
+                    ContextUtil.openResourceByType(mContext, resource.type, resource.rid);
                 }
             }
         });

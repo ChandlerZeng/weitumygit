@@ -14,12 +14,12 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CommentBean;
 import com.libtop.weitu.test.Comments;
-import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.utils.OpenResUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.squareup.picasso.Picasso;
@@ -65,7 +65,7 @@ public class MyLikeActivity extends BaseActivity
     private void reqestData()
     {
         showLoding();
-        HttpRequest.newLoad(ContantsUtil.USER_COMMENT_LIST).execute(new StringCallback()
+        HttpRequest.newLoad(APIAddress.USER_COMMENT_LIST).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -131,7 +131,7 @@ public class MyLikeActivity extends BaseActivity
                 @Override
                 public void onClick(View v)
                 {
-                    OpenResUtil.startByType(mContext,comments.resource.type, comments.resource.rid);
+                    ContextUtil.openResourceByType(mContext,comments.resource.type, comments.resource.rid);
                 }
             });
             Picasso.with(context).load(comments.user.logo)
