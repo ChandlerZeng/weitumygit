@@ -15,13 +15,13 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.utils.OpenResUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.PullZoomListView;
@@ -98,7 +98,7 @@ public class SubjectDetailActivity extends BaseActivity
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (position>1){
                     Resource resource = (Resource) arg0.getAdapter().getItem(position);
-                    OpenResUtil.startByType(mContext,resource.type, resource.rid);
+                    ContextUtil.openResourceByType(mContext,resource.type, resource.rid);
                 }
             }
         });
@@ -142,7 +142,7 @@ public class SubjectDetailActivity extends BaseActivity
     private void getData()
     {
         swipeRefreshLayout.setRefreshing(true);
-        HttpRequest.newLoad(ContantsUtil.SUBJECT_RESOURCE_LIST).execute(new StringCallback()
+        HttpRequest.newLoad(APIAddress.SUBJECT_RESOURCE_LIST).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)

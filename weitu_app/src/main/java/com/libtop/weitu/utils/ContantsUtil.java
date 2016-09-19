@@ -50,11 +50,6 @@ public class ContantsUtil
     //    public static final String AVATARHOST = "http://avatar.bookus.cn";//测试环境
     //    public static final String IMGHOST2="http://image.bookus.cn/cover";//测试环境
 
-    public static final String SUBJECT_MY_ALL_LIST = API_FAKE_HOST_PUBLIC + "/subject/my_all/list";
-    public static final String RESOURCE_MY_ALL_LIST = API_FAKE_HOST_PUBLIC + "/resource/my_all/list";
-    public static final String SUBJECT_RESOURCE_LIST = API_FAKE_HOST_PUBLIC + "/subject/resource/list";
-    public static final String USER_COMMENT_LIST = API_FAKE_HOST_PUBLIC + "/user/comment/list";
-
     private static final String IMGHOST = "http://xpimg.qiniudn.com";
 
 
