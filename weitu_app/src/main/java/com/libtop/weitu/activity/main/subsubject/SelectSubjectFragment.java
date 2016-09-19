@@ -229,7 +229,7 @@ public class SelectSubjectFragment extends ContentFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 100){
-            loadCollected();
+//            loadCollected();
         }
     }
 }
