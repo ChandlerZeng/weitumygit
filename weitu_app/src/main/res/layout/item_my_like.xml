@@ -4,15 +4,12 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_normal"
-        android:background="@color/searchBackgroud"
-        />
+    <include layout="@layout/include_listview_padding_header"  />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/padding_normal"
         android:layout_marginBottom="@dimen/padding_normal"
         android:layout_marginLeft="@dimen/padding_normal"
         android:layout_marginRight="@dimen/padding_normal"

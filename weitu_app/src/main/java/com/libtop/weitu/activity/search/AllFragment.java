@@ -25,6 +25,7 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.listview.ScrollRefListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -113,6 +114,7 @@ public class AllFragment extends NotifyFragment
 
     private void initView()
     {
+        ListViewUtil.addPaddingHeader(mContext,mListview);
         mListview.setAdapter(mAdapter);
         mListview.setPullLoadEnable(false);
         mListview.setXListViewListener(new ScrollRefListView.IXListViewListener()

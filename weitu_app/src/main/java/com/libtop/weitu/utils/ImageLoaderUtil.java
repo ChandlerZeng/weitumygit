@@ -11,6 +11,8 @@ import com.libtop.weitu.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 
 /**
  * @author Sai
@@ -22,6 +24,8 @@ public class ImageLoaderUtil
 {
     private static final int USER_LOGO_RESOURCE_ID = R.drawable.user_default_icon;
     private static final int DEFAULT_IMAGE_RESOURCE_ID = R.drawable.default_image;
+    public static final int DEFAULT_BIG_IMAGE_RESOURCE_ID = R.drawable.bg_new_subject;
+    private static final float ROUND_SIZE = 5;
 
 
     public static void loadLogoImage(Context context, ImageView imageView, String url)
@@ -41,6 +45,15 @@ public class ImageLoaderUtil
         Picasso.with(context).load(url).placeholder(defaultResId).error(defaultResId).centerInside().fit().into(imageView);
     }
 
+    public static void loadPlaceImage(Context context, ImageView imageView, int resId)
+    {
+        Picasso.with(context).load(resId).transform(new RoundedCornersTransformation((int) DisplayUtils.dip2px(context,ROUND_SIZE),0)).fit().into(imageView);
+    }
+
+    public static void loadRoundImage(Context context, ImageView imageView,String url, int defaultResId)
+    {
+        Picasso.with(context).load(url).placeholder(defaultResId).transform(new RoundedCornersTransformation((int) DisplayUtils.dip2px(context,ROUND_SIZE),0)).fit().into(imageView);
+    }
 
     private static class CircleTransform implements Transformation
     {

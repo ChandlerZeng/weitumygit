@@ -88,6 +88,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/main_item_text"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:textSize="@dimen/text_size_14"/>
 
         <TextView
@@ -102,7 +104,6 @@
             android:textSize="@dimen/text_size_14"/>
 
     </LinearLayout>
-
 
     <View
         android:layout_width="match_parent"
@@ -175,24 +176,17 @@
         android:id="@+id/viewpager"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/in_bottom"
         android:layout_below="@+id/radioGroup"
-        android:layout_above="@+id/in_bottom"
         android:background="@color/white"/>
-
-    <View
-        android:layout_above="@+id/in_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider"
-        />
 
     <include
         android:id="@+id/in_bottom"
         layout="@layout/included_tools_bottom"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         />
 
 </RelativeLayout>
