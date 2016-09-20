@@ -66,10 +66,6 @@
         android:background="@color/divider"
         />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_normal"
-        android:background="@color/searchBackgroud"
-        />
+    <include layout="@layout/include_listview_padding_header" />
 
 </LinearLayout>

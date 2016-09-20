@@ -11,9 +11,9 @@ import android.widget.Toast;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
 import com.libtop.weitu.utils.selector.view.ImageSortActivity;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -51,6 +51,7 @@ public class NewSubjectActivity extends BaseActivity
     private void initView()
     {
         title.setText("新建主题");
+        ImageLoaderUtil.loadPlaceImage(mContext,imgCover,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
     }
 
 
@@ -105,7 +106,7 @@ public class NewSubjectActivity extends BaseActivity
         if (requestCode == REQUEST_IMAGE
                 && resultCode == Activity.RESULT_OK){
             String a = "file:///" + data.getStringExtra("lamge");
-            Picasso.with(mContext).load(a).fit().into(imgCover);
+            ImageLoaderUtil.loadRoundImage(mContext,imgCover,a,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
             Toast.makeText(mContext,"Good image ",Toast.LENGTH_SHORT).show();
         }
         switch (resultCode){

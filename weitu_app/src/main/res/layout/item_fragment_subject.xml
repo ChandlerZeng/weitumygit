@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             card_view:cardBackgroundColor="@color/white"
             card_view:contentPadding="3dp"
-            card_view:cardElevation="4dp"
+            card_view:cardElevation="3dp"
             card_view:cardUseCompatPadding="true"
             card_view:cardCornerRadius="6dp">
 
@@ -53,8 +53,8 @@
 
         <ImageView
             android:id="@+id/img_item_subject_new"
-            android:elevation="5dp"
-            android:layout_margin="4dp"
+            android:elevation="4dp"
+            android:layout_margin="7dp"
             android:background="@drawable/new_tag"
             android:layout_width="33dp"
             android:layout_height="33dp"/>

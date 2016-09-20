@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity
     public void initFragment()
     {
         MainFragment one = new MainFragment();
-        DiscoverFragment two = new DiscoverFragment();
+        SchoolFragment two = new SchoolFragment();
         UserCenterFragment three = new UserCenterFragment();
         fragmentList.add(one);
         fragmentList.add(two);
