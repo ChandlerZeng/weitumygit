@@ -22,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <com.libtop.weitu.widget.listview.XListView
@@ -44,7 +45,8 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="42dp"
+                    android:layout_height="wrap_content"
+                    android:minHeight="42dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/padding_left"
                     android:layout_weight="1"
@@ -55,6 +57,8 @@
                         android:id="@+id/edit_comment"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:maxLines="3"
+                        android:padding="@dimen/padding_left"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
                         android:background="@null"

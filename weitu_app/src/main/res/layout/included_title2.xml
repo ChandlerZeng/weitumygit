@@ -30,9 +30,10 @@
         android:id="@+id/commit"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginRight="5dp"
+        android:padding="@dimen/padding_normal"
         android:gravity="center"
         android:text="完成"
+        android:background="@drawable/list_selector"
         android:textColor="@color/black"
         android:textSize="16sp"/>
 </LinearLayout>

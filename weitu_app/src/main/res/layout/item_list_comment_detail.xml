@@ -23,7 +23,7 @@
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_small"
             android:layout_marginTop="@dimen/padding_normal"
             android:layout_toRightOf="@+id/img_head"
             android:textColor="@color/comment_subtitle"
@@ -50,9 +50,4 @@
             android:textColor="@color/comment_title"
             tools:text="这份资料很有用。"/>
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider"/>
-
 </LinearLayout>

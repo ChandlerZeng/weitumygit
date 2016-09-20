@@ -189,8 +189,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/padding_normal"
-                        android:layout_marginLeft="@dimen/padding_normal"
-                        android:layout_marginRight="@dimen/padding_normal"
                         android:background="@color/comment_reply"
                         android:orientation="vertical">
 
@@ -198,7 +196,8 @@
                             android:id="@+id/list_reply"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:divider="@null"
+                            android:divider="@color/divider"
+                            android:dividerHeight="0.49dp"
                             android:listSelector="@drawable/list_selector"
                             android:nestedScrollingEnabled="false"
                             android:scrollbars="none" />

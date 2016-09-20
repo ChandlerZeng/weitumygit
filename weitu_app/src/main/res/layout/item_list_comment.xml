@@ -3,13 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:id="@+id/comment_father_layout"
+    android:background="@drawable/list_selector"
+    android:descendantFocusability="blocksDescendants"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:clickable="true"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/comment_layout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:layout_margin="@dimen/padding_normal">
 
         <ImageView
@@ -40,6 +44,7 @@
         <TextView
             android:id="@+id/tv_commnet1"
             android:background="@drawable/list_selector"
+            android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_head"
@@ -115,6 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
+            android:descendantFocusability="afterDescendants"
             android:nestedScrollingEnabled="false"
             android:divider="@null"
             android:listSelector="@drawable/list_selector"/>
