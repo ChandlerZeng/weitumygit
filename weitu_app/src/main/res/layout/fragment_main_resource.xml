@@ -59,6 +59,6 @@
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
-    <!--<include layout="@layout/content_layout_network_loading"/>-->
+    <include layout="@layout/content_layout_network_loading"/>
 
 </RelativeLayout>
