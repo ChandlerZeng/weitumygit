@@ -454,7 +454,7 @@ public class BookDetailFragment extends ContentFragment
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(MessageEvent event)
     {
-        if (event.message.getString("target").equals(this.getClass().getName().toString()))
+        if (event.message.getString("target")!=null && event.message.getString("target").equals(this.getClass().getName().toString()))
         {
             Bundle bundle = event.message;
             isCollectShow = bundle.getBoolean("isCollectShow");

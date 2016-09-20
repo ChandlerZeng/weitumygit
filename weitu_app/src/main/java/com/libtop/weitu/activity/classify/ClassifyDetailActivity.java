@@ -1,12 +1,11 @@
 package com.libtop.weitu.activity.classify;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.ListPopupWindow;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -15,40 +14,18 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.adapter.ClassifyCheckAdapter;
 import com.libtop.weitu.activity.classify.adapter.ClassifyDetailAdapter;
-import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyDetailBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
-import com.libtop.weitu.activity.main.SubjectDetailActivity;
-import com.libtop.weitu.activity.main.dto.DisplayDto;
-import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
-import com.libtop.weitu.activity.search.VideoPlayActivity2;
-import com.libtop.weitu.activity.search.dto.SearchResult;
-import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weitu.activity.source.AudioPlayActivity2;
-import com.libtop.weitu.activity.source.PdfActivity2;
+import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.test.CategoryResult;
-import com.libtop.weitu.test.HttpRequestTest;
-import com.libtop.weitu.test.Resource;
-import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.utils.OpenResUtil;
-import com.libtop.weitu.widget.listview.XListView;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.libtop.weitu.widget.NoSlideViewPager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +34,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import okhttp3.Call;
+import butterknife.OnPageChange;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -73,37 +50,36 @@ public class ClassifyDetailActivity extends BaseActivity
     TextView mTitleText;
     @Bind(R.id.tv_sort)
     TextView mSubTitleText;
-    @Bind(R.id.list)
-    XListView mListView;
-    @Bind(R.id.nullCo)
-    View noView;
     @Bind(R.id.titlebar)
     View titleBar;
     @Bind(R.id.img_arrow)
     ImageView imgArrow;
     @Bind(R.id.radioGroup)
     RadioGroup radioGroup;
+    @Bind(R.id.viewpager)
+    NoSlideViewPager mViewPager;
 
-    private String type = "subject";
-    private String api = "/category/subject/list";
-    private String mAction;
-    private int mCurentPage = 1;
+    private List<Fragment> mFrags;
+    private MainPageAdapter mPageAdapter;
+    private int pageIndex = 0;
+
+    private final int TYPE_SUBJECT = 0;
+    private final int TYPE_RESOURCE = 1;
+
+    private int mCurPage = 1;
     private ClassifyDetailAdapter mAdapter;
     private List<ClassifyResultBean> mData;
     private ListPopupWindow mListPop, mListFilterPop;
     private boolean hasData = false;
+    private boolean isFirstIn = true;
+    private boolean isRefreshed = false;
 
     private long code, subCode;
     private String filterString = "view";
 
     private List<ClassifyBean> lists = new ArrayList<ClassifyBean>();
-    private List<CategoryResult> categoryResultList = new ArrayList<>();
     private ClassifyCheckAdapter filterCheckAdapter, classifyCheckAdapter;
-    private ClassifySubDetailAdapter subresAdapter;
-
-    private List<Subject> subjectList = new ArrayList<>();
-    private List<Resource> resourceList = new ArrayList<>();
-
+    private ClassifyDetailFragment classifyDetailFragment;
 
     public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book";
 
@@ -118,56 +94,72 @@ public class ClassifyDetailActivity extends BaseActivity
         mTitleText.setText(name);
         mData = new ArrayList<ClassifyResultBean>();
         mAdapter = new ClassifyDetailAdapter(mContext, mData);
-        subresAdapter = new ClassifySubDetailAdapter(mContext,categoryResultList);
+        classifyDetailFragment=new ClassifyDetailFragment();
+        initView();
         initPopView();
-        initListView();
-//        getData();
-        getFakeData();
+//        initListView();
+        getData();
     }
 
+    private void initView(){
+        mFrags = new ArrayList<Fragment>();
+        ClassifyDetailFragment f1 = new ClassifyDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", "subject");
+        bundle.putString("api", "/category/subject/list");
+        f1.setArguments(bundle);
 
-    private void initListView()
-    {
+        ClassifyDetailFragment f2 = new ClassifyDetailFragment();
+        Bundle bundle2 = new Bundle();
+        bundle2.putString("type", "resource");
+        bundle2.putString("api", "/category/resource/list");
+        f2.setArguments(bundle2);
+
+        mFrags.add(f1);
+        mFrags.add(f2);
+
+        mPageAdapter = new MainPageAdapter(getSupportFragmentManager(), mFrags);
+
+        mViewPager.setPagingEnabled(true);
+        mViewPager.setAdapter(mPageAdapter);
+        mViewPager.setCurrentItem(0);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                radioButtonClicked(checkedId);
+                onCheckedChangedAction(group, checkedId);
             }
         });
-        mListView.setAdapter(mAdapter);
-        mListView.setPullLoadEnable(false);
-        mListView.setXListViewListener(new XListView.IXListViewListener() {
-            @Override
-            public void onRefresh() {
-                mCurentPage = 1;
-                getFakeData();
-            }
+    }
+
+    @Nullable
+    @OnPageChange(value = R.id.viewpager)
+    public void onPageSelected(int position)
+    {
+        switch (position)
+        {
+            case TYPE_SUBJECT:
+                radioGroup.check(R.id.subject);
+                break;
+            case TYPE_RESOURCE:
+                radioGroup.check(R.id.resource);
+                break;
+        }
+    }
 
 
-            @Override
-            public void onLoadMore() {
-                if (hasData) {
-                    getFakeData();
-                }
+    public void onCheckedChangedAction(RadioGroup group, int checkedId) {
+        pageIndex = -1;
+        switch (checkedId) {
+            case R.id.subject: {
+                pageIndex = TYPE_SUBJECT;
             }
-        });
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                startByType(mData.get(position - 1).entityType, position - 1);
-                if (type.equals("subject")) {
-                    Subject subject = subjectList.get(position-1);
-                    Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                    intent.putExtra("cover", subject.cover);
-                    startActivity(intent);
-                } else if (type.equals("resource")) {
-//                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-                    Resource resource = resourceList.get(position-1);
-                    OpenResUtil.startByType(mContext, resource.type, resource.rid);
-                }
+            break;
+            case R.id.resource: {
+                pageIndex = TYPE_RESOURCE;
             }
-        });
-        mCurentPage = 1;
+            break;
+        }
+        mViewPager.setCurrentItem(pageIndex);
     }
 
 
@@ -189,7 +181,7 @@ public class ClassifyDetailActivity extends BaseActivity
                 mSubTitleText.setText(lists.get(position).name);
                 subCode = lists.get(position).code;
                 classifyCheckAdapter.setCheck(position);
-                mCurentPage = 1;
+                mCurPage = 1;
                 getData();
                 mListPop.dismiss();
             }
@@ -227,7 +219,7 @@ public class ClassifyDetailActivity extends BaseActivity
             {
                 setFilter(position);
                 filterCheckAdapter.setCheck(position);
-                mCurentPage = 1;
+                mCurPage = 1;
                 getData();
                 mListFilterPop.dismiss();
             }
@@ -271,7 +263,7 @@ public class ClassifyDetailActivity extends BaseActivity
         map.put("label1", code);
         map.put("label2", subCode);
         map.put("sort", filterString);
-        map.put("page", mCurentPage);
+        map.put("page", mCurPage);
         map.put("method", "search.categories");
         String[] arrays = MapUtil.map2Parameter(map);
         subscription = WeituNetwork.getWeituApi().getClassifyDetail(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ClassifyDetailBean>()
@@ -286,10 +278,10 @@ public class ClassifyDetailActivity extends BaseActivity
             @Override
             public void onError(Throwable e)
             {
-                if (mData.isEmpty())
+                if (mData.isEmpty() && !isRefreshed)
                 {
-                    noView.setVisibility(View.VISIBLE);
-                    mListView.setVisibility(View.GONE);
+//                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+//                    mListView.setVisibility(View.GONE);
                 }
             }
 
@@ -297,7 +289,7 @@ public class ClassifyDetailActivity extends BaseActivity
             @Override
             public void onNext(ClassifyDetailBean classifyDetailBean)
             {
-                mListView.stopRefresh();
+//                mListView.stopRefresh();
                 lists.clear();
                 int size = classifyDetailBean.categories.subCategories.size();
                 ClassifyBean classifyBean = new ClassifyBean();
@@ -312,7 +304,7 @@ public class ClassifyDetailActivity extends BaseActivity
                 lists.addAll(classifyDetailBean.categories.subCategories);
                 classifyCheckAdapter.setData(lists);
                 classifyCheckAdapter.notifyDataSetChanged();
-                if (mCurentPage == 1)
+                if (mCurPage == 1)
                 {
                     mData.clear();
                 }
@@ -320,63 +312,26 @@ public class ClassifyDetailActivity extends BaseActivity
                 if (classifyDetailBean.result.size() < 10)
                 {
                     hasData = false;
-                    mListView.setPullLoadEnable(false);
+//                    mListView.setPullLoadEnable(false);
                 }
                 else
                 {
                     hasData = true;
-                    mListView.setPullLoadEnable(true);
+//                    mListView.setPullLoadEnable(true);
                 }
-                mCurentPage++;
+                mCurPage++;
                 if (mData.isEmpty())
                 {
-                    noView.setVisibility(View.VISIBLE);
-                    mListView.setVisibility(View.GONE);
+//                    networkLoadingLayout.showEmptyPrompt();
+//                    mListView.setVisibility(View.GONE);
+//                    classifyDetailFragment.getInstance().showEmptyPage();
                 }
                 else
                 {
-                    noView.setVisibility(View.GONE);
-                    mListView.setVisibility(View.VISIBLE);
+//                    networkLoadingLayout.dismiss();
+//                    mListView.setVisibility(View.VISIBLE);
+//                    classifyDetailFragment.getInstance().dismissEmptyPage();
                     mAdapter.setNewData(mData);
-                }
-            }
-        });
-    }
-
-    private void getFakeData()
-    {
-        //  http://192.168.0.9/category/resource/list
-        Map<String, Object> map = new HashMap<>();
-        map.put("type", type);
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-            }
-
-
-            @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
-                    mListView.stopRefresh();
-                    try {
-                        Gson gson = new Gson();
-                        SubjectResource data = gson.fromJson(json, new TypeToken<SubjectResource>() {
-                        }.getType());
-                        categoryResultList.clear();
-
-                        if (api.equals("/category/resource/list")) {
-                            categoryResultList.addAll(data.resources);
-                            resourceList = data.resources;
-                        } else {
-                            categoryResultList.addAll(data.subjects);
-                            subjectList = data.subjects;
-                        }
-                        subresAdapter.setNewData(categoryResultList);
-                        mListView.setAdapter(subresAdapter);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         });
@@ -426,109 +381,12 @@ public class ClassifyDetailActivity extends BaseActivity
         mContext.startActivity(null, SearchActivity.class);
     }
 
-    private void radioButtonClicked(int checkedId){
-        switch (checkedId){
-            case R.id.subject:
-                api = "/category/subject/list";
-                type = "subject";
-                getFakeData();
-                break;
-            case R.id.resource:
-                api = "/category/resource/list";
-                type = "resource";
-                getFakeData();
-                break;
-        }
-    }
 
 
     @Override
     public void onBackPressed()
     {
         mContext.finish();
-    }
-
-
-    private void startByType(String type, int position)
-    {
-        if (!TextUtils.isEmpty(type))
-        {
-            switch (type)
-            {
-                case VIDEO:
-                    openVideo(position);
-                    break;
-                case AUDIO:
-                    openAudio(position);
-                case DOC:
-                    openDoc(position);
-                    break;
-                case PHOTO:
-                    openPhoto(position);
-                    break;
-                case BOOK:
-//                    openBook(position);
-                    break;
-            }
-        }
-
-    }
-
-
-    private void openAudio(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = mData.get(position).id;
-        result.cover = mData.get(position).cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
-        intent.putExtra("ClassifyResultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openVideo(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = mData.get(position).id;
-        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", bookName);
-        bundle.putString("cover", cover);
-        bundle.putString("auth", author);
-        bundle.putString("isbn", isbn);
-        bundle.putString("publisher", publisher);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
-        bundle.putBoolean("isFromMainPage", true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        mContext.startActivity(bundle, ContentActivity.class);
-    }
-
-
-    private void openPhoto(int position)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "img");
-        bundle.putString("id", mData.get(position).id);
-        mContext.startActivity(bundle, DynamicCardActivity.class);
-    }
-
-
-    private void openDoc(int position)
-    {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", mData.get(position).id);
-        intent.setClass(mContext, PdfActivity2.class);
-        mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
     }
 
 }

@@ -232,65 +232,6 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     }
 
 
-    private void setNewsVisible(){
-        llNews.setVisibility(View.VISIBLE);
-        changeListView.setVisibility(View.VISIBLE);
-    }
-
-    private void setNewsGone(){
-        llNews.setVisibility(View.GONE);
-        changeListView.setVisibility(View.GONE);
-    }
-
-    private void openAudio(String id,String cover) {
-        SearchResult result = new SearchResult();
-        result.id = id;
-        result.cover = cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-    private void openVideo(String id) {
-        SearchResult result = new SearchResult();
-        result.id = id;
-        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", bookName);
-        bundle.putString("cover", cover);
-        bundle.putString("auth", author);
-        bundle.putString("isbn", isbn);
-        bundle.putString("publisher", publisher);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
-        bundle.putBoolean("isFromMainPage", true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        mContext.startActivity(bundle, ContentActivity.class);
-    }
-
-    private void openPhoto(String id) {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "img");
-        bundle.putString("id", id);
-        mContext.startActivity(bundle, DynamicCardActivity.class);
-    }
-
-    private void openDoc(String id) {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", id);
-        intent.setClass(mContext, PdfActivity2.class);
-        mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin,
-                R.anim.alpha_outto);
-    }
-
     private void initData() {
         if (slideList.isEmpty()){
             return;
@@ -456,51 +397,9 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
 
     private void loadSubjectRecommand() {
         requestSubject();
-//        requestBooks();
     }
 
-    private void requestBooks(){
-        List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("bookLists");
-        if(docBeans!=null&&!docBeans.isEmpty()){
-            handleBookResult(docBeans);
-        }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "book.listRecommend");
-        String[] arrays = MapUtil.map2Parameter(params);
-        _subscriptions.add(
-                WeituNetwork.getWeituApi()
-                        .getNewest(arrays[0], arrays[1], arrays[2])
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<List<DocBean>>() {
-                            @Override
-                            public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(List<DocBean> docBeens) {
-                                mCache.put("bookLists", (Serializable) docBeens);
-                                handleBookResult(docBeens);
-                            }
-                        })
-        );
-    }
-    private void handleBookResult(List<DocBean> docBeens) {
-        bList.clear();
-        bList = docBeens;
-        if (bList.isEmpty())
-            return;
-        if (bList.size()>4){
-            bList = bList.subList(0,4);
-        }
-//        moreSubjectAdapter.setData(bList);
-    }
     private void requestSubject()
     {
         List<Subject> subjectLists= (List<Subject>) mCache.getAsObject("subjectList");

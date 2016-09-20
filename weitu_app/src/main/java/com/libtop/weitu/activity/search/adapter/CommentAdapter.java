@@ -73,7 +73,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
                 bindData(url,headImage);
             }
             tvUser.setText(object.user.name);
-            tvTime.setText(DateUtil.parseToStringWithoutSS(object.t_create));
+            tvTime.setText(DateUtil.transformToShow(object.t_create));
             if(object.my_praise==0){
                 praiseIcon.setImageResource(R.drawable.icon_comment_unpraised);
             }else {

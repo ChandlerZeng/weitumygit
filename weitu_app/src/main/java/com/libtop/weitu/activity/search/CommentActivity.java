@@ -38,6 +38,7 @@ import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.listview.RemakeXListView;
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -61,17 +62,20 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class CommentActivity extends BaseActivity implements CommentAdapter.OnCommentListener
+public class CommentActivity extends BaseActivity implements CommentAdapter.OnCommentListener,NetworkLoadingLayout.OnRetryClickListner
 {
 
     @Bind(R.id.edit_comment)
     EditText editText;
     @Bind(R.id.list_comment)
-    RemakeXListView xListView;
+    XListView xListView;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.sub_title)
     TextView subTitle;
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
+
     private CommentAdapter commentAdapter;
 
     private List<CommentResult> list;
@@ -87,6 +91,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     private int mCurPage = 1;
     private boolean hasData = true;
+    private boolean isFirstIn = true;
+    private boolean isRefreshed = false;
+
     private HashMap<String, Object> map = new HashMap<>();
     private HashMap<String, Object> map2 = new HashMap<>();
 
@@ -113,6 +120,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         if (commentNeedDto.title!=null && !TextUtils.isEmpty(commentNeedDto.title))
         {
             subTitle.setText(commentNeedDto.title);
+        }
+        if (isFirstIn)
+        {
+            isFirstIn = false;
+            networkLoadingLayout.showLoading();
+            getCommentList();
         }
         xListView.setPullLoadEnable(false);
         xListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -145,6 +158,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             @Override
             public void onRefresh() {
                 mCurPage = 1;
+                isRefreshed = true;
                 getCommentList();
             }
 
@@ -157,9 +171,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         });
         title.setText("评论");
 //        getData(); TODO
-        getCommentList();
         commentAdapter = new CommentAdapter(this, commentsList, this);
         xListView.setAdapter(commentAdapter);
+        networkLoadingLayout.setOnRetryClickListner(this);
     }
 
 
@@ -167,14 +181,17 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     {
         //  http://192.168.0.9/resource/comment/list private
         //  http://115.28.189.104/resource/comment/list public
-        showLoding();
         Map<String, Object> map = new HashMap<>();
         String api = "/resource/comment/list";
         map.put("page", mCurPage);
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                Log.e("CommentActivity", e.getMessage());
+                if (mCurPage > 1) {
+
+                } else if (!isRefreshed) {
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
             }
 
 
@@ -182,7 +199,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
                     xListView.stopRefresh();
-                    dismissLoading();
+                    if (mCurPage == 1) {
+                        networkLoadingLayout.dismiss();
+                    }
                     try {
                         Gson gson = new Gson();
                         CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
@@ -197,6 +216,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                         } else {
                             hasData = true;
                             xListView.setPullLoadEnable(true);
+                        }
+                        if (commentsList.size() == 0 && mCurPage == 1) {
+                            networkLoadingLayout.showEmptyPrompt();
                         }
                         mCurPage++;
                         commentAdapter.setData(commentsList);
@@ -273,7 +295,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             dismissLoading();
-                            showToast("回复评论成功");
+                            Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
                                 Gson gson = new Gson();
                                 Reply data = gson.fromJson(json, new TypeToken<Reply>() {
@@ -289,7 +311,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                                 e.printStackTrace();
                             }
                         } else {
-                            showToast("回复评论失败");
+                            Toast.makeText(CommentActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -316,7 +338,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             dismissLoading();
-                            showToast("评论成功");
+                            Toast.makeText(CommentActivity.this,"评论成功",Toast.LENGTH_SHORT).show();;
                             try {
                                 Gson gson = new Gson();
                                 CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
@@ -391,7 +413,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                     @Override
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
-                            showToast("删除成功");
+                            Toast.makeText(CommentActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
                             commentAdapter.removeSubItem(replyBean, replyBeans, object);
                             dismissLoading();
                         }
@@ -415,7 +437,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                     @Override
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
-                            showToast("删除成功");
+                            Toast.makeText(CommentActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
                             commentsList.remove(comments);
                             commentAdapter.notifyDataSetChanged();
                             dismissLoading();
@@ -442,7 +464,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             dismissLoading();
-                            showToast("回复评论成功");
+                            Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
                                 Gson gson = new Gson();
                                 Reply data = gson.fromJson(json, new TypeToken<Reply>() {
@@ -459,7 +481,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                                 e.printStackTrace();
                             }
                         } else {
-                            showToast("回复评论失败");
+                            Toast.makeText(CommentActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -605,13 +627,15 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(MessageEvent event)
     {
-        Bundle bundle = event.message;
-        Comments comments = (Comments) bundle.getSerializable("comments");
-        int position = bundle.getInt("position");
-        Boolean isCommentUpdate = bundle.getBoolean("isCommentUpdate",false);
-        if (isCommentUpdate)
-        {
-            replaceComment(position, comments);
+        if(event.message.getString("isFromComment")!=null && event.message.getString("isFromComment").equals("true")){
+            Bundle bundle = event.message;
+            Comments comments = (Comments) bundle.getSerializable("comments");
+            int position = bundle.getInt("position");
+            Boolean isCommentUpdate = bundle.getBoolean("isCommentUpdate",false);
+            if (isCommentUpdate)
+            {
+                replaceComment(position, comments);
+            }
         }
     }
 
@@ -623,4 +647,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         super.onDestroy();
     }
 
+    @Override
+    public void onRetryClick(View v) {
+        mCurPage = 1;
+        getCommentList();
+    }
 }

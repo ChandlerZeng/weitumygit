@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/padding_normal"
     android:background="@color/white"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/comment_layout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:layout_margin="@dimen/padding_normal">
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/img_head"
@@ -44,8 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_head"
+            android:layout_toRightOf="@+id/img_head"
             android:clickable="false"
-            android:layout_marginLeft="@dimen/padding_normal"
             android:padding="@dimen/padding_small"
             android:textColor="@color/comment_title"
             tools:text="这份资料很有用。"/>

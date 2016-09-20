@@ -16,15 +16,13 @@
             android:id="@+id/img_head"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="@dimen/padding_normal"
             android:background="@drawable/normal_head"/>
 
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_normal"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_normal"
             android:layout_toRightOf="@+id/img_head"
             android:textColor="@color/comment_user_name"
             tools:text="用户名"/>
@@ -34,6 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_user_name"
+            android:layout_marginLeft="@dimen/padding_normal"
             android:layout_toRightOf="@+id/img_head"
             android:layout_weight="1"
             android:textColor="@color/comment_subtitle"
@@ -44,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_head"
-            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_normal"
             android:padding="@dimen/padding_small"
             android:textColor="@color/comment_title"
             tools:text="这份资料很有用。"/>
@@ -52,7 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_commnet1"
-            android:layout_marginLeft="@dimen/padding_normal"
             android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/likeLayout"
@@ -106,13 +104,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/padding_medium"
-        android:layout_marginRight="@dimen/padding_medium"
+        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/padding_normal"
         android:layout_marginBottom="@dimen/padding_normal"
         android:background="@color/comment_reply">
         <com.libtop.weitu.widget.listview.ChangeListView
-            android:layout_marginLeft="@dimen/padding_normal"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_small"
+            android:layout_marginRight="@dimen/padding_small"
             android:id="@+id/list_reply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -121,7 +119,7 @@
             android:divider="@null"
             android:listSelector="@drawable/list_selector"/>
         <TextView
-            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_small"
             android:visibility="gone"
             android:id="@+id/tv_commnet_more"
             android:layout_width="match_parent"

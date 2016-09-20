@@ -566,11 +566,15 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     {
         Intent intent = new Intent(mContext, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
-        commentNeedDto.title = mediaAlbumBean.title;
-        commentNeedDto.author = mediaAlbumBean.artist;
-        commentNeedDto.publisher = mediaAlbumBean.uploadUsername;
-        commentNeedDto.photoAddress = mediaAlbumBean.cover;
-        commentNeedDto.tid = searchResult.id;
+        if(mediaAlbumBean!=null){
+            commentNeedDto.title = mediaAlbumBean.title;
+            commentNeedDto.author = mediaAlbumBean.artist;
+            commentNeedDto.publisher = mediaAlbumBean.uploadUsername;
+            commentNeedDto.photoAddress = mediaAlbumBean.cover;
+        }
+        if(searchResult.id!=null){
+            commentNeedDto.tid = searchResult.id;
+        }
         commentNeedDto.type = 2;
         intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
         startActivity(intent);

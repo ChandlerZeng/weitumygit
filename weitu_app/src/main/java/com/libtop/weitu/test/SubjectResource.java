@@ -10,4 +10,5 @@ public class SubjectResource implements Serializable {
     public int status;
     public List<Subject> subjects;
     public List<Resource> resources;
+    public Subject subject;
 }
