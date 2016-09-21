@@ -64,7 +64,7 @@
                     android:layout_below="@+id/photo"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    tools:background="@drawable/male"/>
+                    android:background="@drawable/male"/>
             </LinearLayout>
 
             <TextView

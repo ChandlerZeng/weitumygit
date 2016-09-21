@@ -48,6 +48,7 @@ import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PicassoLoader;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.gridview.FixedGridView;
 import com.libtop.weitu.widget.listview.ChangeListView;
 import com.zbar.lib.CaptureActivity;
@@ -84,7 +85,7 @@ import rx.subscriptions.CompositeSubscription;
  * @author 陆
  * @version common v1.0
  */
-public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageClickListener {
+public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageClickListener, NetworkLoadingLayout.OnRetryClickListner {
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.scroll)
@@ -107,6 +108,8 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     TextView fileMore;
     @Bind(R.id.ll_news)
     LinearLayout llNews;
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
 
 
     SubjectFileAdapter subjectFileAdapter;
@@ -121,6 +124,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     private CompositeSubscription _subscriptions = new CompositeSubscription();
 
     private ACache mCache;
+
 
 
     @Override
@@ -142,6 +146,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
     }
 
     private void initLoad() {
+
         loadSubjectRecommand();
         loadResourceFile();
         requestImageSlider();
@@ -479,5 +484,10 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             reourceList = reourceList.subList(0, 2);
         }
         subjectFileAdapter.setData(reourceList);
+    }
+
+    @Override
+    public void onRetryClick(View v) {
+
     }
 }
