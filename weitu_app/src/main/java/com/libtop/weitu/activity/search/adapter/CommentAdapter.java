@@ -56,6 +56,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
         ImageView headImage = helper.getView(R.id.img_head);
         ImageView praiseIcon = helper.getView(R.id.icon_praise);
         RelativeLayout commentLayout1 = helper.getView(R.id.comment_layout1);
+        LinearLayout commentFatherLayout = helper.getView(R.id.comment_father_layout);
         LinearLayout commentLayout2 = helper.getView(R.id.comment_layout2);
         LinearLayout likeLayout = helper.getView(R.id.likeLayout);
         LinearLayout replyLayout = helper.getView(R.id.replyLayout);
@@ -73,7 +74,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
                 bindData(url,headImage);
             }
             tvUser.setText(object.user.name);
-            tvTime.setText(DateUtil.parseToStringWithoutSS(object.t_create));
+            tvTime.setText(DateUtil.transformToShow(object.t_create));
             if(object.my_praise==0){
                 praiseIcon.setImageResource(R.drawable.icon_comment_unpraised);
             }else {
@@ -134,7 +135,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
                 }
             });
 
-            tvcomment.setOnLongClickListener(new View.OnLongClickListener() {
+            commentFatherLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     onCommentListener.onCommentContentLongClick(v, position, object);
@@ -142,7 +143,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
                 }
             });
 
-            tvcomment.setOnClickListener(new View.OnClickListener() {
+            commentFatherLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onCommentListener.onCommentContentClick(v, position, object);

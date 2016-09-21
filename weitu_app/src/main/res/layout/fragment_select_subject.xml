@@ -21,6 +21,7 @@
             android:id="@+id/select_sub_list"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
+            android:divider="@null"
             android:background="@color/white" />
         <com.melnykov.fab.FloatingActionButton
             android:id="@+id/select_sub_new_theme"
@@ -32,6 +33,7 @@
             fab:fab_colorNormal="@color/newGreen"
             fab:fab_colorPressed="@color/green1"
             fab:fab_colorRipple="@color/grey4" />
+        <include layout="@layout/content_layout_network_loading"/>
     </FrameLayout>
 
 </LinearLayout>

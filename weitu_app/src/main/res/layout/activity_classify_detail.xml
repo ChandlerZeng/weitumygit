@@ -48,34 +48,11 @@
         android:layout_height="@dimen/padding_tiny"
         android:background="@color/grey_bg" />
 
-    <LinearLayout
-        android:id="@+id/nullCo"
+    <com.libtop.weitu.widget.NoSlideViewPager
+        android:id="@+id/viewpager"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="暂无数据"
-            android:textColor="#d6d5d5"
-            android:textSize="25sp" />
-    </LinearLayout>
-
-    <com.libtop.weitu.widget.listview.XListView
-        android:id="@+id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:cacheColorHint="#00000000"
-        android:descendantFocusability="blocksDescendants"
-        android:divider="@color/main_divider_line"
-        android:dividerHeight="0.8dip"
-        android:fadingEdge="none"
-        android:listSelector="@drawable/list_selector" />
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:background="@color/transparent"/>
 
 </LinearLayout>

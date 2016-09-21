@@ -382,14 +382,16 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     {
         Intent intent = new Intent(mContext, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
-        if(commentNeedDto.title!=null){
+        if(mediaAlbumBean!=null){
             commentNeedDto.title = mediaAlbumBean.uploadUsername;
             commentNeedDto.author = mediaAlbumBean.artist;
             commentNeedDto.publisher = mediaAlbumBean.uploadUsername;
             commentNeedDto.photoAddress = mediaAlbumBean.cover;
-            commentNeedDto.tid = searchResult.id;
-            commentNeedDto.type = 2;
         }
+        if(searchResult.id!=null){
+            commentNeedDto.tid = searchResult.id;
+        }
+        commentNeedDto.type = 2;
         intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
         startActivity(intent);
     }

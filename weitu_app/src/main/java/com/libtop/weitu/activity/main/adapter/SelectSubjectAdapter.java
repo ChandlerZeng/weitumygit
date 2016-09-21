@@ -4,20 +4,13 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.main.dto.SelectSubBean;
-import com.libtop.weitu.activity.search.dto.BookDto;
-import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.vov.vitamio.utils.Log;
 
 /**
  * Created by Zeng on 2016/9/8.

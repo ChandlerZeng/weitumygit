@@ -16,17 +16,25 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_tiny"
         android:background="@color/grey_bg"/>
-    <GridView
-        android:id="@+id/sub_grid_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:listSelector="@android:color/transparent"
-        android:numColumns="2"
-        android:background="@color/white"
-        android:gravity="center"
-        android:horizontalSpacing="@dimen/padding_micro"
-        android:isScrollContainer="false"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/padding_left"/>
+
+    <FrameLayout
+        style="@style/my_layout_style_common">
+
+        <GridView
+            android:id="@+id/sub_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:background="@color/white"
+            android:gravity="center"
+            android:horizontalSpacing="@dimen/padding_tiny"
+            android:isScrollContainer="false"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="@dimen/padding_left"/>
+
+        <include layout="@layout/content_layout_network_loading"/>
+
+    </FrameLayout>
 
 </LinearLayout>

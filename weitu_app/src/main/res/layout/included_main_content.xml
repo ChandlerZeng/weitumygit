@@ -105,11 +105,6 @@
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/padding_left" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_left"
-        android:background="@color/white"
-        />
 
     <View
         android:layout_width="match_parent"

@@ -5,124 +5,135 @@
               android:background="@color/white"
               android:orientation="vertical">
 
-    <include layout="@layout/included_title1" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider"
-        />
+    <include layout="@layout/included_title1"/>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@color/searchBackgroud">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/img_subject_info"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/padding_size_10"/>
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider"
+                />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_medium"
-        android:orientation="horizontal"
-        android:padding="@dimen/padding_size_10">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@color/searchBackgroud">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="主题名称"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black"/>
+                <ImageView
+                    android:id="@+id/img_subject_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_size_10"/>
 
-        <TextView
-            android:id="@+id/tv_subject_info_title"
-            style="@style/login_input_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/favorate_text"/>
+            </LinearLayout>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_medium"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_size_10">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="主题名称"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/padding_size_10">
+                <TextView
+                    android:id="@+id/tv_subject_info_title"
+                    style="@style/login_input_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/favorate_text"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="主题分类"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black"/>
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_subject_info_sort"
-            style="@style/login_input_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/favorate_text"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider"/>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_size_10">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="主题分类"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/padding_size_10">
+                <TextView
+                    android:id="@+id/tv_subject_info_sort"
+                    style="@style/login_input_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/favorate_text"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="主题简介"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/black"/>
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_subject_info_desc"
-            style="@style/login_input_style"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/main_text"
-            android:gravity="left"
-            android:maxLength="50"
-            android:minLines="5"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider"/>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_size_10">
 
-    <TextView
-        android:id="@+id/tv_subject_info_watch"
-        android:background="@drawable/shape_bg_subject_follow"
-        android:textColor="@color/newGreen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_size_10"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="@dimen/padding_size_10"
-        android:layout_marginRight="@dimen/padding_size_10"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:text="关注"
-        />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="主题简介"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"/>
 
+                <TextView
+                    android:id="@+id/tv_subject_info_desc"
+                    style="@style/login_input_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:maxLength="50"
+                    android:minLines="5"
+                    android:textColor="@color/main_text"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_subject_info_watch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_size_10"
+                android:layout_marginRight="@dimen/padding_size_10"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/shape_bg_subject_follow"
+                android:gravity="center"
+                android:padding="@dimen/padding_size_10"
+                android:text="关注"
+                android:textColor="@color/newGreen"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
