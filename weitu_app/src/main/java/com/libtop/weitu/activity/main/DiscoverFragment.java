@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyFragment;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
-import com.libtop.weitu.activity.main.dto.DisplayDto;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.rank.RankFragment;
@@ -34,7 +32,6 @@ import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
-import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.activity.search.dto.SearchResult;
 import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.activity.source.AudioPlayActivity2;
@@ -49,8 +46,7 @@ import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.utils.OpenResUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.gridview.FixedGridView;
 import com.libtop.weitu.widget.listview.ChangeListView;
@@ -173,7 +169,7 @@ public class DiscoverFragment extends BaseFragment implements ViewPager.OnPageCh
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Resource resource = reourceList.get(position);
 //                openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-                OpenResUtil.startByType(mContext, resource.type, resource.rid);
+                ContextUtil.openResourceByType(mContext, resource.type, resource.rid);
             }
         });
         mScroll.smoothScrollTo(0, 0);

@@ -3,9 +3,7 @@ package com.libtop.weitu.activity.main.subsubject;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,32 +14,22 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
-import com.libtop.weitu.activity.main.adapter.RmdBooksAdapter;
 import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
 import com.libtop.weitu.activity.search.BookDetailFragment;
-import com.libtop.weitu.activity.search.SearchActivity;
-import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.OpenResUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import okhttp3.Call;
@@ -141,7 +129,9 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
         //显示图书详情
         Resource resource = resourceList.get(position-1);
 //        openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-        OpenResUtil.startByType(mContext, resource.type, resource.rid, true);
+
+        ContextUtil.openResourceByType(mContext, resource.type, resource.rid, true);
+
     }
 
     private void loadResourceFile(){

@@ -23,8 +23,10 @@ import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.OpenResUtil;
+
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
+
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -110,8 +112,9 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
                     startActivity(intent);
                 } else if (type.equals("resource")) {
 //                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-                    Resource resource = resourceList.get(position - 1);
-                    OpenResUtil.startByType(mContext, resource.type, resource.rid, true);
+
+                    Resource resource = resourceList.get(position-1);
+                    ContextUtil.openResourceByType(mContext, resource.type, resource.rid, true);
                 }
             }
         });

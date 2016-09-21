@@ -11,13 +11,15 @@ import android.widget.ImageView;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.base.BaseFragment;
+import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -30,13 +32,15 @@ import okhttp3.Call;
 /**
  * Created by LianTu on 2016-9-6.
  */
-public class SubjectFragment extends BaseFragment
+public class SubjectFragment extends BaseFragment implements NetworkLoadingLayout.OnRetryClickListner
 {
 
     @Bind(R.id.gv_main_theme)
     GridView gvMainTheme;
-    @Bind(R.id.fab_main_new_theme)
+    @Bind(R.id.fab_main_new_subject)
     FloatingActionButton fabMainNewTheme;
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
 
     private ThemeAdapter themeAdapter;
     
@@ -67,6 +71,7 @@ public class SubjectFragment extends BaseFragment
 
     private void initView()
     {
+        networkLoadingLayout.setOnRetryClickListner(this);
         gvMainTheme.setAdapter(themeAdapter);
         fabMainNewTheme.attachToListView(gvMainTheme);
         gvMainTheme.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -85,26 +90,39 @@ public class SubjectFragment extends BaseFragment
 
     private void getSubjectData()
     {
-        showLoding();
-        HttpRequest.newLoad(ContantsUtil.SUBJECT_MY_ALL_LIST).execute(new StringCallback()
+        networkLoadingLayout.showLoading();
+        HttpRequest.newLoad(APIAddress.SUBJECT_MY_ALL_LIST).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
             {
+                networkLoadingLayout.showLoadFailAndRetryPrompt();
             }
 
 
             @Override
             public void onResponse(String json, int id)
             {
-                dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
                     SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class );
-                    themeAdapter.addAll(subjectResource.subjects);
+                    if (CollectionUtil.isEmpty(subjectResource.subjects)){
+                        networkLoadingLayout.showEmptyAndRetryPrompt();
+                    }else {
+                        networkLoadingLayout.dismiss();
+                        subjectResource.subjects.addAll(subjectResource.subjects);
+                        themeAdapter.addAll(subjectResource.subjects);
+                    }
                 }
             }
         });
+    }
+
+
+    @Override
+    public void onRetryClick(View v)
+    {
+        getSubjectData();
     }
 
 
@@ -114,37 +132,38 @@ public class SubjectFragment extends BaseFragment
 
         public ThemeAdapter(Context context)
         {
-            super(context, R.layout.item_fragment_theme);
+            super(context, R.layout.item_fragment_subject);
         }
 
 
         @Override
         public void convert(ViewHolderHelper helper, Subject subject, int position)
         {
-            ImageView themeCover = helper.getView(R.id.img_item_theme);
-            ImageView newCover = helper.getView(R.id.img_item_theme_new);
+            ImageView themeCover = helper.getView(R.id.img_item_subject);
+            ImageView newCover = helper.getView(R.id.img_item_subject_new);
             Picasso.with(context).load(subject.cover).fit().into(themeCover);
 
-            helper.setText(R.id.tv_item_theme, subject.name);
+            helper.setText(R.id.tv_item_subject, subject.name);
         }
     }
 
 
-    @OnClick({R.id.fab_main_new_theme})
+    @OnClick({R.id.fab_main_new_subject})
     public void onClick(View view)
     {
         switch (view.getId())
         {
-            case R.id.fab_main_new_theme:
-                newThemeClick();
+            case R.id.fab_main_new_subject:
+                newSubjectClick();
                 break;
         }
     }
 
 
-    private void newThemeClick()
+    private void newSubjectClick()
     {
         Intent intent = new Intent(mContext, NewSubjectActivity.class);
         mContext.startActivity(intent);
     }
+
 }

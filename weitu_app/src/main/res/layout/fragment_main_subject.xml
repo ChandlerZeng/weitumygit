@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"/>
 
     <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab_main_new_theme"
+        android:id="@+id/fab_main_new_subject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
@@ -23,4 +23,6 @@
         fab:fab_colorNormal="@color/newGreen"
         fab:fab_colorPressed="@color/green1"
         fab:fab_colorRipple="@color/grey4" />
+
+    <include layout="@layout/content_layout_network_loading"/>
 </FrameLayout>

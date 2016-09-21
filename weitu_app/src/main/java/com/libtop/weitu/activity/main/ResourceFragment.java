@@ -15,17 +15,20 @@ import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.DocUpload.DocUploadActivity;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
 import com.libtop.weitu.base.BaseFragment;
+import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.CollectionUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.utils.OpenResUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.utils.selector.view.ImageSelectActivity;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -40,11 +43,13 @@ import okhttp3.Call;
 /**
  * Created by LianTu on 2016-9-6.
  */
-public class ResourceFragment extends BaseFragment
+public class ResourceFragment extends BaseFragment implements NetworkLoadingLayout.OnRetryClickListner
 {
 
     @Bind(R.id.lv_main_resource)
     ListView lvMainResource;
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
 
     private ResourceAdapter resourceAdapter;
 
@@ -77,12 +82,14 @@ public class ResourceFragment extends BaseFragment
 
     private void getResourceData()
     {
-        showLoding();
-        HttpRequest.newLoad(ContantsUtil.RESOURCE_MY_ALL_LIST).execute(new StringCallback()
+        networkLoadingLayout.showLoading();
+        HttpRequest.newLoad(APIAddress.RESOURCE_MY_ALL_LIST)
+                .execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
             {
+                networkLoadingLayout.showEmptyAndRetryPrompt();
             }
 
 
@@ -93,8 +100,13 @@ public class ResourceFragment extends BaseFragment
                 if (!TextUtils.isEmpty(json))
                 {
                     SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
-                    resourceAdapter.addAll(subjectResource.resources);
-                    mData.addAll(subjectResource.resources);
+                    if (CollectionUtil.isEmpty(subjectResource.resources)){
+                        networkLoadingLayout.showEmptyPrompt();
+                    }else {
+                        networkLoadingLayout.dismiss();
+                        resourceAdapter.addAll(subjectResource.resources);
+                        mData.addAll(subjectResource.resources);
+                    }
                 }
             }
         });
@@ -103,6 +115,7 @@ public class ResourceFragment extends BaseFragment
 
     private void initView()
     {
+        ListViewUtil.addPaddingHeader(mContext,lvMainResource);
         lvMainResource.setAdapter(resourceAdapter);
         lvMainResource.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -110,12 +123,17 @@ public class ResourceFragment extends BaseFragment
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Resource resource = (Resource) parent.getItemAtPosition(position);
-                OpenResUtil.startByType(mContext,resource.type, resource.rid);
+                ContextUtil.openResourceByType(mContext,resource.type, resource.rid);
             }
         });
     }
 
 
+    @Override
+    public void onRetryClick(View v)
+    {
+        getResourceData();
+    }
 
 
     private class ResourceAdapter extends CommonAdapter<Resource>

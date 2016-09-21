@@ -38,8 +38,8 @@ import com.libtop.weitu.test.Reply;
 import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.test.UserBean;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
-import com.libtop.weitu.utils.OpenResUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.viewadapter.CommonAdapter;
@@ -192,7 +192,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                 break;
             case R.id.comment_detail_link_layout:
                 if(commentsData!=null){
-                    OpenResUtil.startByType(mContext,commentsData.resource.type, commentsData.resource.rid);
+                    ContextUtil.openResourceByType(mContext, commentsData.resource.type, commentsData.resource.rid);
 //                    openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
                 }
                 break;
