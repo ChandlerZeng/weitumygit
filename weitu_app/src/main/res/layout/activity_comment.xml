@@ -55,12 +55,11 @@
 
                     <EditText
                         android:id="@+id/edit_comment"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="3"
                         android:padding="@dimen/padding_left"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
                         android:background="@null"
                         android:focusable="true"
                         android:gravity="center_vertical"
