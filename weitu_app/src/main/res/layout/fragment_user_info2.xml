@@ -78,7 +78,7 @@
             android:padding="@dimen/padding_normal"
             android:text="保存"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <View
             android:layout_width="match_parent"

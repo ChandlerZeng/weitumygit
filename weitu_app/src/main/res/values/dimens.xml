@@ -1,21 +1,5 @@
 <resources>
 
-    <dimen name="list_head_height">55dip</dimen>
-    <dimen name="list_bottom_height">25dip</dimen>
-
-    <!-- 字体大小 -->
-    <dimen name="text_size_10">10sp</dimen>
-    <dimen name="text_size_11">11sp</dimen>
-    <dimen name="text_size_12">12sp</dimen>
-    <dimen name="text_size_13">13sp</dimen>
-    <dimen name="text_size_14">14sp</dimen>
-    <dimen name="text_size_15">15sp</dimen>
-    <dimen name="text_size_16">16sp</dimen>
-    <dimen name="text_size_18">18sp</dimen>
-    <dimen name="text_size_32">32sp</dimen>
-    <dimen name="page_title_height">48sp</dimen>
-    <dimen name="input_height">40sp</dimen>
-
     <!-- 用户自定义 -->
     <dimen name="btn_height">38dip</dimen>
     <dimen name="padding_tiny">2dip</dimen>
@@ -33,6 +17,32 @@
     <dimen name="main_item_bg">60dip</dimen>
     <dimen name="divider_margin">30dip</dimen>
     <dimen name="divider_margin_audio">20dip</dimen>
+
+    <!-- 字号(极小) -->
+    <dimen name="text_fontsize_micro">10sp</dimen>
+    <!-- 字号(微小) -->
+    <dimen name="text_fontsize_tiny">11.5sp</dimen>
+    <!-- 字号(小) -->
+    <dimen name="text_fontsize_small">14sp</dimen>
+    <!-- 字号(正常) -->
+    <dimen name="text_fontsize_normal">16sp</dimen>
+    <!-- 字号(中) -->
+    <dimen name="text_fontsize_middle">18sp</dimen>
+    <!-- 字号(大) -->
+    <dimen name="text_fontsize_large">20sp</dimen>
+    <!-- 字号(更大) -->
+    <dimen name="text_fontsize_biger">22sp</dimen>
+
+    <dimen name="page_title_height">48sp</dimen>
+    <dimen name="input_height">40sp</dimen>
+
+    <!-- 与导航栏相关 -->
+    <dimen name="navigationbar_layout_height">48dp</dimen>
+    <dimen name="navigationbar_item_menu_width">48dp</dimen>
+
+    <!-- 与列表相关 -->
+    <dimen name="listview_refresh_header_height">55dp</dimen>
+    <dimen name="listview_load_footer_height">25dp</dimen>
 
     <!-- 聊天 -->
     <dimen name="margin_chat_activity">5dip</dimen>
@@ -65,7 +75,6 @@
     <dimen name="loading_view_margin_right">5dp</dimen>
 
     <dimen name="list_item_height_default">30dp</dimen>
-    <dimen name="text_fontsize_normal">16sp</dimen>
     <dimen name="back_btn_size">44dp</dimen>
 
 </resources>

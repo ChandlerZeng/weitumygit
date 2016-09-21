@@ -13,7 +13,7 @@
         android:layout_marginLeft="10dip"
         android:gravity="center_vertical"
         android:textColor="@color/main_text"
-        android:textSize="@dimen/text_size_16"/>
+        android:textSize="@dimen/text_fontsize_normal"/>
 
     <ImageView
         android:id="@+id/play"
@@ -31,7 +31,7 @@
         android:layout_toRightOf="@id/play"
         android:gravity="center_vertical"
         android:textColor="@color/main_text"
-        android:textSize="@dimen/text_size_16"/>
+        android:textSize="@dimen/text_fontsize_normal"/>
 
     <TextView
         android:id="@+id/size"
@@ -42,5 +42,5 @@
         android:gravity="center_vertical"
         android:paddingRight="10dip"
         android:textColor="@color/main_text"
-        android:textSize="@dimen/text_size_16"/>
+        android:textSize="@dimen/text_fontsize_normal"/>
 </RelativeLayout>

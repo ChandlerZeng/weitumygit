@@ -10,4 +10,4 @@
     android:paddingBottom="11.0dip"
     android:paddingTop="11.0dip"
     android:textColor="@color/label_color"
-    android:textSize="@dimen/text_size_15"/>
+    android:textSize="@dimen/text_fontsize_normal"/>

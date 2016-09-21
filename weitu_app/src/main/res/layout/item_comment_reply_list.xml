@@ -12,6 +12,6 @@
         android:padding="@dimen/padding_small"
         android:text="回复item"
         android:textColor="@color/comment_title"
-        android:textSize="@dimen/text_size_13"/>
+        android:textSize="@dimen/text_fontsize_small"/>
 
 </LinearLayout>

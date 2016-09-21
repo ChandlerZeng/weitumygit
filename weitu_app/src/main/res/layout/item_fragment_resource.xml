@@ -39,14 +39,14 @@
             android:ellipsize="end"
             android:textColor="@color/black"
             android:layout_weight="1"
-            android:textSize="@dimen/text_size_16"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <TextView
             android:id="@+id/tv_item_resource_uploader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grey4"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
     </LinearLayout>
 
 </LinearLayout>

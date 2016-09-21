@@ -97,7 +97,7 @@ public class ScrollRefListView extends ListView implements OnScrollListener
 
     private void initWithContext(Context context)
     {
-        PULL_LOAD_MORE_DELTA = context.getResources().getDimensionPixelSize(R.dimen.list_bottom_height);
+        PULL_LOAD_MORE_DELTA = context.getResources().getDimensionPixelSize(R.dimen.listview_load_footer_height);
         this.setFooterDividersEnabled(false);
         this.setHeaderDividersEnabled(false);
         mScroller = new Scroller(context, new DecelerateInterpolator());
@@ -380,7 +380,7 @@ public class ScrollRefListView extends ListView implements OnScrollListener
         mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
         if (mHeaderViewHeight == 0)
         {
-            mHeaderViewHeight = getResources().getDimensionPixelSize(R.dimen.list_head_height);
+            mHeaderViewHeight = getResources().getDimensionPixelSize(R.dimen.listview_refresh_header_height);
         }
         mScroller.startScroll(0, 0, 0, mHeaderViewHeight, SCROLL_DURATION);
         // trigger computeScroll

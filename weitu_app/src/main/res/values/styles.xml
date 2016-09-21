@@ -21,6 +21,25 @@
         <item name="android:background">@color/layout_bg</item>
     </style>
 
+    <!-- 视图顶部栏默认布局样式 -->
+    <style name="my_layout_navigationbar_style_default" parent="@android:style/Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/navigationbar_layout_height</item>
+        <item name="android:background">@color/layout_navigationbar_bg</item>
+    </style>
+
+    <!-- 视图顶部文字菜单按钮样式 -->
+    <style name="my_navigationbar_item_textmenu_style" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:paddingLeft">@dimen/padding_medium</item>
+        <item name="android:paddingRight">@dimen/padding_medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/text_color_navigation_item_selector</item>
+        <item name="android:textSize">14sp</item>  <!-- TODO 待引用 dimens -->
+    </style>
+
     <style name="Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -42,7 +61,7 @@
     </style>
 
     <style name="page_title_str">
-        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:textSize">@dimen/text_fontsize_middle</item>
         <item name="android:textColor">@color/title_str_color</item>
     </style>
 
@@ -68,13 +87,13 @@
     <style name="login_btn_style">
         <item name="android:background">@color/maincolor</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:textSize">@dimen/text_fontsize_middle</item>
     </style>
 
     <style name="registor_btn_style">
         <item name="android:background">@drawable/capton_bg</item>
         <item name="android:textColor">@color/label_color</item>
-        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:textSize">@dimen/text_fontsize_middle</item>
     </style>
 
     <style name="normal_input">
@@ -84,7 +103,7 @@
         <item name="android:padding">5dip</item>
         <item name="android:gravity">left|top</item>
         <item name="android:textColor">@color/label_color</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textSize">@dimen/text_fontsize_small</item>
     </style>
 
     <style name="login_input_style">
@@ -92,22 +111,22 @@
         <item name="android:background">@null</item>
         <item name="android:paddingLeft">4dip</item>
         <item name="android:drawablePadding">8dip</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textSize">@dimen/text_fontsize_normal</item>
     </style>
 
     <style name="login_text_style">
-        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:textSize">@dimen/text_fontsize_middle</item>
         <item name="android:textColor">#396ecf</item>
     </style>
 
     <style name="reg_btn_style">
         <item name="android:background">@null</item>
         <item name="android:textColor">#396ecf</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textSize">@dimen/text_fontsize_normal</item>
     </style>
 
     <style name="bottom_radio_item">
-        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textSize">@dimen/text_fontsize_small</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
@@ -132,17 +151,12 @@
 
     <style name="user_me_style">
         <item name="android:textColor">@color/main_text</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
-    </style>
-
-    <style name="user_value_style">
-        <item name="android:textColor">@color/main_item_text</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textSize">@dimen/text_fontsize_normal</item>
     </style>
 
     <style name="dialog_btn_style">
         <item name="android:textColor">@color/label_color_selector</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textSize">@dimen/text_fontsize_normal</item>
         <item name="android:background">@drawable/list_item_selector</item>
     </style>
 
@@ -151,16 +165,9 @@
         <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
     </style>
 
-    <style name="target_edit">
-        <item name="android:textSize">@dimen/text_size_15</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">2dip</item>
-        <item name="android:background">@null</item>
-    </style>
-
     <style name="book_label_favorite">
         <item name="android:textColor">@color/title_color</item>
-        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textSize">@dimen/text_fontsize_small</item>
         <item name="android:paddingTop">2dip</item>
         <item name="android:paddingBottom">2dip</item>
         <item name="android:gravity">center</item>
@@ -168,7 +175,7 @@
 
     <style name="book_favorite">
         <item name="android:textColor">@color/favorate_text</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textSize">@dimen/text_fontsize_normal</item>
         <item name="android:paddingTop">2dip</item>
         <item name="android:paddingBottom">2dip</item>
         <item name="android:gravity">center</item>
@@ -179,39 +186,15 @@
         <item name="android:paddingBottom">11dip</item>
     </style>
 
-    <style name="medicine_label">
-        <item name="android:textColor">@color/label_color</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
-        <item name="android:paddingRight">8dip</item>
-    </style>
-
-    <style name="bottom_button">
-        <item name="android:textColor">@color/label_color</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
-        <item name="android:background">@null</item>
-    </style>
-
-    <style name="label">
-        <item name="android:textColor">#333</item>
-        <item name="android:textSize">@dimen/text_size_15</item>
-    </style>
-
     <style name="start_btn_style">
         <item name="android:background">@drawable/white_radio</item>
         <item name="android:textColor">@color/main_text</item>
-        <item name="android:textSize">@dimen/text_size_18</item>
+        <item name="android:textSize">@dimen/text_fontsize_middle</item>
     </style>
 
     <style name="main_button_item">
         <item name="android:padding">8dip</item>
         <item name="android:gravity">center_horizontal</item>
-    </style>
-
-    <style name="main_button_text">
-        <item name="android:textSize">@dimen/text_size_15</item>
-        <item name="android:textColor">@color/main_item_text</item>
-        <item name="android:paddingTop">3dip</item>
-        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
     <style name="score_ratingbar_icon" parent="@android:attr/radioButtonStyle">
@@ -310,7 +293,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:cacheColorHint">@color/transparent</item>
-        <item name="android:divider">@color/listview_divider</item>
+        <item name="android:divider">@color/divide_line_common</item>
         <item name="android:dividerHeight">0.5dp</item>
         <item name="android:fadingEdge">none</item>
         <item name="android:footerDividersEnabled">false</item>

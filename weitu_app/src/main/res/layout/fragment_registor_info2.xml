@@ -17,10 +17,11 @@
 
         <TextView
             android:id="@+id/tv_name"
-            style="@style/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:textColor="#333"
+            android:textSize="@dimen/text_fontsize_normal"
             android:text="昵称   "/>
 
         <EditText

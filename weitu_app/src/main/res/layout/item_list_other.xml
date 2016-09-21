@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <TextView
             android:id="@+id/tv_tag"
@@ -83,7 +83,7 @@
             android:gravity="bottom"
             android:maxLines="3"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_14"
+            android:textSize="@dimen/text_fontsize_small"
             tools:text="上传：威廉"/>
 
         <TextView
@@ -93,7 +93,7 @@
             android:gravity="bottom"
             android:maxLines="3"
             android:textColor="@color/grey4"
-            android:textSize="@dimen/text_size_12"
+            android:textSize="@dimen/text_fontsize_tiny"
             tools:text="时间：2016/01/25"/>
     </LinearLayout>
 </RelativeLayout>

@@ -51,7 +51,7 @@
                             android:ellipsize="end"
                             android:lines="1"
                             android:textColor="@color/user_name_green"
-                            android:textSize="@dimen/text_size_12"/>
+                            android:textSize="@dimen/text_fontsize_small"/>
 
                         <TextView
                             android:id="@+id/listview_item_prompt_textview"
@@ -60,7 +60,7 @@
                             android:layout_marginLeft="6dp"
                             android:layout_weight="0"
                             android:textColor="@color/grey3"
-                            android:textSize="@dimen/text_size_12"/>
+                            android:textSize="@dimen/text_fontsize_small"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/grey4"
-                    android:textSize="@dimen/text_size_11"/>
+                    android:textSize="@dimen/text_fontsize_tiny"/>
             </LinearLayout>
 
             <TextView
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/grey3"
-                android:textSize="@dimen/text_size_13"/>
+                android:textSize="@dimen/text_fontsize_small"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

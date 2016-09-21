@@ -41,7 +41,7 @@
                 android:padding="5dp"
                 android:text="date"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_16"
+                android:textSize="@dimen/text_fontsize_normal"
                 android:visibility="gone"/>
 
             <WebView
@@ -61,7 +61,7 @@
                 android:padding="5dp"
                 android:text="(责任编辑：无)"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18"
+                android:textSize="@dimen/text_fontsize_middle"
                 android:textStyle="bold"
                 android:visibility="gone"/>
         </LinearLayout>

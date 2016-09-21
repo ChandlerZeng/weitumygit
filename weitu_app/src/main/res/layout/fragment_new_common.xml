@@ -33,7 +33,7 @@
                     android:padding="8dip"
                     android:text="评分"
                     android:textColor="@color/main_item_text"
-                    android:textSize="@dimen/text_size_14"/>
+                    android:textSize="@dimen/text_fontsize_small"/>
 
                 <RatingBar
                     android:id="@+id/level"

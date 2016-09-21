@@ -25,6 +25,6 @@
         android:padding="12dip"
         android:text="@string/book_name"
         android:textColor="@color/label_color"
-        android:textSize="@dimen/text_size_12"/>
+        android:textSize="@dimen/text_fontsize_small"/>
 
 </LinearLayout>

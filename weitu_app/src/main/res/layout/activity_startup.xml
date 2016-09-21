@@ -31,7 +31,7 @@
                 android:layout_marginTop="15dip"
                 android:text="@string/app_name"
                 android:textColor="@color/main_item_text"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_fontsize_middle"/>
 
             <TextView
                 android:id="@+id/text"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/startup_welcome"
                 android:textColor="@color/main_item_text"
-                android:textSize="@dimen/text_size_10"/>
+                android:textSize="@dimen/text_fontsize_small"/>
         </LinearLayout>
     </RelativeLayout>
 

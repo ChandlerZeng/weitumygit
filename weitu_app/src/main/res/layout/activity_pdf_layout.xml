@@ -16,5 +16,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_12"/>
+        android:textSize="@dimen/text_fontsize_tiny"/>
 </RelativeLayout>

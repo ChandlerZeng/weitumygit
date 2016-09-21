@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/main_item_text"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_fontsize_normal"/>
 
             <TextView
                 android:id="@+id/time"
@@ -50,7 +50,7 @@
                 android:paddingBottom="3dip"
                 android:paddingTop="3dip"
                 android:textColor="@color/main_item_text"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_fontsize_normal"/>
         </LinearLayout>
 
         <TextView
@@ -62,6 +62,6 @@
             android:paddingBottom="3dip"
             android:paddingTop="3dip"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
     </LinearLayout>
 </RelativeLayout>

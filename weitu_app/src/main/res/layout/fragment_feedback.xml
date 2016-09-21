@@ -23,7 +23,7 @@
             android:padding="3dip"
             android:text="@string/feed_back_label"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_12"/>
+            android:textSize="@dimen/text_fontsize_small"/>
 
         <EditText
             android:id="@+id/content"

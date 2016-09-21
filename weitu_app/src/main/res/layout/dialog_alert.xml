@@ -20,7 +20,7 @@
             android:orientation="vertical"
             android:text="@string/toast_label"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <TextView
             android:id="@+id/dialog_operate_content"
@@ -31,7 +31,7 @@
             android:gravity="center"
             android:text=""
             android:textColor="@color/label_color"
-            android:textSize="@dimen/text_size_16"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <LinearLayout
             android:layout_width="fill_parent"

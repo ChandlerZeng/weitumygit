@@ -46,7 +46,7 @@
             android:gravity="center"
             android:text="主题"
             android:textColor="@color/grey3"
-            android:textSize="@dimen/text_size_18"/>
+            android:textSize="@dimen/text_fontsize_middle"/>
 
         <View
             android:layout_width="38dp"
@@ -61,7 +61,7 @@
             android:gravity="center"
             android:text="资源"
             android:textColor="@color/grey4"
-            android:textSize="@dimen/text_size_18"/>
+            android:textSize="@dimen/text_fontsize_middle"/>
 
     </LinearLayout>
 

@@ -17,7 +17,6 @@
 
         <ImageView
             android:id="@+id/img_phone"
-            style="@style/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dip"
@@ -48,7 +47,6 @@
 
         <ImageView
             android:id="@+id/img_password"
-            style="@style/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dip"
@@ -81,7 +79,6 @@
 
         <ImageView
             android:id="@+id/img_msm"
-            style="@style/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dip"
@@ -119,7 +116,7 @@
             android:padding="@dimen/padding_normal"
             android:text="@string/get_word_hint"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
     </LinearLayout>
 
     <Button
