@@ -11,7 +11,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.ClassmateBean;
 import com.libtop.weitu.base.BaseAdapter;
 import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class MateSortAdapter extends BaseAdapter<ClassmateBean> implements Secti
 
     private void setShapes()
     {
-        int size = DisplayUtils.dp2px(mContext, 45);
+        int size = DisplayUtil.dp2px(mContext, 45);
         for (int i = 0; i < mShapes.length; i++)
         {
             GradientDrawable gd = new GradientDrawable();

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.NetworkUtil;
 import com.libtop.weitu.widget.dialog.TranLoading;
 import com.libtop.weitu.widget.msg.AppMsg;
@@ -42,7 +42,7 @@ public class BaseActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
         mContext = this;
-        DisplayMetrics dm = DisplayUtils.getDisplayMetrics(mContext);
+        DisplayMetrics dm = DisplayUtil.getDisplayMetrics(mContext);
         mScreenWidth = dm.widthPixels;
         mScreenHeight = dm.heightPixels;
 

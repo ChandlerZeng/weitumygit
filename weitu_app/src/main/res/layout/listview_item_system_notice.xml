@@ -14,9 +14,7 @@
 
         <ImageView
             android:id="@+id/listview_item_logo_imageview"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/normal_head"
+            style="@style/my_logo_style_default"
             android:scaleType="centerCrop"/>
 
         <LinearLayout

@@ -15,7 +15,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.VideoBean;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.selector.adapter.UploadAdapter2;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.widget.dialog.TranLoading;
@@ -358,7 +358,7 @@ public class ImageSelectActivity extends Activity implements UploadAdapter2.OnOp
     @Override
     public void onOptionImgTouch(View v, int position)
     {
-        final PopupWindow popupWindow = DisplayUtils.openPopChoice(ImageSelectActivity.this, R.layout.popup_choise2);
+        final PopupWindow popupWindow = DisplayUtil.openPopChoice(ImageSelectActivity.this, R.layout.popup_choise2);
         View popView = popupWindow.getContentView();
         TextView one, two, three, four;
         one = (TextView) popView.findViewById(R.id.tv_set_albumImg);

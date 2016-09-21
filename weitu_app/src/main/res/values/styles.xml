@@ -122,6 +122,27 @@
         <item name="android:background">@color/layout_bg</item>
     </style>
 
+    <!-- logo样式(默认) -->
+    <style name="my_logo_style_default" parent="@android:style/Widget">
+        <item name="android:layout_width">@dimen/logo_size_default</item>
+        <item name="android:layout_height">@dimen/logo_size_default</item>
+        <item name="android:src">@drawable/normal_head</item>
+    </style>
+
+    <!-- logo样式(小号) -->
+    <style name="my_logo_style_small" parent="@android:style/Widget">
+        <item name="android:layout_width">@dimen/logo_size_small</item>
+        <item name="android:layout_height">@dimen/logo_size_small</item>
+        <item name="android:src">@drawable/normal_head</item>
+    </style>
+
+    <!-- logo样式(大号) -->
+    <style name="my_logo_style_large" parent="@android:style/Widget">
+        <item name="android:layout_width">@dimen/logo_size_large</item>
+        <item name="android:layout_height">@dimen/logo_size_large</item>
+        <item name="android:src">@drawable/normal_head</item>
+    </style>
+
     <style name="Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>

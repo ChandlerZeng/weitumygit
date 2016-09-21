@@ -21,7 +21,7 @@ import com.libtop.weitu.activity.main.upload.UploadFileActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.listview.XListView;
@@ -239,7 +239,7 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
     @Override
     public void onOptionImgTouch(View v, final int position)
     {
-        final PopupWindow popupWindow = DisplayUtils.openPopChoice(mContext, R.layout.popup_choise);
+        final PopupWindow popupWindow = DisplayUtil.openPopChoice(mContext, R.layout.popup_choise);
         View popView = popupWindow.getContentView();
         popView.findViewById(R.id.btn_cancle).setOnClickListener(new View.OnClickListener()
         {

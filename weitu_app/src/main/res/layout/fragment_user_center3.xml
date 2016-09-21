@@ -37,11 +37,9 @@
 
             <ImageView
                 android:id="@+id/photo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/normal_head"
-                android:padding="5dp"/>
+                style="@style/my_logo_style_large"
+                android:layout_marginBottom="@dimen/margin_tiny"
+                android:layout_centerHorizontal="true"/>
 
             <LinearLayout
                 android:id="@+id/ll_name"
@@ -81,7 +79,7 @@
                 android:paddingLeft="13dp"
                 android:paddingRight="13dp"
                 android:paddingTop="3dp"
-                android:textColor="@color/white"
+                android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 tools:text="华南农业大学"/>
         </RelativeLayout>

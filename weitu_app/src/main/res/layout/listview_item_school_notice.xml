@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/grey3"
-            android:textSize="@dimen/text_fontsize_small"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <TextView
             android:id="@+id/listview_item_create_time_textview"
