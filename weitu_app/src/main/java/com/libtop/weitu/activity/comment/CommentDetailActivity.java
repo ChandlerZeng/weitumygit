@@ -263,10 +263,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                             Picasso.with(mContext).load(data.comment.user.logo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imgHead);
                         }
                         if (data.comment.my_praise == 0) {
-                            likeIcon.setImageResource(R.drawable.icon_comment_unpraised);
+                            likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
                             MYPRAISE = 0;
                         } else {
-                            likeIcon.setImageResource(R.drawable.icon_comment_praised);
+                            likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
                             MYPRAISE = 1;
                         }
 
@@ -552,7 +552,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                             commentsData.count_praise=commentsData.count_praise+1;
                             commentsData.my_praise=1;
                             MYPRAISE = 1;
-                            likeIcon.setImageResource(R.drawable.icon_comment_praised);
+                            likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
                             Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
                             praiseUserList.add(0,user);
                             praiseHeadAdapter.notifyDataSetChanged();
@@ -580,7 +580,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                             commentsData.count_praise = commentsData.count_praise - 1;
                             commentsData.my_praise = 0;
                             MYPRAISE = 0;
-                            likeIcon.setImageResource(R.drawable.icon_comment_unpraised);
+                            likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
                             Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
                             praiseUserList.remove(user);
                             praiseHeadAdapter.notifyDataSetChanged();

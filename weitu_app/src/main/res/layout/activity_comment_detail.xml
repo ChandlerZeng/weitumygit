@@ -84,7 +84,7 @@
                         android:layout_height="80dp"
                         android:layout_marginLeft="@dimen/padding_size_10"
                         android:layout_marginRight="@dimen/padding_size_10"
-                        android:background="@color/grey_bg"
+                        android:background="@drawable/shape_comment_textview_bg"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -147,7 +147,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_commnet1"
-                        android:layout_margin="@dimen/padding_size_10"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -163,7 +162,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_margin="@dimen/padding_small"
-                                android:src="@drawable/icon_comment_unpraised" />
+                                android:src="@drawable/icon_comment_detail_unpraised" />
                         </LinearLayout>
 
                         <GridView
@@ -198,6 +197,7 @@
                             android:layout_height="wrap_content"
                             android:divider="@color/divider"
                             android:dividerHeight="0.49dp"
+                            android:background="@color/white"
                             android:listSelector="@drawable/list_selector"
                             android:nestedScrollingEnabled="false"
                             android:scrollbars="none" />
