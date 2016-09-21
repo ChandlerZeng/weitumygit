@@ -10,24 +10,20 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.NewSubjectActivity;
 import com.libtop.weitu.activity.main.adapter.SelectSubjectAdapter;
-import com.libtop.weitu.activity.user.dto.CollectBean;
-import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.http.MapUtil;
-import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.melnykov.fab.FloatingActionButton;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -47,15 +43,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import okhttp3.Call;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
 /**
  * Created by Zeng on 2016/9/8
  */
-public class SelectSubjectFragment extends ContentFragment {
+public class SelectSubjectFragment extends ContentFragment implements NetworkLoadingLayout.OnRetryClickListner{
 
     @Bind(R.id.back_btn)
     ImageView backBtn;
@@ -67,11 +60,15 @@ public class SelectSubjectFragment extends ContentFragment {
     ListView selectSubList;
     @Bind(R.id.select_sub_new_theme)
     FloatingActionButton newTheme;
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
 
     private List<Subject> selectSubDatas = new ArrayList<>();
     private SelectSubjectAdapter mAdapter;
-    private int mCurPage = 1;
-    private boolean hasData = true;
+    private Subject subject;
+
+    private boolean isFirstIn = true;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,14 +87,21 @@ public class SelectSubjectFragment extends ContentFragment {
     @Override
     public void onCreation(View root) {
         initView();
-        loadCollected();
     }
 
 
     private void initView() {
+        if (isFirstIn) {
+            isFirstIn = false;
+            networkLoadingLayout.showLoading();
+            loadCollected();
+        }
         title.setText("选择主题");
+        newTheme.setVisibility(View.GONE);
         newTheme.attachToListView(selectSubList);
         selectSubList.setAdapter(mAdapter);
+        networkLoadingLayout.setOnRetryClickListner(this);
+
     }
 
 
@@ -165,7 +169,7 @@ public class SelectSubjectFragment extends ContentFragment {
                             onBackPressed();
                         }
                     }, 1000);
-                }else{
+                } else {
                     showToast("收录失败,请稍后再试");
                 }
             }
@@ -181,26 +185,27 @@ public class SelectSubjectFragment extends ContentFragment {
 
 
     private void loadCollected() {
-        showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         String api = "/subject/my_all/list";
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                networkLoadingLayout.showLoadFailAndRetryPrompt();
             }
 
 
             @Override
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
-                    dismissLoading();
+                    networkLoadingLayout.dismiss();
+                    newTheme.setVisibility(View.VISIBLE);
                     try {
                         SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
                         selectSubDatas = subjectResource.subjects;
                         mAdapter.setData(selectSubDatas);
                         if (selectSubDatas.size() == 0) {
-                            showToast("没有相关主题");
+                            networkLoadingLayout.showEmptyPrompt();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -229,7 +234,46 @@ public class SelectSubjectFragment extends ContentFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 100){
-            loadCollected();
+//            loadCollected();
+            createNewSubjectFinished();
         }
+    }
+
+    private void createNewSubjectFinished(){
+        showLoding();
+        Map<String, Object> params = new HashMap<String, Object>();
+        String api = "/subject/create";
+        params.put("name","新建主题");
+        params.put("cover","http://imgsize.ph.126.net/?enlarge=true&imgurl=http://vimg3.ws.126.net/image/snapshot_movie/2013/11/V/3/M9BM227V3.jpg_280x158x1x95.jpg");
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, params).execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+            }
+
+
+            @Override
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    dismissLoading();
+                    Toast.makeText(mContext,"新建主题成功",Toast.LENGTH_SHORT).show();
+                    try {
+                        SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
+                        }.getType());
+                        subject = subjectResource.subject;
+                        if(subject!=null){
+                            selectSubDatas.add(0,subject);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onRetryClick(View v) {
+        loadCollected();
     }
 }

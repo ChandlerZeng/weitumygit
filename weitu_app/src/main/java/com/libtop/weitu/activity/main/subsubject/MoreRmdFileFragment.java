@@ -22,6 +22,7 @@ import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -37,7 +38,7 @@ import okhttp3.Call;
 /**
  * Created by Zeng on 2016/9/8
  */
-public class MoreRmdFileFragment extends ContentFragment {
+public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadingLayout.OnRetryClickListner{
 
     @Bind(R.id.back_btn)
     ImageView backBtn;
@@ -47,11 +48,15 @@ public class MoreRmdFileFragment extends ContentFragment {
     LinearLayout titleContainer;
     @Bind(R.id.rmd_file_list)
     XListView rmdFileList;
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
 
     private List<Resource> resourceList = new ArrayList<>();
     private SubjectFileAdapter mAdapter;
     private int mCurPage = 1;
     private boolean hasData = true;
+    private boolean isFirstIn = true;
+    private boolean isRefreshed = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,17 +74,23 @@ public class MoreRmdFileFragment extends ContentFragment {
     @Override
     public void onCreation(View root) {
         initView();
-        loadResourceFile();
     }
 
 
     private void initView() {
+        if (isFirstIn)
+        {
+            isFirstIn = false;
+            networkLoadingLayout.showLoading();
+            loadResourceFile();
+        }
         title.setText("推荐文件");
         rmdFileList.setPullLoadEnable(false);
         rmdFileList.setAdapter(mAdapter);
         rmdFileList.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
+                isRefreshed=true;
                 loadResourceFile();
                 mCurPage = 1;
             }
@@ -91,6 +102,7 @@ public class MoreRmdFileFragment extends ContentFragment {
                 }
             }
         });
+        networkLoadingLayout.setOnRetryClickListner(this);
     }
 
 
@@ -117,7 +129,9 @@ public class MoreRmdFileFragment extends ContentFragment {
         //显示图书详情
         Resource resource = resourceList.get(position-1);
 //        openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-        ContextUtil.openResourceByType(mContext, resource.type, resource.rid,true);
+
+        ContextUtil.openResourceByType(mContext, resource.type, resource.rid, true);
+
     }
 
     private void loadResourceFile(){
@@ -125,6 +139,11 @@ public class MoreRmdFileFragment extends ContentFragment {
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                if(mCurPage>1){
+
+                }else if(!isRefreshed){
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
             }
 
 
@@ -132,20 +151,27 @@ public class MoreRmdFileFragment extends ContentFragment {
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
                     rmdFileList.stopRefresh();
-                    mCurPage++;
+                    if(mCurPage==1){
+                        networkLoadingLayout.dismiss();
+                    }
                     try {
                         Gson gson = new Gson();
                         SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
                         List<Resource> list = new ArrayList<>();
                         list = subjectResource.resources;
-                        if (list.size() < 10) {
+
+                        if (list.size() < 20) {
                             hasData = false;
                             rmdFileList.setPullLoadEnable(false);
                         } else {
                             hasData = true;
                             rmdFileList.setPullLoadEnable(true);
                         }
+                        if(list.size()==0 && mCurPage ==1){
+                            networkLoadingLayout.showEmptyPrompt();
+                        }
+                        mCurPage++;
                         handleResourceFile(list);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -164,19 +190,8 @@ public class MoreRmdFileFragment extends ContentFragment {
         mAdapter.setData(resourceList);
     }
 
-    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", bookName);
-        bundle.putString("cover", cover);
-        bundle.putString("auth", author);
-        bundle.putString("isbn", isbn);
-        bundle.putString("publisher", publisher);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
-        bundle.putBoolean("isFromMainPage", true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        mContext.startActivity(bundle, ContentActivity.class);
+    @Override
+    public void onRetryClick(View v) {
+        loadResourceFile();
     }
-
 }

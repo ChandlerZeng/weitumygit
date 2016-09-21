@@ -1,7 +1,6 @@
 package com.libtop.weitu.activity.comment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -21,14 +20,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentActivity;
-import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
@@ -39,13 +37,14 @@ import com.libtop.weitu.test.PraiseBean;
 import com.libtop.weitu.test.Reply;
 import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.test.UserBean;
-import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.listview.ChangeListView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -66,7 +65,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 
-public class CommentDetailActivity extends BaseActivity {
+public class CommentDetailActivity extends BaseActivity implements NetworkLoadingLayout.OnRetryClickListner{
 
     @Bind(R.id.back_btn)
     ImageView backBtn;
@@ -108,10 +107,15 @@ public class CommentDetailActivity extends BaseActivity {
     EditText editComment;
     @Bind(R.id.commit)
     Button commit;
+    @Bind(R.id.commentDetailScrollView)
+    ScrollView commentDetailScrollView;
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
 
     private String cid;
     private int position;
     private boolean isReply = false;
+    private boolean isFirstIn = true;
     private Map<String,String> map = new HashMap<>();
 
     private List<UserBean> praiseUserList = new ArrayList<>();
@@ -122,8 +126,6 @@ public class CommentDetailActivity extends BaseActivity {
     private PraiseHeadAdapter praiseHeadAdapter;
     private ReplyListAdapter replyListAdapter;
 
-    private CommentActivity commentActivity;
-
     private int MYPRAISE = 0;
 
     @Override
@@ -132,7 +134,6 @@ public class CommentDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_comment_detail);
         EventBus.getDefault().register(this);
         ButterKnife.bind(this);
-        commentActivity = new CommentActivity();
         initView();
     }
 
@@ -152,11 +153,18 @@ public class CommentDetailActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         cid = bundle.getString("cid");
         position = bundle.getInt("position");
-        getData(String.valueOf(cid));
-        getPraiseData();
+        if (isFirstIn)
+        {
+            isFirstIn = false;
+            networkLoadingLayout.showLoading();
+            getData(String.valueOf(cid));
+            getPraiseData();
+        }
+        networkLoadingLayout.setOnRetryClickListner(this);
         praiseHeadAdapter = new PraiseHeadAdapter(mContext,R.layout.praise_item_grid_photo,praiseUserList);
         replyListAdapter = new ReplyListAdapter(mContext,R.layout.item_list_comment_detail,replyBeanList);
         commentDetailGridView.setAdapter(praiseHeadAdapter);
+        commentDetailGridView.requestDisallowInterceptTouchEvent(false);
         listReply.setAdapter(replyListAdapter);
         listReply.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -184,7 +192,8 @@ public class CommentDetailActivity extends BaseActivity {
                 break;
             case R.id.comment_detail_link_layout:
                 if(commentsData!=null){
-                    openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
+                    ContextUtil.openResourceByType(mContext, commentsData.resource.type, commentsData.resource.rid);
+//                    openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
                 }
                 break;
             case R.id.commit:
@@ -197,10 +206,11 @@ public class CommentDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed(){ //TODO
         mContext.finish();
         if(commentsData!=null){
             Bundle bundle = new Bundle();
+            bundle.putString("isFromComment","true");
             bundle.putSerializable("comments", commentsData);
             bundle.putBoolean("isCommentUpdate", true);
             bundle.putInt("position", position);
@@ -208,26 +218,10 @@ public class CommentDetailActivity extends BaseActivity {
         }
     }
 
-    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", bookName);
-        bundle.putString("cover", cover);
-        bundle.putString("auth", author);
-        bundle.putString("isbn", isbn);
-        bundle.putString("publisher", publisher);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
-        bundle.putBoolean("isFromMainPage", true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-
-        mContext.startActivity(bundle, ContentActivity.class);
-    }
 
     private void getData(String cid)
     {
 //        http://115.28.189.104/resource/comment/info?cid=4
-        showLoding();
         Map<String, Object> map = new HashMap<>();
         String method = "/resource/comment/info";
         String api = "/resource/comment/info";
@@ -236,13 +230,14 @@ public class CommentDetailActivity extends BaseActivity {
 
             @Override
             public void onError(Call call, Exception e, int id) {
+                networkLoadingLayout.showLoadFailAndRetryPrompt();
             }
 
 
             @Override
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
-                    dismissLoading();
+                    networkLoadingLayout.dismiss();
                     try {
                         Gson gson = new Gson();
                         CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
@@ -251,6 +246,7 @@ public class CommentDetailActivity extends BaseActivity {
                             commentsData = new Comments();
                             commentsData = data.comment;
                         } else{
+                            networkLoadingLayout.showEmptyPrompt();
                             return;
                         }
 
@@ -296,7 +292,6 @@ public class CommentDetailActivity extends BaseActivity {
     private void getPraiseData()
     {
 //        http://115.28.189.104/resource/comment/praise_user/list
-        showLoding();
         Map<String, Object> map = new HashMap<>();
         String api = "/resource/comment/praise_user/list";
 //        map.put("cid", cid);
@@ -309,7 +304,6 @@ public class CommentDetailActivity extends BaseActivity {
             @Override
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
-                    dismissLoading();
                     try {
                         Gson gson = new Gson();
                         PraiseBean data = gson.fromJson(json, new TypeToken<PraiseBean>() {
@@ -369,13 +363,12 @@ public class CommentDetailActivity extends BaseActivity {
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             dismissLoading();
-                            showToast("回复评论成功");
+                            Toast.makeText(CommentDetailActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
                                 Gson gson = new Gson();
                                 Reply data = gson.fromJson(json, new TypeToken<Reply>() {
                                 }.getType());
                                 if (data.reply != null) {
-//                                    replyItems.add(0,data);
                                     replyBeanList.add(0, data.reply);
                                     replyListAdapter.notifyDataSetChanged();
                                 }
@@ -383,13 +376,14 @@ public class CommentDetailActivity extends BaseActivity {
                                 editComment.setText("");
                                 editComment.setHint("发表评论");
                                 isReply = false;
-                                listReply.setSelection(0);
-                                listReply.smoothScrollToPosition(0);
+//                                listReply.setSelection(0);
+//                                listReply.smoothScrollToPosition(0);
+//                                commentDetailScrollView.fullScroll(ScrollView.FOCUS_UP);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            showToast("回复评论失败");
+                            Toast.makeText(CommentDetailActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -413,7 +407,7 @@ public class CommentDetailActivity extends BaseActivity {
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             dismissLoading();
-                            showToast("回复评论成功");
+                            Toast.makeText(CommentDetailActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
                                 Gson gson = new Gson();
                                 Reply data = gson.fromJson(json, new TypeToken<Reply>() {
@@ -426,13 +420,14 @@ public class CommentDetailActivity extends BaseActivity {
                                 editComment.setText("");
                                 editComment.setHint("发表评论");
                                 isReply = false;
-                                listReply.setSelection(0);
-                                listReply.smoothScrollToPosition(0);
+//                                listReply.setSelection(0);
+//                                listReply.smoothScrollToPosition(0);
+//                                commentDetailScrollView.fullScroll(ScrollView.FOCUS_UP);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            showToast("回复评论失败");
+                            Toast.makeText(CommentDetailActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -453,7 +448,7 @@ public class CommentDetailActivity extends BaseActivity {
                     @Override
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
-                            showToast("删除成功");
+                            Toast.makeText(CommentDetailActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
                             commentsData.count_reply=commentsData.count_reply-1;
                             replyBeanList.remove(replyBean);
                             replyListAdapter.notifyDataSetChanged();
@@ -468,9 +463,6 @@ public class CommentDetailActivity extends BaseActivity {
 
         String cid =replyBean.cid;
         String replyUid =replyBean.user.uid;
-//        replyItem = replyBean;
-//        replyItems = replyBeans;
-//        comments = object;
         if (replyBean.content != null)
         {
             isReply = true ;
@@ -499,6 +491,12 @@ public class CommentDetailActivity extends BaseActivity {
                 deleteReplyComment(replyBean);
             }
         }, null);
+    }
+
+    @Override
+    public void onRetryClick(View v) {
+        getData(String.valueOf(cid));
+        getPraiseData();
     }
 
     private class CircleTransform implements Transformation {
@@ -640,7 +638,7 @@ public class CommentDetailActivity extends BaseActivity {
                 SpannableString spannableString = getGreenStr(user_name,reply,reply_user_name);
                 helper.setText(R.id.tv_user_name,spannableString);
             }
-            helper.setText(R.id.tv_time,DateUtil.parseToStringWithoutSS(object.t_create));
+            helper.setText(R.id.tv_time,DateUtil.transformToShow(object.t_create));
             helper.setText(R.id.tv_content, object.content);
         }
         public void setData(List<ReplyBean> replyBeans){

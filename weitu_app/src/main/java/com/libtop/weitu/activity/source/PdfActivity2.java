@@ -158,8 +158,12 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
     {
         Intent intent = new Intent(PdfActivity2.this, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
-        commentNeedDto.title = docResultBean.document.title;
-        commentNeedDto.tid = tid;
+        if(docResultBean!=null){
+            commentNeedDto.title = docResultBean.document.title;
+        }
+        if(tid!=null){
+            commentNeedDto.tid = tid;
+        }
         commentNeedDto.type = 3;
         intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
         startActivity(intent);
