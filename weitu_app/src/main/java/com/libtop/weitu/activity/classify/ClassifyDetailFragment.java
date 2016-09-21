@@ -55,6 +55,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     private boolean isRefreshed = false;
 
     public ClassifyDetailFragment classifyDetailFragment;
+//    public CallBackNetWorkLoadingPage callBackNetWorkLoadingPage;
 
     private String api = "/category/subject/list";
 
@@ -141,7 +142,6 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
             }
         });
         networkLoadingLayout.setOnRetryClickListner(this);
-
     }
 
     private void getFakeData()
@@ -199,12 +199,26 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         getFakeData();
     }
 
+   /* public void setShowNetWorkLoadingPageListener(CallBackNetWorkLoadingPage callback){
+        this.callBackNetWorkLoadingPage = callback;
+    }
 
-    public void showEmptyPage() {
+    public void showNetWorkLoadingPage(NetworkLoadingLayout networkLoadingLayout){
+        this.networkLoadingLayout = networkLoadingLayout;
+        callBackNetWorkLoadingPage.showEmptyPage(networkLoadingLayout);
         networkLoadingLayout.showEmptyPrompt();
     }
 
-    public void dismissEmptyPage() {
+    public void dismissNetWorkLoadingPage(NetworkLoadingLayout networkLoadingLayout){
+        this.networkLoadingLayout = networkLoadingLayout;
+        callBackNetWorkLoadingPage.dismissEmptyPage(networkLoadingLayout);
         networkLoadingLayout.dismiss();
     }
+
+    public interface CallBackNetWorkLoadingPage {
+        void showEmptyPage(NetworkLoadingLayout networkLoadingLayout);
+
+        void dismissEmptyPage(NetworkLoadingLayout networkLoadingLayout);
+    }*/
+
 }
