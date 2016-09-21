@@ -22,6 +22,7 @@ import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.paging.listview.PagingBaseAdapter;
@@ -86,6 +87,7 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
         SystemNoticeListViewAdapter adapter = new SystemNoticeListViewAdapter(getActivity(), new ArrayList<SystemNotice>());
 
         systemNoticeListView = (PagingListView) view.findViewById(R.id.fragment_notice_system_view_paginglistview);
+        ListViewUtil.addPaddingHeader(getActivity(), systemNoticeListView);
         systemNoticeListView.setAdapter(adapter);
         systemNoticeListView.setHasMoreItems(false);
         systemNoticeListView.setOnItemClickListener(listViewOnItemClickListener);

@@ -14,8 +14,9 @@
         android:background="@color/divider"/>
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_small"
+        android:layout_height="@dimen/padding_tiny"
         android:background="@color/grey_bg"/>
+
     <FrameLayout
         style="@style/my_layout_style_common">
 
@@ -35,6 +36,5 @@
         <include layout="@layout/content_layout_network_loading"/>
 
     </FrameLayout>
-
 
 </LinearLayout>

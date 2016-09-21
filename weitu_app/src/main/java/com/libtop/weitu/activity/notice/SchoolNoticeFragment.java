@@ -17,6 +17,7 @@ import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.paging.listview.PagingBaseAdapter;
@@ -81,6 +82,7 @@ public class SchoolNoticeFragment extends MyBaseFragment implements NetworkLoadi
         SchoolNoticeListViewAdapter adapter = new SchoolNoticeListViewAdapter(getActivity(), new ArrayList<News>());
 
         schoolNoticeListView = (PagingListView) view.findViewById(R.id.fragment_notice_school_view_paginglistview);
+        ListViewUtil.addPaddingHeader(getActivity(), schoolNoticeListView);
         schoolNoticeListView.setAdapter(adapter);
         schoolNoticeListView.setHasMoreItems(false);
         schoolNoticeListView.setOnItemClickListener(listViewOnItemClickListener);

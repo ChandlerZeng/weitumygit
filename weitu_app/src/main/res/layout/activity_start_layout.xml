@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="微图"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_18"/>
+            android:textSize="@dimen/text_fontsize_middle"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,6 +34,6 @@
             android:layout_margin="10dip"
             android:text="您身边的图书馆助手"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_12"/>
+            android:textSize="@dimen/text_fontsize_small"/>
     </LinearLayout>
 </RelativeLayout>

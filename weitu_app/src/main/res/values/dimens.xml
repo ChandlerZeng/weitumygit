@@ -1,38 +1,74 @@
 <resources>
 
-    <dimen name="list_head_height">55dip</dimen>
-    <dimen name="list_bottom_height">25dip</dimen>
+    <!-- 上/下部外/内间隔默认值 -->
+    <dimen name="margin_top_size_default">20dp</dimen>
+    <dimen name="margin_bottom_size_default">20dp</dimen>
+    <dimen name="padding_top_size_default">20dp</dimen>
+    <dimen name="padding_bottom_size_default">20dp</dimen>
 
-    <!-- 字体大小 -->
-    <dimen name="text_size_10">10sp</dimen>
-    <dimen name="text_size_11">11sp</dimen>
-    <dimen name="text_size_12">12sp</dimen>
-    <dimen name="text_size_13">13sp</dimen>
-    <dimen name="text_size_14">14sp</dimen>
-    <dimen name="text_size_15">15sp</dimen>
-    <dimen name="text_size_16">16sp</dimen>
-    <dimen name="text_size_18">18sp</dimen>
-    <dimen name="text_size_32">32sp</dimen>
-    <dimen name="page_title_height">48sp</dimen>
+    <!-- 内间隔常用尺寸 -->
+    <dimen name="padding_micro">2dp</dimen>
+    <dimen name="padding_tiny">4dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+
+    <dimen name="padding_size_10">10dp</dimen>
+    <dimen name="padding_size_20">20dp</dimen>
+    <dimen name="padding_size_30">30dp</dimen>
+
+    <!-- 外间隔常用尺寸 -->
+    <dimen name="margin_micro">2dp</dimen>
+    <dimen name="margin_tiny">4dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+
+    <dimen name="margin_size_10">10dp</dimen>
+    <dimen name="margin_size_13">13dp</dimen>
+    <dimen name="margin_size_15">15dp</dimen>
+    <dimen name="margin_size_20">20dp</dimen>
+    <dimen name="margin_size_30">30dp</dimen>
+
+    <!-- 两段之间的分割高度 -->
+    <dimen name="layout_divide_height_default">8dp</dimen>
+    <dimen name="layout_divide_height_large">20dp</dimen>
+
+    <!-- 常用字号 -->
+    <dimen name="text_fontsize_micro">10sp</dimen>
+    <dimen name="text_fontsize_tiny">11.5sp</dimen>
+    <dimen name="text_fontsize_small">14sp</dimen>
+    <dimen name="text_fontsize_normal">16sp</dimen>
+    <dimen name="text_fontsize_middle">18sp</dimen>
+    <dimen name="text_fontsize_large">20sp</dimen>
+    <dimen name="text_fontsize_biger">22sp</dimen>
+
+    <!-- TODO 待重构 -->
     <dimen name="input_height">40sp</dimen>
 
+    <!-- 与导航栏相关 -->
+    <dimen name="navigationbar_layout_height">48dp</dimen>
+    <dimen name="navigationbar_item_menu_width">48dp</dimen>
+
+    <!-- 与列表相关 -->
+    <dimen name="listview_refresh_header_height">55dp</dimen>
+    <dimen name="listview_load_footer_height">25dp</dimen>
+
+    <!-- 按钮高度(默认) -->
+    <dimen name="button_height_default">42dp</dimen>
+    <!-- 按钮高度(小) -->
+    <dimen name="button_height_small">30dp</dimen>
+
     <!-- 用户自定义 -->
-    <dimen name="btn_height">38dip</dimen>
-    <dimen name="padding_tiny">2dip</dimen>
-    <dimen name="padding_small">4dip</dimen>
-    <dimen name="padding_normal">10dip</dimen>
-    <dimen name="padding_medium">16dip</dimen>
-    <dimen name="padding_large">25dip</dimen>
-    <dimen name="user_center_item">42dip</dimen>
-    <dimen name="padding_left">8dip</dimen>
-    <dimen name="search_input_height">48dip</dimen>
-    <dimen name="news_img_width">90dip</dimen>w
-    <dimen name="news_img_height">95dip</dimen>
-    <dimen name="photo_width">80dip</dimen>
-    <dimen name="photo_height">80dip</dimen>
-    <dimen name="main_item_bg">60dip</dimen>
-    <dimen name="divider_margin">30dip</dimen>
-    <dimen name="divider_margin_audio">20dip</dimen>
+    <dimen name="user_center_item">42dp</dimen>
+    <dimen name="padding_left">8dp</dimen>
+    <dimen name="search_input_height">48dp</dimen>
+    <dimen name="news_img_width">90dp</dimen>w
+    <dimen name="news_img_height">95dp</dimen>
+    <dimen name="photo_width">80dp</dimen>
+    <dimen name="photo_height">80dp</dimen>
+    <dimen name="main_item_bg">60dp</dimen>
+    <dimen name="divider_margin">30dp</dimen>
+    <dimen name="divider_margin_audio">20dp</dimen>
 
     <!-- 聊天 -->
     <dimen name="margin_chat_activity">5dip</dimen>
@@ -65,10 +101,6 @@
     <dimen name="loading_view_margin_right">5dp</dimen>
 
     <dimen name="list_item_height_default">30dp</dimen>
-    <dimen name="text_fontsize_normal">16sp</dimen>
     <dimen name="back_btn_size">44dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
 </resources>

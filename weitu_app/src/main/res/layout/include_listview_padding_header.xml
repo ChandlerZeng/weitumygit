@@ -5,9 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="@color/grey2"/>
+    <View style="@style/my_divide_layout_view_style_default"/>
 
 </LinearLayout>
+
+<!-- TODO 待修改此文件名 -->

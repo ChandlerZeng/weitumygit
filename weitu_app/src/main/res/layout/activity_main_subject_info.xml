@@ -31,7 +31,7 @@
                     android:id="@+id/img_subject_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/padding_normal"/>
+                    android:layout_margin="@dimen/margin_size_10"/>
 
             </LinearLayout>
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_medium"
                 android:orientation="horizontal"
-                android:padding="@dimen/padding_normal">
+                android:padding="@dimen/padding_size_10">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/padding_normal">
+                android:padding="@dimen/padding_size_10">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="@dimen/padding_normal">
+                android:padding="@dimen/padding_size_10">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,12 +124,12 @@
                 android:id="@+id/tv_subject_info_watch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_normal"
-                android:layout_marginRight="@dimen/padding_normal"
+                android:layout_marginLeft="@dimen/padding_size_10"
+                android:layout_marginRight="@dimen/padding_size_10"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/shape_bg_subject_follow"
                 android:gravity="center"
-                android:padding="@dimen/padding_normal"
+                android:padding="@dimen/padding_size_10"
                 android:text="关注"
                 android:textColor="@color/newGreen"
                 android:textSize="16sp"

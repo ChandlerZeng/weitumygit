@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_normal">
+        android:padding="@dimen/padding_size_10">
 
         <TextView
             android:id="@+id/avatar"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:gravity="center"
-            android:padding="@dimen/padding_normal"
+            android:padding="@dimen/padding_size_10"
             android:text="更换头像"/>
 
         <View
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:gravity="center"
-            android:padding="@dimen/padding_normal"
+            android:padding="@dimen/padding_size_10"
             android:text="性别："/>
 
         <View
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:gravity="center"
-            android:padding="@dimen/padding_normal"
+            android:padding="@dimen/padding_size_10"
             android:text="绑定图书馆"/>
     </LinearLayout>
 
@@ -65,9 +65,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_normal"
+        android:layout_marginBottom="@dimen/padding_size_10"
         android:orientation="vertical"
-        android:padding="@dimen/padding_normal">
+        android:padding="@dimen/padding_size_10">
 
         <TextView
             android:id="@+id/tv_save"
@@ -75,10 +75,10 @@
             android:layout_height="wrap_content"
             android:background="@color/newGreen"
             android:gravity="center"
-            android:padding="@dimen/padding_normal"
+            android:padding="@dimen/padding_size_10"
             android:text="保存"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_16"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <View
             android:layout_width="match_parent"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:gravity="center"
-            android:padding="@dimen/padding_normal"
+            android:padding="@dimen/padding_size_10"
             android:text="取消"/>
     </LinearLayout>
 </LinearLayout>

@@ -4,8 +4,8 @@
     android:layout_width="160dp"
     android:layout_height="wrap_content"
     android:background="@drawable/selector_find_subject"
-    android:layout_margin="@dimen/padding_normal"
-    android:padding="@dimen/padding_tiny"
+    android:layout_margin="@dimen/padding_size_10"
+    android:padding="@dimen/padding_micro"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -16,7 +16,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:padding="@dimen/padding_small"
+            android:padding="@dimen/padding_tiny"
             android:src="@drawable/default_image"/>
         <ImageView
             android:visibility="gone"
@@ -34,7 +34,7 @@
         android:ellipsize="end"
         android:gravity="start"
         android:lines="2"
-        android:padding="@dimen/padding_small"
+        android:padding="@dimen/padding_tiny"
         android:textColor="#333333"
         android:textSize="13sp"/>
 </LinearLayout>

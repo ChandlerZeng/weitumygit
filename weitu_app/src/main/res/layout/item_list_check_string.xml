@@ -29,7 +29,7 @@
             android:id="@+id/sub_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_size_10"
             android:layout_weight="1"
             android:textColor="@color/main_text"
             android:textSize="12sp"

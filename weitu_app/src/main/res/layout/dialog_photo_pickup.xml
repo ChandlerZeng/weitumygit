@@ -24,7 +24,7 @@
             <Button
                 android:id="@+id/btn_take_photo"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/page_title_height"
+                android:layout_height="@dimen/navigationbar_layout_height"
                 android:background="@null"
                 android:text="@string/choose_camera"
                 android:textColor="@color/main_color"/>
@@ -37,7 +37,7 @@
             <Button
                 android:id="@+id/btn_pick_photo"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/page_title_height"
+                android:layout_height="@dimen/navigationbar_layout_height"
                 android:background="@null"
                 android:text="@string/choose_photo_sd"
                 android:textColor="@color/main_color"/>
@@ -46,7 +46,7 @@
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/page_title_height"
+            android:layout_height="@dimen/navigationbar_layout_height"
             android:layout_marginBottom="15dip"
             android:layout_marginTop="10dip"
             android:background="@drawable/preference_single_item"

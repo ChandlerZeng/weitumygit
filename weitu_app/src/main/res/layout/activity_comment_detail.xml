@@ -37,7 +37,7 @@
                         android:id="@+id/comment_layout1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_normal"
+                        android:layout_margin="@dimen/padding_size_10"
                         android:background="@color/white">
 
                         <ImageView
@@ -50,7 +50,7 @@
                             android:id="@+id/tv_user_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/padding_normal"
+                            android:layout_marginLeft="@dimen/padding_size_10"
                             android:layout_toRightOf="@+id/img_head"
                             android:text="用户名"
                             android:textColor="@color/comment_user_name" />
@@ -60,8 +60,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/tv_user_name"
-                            android:layout_marginLeft="@dimen/padding_normal"
-                            android:layout_marginRight="@dimen/padding_normal"
+                            android:layout_marginLeft="@dimen/padding_size_10"
+                            android:layout_marginRight="@dimen/padding_size_10"
                             android:layout_toRightOf="@+id/img_head"
                             android:text="2016/09/12 11:35 "
                             android:textColor="@color/comment_subtitle" />
@@ -82,8 +82,8 @@
                         android:id="@+id/comment_detail_link_layout"
                         android:layout_width="fill_parent"
                         android:layout_height="80dp"
-                        android:layout_marginLeft="@dimen/padding_normal"
-                        android:layout_marginRight="@dimen/padding_normal"
+                        android:layout_marginLeft="@dimen/padding_size_10"
+                        android:layout_marginRight="@dimen/padding_size_10"
                         android:background="@color/grey_bg"
                         android:gravity="center"
                         android:orientation="horizontal">
@@ -92,7 +92,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_margin="@dimen/padding_normal"
+                            android:layout_margin="@dimen/padding_size_10"
                             android:background="@color/white">
 
                             <ImageView
@@ -147,7 +147,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_commnet1"
-                        android:layout_margin="@dimen/padding_normal"
+                        android:layout_margin="@dimen/padding_size_10"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -188,7 +188,7 @@
                         android:id="@+id/comment_layout2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_normal"
+                        android:layout_marginBottom="@dimen/padding_size_10"
                         android:background="@color/comment_reply"
                         android:orientation="vertical">
 

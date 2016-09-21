@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:layout_gravity="center"
-        android:layout_margin="@dimen/padding_normal"
+        android:layout_margin="@dimen/padding_size_10"
         android:layout_width="70dp"
         android:layout_height="70dp">
 
@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:layout_height="70dp"
-        android:layout_marginRight="@dimen/padding_normal"
+        android:layout_marginRight="@dimen/padding_size_10"
         android:orientation="vertical">
 
         <TextView
@@ -39,14 +39,14 @@
             android:ellipsize="end"
             android:textColor="@color/black"
             android:layout_weight="1"
-            android:textSize="@dimen/text_size_16"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <TextView
             android:id="@+id/tv_item_resource_uploader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/grey4"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
     </LinearLayout>
 
 </LinearLayout>

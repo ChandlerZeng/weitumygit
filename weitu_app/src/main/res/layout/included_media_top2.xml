@@ -2,13 +2,13 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/page_title_height"
+    android:layout_height="@dimen/navigationbar_layout_height"
     android:background="#b00d0d0d"
     android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/back_btn"
-        android:layout_width="@dimen/page_title_height"
+        android:layout_width="@dimen/navigationbar_layout_height"
         android:layout_height="fill_parent"
         android:background="@null"
         android:src="@drawable/back_btn"/>
@@ -28,7 +28,7 @@
 
     <ImageButton
         android:id="@+id/top_right"
-        android:layout_width="@dimen/page_title_height"
+        android:layout_width="@dimen/navigationbar_layout_height"
         android:layout_height="fill_parent"
         android:background="@null"
         android:scaleType="center"

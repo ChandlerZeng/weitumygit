@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/listview_item_bg_clicked" android:state_pressed="true" android:state_selected="true"/>
-    <item android:drawable="@color/listview_item_bg_clicked" android:state_pressed="true" android:state_selected="false"/>
-    <item android:drawable="@color/listview_item_bg_special" android:state_pressed="false" android:state_selected="true"/>
+    <item android:drawable="@color/item_clicked_bg" android:state_pressed="true" android:state_selected="true"/>
+    <item android:drawable="@color/item_clicked_bg" android:state_pressed="true" android:state_selected="false"/>
+    <item android:drawable="@color/item_clicked_bg_special" android:state_pressed="false" android:state_selected="true"/>
     <item android:drawable="@color/white" android:state_pressed="false" android:state_selected="false"/>
 
 </selector>

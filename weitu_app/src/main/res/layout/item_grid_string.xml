@@ -12,10 +12,10 @@
         android:layout_height="match_parent"
         android:background="@color/greyE"
         android:gravity="center"
-        android:paddingBottom="@dimen/padding_normal"
+        android:paddingBottom="@dimen/padding_size_10"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
-        android:paddingTop="@dimen/padding_normal"
+        android:paddingTop="@dimen/padding_size_10"
         android:singleLine="true"
         android:text="原创"
         android:textColor="@color/grey3"/>

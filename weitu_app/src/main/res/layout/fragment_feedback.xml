@@ -23,7 +23,7 @@
             android:padding="3dip"
             android:text="@string/feed_back_label"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_12"/>
+            android:textSize="@dimen/text_fontsize_small"/>
 
         <EditText
             android:id="@+id/content"
@@ -45,7 +45,7 @@
             android:id="@+id/send_info"
             style="@style/login_btn_style"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/btn_height"
+            android:layout_height="@dimen/button_height_default"
             android:text="@string/submit_relay_str"/>
     </LinearLayout>
 </LinearLayout>

@@ -3,28 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/padding_normal"
+    android:layout_margin="@dimen/padding_size_10"
     android:background="@color/white"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/comment_layout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layout_margin="@dimen/padding_size_10">
 
         <ImageView
             android:id="@+id/img_head"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="@dimen/padding_normal"
+            android:layout_margin="@dimen/padding_size_10"
             android:background="@drawable/normal_head"/>
 
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_small"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_size_10"
+            android:layout_marginTop="@dimen/padding_size_10"
             android:layout_toRightOf="@+id/img_head"
             android:textColor="@color/comment_subtitle"
             tools:text="用户名"/>
@@ -35,9 +37,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_size_10"
             android:textColor="@color/comment_subtitle"
             tools:text="2016/09/12 11:35 "/>
+
         <TextView
             android:id="@+id/tv_content"
             android:background="@drawable/list_selector"
@@ -46,7 +49,8 @@
             android:layout_below="@+id/img_head"
             android:layout_toRightOf="@+id/img_head"
             android:clickable="false"
-            android:padding="@dimen/padding_small"
+            android:layout_marginLeft="@dimen/padding_size_10"
+            android:padding="@dimen/padding_tiny"
             android:textColor="@color/comment_title"
             tools:text="这份资料很有用。"/>
     </RelativeLayout>

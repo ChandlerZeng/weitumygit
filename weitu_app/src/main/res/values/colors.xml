@@ -1,7 +1,27 @@
 <resources>
 
+    <!-- 主题色 -->
+    <color name="theme">#FF2DBE60</color>
+
     <!-- 视图布局背景色 -->
-    <color name="layout_bg">#FFEFEFEF</color>
+    <color name="layout_bg">#FFEBEBEB</color>
+    <!--视图布局顶部导航栏背景色  -->
+    <color name="layout_navigationbar_bg">#FFFFFFFF</color>
+    <!-- 导航栏菜单点击背景色 -->
+    <color name="navigationbar_item_clicked_bg">#30000000</color>
+
+    <!-- 条项点击背景色 -->
+    <color name="item_clicked_bg">#FFF0F0F0</color>
+    <!-- 条项点击背景色(特殊) -->
+    <color name="item_clicked_bg_special">#FFF0FBFF</color>
+
+    <!-- 普通分割线颜色 -->
+    <color name="divide_line_common">#FFEEEEEE</color>
+
+    <!-- 一级文字颜色 -->
+    <color name="text_primary">#FF333333</color>
+    <!-- 二级文字颜色 -->
+    <color name="text_second">#FF999999</color>
 
     <!--old-->
     <color name="transparent">#00000000</color>
@@ -31,8 +51,8 @@
     <color name="grey_BG">#2c2c2c</color>
 
     <!--new-->
-    <color name="white">#ffffff</color>
-    <color name="titleBar">#ffffff</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="titleBar">#FFFFFFFF</color>
     <color name="searchBackgroud">#f2f2f2</color>
     <color name="newGreen">#2dbe60</color>
     <color name="green1">#41ce97</color>
@@ -83,10 +103,6 @@
     <color name="classify_blue_pressed">#46A0BB</color>
     <color name="rank_red">#FF6064</color>
     <color name="rank_red_pressed">#CF6064</color>
-
-    <color name="listview_divider">#FFEEEEEE</color>
-    <color name="listview_item_bg_clicked">#FFF0F0F0</color>
-    <color name="listview_item_bg_special">#FFF0FBFF</color>
 
     <color name="user_name_green">#FF47885D</color>
 

@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="@dimen/padding_normal"
-    android:paddingLeft="@dimen/padding_normal">
+    android:paddingRight="@dimen/padding_size_10"
+    android:paddingLeft="@dimen/padding_size_10">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,35 +22,35 @@
             android:id="@+id/auther"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_size_10"
             android:textColor="@color/grey4"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
 
         <TextView
             android:id="@+id/tv_publisher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/grey4"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
 
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/grey4"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
 
         <TextView
             android:id="@+id/tv_isbn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/grey4"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_size_10"
             android:text="简介"
             android:textColor="@color/black"
             android:textSize="18sp"/>
@@ -59,10 +59,10 @@
             android:id="@+id/webview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_size_10"
             android:lineSpacingExtra="3dip"
             android:textColor="@color/label_color"
-            android:textSize="@dimen/text_size_15"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -78,6 +78,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_medium"
             android:textColor="@color/label_color"
-            android:textSize="@dimen/text_size_15"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
     </LinearLayout>
 </ScrollView>

@@ -9,7 +9,7 @@
         android:id="@+id/ll_board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_size_10"
         android:orientation="horizontal">
 
         <ImageView
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:text="Java web开发设计"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_16"/>
+                android:textSize="@dimen/text_fontsize_normal"/>
 
             <TextView
                 android:id="@+id/author"
@@ -45,7 +45,7 @@
                 android:paddingTop="3dip"
                 android:text="威廉著"
                 android:textColor="@color/grey4"
-                android:textSize="@dimen/text_size_14"/>
+                android:textSize="@dimen/text_fontsize_small"/>
 
             <TextView
                 android:id="@+id/publisher"
@@ -56,7 +56,7 @@
                 android:paddingTop="3dip"
                 android:text="清华大学出版社"
                 android:textColor="@color/grey4"
-                android:textSize="@dimen/text_size_14"/>
+                android:textSize="@dimen/text_fontsize_small"/>
 
         </LinearLayout>
 
@@ -65,11 +65,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_size_10"
             android:background="@drawable/green_board"
             android:paddingBottom="3dp"
-            android:paddingLeft="@dimen/padding_normal"
-            android:paddingRight="@dimen/padding_normal"
+            android:paddingLeft="@dimen/padding_size_10"
+            android:paddingRight="@dimen/padding_size_10"
             android:paddingTop="3dp"
             android:text="试读"
             android:textColor="@color/green1"/>
@@ -79,6 +79,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_size_10"
         android:background="@color/divider"/>
 </LinearLayout>

@@ -92,8 +92,8 @@
                     android:layout_toRightOf="@id/progress_current"
                     android:maxHeight="1dp"
                     android:minHeight="1dp"
-                    android:paddingLeft="@dimen/padding_normal"
-                    android:paddingRight="@dimen/padding_normal"
+                    android:paddingLeft="@dimen/padding_size_10"
+                    android:paddingRight="@dimen/padding_size_10"
                     android:progressDrawable="@drawable/doc_seekbar"
                     android:thumb="@drawable/greencircle"/>
             </RelativeLayout>
@@ -101,7 +101,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/padding_normal"
+                android:layout_marginBottom="@dimen/padding_size_10"
                 android:layout_marginTop="8dp">
 
                 <ImageButton
@@ -151,8 +151,8 @@
                     android:layout_alignBottom="@+id/img_play"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginLeft="@dimen/padding_normal"
-                    android:layout_marginRight="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
+                    android:layout_marginRight="@dimen/padding_size_10"
                     android:scaleType="centerCrop"
                     android:src="@drawable/avatar_normal"/>
 
@@ -161,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/tv_play_time"
-                    android:layout_marginBottom="@dimen/padding_normal"
+                    android:layout_marginBottom="@dimen/padding_size_10"
                     android:layout_toRightOf="@+id/img_head"
                     android:singleLine="true"
                     android:textColor="@color/white"
@@ -173,7 +173,7 @@
                     android:layout_width="0px"
                     android:layout_height="0px"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/padding_normal"
+                    android:layout_marginBottom="@dimen/padding_size_10"
                     android:layout_toRightOf="@+id/img_head"
                     android:background="@drawable/playphoto"
                     android:visibility="invisible"/>
@@ -238,7 +238,7 @@
                     android:layout_alignBottom="@+id/img_play"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/padding_normal"
+                    android:layout_marginRight="@dimen/padding_size_10"
                     android:background="@drawable/share"/>
             </RelativeLayout>
 
@@ -268,7 +268,7 @@
                     android:id="@+id/introduction"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/padding_normal"
+                    android:layout_margin="@dimen/padding_size_10"
                     android:minLines="10"
                     android:text="简介:"
                     android:textColor="@color/main_text"

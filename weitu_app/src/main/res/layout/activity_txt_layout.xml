@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="3dip"
             android:textColor="@color/label_color"
-            android:textSize="@dimen/text_size_16"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
     </ScrollView>
 
 </LinearLayout>

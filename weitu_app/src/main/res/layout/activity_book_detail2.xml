@@ -90,7 +90,7 @@
             android:textColor="@color/main_item_text"
             android:maxLines="3"
             android:ellipsize="end"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
 
         <TextView
             android:id="@+id/book_report"
@@ -101,13 +101,13 @@
             android:paddingBottom="3dip"
             android:paddingTop="3dip"
             android:textColor="@color/main_item_text"
-            android:textSize="@dimen/text_size_14"/>
+            android:textSize="@dimen/text_fontsize_small"/>
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_normal"
+        android:layout_height="@dimen/padding_size_10"
         android:layout_below="@+id/icon"
         android:background="@color/searchBackgroud"/>
 
@@ -131,7 +131,7 @@
             android:gravity="center"
             android:text="简介"
             android:textColor="@color/group_tap_textcolor_radiobutton"
-            android:textSize="@dimen/text_size_15"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <RadioButton
             android:id="@+id/try_read"
@@ -143,7 +143,7 @@
             android:gravity="center"
             android:text="试读"
             android:textColor="@color/group_tap_textcolor_radiobutton"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_fontsize_normal"
             android:visibility="gone"/>
 
         <RadioButton
@@ -156,7 +156,7 @@
             android:gravity="center"
             android:text="馆藏"
             android:textColor="@color/group_tap_textcolor_radiobutton"
-            android:textSize="@dimen/text_size_15"/>
+            android:textSize="@dimen/text_fontsize_normal"/>
 
         <RadioButton
             android:id="@+id/cd"
@@ -168,7 +168,7 @@
             android:gravity="center"
             android:text="光盘"
             android:textColor="@color/group_tap_textcolor_radiobutton"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_fontsize_normal"
             android:visibility="gone"/>
     </RadioGroup>
 

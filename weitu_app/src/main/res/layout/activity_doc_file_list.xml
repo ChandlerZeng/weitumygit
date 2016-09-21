@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#f2f2f2"
-        android:padding="@dimen/padding_normal"
+        android:padding="@dimen/padding_size_10"
         android:text="上一级 > storage"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/grey4"/>

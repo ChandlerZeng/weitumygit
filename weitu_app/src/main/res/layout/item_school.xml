@@ -21,7 +21,7 @@
         android:paddingTop="5dip"
         android:text="A"
         android:textColor="@color/main_color"
-        android:textSize="@dimen/text_size_18"/>
+        android:textSize="@dimen/text_fontsize_middle"/>
 
     <View
         android:id="@+id/line"
@@ -42,7 +42,7 @@
         android:paddingTop="5dip"
         android:text="hhhh"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_size_16"/>
+        android:textSize="@dimen/text_fontsize_normal"/>
 
     <View
         android:layout_width="fill_parent"

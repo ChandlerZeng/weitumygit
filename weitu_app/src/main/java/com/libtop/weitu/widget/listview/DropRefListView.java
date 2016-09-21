@@ -396,7 +396,7 @@ public class DropRefListView extends ListView implements OnScrollListener
         mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
         if (mHeaderViewHeight == 0)
         {
-            mHeaderViewHeight = getResources().getDimensionPixelSize(R.dimen.list_head_height);
+            mHeaderViewHeight = getResources().getDimensionPixelSize(R.dimen.listview_refresh_header_height);
         }
         mScroller.startScroll(0, 0, 0, mHeaderViewHeight, SCROLL_DURATION);
         // trigger computeScroll

@@ -34,7 +34,7 @@
                 android:gravity="center"
                 android:text="@string/system_notice"
                 android:textColor="@color/grey3"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_fontsize_middle"/>
 
             <View
                 android:layout_width="38dp"
@@ -48,7 +48,7 @@
                 android:gravity="center"
                 android:text="@string/school_notice"
                 android:textColor="@color/grey4"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_fontsize_middle"/>
         </LinearLayout>
     </RelativeLayout>
 
@@ -58,7 +58,6 @@
         android:id="@+id/activity_notice_view_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
         android:background="@color/white"/>
 
 </LinearLayout>
