@@ -15,14 +15,12 @@
         android:id="@+id/comment_layout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:layout_margin="@dimen/padding_size_10">
 
         <ImageView
             android:id="@+id/img_head"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_margin="@dimen/padding_size_10"
             android:background="@drawable/normal_head"/>
 
         <TextView
@@ -30,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/padding_size_10"
-            android:layout_marginTop="@dimen/padding_size_10"
+            android:layout_marginLeft="@dimen/padding_size_10"
             android:layout_toRightOf="@+id/img_head"
             android:textColor="@color/comment_user_name"
             tools:text="用户名"/>
@@ -40,18 +38,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_user_name"
+            android:layout_marginLeft="@dimen/padding_size_10"
             android:layout_toRightOf="@+id/img_head"
             android:layout_weight="1"
             android:textColor="@color/comment_subtitle"
             tools:text="2016/09/12 11:35 "/>
         <TextView
             android:id="@+id/tv_commnet1"
-            android:background="@drawable/list_selector"
             android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/img_head"
-            android:layout_marginLeft="@dimen/padding_size_10"
             android:padding="@dimen/padding_tiny"
             android:layout_marginTop="@dimen/padding_size_10"
             android:textColor="@color/comment_title"
@@ -61,13 +58,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_commnet1"
-            android:layout_marginLeft="@dimen/padding_size_10"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/likeLayout"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_tiny"
                 android:background="@drawable/list_selector"
                 android:orientation="horizontal">
                 <ImageView
@@ -116,10 +113,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginLeft="@dimen/padding_medium"
-        android:layout_marginRight="@dimen/padding_medium"
+        android:layout_marginLeft="@dimen/padding_size_10"
+        android:layout_marginRight="@dimen/padding_size_10"
         android:layout_marginBottom="@dimen/padding_size_10"
-        android:background="@color/comment_reply">
+        android:background="@drawable/shape_comment_textview_bg">
         <com.libtop.weitu.widget.listview.ChangeListView
             android:layout_marginLeft="@dimen/padding_size_10"
             android:layout_marginRight="@dimen/padding_size_10"

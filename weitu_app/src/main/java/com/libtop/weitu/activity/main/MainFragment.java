@@ -29,7 +29,6 @@ import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.rank.RankFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreRmdFileFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
-import com.libtop.weitu.activity.notice.NoticeActivity;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
@@ -49,6 +48,7 @@ import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PicassoLoader;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.gridview.FixedGridView;
 import com.libtop.weitu.widget.listview.ChangeListView;
 import com.zbar.lib.CaptureActivity;
@@ -72,10 +72,20 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
+ * <p>
+ * Title: MainFragment.java
+ * </p>
+ * <p>
+ * Description:
+ * </p>
+ * <p>
+ * CreateTime：16/6/12
+ * </p>
+ *
  * @author 陆
  * @version common v1.0
  */
-public class MainFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageClickListener {
+public class MainFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageClickListener, NetworkLoadingLayout.OnRetryClickListner {
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.scroll)
@@ -98,6 +108,8 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     TextView fileMore;
     @Bind(R.id.ll_news)
     LinearLayout llNews;
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
 
 
     SubjectFileAdapter subjectFileAdapter;
@@ -113,6 +125,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private ACache mCache;
 
+    private boolean isFirstIn = true;
+    private boolean isRefreshed = false;
+
 
     @Override
     protected int getLayoutId() {
@@ -123,38 +138,45 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     public void onCreation(View root) {
         mCache = ACache.get(mContext);
         initView();
-        initLoad();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                isRefreshed = true;
                 initLoad();
             }
         });
     }
 
     private void initLoad() {
-        loadSubjectRecommand();
-        loadResourceFile();
         requestImageSlider();
+        requestSubject();
+        loadResourceFile();
         swipeRefreshLayout.setRefreshing(false);
     }
 
     private void initView() {
-        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
         moreSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
+        subjectFileAdapter = new SubjectFileAdapter(mContext,reourceList);
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
+        if (isFirstIn)
+        {
+            isFirstIn = false;
+            networkLoadingLayout.showLoading();
+            initLoad();
+        }
+        swipeRefreshLayout.setRefreshing(false);
+        networkLoadingLayout.setOnRetryClickListner(this);
         mGrid.setAdapter(moreSubjectAdapter);
+        changeListView.setAdapter(subjectFileAdapter);
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Subject subject = subjectList.get(position);
                 Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                intent.putExtra("cover",subject.cover);
+                intent.putExtra("cover", subject.cover);
                 startActivity(intent);
             }
         });
-
-        subjectFileAdapter = new SubjectFileAdapter(mContext,reourceList);
-        changeListView.setAdapter(subjectFileAdapter);
         changeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -219,65 +241,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
 
-    private void setNewsVisible(){
-        llNews.setVisibility(View.VISIBLE);
-        changeListView.setVisibility(View.VISIBLE);
-    }
-
-    private void setNewsGone(){
-        llNews.setVisibility(View.GONE);
-        changeListView.setVisibility(View.GONE);
-    }
-
-    private void openAudio(String id,String cover) {
-        SearchResult result = new SearchResult();
-        result.id = id;
-        result.cover = cover;
-        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-    private void openVideo(String id) {
-        SearchResult result = new SearchResult();
-        result.id = id;
-        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-    private void openBook(String bookName,String cover,String author,String isbn,String publisher) {
-        Bundle bundle = new Bundle();
-        bundle.putString("name", bookName);
-        bundle.putString("cover", cover);
-        bundle.putString("auth", author);
-        bundle.putString("isbn", isbn);
-        bundle.putString("publisher", publisher);
-        bundle.putString("school", Preference.instance(mContext)
-                .getString(Preference.SchoolCode));
-        bundle.putBoolean("isFromMainPage", true);
-        bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        mContext.startActivity(bundle, ContentActivity.class);
-    }
-
-    private void openPhoto(String id) {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "img");
-        bundle.putString("id", id);
-        mContext.startActivity(bundle, DynamicCardActivity.class);
-    }
-
-    private void openDoc(String id) {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", id);
-        intent.setClass(mContext, PdfActivity2.class);
-        mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin,
-                R.anim.alpha_outto);
-    }
-
     private void initData() {
         if (slideList.isEmpty()){
             return;
@@ -301,12 +264,9 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     @Nullable
-    @OnClick({R.id.open_alarm,R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
+    @OnClick({R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.open_alarm:
-                alarmClick();
-                break;
             case R.id.open_clazz:
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 1);
@@ -384,12 +344,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         }
     }
 
-    private void alarmClick()
-    {
-        Intent intent = new Intent(getActivity(), NoticeActivity.class);
-        startActivity(intent);
-    }
-
     private void openAudio(int position) {
         SearchResult result = new SearchResult();
         result.id = slideList.get(position).id;
@@ -450,63 +404,22 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
 
-    private void loadSubjectRecommand() {
-        requestSubject();
-//        requestBooks();
-    }
-
-    private void requestBooks(){
-        List<DocBean> docBeans= (List<DocBean>) mCache.getAsObject("bookLists");
-        if(docBeans!=null&&!docBeans.isEmpty()){
-            handleBookResult(docBeans);
-        }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("method", "book.listRecommend");
-        String[] arrays = MapUtil.map2Parameter(params);
-        _subscriptions.add(
-                WeituNetwork.getWeituApi()
-                        .getNewest(arrays[0], arrays[1], arrays[2])
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<List<DocBean>>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(List<DocBean> docBeens) {
-                                mCache.put("bookLists", (Serializable) docBeens);
-                                handleBookResult(docBeens);
-                            }
-                        })
-        );
-    }
-    private void handleBookResult(List<DocBean> docBeens) {
-        bList.clear();
-        bList = docBeens;
-        if (bList.isEmpty())
-            return;
-        if (bList.size()>4){
-            bList = bList.subList(0,4);
-        }
-//        moreSubjectAdapter.setData(bList);
-    }
     private void requestSubject()
     {
-        List<Subject> subjectLists= (List<Subject>) mCache.getAsObject("subjectList");
+        final List<Subject> subjectLists= (List<Subject>) mCache.getAsObject("subjectList");
         if(subjectLists!=null&&!subjectLists.isEmpty()){
             handleSubjectResult(subjectLists);
+            networkLoadingLayout.dismiss();
         }
         String api = "/find/subject/recommend/top";
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                if(subjectLists!=null&&!subjectLists.isEmpty()){
+
+                }else{
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
             }
 
 
@@ -519,6 +432,12 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
                         }.getType());
                         List<Subject> listSub = new ArrayList<>();
                         listSub = subjectResource.subjects;
+                        if(listSub.size()>0){
+                            networkLoadingLayout.dismiss();
+                        }else if(listSub.size()==0 && subjectLists.size()==0){
+                            networkLoadingLayout.showEmptyPrompt();
+                            return;
+                        }
                         mCache.put("subjectList", (Serializable) listSub);
                         handleSubjectResult(listSub);
                     } catch (Exception e) {
@@ -580,5 +499,10 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             reourceList = reourceList.subList(0, 2);
         }
         subjectFileAdapter.setData(reourceList);
+    }
+
+    @Override
+    public void onRetryClick(View v) {
+        initLoad();
     }
 }

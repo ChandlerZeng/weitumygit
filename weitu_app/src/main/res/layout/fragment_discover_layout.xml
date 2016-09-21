@@ -86,22 +86,28 @@
         android:background="@color/divider"
         />
 
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ScrollView
-            android:id="@+id/scroll"
+    <FrameLayout
+        style="@style/my_layout_style_common">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:scrollbars="none">
+            android:layout_height="match_parent">
 
-            <include layout="@layout/included_main_content" />
+            <ScrollView
+                android:id="@+id/scroll"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none">
 
-        </ScrollView>
+                <include layout="@layout/included_main_content" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            </ScrollView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <include layout="@layout/content_layout_network_loading" />
+
+    </FrameLayout>
+
 </LinearLayout>
