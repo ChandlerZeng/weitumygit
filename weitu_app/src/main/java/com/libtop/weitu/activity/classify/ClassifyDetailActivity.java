@@ -20,22 +20,13 @@ import com.libtop.weitu.activity.classify.adapter.ClassifyDetailAdapter;
 import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyDetailBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
-
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-
-import com.libtop.weitu.test.CategoryResult;
-import com.libtop.weitu.test.Resource;
-import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.NoSlideViewPager;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,9 +96,9 @@ public class ClassifyDetailActivity extends BaseActivity
         mData = new ArrayList<ClassifyResultBean>();
         mAdapter = new ClassifyDetailAdapter(mContext, mData);
         classifyDetailFragment=new ClassifyDetailFragment();
+//        classifyDetailFragment.setShowNetWorkLoadingPageListener(this);
         initView();
         initPopView();
-
         getData();
 
     }
@@ -333,8 +324,7 @@ public class ClassifyDetailActivity extends BaseActivity
 //                    mListView.setPullLoadEnable(true);
                 }
                 mCurPage++;
-                if (mData.isEmpty())
-                {
+                if (mData.isEmpty()) {
 //                    networkLoadingLayout.showEmptyPrompt();
 //                    mListView.setVisibility(View.GONE);
 //                    classifyDetailFragment.getInstance().showEmptyPage();

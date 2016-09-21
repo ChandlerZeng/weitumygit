@@ -56,6 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
+                    android:textColor="@color/white"
                     tools:text="11"/>
 
                 <ImageView
@@ -65,7 +66,7 @@
                     android:layout_below="@+id/photo"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    tools:background="@drawable/female"/>
+                    tools:background="@drawable/male"/>
             </LinearLayout>
 
             <TextView
@@ -80,7 +81,7 @@
                 android:paddingLeft="13dp"
                 android:paddingRight="13dp"
                 android:paddingTop="3dp"
-                android:textColor="@color/grey3"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 tools:text="华南农业大学"/>
         </RelativeLayout>
