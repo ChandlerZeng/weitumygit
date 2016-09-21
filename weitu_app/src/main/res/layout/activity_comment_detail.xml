@@ -163,7 +163,7 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_margin="@dimen/padding_small"
-                                android:src="@drawable/icon_comment_unpraised" />
+                                android:src="@drawable/icon_comment_detail_unpraised" />
                         </LinearLayout>
 
                         <GridView
