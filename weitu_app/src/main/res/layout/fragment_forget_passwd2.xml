@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_size_10"
         android:orientation="horizontal">
 
         <ImageView
@@ -57,8 +57,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_normal"
-            android:layout_marginRight="@dimen/padding_large"
+            android:layout_marginLeft="@dimen/padding_size_10"
+            android:layout_marginRight="@dimen/padding_size_20"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/input_height"
             android:background="@color/maincolor"
-            android:padding="@dimen/padding_normal"
+            android:padding="@dimen/padding_size_10"
             android:text="@string/get_word_hint"
             android:textColor="@color/white"
             android:textSize="@dimen/text_fontsize_small"/>
@@ -93,7 +93,7 @@
         android:id="@+id/send_email"
         style="@style/login_btn_style"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/page_title_height"
+        android:layout_height="@dimen/navigationbar_layout_height"
         android:layout_margin="20dip"
         android:text="@string/next_step_str"/>
 
@@ -101,7 +101,7 @@
         android:id="@+id/tv_back_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_size_10"
         android:gravity="center"
         android:text="@string/back_btn"
         android:textColor="@color/textback"/>

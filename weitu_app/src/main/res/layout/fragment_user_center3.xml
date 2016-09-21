@@ -23,7 +23,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="right"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_size_10"
             android:padding="10dp"
             android:scaleType="fitCenter"
             android:src="@drawable/setting"/>
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_name"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/padding_normal"
+                android:layout_marginTop="@dimen/padding_size_10"
                 android:background="@drawable/shape_user_school"
                 android:paddingBottom="3dp"
                 android:paddingLeft="13dp"
@@ -89,7 +89,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_normal"
+        android:layout_height="@dimen/padding_size_10"
         android:background="@color/grey2"/>
 
     <ScrollView
@@ -123,7 +123,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="我上传的视频"
                     android:textColor="@color/main_text"
@@ -161,7 +161,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="我上传的文档"
                     android:textColor="@color/main_text"
@@ -199,7 +199,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="我上传的图库"
                     android:textColor="@color/main_text"
@@ -213,7 +213,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/padding_normal"
+                android:layout_height="@dimen/padding_size_10"
                 android:background="@color/grey2"/>
 
             <LinearLayout
@@ -238,7 +238,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="我的收藏"
                     android:textColor="@color/main_text"
@@ -276,7 +276,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="我赞过的"
                     android:textColor="@color/main_text"
@@ -314,7 +314,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="我的评论"
                     android:textColor="@color/main_text"
@@ -353,7 +353,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="我的历史"
                     android:textColor="@color/main_text"
@@ -373,7 +373,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/padding_normal"
+                android:layout_height="@dimen/padding_size_10"
                 android:background="@color/grey2"/>
 
             <LinearLayout
@@ -397,7 +397,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="反馈"
                     android:textColor="@color/main_text"
@@ -435,7 +435,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_normal"
+                    android:layout_marginLeft="@dimen/padding_size_10"
                     android:layout_weight="1"
                     android:text="设置"
                     android:textColor="@color/main_text"

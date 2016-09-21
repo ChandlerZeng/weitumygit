@@ -11,7 +11,7 @@
 
         <ImageView
             android:id="@+id/back_btn"
-            android:layout_width="@dimen/page_title_height"
+            android:layout_width="@dimen/navigationbar_layout_height"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
             android:src="@drawable/back_btn"/>

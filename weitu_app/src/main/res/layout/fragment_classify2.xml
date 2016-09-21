@@ -17,7 +17,7 @@
         android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_tiny"
         android:background="@color/white"
         android:cacheColorHint="#00000000"
         android:descendantFocusability="blocksDescendants"

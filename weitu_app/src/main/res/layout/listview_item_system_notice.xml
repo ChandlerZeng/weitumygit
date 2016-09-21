@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/listview_selector_with_new"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_normal">
+        android:padding="@dimen/padding_size_10">
 
         <ImageView
             android:id="@+id/listview_item_logo_imageview"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/padding_normal"
+    android:layout_margin="@dimen/padding_size_10"
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -36,8 +36,8 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_normal"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_size_10"
+            android:layout_marginTop="@dimen/padding_size_10"
             android:text="【图书】java web开发"/>
 
         <ImageView
@@ -45,7 +45,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_below="@+id/tv_title"
-            android:layout_margin="@dimen/padding_normal"
+            android:layout_margin="@dimen/padding_size_10"
             android:background="@drawable/normal_head"/>
 
         <TextView
@@ -53,8 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_title"
-            android:layout_marginRight="@dimen/padding_normal"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_size_10"
+            android:layout_marginTop="@dimen/padding_size_10"
             android:layout_toRightOf="@+id/img_head"
             tools:text="华南大学周老师:这份资料很有用。"/>
 
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_commnet"
-            android:layout_margin="@dimen/padding_normal"
+            android:layout_margin="@dimen/padding_size_10"
             android:layout_toRightOf="@+id/img_head"
             android:background="#f5f5f5"
             tools:text="ABC:这份资料很有用。"/>
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tv_commnet2"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_size_10"
             android:textColor="@color/grey4"
             tools:text="2015/11/10"/>
     </RelativeLayout>

@@ -75,8 +75,8 @@
                     android:layout_toRightOf="@id/progress_current"
                     android:maxHeight="1dp"
                     android:minHeight="1dp"
-                    android:paddingLeft="@dimen/padding_normal"
-                    android:paddingRight="@dimen/padding_normal"
+                    android:paddingLeft="@dimen/padding_size_10"
+                    android:paddingRight="@dimen/padding_size_10"
                     android:progressDrawable="@drawable/doc_seekbar"
                     android:thumb="@drawable/greencircle"/>
             </RelativeLayout>
@@ -119,7 +119,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/padding_normal"
+                android:layout_height="@dimen/padding_size_10"
                 android:background="@color/grey_BG"/>
 
             <View
@@ -178,7 +178,7 @@
                     android:id="@+id/introduction"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/padding_normal"
+                    android:layout_margin="@dimen/padding_size_10"
                     android:text="简介:"
                     android:textColor="@color/main_text"
                     android:textSize="16sp"/>

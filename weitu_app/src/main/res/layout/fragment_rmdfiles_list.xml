@@ -14,7 +14,7 @@
         android:background="@color/divider"/>
 
     <com.libtop.weitu.widget.listview.XListView
-        android:layout_marginTop="@dimen/padding_small"
+        android:layout_marginTop="@dimen/padding_tiny"
         android:id="@+id/rmd_file_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

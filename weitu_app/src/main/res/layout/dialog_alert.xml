@@ -43,7 +43,7 @@
                 android:id="@+id/cancel_btn"
                 style="@style/dialog_btn_style"
                 android:layout_width="0dip"
-                android:layout_height="@dimen/page_title_height"
+                android:layout_height="@dimen/navigationbar_layout_height"
                 android:layout_weight="1"
                 android:text="@string/cancel_str"/>
 
@@ -51,7 +51,7 @@
                 android:id="@+id/ok_btn"
                 style="@style/dialog_btn_style"
                 android:layout_width="0dip"
-                android:layout_height="@dimen/page_title_height"
+                android:layout_height="@dimen/navigationbar_layout_height"
                 android:layout_weight="1"
                 android:text="@string/ok_str"/>
         </LinearLayout>

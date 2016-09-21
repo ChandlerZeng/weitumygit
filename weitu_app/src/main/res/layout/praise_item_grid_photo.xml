@@ -8,7 +8,7 @@
         android:id="@+id/praise_head_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_margin="@dimen/padding_small"
+        android:layout_margin="@dimen/padding_tiny"
         android:scaleType="centerInside"/>
 
 </RelativeLayout>

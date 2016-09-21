@@ -11,7 +11,7 @@
 
         <ImageButton
             android:id="@+id/slider_menu"
-            android:layout_width="@dimen/page_title_height"
+            android:layout_width="@dimen/navigationbar_layout_height"
             android:layout_height="fill_parent"
             android:background="@null"
             android:src="@drawable/white_back_btn"/>

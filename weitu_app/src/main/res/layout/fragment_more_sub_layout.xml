@@ -14,7 +14,7 @@
         android:background="@color/divider"/>
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_small"
+        android:layout_height="@dimen/padding_tiny"
         android:background="@color/grey_bg"/>
     <GridView
         android:id="@+id/sub_grid_view"
@@ -24,7 +24,7 @@
         android:numColumns="2"
         android:background="@color/white"
         android:gravity="center"
-        android:horizontalSpacing="@dimen/padding_tiny"
+        android:horizontalSpacing="@dimen/padding_micro"
         android:isScrollContainer="false"
         android:stretchMode="columnWidth"
         android:verticalSpacing="@dimen/padding_left"/>

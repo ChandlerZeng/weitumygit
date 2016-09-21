@@ -8,7 +8,7 @@
     <RelativeLayout
         style="@style/page_title"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/page_title_height">
+        android:layout_height="@dimen/navigationbar_layout_height">
 
         <ImageButton
             android:id="@+id/back_btn"
@@ -38,6 +38,6 @@
             android:layout_height="fill_parent"
             android:background="@android:color/transparent"
             android:layerType="software"
-            android:paddingTop="@dimen/page_title_height"/>
+            android:paddingTop="@dimen/navigationbar_layout_height"/>
     </LinearLayout>
 </LinearLayout>

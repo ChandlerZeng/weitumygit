@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="@dimen/padding_normal"
+        android:layout_marginTop="@dimen/padding_size_10"
         android:orientation="horizontal">
 
         <TextView
@@ -76,7 +76,7 @@
             android:layout_gravity="center"
             android:layout_weight="0"
             android:background="@drawable/greenarrow"
-            android:padding="@dimen/padding_normal"
+            android:padding="@dimen/padding_size_10"
             android:textColor="@color/white"/>
     </LinearLayout>
 
@@ -91,7 +91,7 @@
         android:id="@+id/next_step"
         style="@style/login_btn_style"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/page_title_height"
+        android:layout_height="@dimen/navigationbar_layout_height"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="40dp"

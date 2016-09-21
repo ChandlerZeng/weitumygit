@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginLeft="@dimen/padding_size_10"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         tools:background="@color/green1"

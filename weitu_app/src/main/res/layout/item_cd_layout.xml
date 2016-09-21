@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/page_title_height"
+        android:layout_height="@dimen/navigationbar_layout_height"
         android:layout_marginLeft="10dip"
         android:gravity="center_vertical"
         android:textColor="@color/main_text"
@@ -26,7 +26,7 @@
     <TextView
         android:id="@+id/play_state"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/page_title_height"
+        android:layout_height="@dimen/navigationbar_layout_height"
         android:layout_gravity="center_vertical"
         android:layout_toRightOf="@id/play"
         android:gravity="center_vertical"
@@ -36,7 +36,7 @@
     <TextView
         android:id="@+id/size"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/page_title_height"
+        android:layout_height="@dimen/navigationbar_layout_height"
         android:layout_alignParentRight="true"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"

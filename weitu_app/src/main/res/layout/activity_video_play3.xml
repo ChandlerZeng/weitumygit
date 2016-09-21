@@ -61,13 +61,13 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_normal">
+        android:layout_marginTop="@dimen/padding_size_10">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_size_10"
             android:text="name"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/main_text"/>
@@ -77,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_size_10"
             android:text="00:00"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/main_text"/>
@@ -88,8 +88,8 @@
         android:id="@+id/tv_size"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_normal"
-        android:layout_marginLeft="@dimen/padding_normal"
+        android:layout_marginBottom="@dimen/padding_size_10"
+        android:layout_marginLeft="@dimen/padding_size_10"
         android:text="0M"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
 

@@ -79,7 +79,7 @@
             android:id="@+id/tv_uploader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_normal"
+            android:layout_marginTop="@dimen/padding_size_10"
             android:gravity="bottom"
             android:maxLines="3"
             android:textColor="@color/main_item_text"

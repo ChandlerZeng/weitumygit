@@ -26,21 +26,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:layout_margin="@dimen/padding_normal">
+            android:layout_margin="@dimen/padding_size_10">
 
             <ImageView
                 android:id="@+id/img_head"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_margin="@dimen/padding_normal"
+                android:layout_margin="@dimen/padding_size_10"
                 android:background="@drawable/normal_head"/>
 
             <TextView
                 android:id="@+id/tv_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/padding_normal"
-                android:layout_marginTop="@dimen/padding_normal"
+                android:layout_marginRight="@dimen/padding_size_10"
+                android:layout_marginTop="@dimen/padding_size_10"
                 android:layout_toRightOf="@+id/img_head"
                 android:textColor="@color/comment_user_name"
                 android:text="用户名"/>
@@ -59,8 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/img_head"
-                android:layout_marginLeft="@dimen/padding_normal"
-                android:padding="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/padding_size_10"
+                android:padding="@dimen/padding_tiny"
                 android:textColor="@color/comment_title"
                 android:text="这份资料很有用。"/>
 
@@ -78,14 +78,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="@dimen/padding_normal"
+                android:layout_margin="@dimen/padding_size_10"
                 android:background="@color/white">
 
                 <ImageView
                     android:id="@+id/resource_file_image"
                     android:layout_width="60dp"
                     android:layout_height="70dp"
-                    android:padding="@dimen/padding_small"
+                    android:padding="@dimen/padding_tiny"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
                     android:src="@drawable/default_image" />
@@ -132,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_commnet1"
-            android:layout_marginLeft="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_size_10"
             android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/likeLayout"
@@ -145,12 +145,12 @@
                     android:id="@+id/like_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_margin="@dimen/padding_small"
+                    android:layout_margin="@dimen/padding_tiny"
                     android:src="@drawable/icon_comment_unpraised"/>
             </LinearLayout>
             <GridView
                 android:id="@+id/comment_detail_grid_view"
-                android:layout_margin="@dimen/padding_small"
+                android:layout_margin="@dimen/padding_tiny"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
@@ -168,9 +168,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="@dimen/padding_normal"
-            android:layout_marginRight="@dimen/padding_normal"
-            android:layout_marginBottom="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_size_10"
+            android:layout_marginRight="@dimen/padding_size_10"
+            android:layout_marginBottom="@dimen/padding_size_10"
             android:background="@color/comment_reply">
             <com.libtop.weitu.widget.listview.ChangeListView
                 android:id="@+id/list_reply"

@@ -11,7 +11,7 @@
         android:id="@+id/img_video_cover"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:padding="@dimen/padding_normal"
+        android:padding="@dimen/padding_size_10"
         android:scaleType="centerCrop"/>
 
     <com.libtop.weitu.widget.listview.HorizontalListView
@@ -19,13 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/padding_normal"/>
+        android:layout_marginTop="@dimen/padding_size_10"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/padding_large"
+        android:layout_marginTop="@dimen/padding_size_30"
         android:text="点击小图片选择封面"/>
 
     <LinearLayout
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:background="@color/green1"
-        android:padding="@dimen/padding_normal"
+        android:padding="@dimen/padding_size_10"
         android:text="完成"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"/>

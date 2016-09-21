@@ -52,8 +52,8 @@
                 android:id="@+id/img_head"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginLeft="@dimen/padding_normal"
-                android:layout_marginRight="@dimen/padding_normal"
+                android:layout_marginLeft="@dimen/padding_size_10"
+                android:layout_marginRight="@dimen/padding_size_10"
                 android:scaleType="centerCrop"/>
 
             <LinearLayout

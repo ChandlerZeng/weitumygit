@@ -106,7 +106,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_normal"
+        android:layout_height="@dimen/padding_size_10"
         android:layout_below="@+id/icon"
         android:background="@color/searchBackgroud"/>
 

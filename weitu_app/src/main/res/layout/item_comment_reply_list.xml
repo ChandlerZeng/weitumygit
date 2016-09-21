@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:padding="@dimen/padding_small"
+        android:padding="@dimen/padding_tiny"
         android:text="回复item"
         android:textColor="@color/comment_title"
         android:textSize="@dimen/text_fontsize_small"/>

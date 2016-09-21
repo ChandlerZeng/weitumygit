@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_normal">
+        android:padding="@dimen/padding_size_10">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,13 +78,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_normal">
+        android:padding="@dimen/padding_size_10">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_size_10"
             android:text="标        签"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"/>
@@ -104,7 +104,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_normal">
+        android:padding="@dimen/padding_size_10">
 
         <TextView
             android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_normal"
+        android:layout_height="@dimen/padding_size_10"
         android:background="@color/greyE"/>
 
     <LinearLayout
@@ -147,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingRight="@dimen/padding_normal"
+            android:paddingRight="@dimen/padding_size_10"
             android:text="分类"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"/>
@@ -163,8 +163,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_normal"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginLeft="@dimen/padding_size_10"
+            android:layout_marginRight="@dimen/padding_size_10"
             android:scaleType="fitCenter"
             android:src="@drawable/new_arrow_right"/>
     </LinearLayout>
@@ -188,8 +188,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="@dimen/padding_normal"
-            android:paddingRight="@dimen/padding_normal"
+            android:paddingLeft="@dimen/padding_size_10"
+            android:paddingRight="@dimen/padding_size_10"
             android:text="隐私设置"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"/>
@@ -197,7 +197,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_normal"
+            android:layout_marginRight="@dimen/padding_size_10"
             android:text="公开"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/black"/>

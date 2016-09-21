@@ -5,15 +5,15 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingBottom="@dimen/padding_normal"
-    android:paddingTop="@dimen/padding_normal">
+    android:paddingBottom="@dimen/padding_size_10"
+    android:paddingTop="@dimen/padding_size_10">
 
     <ImageView
         android:id="@+id/img_folder"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/padding_normal"
+        android:layout_margin="@dimen/padding_size_10"
         android:layout_weight="0"
         android:clickable="false"
         android:focusable="false"/>

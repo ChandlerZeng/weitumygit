@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/padding_normal">
+            android:layout_marginLeft="@dimen/padding_size_10">
 
             <TextView
                 android:id="@+id/tv_theme_detail_title"
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/padding_normal"
+            android:layout_margin="@dimen/padding_size_10"
             android:background="@drawable/shape_bg_follow"
             android:text="关注"
             android:textColor="@color/white"
@@ -68,7 +68,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_normal"
+        android:layout_height="@dimen/padding_size_10"
         android:background="@color/searchBackgroud"
         />
 
