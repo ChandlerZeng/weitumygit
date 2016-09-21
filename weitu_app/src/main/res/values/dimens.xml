@@ -89,12 +89,6 @@
     <dimen name="home_img_size">22dp</dimen>
     <dimen name="text_padding_size">3dp</dimen>
 
-    <!-- 与ScheduleView相关 -->
-    <dimen name="scheduleview_width">12dp</dimen>
-    <dimen name="scheduleview_line_width">1.0dp</dimen>
-    <dimen name="scheduleview_node_normal_radius">0.1dp</dimen>
-    <dimen name="scheduleview_node_bigger_radius">6dp</dimen>
-
     <!-- 与PagingListView/PagingGridView相关 -->
     <dimen name="loading_view_progress_size">50dp</dimen>
     <dimen name="loading_view_margin_layout">10dp</dimen>
