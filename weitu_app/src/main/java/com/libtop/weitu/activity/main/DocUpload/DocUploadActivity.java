@@ -27,7 +27,7 @@ import com.libtop.weitu.activity.source.PdfActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.StringUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
@@ -305,7 +305,7 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
     @Override
     public void onOptionImgTouch(View v, final int position)
     {
-        final PopupWindow popupWindow = DisplayUtils.openPopChoice(mContext, R.layout.popup_choise);
+        final PopupWindow popupWindow = DisplayUtil.openPopChoice(mContext, R.layout.popup_choise);
         View popView = popupWindow.getContentView();
 
         popView.findViewById(R.id.tv_edit).setOnClickListener(new View.OnClickListener()

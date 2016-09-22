@@ -47,12 +47,12 @@ public class ImageLoaderUtil
 
     public static void loadPlaceImage(Context context, ImageView imageView, int resId)
     {
-        Picasso.with(context).load(resId).transform(new RoundedCornersTransformation((int) DisplayUtils.dip2px(context,ROUND_SIZE),0)).fit().into(imageView);
+        Picasso.with(context).load(resId).transform(new RoundedCornersTransformation((int) DisplayUtil.dp2px(context,ROUND_SIZE),0)).fit().into(imageView);
     }
 
     public static void loadRoundImage(Context context, ImageView imageView,String url, int defaultResId)
     {
-        Picasso.with(context).load(url).placeholder(defaultResId).transform(new RoundedCornersTransformation((int) DisplayUtils.dip2px(context,ROUND_SIZE),0)).fit().into(imageView);
+        Picasso.with(context).load(url).placeholder(defaultResId).transform(new RoundedCornersTransformation((int) DisplayUtil.dp2px(context,ROUND_SIZE),0)).fit().into(imageView);
     }
 
     private static class CircleTransform implements Transformation

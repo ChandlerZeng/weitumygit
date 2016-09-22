@@ -27,7 +27,7 @@ import com.libtop.weitu.activity.main.videoUpload.VideoPlayActivity3;
 import com.libtop.weitu.activity.main.videoUpload.VideoUploadFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.dialog.TranLoading;
@@ -640,7 +640,7 @@ public class UploadFileActivity extends Activity implements UploadAdapter.OnOpti
     @Override
     public void onOptionImgTouch(View v, final int position)
     {
-        final PopupWindow popupWindow = DisplayUtils.openPopChoice(UploadFileActivity.this, R.layout.popup_choise2);
+        final PopupWindow popupWindow = DisplayUtil.openPopChoice(UploadFileActivity.this, R.layout.popup_choise2);
         View popView = popupWindow.getContentView();
         final String mid = mlist.get(position).videoId;
         popView.findViewById(R.id.line_view).setVisibility(View.VISIBLE);

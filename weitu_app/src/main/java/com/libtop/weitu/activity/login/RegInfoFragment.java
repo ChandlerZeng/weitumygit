@@ -65,7 +65,7 @@ public class RegInfoFragment extends BaseFragment
 
 
     @Nullable
-    @OnClick({R.id.next_step, R.id.back_btn, R.id.sex, R.id.school})
+    @OnClick({R.id.next_step, R.id.back_btn, R.id.school})
     public void onClick(View v)
     {
         switch (v.getId())

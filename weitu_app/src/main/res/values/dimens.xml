@@ -53,10 +53,14 @@
     <dimen name="listview_refresh_header_height">55dp</dimen>
     <dimen name="listview_load_footer_height">25dp</dimen>
 
-    <!-- 按钮高度(默认) -->
+    <!--  与按钮相关 -->
     <dimen name="button_height_default">42dp</dimen>
-    <!-- 按钮高度(小) -->
     <dimen name="button_height_small">30dp</dimen>
+
+    <!-- 与logo相关 -->
+    <dimen name="logo_size_default">38dp</dimen>
+    <dimen name="logo_size_small">30dp</dimen>
+    <dimen name="logo_size_large">80dp</dimen>
 
     <!-- 用户自定义 -->
     <dimen name="user_center_item">42dp</dimen>
@@ -88,12 +92,6 @@
     <dimen name="new_img_height">90dp</dimen>
     <dimen name="home_img_size">22dp</dimen>
     <dimen name="text_padding_size">3dp</dimen>
-
-    <!-- 与ScheduleView相关 -->
-    <dimen name="scheduleview_width">12dp</dimen>
-    <dimen name="scheduleview_line_width">1.0dp</dimen>
-    <dimen name="scheduleview_node_normal_radius">0.1dp</dimen>
-    <dimen name="scheduleview_node_bigger_radius">6dp</dimen>
 
     <!-- 与PagingListView/PagingGridView相关 -->
     <dimen name="loading_view_progress_size">50dp</dimen>

@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -303,7 +303,7 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
     {
         setOrientation(true);
         ViewGroup.LayoutParams pm = mVideoSu.getLayoutParams();
-        pm.height = DisplayUtils.dp2px(this, 200);
+        pm.height = DisplayUtil.dp2px(this, 200);
         mVideoSu.setLayoutParams(pm);
         mVideoSu.requestLayout();
     }

@@ -30,7 +30,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.VideoBean;
 import com.libtop.weitu.activity.search.dto.MediaResult;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.TransformUtil;
 
 import java.util.ArrayList;
@@ -571,7 +571,7 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         hide();
         setOrientation(STATUS_SCALE);
         ViewGroup.LayoutParams pm = mVideoSu.getLayoutParams();
-        pm.height = DisplayUtils.dp2px(mContext, 220);
+        pm.height = DisplayUtil.dp2px(mContext, 220);
         mVideoSu.setLayoutParams(pm);
         mTitleCon.setVisibility(View.VISIBLE);
         mSBottomView.setVisibility(View.VISIBLE);
@@ -585,8 +585,8 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
     {
         TextView textView = new TextView(mContext);
         ViewGroup.LayoutParams p = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-        int horPadding = DisplayUtils.dp2px(mContext, 12);
-        int topPadding = DisplayUtils.dp2px(mContext, 16);
+        int horPadding = DisplayUtil.dp2px(mContext, 12);
+        int topPadding = DisplayUtil.dp2px(mContext, 16);
         textView.setLayoutParams(p);
         textView.setPadding(horPadding, topPadding, horPadding, 0);
         String txt;
@@ -609,7 +609,7 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
         list.setLayoutParams(p);
         list.setCacheColorHint(mContext.getResources().getColor(R.color.transparent));
         list.setDivider(new ColorDrawable(mContext.getResources().getColor(R.color.grey7)));
-        list.setDividerHeight(DisplayUtils.dp2px(this, 0.5f));
+        list.setDividerHeight(DisplayUtil.dp2px(this, 0.5f));
         list.setSelector(R.color.transparent);
         list.setAdapter(mListAdapter);
         list.setOnItemClickListener(this);

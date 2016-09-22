@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class DynamicCardAdapter extends RecyclerView.Adapter<DynamicCardViewHold
     {
         this.context = context;
         this.lists = lists;
-        this.baseHeight = DisplayUtils.getDisplayHeight(context) / columnNum;
+        this.baseHeight = DisplayUtil.getDeviceHeightPixels(context) / columnNum;
         if (!lists.isEmpty())
         {
             getRandomHeight(this.lists);

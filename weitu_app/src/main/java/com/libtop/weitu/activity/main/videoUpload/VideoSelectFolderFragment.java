@@ -20,7 +20,7 @@ import com.libtop.weitu.activity.main.dto.VideoFolderBean;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -245,7 +245,7 @@ public class VideoSelectFolderFragment extends ContentFragment implements VideoL
     @Override
     public void onOptionImgTouch(View v, final int position)
     {
-        final PopupWindow popupWindow = DisplayUtils.openPopChoice(mContext, R.layout.popup_choise);
+        final PopupWindow popupWindow = DisplayUtil.openPopChoice(mContext, R.layout.popup_choise);
         View popView = popupWindow.getContentView();
         popView.findViewById(R.id.btn_cancle).setOnClickListener(new View.OnClickListener()
         {

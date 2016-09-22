@@ -13,7 +13,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.utils.DisplayUtils;
+import com.libtop.weitu.utils.DisplayUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class MediaListPopup extends PopupWindow implements AdapterView.OnItemCli
         View root = LayoutInflater.from(mContext).inflate(R.layout.pop_string_lists, null);
         setContentView(root);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        setWidth(DisplayUtils.dp2px(mContext, 80));
+        setWidth(DisplayUtil.dp2px(mContext, 80));
         setFocusable(true);
         setBackgroundDrawable(new ColorDrawable(0x000000));
         ListView listView = (ListView) root.findViewById(R.id.list);

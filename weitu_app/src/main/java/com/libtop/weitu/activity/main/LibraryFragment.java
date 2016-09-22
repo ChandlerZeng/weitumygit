@@ -78,6 +78,7 @@ public class LibraryFragment extends ContentFragment
         mAdapter = new SortAdapter(mContext, mDatas);
         mLibListView.setAdapter(mAdapter);
         mSideBar.setTextView(mDialog);
+        mSideBar.setLetterSize(30);
         mSideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener()
         {
             @Override
