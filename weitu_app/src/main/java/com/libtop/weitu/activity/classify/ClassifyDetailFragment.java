@@ -56,7 +56,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     private boolean isRefreshed = false;
 
     public ClassifyDetailFragment classifyDetailFragment;
-//    public CallBackNetWorkLoadingPage callBackNetWorkLoadingPage;
+    public CallBackNetWorkLoadingPage callBackNetWorkLoadingPage;
 
     private String api = "/category/subject/list";
 
@@ -201,18 +201,18 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         getFakeData();
     }
 
-   /* public void setShowNetWorkLoadingPageListener(CallBackNetWorkLoadingPage callback){
+    public void setShowNetWorkLoadingPageListener(CallBackNetWorkLoadingPage callback){
         this.callBackNetWorkLoadingPage = callback;
     }
 
-    public void showNetWorkLoadingPage(NetworkLoadingLayout networkLoadingLayout){
-        this.networkLoadingLayout = networkLoadingLayout;
+    public void showNetWorkLoadingPage(){
+        NetworkLoadingLayout networkLoadingLayout = new NetworkLoadingLayout(getContext());
         callBackNetWorkLoadingPage.showEmptyPage(networkLoadingLayout);
         networkLoadingLayout.showEmptyPrompt();
     }
 
-    public void dismissNetWorkLoadingPage(NetworkLoadingLayout networkLoadingLayout){
-        this.networkLoadingLayout = networkLoadingLayout;
+    public void dismissNetWorkLoadingPage(){
+        NetworkLoadingLayout networkLoadingLayout = new NetworkLoadingLayout(getContext());
         callBackNetWorkLoadingPage.dismissEmptyPage(networkLoadingLayout);
         networkLoadingLayout.dismiss();
     }
@@ -221,6 +221,6 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         void showEmptyPage(NetworkLoadingLayout networkLoadingLayout);
 
         void dismissEmptyPage(NetworkLoadingLayout networkLoadingLayout);
-    }*/
+    }
 
 }

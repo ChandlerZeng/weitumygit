@@ -21,8 +21,7 @@
             <ImageView
                 android:id="@+id/subject_file_image"
                 android:layout_width="70dp"
-                android:layout_height="90dp"
-                android:padding="@dimen/padding_tiny"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_image" />

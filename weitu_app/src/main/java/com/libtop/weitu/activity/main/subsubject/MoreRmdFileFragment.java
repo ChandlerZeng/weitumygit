@@ -12,14 +12,11 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
-import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
-import com.libtop.weitu.activity.search.BookDetailFragment;
+import com.libtop.weitu.activity.main.adapter.ResourceFileAdapter;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ListViewUtil;
@@ -53,7 +50,7 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
     NetworkLoadingLayout networkLoadingLayout;
 
     private List<Resource> resourceList = new ArrayList<>();
-    private SubjectFileAdapter mAdapter;
+    private ResourceFileAdapter mAdapter;
     private int mCurPage = 1;
     private boolean hasData = true;
     private boolean isFirstIn = true;
@@ -62,7 +59,7 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new SubjectFileAdapter(mContext, resourceList);
+        mAdapter = new ResourceFileAdapter(mContext, resourceList);
     }
 
 
@@ -85,7 +82,7 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
             networkLoadingLayout.showLoading();
             loadResourceFile();
         }
-        title.setText("推荐文件");
+        title.setText("推荐资源");
         ListViewUtil.addPaddingHeader(mContext,rmdFileList);
         rmdFileList.setPullLoadEnable(false);
         rmdFileList.setAdapter(mAdapter);

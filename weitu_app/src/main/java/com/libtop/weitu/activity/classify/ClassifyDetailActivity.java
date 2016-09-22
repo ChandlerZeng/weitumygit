@@ -44,7 +44,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by LianTu on 2016/7/20.
  */
-public class ClassifyDetailActivity extends BaseActivity
+public class ClassifyDetailActivity extends BaseActivity implements ClassifyDetailFragment.CallBackNetWorkLoadingPage
 {
 
     @Bind(R.id.title)
@@ -96,7 +96,7 @@ public class ClassifyDetailActivity extends BaseActivity
         mData = new ArrayList<ClassifyResultBean>();
         mAdapter = new ClassifyDetailAdapter(mContext, mData);
         classifyDetailFragment=new ClassifyDetailFragment();
-//        classifyDetailFragment.setShowNetWorkLoadingPageListener(this);
+        classifyDetailFragment.setShowNetWorkLoadingPageListener(this);
         initView();
         initPopView();
         getData();
@@ -328,12 +328,15 @@ public class ClassifyDetailActivity extends BaseActivity
 //                    networkLoadingLayout.showEmptyPrompt();
 //                    mListView.setVisibility(View.GONE);
 //                    classifyDetailFragment.getInstance().showEmptyPage();
+                    classifyDetailFragment.showNetWorkLoadingPage();
+
                 }
                 else
                 {
 //                    networkLoadingLayout.dismiss();
 //                    mListView.setVisibility(View.VISIBLE);
 //                    classifyDetailFragment.getInstance().dismissEmptyPage();
+                    classifyDetailFragment.dismissNetWorkLoadingPage();
                     mAdapter.setNewData(mData);
                 }
             }
@@ -392,4 +395,13 @@ public class ClassifyDetailActivity extends BaseActivity
         mContext.finish();
     }
 
+    @Override
+    public void showEmptyPage(NetworkLoadingLayout networkLoadingLayout) {
+
+    }
+
+    @Override
+    public void dismissEmptyPage(NetworkLoadingLayout networkLoadingLayout) {
+
+    }
 }

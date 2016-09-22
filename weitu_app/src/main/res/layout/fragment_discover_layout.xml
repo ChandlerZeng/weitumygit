@@ -24,6 +24,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="11dp"
+                android:background="@drawable/list_selector"
                 android:src="@drawable/alarm"/>
 
             <TextView
@@ -74,9 +75,10 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/open_clazz"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="11dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="15dp"
+            android:background="@drawable/list_selector"
             android:src="@drawable/isbn"/>
     </LinearLayout>
 

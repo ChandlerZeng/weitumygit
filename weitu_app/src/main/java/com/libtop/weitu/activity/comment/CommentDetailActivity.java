@@ -369,7 +369,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                                 Reply data = gson.fromJson(json, new TypeToken<Reply>() {
                                 }.getType());
                                 if (data.reply != null) {
-                                    replyBeanList.add(0, data.reply);
+                                    replyBeanList.add(data.reply);
                                     replyListAdapter.notifyDataSetChanged();
                                 }
                                 commentsData.count_reply=commentsData.count_reply+1;
@@ -413,7 +413,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                                 Reply data = gson.fromJson(json, new TypeToken<Reply>() {
                                 }.getType());
                                 if (data.reply != null) {
-                                    replyBeanList.add(0, data.reply);
+                                    replyBeanList.add(data.reply);
                                     replyListAdapter.notifyDataSetChanged();
                                 }
                                 commentsData.count_reply=commentsData.count_reply+1;

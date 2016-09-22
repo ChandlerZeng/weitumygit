@@ -20,6 +20,7 @@ import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +86,11 @@ public class ClassifyFragment extends BaseFragment implements NetworkLoadingLayo
 
     private void getData()
     {
-//        final List<ClassifyBean> classifyBeens = (List<ClassifyBean>) mCache.getAsObject("classifyBeens");
+        final List<ClassifyBean> classifyBeensList = (List<ClassifyBean>) mCache.getAsObject("classifyBeens");
+        if(classifyBeensList!=null && !classifyBeensList.isEmpty()){
+            handleResult(classifyBeensList);
+            networkLoadingLayout.dismiss();
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("method", "categories.root");
         String[] arrays = MapUtil.map2Parameter(map);
@@ -101,7 +106,11 @@ public class ClassifyFragment extends BaseFragment implements NetworkLoadingLayo
             @Override
             public void onError(Throwable e)
             {
-                networkLoadingLayout.showLoadFailAndRetryPrompt();
+                if(classifyBeensList!=null){
+
+                }else{
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
             }
 
 
@@ -109,8 +118,8 @@ public class ClassifyFragment extends BaseFragment implements NetworkLoadingLayo
             public void onNext(List<ClassifyBean> classifyBeens)
             {
                 networkLoadingLayout.dismiss();
-//                mCache.put("classifyBeens", (Serializable) classifyBeens);
-                if (classifyBeens.size() == 0) {
+                mCache.put("classifyBeens", (Serializable) classifyBeens);
+                if (classifyBeens.size() == 0 && classifyBeensList==null) {
                     networkLoadingLayout.showEmptyPrompt();
                 }
                 handleResult(classifyBeens);
