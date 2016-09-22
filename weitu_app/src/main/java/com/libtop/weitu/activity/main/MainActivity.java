@@ -1,7 +1,6 @@
 package com.libtop.weitu.activity.main;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,25 +22,16 @@ import com.libtop.weitu.activity.user.UserCenterFragment;
 import com.libtop.weitu.activity.user.UserCollect.UserCollectActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.base.FragmentFactory;
-import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.PopupW.MoreWindow;
 import com.libtop.weitu.widget.NoSlideViewPager;
-import com.libtop.weitu.widget.dialog.AlertDialog;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
-import okhttp3.Call;
 
 
 /**
@@ -50,7 +40,6 @@ import okhttp3.Call;
 public class MainActivity extends BaseActivity
 {
     private long mLastBackPress = 0;
-    private AlertDialog mAlert;
     @Bind(R.id.mViewPager)
     NoSlideViewPager mViewPager;
     private int indicatorWidth;
@@ -86,7 +75,6 @@ public class MainActivity extends BaseActivity
         }
         JPushInterface.init(this);
         JPushInterface.resumePush(getApplicationContext());
-        //        checkUpdate();
         initFragment();
         init();
         setListener();
@@ -168,78 +156,6 @@ public class MainActivity extends BaseActivity
     }
 
 
-    private void checkUpdate()
-    {
-        long pre = mPreference.getLong(Preference.UPDATE_TIME, 0);
-        if (System.currentTimeMillis() - pre < 24 * 60 * 60 * 1000)
-        {
-            return;
-        }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("version", ContantsUtil.currentVesion);
-        params.put("method", "issue.update");
-        HttpRequest.loadWithMapSec(params, new HttpRequest.CallBackSec()
-        {
-            @Override
-            public void onError(Call call, Exception e, int id)
-            {
-
-            }
-
-
-            @Override
-            public void onResponse(String json, int id)
-            {
-                if ("".equals(json) || json == null)
-                {
-                    mPreference.putLong(Preference.UPDATE_TIME, System.currentTimeMillis());
-                }
-                else
-                {
-                    try
-                    {
-                        JSONObject data = new JSONObject(json);
-                        String link = data.getString("link");
-                        if (!"none".equals(link))
-                        {
-                            showUpdateDialog(data.getString("link"));
-                            mPreference.putBoolean(Preference.UPDATE_STATE, true);
-                            mPreference.putLong(Preference.UPDATE_TIME, System.currentTimeMillis());
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                }
-            }
-        });
-    }
-
-
-    private void showUpdateDialog(final String url)
-    {
-        mAlert = new AlertDialog(mContext, "有新版本，您确定要更新吗");
-        mAlert.setCallBack(new AlertDialog.CallBack()
-        {
-            @Override
-            public void cancel()
-            {
-                mPreference.putBoolean(Preference.UPDATE_STATE, false);
-            }
-
-
-            @Override
-            public void callBack()
-            {
-                Uri uri = Uri.parse(url);
-                Intent downloadIntent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(downloadIntent);
-            }
-        });
-        mAlert.show();
-    }
-
-
     @Override
     public void onBackPressed()
     {
@@ -260,10 +176,6 @@ public class MainActivity extends BaseActivity
     protected void onDestroy()
     {
         super.onDestroy();
-        if (mAlert != null)
-        {
-            mAlert.dismiss();
-        }
     }
 
 
