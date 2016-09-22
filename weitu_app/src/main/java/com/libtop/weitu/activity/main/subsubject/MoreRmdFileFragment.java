@@ -129,7 +129,7 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
     @OnItemClick(value = R.id.rmd_file_list)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //显示图书详情
-        Resource resource = resourceList.get(position-1);
+        Resource resource = resourceList.get(position-2);
 //        openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
 
         ContextUtil.openResourceByType(mContext, resource.type, resource.rid, true);

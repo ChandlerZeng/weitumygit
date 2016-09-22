@@ -108,14 +108,14 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (type.equals("subject")) {
-                    Subject subject = subjectList.get(position - 1);
+                    Subject subject = subjectList.get(position - 2);
                     Intent intent = new Intent(mContext, SubjectDetailActivity.class);
                     intent.putExtra("cover", subject.cover);
                     startActivity(intent);
                 } else if (type.equals("resource")) {
 //                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
 
-                    Resource resource = resourceList.get(position-1);
+                    Resource resource = resourceList.get(position-2);
                     ContextUtil.openResourceByType(mContext, resource.type, resource.rid, true);
                 }
             }

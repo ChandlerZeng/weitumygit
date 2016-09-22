@@ -43,7 +43,7 @@
             android:textColor="@color/group_tap_textcolor_radiobutton" />
     </RadioGroup>
 
-    <view style="@style/my_divide_line_style_horizontal"/>
+    <View style="@style/my_divide_line_style_horizontal"/>
 
     <com.libtop.weitu.widget.NoSlideViewPager
         android:id="@+id/viewpager"

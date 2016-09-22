@@ -148,7 +148,7 @@ public class ClassifyFragment extends BaseFragment implements NetworkLoadingLayo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                ClassifyBean classifyBean = mData.get(position);
+                ClassifyBean classifyBean = mData.get(position-1);
                 Intent intent = new Intent(mContext, ClassifyDetailActivity.class);
                 intent.putExtra("code", classifyBean.code);
                 intent.putExtra("name", classifyBean.name);

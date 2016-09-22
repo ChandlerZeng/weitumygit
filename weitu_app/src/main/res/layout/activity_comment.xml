@@ -7,10 +7,7 @@
 
     <include layout="@layout/included_title_comment" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey_bg" />
+    <View style="@style/my_divide_line_style_horizontal"/>
 
     <FrameLayout style="@style/my_layout_style_common">
 
@@ -34,6 +31,8 @@
                     android:dividerHeight="0.5dp"
                     android:listSelector="@drawable/list_selector" />
             </LinearLayout>
+
+            <View style="@style/my_divide_line_style_horizontal"/>
 
             <LinearLayout
                 android:id="@+id/commentEditLayout"

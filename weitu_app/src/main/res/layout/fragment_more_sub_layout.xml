@@ -13,8 +13,6 @@
         android:layout_height="0.5dp"
         android:background="@color/divider"/>
 
-    <include layout="@layout/include_listview_padding_header"/>
-
     <FrameLayout
         style="@style/my_layout_style_common">
 
@@ -24,12 +22,11 @@
             android:layout_height="wrap_content"
             android:listSelector="@android:color/transparent"
             android:numColumns="2"
-            android:background="@color/white"
             android:gravity="center"
-            android:horizontalSpacing="@dimen/padding_tiny"
+            android:horizontalSpacing="@dimen/padding_micro"
             android:isScrollContainer="false"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="@dimen/padding_left"/>
+            android:verticalSpacing="@dimen/padding_micro"/>
 
         <include layout="@layout/content_layout_network_loading"/>
 
