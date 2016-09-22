@@ -20,10 +20,7 @@ import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.DocUpload.DocUploadActivity;
 import com.libtop.weitu.activity.main.LibraryFragment;
 import com.libtop.weitu.activity.main.MyLikeActivity;
-import com.libtop.weitu.activity.main.MyLikeActivity2;
-import com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
-import com.libtop.weitu.activity.user.UserCollect.UserCollectActivity;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
@@ -67,7 +64,7 @@ public class UserCenterFragment extends BaseFragment
 
 
     @Nullable
-    @OnClick({R.id.ll_my_like,R.id.ll_upload_video, R.id.ll_upload_doc, R.id.ll_upload_photo, R.id.ll_history, R.id.ll_setting, R.id.collected, R.id.comment, R.id.about_us, R.id.setting, R.id.left_msg, R.id.library, R.id.rl_login_msg})
+    @OnClick({R.id.ll_my_like,R.id.ll_upload_video, R.id.ll_upload_doc, R.id.ll_upload_photo, R.id.ll_setting, R.id.comment, R.id.about_us, R.id.setting, R.id.left_msg, R.id.library, R.id.rl_login_msg})
     public void onClick(View v)
     {
         Bundle bundle = new Bundle();
@@ -119,35 +116,8 @@ public class UserCenterFragment extends BaseFragment
                     mContext.startActivity(intent3);
                 }
                 break;
-            case R.id.ll_history:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
-                {
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    mContext.startActivity(bundle1, ContentActivity.class);
-                }
-                else
-                {
-                    Intent intent = new Intent(mContext, ClickHistoryActivity.class);
-                    startActivity(intent);
-                }
-                break;
             case R.id.ll_setting:
                 cls = SettingFragment.class.getName();
-                break;
-            case R.id.collected:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
-                {
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    mContext.startActivity(bundle1, ContentActivity.class);
-                }
-                else
-                {
-                    Intent intent = new Intent(mContext, UserCollectActivity.class);
-                    startActivity(intent);
-                }
-
                 break;
             case R.id.left_msg:
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
@@ -211,15 +181,9 @@ public class UserCenterFragment extends BaseFragment
             String sexString = mPreference.getString(Preference.sex);
             if (!TextUtils.isEmpty(sexString))
             {
-                if (sexString.equals("0"))
-                {
-                    imgSex.setBackgroundResource(R.drawable.male);
-                }
-                else
-                {
-                    imgSex.setBackgroundResource(R.drawable.female);
-                }
+                imgSex.setImageResource(sexString.equals("0") ? R.drawable.male : R.drawable.female);
             }
+
             String uid = mPreference.getString(Preference.uid);
             String avatar = ContantsUtil.getAvatarUrl(uid);
 

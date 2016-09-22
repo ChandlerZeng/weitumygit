@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="250dip"
     android:layout_height="155dip"
+    android:layout_gravity="center_horizontal"
     android:background="@drawable/er_dialog"
     android:orientation="vertical">
 

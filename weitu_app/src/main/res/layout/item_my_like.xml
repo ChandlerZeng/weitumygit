@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
+              android:layout_height="wrap_content"
               android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_size_10"
-        android:background="@color/searchBackgroud"/>
-
-    <include layout="@layout/include_listview_padding_header"  />
+    <include layout="@layout/include_listview_padding_header"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/padding_size_10"
-        android:layout_marginLeft="@dimen/padding_size_10"
-        android:layout_marginRight="@dimen/padding_size_10"
-        android:layout_marginTop="@dimen/padding_size_10"
+        android:background="@drawable/layout_item_bg"
+        android:padding="@dimen/padding_size_10"
         android:orientation="vertical">
 
         <LinearLayout

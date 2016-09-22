@@ -30,7 +30,7 @@
     <dimen name="margin_size_30">30dp</dimen>
 
     <!-- 两段之间的分割高度 -->
-    <dimen name="layout_divide_height_default">8dp</dimen>
+    <dimen name="layout_divide_height_default">6dp</dimen>
     <dimen name="layout_divide_height_large">20dp</dimen>
 
     <!-- 常用字号 -->
@@ -64,7 +64,6 @@
 
     <!-- 用户自定义 -->
     <dimen name="user_center_item">42dp</dimen>
-    <dimen name="padding_left">8dp</dimen>
     <dimen name="search_input_height">48dp</dimen>
     <dimen name="news_img_width">90dp</dimen>w
     <dimen name="news_img_height">95dp</dimen>

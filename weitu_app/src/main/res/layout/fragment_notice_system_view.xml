@@ -5,8 +5,7 @@
 
     <com.paging.listview.PagingListView
         android:id="@+id/fragment_notice_system_view_paginglistview"
-        style="@style/my_listview_style_default"
-        android:background="@color/white"/>
+        style="@style/my_listview_style_default"/>
 
     <include layout="@layout/content_layout_network_loading"/>
 

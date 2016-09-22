@@ -73,11 +73,12 @@
     <style name="my_navigationbar_item_style_common" parent="@android:style/Widget">
         <item name="android:layout_width">@dimen/navigationbar_item_menu_width</item>
         <item name="android:layout_height">@dimen/navigationbar_layout_height</item>
+        <item name="android:padding">12sp</item>
         <item name="android:background">@drawable/navigationbar_item_clicked_bg</item>
     </style>
 
     <!-- 视图顶部导航栏文字菜单按钮样式 -->
-    <style name="my_navigationbar_item_textmenu_style" parent="@android:style/Widget.TextView">
+    <style name="my_navigationbar_item_style_textmenu" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_centerVertical">true</item>
@@ -85,12 +86,27 @@
         <item name="android:paddingRight">@dimen/padding_medium</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/text_color_navigation_item_selector</item>
-        <item name="android:textSize">@dimen/text_fontsize_small</item>
+        <item name="android:textSize">@dimen/text_fontsize_normal</item>
+    </style>
+
+    <!-- 视图顶部按钮样式(通知) -->
+    <style name="my_navigationbar_item_style_notice" parent="@style/my_navigationbar_item_style_common">
+        <item name="android:src">@drawable/alarm</item>
+    </style>
+
+    <!-- 视图顶部按钮样式(扫码) -->
+    <style name="my_navigationbar_item_style_scanqrcode" parent="@style/my_navigationbar_item_style_common">
+        <item name="android:src">@drawable/scan_qrcode</item>
+    </style>
+
+    <!-- 视图顶部按钮样式(设置) -->
+    <style name="my_navigationbar_item_style_setting" parent="@style/my_navigationbar_item_style_common">
+        <item name="android:src">@drawable/setting</item>
     </style>
 
     <!-- 默认列表样式（平角透明底带分隔线） -->
     <style name="my_listview_style_default" parent="@android:style/Widget.ListView">
-        <item name="android:background">@color/transparent</item>
+        <item name="android:background">@color/white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:cacheColorHint">@color/transparent</item>
@@ -98,7 +114,19 @@
         <item name="android:dividerHeight">0.5dp</item>
         <item name="android:fadingEdge">none</item>
         <item name="android:footerDividersEnabled">false</item>
-        <item name="android:listSelector">@drawable/listview_selector_default</item>
+        <item name="android:listSelector">@drawable/item_clicked_background</item>
+    </style>
+
+    <!-- 带边框线列表样式（平角白底带边框线与分隔线） -->
+    <style name="my_listview_style_with_stroke" parent="@android:style/Widget.ListView">
+        <item name="android:background">@drawable/layout_bg_with_stroke</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:cacheColorHint">@color/transparent</item>
+        <item name="android:divider">@color/divide_line_common</item>
+        <item name="android:dividerHeight">0.5dp</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:listSelector">@drawable/item_clicked_background</item>
     </style>
 
     <!-- 视图横向分割线样式 -->
@@ -112,14 +140,14 @@
     <style name="my_divide_layout_view_style_default">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/layout_divide_height_default</item>
-        <item name="android:background">@color/layout_bg</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <!-- 视图分割段布局样式(大号) -->
     <style name="my_divide_layout_view_style_large">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/layout_divide_height_large</item>
-        <item name="android:background">@color/layout_bg</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <!-- logo样式(默认) -->
@@ -237,12 +265,6 @@
         <item name="android:paddingTop">15dip</item>
     </style>
 
-    <style name="user_item_style">
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingLeft">@dimen/padding_left</item>
-        <item name="android:paddingRight">@dimen/padding_left</item>
-    </style>
-
     <style name="user_center_top">
         <item name="android:padding">8dip</item>
         <item name="android:background">@drawable/input_bg</item>
@@ -260,7 +282,7 @@
     <style name="dialog_btn_style">
         <item name="android:textColor">@color/label_color_selector</item>
         <item name="android:textSize">@dimen/text_fontsize_normal</item>
-        <item name="android:background">@drawable/list_item_selector</item>
+        <item name="android:background">@drawable/listview_item_selector</item>
     </style>
 
     <style name="photo_dialog_style" parent="@android:style/Animation">

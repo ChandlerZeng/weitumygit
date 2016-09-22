@@ -19,9 +19,11 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyFragment;
+import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.adapter.ResourceFileAdapter;
 import com.libtop.weitu.activity.main.dto.DocBean;
@@ -43,7 +45,9 @@ import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
+import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PicassoLoader;
@@ -263,36 +267,52 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     @Nullable
-    @OnClick({R.id.open_alarm,R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
+    @OnClick({R.id.open_alarm, R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.open_alarm:
-                mContext.startActivity(null, NoticeActivity.class);
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
+                    mContext.startActivity(bundle1, ContentActivity.class);
+                }
+                else
+                {
+                    Intent intent = new Intent(getActivity(), NoticeActivity.class);
+                    startActivity(intent);
+                }
                 break;
+
             case R.id.open_clazz:
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 1);
                 bundle.putString(ContentActivity.FRAG_CLS, LibraryFragment.class.getName());
                 mContext.startActivity(bundle, CaptureActivity.class);
                 break;
+
             case R.id.edit:
                 mContext.startActivity(null, SearchActivity.class);
                 break;
+
             case R.id.classify:
                 Bundle bundle2 = new Bundle();
                 bundle2.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
                 mContext.startActivity(bundle2, ContentActivity.class);
                 break;
+
             case R.id.rank:
                 Bundle bundle3 = new Bundle();
                 bundle3.putString(ContentActivity.FRAG_CLS, RankFragment.class.getName());
                 mContext.startActivity(bundle3, ContentActivity.class);
                 break;
+
             case R.id.subject_more:
                 Bundle bundle4 = new Bundle();
                 bundle4.putString(ContentActivity.FRAG_CLS, MoreSubjectFragment.class.getName());
                 mContext.startActivity(bundle4, ContentActivity.class);
                 break;
+
             case R.id.file_more:
                 Bundle bundle5 = new Bundle();
                 bundle5.putString(ContentActivity.FRAG_CLS, MoreRmdFileFragment.class.getName());

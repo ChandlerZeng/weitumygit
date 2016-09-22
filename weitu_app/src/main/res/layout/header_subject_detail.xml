@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/list_item_selector"
+            android:background="@drawable/layout_item_bg"
             android:layout_gravity="center_vertical"
             android:paddingLeft="@dimen/padding_size_10">
 
@@ -68,8 +68,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/divider"
-        />
+        android:background="@color/divider"/>
 
     <include layout="@layout/include_listview_padding_header" />
 

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:fab="http://schemas.android.com/apk/res-auto"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                style="@style/my_layout_style_common">
+
     <ListView
         android:id="@+id/lv_main_resource"
         android:listSelector="@drawable/list_selector"
