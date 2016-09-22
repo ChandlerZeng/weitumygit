@@ -11,25 +11,29 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
+import com.libtop.weitu.activity.main.dto.SubjectDetailBean;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.PullZoomListView;
-import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,9 +68,9 @@ public class SubjectDetailActivity extends BaseActivity
 
     private HeaderViewHolder headerViewHolder;
 
-    private String coverString;
+    private String idString;
 
-    private String titleString;
+    private String titleString = "";
 
 
     @Override
@@ -76,20 +80,48 @@ public class SubjectDetailActivity extends BaseActivity
         setInjectContentView(R.layout.activity_main_subject_detail);
         classifySubDetailAdapter = new ClassifySubDetailAdapter(mContext, mData);
         initView();
-        getData();
+        requestData();
+        requestListData();
 
+    }
+
+//    http://weitu.bookus.cn/subject/resources.json?text={"sid":"56f97d8d984e741f1420ayy","method":"subject.resources"}
+    private void requestListData()
+    {
+        swipeRefreshLayout.setRefreshing(true);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("sid", idString);
+        params.put("method", "subject.resources");
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                swipeRefreshLayout.setRefreshing(false);
+                SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
+                if (subjectResource==null){
+                    Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mData.clear();
+                mData.addAll(subjectResource.resources);
+                classifySubDetailAdapter.setData(mData);
+            }
+        });
     }
 
 
     private void initView()
     {
-        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        swipeRefreshLayout.setProgressViewOffset(true,50,100);
-        swipeRefreshLayout.setEnabled(false);
-
-        coverString = getIntent().getStringExtra("cover");
-        if (!TextUtils.isEmpty(coverString)){
-            Picasso.with(mContext).load(coverString).fit().into(pullZoomListView.getHeaderImageView());
+        idString = getIntent().getStringExtra("id");
+        if (!TextUtils.isEmpty(idString)){
         }
 
         pullZoomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -106,10 +138,12 @@ public class SubjectDetailActivity extends BaseActivity
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.header_subject_detail,null);
         headerViewHolder = new HeaderViewHolder(view);
-        pullZoomListView.addHeaderView(view);
-        titleString = "Java测试";
-        headerViewHolder.tvThemeDetailTitle.setText(titleString);
-        headerViewHolder.tvThemeDetailFollowNum.setText("66");
+        pullZoomListView.addHeaderView(view,null,false);
+
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
+        swipeRefreshLayout.setProgressViewOffset(true,50,100);
+        swipeRefreshLayout.setEnabled(false);
+
         pullZoomListView.setOnScrollListener(new AbsListView.OnScrollListener()
         {
             @Override
@@ -134,33 +168,50 @@ public class SubjectDetailActivity extends BaseActivity
         pullZoomListView.setOnRefreshListener(new PullZoomListView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getData();
+                requestData();
             }
         });
     }
 
-    private void getData()
+    //http://weitu.bookus.cn/subject/get.json?text={"id":"56f97d8d984e741f1420awr8","method":"subject.get"}
+    private void requestData()
     {
-        swipeRefreshLayout.setRefreshing(true);
-        HttpRequest.newLoad(APIAddress.SUBJECT_RESOURCE_LIST).execute(new StringCallback()
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("id", idString);
+        params.put("method", "subject.get");
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
             {
-                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
             }
 
 
             @Override
             public void onResponse(String json, int id)
             {
-                swipeRefreshLayout.setRefreshing(false);
-                SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
-                mData.clear();
-                mData.addAll(subjectResource.resources);
-                classifySubDetailAdapter.setData(mData);
+                SubjectDetailBean subjectDetailBean = JsonUtil.fromJson(json, SubjectDetailBean.class);
+                if (subjectDetailBean==null){
+                    return;
+                }
+                changeView(subjectDetailBean);
             }
         });
+    }
+
+
+    private void changeView(SubjectDetailBean subjectDetailBean)
+    {
+        ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.cover,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
+        title.setText(subjectDetailBean.subject.title);
+        titleString = subjectDetailBean.subject.title;
+        headerViewHolder.tvThemeDetailTitle.setText(titleString);
+        headerViewHolder.tvThemeDetailFollowNum.setText(subjectDetailBean.subject.follows+"");
+        if (Preference.instance(mContext).getString(Preference.uid).equals(subjectDetailBean.subject.uid)){
+            headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_edit);
+            headerViewHolder.tvThemeDetailFollow.setText("编辑");
+        }
     }
 
 
@@ -233,6 +284,16 @@ public class SubjectDetailActivity extends BaseActivity
 
     private void requestFollow()
     {
+//        Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
+//                R.drawable.bg_new_subject);
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
+//        params.put("title", etSubjectTitle.getText().toString());
+//        params.put("introduction", etSubjectDesc.getText().toString());
+//        params.put("label1", label1);
+//        params.put("cover", ClippingPicture.bitmapToBase64(icon));
+//        params.put("method", "subject.save");
+//        HttpRequest.loadWithMap(params).execute(new StringCallback()
     }
 
 
@@ -250,7 +311,7 @@ public class SubjectDetailActivity extends BaseActivity
             public void onClick()
             {
                 headerViewHolder.tvThemeDetailFollow.setText("关注");
-                headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow);
+                headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_edit);
             }
         }, null);
     }
@@ -259,7 +320,7 @@ public class SubjectDetailActivity extends BaseActivity
     private void titleClick()
     {
         Intent intent = new Intent(mContext,SubjectInfoActivity.class);
-        intent.putExtra("cover",coverString);
+        intent.putExtra("cover","");
         startActivity(intent);
     }
 }

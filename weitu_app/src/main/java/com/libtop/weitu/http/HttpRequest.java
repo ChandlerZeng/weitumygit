@@ -60,7 +60,7 @@ public class HttpRequest
     public static RequestCall loadWithMap(Map<String, Object> map)
     {
         String[] arrays = MapUtil.map2Parameter(map);
-        return OkHttpUtils.get().url(ContantsUtil.HOST + "/" + arrays[0] + "/" + arrays[1]).addParams("text", arrays[2]).build();
+        return OkHttpUtils.post().url(ContantsUtil.HOST + "/" + arrays[0] + "/" + arrays[1]).addParams("text", arrays[2]).build();
     }
 
     public static RequestCall newLoad(String url){
