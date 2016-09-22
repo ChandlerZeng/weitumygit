@@ -32,6 +32,7 @@
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:orientation="vertical">
+                    <include layout="@layout/include_listview_padding_header"/>
 
                     <RelativeLayout
                         android:id="@+id/comment_layout1"

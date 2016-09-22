@@ -29,6 +29,7 @@ import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.rank.RankFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreRmdFileFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
+import com.libtop.weitu.activity.notice.NoticeActivity;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
@@ -264,9 +265,12 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     @Nullable
-    @OnClick({R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
+    @OnClick({R.id.open_alarm,R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.open_alarm:
+                mContext.startActivity(null, NoticeActivity.class);
+                break;
             case R.id.open_clazz:
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 1);
