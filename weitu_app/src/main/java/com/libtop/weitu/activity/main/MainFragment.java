@@ -19,12 +19,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyFragment;
 import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
-import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
+import com.libtop.weitu.activity.main.adapter.ResourceFileAdapter;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.rank.RankFragment;
@@ -114,7 +115,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     NetworkLoadingLayout networkLoadingLayout;
 
 
-    SubjectFileAdapter subjectFileAdapter;
+    ResourceFileAdapter resourceFileAdapter;
     MoreSubjectAdapter moreSubjectAdapter;
     private ArrayList<Page> pageViews;
     private List<DocBean> bList = new ArrayList<DocBean>();
@@ -158,7 +159,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private void initView() {
         moreSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
-        subjectFileAdapter = new SubjectFileAdapter(mContext,reourceList);
+        resourceFileAdapter = new ResourceFileAdapter(mContext,reourceList);
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
         if (isFirstIn)
         {
@@ -169,7 +170,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         swipeRefreshLayout.setRefreshing(false);
         networkLoadingLayout.setOnRetryClickListner(this);
         mGrid.setAdapter(moreSubjectAdapter);
-        changeListView.setAdapter(subjectFileAdapter);
+        changeListView.setAdapter(resourceFileAdapter);
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -516,10 +517,10 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         reourceList = resources;
         if (reourceList.isEmpty())
             return;
-        if (reourceList.size() > 2) {
-            reourceList = reourceList.subList(0, 2);
+        if (reourceList.size() > 4) {
+            reourceList = reourceList.subList(0, 4);
         }
-        subjectFileAdapter.setData(reourceList);
+        resourceFileAdapter.setData(reourceList);
     }
 
     @Override

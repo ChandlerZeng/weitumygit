@@ -37,7 +37,6 @@
                 android:layout_gravity="center"
                 card_view:cardBackgroundColor="@color/transparent"
                 card_view:cardElevation="4dp"
-                card_view:cardUseCompatPadding="true"
                 card_view:cardPreventCornerOverlap="true"
                 card_view:cardCornerRadius="6dp" >
             <ImageView

@@ -9,20 +9,24 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.base.BaseFragment;
-import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CollectionUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -79,9 +83,9 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                Subject dpDto = (Subject) parent.getItemAtPosition(position);
+                SubjectBean subjectBean = (SubjectBean) parent.getItemAtPosition(position);
                 Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                intent.putExtra("cover",dpDto.cover);
+                intent.putExtra("id",subjectBean.id);
                 startActivity(intent);
             }
         });
@@ -91,7 +95,11 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
     private void getSubjectData()
     {
         networkLoadingLayout.showLoading();
-        HttpRequest.newLoad(APIAddress.SUBJECT_MY_ALL_LIST).execute(new StringCallback()
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
+        params.put("page", 1);
+        params.put("method", "subject.my");
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -105,13 +113,12 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
             {
                 if (!TextUtils.isEmpty(json))
                 {
-                    SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class );
-                    if (CollectionUtil.isEmpty(subjectResource.subjects)){
+                    List<SubjectBean> lists = JsonUtil.fromJson(json, new TypeToken<List<SubjectBean>>(){}.getType());
+                    if (CollectionUtil.isEmpty(lists)){
                         networkLoadingLayout.showEmptyAndRetryPrompt();
                     }else {
                         networkLoadingLayout.dismiss();
-                        subjectResource.subjects.addAll(subjectResource.subjects);
-                        themeAdapter.addAll(subjectResource.subjects);
+                        themeAdapter.addAll(lists);
                     }
                 }
             }
@@ -126,7 +133,7 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
     }
 
 
-    private class ThemeAdapter extends CommonAdapter<Subject>
+    private class ThemeAdapter extends CommonAdapter<SubjectBean>
     {
 
 
@@ -137,13 +144,13 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
 
 
         @Override
-        public void convert(ViewHolderHelper helper, Subject subject, int position)
+        public void convert(ViewHolderHelper helper, SubjectBean subjectBean, int position)
         {
             ImageView themeCover = helper.getView(R.id.img_item_subject);
             ImageView newCover = helper.getView(R.id.img_item_subject_new);
-            Picasso.with(context).load(subject.cover).fit().into(themeCover);
+            ImageLoaderUtil.loadImage(mContext,themeCover,subjectBean.cover,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
 
-            helper.setText(R.id.tv_item_subject, subject.name);
+            helper.setText(R.id.tv_item_subject, subjectBean.title);
         }
     }
 

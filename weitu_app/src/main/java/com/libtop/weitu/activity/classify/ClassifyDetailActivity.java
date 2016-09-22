@@ -71,8 +71,6 @@ public class ClassifyDetailActivity extends BaseActivity
     private ClassifyDetailAdapter mAdapter;
     private List<ClassifyResultBean> mData;
     private ListPopupWindow mListPop, mListFilterPop;
-    private boolean hasData = false;
-    private boolean isFirstIn = true;
     private boolean isRefreshed = false;
 
     private long code, subCode;
@@ -80,7 +78,7 @@ public class ClassifyDetailActivity extends BaseActivity
 
     private List<ClassifyBean> lists = new ArrayList<ClassifyBean>();
     private ClassifyCheckAdapter filterCheckAdapter, classifyCheckAdapter;
-    private ClassifyDetailFragment classifyDetailFragment;
+
 
     public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book";
 
@@ -95,12 +93,9 @@ public class ClassifyDetailActivity extends BaseActivity
         mTitleText.setText(name);
         mData = new ArrayList<ClassifyResultBean>();
         mAdapter = new ClassifyDetailAdapter(mContext, mData);
-        classifyDetailFragment=new ClassifyDetailFragment();
-//        classifyDetailFragment.setShowNetWorkLoadingPageListener(this);
         initView();
         initPopView();
         getData();
-
     }
 
     private void initView(){
@@ -121,7 +116,6 @@ public class ClassifyDetailActivity extends BaseActivity
         mFrags.add(f2);
 
         mPageAdapter = new MainPageAdapter(getSupportFragmentManager(), mFrags);
-
         mViewPager.setPagingEnabled(true);
         mViewPager.setAdapter(mPageAdapter);
         mViewPager.setCurrentItem(0);
@@ -315,25 +309,20 @@ public class ClassifyDetailActivity extends BaseActivity
                 mData.addAll(classifyDetailBean.result);
                 if (classifyDetailBean.result.size() < 10)
                 {
-                    hasData = false;
+//                    hasData = false;
 //                    mListView.setPullLoadEnable(false);
                 }
                 else
                 {
-                    hasData = true;
+//                    hasData = true;
 //                    mListView.setPullLoadEnable(true);
                 }
                 mCurPage++;
                 if (mData.isEmpty()) {
-//                    networkLoadingLayout.showEmptyPrompt();
-//                    mListView.setVisibility(View.GONE);
-//                    classifyDetailFragment.getInstance().showEmptyPage();
+
                 }
                 else
                 {
-//                    networkLoadingLayout.dismiss();
-//                    mListView.setVisibility(View.VISIBLE);
-//                    classifyDetailFragment.getInstance().dismissEmptyPage();
                     mAdapter.setNewData(mData);
                 }
             }
@@ -391,5 +380,6 @@ public class ClassifyDetailActivity extends BaseActivity
     {
         mContext.finish();
     }
+
 
 }

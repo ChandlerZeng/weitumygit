@@ -32,6 +32,7 @@
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:orientation="vertical">
+                    <include layout="@layout/include_listview_padding_header"/>
 
                     <RelativeLayout
                         android:id="@+id/comment_layout1"
@@ -206,6 +207,8 @@
             </ScrollView>
 
 
+            <View style="@style/my_divide_line_style_horizontal"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -252,11 +255,6 @@
                     android:textSize="16sp" />
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/divider" />
         </LinearLayout>
 
         <include layout="@layout/content_layout_network_loading" />

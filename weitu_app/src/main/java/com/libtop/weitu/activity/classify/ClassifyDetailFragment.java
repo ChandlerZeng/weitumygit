@@ -19,6 +19,7 @@ import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -54,9 +55,6 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     private boolean isFirstIn = true;
     private boolean isRefreshed = false;
 
-    public ClassifyDetailFragment classifyDetailFragment;
-//    public CallBackNetWorkLoadingPage callBackNetWorkLoadingPage;
-
     private String api = "/category/subject/list";
 
 
@@ -68,13 +66,6 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         Bundle bundle = this.getArguments();
         type = bundle.getString("type", "subject");
         api = bundle.getString("api");
-    }
-
-    public ClassifyDetailFragment getInstance(){
-        if(classifyDetailFragment==null){
-            classifyDetailFragment = new ClassifyDetailFragment();
-        }
-        return classifyDetailFragment;
     }
 
 
@@ -107,19 +98,20 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
             getFakeData();
         }
         subresAdapter = new ClassifySubDetailAdapter(mContext, categoryResultList);
+        ListViewUtil.addPaddingHeader(mContext,xListView);
         xListView.setAdapter(subresAdapter);
         xListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (type.equals("subject")) {
-                    Subject subject = subjectList.get(position - 1);
+                    Subject subject = subjectList.get(position - 2);
                     Intent intent = new Intent(mContext, SubjectDetailActivity.class);
                     intent.putExtra("cover", subject.cover);
                     startActivity(intent);
                 } else if (type.equals("resource")) {
 //                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-                    Resource resource = resourceList.get(position - 1);
+                    Resource resource = resourceList.get(position - 2);
                     ContextUtil.openResourceByType(mContext, resource.type, resource.rid);
                 }
             }
@@ -198,27 +190,5 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         mCurPage = 1;
         getFakeData();
     }
-
-   /* public void setShowNetWorkLoadingPageListener(CallBackNetWorkLoadingPage callback){
-        this.callBackNetWorkLoadingPage = callback;
-    }
-
-    public void showNetWorkLoadingPage(NetworkLoadingLayout networkLoadingLayout){
-        this.networkLoadingLayout = networkLoadingLayout;
-        callBackNetWorkLoadingPage.showEmptyPage(networkLoadingLayout);
-        networkLoadingLayout.showEmptyPrompt();
-    }
-
-    public void dismissNetWorkLoadingPage(NetworkLoadingLayout networkLoadingLayout){
-        this.networkLoadingLayout = networkLoadingLayout;
-        callBackNetWorkLoadingPage.dismissEmptyPage(networkLoadingLayout);
-        networkLoadingLayout.dismiss();
-    }
-
-    public interface CallBackNetWorkLoadingPage {
-        void showEmptyPage(NetworkLoadingLayout networkLoadingLayout);
-
-        void dismissEmptyPage(NetworkLoadingLayout networkLoadingLayout);
-    }*/
 
 }
