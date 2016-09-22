@@ -83,10 +83,6 @@ public class SubjectDetailActivity extends BaseActivity
 
     private void initView()
     {
-        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
-        swipeRefreshLayout.setProgressViewOffset(true,50,100);
-        swipeRefreshLayout.setEnabled(false);
-
         coverString = getIntent().getStringExtra("cover");
         if (!TextUtils.isEmpty(coverString)){
             Picasso.with(mContext).load(coverString).fit().into(pullZoomListView.getHeaderImageView());
@@ -106,7 +102,12 @@ public class SubjectDetailActivity extends BaseActivity
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.header_subject_detail,null);
         headerViewHolder = new HeaderViewHolder(view);
-        pullZoomListView.addHeaderView(view);
+        pullZoomListView.addHeaderView(view,null,false);
+
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
+        swipeRefreshLayout.setProgressViewOffset(true,50,100);
+        swipeRefreshLayout.setEnabled(false);
+
         titleString = "Java测试";
         headerViewHolder.tvThemeDetailTitle.setText(titleString);
         headerViewHolder.tvThemeDetailFollowNum.setText("66");

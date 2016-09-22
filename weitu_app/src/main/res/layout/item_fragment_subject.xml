@@ -54,7 +54,8 @@
         <ImageView
             android:id="@+id/img_item_subject_new"
             android:elevation="4dp"
-            android:layout_margin="7dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="4dp"
             android:background="@drawable/new_tag"
             android:layout_width="33dp"
             android:layout_height="33dp"/>

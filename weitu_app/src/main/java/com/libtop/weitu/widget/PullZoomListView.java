@@ -116,7 +116,7 @@ public class PullZoomListView extends ListView
         mHeaderContainer.addView(mHeaderImg);
 
            /*增加头部View*/
-        addHeaderView(mHeaderContainer);
+        addHeaderView(mHeaderContainer,null,false);
            /*设置监听事件*/
         super.setOnScrollListener(new InternalScrollerListener() );
 
