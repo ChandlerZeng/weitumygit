@@ -12,5 +12,6 @@ public class ResultCodeDto
      */
 
     public String uid;
+    public String message;
     public int code;
 }
