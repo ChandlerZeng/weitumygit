@@ -99,6 +99,11 @@
         <item name="android:src">@drawable/scan_qrcode</item>
     </style>
 
+    <!-- 视图顶部按钮样式(设置) -->
+    <style name="my_navigationbar_item_style_setting" parent="@style/my_navigationbar_item_style_common">
+        <item name="android:src">@drawable/setting</item>
+    </style>
+
     <!-- 默认列表样式（平角透明底带分隔线） -->
     <style name="my_listview_style_default" parent="@android:style/Widget.ListView">
         <item name="android:background">@color/white</item>
@@ -135,14 +140,14 @@
     <style name="my_divide_layout_view_style_default">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/layout_divide_height_default</item>
-        <item name="android:background">@color/layout_bg</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <!-- 视图分割段布局样式(大号) -->
     <style name="my_divide_layout_view_style_large">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/layout_divide_height_large</item>
-        <item name="android:background">@color/layout_bg</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
     <!-- logo样式(默认) -->

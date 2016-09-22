@@ -63,8 +63,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/divider"
-        />
+        android:background="@color/divider"/>
 
     <include layout="@layout/include_listview_padding_header" />
 

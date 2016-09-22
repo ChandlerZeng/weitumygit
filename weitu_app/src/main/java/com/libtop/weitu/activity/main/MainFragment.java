@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyFragment;
+import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
 import com.libtop.weitu.activity.main.dto.DocBean;
@@ -43,7 +44,9 @@ import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
+import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PicassoLoader;
@@ -267,8 +270,17 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.open_alarm:
-                Intent intent = new Intent(getActivity(), NoticeActivity.class);
-                startActivity(intent);
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
+                    mContext.startActivity(bundle1, ContentActivity.class);
+                }
+                else
+                {
+                    Intent intent = new Intent(getActivity(), NoticeActivity.class);
+                    startActivity(intent);
+                }
                 break;
 
             case R.id.open_clazz:
