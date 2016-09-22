@@ -22,6 +22,7 @@ import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.listview.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -85,6 +86,7 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
             loadResourceFile();
         }
         title.setText("推荐文件");
+        ListViewUtil.addPaddingHeader(mContext,rmdFileList);
         rmdFileList.setPullLoadEnable(false);
         rmdFileList.setAdapter(mAdapter);
         rmdFileList.setXListViewListener(new XListView.IXListViewListener() {

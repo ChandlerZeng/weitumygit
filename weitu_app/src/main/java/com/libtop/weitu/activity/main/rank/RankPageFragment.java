@@ -25,6 +25,7 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 
 import com.libtop.weitu.widget.listview.XListView;
@@ -100,6 +101,7 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
             networkLoadingLayout.showLoading();
             getData();
         }
+        ListViewUtil.addPaddingHeader(mContext,xListView);
         xListView.setAdapter(mAdapter);
         xListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
