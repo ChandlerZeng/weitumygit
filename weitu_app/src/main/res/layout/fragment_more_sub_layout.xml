@@ -31,7 +31,7 @@
             android:horizontalSpacing="@dimen/padding_tiny"
             android:isScrollContainer="false"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="@dimen/padding_left"/>
+            android:verticalSpacing="@dimen/padding_small"/>
 
         <include layout="@layout/content_layout_network_loading"/>
 

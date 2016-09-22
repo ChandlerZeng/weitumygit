@@ -29,7 +29,7 @@ import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.rank.RankFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreRmdFileFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
-import com.libtop.weitu.activity.search.BookDetailFragment;
+import com.libtop.weitu.activity.notice.NoticeActivity;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
 import com.libtop.weitu.activity.search.dto.SearchResult;
@@ -43,7 +43,6 @@ import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
@@ -264,33 +263,43 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     @Nullable
-    @OnClick({R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
+    @OnClick({R.id.open_alarm, R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.open_alarm:
+                Intent intent = new Intent(getActivity(), NoticeActivity.class);
+                startActivity(intent);
+                break;
+
             case R.id.open_clazz:
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 1);
                 bundle.putString(ContentActivity.FRAG_CLS, LibraryFragment.class.getName());
                 mContext.startActivity(bundle, CaptureActivity.class);
                 break;
+
             case R.id.edit:
                 mContext.startActivity(null, SearchActivity.class);
                 break;
+
             case R.id.classify:
                 Bundle bundle2 = new Bundle();
                 bundle2.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
                 mContext.startActivity(bundle2, ContentActivity.class);
                 break;
+
             case R.id.rank:
                 Bundle bundle3 = new Bundle();
                 bundle3.putString(ContentActivity.FRAG_CLS, RankFragment.class.getName());
                 mContext.startActivity(bundle3, ContentActivity.class);
                 break;
+
             case R.id.subject_more:
                 Bundle bundle4 = new Bundle();
                 bundle4.putString(ContentActivity.FRAG_CLS, MoreSubjectFragment.class.getName());
                 mContext.startActivity(bundle4, ContentActivity.class);
                 break;
+
             case R.id.file_more:
                 Bundle bundle5 = new Bundle();
                 bundle5.putString(ContentActivity.FRAG_CLS, MoreRmdFileFragment.class.getName());

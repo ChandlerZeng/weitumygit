@@ -28,6 +28,6 @@
 
     <TextView
         android:id="@+id/commit"
-        style="@style/my_navigationbar_item_textmenu_style"
+        style="@style/my_navigationbar_item_style_textmenu"
         android:text="完成"/>
 </LinearLayout>

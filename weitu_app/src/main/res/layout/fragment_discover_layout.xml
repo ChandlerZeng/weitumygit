@@ -1,52 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/searchBackgroud"
-    android:baselineAligned="false"
+<LinearLayout
+    style="@style/my_layout_style_common"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/titleBar"
+        style="@style/my_layout_navigationbar_style_default"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <FrameLayout
-            android:layout_width="48dp"
-            android:layout_height="48dp">
+            android:layout_width="@dimen/navigationbar_item_menu_width"
+            android:layout_height="@dimen/navigationbar_layout_height">
 
             <ImageView
                 android:id="@+id/open_alarm"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:padding="11dp"
-                android:src="@drawable/alarm"/>
+                style="@style/my_navigationbar_item_style_notice"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|right"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/shape_bg_subject_alarm"
+                android:layout_marginRight="@dimen/margin_tiny"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@drawable/bg_notice_alarm_shape_bg"
                 android:gravity="center"
                 android:padding="2dp"
                 android:text="99"
                 android:textColor="@color/white"
-                android:textSize="12sp"/>
+                android:textSize="@dimen/text_fontsize_micro"/>
         </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/shape_search_title_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
@@ -61,33 +54,27 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
+                android:focusable="false"
+                android:hint="搜索资源、馆藏"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:singleLine="true"
-                android:focusable="false"
-                android:hint="搜索资源、馆藏"
                 android:text=""
                 android:textColor="@color/white"
                 android:textSize="15sp"/>
         </LinearLayout>
+
         <ImageView
             android:id="@+id/open_clazz"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="11dp"
-            android:src="@drawable/isbn"/>
+            style="@style/my_navigationbar_item_style_scanqrcode"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/divider"
-        />
+    <View style="@style/my_divide_line_style_horizontal"/>
 
-    <FrameLayout
-        style="@style/my_layout_style_common">
+    <FrameLayout style="@style/my_layout_style_common">
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
@@ -100,14 +87,11 @@
                 android:fillViewport="true"
                 android:scrollbars="none">
 
-                <include layout="@layout/included_main_content" />
-
+                <include layout="@layout/included_main_content"/>
             </ScrollView>
-
         </android.support.v4.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/content_layout_network_loading" />
-
+        <include layout="@layout/content_layout_network_loading"/>
     </FrameLayout>
 
 </LinearLayout>
