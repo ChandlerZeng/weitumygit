@@ -31,6 +31,7 @@ import com.libtop.weitu.test.Reply;
 import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -117,6 +118,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             networkLoadingLayout.showLoading();
             getCommentList();
         }
+        ListViewUtil.addPaddingHeader(mContext,xListView);
         xListView.setPullLoadEnable(false);
 
         xListView.setXListViewListener(new XListView.IXListViewListener() {

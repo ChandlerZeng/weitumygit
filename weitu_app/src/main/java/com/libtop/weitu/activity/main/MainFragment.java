@@ -23,13 +23,13 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyFragment;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
-import com.libtop.weitu.activity.main.adapter.SubjectFileAdapter;
+import com.libtop.weitu.activity.main.adapter.ResourceFileAdapter;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.rank.RankFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreRmdFileFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
-import com.libtop.weitu.activity.search.BookDetailFragment;
+import com.libtop.weitu.activity.notice.NoticeActivity;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
 import com.libtop.weitu.activity.search.dto.SearchResult;
@@ -43,7 +43,6 @@ import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
@@ -112,7 +111,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     NetworkLoadingLayout networkLoadingLayout;
 
 
-    SubjectFileAdapter subjectFileAdapter;
+    ResourceFileAdapter resourceFileAdapter;
     MoreSubjectAdapter moreSubjectAdapter;
     private ArrayList<Page> pageViews;
     private List<DocBean> bList = new ArrayList<DocBean>();
@@ -156,7 +155,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private void initView() {
         moreSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
-        subjectFileAdapter = new SubjectFileAdapter(mContext,reourceList);
+        resourceFileAdapter = new ResourceFileAdapter(mContext,reourceList);
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
         if (isFirstIn)
         {
@@ -167,7 +166,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         swipeRefreshLayout.setRefreshing(false);
         networkLoadingLayout.setOnRetryClickListner(this);
         mGrid.setAdapter(moreSubjectAdapter);
-        changeListView.setAdapter(subjectFileAdapter);
+        changeListView.setAdapter(resourceFileAdapter);
         mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -264,9 +263,12 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
     @Nullable
-    @OnClick({R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
+    @OnClick({R.id.open_alarm,R.id.open_clazz, R.id.edit, R.id.classify, R.id.rank, R.id.subject_more, R.id.file_more})
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.open_alarm:
+                mContext.startActivity(null, NoticeActivity.class);
+                break;
             case R.id.open_clazz:
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 1);
@@ -495,10 +497,10 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         reourceList = resources;
         if (reourceList.isEmpty())
             return;
-        if (reourceList.size() > 2) {
-            reourceList = reourceList.subList(0, 2);
+        if (reourceList.size() > 4) {
+            reourceList = reourceList.subList(0, 4);
         }
-        subjectFileAdapter.setData(reourceList);
+        resourceFileAdapter.setData(reourceList);
     }
 
     @Override

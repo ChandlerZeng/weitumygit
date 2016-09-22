@@ -23,6 +23,7 @@ import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.melnykov.fab.FloatingActionButton;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -97,6 +98,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
             loadCollected();
         }
         title.setText("选择主题");
+        ListViewUtil.addPaddingHeader(mContext,selectSubList);
         newTheme.setVisibility(View.GONE);
         newTheme.attachToListView(selectSubList);
         selectSubList.setAdapter(mAdapter);
@@ -180,7 +182,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
     @Nullable
     @OnItemClick(value = R.id.select_sub_list)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mAdapter.setCheckStatus(position);
+        mAdapter.setCheckStatus(position-1);
     }
 
 

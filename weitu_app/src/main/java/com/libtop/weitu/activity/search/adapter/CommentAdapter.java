@@ -302,7 +302,7 @@ public class CommentAdapter extends CommonAdapter<Comments>
     }
 
     public void replySubItem(ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object){
-        replyBeans.add(0, replyBean);
+        replyBeans.add(replyBean);
         object.count_reply=object.count_reply+1;
         if(replyBeans.size()==1){
             object.replys.add(replyBean);

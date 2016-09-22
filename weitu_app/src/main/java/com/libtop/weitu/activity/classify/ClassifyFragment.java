@@ -17,6 +17,8 @@ import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.utils.ACache;
+import com.libtop.weitu.utils.ListViewUtil;
+import com.libtop.weitu.widget.NetworkLoadingLayout;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,9 +36,11 @@ import rx.schedulers.Schedulers;
 /**
  * Created by LianTu on 2016/7/19.
  */
-public class ClassifyFragment extends BaseFragment
+public class ClassifyFragment extends BaseFragment implements NetworkLoadingLayout.OnRetryClickListner
 {
 
+    @Bind(R.id.networkloadinglayout)
+    NetworkLoadingLayout networkLoadingLayout;
     @Bind(R.id.list)
     ListView listView;
     @Bind(R.id.title)
@@ -45,6 +49,7 @@ public class ClassifyFragment extends BaseFragment
     ImageView backBtn;
 
     private ACache mCache;
+    private boolean isFirstIn = true;
 
     private ClassifyAdapter mAdapter;
     private List<ClassifyBean> mData = new ArrayList<>();
@@ -81,10 +86,10 @@ public class ClassifyFragment extends BaseFragment
 
     private void getData()
     {
-        List<ClassifyBean> classifyBeens = (List<ClassifyBean>) mCache.getAsObject("classifyBeens");
-        if (classifyBeens != null && !classifyBeens.isEmpty())
-        {
-            handleResult(classifyBeens);
+        final List<ClassifyBean> classifyBeensList = (List<ClassifyBean>) mCache.getAsObject("classifyBeens");
+        if(classifyBeensList!=null && !classifyBeensList.isEmpty()){
+            handleResult(classifyBeensList);
+            networkLoadingLayout.dismiss();
         }
         Map<String, Object> map = new HashMap<>();
         map.put("method", "categories.root");
@@ -101,13 +106,22 @@ public class ClassifyFragment extends BaseFragment
             @Override
             public void onError(Throwable e)
             {
+                if(classifyBeensList!=null){
+
+                }else{
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
             }
 
 
             @Override
             public void onNext(List<ClassifyBean> classifyBeens)
             {
+                networkLoadingLayout.dismiss();
                 mCache.put("classifyBeens", (Serializable) classifyBeens);
+                if (classifyBeens.size() == 0 && classifyBeensList==null) {
+                    networkLoadingLayout.showEmptyPrompt();
+                }
                 handleResult(classifyBeens);
             }
         });
@@ -129,20 +143,28 @@ public class ClassifyFragment extends BaseFragment
 
     private void initView()
     {
+        if (isFirstIn)
+        {
+            isFirstIn = false;
+            networkLoadingLayout.showLoading();
+            getData();
+        }
         title.setText("分类");
+        ListViewUtil.addPaddingHeader(mContext,listView);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                ClassifyBean classifyBean = mData.get(position);
+                ClassifyBean classifyBean = mData.get(position-1);
                 Intent intent = new Intent(mContext, ClassifyDetailActivity.class);
                 intent.putExtra("code", classifyBean.code);
                 intent.putExtra("name", classifyBean.name);
                 startActivity(intent);
             }
         });
+        networkLoadingLayout.setOnRetryClickListner(this);
     }
 
 
@@ -164,4 +186,8 @@ public class ClassifyFragment extends BaseFragment
         mContext.startActivity(null, SearchActivity.class);
     }
 
+    @Override
+    public void onRetryClick(View v) {
+        getData();
+    }
 }

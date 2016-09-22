@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/padding_left"
-            android:text="推荐文件"
+            android:text="推荐资源"
             android:textColor="@color/grey3"
             android:textSize="16sp"
             />
