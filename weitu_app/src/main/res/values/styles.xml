@@ -85,12 +85,12 @@
         <item name="android:paddingRight">@dimen/padding_medium</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/text_color_navigation_item_selector</item>
-        <item name="android:textSize">@dimen/text_fontsize_small</item>
+        <item name="android:textSize">@dimen/text_fontsize_normal</item>
     </style>
 
     <!-- 默认列表样式（平角透明底带分隔线） -->
     <style name="my_listview_style_default" parent="@android:style/Widget.ListView">
-        <item name="android:background">@color/transparent</item>
+        <item name="android:background">@color/white</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:cacheColorHint">@color/transparent</item>
@@ -98,7 +98,19 @@
         <item name="android:dividerHeight">0.5dp</item>
         <item name="android:fadingEdge">none</item>
         <item name="android:footerDividersEnabled">false</item>
-        <item name="android:listSelector">@drawable/listview_selector_default</item>
+        <item name="android:listSelector">@drawable/item_clicked_background</item>
+    </style>
+
+    <!-- 带边框线列表样式（平角白底带边框线与分隔线） -->
+    <style name="my_listview_style_with_stroke" parent="@android:style/Widget.ListView">
+        <item name="android:background">@drawable/layout_bg_with_stroke</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:cacheColorHint">@color/transparent</item>
+        <item name="android:divider">@color/divide_line_common</item>
+        <item name="android:dividerHeight">0.5dp</item>
+        <item name="android:fadingEdge">none</item>
+        <item name="android:listSelector">@drawable/item_clicked_background</item>
     </style>
 
     <!-- 视图横向分割线样式 -->
@@ -260,7 +272,7 @@
     <style name="dialog_btn_style">
         <item name="android:textColor">@color/label_color_selector</item>
         <item name="android:textSize">@dimen/text_fontsize_normal</item>
-        <item name="android:background">@drawable/list_item_selector</item>
+        <item name="android:background">@drawable/listview_item_selector</item>
     </style>
 
     <style name="photo_dialog_style" parent="@android:style/Animation">
