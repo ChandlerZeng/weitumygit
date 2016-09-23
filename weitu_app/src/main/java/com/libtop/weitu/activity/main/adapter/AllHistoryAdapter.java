@@ -114,53 +114,32 @@ public class AllHistoryAdapter extends BaseAdapter
                 }
                 if (resultBean.type == ClickHistoryActivity.BOOK)
                 {
-                    Picasso.with(context).load(ContantsUtil.IMG_BASE + resultBean.target.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                    Picasso.with(context).load(ContantsUtil.IMG_BASE + resultBean.target.getCover()).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
                 }
                 else
                 {
-                    Picasso.with(context).load(resultBean.target.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                    Picasso.with(context).load(resultBean.target.getCover()).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
                 }
-                holder.tvTitle.setText(resultBean.target.title);
-                if (!TextUtils.isEmpty(resultBean.target.categoriesName1))
+                holder.tvTitle.setText(resultBean.target.getTitle());
+                if (!TextUtils.isEmpty(resultBean.target.getCategoriesName1()))
                 {
-                    holder.tvTag.setText(resultBean.target.categoriesName1);
-                }
-                else
-                {
-                    holder.tvTag.setText("暂无分类");
-                }
-                if (!TextUtils.isEmpty(resultBean.target.categoriesName2))
-                {
-                    holder.tvTag.setText(resultBean.target.categoriesName1 + "/" + resultBean.target.categoriesName2);
+                    holder.tvTag.setText(resultBean.target.getCategoriesName1());
                 }
                 else
                 {
                     holder.tvTag.setText("暂无分类");
                 }
-                if (!TextUtils.isEmpty(resultBean.target.author))
+                if (!TextUtils.isEmpty(resultBean.target.getCategoriesName2()))
                 {
-                    holder.tvAuthor.setText(resultBean.target.author);
+                    holder.tvTag.setText(resultBean.target.getCategoriesName1() + "/" + resultBean.target.getCategoriesName2());
                 }
                 else
                 {
-                    holder.tvAuthor.setText("");
+                    holder.tvTag.setText("暂无分类");
                 }
-                if (!TextUtils.isEmpty(resultBean.target.publisher))
-                {
-                    holder.tvPublisher.setText(resultBean.target.publisher);
-                }
-                else
-                {
-                    holder.tvPublisher.setText("");
-                }
-                if (!TextUtils.isEmpty(resultBean.target.introduction))
-                {
-                    holder.tvDesc.setText(resultBean.target.introduction);
-                }
-                else
-                {
-                    holder.tvDesc.setText("");
-                }
+                holder.tvAuthor.setText(resultBean.target.getAuthor());
+                holder.tvPublisher.setText(resultBean.target.getPublisher());
+                holder.tvDesc.setText(resultBean.target.getIntroduction());
                 break;
             }
             case MEDIA:
@@ -183,32 +162,32 @@ public class AllHistoryAdapter extends BaseAdapter
                 }
                 if (resultBean.type == ClickHistoryActivity.DOC)
                 {
-                    Picasso.with(context).load(resultBean.target.cover).placeholder(R.drawable.pdf).error(R.drawable.pdf).centerInside().fit().into(holder.imageView);
+                    Picasso.with(context).load(resultBean.target.getCover()).placeholder(R.drawable.pdf).error(R.drawable.pdf).centerInside().fit().into(holder.imageView);
                 }
                 else
                 {
-                    Picasso.with(context).load(resultBean.target.cover).centerInside().fit().into(holder.imageView);
+                    Picasso.with(context).load(resultBean.target.getCover()).centerInside().fit().into(holder.imageView);
                 }
 
-                holder.tvTitle.setText(resultBean.target.title);
-                if (!TextUtils.isEmpty(resultBean.target.categoriesName1))
+                holder.tvTitle.setText(resultBean.target.getTitle());
+                if (!TextUtils.isEmpty(resultBean.target.getCategoriesName1()))
                 {
-                    holder.tvTag.setText(resultBean.target.categoriesName1);
+                    holder.tvTag.setText(resultBean.target.getCategoriesName1());
                 }
                 else
                 {
                     holder.tvTag.setText("暂无分类");
                 }
-                if (!TextUtils.isEmpty(resultBean.target.categoriesName2))
+                if (!TextUtils.isEmpty(resultBean.target.getCategoriesName2()))
                 {
-                    holder.tvTag.setText(resultBean.target.categoriesName1 + "/" + resultBean.target.categoriesName2);
+                    holder.tvTag.setText(resultBean.target.getCategoriesName1() + "/" + resultBean.target.getCategoriesName2());
                 }
                 else
                 {
                     holder.tvTag.setText("暂无分类");
                 }
-                holder.tvUploader.setText("上传：" + resultBean.target.uploadUsername);
-                holder.tvTime.setText("时间：" + DateUtil.parseToDate(resultBean.target.timeline));
+                holder.tvUploader.setText("上传：" + resultBean.target.getUploadUsername());
+                holder.tvTime.setText("时间：" + DateUtil.parseToDate(resultBean.target.getTimeline()));
                 break;
             }
         }

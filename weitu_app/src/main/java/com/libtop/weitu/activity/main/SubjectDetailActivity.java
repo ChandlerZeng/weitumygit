@@ -13,18 +13,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.main.dto.SubjectDetailBean;
+import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.CategoryResult;
-import com.libtop.weitu.test.Resource;
-import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.StringUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.PullZoomListView;
@@ -58,9 +59,9 @@ public class SubjectDetailActivity extends BaseActivity
 
 
     private ClassifySubDetailAdapter classifySubDetailAdapter;
-    private List<CategoryResult> mData = new ArrayList<>();
+    private List<CollectBean> mData = new ArrayList<>();
 
-    private boolean isFollow = true;
+    private boolean isFollow = false;
 
     public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
 
@@ -85,13 +86,13 @@ public class SubjectDetailActivity extends BaseActivity
 
     }
 
-//    http://weitu.bookus.cn/subject/resources.json?text={"sid":"56f97d8d984e741f1420ayy","method":"subject.resources"}
+//    http://weitu.bookus.cn/subject/CollectBeans.json?text={"sid":"56f97d8d984e741f1420ayy","method":"subject.CollectBeans"}
     private void requestListData()
     {
         swipeRefreshLayout.setRefreshing(true);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("sid", idString);
-        params.put("method", "subject.resources");
+        params.put("method", "subject.CollectBeans");
         HttpRequest.loadWithMap(params).execute(new StringCallback()
         {
             @Override
@@ -105,13 +106,13 @@ public class SubjectDetailActivity extends BaseActivity
             public void onResponse(String json, int id)
             {
                 swipeRefreshLayout.setRefreshing(false);
-                SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
-                if (subjectResource==null){
+                List<CollectBean> lists = JsonUtil.fromJson(json, new TypeToken<List<CollectBean>>(){}.getType());
+                if (lists == null){
                     Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mData.clear();
-                mData.addAll(subjectResource.resources);
+                mData.addAll(lists);
                 classifySubDetailAdapter.setData(mData);
             }
         });
@@ -129,8 +130,12 @@ public class SubjectDetailActivity extends BaseActivity
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (position>1){
-                    Resource resource = (Resource) arg0.getAdapter().getItem(position);
-                    ContextUtil.openResourceByType(mContext,resource.type, resource.rid);
+                    CollectBean collectBean = (CollectBean) arg0.getAdapter().getItem(position);
+                    if (collectBean.type == ContextUtil.BOOK){
+                        ContextUtil.openResourceByType(mContext,collectBean.type, collectBean.target.getIsbn());
+                    }else {
+                        ContextUtil.openResourceByType(mContext,collectBean.type, collectBean.target.getId());
+                    }
                 }
             }
         });
@@ -204,14 +209,22 @@ public class SubjectDetailActivity extends BaseActivity
     private void changeView(SubjectDetailBean subjectDetailBean)
     {
         ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.cover,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
-        title.setText(subjectDetailBean.subject.title);
-        titleString = subjectDetailBean.subject.title;
+        title.setText(StringUtil.getString(subjectDetailBean.subject.title));
         headerViewHolder.tvThemeDetailTitle.setText(titleString);
         headerViewHolder.tvThemeDetailFollowNum.setText(subjectDetailBean.subject.follows+"");
-        if (Preference.instance(mContext).getString(Preference.uid).equals(subjectDetailBean.subject.uid)){
-            headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_edit);
-            headerViewHolder.tvThemeDetailFollow.setText("编辑");
+        if (subjectDetailBean.followed == 1){
+            isFollow = true;
+            headerViewHolder.tvThemeDetailFollow.setText("已关注");
+            headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow_press);
+        }else {
+            isFollow = false;
+            headerViewHolder.tvThemeDetailFollow.setText("关注");
+            headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow);
         }
+//        if (Preference.instance(mContext).getString(Preference.uid).equals(subjectDetailBean.subject.uid)){
+//            headerViewHolder.tvThemeDetailEdit.setVisibility(View.VISIBLE);
+//            headerViewHolder.tvThemeDetailFollow.setVisibility(View.GONE);
+//        }
     }
 
 
@@ -240,6 +253,8 @@ public class SubjectDetailActivity extends BaseActivity
         TextView tvThemeDetailFollowNum;
         @Bind(R.id.tv_theme_detail_follow)
         TextView tvThemeDetailFollow;
+        @Bind(R.id.tv_theme_detail_edit)
+        TextView tvThemeDetailEdit;
 
         // 通过构造函数来初始化ButterKnife
         public HeaderViewHolder(View view) {
@@ -251,7 +266,7 @@ public class SubjectDetailActivity extends BaseActivity
             ButterKnife.unbind(this);
         }
 
-        @OnClick({ R.id.rl_theme_detail_title,R.id.tv_theme_detail_follow})
+        @OnClick({ R.id.rl_theme_detail_title,R.id.tv_theme_detail_follow,R.id.tv_theme_detail_edit})
         public void onClick(View view)
         {
             switch (view.getId())
@@ -262,43 +277,105 @@ public class SubjectDetailActivity extends BaseActivity
                 case R.id.tv_theme_detail_follow:
                     followClick();
                     break;
+                case R.id.tv_theme_detail_edit:
+                    editClick();
+                    break;
             }
         }
     }
 
 
+    private void editClick()
+    {
+        Intent intent = new Intent(mContext, NewSubjectActivity.class);
+        intent.putExtra("isEdit",true);
+        intent.putExtra("id",idString);
+        mContext.startActivity(intent);
+    }
+
+
     private void followClick()
     {
-        if (isFollow){
-            requestUnFollow();
-            headerViewHolder.tvThemeDetailFollow.setText("已关注");
-            headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow_press);
+        if (!isFollow){
+            requestFollow();
         }else {
             showPopWindow();
-            requestFollow();
         }
-        isFollow = !isFollow;
-
     }
 
-
+//    http://weitu.bookus.cn/subject/follow.json?text={"sid":"56f97d8d984e741f1420axx","uid":"56f97d8d984e741f1420awr8","method":"subject.follow"}
     private void requestFollow()
     {
-//        Bitmap icon = BitmapFactory.decodeResource(mContext.getResources(),
-//                R.drawable.bg_new_subject);
-//        Map<String, Object> params = new HashMap<String, Object>();
-//        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
-//        params.put("title", etSubjectTitle.getText().toString());
-//        params.put("introduction", etSubjectDesc.getText().toString());
-//        params.put("label1", label1);
-//        params.put("cover", ClippingPicture.bitmapToBase64(icon));
-//        params.put("method", "subject.save");
-//        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("sid", idString);
+        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
+        params.put("method", "subject.follow");
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                ResultCodeDto resultCodeDto = JsonUtil.fromJson(json, ResultCodeDto.class );
+                if (resultCodeDto == null){
+                    Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (resultCodeDto.code == 1){
+                    isFollow = true;
+                    Toast.makeText(mContext,"主题关注成功",Toast.LENGTH_SHORT).show();
+                    headerViewHolder.tvThemeDetailFollow.setText("已关注");
+                    headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow_press);
+
+                }else
+                {
+                    Toast.makeText(mContext,"主题关注失败",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-
+//    http://weitu.bookus.cn/subject/unfollow.json?text={"sid":"56f97d8d984e741f1420axx","uid":"56f97d8d984e741f1420awr8","method":"subject.unfollow"}
     private void requestUnFollow()
     {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("sid", idString);
+        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
+        params.put("method", "subject.unfollow");
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                ResultCodeDto resultCodeDto = JsonUtil.fromJson(json, ResultCodeDto.class );
+                if (resultCodeDto == null){
+                    Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (resultCodeDto.code == 1){
+                    isFollow = false;
+                    Toast.makeText(mContext,"取消关注成功",Toast.LENGTH_SHORT).show();
+                    headerViewHolder.tvThemeDetailFollow.setText("关注");
+                    headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow);
+                }else
+                {
+                    Toast.makeText(mContext,"取消关注失败",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
@@ -310,8 +387,7 @@ public class SubjectDetailActivity extends BaseActivity
             @Override
             public void onClick()
             {
-                headerViewHolder.tvThemeDetailFollow.setText("关注");
-                headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_edit);
+                requestUnFollow();
             }
         }, null);
     }

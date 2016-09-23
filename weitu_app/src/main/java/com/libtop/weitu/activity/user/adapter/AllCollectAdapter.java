@@ -123,11 +123,11 @@ public class AllCollectAdapter extends BaseAdapter
                 }
                 if (collectBean.favor.type == ClickHistoryActivity.BOOK)
                 {
-                    Picasso.with(context).load(ContantsUtil.IMG_BASE + collectBean.target.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                    Picasso.with(context).load(ContantsUtil.IMG_BASE + collectBean.target.getCover()).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
                 }
                 else
                 {
-                    Picasso.with(context).load(collectBean.target.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                    Picasso.with(context).load(collectBean.target.getCover()).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
                 }
                 if (visable)
                 {
@@ -137,43 +137,43 @@ public class AllCollectAdapter extends BaseAdapter
                 {
                     holder.view.setVisibility(View.GONE);
                 }
-                holder.tvTitle.setText(collectBean.target.title);
-                if (!TextUtils.isEmpty(collectBean.target.categoriesName1))
+                holder.tvTitle.setText(collectBean.target.getCover());
+                if (!TextUtils.isEmpty(collectBean.target.getCategoriesName1()))
                 {
-                    holder.tvTag.setText(collectBean.target.categoriesName1);
+                    holder.tvTag.setText(collectBean.target.getCategoriesName1());
                 }
                 else
                 {
                     holder.tvTag.setText("暂无分类");
                 }
-                if (!TextUtils.isEmpty(collectBean.target.categoriesName2))
+                if (!TextUtils.isEmpty(collectBean.target.getCategoriesName2()))
                 {
-                    holder.tvTag.setText(collectBean.target.categoriesName1 + "/" + collectBean.target.categoriesName2);
+                    holder.tvTag.setText(collectBean.target.getCategoriesName1() + "/" + collectBean.target.getCategoriesName2());
                 }
                 else
                 {
                     holder.tvTag.setText("暂无分类");
                 }
-                holder.checkMark.setChecked(lists.get(position).target.ischecked);
-                if (!TextUtils.isEmpty(collectBean.target.author))
+                holder.checkMark.setChecked(lists.get(position).target.ischecked());
+                if (!TextUtils.isEmpty(collectBean.target.getAuthor()))
                 {
-                    holder.tvAuthor.setText(collectBean.target.author);
+                    holder.tvAuthor.setText(collectBean.target.getAuthor());
                 }
                 else
                 {
                     holder.tvAuthor.setText("");
                 }
-                if (!TextUtils.isEmpty(collectBean.target.publisher))
+                if (!TextUtils.isEmpty(collectBean.target.getPublisher()))
                 {
-                    holder.tvPublisher.setText(collectBean.target.publisher);
+                    holder.tvPublisher.setText(collectBean.target.getPublisher());
                 }
                 else
                 {
                     holder.tvPublisher.setText("");
                 }
-                if (!TextUtils.isEmpty(collectBean.target.introduction))
+                if (!TextUtils.isEmpty(collectBean.target.getIntroduction()))
                 {
-                    holder.tvDesc.setText(collectBean.target.introduction);
+                    holder.tvDesc.setText(collectBean.target.getIntroduction());
                 }
                 else
                 {
@@ -209,38 +209,38 @@ public class AllCollectAdapter extends BaseAdapter
                 {
                     holder.view.setVisibility(View.GONE);
                 }
-                holder.checkMark.setChecked(lists.get(position).target.ischecked);
+                holder.checkMark.setChecked(lists.get(position).target.ischecked());
                 if (collectBean.favor.type == ClickHistoryActivity.DOC)
                 {
-                    if (TextUtils.isEmpty(collectBean.target.cover))
+                    if (TextUtils.isEmpty(collectBean.target.getCover()))
                     {
-                        collectBean.target.cover = "http://";
+                        collectBean.target.setCover("http://");
                     }
-                    Picasso.with(context).load(collectBean.target.cover).placeholder(R.drawable.pdf).error(R.drawable.pdf).centerInside().fit().into(holder.imageView);
+                    Picasso.with(context).load(collectBean.target.getCover()).placeholder(R.drawable.pdf).error(R.drawable.pdf).centerInside().fit().into(holder.imageView);
                 }
                 else
                 {
-                    Picasso.with(context).load(collectBean.target.cover).centerInside().fit().into(holder.imageView);
+                    Picasso.with(context).load(collectBean.target.getCover()).centerInside().fit().into(holder.imageView);
                 }
-                holder.tvTitle.setText(collectBean.target.title);
-                if (!TextUtils.isEmpty(collectBean.target.categoriesName1))
+                holder.tvTitle.setText(collectBean.target.getTitle());
+                if (!TextUtils.isEmpty(collectBean.target.getCategoriesName1()))
                 {
-                    holder.tvTag.setText(collectBean.target.categoriesName1);
-                }
-                else
-                {
-                    holder.tvTag.setText("暂无分类");
-                }
-                if (!TextUtils.isEmpty(collectBean.target.categoriesName2))
-                {
-                    holder.tvTag.setText(collectBean.target.categoriesName1 + "/" + collectBean.target.categoriesName2);
+                    holder.tvTag.setText(collectBean.target.getCategoriesName1());
                 }
                 else
                 {
                     holder.tvTag.setText("暂无分类");
                 }
-                holder.tvUploader.setText("上传：" + collectBean.target.uploadUsername);
-                holder.tvTime.setText("时间：" + DateUtil.parseToDate(collectBean.target.timeline));
+                if (!TextUtils.isEmpty(collectBean.target.getCategoriesName2()))
+                {
+                    holder.tvTag.setText(collectBean.target.getCategoriesName1() + "/" + collectBean.target.getCategoriesName2());
+                }
+                else
+                {
+                    holder.tvTag.setText("暂无分类");
+                }
+                holder.tvUploader.setText("上传：" + collectBean.target.getUploadUsername());
+                holder.tvTime.setText("时间：" + DateUtil.parseToDate(collectBean.target.getTimeline()));
                 break;
             }
         }
@@ -276,18 +276,18 @@ public class AllCollectAdapter extends BaseAdapter
             }
             for (int i = 0; i < lists.size(); i++)
             {
-                lists.get(i).target.ischecked = allCheck;
+                lists.get(i).target.setIschecked(allCheck);
             }
         }
         else
         {
-            if (lists.get(position).target.ischecked == true)
+            if (lists.get(position).target.ischecked() == true)
             {
-                lists.get(position).target.ischecked = false;
+                lists.get(position).target.setIschecked(false);
             }
             else
             {
-                lists.get(position).target.ischecked = true;
+                lists.get(position).target.setIschecked(true);
             }
         }
         notifyDataSetChanged();
@@ -299,9 +299,9 @@ public class AllCollectAdapter extends BaseAdapter
         List<CollectBean> list = new ArrayList<CollectBean>();
         for (int i = 0; i < lists.size(); i++)
         {
-            if (lists.get(i).target.ischecked)
+            if (lists.get(i).target.ischecked())
             {
-                Log.e("" + lists.get(i).target.ischecked);
+                Log.e("" + lists.get(i).target.ischecked());
                 list.add(lists.get(i));
             }
         }

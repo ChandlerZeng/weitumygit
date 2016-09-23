@@ -48,6 +48,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
+
 /**
  * Created by LianTu on 2016/7/15.
  */
@@ -305,8 +306,8 @@ public class AllHistoryFragment extends NotifyFragment
     private void openAudio(int position)
     {
         SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
-        result.cover = mData.get(position).target.cover;
+        result.id = mData.get(position).target.getId();
+        result.cover = mData.get(position).target.getCover();
         Intent intent = new Intent(mContext, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
@@ -316,7 +317,7 @@ public class AllHistoryFragment extends NotifyFragment
     private void openVideo(int position)
     {
         SearchResult result = new SearchResult();
-        result.id = mData.get(position).target.id;
+        result.id = mData.get(position).target.getId();
         Intent intent = new Intent(mContext, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         mContext.startActivity(intent);
@@ -326,11 +327,11 @@ public class AllHistoryFragment extends NotifyFragment
     private void openBook(int position)
     {
         Bundle bundle = new Bundle();
-        bundle.putString("name", mData.get(position).target.title);
-        bundle.putString("cover", mData.get(position).target.cover);
-        bundle.putString("auth", mData.get(position).target.author);
-        bundle.putString("isbn", mData.get(position).target.isbn);
-        bundle.putString("publisher", mData.get(position).target.publisher);
+        bundle.putString("name", mData.get(position).target.getTitle());
+        bundle.putString("cover", mData.get(position).target.getCover());
+        bundle.putString("auth", mData.get(position).target.getAuthor());
+        bundle.putString("isbn", mData.get(position).target.getIsbn());
+        bundle.putString("publisher", mData.get(position).target.getPublisher());
         bundle.putString("school", Preference.instance(mContext).getString(Preference.SchoolCode));
         bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
@@ -343,7 +344,7 @@ public class AllHistoryFragment extends NotifyFragment
     {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
-        bundle.putString("id", mData.get(position).target.id);
+        bundle.putString("id", mData.get(position).target.getId());
         mContext.startActivity(bundle, DynamicCardActivity.class);
     }
 
@@ -352,7 +353,7 @@ public class AllHistoryFragment extends NotifyFragment
     {
         Intent intent = new Intent();
         intent.putExtra("url", "");
-        intent.putExtra("doc_id", mData.get(position).target.id);
+        intent.putExtra("doc_id", mData.get(position).target.getId());
         intent.setClass(mContext, PdfActivity2.class);
         mContext.startActivity(intent);
         mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);

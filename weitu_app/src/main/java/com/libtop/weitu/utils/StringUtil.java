@@ -29,6 +29,15 @@ public class StringUtil
 
 
     /**
+      * @param object
+     * @return
+     */
+    public static String getString(Object object)
+    {
+        return (object != null ? object.toString() : "");
+    }
+
+    /**
      * �?��是否是数�?
      *
      * @param chr
@@ -56,20 +65,6 @@ public class StringUtil
         }
         return true;
     }
-
-
-    public static String toString(Object obj)
-    {
-        if (obj == null)
-        {
-            return "";
-        }
-        else
-        {
-            return obj.toString();
-        }
-    }
-
 
     public static int toInt(Object obj)
     {
