@@ -359,6 +359,10 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     {
         Bundle bundle = new Bundle();
         bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        if(searchResult.id!=null){
+            bundle.putString("tid",searchResult.id);
+            bundle.putInt("type",2);
+        }
         mContext.startActivity(bundle, ContentActivity.class);
     }
 

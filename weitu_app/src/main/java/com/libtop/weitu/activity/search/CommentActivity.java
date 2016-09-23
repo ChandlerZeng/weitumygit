@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
+import com.libtop.weitu.activity.main.dto.CommentDto;
+import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.adapter.CommentAdapter;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
 import com.libtop.weitu.activity.search.dto.CommentResult;
@@ -29,6 +31,7 @@ import com.libtop.weitu.test.CommentBean;
 import com.libtop.weitu.test.Comments;
 import com.libtop.weitu.test.Reply;
 import com.libtop.weitu.test.ReplyBean;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.ListViewUtil;
@@ -78,7 +81,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     private String cid;
 
     private CommentBean commentBean; //TODO
-    private List<Comments> commentsList = new ArrayList<>(); //TODO
+    private List<CommentDto> commentsList = new ArrayList<>(); //TODO
 
     private int mCurPage = 1;
     private boolean hasData = true;
@@ -88,9 +91,11 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     private HashMap<String, Object> map = new HashMap<>();
     private HashMap<String, Object> map2 = new HashMap<>();
 
-    private ReplyBean replyItem;
-    private Comments comments;
-    private List<ReplyBean> replyItems;
+    private ReplyListDto replyItem;
+    private CommentDto comments;
+    private List<ReplyListDto> replyItems;
+
+    public static String UID ;
 
 
     @Override
@@ -98,15 +103,14 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_comment);
+        UID = mPreference.getString(Preference.uid);
         EventBus.getDefault().register(this);
         initView();
     }
 
     private void initView(){
         String json = getIntent().getStringExtra("CommentNeedDto");
-        commentNeedDto = JsonUtil.fromJson(json, new TypeToken<CommentNeedDto>()
-        {
-        }.getType());
+        commentNeedDto = JsonUtil.fromJson(json, new TypeToken<CommentNeedDto>(){}.getType());
 
         if (commentNeedDto.title!=null && !TextUtils.isEmpty(commentNeedDto.title))
         {
@@ -146,12 +150,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     private void getCommentList()
     {
-        //  http://192.168.0.9/resource/comment/list private
-        //  http://115.28.189.104/resource/comment/list public
+//        http://weitu.bookus.cn/comment/list.json?text={"tid":"56f97d8d984e741f1420a19e","page":1,"uid":"56f97d8d984e741f1420a19e","method":"comment.list"}
         Map<String, Object> map = new HashMap<>();
-        String api = "/resource/comment/list";
         map.put("page", mCurPage);
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("method","comment.list");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 if (mCurPage > 1) {
@@ -171,11 +175,11 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                     }
                     try {
                         Gson gson = new Gson();
-                        CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
+                        List<CommentDto> data = gson.fromJson(json, new TypeToken<List<CommentDto>>() {
                         }.getType());
                         commentsList.clear();
-                        if (data.comments != null) {
-                            commentsList.addAll(data.comments);
+                        if (data != null) {
+                            commentsList.addAll(data);
                         }
                         if (commentsList.size() < 20) {
                             hasData = false;
@@ -265,10 +269,10 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
                                 Gson gson = new Gson();
-                                Reply data = gson.fromJson(json, new TypeToken<Reply>() {
+                                ReplyListDto data = gson.fromJson(json, new TypeToken<ReplyListDto>() {
                                 }.getType());
-                                if (data.reply != null) {
-                                    commentAdapter.replySubItem(data.reply, replyItems, comments);
+                                if (data != null) {
+                                    commentAdapter.replySubItem(data, replyItems, comments);
                                 }
                                 editText.setText("");
                                 editText.setHint("发表评论");
@@ -308,10 +312,11 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             Toast.makeText(CommentActivity.this,"评论成功",Toast.LENGTH_SHORT).show();;
                             try {
                                 Gson gson = new Gson();
-                                CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
+                                List<CommentDto> data = gson.fromJson(json, new TypeToken<CommentDto>() {
                                 }.getType());
-                                if (data.comment != null) {
-                                    commentsList.add(0, data.comment);
+                                if (data != null) {
+//                                    commentsList.add(0, data);
+                                    getCommentList();// TODO
                                 }
                                 commentAdapter.setData(commentsList);
                                 editText.setText("");
@@ -327,21 +332,21 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
     @Override
-    public void onReplyTouch(View v, int position,List<ReplyBean> replyBeans,Comments object) //TODO
+    public void onReplyTouch(View v, int position,List<ReplyListDto> replyBeans,CommentDto object) //TODO
     {
-        Comments commentResult = commentsList.get(position);
+        CommentDto commentResult = commentsList.get(position);
 //        replyItem = replyBean;
         replyItems = replyBeans;
         comments = object;
         isReply = true;
         if (commentResult.content != null && !TextUtils.isEmpty(commentResult.content))
         {
-            String cid = commentResult.cid;
+            String cid = commentResult.id;
             String uid = commentResult.uid;
             map.put("reply_uid",uid);
             editText.requestFocus();
             String first = "回复";
-            SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.user.name);
+            SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.username);
             editText.setHint(spannableString);
 //            editText.setSelection(spannableString.length());
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -364,7 +369,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
 
-    private void deleteReplyComment(String cid, final ReplyBean replyBean, final List<ReplyBean> replyBeans,final Comments object){
+    private void deleteReplyComment(String cid, final ReplyListDto replyBean, final List<ReplyListDto> replyBeans,final CommentDto object){
         showLoding();
         String api = "resource/comment/del";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
@@ -388,7 +393,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                 });
     }
 
-    private void deleteComment(String cid, final Comments comments){
+    private void deleteComment(String cid, final CommentDto comments){
         showLoding();
         String api = "resource/comment/del";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
@@ -434,11 +439,11 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
                                 Gson gson = new Gson();
-                                Reply data = gson.fromJson(json, new TypeToken<Reply>() {
+                                ReplyListDto data = gson.fromJson(json, new TypeToken<ReplyListDto>() {
                                 }.getType());
-                                if (data.reply != null) {
+                                if (data != null) {
 //                                    replyItems.add(0,data);
-                                    commentAdapter.replySubItem(data.reply, replyItems,comments);
+                                    commentAdapter.replySubItem(data, replyItems,comments);
                                 }
                                 editText.setText("");
                                 editText.setHint("发表评论");
@@ -455,10 +460,10 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
     @Override
-    public void onReplyItemTouch(View v, final int position, final ReplyBean replyBean,final List<ReplyBean> replyBeans,Comments object) {
+    public void onReplyItemTouch(View v, final int position, final ReplyListDto replyBean,final List<ReplyListDto> replyBeans,CommentDto object) {
 
         String cid =replyBean.cid;
-        String replyUid =String.valueOf(replyBean.user.uid);
+        String replyUid =String.valueOf(replyBean.uid);
         replyItem = replyBean;
         replyItems = replyBeans;
         comments = object;
@@ -471,7 +476,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                 map2.put("reply_uid",replyUid);
                 editText.requestFocus();
                 String first = "回复";
-                SpannableStringBuilder spannableString = getGreenStrBuilder(first,replyBean.user.name);
+                SpannableStringBuilder spannableString = getGreenStrBuilder(first,replyBean.username);
                 editText.setHint(spannableString);
 //                editText.setSelection(spannableString.length());
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -484,7 +489,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
     @Override
-    public void onReplyItemDeleted(View v, int position, final ReplyBean replyBean,final List<ReplyBean> replyBeans, final Comments object) {
+    public void onReplyItemDeleted(View v, int position, final ReplyListDto replyBean,final List<ReplyListDto> replyBeans, final CommentDto object) {
         String title = "您确定要删除？";
         final AlertDialogUtil dialog = new AlertDialogUtil();
         dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
@@ -495,7 +500,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         }, null);
     }
 
-    private void likeClicked(String cid, final Comments comments){
+    private void likeClicked(String cid, final CommentDto comments){
         String api = "resource/comment/praise";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
                 .build()
@@ -511,7 +516,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
                             dismissLoading();
-                            comments.count_praise = comments.count_praise + 1;
+                            comments.praises = comments.praises + 1;
                             comments.my_praise = 1;
                             Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
                             commentAdapter.notifyDataSetChanged();
@@ -520,7 +525,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                 });
     }
 
-    private void likeCancelled(String cid,final Comments comments){
+    private void likeCancelled(String cid,final CommentDto comments){
         String api = "resource/comment/unpraise";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
                 .build()
@@ -536,7 +541,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
                             dismissLoading();
-                            comments.count_praise = comments.count_praise - 1;
+                            comments.praises = comments.praises - 1;
                             comments.my_praise = 0;
                             Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
                             commentAdapter.notifyDataSetChanged();
@@ -546,8 +551,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
     @Override
-    public void onLikeTouch(View v, int position, Comments comment) {
-        String cid = String.valueOf(comment.cid);
+    public void onLikeTouch(View v, int position, CommentDto comment) {
+        String cid = String.valueOf(comment.id);
         if(comment.my_praise==0){
             likeClicked(cid,comment);
         }else{
@@ -556,17 +561,17 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
     @Override
-    public void onCommentContentClick(View v, int position, Comments comment) {
+    public void onCommentContentClick(View v, int position, CommentDto comment) {
         Bundle bundle = new Bundle();
-        bundle.putString("cid", comment.cid);
+        bundle.putString("cid", comment.id);
         bundle.putInt("position", position);
         startForResult(bundle, 200, CommentDetailActivity.class);
 //        startActivity(bundle, CommentDetailActivity.class);
     }
 
     @Override
-    public void onCommentContentLongClick(View v, final int position, Comments comment) {
-        if (commentsList.get(position ).uid.equals("1")) {
+    public void onCommentContentLongClick(View v, final int position, CommentDto comment) {
+        if (commentsList.get(position ).uid.equals(UID)) {
             String title = "您确定要删除？";
             final AlertDialogUtil dialog = new AlertDialogUtil();
             dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
@@ -585,7 +590,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         }
     }
 
-    public void replaceComment(int position,Comments comments){
+    public void replaceComment(int position,CommentDto comments){
         commentsList.remove(position);
         commentsList.add(position, comments);
         commentAdapter.notifyDataSetChanged();
@@ -596,7 +601,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     {
         if(event.message.getString("isFromComment")!=null && event.message.getString("isFromComment").equals("true")){
             Bundle bundle = event.message;
-            Comments comments = (Comments) bundle.getSerializable("comments");
+            CommentDto comments = (CommentDto) bundle.getSerializable("comments");
             int position = bundle.getInt("position");
             Boolean isCommentUpdate = bundle.getBoolean("isCommentUpdate",false);
             if (isCommentUpdate)

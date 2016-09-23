@@ -121,6 +121,10 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
     {
         Bundle bundle = new Bundle();
         bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        if(tid!=null){
+            bundle.putString("tid",tid);
+            bundle.putInt("type",3);
+        }
         mContext.startActivity(bundle,ContentActivity.class);
     }
 
