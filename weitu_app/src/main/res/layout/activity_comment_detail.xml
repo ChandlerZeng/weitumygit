@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey_bg"
+<LinearLayout
+    style="@style/my_layout_style_common"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
 
-    <include layout="@layout/included_title_default" />
+    <include layout="@layout/included_title_default"/>
 
-    <View
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/grey_bg" />
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        style="@style/my_layout_style_common">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,22 +25,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:orientation="vertical">
+
                     <include layout="@layout/include_listview_padding_header"/>
 
                     <RelativeLayout
                         android:id="@+id/comment_layout1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/padding_size_10"
-                        android:background="@color/white">
+                        android:background="@color/white"
+                        android:padding="@dimen/padding_size_10">
 
                         <ImageView
                             android:id="@+id/img_head"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-                            android:background="@drawable/normal_head" />
+                            android:background="@drawable/normal_head"/>
 
                         <TextView
                             android:id="@+id/tv_user_name"
@@ -54,7 +49,7 @@
                             android:layout_marginLeft="@dimen/padding_size_10"
                             android:layout_toRightOf="@+id/img_head"
                             android:text="用户名"
-                            android:textColor="@color/comment_user_name" />
+                            android:textColor="@color/comment_user_name"/>
 
                         <TextView
                             android:id="@+id/tv_time"
@@ -65,7 +60,7 @@
                             android:layout_marginRight="@dimen/padding_size_10"
                             android:layout_toRightOf="@+id/img_head"
                             android:text="2016/09/12 11:35 "
-                            android:textColor="@color/comment_subtitle" />
+                            android:textColor="@color/comment_subtitle"/>
 
                         <TextView
                             android:id="@+id/tv_commnet1"
@@ -75,137 +70,119 @@
                             android:background="@drawable/list_selector"
                             android:padding="@dimen/padding_small"
                             android:text="这份资料很有用。"
-                            android:textColor="@color/comment_title" />
-
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:id="@+id/comment_detail_link_layout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="80dp"
-                        android:layout_marginLeft="@dimen/padding_size_10"
-                        android:layout_marginRight="@dimen/padding_size_10"
-                        android:background="@drawable/shape_comment_textview_bg"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/padding_size_10"
-                            android:background="@color/white">
-
-                            <ImageView
-                                android:id="@+id/resource_file_image"
-                                android:layout_width="60dp"
-                                android:layout_height="70dp"
-                                android:layout_gravity="center"
-                                android:padding="@dimen/padding_small"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/default_image" />
-
-                        </FrameLayout>
+                            android:textColor="@color/comment_title"/>
 
                         <LinearLayout
-                            android:id="@+id/subject_file_ll"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight="2"
-                            android:background="@drawable/list_selector"
-                            android:gravity="center|start"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/comment_file_title"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:gravity="left|start"
-                                android:lines="2"
-                                android:text="title"
-                                android:textColor="#333333"
-                                android:textSize="16sp" />
-
-                            <TextView
-                                android:id="@+id/comment_file_author"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="top"
-                                android:lines="1"
-                                android:paddingBottom="3dp"
-                                android:paddingRight="3dp"
-                                android:text="作者："
-                                android:textColor="#666666"
-                                android:textSize="13sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_commnet1"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:id="@+id/likeLayout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:background="@drawable/list_selector"
+                            android:id="@+id/comment_detail_link_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:layout_below="@+id/tv_commnet1"
+                            android:layout_marginLeft="@dimen/padding_size_10"
+                            android:layout_marginRight="@dimen/padding_size_10"
+                            android:background="@drawable/shape_comment_textview_bg"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
-                            <ImageView
-                                android:id="@+id/like_icon"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_margin="@dimen/padding_small"
-                                android:src="@drawable/icon_comment_detail_unpraised" />
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/padding_size_10"
+                                android:background="@color/white">
+
+                                <ImageView
+                                    android:id="@+id/resource_file_image"
+                                    android:layout_width="60dp"
+                                    android:layout_height="70dp"
+                                    android:layout_gravity="center"
+                                    android:padding="@dimen/padding_small"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/default_image"/>
+
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:id="@+id/subject_file_ll"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="2"
+                                android:background="@drawable/list_selector"
+                                android:gravity="center|start"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/comment_file_title"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:gravity="left|start"
+                                    android:lines="2"
+                                    android:text="title"
+                                    android:textColor="#333333"
+                                    android:textSize="16sp"/>
+
+                                <TextView
+                                    android:id="@+id/comment_file_author"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="top"
+                                    android:lines="1"
+                                    android:paddingBottom="3dp"
+                                    android:paddingRight="3dp"
+                                    android:text="作者："
+                                    android:textColor="#666666"
+                                    android:textSize="13sp"/>
+                            </LinearLayout>
                         </LinearLayout>
 
-                        <GridView
-                            android:id="@+id/comment_detail_grid_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_margin="@dimen/padding_small"
-                            android:nestedScrollingEnabled="false"
-                            android:numColumns="8"
-                            android:scrollbars="none">
-
-                        </GridView>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/divider" />
-
-                    <LinearLayout
-                        android:id="@+id/comment_layout2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/padding_size_10"
-                        android:background="@color/comment_reply"
-                        android:orientation="vertical">
-
-                        <com.libtop.weitu.widget.listview.ChangeListView
-                            android:id="@+id/list_reply"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:divider="@color/divider"
-                            android:dividerHeight="0.49dp"
-                            android:background="@color/white"
-                            android:listSelector="@drawable/list_selector"
-                            android:nestedScrollingEnabled="false"
-                            android:scrollbars="none" />
-                    </LinearLayout>
+                            android:layout_below="@+id/comment_detail_link_layout"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/likeLayout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/list_selector"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/like_icon"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:layout_margin="@dimen/padding_small"
+                                    android:src="@drawable/icon_comment_detail_unpraised"/>
+                            </LinearLayout>
+
+                            <GridView
+                                android:id="@+id/comment_detail_grid_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="@dimen/padding_small"
+                                android:nestedScrollingEnabled="false"
+                                android:numColumns="8"
+                                android:scrollbars="none">
+                            </GridView>
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <View style="@style/my_divide_line_style_horizontal"/>
+
+                    <View style="@style/my_divide_layout_view_style_default"/>
+
+                    <com.libtop.weitu.widget.listview.ChangeListView
+                        android:id="@+id/list_reply"
+                        style="@style/my_listview_style_with_stroke"
+                        android:nestedScrollingEnabled="false"
+                        android:scrollbars="none"/>
                 </LinearLayout>
             </ScrollView>
-
 
             <View style="@style/my_divide_line_style_horizontal"/>
 
@@ -218,19 +195,17 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:minHeight="42dp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/padding_small"
                     android:layout_weight="1"
                     android:background="@drawable/shape_search_title_bg"
+                    android:minHeight="42dp"
                     android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/edit_comment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLines="3"
-                        android:padding="@dimen/padding_small"
                         android:layout_gravity="center_vertical"
                         android:background="@null"
                         android:focusable="true"
@@ -238,8 +213,10 @@
                         android:hint="发表评论"
                         android:imeOptions="actionNone"
                         android:inputType="textMultiLine"
+                        android:maxLines="3"
+                        android:padding="@dimen/padding_small"
                         android:text=""
-                        android:textSize="16sp" />
+                        android:textSize="16sp"/>
                 </LinearLayout>
 
                 <Button
@@ -252,12 +229,12 @@
                     android:gravity="center"
                     android:text="发送"
                     android:textColor="@color/comment_send_text"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
             </LinearLayout>
         </LinearLayout>
 
-        <include layout="@layout/content_layout_network_loading" />
+        <include layout="@layout/content_layout_network_loading"/>
     </FrameLayout>
 
 </LinearLayout>
