@@ -195,11 +195,6 @@
         <!-- 图片浏览视图 TODO -->
         <activity android:name=".activity.search.ImagePagerActivity2" />
 
-        <!-- 我的评论视图 -->
-        <activity
-            android:name=".activity.user.MyCommentActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-
         <!-- 分类详情视图 -->
         <activity
             android:name=".activity.classify.ClassifyDetailActivity"
