@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff"
+    style="@style/my_layout_style_common"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <include layout="@layout/included_title_default"/>
+
+    <View style="@style/my_divide_layout_view_style_large"/>
 
     <GridView
         android:id="@+id/gridview"

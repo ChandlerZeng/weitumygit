@@ -1,34 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    style="@style/my_layout_style_common"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/searchBackgroud"
     android:orientation="vertical">
 
     <include layout="@layout/included_title_default"/>
 
-    <View
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/divider"/>
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        style="@style/my_layout_style_common">
+        android:layout_height="match_parent">
 
         <ListView
             android:id="@+id/list"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:cacheColorHint="#00000000"
+            style="@style/my_listview_style_default"
             android:descendantFocusability="blocksDescendants"
-            android:divider="@color/main_divider_line"
-            android:dividerHeight="0.8dip"
-            android:fastScrollEnabled="false"
-            android:listSelector="@drawable/list_selector"/>
+            android:fastScrollEnabled="false"/>
 
-        <include layout="@layout/content_layout_network_loading" />
+        <include layout="@layout/content_layout_network_loading"/>
 
     </FrameLayout>
 

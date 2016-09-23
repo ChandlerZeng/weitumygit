@@ -233,16 +233,6 @@
         <item name="android:textSize">@dimen/text_fontsize_middle</item>
     </style>
 
-    <style name="normal_input">
-        <item name="android:layout_margin">4dip</item>
-        <item name="android:background">@drawable/input_bg</item>
-        <item name="android:paddingLeft">4dip</item>
-        <item name="android:padding">5dip</item>
-        <item name="android:gravity">left|top</item>
-        <item name="android:textColor">@color/label_color</item>
-        <item name="android:textSize">@dimen/text_fontsize_small</item>
-    </style>
-
     <style name="login_input_style">
         <item name="android:layout_margin">4dip</item>
         <item name="android:background">@null</item>
