@@ -17,10 +17,14 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.NewSubjectActivity;
 import com.libtop.weitu.activity.main.adapter.SelectSubjectAdapter;
+import com.libtop.weitu.activity.main.adapter.SelectSubjectAdapterNew;
+import com.libtop.weitu.activity.main.dto.SubjectBean;
+import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.ListViewUtil;
@@ -34,6 +38,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -64,18 +69,21 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
     @Bind(R.id.networkloadinglayout)
     NetworkLoadingLayout networkLoadingLayout;
 
-    private List<Subject> selectSubDatas = new ArrayList<>();
-    private SelectSubjectAdapter mAdapter;
+    private List<SubjectBean> selectSubDatas = new ArrayList<>();
+    private SelectSubjectAdapterNew mAdapter;
     private Subject subject;
 
     private boolean isFirstIn = true;
+    private Bundle budleState;
+    private int result = 0;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new SelectSubjectAdapter(mContext, selectSubDatas);
+        mAdapter = new SelectSubjectAdapterNew(mContext, selectSubDatas);
         EventBus.getDefault().register(this);
+        budleState = new Bundle();
     }
 
 
@@ -97,6 +105,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
             networkLoadingLayout.showLoading();
             loadCollected();
         }
+//        mAdapter.setData(selectSubDatas);
         title.setText("选择主题");
         ListViewUtil.addPaddingHeader(mContext,selectSubList);
         newTheme.setVisibility(View.GONE);
@@ -113,9 +122,16 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        budleState.putSerializable("subjectlist", (Serializable) selectSubDatas);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        budleState.clear();
     }
 
     @Nullable
@@ -135,24 +151,26 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
     }
 
     private void subjectInclude(){
-
+//        http://weitu.bookus.cn/subject/include.json?text={"sids":["56f97d8d984e741f1420axx","56f97d8d984e741f1420ayy"],"tid":"56f97d8d984e741f1420awr8","method":"subject.include"}
         String[] subIds = mAdapter.selectSubId();
         if(subIds == null || subIds.length == 0){
             onBackPressed();
             return;
         }
         HashMap<String, Object> map = new HashMap<>();
+        map.put("method","subject.include");
+        map.put("tid","56f97d8d984e741f1420awr8");
+        map.put("type",3);
         try
         {
             JSONArray jsonarray = new JSONArray(Arrays.toString(subIds));
-            map.put("ids", jsonarray);
+            map.put("sids", jsonarray);
         }
         catch (JSONException e)
         {
             e.printStackTrace();
         }
-        String api = "/subject/resource/include";
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
             }
@@ -160,17 +178,22 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
 
             @Override
             public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
+                if (json!=null && !TextUtils.isEmpty(json)) {
                     dismissLoading();
-                    showToast("收录成功");
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean("isIncluded", true);
-                    EventBus.getDefault().post(new MessageEvent(bundle));
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            onBackPressed();
-                        }
-                    }, 1000);
+                    ResultCodeDto resultCodeDto = JsonUtil.fromJson(json,new TypeToken<ResultCodeDto>(){}.getType());
+                    if(resultCodeDto.code==1){
+                        showToast("收录成功");
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("isIncluded", true);
+                        EventBus.getDefault().post(new MessageEvent(bundle));
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                onBackPressed();
+                            }
+                        }, 1000);
+                    }else {
+                        showToast("收录失败,请稍后再试");
+                    }
                 } else {
                     showToast("收录失败,请稍后再试");
                 }
@@ -185,8 +208,48 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
         mAdapter.setCheckStatus(position-1);
     }
 
-
     private void loadCollected() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("uid",mPreference.getString(Preference.uid));
+        params.put("method","subject.my");
+        params.put("page",1);
+        HttpRequest.loadWithMap(params).execute(new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                networkLoadingLayout.showLoadFailAndRetryPrompt();
+            }
+
+
+            @Override
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    networkLoadingLayout.dismiss();
+                    newTheme.setVisibility(View.VISIBLE);
+                    try {
+                        List<SubjectBean> subjects = JsonUtil.fromJson(json, new TypeToken<List<SubjectBean>>() {
+                        }.getType());
+                        selectSubDatas = subjects;
+                        if(result == NewSubjectActivity.RESULT_SUCCESSS){
+                            List<SubjectBean> subList = new ArrayList<>();
+                            subList = (List<SubjectBean>) budleState.getSerializable("subjectlist");
+                            for(int i = 1;i<selectSubDatas.size();i++){
+                                selectSubDatas.get(i).ischecked = subList.get(i-1).ischecked;
+                            }
+                        }
+                        mAdapter.setData(selectSubDatas);
+                        if (selectSubDatas.size() == 0) {
+                            networkLoadingLayout.showEmptyPrompt();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+
+    /*private void loadCollected() {
         Map<String, Object> params = new HashMap<String, Object>();
         String api = "/subject/my_all/list";
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback() {
@@ -215,7 +278,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                 }
             }
         });
-    }
+    }*/
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(MessageEvent event)
     {
@@ -230,18 +293,20 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
     private void createNewTheme(){
         Intent intent = new Intent();
         intent.setClass(getActivity(), NewSubjectActivity.class);
+        intent.putExtra("fromSelect",true);
         startActivityForResult(intent, 100);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 100){
+        if(requestCode == 100 & resultCode==NewSubjectActivity.RESULT_SUCCESSS){
 //            loadCollected();
-            createNewSubjectFinished();
+            result = resultCode;
+            loadCollected();
         }
     }
 
-    private void createNewSubjectFinished(){
+    /*private void createNewSubjectFinished(){
         showLoding();
         Map<String, Object> params = new HashMap<String, Object>();
         String api = "/subject/create";
@@ -272,7 +337,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                 }
             }
         });
-    }
+    }*/
 
     @Override
     public void onRetryClick(View v) {

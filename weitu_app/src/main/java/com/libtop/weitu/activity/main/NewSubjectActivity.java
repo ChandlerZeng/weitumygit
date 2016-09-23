@@ -50,6 +50,8 @@ public class NewSubjectActivity extends BaseActivity
     public static final int REQUEST_IMAGE = 123;
     private String name;
     private int label1 = -1;
+    public final static int RESULT_SUCCESSS = 200;
+    private boolean isFromSelect = false;
 
 
     @Override
@@ -57,6 +59,8 @@ public class NewSubjectActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_main_new_subject);
+        Bundle bundle = getIntent().getExtras();
+        isFromSelect = bundle.getBoolean("fromSelect",false);
         initView();
     }
 
@@ -139,6 +143,10 @@ public class NewSubjectActivity extends BaseActivity
                     }
                     if (resultCodeDto.code == 1){
                         Toast.makeText(mContext,"主题创建成功",Toast.LENGTH_SHORT).show();
+                        if(isFromSelect){
+                            setResult(RESULT_SUCCESSS);
+                            finish();
+                        }
                     }else
                     {
                         Toast.makeText(mContext,resultCodeDto.message,Toast.LENGTH_SHORT).show();
