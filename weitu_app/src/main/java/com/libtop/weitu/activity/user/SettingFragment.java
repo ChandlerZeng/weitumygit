@@ -104,7 +104,7 @@ public class SettingFragment extends BaseFragment
     @Override
     protected int getLayoutId()
     {
-        return R.layout.fragment_setting2;
+        return R.layout.fragment_setting;
     }
 
 

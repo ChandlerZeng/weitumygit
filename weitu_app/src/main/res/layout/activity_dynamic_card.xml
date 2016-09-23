@@ -5,7 +5,7 @@
 
     <include
         android:id="@+id/top_view"
-        layout="@layout/included_title1"/>
+        layout="@layout/included_title_default"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

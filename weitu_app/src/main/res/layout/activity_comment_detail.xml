@@ -5,7 +5,7 @@
     android:background="@color/grey_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/included_title1" />
+    <include layout="@layout/included_title_default" />
 
     <View
         android:layout_width="match_parent"

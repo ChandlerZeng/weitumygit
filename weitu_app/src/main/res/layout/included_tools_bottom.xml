@@ -5,113 +5,109 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
+    <View style="@style/my_divide_line_style_horizontal"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider"
-        />
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="horizontal">
-
-    <LinearLayout
-        android:id="@+id/ll_tool_include"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/list_selector"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_size_10">
+        android:background="@color/white"
+        android:orientation="horizontal">
 
-        <ImageView
+        <LinearLayout
+            android:id="@+id/ll_tool_include"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/include"/>
+            android:layout_weight="1"
+            android:background="@drawable/item_clicked_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_size_10">
 
-        <TextView
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/include"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="收录"
+                android:textColor="@color/newGreen"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tool_collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="收录"
-            android:textColor="@color/newGreen"/>
+            android:layout_weight="1"
+            android:background="@drawable/item_clicked_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_size_10">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/img_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/collect_no"/>
 
-    <LinearLayout
-        android:id="@+id/ll_tool_collect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/list_selector"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_size_10">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="收藏"
+                android:textColor="@color/newGreen"/>
 
-        <ImageView
-            android:id="@+id/img_collect"
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tool_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/collect_no"/>
+            android:layout_weight="1"
+            android:background="@drawable/item_clicked_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_size_10">
 
-        <TextView
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/comment"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="评论"
+                android:textColor="@color/newGreen"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_tool_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="收藏"
-            android:textColor="@color/newGreen"/>
+            android:layout_weight="1"
+            android:background="@drawable/item_clicked_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_size_10">
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/share"/>
 
-    <LinearLayout
-        android:id="@+id/ll_tool_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/list_selector"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_size_10">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="分享"
+                android:textColor="@color/newGreen"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/comment"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="评论"
-            android:textColor="@color/newGreen"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_tool_share"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/list_selector"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/padding_size_10">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/share"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="分享"
-            android:textColor="@color/newGreen"/>
-
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-    </LinearLayout>

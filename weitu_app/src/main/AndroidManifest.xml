@@ -200,11 +200,6 @@
             android:name=".activity.user.MyCommentActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 
-        <!-- 点击历史视图 -->
-        <activity
-            android:name=".activity.main.clickHistory.ClickHistoryActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
-
         <!-- 用户收藏视图 -->
         <activity
             android:name=".activity.user.UserCollect.UserCollectActivity"
