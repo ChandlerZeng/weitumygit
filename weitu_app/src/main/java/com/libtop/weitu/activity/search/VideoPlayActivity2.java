@@ -535,6 +535,10 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     {
         Bundle bundle = new Bundle();
         bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
+        if(searchResult.id!=null){
+            bundle.putString("tid",searchResult.id);
+            bundle.putInt("type",1);
+        }
         mContext.startActivity(bundle,ContentActivity.class);
     }
 
@@ -561,7 +565,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     }
 
 
-    //视频的type为2
+    //视频的type为1
     private void commentClick()
     {
         Intent intent = new Intent(mContext, CommentActivity.class);
@@ -575,7 +579,7 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         if(searchResult.id!=null){
             commentNeedDto.tid = searchResult.id;
         }
-        commentNeedDto.type = 2;
+        commentNeedDto.type = 1;
         intent.putExtra("CommentNeedDto", new Gson().toJson(commentNeedDto));
         startActivity(intent);
     }

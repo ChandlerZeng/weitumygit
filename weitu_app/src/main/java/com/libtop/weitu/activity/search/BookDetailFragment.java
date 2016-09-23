@@ -277,6 +277,10 @@ public class BookDetailFragment extends ContentFragment
         Bundle bundle = new Bundle();
         bundle.putString(ContentActivity.FRAG_CLS, SelectSubjectFragment.class.getName());
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, true);
+        if(dto.isbn!=null){
+            bundle.putString("tid",dto.isbn);
+            bundle.putInt("type",5);
+        }
         mContext.startActivity(bundle, ContentActivity.class);
     }
 

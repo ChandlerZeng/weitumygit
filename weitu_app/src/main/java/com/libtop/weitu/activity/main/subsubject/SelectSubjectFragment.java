@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.NewSubjectActivity;
 import com.libtop.weitu.activity.main.adapter.SelectSubjectAdapter;
@@ -77,10 +78,16 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
     private Bundle budleState;
     private int result = 0;
 
+    private String tid;
+    private int type;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = ((ContentActivity) mContext).getCurrentExtra();
+        tid = bundle.getString("tid");
+        type = bundle.getInt("type");
         mAdapter = new SelectSubjectAdapterNew(mContext, selectSubDatas);
         EventBus.getDefault().register(this);
         budleState = new Bundle();
@@ -159,8 +166,8 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
         }
         HashMap<String, Object> map = new HashMap<>();
         map.put("method","subject.include");
-        map.put("tid","56f97d8d984e741f1420awr8");
-        map.put("type",3);
+        map.put("tid",tid);
+        map.put("type",type);
         try
         {
             JSONArray jsonarray = new JSONArray(Arrays.toString(subIds));
@@ -181,7 +188,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                 if (json!=null && !TextUtils.isEmpty(json)) {
                     dismissLoading();
                     ResultCodeDto resultCodeDto = JsonUtil.fromJson(json,new TypeToken<ResultCodeDto>(){}.getType());
-                    if(resultCodeDto.code==1){
+                    if(resultCodeDto!=null && resultCodeDto.code==1){
                         showToast("收录成功");
                         Bundle bundle = new Bundle();
                         bundle.putBoolean("isIncluded", true);
