@@ -344,7 +344,7 @@ public class TargetBean
 
     public Long getTimeline()
     {
-        return timeline;
+        return (timeline == null ? 0 : timeline);
     }
 
 

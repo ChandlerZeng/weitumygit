@@ -86,13 +86,13 @@ public class SubjectDetailActivity extends BaseActivity
 
     }
 
-//    http://weitu.bookus.cn/subject/CollectBeans.json?text={"sid":"56f97d8d984e741f1420ayy","method":"subject.CollectBeans"}
+//    http://weitu.bookus.cn/subject/CollectBeans.json?text={"sid":"56f97d8d984e741f1420ayy","method":"subject.resources"}
     private void requestListData()
     {
         swipeRefreshLayout.setRefreshing(true);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("sid", idString);
-        params.put("method", "subject.CollectBeans");
+        params.put("method", "subject.resources");
         HttpRequest.loadWithMap(params).execute(new StringCallback()
         {
             @Override
@@ -210,7 +210,7 @@ public class SubjectDetailActivity extends BaseActivity
     {
         ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.cover,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
         title.setText(StringUtil.getString(subjectDetailBean.subject.title));
-        headerViewHolder.tvThemeDetailTitle.setText(titleString);
+        headerViewHolder.tvThemeDetailTitle.setText(subjectDetailBean.subject.title);
         headerViewHolder.tvThemeDetailFollowNum.setText(subjectDetailBean.subject.follows+"");
         if (subjectDetailBean.followed == 1){
             isFollow = true;
