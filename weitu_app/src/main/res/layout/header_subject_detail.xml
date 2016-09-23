@@ -63,6 +63,18 @@
             android:textColor="@color/white"
             android:textSize="16sp"/>
 
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_theme_detail_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/padding_size_10"
+            android:background="@drawable/shape_bg_edit"
+            android:text="编辑"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+
     </LinearLayout>
 
     <View

@@ -22,6 +22,7 @@ import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.melnykov.fab.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.HashMap;
@@ -148,7 +149,11 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
         {
             ImageView themeCover = helper.getView(R.id.img_item_subject);
             ImageView newCover = helper.getView(R.id.img_item_subject_new);
-            ImageLoaderUtil.loadImage(mContext,themeCover,subjectBean.cover,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
+            Picasso.with(mContext).load(subjectBean.cover)
+                    .placeholder(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
+                    .error(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
+                    .fit()
+                    .into(themeCover);
 
             helper.setText(R.id.tv_item_subject, subjectBean.title);
         }

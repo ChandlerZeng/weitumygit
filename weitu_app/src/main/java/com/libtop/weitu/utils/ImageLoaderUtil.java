@@ -45,6 +45,11 @@ public class ImageLoaderUtil
         Picasso.with(context).load(url).placeholder(defaultResId).error(defaultResId).centerInside().fit().into(imageView);
     }
 
+    public static void loadCropImage(Context context, ImageView imageView, String url, int defaultResId)
+    {
+        Picasso.with(context).load(url).placeholder(defaultResId).error(defaultResId).centerCrop().fit().into(imageView);
+    }
+
     public static void loadPlaceImage(Context context, ImageView imageView, int resId)
     {
         Picasso.with(context).load(resId).transform(new RoundedCornersTransformation((int) DisplayUtil.dp2px(context,ROUND_SIZE),0)).fit().into(imageView);

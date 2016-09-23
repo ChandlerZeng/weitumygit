@@ -28,7 +28,10 @@ import com.libtop.weitu.tool.Preference;
 public class ContextUtil
 {
 
-    public static final int VIDEO = 0, AUDIO = 1, DOC = 4, PHOTO = 2, BOOK = 3;
+    //真接口
+    public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5, SUBJECT = 7;
+    //假接口
+//    public static final int VIDEO = 0, AUDIO = 1, DOC = 4, PHOTO = 2, BOOK = 3;
 
     public static void doTest(Context context)
     {
@@ -109,8 +112,8 @@ public class ContextUtil
     public static void openVideo(Context context,String id)
     {
         SearchResult result = new SearchResult();
-        //        result.id = id;
-        result.id = "54d46b13e4b0b5810235a93b"; // TODO: 假数据，写死
+        result.id = id;
+//        result.id = "54d46b13e4b0b5810235a93b"; // TODO: 假数据，写死
         Intent intent = new Intent(context, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         context.startActivity(intent);
@@ -120,8 +123,8 @@ public class ContextUtil
     public static void openAudio(Context context,String id)
     {
         SearchResult result = new SearchResult();
-        //        result.id = id;
-        result.id = "54d5a0d1e4b0fcffa69e9f3d";  // TODO: 假数据，写死
+        result.id = id;
+//        result.id = "54d5a0d1e4b0fcffa69e9f3d";  // TODO: 假数据，写死
         result.cover = "";
         Intent intent = new Intent(context, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
@@ -135,8 +138,8 @@ public class ContextUtil
         bundle.putString("name", "");
         bundle.putString("cover", "");
         bundle.putString("auth", "");
-        //        bundle.putString("isbn", isbn);
-        bundle.putString("isbn", "9787505374973"); // TODO: 假数据，写死
+        bundle.putString("isbn", isbn);
+//        bundle.putString("isbn", "9787505374973"); // TODO: 假数据，写死
         bundle.putString("publisher", "");
         bundle.putString("school", Preference.instance(context).getString(Preference.SchoolCode));
         bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
@@ -150,8 +153,8 @@ public class ContextUtil
     {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
-        //        bundle.putString("id", id);
-        bundle.putString("id", "56178242e4b088b55663c299"); // TODO: 假数据，写死
+        bundle.putString("id", id);
+//        bundle.putString("id", "56178242e4b088b55663c299"); // TODO: 假数据，写死
         ((BaseActivity)context).startActivity(bundle, DynamicCardActivity.class);
     }
 
@@ -160,8 +163,8 @@ public class ContextUtil
     {
         Intent intent = new Intent();
         intent.putExtra("url", "");
-        //        intent.putExtra("doc_id",id);
-        intent.putExtra("doc_id","55165d0ce4b03cc84f8238f5"); // TODO: 假数据，写死
+        intent.putExtra("doc_id",id);
+//        intent.putExtra("doc_id","55165d0ce4b03cc84f8238f5"); // TODO: 假数据，写死
         intent.setClass(context, PdfActivity2.class);
         context.startActivity(intent);
     }

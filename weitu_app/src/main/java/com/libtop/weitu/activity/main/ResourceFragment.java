@@ -9,22 +9,21 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.DocUpload.DocUploadActivity;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
+import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.base.BaseFragment;
-import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.Resource;
-import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.utils.ShowHideOnScroll;
@@ -32,7 +31,6 @@ import com.libtop.weitu.utils.selector.view.ImageSelectActivity;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
-import com.squareup.picasso.Picasso;
 import com.wangjie.androidbucket.utils.ABTextUtil;
 import com.wangjie.androidbucket.utils.imageprocess.ABShape;
 import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
@@ -43,6 +41,7 @@ import com.wangjie.rapidfloatingactionbutton.contentimpl.labellist.RapidFloating
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -68,9 +67,7 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
 
     private ResourceAdapter resourceAdapter;
 
-    public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
-
-    private List<Resource> mData = new ArrayList<>();
+    private List<CollectBean> mData = new ArrayList<>();
 
     @Override
     protected int getLayoutId()
@@ -99,8 +96,10 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
     private void getResourceData()
     {
         networkLoadingLayout.showLoading();
-        HttpRequest.newLoad(APIAddress.RESOURCE_MY_ALL_LIST)
-                .execute(new StringCallback()
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("uid", mPreference.getString(Preference.uid));
+        params.put("method", "favorite.query");
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -115,15 +114,16 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
-                    if (CollectionUtil.isEmpty(subjectResource.resources)){
+                    List<CollectBean> lists = JsonUtil.fromJson(json, new TypeToken<List<CollectBean>>(){}.getType());
+                    if (CollectionUtil.isEmpty(lists)){
                         networkLoadingLayout.showEmptyPrompt();
                     }else {
                         networkLoadingLayout.dismiss();
-                        resourceAdapter.addAll(subjectResource.resources);
-                        mData.addAll(subjectResource.resources);
+                        resourceAdapter.addAll(lists);
+                        mData.addAll(lists);
                     }
-                }else {
+                }else
+                {
                     networkLoadingLayout.showEmptyAndRetryPrompt();
                 }
             }
@@ -141,8 +141,12 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                Resource resource = (Resource) parent.getItemAtPosition(position);
-                ContextUtil.openResourceByType(mContext,resource.type, resource.rid);
+                CollectBean bean = (CollectBean) parent.getItemAtPosition(position);
+                if (bean.favor.type == ContextUtil.BOOK){
+                    ContextUtil.openResourceByType(mContext,bean.favor.type, bean.target.getIsbn());
+                }else {
+                    ContextUtil.openResourceByType(mContext,bean.favor.type, bean.target.getId());
+                }
             }
         });
         initFloatActionView();
@@ -198,14 +202,12 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
 
     @Override
     public void onRFACItemLabelClick(int position, RFACLabelItem item) {
-        Toast.makeText(getContext(), "clicked label: " + position, Toast.LENGTH_SHORT).show();
         rfabHelper.toggleContent();
         rfacItemClick(position);
     }
 
     @Override
     public void onRFACItemIconClick(int position, RFACLabelItem item) {
-        Toast.makeText(getContext(), "clicked icon: " + position, Toast.LENGTH_SHORT).show();
         rfabHelper.toggleContent();
         rfacItemClick(position);
     }
@@ -213,13 +215,13 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
     private void rfacItemClick(int position){
         switch (position){
             case 0 :
-                uploadDocClick();
+                uploadVideoClick();
                 break;
             case 1 :
-                uploadImageClick();
+                uploadDocClick();
                 break;
             case 2 :
-                uploadVideoClick();
+                uploadImageClick();
                 break;
         }
     }
@@ -232,7 +234,7 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
     }
 
 
-    private class ResourceAdapter extends CommonAdapter<Resource>
+    private class ResourceAdapter extends CommonAdapter<CollectBean>
     {
 
 
@@ -243,33 +245,15 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
 
 
         @Override
-        public void convert(ViewHolderHelper helper, Resource resource, int position)
+        public void convert(ViewHolderHelper helper, CollectBean collectBean, int position)
         {
             ImageView resourceCover = helper.getView(R.id.img_item_resource);
-            Picasso.with(context).load(resource.cover).fit().into(resourceCover);
+            ImageLoaderUtil.loadImage(context,resourceCover,collectBean.target.getCover());
 
-            helper.setText(R.id.tv_item_resource_title,resource.name);
-            helper.setText(R.id.tv_item_resource_uploader,resource.uploader_name);
+            helper.setText(R.id.tv_item_resource_title,collectBean.target.getTitle());
+            helper.setText(R.id.tv_item_resource_uploader,"上传者：" + collectBean.target.getUploadUsername());
         }
     }
-
-//    @OnClick({R.id.fab_main_upload_video, R.id.fab_main_upload_doc, R.id.fab_main_upload_image})
-//    public void onClick(View view)
-//    {
-//        switch (view.getId())
-//        {
-//            case R.id.fab_main_upload_video:
-//                uploadVideoClick();
-//                break;
-//            case R.id.fab_main_upload_doc:
-//                uploadDocClick();
-//                break;
-//            case R.id.fab_main_upload_image:
-//                uploadImageClick();
-//                break;
-//        }
-//    }
-
 
     private void uploadDocClick()
     {
