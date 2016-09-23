@@ -1,10 +1,12 @@
 package com.libtop.weitu.activity.main.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by LianTu on 2016-9-22.
  */
 
-public class SubjectBean
+public class SubjectBean implements Serializable
 {
 
     /**
@@ -30,4 +32,5 @@ public class SubjectBean
     public long timeline;
     public int state;
     public int view;
+    public boolean ischecked = false;
 }

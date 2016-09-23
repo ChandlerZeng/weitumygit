@@ -18,6 +18,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.main.dto.CommentDto;
+import com.libtop.weitu.activity.main.dto.ReplyListDto;
+import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.test.Comments;
 import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.utils.DateUtil;
@@ -37,22 +40,22 @@ import java.util.List;
  * Created by Zeng 2016/9/16
  * @version common v2.0
  */
-public class CommentAdapter extends CommonAdapter<Comments>
+public class CommentAdapter extends CommonAdapter<CommentDto>
 {
     private OnCommentListener onCommentListener;
     private CommentReplyAdapter mAdapter;
 
-    public List<ReplyBean> replyList = new ArrayList<>();
+    public List<ReplyListDto> replyListDtos = new ArrayList<>();
 
 
-    public CommentAdapter(Context context, List<Comments> data, OnCommentListener onCommentListener)
+    public CommentAdapter(Context context, List<CommentDto> data, OnCommentListener onCommentListener)
     {
         super(context, R.layout.item_list_comment, data);
         this.onCommentListener = onCommentListener;
     }
 
     @Override
-    public void convert(ViewHolderHelper helper, final Comments object, final int position) {
+    public void convert(ViewHolderHelper helper, final CommentDto object, final int position) {
         ImageView headImage = helper.getView(R.id.img_head);
         ImageView praiseIcon = helper.getView(R.id.icon_praise);
         RelativeLayout commentLayout1 = helper.getView(R.id.comment_layout1);
@@ -69,19 +72,20 @@ public class CommentAdapter extends CommonAdapter<Comments>
         TextView tvReply = helper.getView(R.id.tv_reply);
         if(object!=null){
             commentLayout1.setVisibility(View.VISIBLE);
-            if(object.user.logo!=null){
-                String url = object.user.logo;
-                bindData(url,headImage);
+            String url=null;
+            if(object.logo!=null){
+                url = object.logo;
             }
-            tvUser.setText(object.user.name);
-            tvTime.setText(DateUtil.transformToShow(object.t_create));
+            bindData(url,headImage);
+            tvUser.setText(object.username);
+            tvTime.setText(DateUtil.transformToShow(object.timeline));
             if(object.my_praise==0){
                 praiseIcon.setImageResource(R.drawable.icon_comment_unpraised);
             }else {
                 praiseIcon.setImageResource(R.drawable.icon_comment_praised);
             }
-            if(object.count_praise!=0){
-                tvLike.setText(object.count_praise+"");
+            if(object.praises!=0){
+                tvLike.setText(object.praises+"");
             }else {
                 tvLike.setText("点赞");
             }
@@ -94,22 +98,22 @@ public class CommentAdapter extends CommonAdapter<Comments>
             {
                 tvcomment.setVisibility(View.VISIBLE);
                 tvcomment.setText(object.content);
-                replyList = object.replys;
-                if(replyList.size()>0){
+                replyListDtos = object.replyList;
+                if(replyListDtos.size()>0){
                     commentLayout2.setVisibility(View.VISIBLE);
-                    if(replyList.size()>5){
+                    if(replyListDtos.size()>5){
                         if(object.isExpanded){
-                            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyList);
+                            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyListDtos);
                             tvcommentmore.setVisibility(View.VISIBLE);
                             tvcommentmore.setText("收起评论");
                         } else {
-                            List<ReplyBean> replyBeans = replyList.subList(0,5);
+                            List<ReplyListDto> replyBeans = replyListDtos.subList(0,5);
                             mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyBeans);
                             tvcommentmore.setVisibility(View.VISIBLE);
                             tvcommentmore.setText("展开更多");
                         }
                     }else{
-                        mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyList);
+                        mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyListDtos);
                         tvcommentmore.setVisibility(View.GONE);
                     }
                     listView.setAdapter(mAdapter);
@@ -125,11 +129,11 @@ public class CommentAdapter extends CommonAdapter<Comments>
                 @Override
                 public void onClick(View v) {
 //                    onCommentListener.onReplyTouch(v, position);
-                    if(object.replys!=null && object.replys.size()!=0){
-                        onCommentListener.onReplyTouch(v, position, object.replys,object);
+                    if(object.replyList!=null && object.replyList.size()!=0){
+                        onCommentListener.onReplyTouch(v, position, object.replyList,object);
                     }else{
-                        ReplyBean replyBean = new ReplyBean();
-                        List<ReplyBean> replyBeans = new ArrayList<ReplyBean>();
+                        ReplyListDto replyBean = new ReplyListDto();
+                        List<ReplyListDto> replyBeans = new ArrayList<>();
                         onCommentListener.onReplyTouch(v, position, replyBeans,object);
                     }
                 }
@@ -154,10 +158,10 @@ public class CommentAdapter extends CommonAdapter<Comments>
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if(object.replys.get(position).user.uid.equals("1")){
-                        onCommentListener.onReplyItemDeleted(view,position,object.replys.get(position),object.replys,object);
+                    if(CommentActivity.UID!=null && object.replyList.get(position).uid.equals(CommentActivity.UID)){
+                        onCommentListener.onReplyItemDeleted(view,position,object.replyList.get(position),object.replyList,object);
                     }else {
-                        onCommentListener.onReplyItemTouch(view, position, object.replys.get(position),object.replys,object);
+                        onCommentListener.onReplyItemTouch(view, position, object.replyList.get(position),object.replyList,object);
                     }
                 }
             });
@@ -190,12 +194,12 @@ public class CommentAdapter extends CommonAdapter<Comments>
 
     public interface OnCommentListener
     {
-        void onReplyTouch(View v, int position,List<ReplyBean> replyBeans,Comments object);
-        void onReplyItemTouch(View v, int position,ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object);
-        void onReplyItemDeleted(View v,int position,ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object);
-        void onLikeTouch(View v, int position,Comments comment);
-        void onCommentContentClick(View v,int position,Comments comment);
-        void onCommentContentLongClick(View v,int position,Comments comment);
+        void onReplyTouch(View v, int position,List<ReplyListDto> replyBeans,CommentDto object);
+        void onReplyItemTouch(View v, int position,ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object);
+        void onReplyItemDeleted(View v,int position,ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object);
+        void onLikeTouch(View v, int position,CommentDto comment);
+        void onCommentContentClick(View v,int position,CommentDto comment);
+        void onCommentContentLongClick(View v,int position,CommentDto comment);
 
     }
 
@@ -250,28 +254,28 @@ public class CommentAdapter extends CommonAdapter<Comments>
             return "circle";
         }
     }
-    public void setData(List<Comments> listResult){
+    public void setData(List<CommentDto> listResult){
         this.datas = listResult ;
         notifyDataSetChanged();
     }
-    class CommentReplyAdapter extends CommonAdapter<ReplyBean>{
+    class CommentReplyAdapter extends CommonAdapter<ReplyListDto>{
 
-        private List<ReplyBean> replyBeans;
+        private List<ReplyListDto> replyBeans;
         private Context context;
-        public CommentReplyAdapter(Context context, int itemLayoutId, List<ReplyBean> replyLists) {
+        public CommentReplyAdapter(Context context, int itemLayoutId, List<ReplyListDto> replyLists) {
             super(context, R.layout.item_comment_reply_list, replyLists);
-            replyList= replyLists;
+            replyListDtos= replyLists;
         }
 
         @Override
-        public void convert(ViewHolderHelper helper, ReplyBean object, int position) {
+        public void convert(ViewHolderHelper helper, ReplyListDto object, int position) {
             if(object.content!=null){
-                String user_name = object.user.name;
+                String user_name = object.username;
                 String content = "  "+object.content;
                 String reply_user_name;
                 String reply;
-                if(object.reply_user!=null && object.reply_user.name!=null&&!TextUtils.isEmpty(object.reply_user.name)){
-                   reply_user_name = object.reply_user.name;
+                if(object.reply_user!=null && object.reply_user.username!=null){
+                   reply_user_name = object.reply_user.username;
                     reply = " "+"回复"+" ";
                     SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name, content);
                     helper.setText(R.id.sub_comment,spannableString);
@@ -295,17 +299,17 @@ public class CommentAdapter extends CommonAdapter<Comments>
         }
     }
 
-    public void removeSubItem(ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object){
+    public void removeSubItem(ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object){
         replyBeans.remove(replyBean);
         object.count_reply = object.count_reply-1;
         notifyDataSetChanged();
     }
 
-    public void replySubItem(ReplyBean replyBean,List<ReplyBean> replyBeans,Comments object){
+    public void replySubItem(ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object){
         replyBeans.add(replyBean);
         object.count_reply=object.count_reply+1;
         if(replyBeans.size()==1){
-            object.replys.add(replyBean);
+            object.replyList.add(replyBean);
             mAdapter.notifyDataSetChanged();
         }
         notifyDataSetChanged();

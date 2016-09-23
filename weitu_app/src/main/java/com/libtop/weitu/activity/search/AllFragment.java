@@ -128,14 +128,11 @@ public class AllFragment extends NotifyFragment
                 }
             }
         });
-        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                //跳转至详细页面
-                AllDto result = mData.get(position - 1);
-                startByType(result.entityType, position - 1);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AllDto bean = (AllDto) parent.getItemAtPosition(position);
+                startByType(bean.entityType,position - 2);
             }
         });
     }

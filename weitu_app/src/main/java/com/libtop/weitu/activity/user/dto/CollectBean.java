@@ -8,6 +8,7 @@ import com.libtop.weitu.activity.main.clickHistory.TargetBean;
  */
 public class CollectBean
 {
+    public int type;
     public FavorBean favor;
     public TargetBean target;
 }
