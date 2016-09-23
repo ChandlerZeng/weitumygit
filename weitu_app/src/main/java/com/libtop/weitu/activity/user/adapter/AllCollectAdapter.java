@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.main.clickHistory.ClickHistoryActivity;
 import com.libtop.weitu.activity.user.dto.CollectBean;
+import com.libtop.weitu.config.ResourceConfig;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.squareup.picasso.Picasso;
@@ -51,7 +51,7 @@ public class AllCollectAdapter extends BaseAdapter
         if (lists != null && position < lists.size())
         {
             int type = lists.get(position).favor.type;
-            if (type == ClickHistoryActivity.VIDEO || type == ClickHistoryActivity.AUDIO || type == ClickHistoryActivity.DOC)
+            if (type == ResourceConfig.RESOURCE_TYPE_VIDEO || type == ResourceConfig.RESOURCE_TYPE_AUDIO || type == ResourceConfig.RESOURCE_TYPE_DOC)
             {
                 return MEDIA;
             }
@@ -121,7 +121,7 @@ public class AllCollectAdapter extends BaseAdapter
                 {
                     holder = (viewHolder1) convertView.getTag();
                 }
-                if (collectBean.favor.type == ClickHistoryActivity.BOOK)
+                if (collectBean.favor.type == ResourceConfig.RESOURCE_TYPE_BOOK)
                 {
                     Picasso.with(context).load(ContantsUtil.IMG_BASE + collectBean.target.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
                 }
@@ -210,7 +210,7 @@ public class AllCollectAdapter extends BaseAdapter
                     holder.view.setVisibility(View.GONE);
                 }
                 holder.checkMark.setChecked(lists.get(position).target.ischecked);
-                if (collectBean.favor.type == ClickHistoryActivity.DOC)
+                if (collectBean.favor.type == ResourceConfig.RESOURCE_TYPE_DOC)
                 {
                     if (TextUtils.isEmpty(collectBean.target.cover))
                     {
