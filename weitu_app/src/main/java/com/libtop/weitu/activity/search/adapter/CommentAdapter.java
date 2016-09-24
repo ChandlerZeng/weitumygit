@@ -75,8 +75,8 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
                 url = object.logo;
             }
             bindData(url,headImage);
-            tvUser.setText(object.username);
-            tvTime.setText(DateUtil.transformToShow(object.timeline));
+            tvUser.setText(object.getUsername());
+            tvTime.setText(DateUtil.transformToShow(object.getTimeline()));
             if(object.praised==0){
                 praiseIcon.setImageResource(R.drawable.icon_comment_unpraised);
             }else {
@@ -92,10 +92,10 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
             }else {
                 tvReply.setText("回复");
             }
-            if (object.content != null && !TextUtils.isEmpty(object.content))
+            if (object.getContent() != null && !TextUtils.isEmpty(object.getContent()))
             {
                 tvcomment.setVisibility(View.VISIBLE);
-                tvcomment.setText(object.content);
+                tvcomment.setText(object.getContent());
                 replyListDtos = object.replyList;
                 if(replyListDtos.size()>0){
                     commentLayout2.setVisibility(View.VISIBLE);
@@ -193,12 +193,12 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
 
     public interface OnCommentListener
     {
-        void onReplyTouch(View v, int position,List<ReplyListDto> replyBeans,CommentDto object);
-        void onReplyItemTouch(View v, int position,ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object);
-        void onReplyItemDeleted(View v,int position,ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object);
-        void onLikeTouch(View v, int position,CommentDto comment);
-        void onCommentContentClick(View v,int position,CommentDto comment);
-        void onCommentContentLongClick(View v,int position,CommentDto comment);
+        void onReplyTouch(View v, int position, List<ReplyListDto> replyBeans, CommentDto object);
+        void onReplyItemTouch(View v, int position, ReplyListDto replyBean, List<ReplyListDto> replyBeans, CommentDto object);
+        void onReplyItemDeleted(View v, int position, ReplyListDto replyBean, List<ReplyListDto> replyBeans, CommentDto object);
+        void onLikeTouch(View v, int position, CommentDto comment);
+        void onCommentContentClick(View v, int position, CommentDto comment);
+        void onCommentContentLongClick(View v, int position, CommentDto comment);
 
     }
 

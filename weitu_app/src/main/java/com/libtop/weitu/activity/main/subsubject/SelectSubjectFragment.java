@@ -10,23 +10,19 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.NewSubjectActivity;
-import com.libtop.weitu.activity.main.adapter.SelectSubjectAdapter;
 import com.libtop.weitu.activity.main.adapter.SelectSubjectAdapterNew;
 import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -240,7 +236,8 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                             List<SubjectBean> subList = new ArrayList<>();
                             subList = (List<SubjectBean>) budleState.getSerializable("subjectlist");
                             for(int i = 1;i<selectSubDatas.size();i++){
-                                selectSubDatas.get(i).ischecked = subList.get(i-1).ischecked;
+                                boolean checked = subjects.get(i-1).ischecked();
+                                selectSubDatas.get(i).setIschecked(checked);
                             }
                         }
                         mAdapter.setData(selectSubDatas);

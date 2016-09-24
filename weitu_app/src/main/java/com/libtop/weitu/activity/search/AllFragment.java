@@ -24,6 +24,7 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.listview.ScrollRefListView;
@@ -58,7 +59,7 @@ public class AllFragment extends NotifyFragment
     private int curPage = 1;
 
     private String sortType = "view";
-    public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book";
+    public static final String VIDEO = "video-album", AUDIO = "audio-album", DOC = "document", PHOTO = "image-album", BOOK = "book",SUBJECT = "subject";
 
     private int fragmentType;
     private String thisFragmentType = VIDEO;
@@ -237,6 +238,8 @@ public class AllFragment extends NotifyFragment
         {
             switch (type)
             {
+                case SUBJECT:
+                    openSubject(position);
                 case VIDEO:
                     openVideo(position);
                     break;
@@ -255,6 +258,12 @@ public class AllFragment extends NotifyFragment
             }
         }
 
+    }
+
+
+    private void openSubject(int position)
+    {
+        ContextUtil.openSubjectDetail(mContext,mData.get(position).id);
     }
 
 
@@ -350,12 +359,12 @@ public class AllFragment extends NotifyFragment
                 params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
                 params.put("page", curPage);
                 break;
-            case ResultFragment.THEME:
-                params.put("method", "book.query");
-                params.put("key", mPreference.getString(Preference.KEYWORD_SEARCH));
-                params.put("lid", mPreference.getString(Preference.SchoolCode));
+            case ResultFragment.SUBJECT:
+                params.put("method", "subject.search");
+                params.put("sort", "timeline");
+                params.put("keyword", mPreference.getString(Preference.KEYWORD_SEARCH));
                 params.put("page", curPage);
-                thisFragmentType = BOOK;
+                thisFragmentType = SUBJECT;
                 break;
             case ResultFragment.BOOK:
                 params.put("method", "book.query");

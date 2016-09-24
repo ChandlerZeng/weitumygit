@@ -34,6 +34,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
+
 /**
  * Created by Administrator on 2016/1/8 0008.
  */
@@ -73,8 +74,9 @@ public class UserCenterFragment extends BaseFragment
         {
 
             case R.id.ll_my_like:
-                Intent intentWhat = new Intent(mContext, MyLikeActivity.class);
-                startActivity(intentWhat);
+                Intent intent = new Intent(mContext, MyLikeActivity.class);
+                intent.putExtra("isFromMyPraised",true);
+                startActivity(intent);
                 break;
 
             case R.id.ll_upload_video:
@@ -132,9 +134,8 @@ public class UserCenterFragment extends BaseFragment
                 mContext.startActivity(bundle1, ContentActivity.class);
                 break;
             case R.id.comment:
-                Intent intent = new Intent(mContext, MyLikeActivity.class);
-                intent.putExtra("isComment",true);
-                startActivity(intent);
+                Intent intent1 = new Intent(mContext, MyLikeActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.about_us:
                 Toast.makeText(getActivity(), ContantsUtil.IS_DEVELOPING, Toast.LENGTH_SHORT).show();

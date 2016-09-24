@@ -1,5 +1,7 @@
 package com.libtop.weitu.activity.main.dto;
 
+import com.libtop.weitu.utils.StringUtil;
+
 import java.io.Serializable;
 
 /**
@@ -22,15 +24,150 @@ public class SubjectBean implements Serializable
      * view : 0
      */
 
-    public String id;
-    public String uid;
-    public String title;
-    public String introduction;
-    public String cover;
-    public int follows;
-    public int label1;
-    public long timeline;
-    public int state;
-    public int view;
-    public boolean ischecked = false;
+    private String id;
+    private String uid;
+    private String title;
+    private String introduction;
+    private String cover;
+
+    private int follows;
+    private int label1;
+    private int state;
+    private int view;
+
+    private long timeline;
+
+    private boolean ischecked = false;
+
+
+    public String getId()
+    {
+        return StringUtil.getString(id);
+    }
+
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+
+    public String getUid()
+    {
+        return StringUtil.getString(uid);
+    }
+
+
+    public void setUid(String uid)
+    {
+        this.uid = uid;
+    }
+
+
+    public String getTitle()
+    {
+        return StringUtil.getString(title);
+    }
+
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+
+    public String getIntroduction()
+    {
+        return StringUtil.getString(introduction);
+    }
+
+
+    public void setIntroduction(String introduction)
+    {
+        this.introduction = introduction;
+    }
+
+
+    public String getCover()
+    {
+        return StringUtil.getString(cover);
+    }
+
+
+    public void setCover(String cover)
+    {
+        this.cover = cover;
+    }
+
+
+    public int getFollows()
+    {
+        return follows;
+    }
+
+
+    public void setFollows(int follows)
+    {
+        this.follows = follows;
+    }
+
+
+    public int getLabel1()
+    {
+        return label1;
+    }
+
+
+    public void setLabel1(int label1)
+    {
+        this.label1 = label1;
+    }
+
+
+    public int getState()
+    {
+        return state;
+    }
+
+
+    public void setState(int state)
+    {
+        this.state = state;
+    }
+
+
+    public int getView()
+    {
+        return view;
+    }
+
+
+    public void setView(int view)
+    {
+        this.view = view;
+    }
+
+
+    public long getTimeline()
+    {
+        return timeline;
+    }
+
+
+    public void setTimeline(long timeline)
+    {
+        this.timeline = timeline;
+    }
+
+
+    public boolean ischecked()
+    {
+        return ischecked;
+    }
+
+
+    public void setIschecked(boolean ischecked)
+    {
+        this.ischecked = ischecked;
+    }
 }
