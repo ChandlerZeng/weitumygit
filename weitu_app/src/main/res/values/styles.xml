@@ -39,14 +39,34 @@
     <style name="my_layout_content_padding_style" parent="@android:style/Widget">
         <item name="android:paddingLeft">@dimen/padding_medium</item>
         <item name="android:paddingRight">@dimen/padding_medium</item>
-        <item name="android:paddingTop">@dimen/padding_small</item>
-        <item name="android:paddingBottom">@dimen/padding_small</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:paddingBottom">@dimen/padding_medium</item>
     </style>
 
     <!-- 视图内容栏布局样式（上下有内间隔） -->
     <style name="my_layout_content_padding_style_top_bottom" parent="@android:style/Widget">
         <item name="android:paddingTop">@dimen/padding_top_size_default</item>
         <item name="android:paddingBottom">@dimen/padding_bottom_size_default</item>
+    </style>
+
+    <!-- 视图内容列表子项布局普通样式 -->
+    <style name="my_layout_content_listitem_style_common" parent="@android:style/Widget">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/listview_item_height_small</item>
+        <item name="android:background">@drawable/layout_item_bg_with_stroke</item>
+    </style>
+
+    <!-- 列表子项主题文字样式 -->
+    <style name="my_listview_item_theme_text_style" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_fontsize_normal</item>
+    </style>
+
+    <!-- 列表子项内容文字样式 -->
+    <style name="my_listview_item_detail_text_style" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/text_second</item>
+        <item name="android:textColorHint">@color/hint</item>
+        <item name="android:textSize">@dimen/text_fontsize_small</item>
     </style>
 
     <!-- 视图顶部导航栏默认布局样式 -->

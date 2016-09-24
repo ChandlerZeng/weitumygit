@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/my_layout_style_common"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
 
     <include layout="@layout/included_title_default"/>
 
+    <View style="@style/my_divide_layout_view_style_large"/>
+
     <LinearLayout
         android:id="@+id/change_password"
+        style="@style/my_layout_content_padding_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_size_10"
-        android:background="@color/white"
+        android:background="@drawable/layout_item_bg_with_stroke"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="12dp"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp"
-        android:paddingTop="12dp">
+        android:orientation="horizontal">
 
         <TextView
+            style="@style/my_listview_item_theme_text_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_size_10"
             android:layout_weight="1"
-            android:text="修改密码"
-            android:textColor="@color/main_text"
-            android:textSize="16sp"/>
+            android:text="修改密码"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -34,67 +30,60 @@
             android:src="@drawable/arrows_right"/>
     </LinearLayout>
 
+    <View style="@style/my_divide_layout_view_style_default"/>
+
+    <View style="@style/my_divide_line_style_horizontal"/>
+
     <LinearLayout
         android:id="@+id/clear_cache"
+        style="@style/my_layout_content_padding_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_size_10"
-        android:background="@color/white"
+        android:background="@drawable/layout_item_bg"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="12dp"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp"
-        android:paddingTop="12dp">
+        android:orientation="horizontal">
 
         <TextView
+            style="@style/my_listview_item_theme_text_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_size_10"
             android:layout_weight="1"
-            android:text="清空缓存"
-            android:textColor="@color/main_text"
-            android:textSize="16sp"/>
+            android:text="清空缓存"/>
 
         <TextView
             android:id="@+id/tv_cache_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_size_10"
             android:text="0KB"
             android:textColor="@color/radio_check_color"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/text_fontsize_small"/>
     </LinearLayout>
+
+    <View style="@style/my_divide_line_style_horizontal"/>
 
     <LinearLayout
         android:id="@+id/about_us"
+        style="@style/my_layout_content_padding_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/layout_item_bg"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="12dp"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp"
-        android:paddingTop="12dp">
+        android:orientation="horizontal">
 
         <TextView
+            style="@style/my_listview_item_theme_text_style"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/padding_size_10"
             android:layout_weight="1"
-            android:text="关于微图"
-            android:textColor="@color/main_text"
-            android:textSize="16sp"/>
+            android:text="关于微图"/>
 
         <TextView
             android:id="@+id/tv_version"
+            style="@style/my_listview_item_detail_text_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/padding_size_10"
-            android:text="@string/nowVersion"
-            android:textColor="@color/main_text"
-            android:textSize="16sp"/>
+            android:layout_marginRight="@dimen/margin_small"
+            android:text="@string/nowVersion"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -106,18 +95,13 @@
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_size_10"
-        android:layout_marginRight="@dimen/padding_size_10"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
         android:layout_marginTop="80dp"
-        android:background="@color/white"
+        android:background="@drawable/layout_item_bg_with_stroke"
         android:gravity="center"
-        android:padding="@dimen/padding_size_10"
+        android:padding="@dimen/padding_medium"
         android:text="退出账号"
         android:textColor="@color/red2"
-        android:textSize="16sp"/>
-
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"/>
+        android:textSize="@dimen/text_fontsize_normal"/>
 </LinearLayout>

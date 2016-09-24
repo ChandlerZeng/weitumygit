@@ -124,7 +124,7 @@ public class SettingFragment extends BaseFragment
             tvLogout.setVisibility(View.VISIBLE);
         }
 
-        tvVersion.setText("当前版本：" + BuildConfig.VERSION_NAME);
+        tvVersion.setText("当前版本:" + BuildConfig.VERSION_NAME);
     }
 
 
