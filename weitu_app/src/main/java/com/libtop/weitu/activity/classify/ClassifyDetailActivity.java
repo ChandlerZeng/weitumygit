@@ -25,7 +25,6 @@ import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.NoSlideViewPager;
 
 import java.util.ArrayList;
@@ -102,14 +101,22 @@ public class ClassifyDetailActivity extends BaseActivity
         mFrags = new ArrayList<Fragment>();
         ClassifyDetailFragment f1 = new ClassifyDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("type", "subject");
-        bundle.putString("api", "/category/subject/list");
+        bundle.putInt("page", mCurPage);
+        bundle.putString("method", "search.categories");
+        bundle.putLong("code",code);
+        bundle.putLong("subCode",code);
+        bundle.putString("filterString",filterString);
+        bundle.putString("type","subject");
         f1.setArguments(bundle);
 
         ClassifyDetailFragment f2 = new ClassifyDetailFragment();
         Bundle bundle2 = new Bundle();
-        bundle2.putString("type", "resource");
-        bundle2.putString("api", "/category/resource/list");
+        bundle2.putInt("page", mCurPage);
+        bundle2.putString("method", "search.categories");
+        bundle2.putLong("code",code);
+        bundle2.putLong("subCode",subCode);
+        bundle2.putString("filterString",filterString);
+        bundle2.putString("tyep","resource");
         f2.setArguments(bundle2);
 
         mFrags.add(f1);

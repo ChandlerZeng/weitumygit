@@ -25,12 +25,10 @@ import com.libtop.weitu.activity.search.adapter.CommentAdapter;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
 import com.libtop.weitu.activity.search.dto.CommentResult;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CommentBean;
-import com.libtop.weitu.test.Comments;
-import com.libtop.weitu.test.Reply;
-import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
@@ -88,8 +86,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     private boolean isFirstIn = true;
     private boolean isRefreshed = false;
 
-    private HashMap<String, Object> map = new HashMap<>();
-    private HashMap<String, Object> map2 = new HashMap<>();
+    private HashMap<String, Object> replyMap = new HashMap<>();
+    private HashMap<String, Object> replyItemMap = new HashMap<>();
 
     private ReplyListDto replyItem;
     private CommentDto comments;
@@ -155,6 +153,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         map.put("page", mCurPage);
         map.put("uid",mPreference.getString(Preference.uid));
         map.put("method","comment.list");
+        map.put("tid",commentNeedDto.tid);
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -189,12 +188,13 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             xListView.setPullLoadEnable(true);
                         }
                         if (commentsList.size() == 0 && mCurPage == 1) {
-                            networkLoadingLayout.showEmptyPrompt();
+//                            networkLoadingLayout.showEmptyPrompt();
                         }
                         mCurPage++;
                         commentAdapter.setData(commentsList);
                         editText.setText("");
                         editText.setHint("发表评论");
+                        xListView.setSelection(1);
                         isReply = false;
                         isItemReply = false;
 
@@ -225,6 +225,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     private void sendComment(View v)
     {
+        mCurPage=1;
         String str = editText.getText().toString().trim();
         if (str == null || str.length() == 0)
         {
@@ -234,28 +235,30 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         hideKeyBoard(v);
         if(isReply && isItemReply)
         {
-            String cid = map2.get("cid").toString();
-            String replyUid = map2.get("reply_uid").toString();
+            String cid = replyItemMap.get("cid").toString();
+            String replyUid = replyItemMap.get("reply_uid").toString();
             putItemReply(cid, replyUid,str);
         }
         else if (isReply)
         {
-            putReply(str);
+            String cid = replyMap.get("cid").toString();
+            putReply(cid,str);
         }
         else
         {
             putComment(str);
         }
     }
-    private void putReply(String content) //TODO
+    private void putReply(String cid,String content) //TODO
     {
         showLoding();
-        String api = "resource/comment/reply";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-//                .addParams("reply_uid", reply_uid)
-                .addParams("content", content)
-                .build()
-                .execute(new StringCallback() {
+//        http://weitu.bookus.cn/reply/save.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","content":"xxx","method":"reply.save"}
+        Map<String,Object> map = new HashMap<>();
+        map.put("cid",cid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("content",content);
+        map.put("method","reply.save");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -268,37 +271,40 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             dismissLoading();
                             Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
-                                Gson gson = new Gson();
-                                ReplyListDto data = gson.fromJson(json, new TypeToken<ReplyListDto>() {
-                                }.getType());
-                                if (data != null) {
-                                    commentAdapter.replySubItem(data, replyItems, comments);
-                                }
+//                                Gson gson = new Gson();
+//                                ReplyListDto data = gson.fromJson(json, new TypeToken<ReplyListDto>() {
+//                                }.getType());
+//                                if (data != null) {
+//                                    commentAdapter.replySubItem(data, replyItems, comments);
+//                                }
+                                getCommentList();
                                 editText.setText("");
                                 editText.setHint("发表评论");
                                 isReply = false;
                                 isItemReply = false;
                             } catch (Exception e) {
+
                                 e.printStackTrace();
                             }
                         } else {
                             Toast.makeText(CommentActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
                         }
                     }
+
                 });
     }
 
     private void putComment(String content)
     {
-        //  http://115.28.189.104/resource/comment/add
+        // http://weitu.bookus.cn/comment/save.json?text={"tid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.save"}
         showLoding();
-        String api = "resource/comment/add";
         Map<String, Object> map = new HashMap<>();
+        map.put("method","comment.save");
         map.put("content",content);
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .addParams("content", content)
-                .build()
-                .execute(new StringCallback() {
+        map.put("tid",commentNeedDto.tid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("type",commentNeedDto.type);
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -312,16 +318,17 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             Toast.makeText(CommentActivity.this,"评论成功",Toast.LENGTH_SHORT).show();;
                             try {
                                 Gson gson = new Gson();
-                                List<CommentDto> data = gson.fromJson(json, new TypeToken<CommentDto>() {
+                                ResultCodeDto data = gson.fromJson(json, new TypeToken<ResultCodeDto>() {
                                 }.getType());
-                                if (data != null) {
+                                if (data != null && data.code==1) {
 //                                    commentsList.add(0, data);
+//                                    mCurPage=1;
                                     getCommentList();// TODO
                                 }
-                                commentAdapter.setData(commentsList);
-                                editText.setText("");
-                                editText.setHint("发表评论");
-                                xListView.setSelection(1);
+//                                commentAdapter.setData(commentsList);
+//                                editText.setText("");
+//                                editText.setHint("发表评论");
+//                                xListView.setSelection(1);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -343,7 +350,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         {
             String cid = commentResult.id;
             String uid = commentResult.uid;
-            map.put("reply_uid",uid);
+            replyMap.put("cid",cid);
             editText.requestFocus();
             String first = "回复";
             SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.username);
@@ -352,10 +359,10 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
         }
-        else
-        {
-            editText.requestFocus();
-        }
+//        else
+//        {
+//            editText.requestFocus();
+//        }
     }
 
     private SpannableStringBuilder getGreenStrBuilder(String first, String append)
@@ -393,13 +400,13 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                 });
     }
 
-    private void deleteComment(String cid, final CommentDto comments){
+    private void deleteComment(String cid,final CommentDto comments){
+//        http://weitu.bookus.cn/comment/delete.json?text={"id":"56f97d8d984e741f1420a19e","method":"comment.delete"}
         showLoding();
-        String api = "resource/comment/del";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .addParams("cid", cid)
-                .build()
-                .execute(new StringCallback() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("method","comment.delete");
+        map.put("id",cid);
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -472,8 +479,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             {
                 isReply = true ;
                 isItemReply = true ;
-                map2.put("cid",cid);
-                map2.put("reply_uid",replyUid);
+                replyItemMap.put("cid",cid);
+                replyItemMap.put("reply_uid",replyUid);
                 editText.requestFocus();
                 String first = "回复";
                 SpannableStringBuilder spannableString = getGreenStrBuilder(first,replyBean.username);
@@ -482,10 +489,10 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
             }
-            else
-            {
-                editText.requestFocus();
-        }
+//            else
+//            {
+//                editText.requestFocus();
+//        }
     }
 
     @Override
@@ -501,10 +508,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
     private void likeClicked(String cid, final CommentDto comments){
-        String api = "resource/comment/praise";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .build()
-                .execute(new StringCallback() {
+//        http://weitu.bookus.cn/comment/praise.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.praise"}
+        Map<String,Object> map = new HashMap<>();
+        map.put("cid",cid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("method","comment.praise");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -517,7 +526,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             //   showToast("没有相关数据");
                             dismissLoading();
                             comments.praises = comments.praises + 1;
-                            comments.my_praise = 1;
+                            comments.praised = 1;
                             Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
                             commentAdapter.notifyDataSetChanged();
                         }
@@ -526,10 +535,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
     private void likeCancelled(String cid,final CommentDto comments){
-        String api = "resource/comment/unpraise";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .build()
-                .execute(new StringCallback() {
+//        http://weitu.bookus.cn/comment/unpraise.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.unpraise"}
+        Map<String,Object> map = new HashMap<>();
+        map.put("cid",cid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("method","comment.unpraise");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -542,7 +553,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             //   showToast("没有相关数据");
                             dismissLoading();
                             comments.praises = comments.praises - 1;
-                            comments.my_praise = 0;
+                            comments.praised = 0;
                             Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
                             commentAdapter.notifyDataSetChanged();
                         }
@@ -553,7 +564,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Override
     public void onLikeTouch(View v, int position, CommentDto comment) {
         String cid = String.valueOf(comment.id);
-        if(comment.my_praise==0){
+        if(comment.praised==0){
             likeClicked(cid,comment);
         }else{
             likeCancelled(cid,comment);
@@ -570,14 +581,14 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
     @Override
-    public void onCommentContentLongClick(View v, final int position, CommentDto comment) {
-        if (commentsList.get(position ).uid.equals(UID)) {
+    public void onCommentContentLongClick(View v, final int position, final CommentDto comment) {
+        if (comment.uid.equals(UID)) {
             String title = "您确定要删除？";
             final AlertDialogUtil dialog = new AlertDialogUtil();
             dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
                 @Override
                 public void onClick() {
-                    deleteComment(cid, commentsList.get(position));
+                    deleteComment(comment.id,comment);
                 }
             }, null);
         }
