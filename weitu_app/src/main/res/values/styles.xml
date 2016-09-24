@@ -58,11 +58,11 @@
 
     <!-- 视图顶部导航栏标题文字标签样式 -->
     <style name="my_navigationbar_title_text_style" parent="@android:style/Widget">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerVertical">true</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textSize">@dimen/text_fontsize_large</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:singleLine">true</item>
         <item name="android:paddingLeft">@dimen/padding_small</item>
@@ -88,6 +88,12 @@
         <item name="android:textColor">@drawable/text_color_navigation_item_selector</item>
         <item name="android:textSize">@dimen/text_fontsize_normal</item>
     </style>
+
+    <!-- 视图顶部按钮样式(返回) -->
+    <style name="my_navigationbar_item_style_back" parent="@style/my_navigationbar_item_style_common">
+        <item name="android:src">@drawable/arrow_back</item>
+    </style>
+
 
     <!-- 视图顶部按钮样式(通知) -->
     <style name="my_navigationbar_item_style_notice" parent="@style/my_navigationbar_item_style_common">
@@ -225,16 +231,6 @@
         <item name="android:background">@drawable/capton_bg</item>
         <item name="android:textColor">@color/label_color</item>
         <item name="android:textSize">@dimen/text_fontsize_middle</item>
-    </style>
-
-    <style name="normal_input">
-        <item name="android:layout_margin">4dip</item>
-        <item name="android:background">@drawable/input_bg</item>
-        <item name="android:paddingLeft">4dip</item>
-        <item name="android:padding">5dip</item>
-        <item name="android:gravity">left|top</item>
-        <item name="android:textColor">@color/label_color</item>
-        <item name="android:textSize">@dimen/text_fontsize_small</item>
     </style>
 
     <style name="login_input_style">

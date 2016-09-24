@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/title_container"
         style="@style/my_layout_navigationbar_style_default"
         android:orientation="horizontal">
 
@@ -17,14 +18,8 @@
         <TextView
             android:id="@+id/title"
             style="@style/my_navigationbar_title_text_style"
-            android:layout_weight="1"
+            android:layout_marginRight="@dimen/navigationbar_item_menu_width"
             tools:text="页面标题"/>
-
-        <TextView
-            android:id="@+id/commit"
-            style="@style/my_navigationbar_item_style_textmenu"
-            android:layout_weight="0"
-            android:text="完成"/>
     </LinearLayout>
 
     <View style="@style/my_divide_line_style_horizontal"/>

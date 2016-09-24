@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/my_layout_style_common"
-              android:orientation="vertical">
+<LinearLayout
+    style="@style/my_layout_style_common"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
 
-    <include layout="@layout/included_title1"/>
+    <include layout="@layout/included_title_default"/>
 
     <ListView
         android:id="@+id/lv_my_like"

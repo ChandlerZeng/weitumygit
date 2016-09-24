@@ -64,7 +64,7 @@ public class LoginFragment extends BaseFragment
 
 
     @Nullable
-    @OnClick({R.id.back_btn, R.id.title_right_text, R.id.registor_new_user, R.id.forget_password, R.id.login_btn})
+    @OnClick({R.id.back_btn, R.id.registor_new_user, R.id.forget_password, R.id.login_btn})
     public void onClick(View v)
     {
         switch (v.getId())
@@ -72,7 +72,6 @@ public class LoginFragment extends BaseFragment
             case R.id.back_btn:
                 onBackPressed();
                 break;
-            case R.id.title_right_text:
             case R.id.registor_new_user:
                 ((ContentActivity) mContext).changeFragment(RegMobileFragment.class.getName(), true, true);
                 break;

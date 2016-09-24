@@ -17,7 +17,6 @@ import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.utils.ACache;
-import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 
 import java.io.Serializable;
@@ -150,14 +149,13 @@ public class ClassifyFragment extends BaseFragment implements NetworkLoadingLayo
             getData();
         }
         title.setText("分类");
-        ListViewUtil.addPaddingHeader(mContext,listView);
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                ClassifyBean classifyBean = mData.get(position-1);
+                ClassifyBean classifyBean = mData.get(position);
                 Intent intent = new Intent(mContext, ClassifyDetailActivity.class);
                 intent.putExtra("code", classifyBean.code);
                 intent.putExtra("name", classifyBean.name);

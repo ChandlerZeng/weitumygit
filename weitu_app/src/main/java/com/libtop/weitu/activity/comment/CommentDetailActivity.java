@@ -100,8 +100,6 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     GridView commentDetailGridView;
     @Bind(R.id.list_reply)
     ChangeListView listReply;
-    @Bind(R.id.comment_layout2)
-    LinearLayout commentLayout2;
     @Bind(R.id.edit_comment)
     EditText editComment;
     @Bind(R.id.commit)

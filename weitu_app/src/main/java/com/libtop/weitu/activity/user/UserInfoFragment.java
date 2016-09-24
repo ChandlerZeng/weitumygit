@@ -75,7 +75,7 @@ public class UserInfoFragment extends PhotoFragment
     @Override
     protected int getLayoutId()
     {
-        return R.layout.fragment_user_info2;
+        return R.layout.fragment_user_info;
     }
 
 
