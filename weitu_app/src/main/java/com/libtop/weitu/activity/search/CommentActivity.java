@@ -20,6 +20,7 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
 import com.libtop.weitu.activity.main.dto.CommentDto;
+import com.libtop.weitu.activity.main.dto.ReplyDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.adapter.CommentAdapter;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
@@ -236,8 +237,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         if(isReply && isItemReply)
         {
             String cid = replyItemMap.get("cid").toString();
-            String replyUid = replyItemMap.get("reply_uid").toString();
-            putItemReply(cid, replyUid,str);
+            String replyId = replyItemMap.get("reply_id").toString();
+            putItemReply(cid, replyId,str);
         }
         else if (isReply)
         {
@@ -425,14 +426,15 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                 });
     }
 
-    private void putItemReply(String cid,String replyUid,String content){
+    private void putItemReply(String cid,String replyId,String content){
         showLoding();
-        String api = "resource/comment/reply";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .addParams("reply_uid", replyUid)
-                .addParams("content", content)
-                .build()
-                .execute(new StringCallback(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("cid",cid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("content",content);
+        map.put("method","reply.save");
+        map.put("rid",replyId);
+        HttpRequest.loadWithMap(map).execute(new StringCallback(){
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -445,15 +447,16 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             dismissLoading();
                             Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
-                                Gson gson = new Gson();
-                                ReplyListDto data = gson.fromJson(json, new TypeToken<ReplyListDto>() {
-                                }.getType());
-                                if (data != null) {
-//                                    replyItems.add(0,data);
-                                    commentAdapter.replySubItem(data, replyItems,comments);
-                                }
-                                editText.setText("");
-                                editText.setHint("发表评论");
+//                                Gson gson = new Gson();
+//                                ReplyDto data = gson.fromJson(json, new TypeToken<ReplyDto>() {
+//                                }.getType());
+//                                if (data != null) {
+////                                    replyItems.add(0,data);
+//                                    commentAdapter.replySubItem(data, replyItems,comments);
+//                                }
+//                                editText.setText("");
+//                                editText.setHint("发表评论");
+                                getCommentList();
                                 isReply = false;
                                 isItemReply = false;
                             } catch (Exception e) {
@@ -469,30 +472,24 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Override
     public void onReplyItemTouch(View v, final int position, final ReplyListDto replyBean,final List<ReplyListDto> replyBeans,CommentDto object) {
 
-        String cid =replyBean.cid;
-        String replyUid =String.valueOf(replyBean.uid);
+        String cid =object.id;
+        String replyId =replyBean.cid;
         replyItem = replyBean;
         replyItems = replyBeans;
         comments = object;
-//        String replyUid =String.valueOf(replyBean.reply_uid);
             if (replyBean.content != null)
             {
                 isReply = true ;
                 isItemReply = true ;
                 replyItemMap.put("cid",cid);
-                replyItemMap.put("reply_uid",replyUid);
+                replyItemMap.put("reply_id",replyId);
                 editText.requestFocus();
                 String first = "回复";
                 SpannableStringBuilder spannableString = getGreenStrBuilder(first,replyBean.username);
                 editText.setHint(spannableString);
-//                editText.setSelection(spannableString.length());
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
             }
-//            else
-//            {
-//                editText.requestFocus();
-//        }
     }
 
     @Override
