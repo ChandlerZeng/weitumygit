@@ -28,9 +28,6 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CommentBean;
-import com.libtop.weitu.test.Comments;
-import com.libtop.weitu.test.Reply;
-import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
@@ -339,14 +336,14 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         replyItems = replyBeans;
         comments = object;
         isReply = true;
-        if (commentResult.content != null && !TextUtils.isEmpty(commentResult.content))
+        if (commentResult.getContent() != null && !TextUtils.isEmpty(commentResult.getContent()))
         {
-            String cid = commentResult.id;
-            String uid = commentResult.uid;
+            String cid = commentResult.getId();
+            String uid = commentResult.getUid();
             map.put("reply_uid",uid);
             editText.requestFocus();
             String first = "回复";
-            SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.username);
+            SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.getUsername());
             editText.setHint(spannableString);
 //            editText.setSelection(spannableString.length());
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -552,7 +549,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     @Override
     public void onLikeTouch(View v, int position, CommentDto comment) {
-        String cid = String.valueOf(comment.id);
+        String cid = String.valueOf(comment.getId());
         if(comment.my_praise==0){
             likeClicked(cid,comment);
         }else{
@@ -563,7 +560,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Override
     public void onCommentContentClick(View v, int position, CommentDto comment) {
         Bundle bundle = new Bundle();
-        bundle.putString("cid", comment.id);
+        bundle.putString("cid", comment.getId());
         bundle.putInt("position", position);
         startForResult(bundle, 200, CommentDetailActivity.class);
 //        startActivity(bundle, CommentDetailActivity.class);
@@ -571,7 +568,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     @Override
     public void onCommentContentLongClick(View v, final int position, CommentDto comment) {
-        if (commentsList.get(position ).uid.equals(UID)) {
+        if (commentsList.get(position ).getUid().equals(UID)) {
             String title = "您确定要删除？";
             final AlertDialogUtil dialog = new AlertDialogUtil();
             dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {

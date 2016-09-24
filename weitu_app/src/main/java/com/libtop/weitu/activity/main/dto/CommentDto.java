@@ -1,6 +1,6 @@
 package com.libtop.weitu.activity.main.dto;
 
-import com.google.gson.Gson;
+import com.libtop.weitu.utils.StringUtil;
 
 import java.util.List;
 
@@ -24,23 +24,25 @@ public class CommentDto {
      * state : 0
      * replyList : [{"id":"57e4df890412245af120cf1d","cid":"57e4d24d04126079b94edeb9","uid":"565bea2c984ec06f56befda3","username":"yjw","content":"这个神回复","timeline":1474617225935,"state":0}]
      * praises : 0
+     * replies : 0
      */
 
-    public String id;
-    public String tid;
-    public String title;
+    private String id;
+    private String tid;
+    private String title;
+    private String typeName;
+    private String uid;
+    private String username;
+    private String content;
+    private String logo;
+    private long timeline;
     public int type;
-    public String typeName;
-    public String uid;
-    public String username;
-    public long timeline;
-    public String content;
     public int score;
     public int state;
     public int my_praise;
     public int count_reply;
     public int praises;
-    public String logo;
+    public int replies;
     public boolean isExpanded = false;
     /**
      * id : 57e4df890412245af120cf1d
@@ -54,4 +56,111 @@ public class CommentDto {
 
     public List<ReplyListDto> replyList;
 
+
+    public long getTimeline()
+    {
+        return timeline;
+    }
+
+
+    public void setTimeline(long timeline)
+    {
+        this.timeline = timeline;
+    }
+
+
+    public String getId()
+    {
+        return StringUtil.getString(id);
+    }
+
+
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+
+    public String getTid()
+    {
+        return StringUtil.getString(tid);
+    }
+
+
+    public void setTid(String tid)
+    {
+        this.tid = tid;
+    }
+
+
+    public String getTitle()
+    {
+        return StringUtil.getString(title);
+    }
+
+
+    public void setTitle(String title)
+    {
+        this.title = title;
+    }
+
+
+    public String getTypeName()
+    {
+        return StringUtil.getString(typeName);
+    }
+
+
+    public void setTypeName(String typeName)
+    {
+        this.typeName = typeName;
+    }
+
+
+    public String getUid()
+    {
+        return StringUtil.getString(uid);
+    }
+
+
+    public void setUid(String uid)
+    {
+        this.uid = uid;
+    }
+
+
+    public String getUsername()
+    {
+        return StringUtil.getString(username);
+    }
+
+
+    public void setUsername(String username)
+    {
+        this.username = username;
+    }
+
+
+    public String getContent()
+    {
+        return StringUtil.getString(content);
+    }
+
+
+    public void setContent(String content)
+    {
+        this.content = content;
+    }
+
+
+    public String getLogo()
+    {
+        return ((logo == null || logo.equals("null")) ?"http://":logo);
+    }
+
+
+    public void setLogo(String logo)
+    {
+        this.logo = logo;
+    }
 }

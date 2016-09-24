@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
@@ -25,7 +26,6 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.utils.StringUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.PullZoomListView;
@@ -61,7 +61,7 @@ public class SubjectDetailActivity extends BaseActivity
     private ClassifySubDetailAdapter classifySubDetailAdapter;
     private List<CollectBean> mData = new ArrayList<>();
 
-    private boolean isFollow = false;
+    public static boolean isFollow = false;
 
     public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
 
@@ -72,6 +72,8 @@ public class SubjectDetailActivity extends BaseActivity
     private String idString;
 
     private String titleString = "";
+
+    private SubjectDetailBean subjectDetailBean;
 
 
     @Override
@@ -189,17 +191,17 @@ public class SubjectDetailActivity extends BaseActivity
             @Override
             public void onError(Call call, Exception e, int id)
             {
-                Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
             }
 
 
             @Override
             public void onResponse(String json, int id)
             {
-                SubjectDetailBean subjectDetailBean = JsonUtil.fromJson(json, SubjectDetailBean.class);
-                if (subjectDetailBean==null){
+                SubjectDetailBean bean = JsonUtil.fromJson(json, SubjectDetailBean.class);
+                if (bean ==null){
                     return;
                 }
+                subjectDetailBean = bean;
                 changeView(subjectDetailBean);
             }
         });
@@ -208,10 +210,10 @@ public class SubjectDetailActivity extends BaseActivity
 
     private void changeView(SubjectDetailBean subjectDetailBean)
     {
-        ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.cover,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
-        title.setText(StringUtil.getString(subjectDetailBean.subject.title));
-        headerViewHolder.tvThemeDetailTitle.setText(subjectDetailBean.subject.title);
-        headerViewHolder.tvThemeDetailFollowNum.setText(subjectDetailBean.subject.follows+"");
+        ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.getCover(),ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
+        title.setText(subjectDetailBean.subject.getTitle());
+        headerViewHolder.tvThemeDetailTitle.setText(subjectDetailBean.subject.getTitle());
+        headerViewHolder.tvThemeDetailFollowNum.setText(subjectDetailBean.subject.getFollows()+"");
         if (subjectDetailBean.followed == 1){
             isFollow = true;
             headerViewHolder.tvThemeDetailFollow.setText("已关注");
@@ -225,6 +227,20 @@ public class SubjectDetailActivity extends BaseActivity
 //            headerViewHolder.tvThemeDetailEdit.setVisibility(View.VISIBLE);
 //            headerViewHolder.tvThemeDetailFollow.setVisibility(View.GONE);
 //        }
+    }
+
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        if (isFollow){
+            headerViewHolder.tvThemeDetailFollow.setText("已关注");
+            headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow_press);
+        }else {
+            headerViewHolder.tvThemeDetailFollow.setText("关注");
+            headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow);
+        }
     }
 
 
@@ -396,7 +412,7 @@ public class SubjectDetailActivity extends BaseActivity
     private void titleClick()
     {
         Intent intent = new Intent(mContext,SubjectInfoActivity.class);
-        intent.putExtra("cover","");
+        intent.putExtra("subjectDetailBean",new Gson().toJson(subjectDetailBean));
         startActivity(intent);
     }
 }

@@ -62,8 +62,7 @@ public class NewSubjectActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_main_new_subject);
-        Bundle bundle = getIntent().getExtras();
-        isFromSelect = bundle.getBoolean("fromSelect",false);
+        isFromSelect = getIntent().getBooleanExtra("fromSelect", false);
         initView();
     }
 

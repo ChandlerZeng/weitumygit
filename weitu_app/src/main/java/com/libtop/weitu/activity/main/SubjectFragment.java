@@ -16,6 +16,7 @@ import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CollectionUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
@@ -85,9 +86,7 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 SubjectBean subjectBean = (SubjectBean) parent.getItemAtPosition(position);
-                Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                intent.putExtra("id",subjectBean.id);
-                startActivity(intent);
+                ContextUtil.openSubjectDetail(mContext,subjectBean.getId());
             }
         });
     }
@@ -149,13 +148,13 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
         {
             ImageView themeCover = helper.getView(R.id.img_item_subject);
             ImageView newCover = helper.getView(R.id.img_item_subject_new);
-            Picasso.with(mContext).load(subjectBean.cover)
+            Picasso.with(mContext).load(subjectBean.getCover())
                     .placeholder(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
                     .error(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
                     .fit()
                     .into(themeCover);
 
-            helper.setText(R.id.tv_item_subject, subjectBean.title);
+            helper.setText(R.id.tv_item_subject, subjectBean.getTitle());
         }
     }
 

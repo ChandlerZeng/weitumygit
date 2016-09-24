@@ -102,6 +102,12 @@ public class ContextUtil
         }
     }
 
+    public static void openSubjectDetail(Context context,String id){
+        Intent intent = new Intent(context, SubjectDetailActivity.class);
+        intent.putExtra("id",id);
+        context.startActivity(intent);
+    }
+
     //通过类型打开视频，文档，音频，图库
     public static void openResourceByType(Context context,int type, String id)
     {

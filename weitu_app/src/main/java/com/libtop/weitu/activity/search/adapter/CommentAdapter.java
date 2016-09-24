@@ -21,8 +21,6 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.CommentActivity;
-import com.libtop.weitu.test.Comments;
-import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
@@ -73,12 +71,12 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
         if(object!=null){
             commentLayout1.setVisibility(View.VISIBLE);
             String url=null;
-            if(object.logo!=null){
-                url = object.logo;
+            if(object.getLogo()!=null){
+                url = object.getLogo();
             }
             bindData(url,headImage);
-            tvUser.setText(object.username);
-            tvTime.setText(DateUtil.transformToShow(object.timeline));
+            tvUser.setText(object.getUsername());
+            tvTime.setText(DateUtil.transformToShow(object.getTimeline()));
             if(object.my_praise==0){
                 praiseIcon.setImageResource(R.drawable.icon_comment_unpraised);
             }else {
@@ -94,10 +92,10 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
             }else {
                 tvReply.setText("回复");
             }
-            if (object.content != null && !TextUtils.isEmpty(object.content))
+            if (object.getContent() != null && !TextUtils.isEmpty(object.getContent()))
             {
                 tvcomment.setVisibility(View.VISIBLE);
-                tvcomment.setText(object.content);
+                tvcomment.setText(object.getContent());
                 replyListDtos = object.replyList;
                 if(replyListDtos.size()>0){
                     commentLayout2.setVisibility(View.VISIBLE);

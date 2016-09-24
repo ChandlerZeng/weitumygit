@@ -45,7 +45,7 @@ public class AllListAdapter extends BaseAdapter
         if (lists != null && position < lists.size())
         {
             String type = lists.get(position).entityType;
-            if (type.equals(AllFragment.VIDEO) || type.equals(AllFragment.AUDIO))
+            if (type.equals(AllFragment.SUBJECT))
             {
                 return SUBJECT;
             }

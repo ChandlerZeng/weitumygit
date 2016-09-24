@@ -47,7 +47,7 @@ public class ResultFragment extends NotifyFragment
 
     private int pageIndex = 0;
 
-    public static final int ALL = 0,THEME =1, BOOK = 2, VIDEO = 3, AUDIO = 4, DOC = 5, IMAGE = 6;
+    public static final int ALL = 0,SUBJECT =1, BOOK = 2, VIDEO = 3, AUDIO = 4, DOC = 5, IMAGE = 6;
 
     private boolean isThreeSpinner = true;
     private ClassifyCheckAdapter filterCheckAdapter;
@@ -63,7 +63,7 @@ public class ResultFragment extends NotifyFragment
         super.onCreate(savedInstanceState);
         mFrags = new ArrayList<Fragment>();
         AllFragment f1 = newFragmentByType(ALL);
-        AllFragment f2 = newFragmentByType(THEME);
+        AllFragment f2 = newFragmentByType(SUBJECT);
         AllFragment f3 = newFragmentByType(BOOK);
         AllFragment f4 = newFragmentByType(VIDEO);
         AllFragment f5 = newFragmentByType(AUDIO);
@@ -247,7 +247,7 @@ public class ResultFragment extends NotifyFragment
             break;
             case R.id.search_theme:
             {
-                pageIndex = THEME;
+                pageIndex = SUBJECT;
             }
             break;
             case R.id.search_books:
@@ -288,7 +288,7 @@ public class ResultFragment extends NotifyFragment
             case ALL:
                 mRadioGroup.check(R.id.search_all);
                 break;
-            case THEME:
+            case SUBJECT:
                 mRadioGroup.check(R.id.search_theme);
                 break;
             case BOOK:
