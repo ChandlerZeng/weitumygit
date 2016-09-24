@@ -27,16 +27,15 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.search.CommentActivity;
+import com.libtop.weitu.activity.main.dto.CommentDetailDto;
+import com.libtop.weitu.activity.main.dto.CommentDto;
+import com.libtop.weitu.activity.main.dto.PraisedUsersBean;
+import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.CommentBean;
-import com.libtop.weitu.test.Comments;
-import com.libtop.weitu.test.PraiseBean;
 import com.libtop.weitu.test.Reply;
-import com.libtop.weitu.test.ReplyBean;
-import com.libtop.weitu.test.UserBean;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
@@ -116,10 +115,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     private boolean isFirstIn = true;
     private Map<String,String> map = new HashMap<>();
 
-    private List<UserBean> praiseUserList = new ArrayList<>();
-    private List<ReplyBean> replyBeanList = new ArrayList<>();
-    private UserBean user = new UserBean();
-    private Comments commentsData;
+    private List<PraisedUsersBean> praiseUserList = new ArrayList<>();
+    private List<ReplyListDto> replyBeanList = new ArrayList<>();
+    private PraisedUsersBean user = new PraisedUsersBean();
+    private CommentDto commentsData;
 
     private PraiseHeadAdapter praiseHeadAdapter;
     private ReplyListAdapter replyListAdapter;
@@ -156,7 +155,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             isFirstIn = false;
             networkLoadingLayout.showLoading();
             getData(String.valueOf(cid));
-            getPraiseData();
+//            getPraiseData();
         }
         networkLoadingLayout.setOnRetryClickListner(this);
         praiseHeadAdapter = new PraiseHeadAdapter(mContext,R.layout.praise_item_grid_photo,praiseUserList);
@@ -167,7 +166,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         listReply.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(replyBeanList.get(position).user.uid.equals("1")){
+                if(replyBeanList.get(position).uid.equals(mPreference.getString(Preference.uid))){
                     onReplyItemDeleted(replyBeanList.get(position));
                 }else {
                     onReplyItemTouch(replyBeanList.get(position));
@@ -176,9 +175,9 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         });
     }
 
-    private void getUser(PraiseBean praiseBean){
-        if(praiseBean.praise_users.size()!=0){
-            user=praiseBean.praise_users.get(0);
+    private void getUser(PraisedUsersBean praiseBean){
+        if(praiseBean!=null){
+            user=praiseBean;
         }
     }
 
@@ -190,7 +189,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                 break;
             case R.id.comment_detail_link_layout:
                 if(commentsData!=null){
-                    ContextUtil.openResourceByType(mContext, commentsData.resource.type, commentsData.resource.rid);
+                    ContextUtil.openResourceByType(mContext, commentsData.type, commentsData.tid);
 //                    openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
                 }
                 break;
@@ -219,12 +218,12 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
 
     private void getData(String cid)
     {
-//        http://115.28.189.104/resource/comment/info?cid=4
+//        http://weitu.bookus.cn/comment/get.json?text={"id":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.get"}
         Map<String, Object> map = new HashMap<>();
-        String method = "/resource/comment/info";
-        String api = "/resource/comment/info";
-        map.put("cid", cid);
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + method, map).execute(new StringCallback() {
+        map.put("id", cid);
+        map.put("method","comment.get");
+        map.put("uid",mPreference.getString(Preference.uid));
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
 
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -238,46 +237,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                     networkLoadingLayout.dismiss();
                     try {
                         Gson gson = new Gson();
-                        CommentBean data = gson.fromJson(json, new TypeToken<CommentBean>() {
+                        CommentDetailDto data = gson.fromJson(json, new TypeToken<CommentDetailDto>() {
                         }.getType());
-                        if(data.comment!=null){
-                            commentsData = new Comments();
-                            commentsData = data.comment;
-                        } else{
-                            networkLoadingLayout.showEmptyPrompt();
-                            return;
-                        }
-
-                        if (data.comment.content != null) {
-                            tvCommnet1.setText(data.comment.content);
-                        }
-                        if (data.comment.user.name != null) {
-                            tvUserName.setText(data.comment.user.name);
-                        }
-                        if (data.comment.t_create != 0) {
-                            tvTime.setText(DateUtil.parseToStringWithoutSS(data.comment.t_create));
-                        }
-                        if (data.comment.user.logo != null) {
-                            Picasso.with(mContext).load(data.comment.user.logo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imgHead);
-                        }
-                        if (data.comment.my_praise == 0) {
-                            likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
-                            MYPRAISE = 0;
-                        } else {
-                            likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
-                            MYPRAISE = 1;
-                        }
-
-                        if(data.comment.resource!=null){
-                            Picasso.with(mContext).load(data.comment.resource.cover).error(R.drawable.default_error).placeholder(R.drawable.default_error).fit().centerCrop().into(resourceFileImage);
-                            commentFileTitle.setText(data.comment.resource.name);
-                            commentFileAuthor.setText("上传："+data.comment.resource.uploader_name);
-                        }
-
-                        if (data.comment.replys != null) {
-                            replyBeanList = data.comment.replys;
-                            replyListAdapter.setData(replyBeanList);
-                        }
+                        handleCommentDetailResult(data);
+                        handleCommentPraiseResult(data.praisedUsers);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -287,7 +250,62 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         });
     }
 
-    private void getPraiseData()
+    private void handleCommentDetailResult(CommentDetailDto data){
+        if(data.comment!=null){
+            commentsData = new CommentDto();
+            commentsData = data.comment;
+        } else{
+            networkLoadingLayout.showEmptyPrompt();
+            return;
+        }
+
+        if (data.comment.content != null) {
+            tvCommnet1.setText(data.comment.content);
+        }
+        if (data.comment.username != null) {
+            tvUserName.setText(data.comment.username);
+        }
+        if (data.comment.timeline != 0) {
+            tvTime.setText(DateUtil.parseToStringWithoutSS(data.comment.timeline));
+        }
+        String urlLogo = null;
+        if (data.comment.logo != null) {
+            urlLogo = data.comment.logo;
+        }
+        Picasso.with(mContext).load(urlLogo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imgHead);
+        if (data.comment.praised == 0) {
+            likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
+            MYPRAISE = 0;
+        } else {
+            likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
+            MYPRAISE = 1;
+        }
+
+        if(data.comment.title!=null){
+//                            Picasso.with(mContext).load(data.comment.resource.cover).error(R.drawable.default_error).placeholder(R.drawable.default_error).fit().centerCrop().into(resourceFileImage);
+            commentFileTitle.setText(data.comment.title);
+            commentFileAuthor.setText("上传："+data.comment.username);
+        }
+
+        if (data.comment.replyList != null) {
+            replyBeanList = data.comment.replyList;
+            replyListAdapter.setData(replyBeanList);
+        }
+    }
+
+    private void handleCommentPraiseResult(List<PraisedUsersBean> data){
+        if (data != null) {
+            getUser(data.get(0));
+            if (data.size() > 8) {
+                praiseUserList = data.subList(0, 8);
+            } else {
+                praiseUserList = data;
+            }
+            praiseHeadAdapter.setData(praiseUserList);
+        }
+    }
+
+   /* private void getPraiseData()
     {
 //        http://115.28.189.104/resource/comment/praise_user/list
         Map<String, Object> map = new HashMap<>();
@@ -304,11 +322,11 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                 if (!TextUtils.isEmpty(json)) {
                     try {
                         Gson gson = new Gson();
-                        PraiseBean data = gson.fromJson(json, new TypeToken<PraiseBean>() {
+                        PraisedUsersBean data = gson.fromJson(json, new TypeToken<PraisedUsersBean>() {
                         }.getType());
-                        if (data.praise_users != null) {
-                            getUser(data);
-                            if (data.praise_users.size() > 8) {
+                        if (data != null) {
+                            getUser(data );
+                            if (data.size() > 8) {
                                 praiseUserList = data.praise_users.subList(0, 8);
                             } else {
                                 praiseUserList = data.praise_users;
@@ -322,7 +340,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                 }
             }
         });
-    }
+    }*/
 
     private void sendComment(View v)
     {
@@ -345,12 +363,14 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     }
     private void putReply(String content) //TODO
     {
+//        http://weitu.bookus.cn/reply/save.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","content":"xxx","method":"reply.save"}
         showLoding();
-        String api = "resource/comment/reply";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .addParams("content", content)
-                .build()
-                .execute(new StringCallback() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cid",cid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("content",content);
+        map.put("method","reply.save");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -363,14 +383,15 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                             dismissLoading();
                             Toast.makeText(CommentDetailActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
-                                Gson gson = new Gson();
-                                Reply data = gson.fromJson(json, new TypeToken<Reply>() {
-                                }.getType());
-                                if (data.reply != null) {
-                                    replyBeanList.add(data.reply);
-                                    replyListAdapter.notifyDataSetChanged();
-                                }
-                                commentsData.count_reply=commentsData.count_reply+1;
+//                                Gson gson = new Gson();
+//                                Reply data = gson.fromJson(json, new TypeToken<Reply>() {
+//                                }.getType());
+//                                if (data.reply != null) {
+//                                    replyBeanList.add(data.reply);
+//                                    replyListAdapter.notifyDataSetChanged();
+//                                }
+                                getData(String.valueOf(cid));
+//                                commentsData.replies=commentsData.replies+1;
                                 editComment.setText("");
                                 editComment.setHint("发表评论");
                                 isReply = false;
@@ -411,10 +432,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                                 Reply data = gson.fromJson(json, new TypeToken<Reply>() {
                                 }.getType());
                                 if (data.reply != null) {
-                                    replyBeanList.add(data.reply);
+//                                    replyBeanList.add(data.reply);
                                     replyListAdapter.notifyDataSetChanged();
                                 }
-                                commentsData.count_reply=commentsData.count_reply+1;
+//                                commentsData.count_reply=commentsData.count_reply+1;
                                 editComment.setText("");
                                 editComment.setHint("发表评论");
                                 isReply = false;
@@ -431,7 +452,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                 });
     }
 
-    private void deleteReplyComment(final ReplyBean replyBean){
+    private void deleteReplyComment(final ReplyListDto replyBean){
         showLoding();
         String api = "resource/comment/del";
         OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
@@ -447,7 +468,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             Toast.makeText(CommentDetailActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
-                            commentsData.count_reply=commentsData.count_reply-1;
+//                            commentsData.count_reply=commentsData.count_reply-1;
                             replyBeanList.remove(replyBean);
                             replyListAdapter.notifyDataSetChanged();
                             dismissLoading();
@@ -457,10 +478,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     }
 
 
-    public void onReplyItemTouch(ReplyBean replyBean) {
+    public void onReplyItemTouch(ReplyListDto replyBean) {
 
         String cid =replyBean.cid;
-        String replyUid =replyBean.user.uid;
+        String replyUid =replyBean.uid;
         if (replyBean.content != null)
         {
             isReply = true ;
@@ -469,7 +490,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             editComment.requestFocus();
             String first = "回复";
             String userName = "";
-            SpannableString spannableString = getGreenStr(userName,first,replyBean.user.name);
+            SpannableString spannableString = getGreenStr(userName,first,replyBean.username);
             editComment.setHint(spannableString);
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editComment, InputMethodManager.SHOW_IMPLICIT);
@@ -480,7 +501,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         }
     }
 
-    public void onReplyItemDeleted(final ReplyBean replyBean) {
+    public void onReplyItemDeleted(final ReplyListDto replyBean) {
         String title = "您确定要删除？";
         final AlertDialogUtil dialog = new AlertDialogUtil();
         dialog.showDialog(CommentDetailActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
@@ -494,7 +515,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     @Override
     public void onRetryClick(View v) {
         getData(String.valueOf(cid));
-        getPraiseData();
+//        getPraiseData();
     }
 
     private class CircleTransform implements Transformation {
@@ -547,8 +568,8 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
                             dismissLoading();
-                            commentsData.count_praise=commentsData.count_praise+1;
-                            commentsData.my_praise=1;
+                            commentsData.praises=commentsData.praises+1;
+                            commentsData.praised=1;
                             MYPRAISE = 1;
                             likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
                             Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
@@ -575,8 +596,8 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
                             dismissLoading();
-                            commentsData.count_praise = commentsData.count_praise - 1;
-                            commentsData.my_praise = 0;
+                            commentsData.praises = commentsData.praises - 1;
+                            commentsData.praised = 0;
                             MYPRAISE = 0;
                             likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
                             Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
@@ -595,38 +616,46 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         }
     }
 
-    class PraiseHeadAdapter extends CommonAdapter<UserBean>{
+    class PraiseHeadAdapter extends CommonAdapter<PraisedUsersBean>{
 
-        public PraiseHeadAdapter(Context context, int itemLayoutId, List<UserBean> datas) {
+        public PraiseHeadAdapter(Context context, int itemLayoutId, List<PraisedUsersBean> datas) {
             super(context, R.layout.praise_item_grid_photo, datas);
         }
 
         @Override
-        public void convert(ViewHolderHelper helper, UserBean object, int position) {
+        public void convert(ViewHolderHelper helper, PraisedUsersBean object, int position) {
             ImageView imageHead = helper.getView(R.id.praise_head_image);
-            Picasso.with(mContext).load(object.logo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imageHead);
+            String logoUrl = null;
+            if(object.logo!=null){
+                logoUrl = object.logo;
+            }
+            Picasso.with(mContext).load(logoUrl).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imageHead);
         }
-        public void setData(List<UserBean> userBeans){
+        public void setData(List<PraisedUsersBean> userBeans){
             this.datas = userBeans;
             notifyDataSetChanged();
         }
     }
 
-    class ReplyListAdapter extends CommonAdapter<ReplyBean>{
+    class ReplyListAdapter extends CommonAdapter<ReplyListDto>{
 
-        public ReplyListAdapter(Context context, int itemLayoutId, List<ReplyBean> datas) {
+        public ReplyListAdapter(Context context, int itemLayoutId, List<ReplyListDto> datas) {
             super(context, R.layout.item_list_comment_detail, datas);
         }
 
         @Override
-        public void convert(ViewHolderHelper helper, ReplyBean object, int position) {
+        public void convert(ViewHolderHelper helper, ReplyListDto object, int position) {
             ImageView imageHead = helper.getView(R.id.img_head);
-            Picasso.with(mContext).load(object.user.logo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imageHead);
-            String user_name = object.user.name;
+            String logoUrl = null;
+            if(object.logo!=null){
+                logoUrl = object.logo;
+            }
+            Picasso.with(mContext).load(logoUrl).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imageHead);
+            String user_name = object.username;
             String reply_user_name;
             String reply;
-            if(object.reply_user!=null && object.reply_user.name!=null&&!TextUtils.isEmpty(object.reply_user.name)){
-                reply_user_name = object.reply_user.name;
+            if(object.reply_user!=null && object.reply_user.username!=null&&!TextUtils.isEmpty(object.reply_user.username)){
+                reply_user_name = object.reply_user.username;
                 reply = " "+"回复"+" ";
                 SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name);
                 helper.setText(R.id.tv_user_name,spannableString);
@@ -636,10 +665,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                 SpannableString spannableString = getGreenStr(user_name,reply,reply_user_name);
                 helper.setText(R.id.tv_user_name,spannableString);
             }
-            helper.setText(R.id.tv_time,DateUtil.transformToShow(object.t_create));
+            helper.setText(R.id.tv_time,DateUtil.transformToShow(object.timeline));
             helper.setText(R.id.tv_content, object.content);
         }
-        public void setData(List<ReplyBean> replyBeans){
+        public void setData(List<ReplyListDto> replyBeans){
             this.datas = replyBeans;
             notifyDataSetChanged();
         }

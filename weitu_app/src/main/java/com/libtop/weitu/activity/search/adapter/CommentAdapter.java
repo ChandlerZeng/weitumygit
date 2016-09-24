@@ -21,8 +21,6 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.CommentActivity;
-import com.libtop.weitu.test.Comments;
-import com.libtop.weitu.test.ReplyBean;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
@@ -59,7 +57,7 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
         ImageView headImage = helper.getView(R.id.img_head);
         ImageView praiseIcon = helper.getView(R.id.icon_praise);
         RelativeLayout commentLayout1 = helper.getView(R.id.comment_layout1);
-        LinearLayout commentFatherLayout = helper.getView(R.id.comment_father_layout);
+        LinearLayout commentLinearLayout = helper.getView(R.id.comment_father_layout);
         LinearLayout commentLayout2 = helper.getView(R.id.comment_layout2);
         LinearLayout likeLayout = helper.getView(R.id.likeLayout);
         LinearLayout replyLayout = helper.getView(R.id.replyLayout);
@@ -79,7 +77,7 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
             bindData(url,headImage);
             tvUser.setText(object.username);
             tvTime.setText(DateUtil.transformToShow(object.timeline));
-            if(object.my_praise==0){
+            if(object.praised==0){
                 praiseIcon.setImageResource(R.drawable.icon_comment_unpraised);
             }else {
                 praiseIcon.setImageResource(R.drawable.icon_comment_praised);
@@ -89,8 +87,8 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
             }else {
                 tvLike.setText("点赞");
             }
-            if(object.count_reply!=0){
-                tvReply.setText(object.count_reply+"");
+            if(object.replies!=0){
+                tvReply.setText(object.replies+"");
             }else {
                 tvReply.setText("回复");
             }
@@ -139,7 +137,7 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
                 }
             });
 
-            commentFatherLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            commentLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     onCommentListener.onCommentContentLongClick(v, position, object);
@@ -147,7 +145,7 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
                 }
             });
 
-            commentFatherLayout.setOnClickListener(new View.OnClickListener() {
+            commentLinearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onCommentListener.onCommentContentClick(v, position, object);
@@ -301,13 +299,13 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
 
     public void removeSubItem(ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object){
         replyBeans.remove(replyBean);
-        object.count_reply = object.count_reply-1;
+        object.replies = object.replies-1;
         notifyDataSetChanged();
     }
 
     public void replySubItem(ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object){
         replyBeans.add(replyBean);
-        object.count_reply=object.count_reply+1;
+        object.replies=object.replies+1;
         if(replyBeans.size()==1){
             object.replyList.add(replyBean);
             mAdapter.notifyDataSetChanged();

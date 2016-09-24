@@ -11,13 +11,11 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
+import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -45,15 +43,18 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
 
 
     private ClassifySubDetailAdapter subresAdapter;
-    private List<CategoryResult> categoryResultList = new ArrayList<>();
+    private List<CollectBean> categoryResultList = new ArrayList<>();
     private List<Subject> subjectList = new ArrayList<>();
     private List<Resource> resourceList = new ArrayList<>();
 
     private String type;
+    private String method;
     private int mCurPage = 1;
     private boolean hasData = false;
     private boolean isFirstIn = true;
     private boolean isRefreshed = false;
+    private long code, subCode;
+    private String filterString = "view";
 
     private String api = "/category/subject/list";
 
@@ -64,8 +65,12 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        type = bundle.getString("type", "subject");
-        api = bundle.getString("api");
+        mCurPage = bundle.getInt("page");
+        method = bundle.getString("method");
+        code = bundle.getLong("code");
+        subCode = bundle.getLong("subCode");
+        filterString = bundle.getString("filterString");
+        type = bundle.getString("type");
     }
 
 
@@ -140,8 +145,12 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     {
         //  http://192.168.0.9/category/resource/list
         Map<String, Object> map = new HashMap<>();
-        map.put("type", type);
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
+        map.put("label1", code);
+        map.put("label2", subCode);
+        map.put("sort", filterString);
+        map.put("page", mCurPage);
+        map.put("method", "search.categories");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 if (mCurPage > 1) {
@@ -161,17 +170,10 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
                     }
                     try {
                         Gson gson = new Gson();
-                        SubjectResource data = gson.fromJson(json, new TypeToken<SubjectResource>() {
+                        List<CollectBean> data = gson.fromJson(json, new TypeToken<List<CollectBean>>() {
                         }.getType());
                         categoryResultList.clear();
-
-                        if (api.equals("/category/resource/list")) {
-                            categoryResultList.addAll(data.resources);
-                            resourceList = data.resources;
-                        } else {
-                            categoryResultList.addAll(data.subjects);
-                            subjectList = data.subjects;
-                        }
+                        categoryResultList.addAll(data);
                         if (categoryResultList.size() == 0 && mCurPage == 1) {
                             networkLoadingLayout.showEmptyPrompt();
                         }
