@@ -154,7 +154,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         {
             isFirstIn = false;
             networkLoadingLayout.showLoading();
-            getData(String.valueOf(cid));
+            getData(cid);
 //            getPraiseData();
         }
         networkLoadingLayout.setOnRetryClickListner(this);
@@ -273,12 +273,14 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             urlLogo = data.comment.logo;
         }
         Picasso.with(mContext).load(urlLogo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imgHead);
-        if (data.comment.praised == 0) {
+        if (data.praised == 0) {
             likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
             MYPRAISE = 0;
+            data.comment.praised = 0;
         } else {
             likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
             MYPRAISE = 1;
+            data.comment.praised = 1;
         }
 
         if(data.comment.title!=null){
@@ -295,14 +297,14 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
 
     private void handleCommentPraiseResult(List<PraisedUsersBean> data){
         if (data != null) {
-            getUser(data.get(0));
+//            getUser(data.get(0));
             if (data.size() > 8) {
                 praiseUserList = data.subList(0, 8);
             } else {
                 praiseUserList = data;
             }
-            praiseHeadAdapter.setData(praiseUserList);
         }
+        praiseHeadAdapter.setData(praiseUserList);
     }
 
    /* private void getPraiseData()
@@ -383,21 +385,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                             dismissLoading();
                             Toast.makeText(CommentDetailActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
-//                                Gson gson = new Gson();
-//                                Reply data = gson.fromJson(json, new TypeToken<Reply>() {
-//                                }.getType());
-//                                if (data.reply != null) {
-//                                    replyBeanList.add(data.reply);
-//                                    replyListAdapter.notifyDataSetChanged();
-//                                }
-                                getData(String.valueOf(cid));
-//                                commentsData.replies=commentsData.replies+1;
+                                getData(cid);
                                 editComment.setText("");
                                 editComment.setHint("发表评论");
                                 isReply = false;
-//                                listReply.setSelection(0);
-//                                listReply.smoothScrollToPosition(0);
-//                                commentDetailScrollView.fullScroll(ScrollView.FOCUS_UP);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -514,9 +505,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
 
     @Override
     public void onRetryClick(View v) {
-        getData(String.valueOf(cid));
+        getData(cid);
 //        getPraiseData();
     }
+
 
     private class CircleTransform implements Transformation {
         @Override
@@ -553,10 +545,11 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     }
 
     private void likeClicked(){
-        String api = "resource/comment/praise";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .build()
-                .execute(new StringCallback(){
+        Map<String,Object> map = new HashMap<>();
+        map.put("cid",cid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("method","comment.praise");
+        HttpRequest.loadWithMap(map).execute(new StringCallback(){
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -568,23 +561,25 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
                             dismissLoading();
-                            commentsData.praises=commentsData.praises+1;
-                            commentsData.praised=1;
-                            MYPRAISE = 1;
-                            likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
+//                            commentsData.praises=commentsData.praises+1;
+//                            commentsData.praised=1;
+//                            MYPRAISE = 1;
+//                            likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
                             Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
-                            praiseUserList.add(0,user);
-                            praiseHeadAdapter.notifyDataSetChanged();
+                            getData(cid);
+//                            praiseUserList.add(0,user);
+//                            praiseHeadAdapter.notifyDataSetChanged();
                         }
                     }
                 });
     }
 
     private void likeCancelled(){
-        String api = "resource/comment/unpraise";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .build()
-                .execute(new StringCallback() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cid",cid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("method","comment.unpraise");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -596,13 +591,14 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
                             dismissLoading();
-                            commentsData.praises = commentsData.praises - 1;
-                            commentsData.praised = 0;
-                            MYPRAISE = 0;
-                            likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
+//                            commentsData.praises = commentsData.praises - 1;
+//                            commentsData.praised = 0;
+//                            MYPRAISE = 0;
+//                            likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
                             Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
-                            praiseUserList.remove(user);
-                            praiseHeadAdapter.notifyDataSetChanged();
+                            getData(cid);
+//                            praiseUserList.remove(user);
+//                            praiseHeadAdapter.notifyDataSetChanged();
                         }
                     }
                 });

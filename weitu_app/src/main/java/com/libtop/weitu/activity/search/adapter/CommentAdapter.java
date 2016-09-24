@@ -157,7 +157,8 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if(CommentActivity.UID!=null && object.replyList.get(position).uid.equals(CommentActivity.UID)){
-                        onCommentListener.onReplyItemDeleted(view,position,object.replyList.get(position),object.replyList,object);
+//                        onCommentListener.onReplyItemDeleted(view,position,object.replyList.get(position),object.replyList,object);
+                        onCommentListener.onReplyItemTouch(view, position, object.replyList.get(position),object.replyList,object);
                     }else {
                         onCommentListener.onReplyItemTouch(view, position, object.replyList.get(position),object.replyList,object);
                     }
