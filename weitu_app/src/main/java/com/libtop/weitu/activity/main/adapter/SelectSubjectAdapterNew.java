@@ -5,7 +5,6 @@ import android.widget.ImageView;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.SubjectBean;
-import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.squareup.picasso.Picasso;
@@ -25,9 +24,9 @@ public class SelectSubjectAdapterNew extends CommonAdapter<SubjectBean> {
     @Override
     public void convert(ViewHolderHelper helper, SubjectBean object, int position) {
         ImageView fileImage = helper.getView(R.id.subject_image);
-        Picasso.with(context).load(object.cover).placeholder(R.drawable.default_image).into(fileImage);
-        helper.setText(R.id.subject_title, object.title);
-        helper.setChecked(R.id.checkBox, datas.get(position).ischecked);
+        Picasso.with(context).load(object.getCover()).placeholder(R.drawable.default_image).into(fileImage);
+        helper.setText(R.id.subject_title, object.getTitle());
+        helper.setChecked(R.id.checkBox, datas.get(position).ischecked());
     }
     public void setData(List<SubjectBean> data){
         datas = data;
@@ -35,13 +34,13 @@ public class SelectSubjectAdapterNew extends CommonAdapter<SubjectBean> {
     }
     public void setCheckStatus(int position )
     {
-            if (datas.get(position).ischecked == true)
+            if (datas.get(position).ischecked())
             {
-                datas.get(position).ischecked = false;
+                datas.get(position).setIschecked(false);
             }
             else
             {
-                datas.get(position).ischecked = true;
+                datas.get(position).setIschecked(true);
             }
         notifyDataSetChanged();
     }
@@ -50,7 +49,7 @@ public class SelectSubjectAdapterNew extends CommonAdapter<SubjectBean> {
         List<SubjectBean> list = new ArrayList<>();
         for (int i = 0; i < datas.size(); i++)
         {
-            if (datas.get(i).ischecked)
+            if (datas.get(i).ischecked())
             {
                 list.add(datas.get(i));
             }
@@ -58,7 +57,7 @@ public class SelectSubjectAdapterNew extends CommonAdapter<SubjectBean> {
         String[] subIds = new String[list.size()];
         for (int i = 0; i < list.size(); i++)
         {
-            subIds[i] = list.get(i).id;
+            subIds[i] = list.get(i).getId();
         }
         return subIds;
     }

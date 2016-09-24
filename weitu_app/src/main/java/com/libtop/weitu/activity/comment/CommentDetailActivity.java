@@ -189,7 +189,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                 break;
             case R.id.comment_detail_link_layout:
                 if(commentsData!=null){
-                    ContextUtil.openResourceByType(mContext, commentsData.type, commentsData.tid);
+                    ContextUtil.openResourceByType(mContext, commentsData.type, commentsData.getTid());
 //                    openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
                 }
                 break;
@@ -259,14 +259,14 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             return;
         }
 
-        if (data.comment.content != null) {
-            tvCommnet1.setText(data.comment.content);
+        if (data.comment.getContent() != null) {
+            tvCommnet1.setText(data.comment.getContent());
         }
-        if (data.comment.username != null) {
-            tvUserName.setText(data.comment.username);
+        if (data.comment.getUsername() != null) {
+            tvUserName.setText(data.comment.getUsername());
         }
-        if (data.comment.timeline != 0) {
-            tvTime.setText(DateUtil.parseToStringWithoutSS(data.comment.timeline));
+        if (data.comment.getTimeline() != 0) {
+            tvTime.setText(DateUtil.parseToStringWithoutSS(data.comment.getTimeline()));
         }
         String urlLogo = null;
         if (data.comment.logo != null) {
@@ -283,10 +283,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             data.comment.praised = 1;
         }
 
-        if(data.comment.title!=null){
+        if(data.comment.getTitle()!=null){
 //                            Picasso.with(mContext).load(data.comment.resource.cover).error(R.drawable.default_error).placeholder(R.drawable.default_error).fit().centerCrop().into(resourceFileImage);
-            commentFileTitle.setText(data.comment.title);
-            commentFileAuthor.setText("上传："+data.comment.username);
+            commentFileTitle.setText(data.comment.getTitle());
+            commentFileAuthor.setText("上传："+data.comment.getUsername());
         }
 
         if (data.comment.replyList != null) {

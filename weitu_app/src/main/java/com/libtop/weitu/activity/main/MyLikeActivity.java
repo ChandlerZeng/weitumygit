@@ -11,27 +11,31 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
+import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.config.network.APIAddress;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.CommentBean;
-import com.libtop.weitu.test.Comments;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.DateUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
-import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import okhttp3.Call;
+
 
 
 /**
@@ -49,7 +53,9 @@ public class MyLikeActivity extends BaseActivity
 
     private MyLikeAdapter myLikeAdapter;
 
-    private List<Comments> mData = new ArrayList<>();
+    private List<CommentDto> mData = new ArrayList<>();
+
+    private boolean isFromMyPraised = false;
 
 
     @Override
@@ -57,6 +63,7 @@ public class MyLikeActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_main_my_like);
+        isFromMyPraised = getIntent().getBooleanExtra("isFromMyPraised",false);
         initView();
         reqestData();
     }
@@ -65,11 +72,20 @@ public class MyLikeActivity extends BaseActivity
     private void reqestData()
     {
         showLoding();
-        HttpRequest.newLoad(APIAddress.USER_COMMENT_LIST).execute(new StringCallback()
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("uid", Preference.instance(mContext).getString(Preference.uid));
+        params.put("page", 1);
+        if (isFromMyPraised){
+            params.put("method", "comment.myPraised");
+        }else {
+            params.put("method", "comment.myPost");
+        }
+        HttpRequest.loadWithMap(params).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
             {
+
             }
 
 
@@ -79,9 +95,13 @@ public class MyLikeActivity extends BaseActivity
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    CommentBean commentBean = JsonUtil.fromJson(json, CommentBean.class);
-                    myLikeAdapter.addAll(commentBean.comments);
-                    mData.addAll(commentBean.comments);
+                    List<CommentDto> lists = JsonUtil.fromJson(json, new TypeToken<List<CommentDto>>(){}.getType());
+                    if (lists == null){
+                        return;
+                    }
+                    lists.removeAll(Collections.singleton(null));
+                    myLikeAdapter.addAll(lists);
+                    mData.addAll(lists);
                 }
             }
         });
@@ -102,7 +122,7 @@ public class MyLikeActivity extends BaseActivity
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 Intent intent = new Intent(mContext,CommentDetailActivity.class);
-                intent.putExtra("cid",mData.get(position).cid);
+                intent.putExtra("cid",mData.get(position).getId());
                 intent.putExtra("position",position);
                 startActivity(intent);
             }
@@ -110,7 +130,7 @@ public class MyLikeActivity extends BaseActivity
     }
 
 
-    private class MyLikeAdapter extends CommonAdapter<Comments>{
+    private class MyLikeAdapter extends CommonAdapter<CommentDto>{
 
 
 
@@ -121,7 +141,7 @@ public class MyLikeActivity extends BaseActivity
 
 
         @Override
-        public void convert(ViewHolderHelper helper, final Comments comments, final int position)
+        public void convert(ViewHolderHelper helper, final CommentDto commentDto, final int position)
         {
             ImageView photoCover = helper.getView(R.id.img_item_my_like_photo);
             ImageView headCover = helper.getView(R.id.img_my_like_head);
@@ -131,20 +151,19 @@ public class MyLikeActivity extends BaseActivity
                 @Override
                 public void onClick(View v)
                 {
-                    ContextUtil.openResourceByType(mContext,comments.resource.type, comments.resource.rid);
+                    ContextUtil.openResourceByType(mContext,commentDto.type, commentDto.getTid());
                 }
             });
-            Picasso.with(context).load(comments.user.logo)
-                    .transform(new CropCircleTransformation())
-                    .fit().into(headCover);
-            Picasso.with(context).load(comments.resource.cover).fit().into(photoCover);
+            ImageLoaderUtil.loadLogoImage(mContext,headCover,commentDto.getLogo());
+            ImageLoaderUtil.loadImage(context,photoCover,commentDto.getLogo());
 
-            helper.setText(R.id.tv_my_like_name,comments.user.name);
-            helper.setText(R.id.ll_my_like_content,comments.content);
-            helper.setText(R.id.tv_item_my_like_title,comments.resource.name);
-            helper.setText(R.id.tv_item_my_like_uploader,comments.resource.uploader_name);
-            helper.setText(R.id.tv_my_like_like_num,comments.count_praise+"");
-            helper.setText(R.id.tv_my_like_comment_num,comments.count_reply+"");
+            helper.setText(R.id.tv_my_like_name,commentDto.getUsername());
+            helper.setText(R.id.ll_my_like_content,commentDto.getContent());
+            helper.setText(R.id.tv_item_my_like_title,commentDto.getTitle());
+            helper.setText(R.id.tv_my_like_time, DateUtil.transformToShow(commentDto.getTimeline()));
+            helper.setText(R.id.tv_item_my_like_uploader,commentDto.getUsername());
+            helper.setText(R.id.tv_my_like_like_num,commentDto.praises+"");
+            helper.setText(R.id.tv_my_like_comment_num,commentDto.replies+"");
         }
     }
 
