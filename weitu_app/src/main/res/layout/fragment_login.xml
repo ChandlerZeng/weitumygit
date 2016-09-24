@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    style="@style/my_layout_style_common"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/included_title1"/>
+    <include layout="@layout/included_title_default"/>
 
     <LinearLayout
-        style="@style/content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dip">
+        android:padding="@dimen/padding_medium">
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -30,11 +26,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dip"
+                    android:layout_margin="@dimen/margin_small"
                     android:src="@drawable/number"/>
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/user_center_item"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
@@ -51,13 +47,12 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1px"
-                        android:background="@color/maincolor"
-                        />
+                        android:background="@color/maincolor"/>
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -65,11 +60,11 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dip"
+                    android:layout_margin="@dimen/margin_small"
                     android:src="@drawable/password"/>
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/user_center_item"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
@@ -86,8 +81,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="1px"
-                        android:background="@color/maincolor"
-                        />
+                        android:background="@color/maincolor"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -95,24 +89,24 @@
         <Button
             android:id="@+id/login_btn"
             style="@style/login_btn_style"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/input_height"
-            android:layout_marginTop="50dip"
+            android:layout_marginTop="@dimen/margin_size_30"
             android:text="@string/login_fast_str"/>
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dip"
+            android:layout_marginTop="@dimen/margin_small"
             android:orientation="horizontal">
 
-            <Button
+            <TextView
                 android:id="@+id/registor_new_user"
                 style="@style/reg_btn_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:padding="3dip"
+                android:padding="@dimen/padding_small"
                 android:text="注册账号"/>
 
             <TextView
@@ -121,8 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:paddingRight="5dip"
+                android:padding="@dimen/padding_small"
                 android:text="@string/forget_passwd"
                 android:textSize="@dimen/text_fontsize_normal"/>
         </RelativeLayout>

@@ -1,11 +1,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    style="@style/my_layout_style_common">
 
     <include
         android:id="@+id/top_view"
-        layout="@layout/included_title1"/>
+        layout="@layout/included_title_default"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

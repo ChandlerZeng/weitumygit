@@ -1,45 +1,44 @@
 <RelativeLayout
+    style="@style/my_layout_style_common"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_header"
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:background="@color/titleBar"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/back_btn"
-            android:layout_width="@dimen/back_btn_size"
-            android:layout_height="@dimen/back_btn_size"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/arrow_back"/>
+        <LinearLayout
+            style="@style/my_layout_navigationbar_style_default"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/page_title_str"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:ellipsize="marquee"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/book_detail"
-            android:textColor="@color/black"/>
+            <ImageView
+                android:id="@+id/back_btn"
+                style="@style/my_navigationbar_item_style_back"/>
 
-        <ImageButton
-            android:id="@+id/search"
-            android:layout_width="@dimen/input_height"
-            android:layout_height="fill_parent"
-            android:background="@null"
-            android:src="@drawable/school_no"
-            android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/title"
+                style="@style/page_title_str"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/book_detail"
+                android:textColor="@color/black"/>
 
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="@dimen/input_height"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:src="@drawable/school_no"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <View style="@style/my_divide_line_style_horizontal"/>
     </LinearLayout>
 
     <ImageView
@@ -87,9 +86,9 @@
             android:id="@+id/auther"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/main_item_text"
-            android:maxLines="3"
             android:ellipsize="end"
+            android:maxLines="3"
+            android:textColor="@color/main_item_text"
             android:textSize="@dimen/text_fontsize_small"/>
 
         <TextView
@@ -102,23 +101,21 @@
             android:paddingTop="3dip"
             android:textColor="@color/main_item_text"
             android:textSize="@dimen/text_fontsize_small"/>
-
     </LinearLayout>
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_size_10"
-        android:layout_below="@+id/icon"
-        android:background="@color/searchBackgroud"/>
+        android:id="@+id/activity_book_detail2_divide_view"
+        style="@style/my_divide_layout_view_style_default"
+        android:layout_below="@+id/icon"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="fill_parent"
-        android:layout_height="35dip"
-        android:layout_below="@+id/icon"
-        android:layout_marginTop="@dimen/padding_medium"
-        android:background="@drawable/gray_input_bg"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:layout_below="@+id/activity_book_detail2_divide_view"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/padding_small">
 
         <RadioButton
             android:id="@+id/info"
@@ -174,7 +171,7 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/in_bottom"
         android:layout_below="@+id/radioGroup"
@@ -183,10 +180,9 @@
     <include
         android:id="@+id/in_bottom"
         layout="@layout/included_tools_bottom"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

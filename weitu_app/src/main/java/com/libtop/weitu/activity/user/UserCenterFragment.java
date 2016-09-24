@@ -59,7 +59,7 @@ public class UserCenterFragment extends BaseFragment
     @Override
     protected int getLayoutId()
     {
-        return R.layout.fragment_user_center3;
+        return R.layout.fragment_user_center;
     }
 
 

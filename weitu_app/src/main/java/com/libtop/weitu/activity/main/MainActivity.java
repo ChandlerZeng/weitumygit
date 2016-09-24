@@ -1,6 +1,5 @@
 package com.libtop.weitu.activity.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.startup.StartupActivity;
 import com.libtop.weitu.activity.user.UserCenterFragment;
-import com.libtop.weitu.activity.user.UserCollect.UserCollectActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.base.FragmentFactory;
 import com.libtop.weitu.utils.PopupW.MoreWindow;
@@ -207,13 +205,6 @@ public class MainActivity extends BaseActivity
                 mViewPager.setCurrentItem(2);
                 break;
         }
-    }
-
-
-    private void openCollect()
-    {
-        Intent intent = new Intent(mContext, UserCollectActivity.class);
-        startActivity(intent);
     }
 
 

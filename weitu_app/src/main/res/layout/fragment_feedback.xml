@@ -1,51 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    style="@style/content"
+    style="@style/my_layout_style_common"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/included_title1"/>
+    <include layout="@layout/included_title_default"/>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="15dip">
+        android:padding="@dimen/padding_medium">
 
-        <Button
+        <TextView
             style="@style/reg_btn_style"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left"
-            android:padding="3dip"
             android:text="@string/feed_back_label"
             android:textColor="@color/black"
             android:textSize="@dimen/text_fontsize_small"/>
 
         <EditText
             android:id="@+id/content"
-            style="@style/normal_input"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/input_bg"
+            android:padding="@dimen/padding_small"
+            android:gravity="left|top"
+            android:textColor="@color/label_color"
+            android:textSize="@dimen/text_fontsize_normal"
+            android:layout_marginTop="@dimen/margin_small"
             android:hint="@string/feed_back_hint"
             android:minHeight="150dip"/>
     </LinearLayout>
 
-    <LinearLayout
+    <Button
+        android:id="@+id/send_info"
+        style="@style/login_btn_style"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="15dip">
-
-        <Button
-            android:id="@+id/send_info"
-            style="@style/login_btn_style"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/button_height_default"
-            android:text="@string/submit_relay_str"/>
-    </LinearLayout>
+        android:layout_height="@dimen/button_height_default"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_size_20"
+        android:text="@string/submit_relay_str"/>
 </LinearLayout>

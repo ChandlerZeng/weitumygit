@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
+<LinearLayout
+    style="@style/my_layout_style_common"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
 
-    <include layout="@layout/included_title1"/>
+    <include layout="@layout/included_title_default"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,12 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider"
-                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,13 +25,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_size_10"/>
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_medium"
+                android:background="@drawable/layout_bg"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_size_10">
 
@@ -57,17 +50,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/favorate_text"/>
-
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider"/>
+            <View style="@style/my_divide_line_style_horizontal"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/layout_bg"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_size_10">
 
@@ -86,17 +76,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/favorate_text"/>
-
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/divider"/>
+            <View style="@style/my_divide_line_style_horizontal"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/layout_bg"
                 android:orientation="horizontal"
                 android:padding="@dimen/padding_size_10">
 
@@ -117,23 +104,25 @@
                     android:maxLength="50"
                     android:minLines="5"
                     android:textColor="@color/main_text"/>
-
             </LinearLayout>
+
+            <View style="@style/my_divide_line_style_horizontal"/>
 
             <TextView
                 android:id="@+id/tv_subject_info_watch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_size_10"
-                android:layout_marginRight="@dimen/padding_size_10"
-                android:layout_marginTop="30dp"
+                android:layout_marginBottom="@dimen/margin_bottom_size_default"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_size_30"
                 android:background="@drawable/shape_bg_subject_follow"
                 android:gravity="center"
                 android:padding="@dimen/padding_size_10"
                 android:text="关注"
                 android:textColor="@color/newGreen"
-                android:textSize="16sp"
-                />
+                android:textSize="@dimen/text_fontsize_normal"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

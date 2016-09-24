@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    style="@style/my_layout_style_common"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/included_title1"/>
+    <include layout="@layout/included_title_default"/>
 
     <ScrollView
         android:id="@+id/scl_parent"
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,6 +130,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"/>
 
+            <View style="@style/my_divide_layout_view_style_default"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -141,16 +140,16 @@
 
                 <RadioGroup
                     android:id="@+id/radioGroup"
-                    android:layout_width="fill_parent"
-                    android:layout_height="35dip"
-                    android:layout_marginTop="@dimen/padding_medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dip"
+                    android:paddingTop="@dimen/padding_small"
                     android:background="@drawable/gray_input_bg"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/info"
                         android:layout_width="0dp"
-                        android:layout_height="fill_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@drawable/group_tap_btn_selector"
                         android:button="@null"
@@ -181,10 +180,10 @@
                     android:layout_margin="@dimen/padding_size_10"
                     android:text="简介:"
                     android:textColor="@color/main_text"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/text_fontsize_normal"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <include layout="@layout/included_tools_bottom" />
+    <include layout="@layout/included_tools_bottom"/>
 </LinearLayout>
