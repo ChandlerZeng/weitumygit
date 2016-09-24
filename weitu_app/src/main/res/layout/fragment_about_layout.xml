@@ -1,30 +1,25 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    style="@style/my_layout_style_common"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="48dp"
-        android:background="@color/titleBar">
+    <LinearLayout
+        style="@style/my_layout_navigationbar_style_default"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_width="@dimen/navigationbar_layout_height"
-            android:layout_height="fill_parent"
-            android:background="@null"
-            android:src="@drawable/arrow_back"/>
+            style="@style/my_navigationbar_item_style_back"/>
 
         <TextView
             android:id="@+id/title"
-            style="@style/page_title_str"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            style="@style/my_navigationbar_title_text_style"
+            android:layout_marginRight="@dimen/navigationbar_item_menu_width"
             android:text="关于微图"
             android:textColor="@color/black"/>
-    </RelativeLayout>
+    </LinearLayout>
+
+    <View style="@style/my_divide_line_style_horizontal"/>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -82,8 +82,7 @@
             style="@style/my_listview_item_detail_text_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_small"
-            android:text="@string/nowVersion"/>
+            android:layout_marginRight="@dimen/margin_small"/>
 
         <ImageView
             android:layout_width="wrap_content"
