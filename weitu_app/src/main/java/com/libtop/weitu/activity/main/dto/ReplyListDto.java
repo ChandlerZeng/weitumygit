@@ -10,6 +10,7 @@ public class ReplyListDto {
     public String uid;
     public String username;
     public String content;
+    public String logo;
     public long timeline;
     public int state;
     public ReplyListDto reply_user;

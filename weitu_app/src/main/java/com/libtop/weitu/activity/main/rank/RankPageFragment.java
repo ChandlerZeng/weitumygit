@@ -15,6 +15,7 @@ import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
 import com.libtop.weitu.activity.search.BookDetailFragment;
+import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CategoryResult;
@@ -51,7 +52,7 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
 
 
     private ClassifySubDetailAdapter mAdapter;
-    private List<CategoryResult> categoryResultList = new ArrayList<>();
+    private List<CollectBean> categoryResultList = new ArrayList<>();
     private List<Subject> subjectList = new ArrayList<>();
     private List<Resource> resourceList = new ArrayList<>();
 
@@ -165,13 +166,12 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
                     }
                     try{
                         Gson gson = new Gson();
-                        SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
+                        List<CollectBean> subjectResource = gson.fromJson(json, new TypeToken<List<CollectBean>>() {
                         }.getType());
                         categoryResultList.clear();
                         if (type.equals("subject")) {
-                            categoryResultList.addAll(subjectResource.subjects);
-                            subjectList= subjectResource.subjects;
-                            if (subjectList.size() < 10) {
+                            categoryResultList.addAll(subjectResource);
+                            if (categoryResultList.size() < 10) {
                                 hasData = false;
                                 xListView.setPullLoadEnable(false);
                             } else {
@@ -179,9 +179,8 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
                                 xListView.setPullLoadEnable(true);
                             }
                         } else {
-                            categoryResultList.addAll(subjectResource.resources);
-                            resourceList = subjectResource.resources;
-                            if (resourceList.size() < 10) {
+                            categoryResultList.addAll(subjectResource);
+                            if (categoryResultList.size() < 10) {
                                 hasData = false;
                                 xListView.setPullLoadEnable(false);
                             } else {

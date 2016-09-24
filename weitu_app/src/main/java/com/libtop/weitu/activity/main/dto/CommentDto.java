@@ -1,14 +1,14 @@
 package com.libtop.weitu.activity.main.dto;
 
-import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by zeng on 2016/9/23.
  */
 
-public class CommentDto {
+public class CommentDto implements Serializable{
 
     /**
      * id : 57e4d24d04126079b94edeb9
@@ -37,9 +37,9 @@ public class CommentDto {
     public String content;
     public int score;
     public int state;
-    public int my_praise;
-    public int count_reply;
+    public int replies;
     public int praises;
+    public int praised;
     public String logo;
     public boolean isExpanded = false;
     /**
