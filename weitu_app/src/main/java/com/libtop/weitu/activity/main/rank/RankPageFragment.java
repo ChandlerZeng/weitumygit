@@ -5,31 +5,24 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
-import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
 
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 
-import com.libtop.weitu.widget.listview.XListView;
+import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;

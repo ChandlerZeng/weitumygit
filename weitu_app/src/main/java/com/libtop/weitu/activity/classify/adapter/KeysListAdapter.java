@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.bean.KeyBean;
 import com.libtop.weitu.base.BaseAdapter;
-import com.libtop.weitu.widget.gridview.FixedGridView;
+import com.libtop.weitu.widget.view.GridViewForScrollView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +54,7 @@ public class KeysListAdapter extends BaseAdapter<KeyBean>
     {
         Holder holder = new Holder();
         holder.titleText = (TextView) convertView.findViewById(R.id.title);
-        holder.keyGrid = (FixedGridView) convertView.findViewById(R.id.grid_view);
+        holder.keyGrid = (GridViewForScrollView) convertView.findViewById(R.id.grid_view);
         convertView.setTag(holder);
     }
 
@@ -89,6 +89,6 @@ public class KeysListAdapter extends BaseAdapter<KeyBean>
     private class Holder
     {
         TextView titleText;
-        FixedGridView keyGrid;
+        GridViewForScrollView keyGrid;
     }
 }

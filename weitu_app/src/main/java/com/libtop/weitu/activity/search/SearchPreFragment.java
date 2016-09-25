@@ -26,7 +26,7 @@ import com.libtop.weitu.dao.bean.Search;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.widget.gridview.FixedGridView;
+import com.libtop.weitu.widget.view.GridViewForScrollView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
     @Bind(R.id.ll_out_search_history)
     LinearLayout llSearchHistory;
     @Bind(R.id.gv_hot)
-    FixedGridView gvHot;
+    GridViewForScrollView gvHot;
     @Bind(R.id.trash)
     TextView mTrashBtn;
     @Bind(R.id.search_expandable_text)

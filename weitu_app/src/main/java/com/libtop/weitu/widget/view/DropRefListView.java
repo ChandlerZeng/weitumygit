@@ -6,7 +6,7 @@
  * @description An ListView support (a) Pull down to refresh, (b) Pull up to load more.
  * Implement IXListViewListener, and see stopRefresh() / stopLoadMore().
  */
-package com.libtop.weitu.widget.listview;
+package com.libtop.weitu.widget.view;
 
 
 import android.content.Context;
@@ -26,11 +26,11 @@ import com.libtop.weitu.R;
 
 
 /**
- * 下拉刷新，上拉加载下一页
+ * 下拉加载下一页的listview
  * @author Administrator
  *
  */
-public class ScrollRefListView extends ListView implements OnScrollListener
+public class DropRefListView extends ListView implements OnScrollListener
 {
 
     private float mLastY = -1; // save event y
@@ -41,7 +41,7 @@ public class ScrollRefListView extends ListView implements OnScrollListener
     private IXListViewListener mListViewListener;
 
     // -- header view
-    private NHeader mHeaderView;
+    private DHeader mHeaderView;
     // header view content, use it to calculate the Header's height. And hide it
     // when disable pull refresh.
     LinearLayout mHeaderViewContent;
@@ -50,7 +50,7 @@ public class ScrollRefListView extends ListView implements OnScrollListener
     private boolean mPullRefreshing = false; // is refreashing.
 
     // -- footer view
-    XListViewFooter mFooterView;
+    private DFooter mFooterView;
     private boolean mEnablePullLoad;
     private boolean mPullLoading;
     private boolean mIsFooterReady = false;
@@ -64,7 +64,7 @@ public class ScrollRefListView extends ListView implements OnScrollListener
     private final static int SCROLLBACK_FOOTER = 1;
 
     private final static int SCROLL_DURATION = 400; // scroll back duration
-    private static int PULL_LOAD_MORE_DELTA = 50; // when pull up >= 50px
+    private final static int PULL_LOAD_MORE_DELTA = 50; // when pull up >= 50px
     // at bottom, trigger
     // load more.
     private final static float OFFSET_RADIO = 1.8f; // support iOS like pull
@@ -74,21 +74,21 @@ public class ScrollRefListView extends ListView implements OnScrollListener
     /**
      * @param context
      */
-    public ScrollRefListView(Context context)
+    public DropRefListView(Context context)
     {
         super(context);
         initWithContext(context);
     }
 
 
-    public ScrollRefListView(Context context, AttributeSet attrs)
+    public DropRefListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         initWithContext(context);
     }
 
 
-    public ScrollRefListView(Context context, AttributeSet attrs, int defStyle)
+    public DropRefListView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         initWithContext(context);
@@ -97,7 +97,6 @@ public class ScrollRefListView extends ListView implements OnScrollListener
 
     private void initWithContext(Context context)
     {
-        PULL_LOAD_MORE_DELTA = context.getResources().getDimensionPixelSize(R.dimen.listview_load_footer_height);
         this.setFooterDividersEnabled(false);
         this.setHeaderDividersEnabled(false);
         mScroller = new Scroller(context, new DecelerateInterpolator());
@@ -106,12 +105,13 @@ public class ScrollRefListView extends ListView implements OnScrollListener
         super.setOnScrollListener(this);
 
         // init header view
-        mHeaderView = new NHeader(context);
+        mHeaderView = new DHeader(context);
         mHeaderViewContent = (LinearLayout) mHeaderView.findViewById(R.id.xlistview_header_content);
+
         addHeaderView(mHeaderView);
 
         // init footer view
-        mFooterView = new XListViewFooter(context);
+        mFooterView = new DFooter(context);
 
         // init header height
         mHeaderView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
@@ -213,6 +213,17 @@ public class ScrollRefListView extends ListView implements OnScrollListener
             mPullLoading = false;
             mFooterView.setState(XListViewFooter.STATE_NORMAL);
         }
+    }
+
+
+    /**
+     * set last refresh time
+     *
+     * @param time
+     */
+    public void setRefreshTime(String time)
+    {
+
     }
 
 
@@ -332,6 +343,7 @@ public class ScrollRefListView extends ListView implements OnScrollListener
             case MotionEvent.ACTION_MOVE:
                 final float deltaY = ev.getRawY() - mLastY;
                 mLastY = ev.getRawY();
+                System.out.println("数据监测：" + getFirstVisiblePosition() + "---->" + getLastVisiblePosition());
                 if (getFirstVisiblePosition() == 0 && (mHeaderView.getVisiableHeight() > 0 || deltaY > 0))
                 {
                     // the first item is showing, header has shown or pull down.
@@ -353,6 +365,10 @@ public class ScrollRefListView extends ListView implements OnScrollListener
                     {
                         mPullRefreshing = true;
                         mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
+                        if (mListViewListener != null)
+                        {
+                            mListViewListener.onRefresh();
+                        }
                     }
                     resetHeaderHeight();
                 }
@@ -458,6 +474,8 @@ public class ScrollRefListView extends ListView implements OnScrollListener
      */
     public interface IXListViewListener
     {
+        public void onRefresh();
+
         public void onLoadMore();
     }
 }

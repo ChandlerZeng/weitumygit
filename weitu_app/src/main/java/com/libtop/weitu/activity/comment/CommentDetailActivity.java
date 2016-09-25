@@ -44,7 +44,7 @@ import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
-import com.libtop.weitu.widget.listview.ChangeListView;
+import com.libtop.weitu.widget.view.ListViewForScrollView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -99,7 +99,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     @Bind(R.id.comment_detail_grid_view)
     GridView commentDetailGridView;
     @Bind(R.id.list_reply)
-    ChangeListView listReply;
+    ListViewForScrollView listReply;
     @Bind(R.id.edit_comment)
     EditText editComment;
     @Bind(R.id.commit)

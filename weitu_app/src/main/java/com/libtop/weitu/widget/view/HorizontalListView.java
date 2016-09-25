@@ -24,7 +24,7 @@
  * It has been substantially rewritten and added to from the original version.
  */
 // @formatter:on
-package com.libtop.weitu.widget.listview;
+package com.libtop.weitu.widget.view;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

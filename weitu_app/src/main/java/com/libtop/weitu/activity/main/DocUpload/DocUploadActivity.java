@@ -31,7 +31,7 @@ import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.StringUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
-import com.libtop.weitu.widget.listview.XListView;
+import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONException;

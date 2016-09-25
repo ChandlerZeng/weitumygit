@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <com.libtop.weitu.widget.listview.ScrollRefListView
+        <com.libtop.weitu.widget.view.ScrollRefListView
             android:id="@+id/list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

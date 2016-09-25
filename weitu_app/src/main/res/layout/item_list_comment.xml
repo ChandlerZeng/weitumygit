@@ -117,7 +117,7 @@
         android:layout_marginRight="@dimen/padding_size_10"
         android:layout_marginBottom="@dimen/padding_size_10"
         android:background="@drawable/shape_comment_textview_bg">
-        <com.libtop.weitu.widget.listview.ChangeListView
+        <com.libtop.weitu.widget.view.ListViewForScrollView
             android:layout_marginLeft="@dimen/padding_size_10"
             android:layout_marginRight="@dimen/padding_size_10"
             android:id="@+id/list_reply"

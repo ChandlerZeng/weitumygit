@@ -27,7 +27,7 @@ import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.ListViewUtil;
-import com.libtop.weitu.widget.listview.ScrollRefListView;
+import com.libtop.weitu.widget.view.ScrollRefListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;

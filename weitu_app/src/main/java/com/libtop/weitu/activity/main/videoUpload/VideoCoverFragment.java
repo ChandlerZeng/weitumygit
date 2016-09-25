@@ -16,7 +16,7 @@ import com.libtop.weitu.activity.main.adapter.VideoCoverAdapter;
 import com.libtop.weitu.activity.main.dto.VideoBean;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.widget.listview.HorizontalListView;
+import com.libtop.weitu.widget.view.HorizontalListView;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 

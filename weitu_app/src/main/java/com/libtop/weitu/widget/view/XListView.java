@@ -6,32 +6,31 @@
  * @description An ListView support (a) Pull down to refresh, (b) Pull up to load more.
  * Implement IXListViewListener, and see stopRefresh() / stopLoadMore().
  */
-package com.libtop.weitu.widget.listview;
-
+package com.libtop.weitu.widget.view;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-/**
- * 下拉刷新，上拉加载下一页
- * @author Administrator
- *
- */
-public class PullRefListView extends ListView implements OnScrollListener
+
+public class XListView extends ListView implements OnScrollListener
 {
 
     private float mLastY = -1; // save event y
@@ -45,7 +44,7 @@ public class PullRefListView extends ListView implements OnScrollListener
     XListViewHeader mHeaderView;
     // header view content, use it to calculate the Header's height. And hide it
     // when disable pull refresh.
-    LinearLayout mHeaderViewContent;
+    RelativeLayout mHeaderViewContent;
     TextView mHeaderTimeView;
     private int mHeaderViewHeight; // header view's height
     private boolean mEnablePullRefresh = true;
@@ -53,7 +52,7 @@ public class PullRefListView extends ListView implements OnScrollListener
 
     // -- footer view
     XListViewFooter mFooterView;
-    private boolean mEnablePullLoad = true;
+    private boolean mEnablePullLoad;
     private boolean mPullLoading;
     private boolean mIsFooterReady = false;
 
@@ -66,31 +65,35 @@ public class PullRefListView extends ListView implements OnScrollListener
     private final static int SCROLLBACK_FOOTER = 1;
 
     private final static int SCROLL_DURATION = 400; // scroll back duration
-    private static int PULL_LOAD_MORE_DELTA = 50; // when pull up >= 50px
+    private final static int PULL_LOAD_MORE_DELTA = 50; // when pull up >= 50px
     // at bottom, trigger
     // load more.
     private final static float OFFSET_RADIO = 1.8f; // support iOS like pull
     // feature.
 
+    private SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private String currentClassName;
+
 
     /**
      * @param context
      */
-    public PullRefListView(Context context)
+    public XListView(Context context)
     {
         super(context);
         initWithContext(context);
     }
 
 
-    public PullRefListView(Context context, AttributeSet attrs)
+    public XListView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         initWithContext(context);
     }
 
 
-    public PullRefListView(Context context, AttributeSet attrs, int defStyle)
+    public XListView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         initWithContext(context);
@@ -99,9 +102,7 @@ public class PullRefListView extends ListView implements OnScrollListener
 
     private void initWithContext(Context context)
     {
-        PULL_LOAD_MORE_DELTA = context.getResources().getDimensionPixelSize(R.dimen.listview_load_footer_height);
-        this.setFooterDividersEnabled(false);
-        this.setHeaderDividersEnabled(false);
+        currentClassName = context.getClass().getName();
         mScroller = new Scroller(context, new DecelerateInterpolator());
         // XListView need the scroll event, and it will dispatch the event to
         // user's listener (as a proxy).
@@ -109,9 +110,14 @@ public class PullRefListView extends ListView implements OnScrollListener
 
         // init header view
         mHeaderView = new XListViewHeader(context);
-        mHeaderViewContent = (LinearLayout) mHeaderView.findViewById(R.id.xlistview_header_content);
+        mHeaderViewContent = (RelativeLayout) mHeaderView.findViewById(R.id.xlistview_header_content);
         mHeaderTimeView = (TextView) mHeaderView.findViewById(R.id.xlistview_header_time);
         addHeaderView(mHeaderView);
+        sharedPreferences = context.getSharedPreferences("updateTime", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        Long time = sharedPreferences.getLong(currentClassName, System.currentTimeMillis());
+        setRefreshTime(time);
+        Log.w("guanglog", "xlistview name " + context.getClass().getName());
 
         // init footer view
         mFooterView = new XListViewFooter(context);
@@ -119,7 +125,6 @@ public class PullRefListView extends ListView implements OnScrollListener
         // init header height
         mHeaderView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener()
         {
-            @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout()
             {
@@ -174,12 +179,16 @@ public class PullRefListView extends ListView implements OnScrollListener
         {
             mFooterView.hide();
             mFooterView.setOnClickListener(null);
+            //make sure "pull up" don't show a line in bottom when listview with one page
+            setFooterDividersEnabled(false);
         }
         else
         {
             mPullLoading = false;
             mFooterView.show();
             mFooterView.setState(XListViewFooter.STATE_NORMAL);
+            //make sure "pull up" don't show a line in bottom when listview with one page
+            setFooterDividersEnabled(true);
             // both "pull up" and "click" will invoke load more.
             mFooterView.setOnClickListener(new OnClickListener()
             {
@@ -202,6 +211,9 @@ public class PullRefListView extends ListView implements OnScrollListener
         {
             mPullRefreshing = false;
             resetHeaderHeight();
+            //3、存放数据
+            editor.putLong(currentClassName, System.currentTimeMillis());
+            editor.commit();
         }
     }
 
@@ -227,6 +239,20 @@ public class PullRefListView extends ListView implements OnScrollListener
     public void setRefreshTime(String time)
     {
         mHeaderTimeView.setText(time);
+    }
+
+
+    /**
+     * set last refresh time
+     *
+     * @param time
+     */
+    public void setRefreshTime(long time)
+    {
+        Date lastTime = new Date(time);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(lastTime);
+        mHeaderTimeView.setText(dateString);
     }
 
 
@@ -303,7 +329,7 @@ public class PullRefListView extends ListView implements OnScrollListener
         }
         mFooterView.setBottomMargin(height);
 
-        // setSelection(mTotalItemCount - 1); // scroll to bottom
+        //		setSelection(mTotalItemCount - 1); // scroll to bottom
     }
 
 
@@ -369,15 +395,18 @@ public class PullRefListView extends ListView implements OnScrollListener
                         mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
                         if (mListViewListener != null)
                         {
+                            //2、取出数据
+                            Long time = sharedPreferences.getLong(currentClassName, System.currentTimeMillis());
+                            setRefreshTime(time);
                             mListViewListener.onRefresh();
                         }
                     }
                     resetHeaderHeight();
                 }
-                if (getLastVisiblePosition() == mTotalItemCount - 1)
+                else if (getLastVisiblePosition() == mTotalItemCount - 1)
                 {
                     // invoke load more.
-                    if (mEnablePullLoad && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA)
+                    if (mEnablePullLoad && mFooterView.getBottomMargin() > PULL_LOAD_MORE_DELTA && !mPullLoading)
                     {
                         startLoadMore();
                     }
@@ -386,23 +415,6 @@ public class PullRefListView extends ListView implements OnScrollListener
                 break;
         }
         return super.onTouchEvent(ev);
-    }
-
-
-    /**
-     * 默认下拉刷新
-     */
-    public void onListRefresh()
-    {
-        mPullRefreshing = true;
-        mHeaderView.setState(XListViewHeader.STATE_REFRESHING);
-        if (mHeaderViewHeight == 0)
-        {
-            mHeaderViewHeight = getResources().getDimensionPixelSize(R.dimen.listview_refresh_header_height);
-        }
-        mScroller.startScroll(0, 0, 0, mHeaderViewHeight, SCROLL_DURATION);
-        // trigger computeScroll
-        invalidate();
     }
 
 

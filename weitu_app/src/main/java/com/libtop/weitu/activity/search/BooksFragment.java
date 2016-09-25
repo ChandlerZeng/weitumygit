@@ -21,7 +21,7 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.widget.listview.ScrollRefListView;
+import com.libtop.weitu.widget.view.ScrollRefListView;
 import com.libtop.weitu.widget.stage.StaggeredGridView;
 
 import org.greenrobot.eventbus.EventBus;

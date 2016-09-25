@@ -28,7 +28,7 @@ import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.widget.listview.XListView;
+import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;

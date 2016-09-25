@@ -17,7 +17,7 @@ import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.widget.listview.XListView;
+import com.libtop.weitu.widget.view.XListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;

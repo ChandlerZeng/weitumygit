@@ -45,7 +45,7 @@
             android:textSize="18sp"/>
     </RelativeLayout>
 
-    <com.libtop.weitu.widget.listview.XListView
+    <com.libtop.weitu.widget.view.XListView
         android:id="@+id/show_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -4,7 +4,7 @@
  * @author Maxwin
  * @description XListView's header
  */
-package com.libtop.weitu.widget.listview;
+package com.libtop.weitu.widget.view;
 
 
 import android.content.Context;

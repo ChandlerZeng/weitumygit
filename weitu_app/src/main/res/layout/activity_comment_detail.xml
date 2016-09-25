@@ -176,7 +176,7 @@
 
                     <View style="@style/my_divide_layout_view_style_default"/>
 
-                    <com.libtop.weitu.widget.listview.ChangeListView
+                    <com.libtop.weitu.widget.view.ListViewForScrollView
                         android:id="@+id/list_reply"
                         style="@style/my_listview_style_with_stroke"
                         android:nestedScrollingEnabled="false"

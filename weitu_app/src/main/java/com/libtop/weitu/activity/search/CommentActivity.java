@@ -20,7 +20,6 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
 import com.libtop.weitu.activity.main.dto.CommentDto;
-import com.libtop.weitu.activity.main.dto.ReplyDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.adapter.CommentAdapter;
 import com.libtop.weitu.activity.search.dto.CommentNeedDto;
@@ -37,7 +36,7 @@ import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
-import com.libtop.weitu.widget.listview.XListView;
+import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
