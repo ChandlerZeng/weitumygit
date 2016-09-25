@@ -5,20 +5,14 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyFragment;
@@ -47,8 +41,12 @@ import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.CheckUtil;
+import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.DisplayUtil;
+import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.view.GridViewForScrollView;
@@ -75,35 +73,26 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 
-/**
- *  MainFragment.java
- */
-public class MainFragment extends BaseFragment implements ViewPager.OnPageChangeListener, OnPageClickListener, NetworkLoadingLayout.OnRetryClickListner
+public class MainFragment extends BaseFragment implements OnPageClickListener, NetworkLoadingLayout.OnRetryClickListner
 {
-    @Bind(R.id.swipeRefreshLayout)
+    private static final String IMAGE_SLIDER_DOMAIN_AUDIO_ALBUM = "audio-album";
+    private static final String IMAGE_SLIDER_DOMAIN_VIDEO_ALBUM = "video-album";
+    private static final String IMAGE_SLIDER_DOMAIN_DOCUMENT = "document";
+    private static final String IMAGE_SLIDER_DOMAIN_IMAGE_ALBUM = "image-album";
+
+
+    @Bind(R.id.fragment_discover_layout_swiperefreshlayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    @Bind(R.id.scroll)
-    ScrollView mScroll;
+    @Bind(R.id.fragment_discover_layout_scrollview)
+    ScrollView scrollView;
     @Bind(R.id.included_main_content_subject_gridview)
     GridViewForScrollView subjectGridView;
     @Bind(R.id.included_main_content_infiniteindicator)
     InfiniteIndicator mAnimLineIndicator;
     @Bind(R.id.included_main_content_resource_listview)
     ListViewForScrollView resourceListView;
-    @Bind(R.id.open_alarm)
+    @Bind(R.id.fragment_discover_layout_notice_imageview)
     BGABadgeImageView noticeIv;
-    @Bind(R.id.edit)
-    EditText editText;
-    @Bind(R.id.included_main_content_category_textview)
-    TextView classigyText;
-    @Bind(R.id.included_main_content_ranklist_textview)
-    TextView rankText;
-    @Bind(R.id.included_main_content_more_subject_textview)
-    TextView subjectMore;
-    @Bind(R.id.included_main_content_more_resource_textview)
-    TextView fileMore;
-    @Bind(R.id.ll_news)
-    LinearLayout llNews;
     @Bind(R.id.networkloadinglayout)
     NetworkLoadingLayout networkLoadingLayout;
 
@@ -115,7 +104,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     private List<Resource> reourceList = new ArrayList<>();
     private List<Subject> subjectList = new ArrayList<>();
     private List<ImageSliderDto> slideList = new ArrayList<ImageSliderDto>();
-
     private CompositeSubscription _subscriptions = new CompositeSubscription();
 
     private ACache mCache;
@@ -136,6 +124,31 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     {
         preInitData();
         initView();
+        updateNoticeBadge(0);
+    }
+
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        mAnimLineIndicator.start();
+    }
+
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        mAnimLineIndicator.stop();
+    }
+
+
+    @Override
+    public void onDestroyView()
+    {
+        super.onDestroyView();
+        _subscriptions.clear();
     }
 
 
@@ -149,6 +162,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     {
         moreSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
         resourceFileAdapter = new ResourceFileAdapter(mContext, reourceList);
+
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
         if (isFirstIn)
         {
@@ -156,32 +170,16 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             networkLoadingLayout.showLoading();
             reloadAllData();
         }
+
         swipeRefreshLayout.setRefreshing(false);
         networkLoadingLayout.setOnRetryClickListner(this);
+
         subjectGridView.setAdapter(moreSubjectAdapter);
         resourceListView.setAdapter(resourceFileAdapter);
-        subjectGridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Subject subject = subjectList.get(position);
-                Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                intent.putExtra("cover", subject.cover);
-                startActivity(intent);
-            }
-        });
-        resourceListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Resource resource = reourceList.get(position);
-                //                openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-                ContextUtil.openResourceByType(mContext, resource.type, resource.rid);
-            }
-        });
-        mScroll.smoothScrollTo(0, 0);
+        subjectGridView.setOnItemClickListener(subjectGridVieOnItemClickListener);
+        resourceListView.setOnItemClickListener(resourceListViewOnItemClickListener);
+
+        scrollView.smoothScrollTo(0, 0);
         swipeRefreshLayout.setOnRefreshListener(swipeOnRefreshListener);
     }
 
@@ -199,7 +197,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     {
         if (newCount > 1)
         {
-            noticeIv.showTextBadge("13");
+            noticeIv.showTextBadge(String.valueOf(newCount));
         }
         else
         {
@@ -211,19 +209,17 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     private void requestImageSlider()
     {
         List<ImageSliderDto> imageSliderDtos = (List<ImageSliderDto>) mCache.getAsObject("imageSliderDtos");
-        if (imageSliderDtos != null && !imageSliderDtos.isEmpty())
-        {
-            handleImageSlideResult(imageSliderDtos);
-        }
+        handleImageSlideResult(imageSliderDtos);
+
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("method", "focus.list");
         String[] arrays = MapUtil.map2Parameter(params);
+
         _subscriptions.add(WeituNetwork.getWeituApi().getImageSlider(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<ImageSliderDto>>()
         {
             @Override
             public void onCompleted()
             {
-
             }
 
 
@@ -246,136 +242,30 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     private void handleImageSlideResult(List<ImageSliderDto> imageSliderDtos)
     {
-        if (imageSliderDtos.isEmpty())
+        if (CollectionUtil.getSize(imageSliderDtos) > 0)
         {
-            return;
+            slideList.clear();
+            slideList = imageSliderDtos;
+            initImageSlide();
         }
-        slideList.clear();
-        slideList = imageSliderDtos;
-        initImageSlide();
-    }
-
-
-    @Override
-    public void onDestroyView()
-    {
-        super.onDestroyView();
-        _subscriptions.clear();
     }
 
 
     private void initImageSlide()
     {
-        initData();
+        initPageViews();
         testAnimLineIndicator();
     }
 
 
-    private void initData()
+    private void initPageViews()
     {
-        if (slideList.isEmpty())
+        if (CollectionUtil.getSize(slideList) > 0)
         {
-            return;
+            pageViews = new ArrayList<>();
+            pageViews.add(new Page("A ", slideList.get(0).poster, this));
+            pageViews.add(new Page("B ", slideList.get(1).poster, this));
         }
-        pageViews = new ArrayList<>();
-        pageViews.add(new Page("A ", slideList.get(0).poster, this));
-        pageViews.add(new Page("B ", slideList.get(1).poster, this));
-
-    }
-
-
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        mAnimLineIndicator.start();
-    }
-
-
-    @Override
-    public void onPause()
-    {
-        super.onPause();
-        mAnimLineIndicator.stop();
-    }
-
-
-    @Nullable
-    @OnClick({R.id.open_alarm, R.id.open_clazz, R.id.edit, R.id.included_main_content_category_textview, R.id.included_main_content_ranklist_textview, R.id.included_main_content_more_subject_textview, R.id.included_main_content_more_resource_textview})
-    public void onClick(View v)
-    {
-        switch (v.getId())
-        {
-            case R.id.open_alarm:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
-                {
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    mContext.startActivity(bundle1, ContentActivity.class);
-                }
-                else
-                {
-                    Intent intent = new Intent(getActivity(), NoticeActivity.class);
-                    startActivity(intent);
-                }
-                break;
-
-            case R.id.open_clazz:
-                Bundle bundle = new Bundle();
-                bundle.putInt("from", 1);
-                bundle.putString(ContentActivity.FRAG_CLS, LibraryFragment.class.getName());
-                mContext.startActivity(bundle, CaptureActivity.class);
-                break;
-
-            case R.id.edit:
-                mContext.startActivity(null, SearchActivity.class);
-                break;
-
-            case R.id.included_main_content_category_textview:
-                Bundle bundle2 = new Bundle();
-                bundle2.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
-                mContext.startActivity(bundle2, ContentActivity.class);
-                break;
-
-            case R.id.included_main_content_ranklist_textview:
-                Bundle bundle3 = new Bundle();
-                bundle3.putString(ContentActivity.FRAG_CLS, RankFragment.class.getName());
-                mContext.startActivity(bundle3, ContentActivity.class);
-                break;
-
-            case R.id.included_main_content_more_subject_textview:
-                Bundle bundle4 = new Bundle();
-                bundle4.putString(ContentActivity.FRAG_CLS, MoreSubjectFragment.class.getName());
-                mContext.startActivity(bundle4, ContentActivity.class);
-                break;
-
-            case R.id.included_main_content_more_resource_textview:
-                Bundle bundle5 = new Bundle();
-                bundle5.putString(ContentActivity.FRAG_CLS, MoreRmdFileFragment.class.getName());
-                mContext.startActivity(bundle5, ContentActivity.class);
-                break;
-        }
-    }
-
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-    {
-
-    }
-
-
-    @Override
-    public void onPageSelected(int position)
-    {
-
-    }
-
-
-    @Override
-    public void onPageScrollStateChanged(int state)
-    {
-
     }
 
 
@@ -387,34 +277,37 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         {
             return;
         }
-        if (imageSliderDto.type == 1)
+
+        int type = imageSliderDto.type;
+        if (type == 1)
         {
             switch (imageSliderDto.domain)
             {
-                case "audio-album":
+                case IMAGE_SLIDER_DOMAIN_AUDIO_ALBUM:
                     openAudio(position);
                     break;
-                case "video-album":
+
+                case IMAGE_SLIDER_DOMAIN_VIDEO_ALBUM:
                     openVideo(position);
                     break;
-                case "document":
+
+                case IMAGE_SLIDER_DOMAIN_DOCUMENT:
                     openDoc(position);
                     break;
-                case "image-album":
+
+                case IMAGE_SLIDER_DOMAIN_IMAGE_ALBUM:
                     openPhoto(position);
                     break;
             }
         }
-        else if (imageSliderDto.type == 2)
+        else if (type == 2)
         {
-            if (TextUtils.isEmpty(imageSliderDto.url))
+            if (!TextUtils.isEmpty(imageSliderDto.url))
             {
-                return;
+                Uri uri = Uri.parse(imageSliderDto.url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
-            Uri uri = Uri.parse(imageSliderDto.url);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-
         }
     }
 
@@ -465,13 +358,14 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         int width;
         if (windowWidth == -1)
         {
-            width = getWinWidth();
+            width = DisplayUtil.getDeviceWidthPixels(mContext);
             mPreference.putInt("windowWidth", width);
         }
         else
         {
             width = mPreference.getInt("windowWidth");
         }
+
         mAnimLineIndicator.getLayoutParams().height = width * 22 / 75;
         mAnimLineIndicator.requestLayout();
         mAnimLineIndicator.setImageLoader(new PicassoLoader());
@@ -480,33 +374,24 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     }
 
 
-    //等到屏幕宽度
-    private int getWinWidth()
-    {
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        mContext.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int screenWidth = displaymetrics.widthPixels;
-        return screenWidth;
-    }
-
-
     private void requestSubject()
     {
         final List<Subject> subjectLists = (List<Subject>) mCache.getAsObject("subjectList");
-        if (subjectLists != null && !subjectLists.isEmpty())
+        if (CollectionUtil.getSize(subjectLists) > 0)
         {
             handleSubjectResult(subjectLists);
             networkLoadingLayout.dismiss();
         }
+
         String api = "/find/subject/recommend/top";
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
             {
-                if (subjectLists != null && !subjectLists.isEmpty())
+                if (CollectionUtil.getSize(subjectLists) > 0)
                 {
-
+                    //TODO
                 }
                 else
                 {
@@ -518,32 +403,68 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             @Override
             public void onResponse(String json, int id)
             {
-                if (!TextUtils.isEmpty(json))
+                try
                 {
-                    try
+                    SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
+
+                    List<Subject> listSub = new ArrayList<>();
+                    listSub = subjectResource.subjects;
+                    if (listSub.size() > 0)
                     {
-                        Gson gson = new Gson();
-                        SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>()
-                        {
-                        }.getType());
-                        List<Subject> listSub = new ArrayList<>();
-                        listSub = subjectResource.subjects;
-                        if (listSub.size() > 0)
-                        {
-                            networkLoadingLayout.dismiss();
-                        }
-                        else if (listSub.size() == 0 && subjectLists.size() == 0)
-                        {
-                            networkLoadingLayout.showEmptyPrompt();
-                            return;
-                        }
-                        mCache.put("subjectList", (Serializable) listSub);
-                        handleSubjectResult(listSub);
+                        networkLoadingLayout.dismiss();
                     }
-                    catch (Exception e)
+                    else if (listSub.size() == 0 && subjectLists.size() == 0)
                     {
-                        e.printStackTrace();
+                        networkLoadingLayout.showEmptyPrompt();
+                        return;
                     }
+
+                    mCache.put("subjectList", (Serializable) listSub);
+                    handleSubjectResult(listSub);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    LogUtil.e(getTag(), e.toString());
+                }
+            }
+        });
+    }
+
+
+    private void loadResourceFile()
+    {
+        List<Resource> resourceList = (List<Resource>) mCache.getAsObject("resourceList");
+        if (CollectionUtil.getSize(resourceList) > 0)
+        {
+            handleResourceFile(resourceList);
+        }
+
+        String api = "/find/resource/recommend/top";
+        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                try
+                {
+                    SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
+
+                    List<Resource> list = new ArrayList<>();
+                    list = subjectResource.resources;
+                    mCache.put("resourceList", (Serializable) list);
+                    handleResourceFile(list);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    LogUtil.e(getTag(), e.toString());
                 }
             }
         });
@@ -563,48 +484,6 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             subjectList = subjectList.subList(0, 4);
         }
         moreSubjectAdapter.setData(subjectList);
-    }
-
-
-    private void loadResourceFile()
-    {
-        List<Resource> resourceList = (List<Resource>) mCache.getAsObject("resourceList");
-        if (resourceList != null && !resourceList.isEmpty())
-        {
-            handleResourceFile(resourceList);
-        }
-        String api = "/find/resource/recommend/top";
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback()
-        {
-            @Override
-            public void onError(Call call, Exception e, int id)
-            {
-            }
-
-
-            @Override
-            public void onResponse(String json, int id)
-            {
-                if (!TextUtils.isEmpty(json))
-                {
-                    try
-                    {
-                        Gson gson = new Gson();
-                        SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>()
-                        {
-                        }.getType());
-                        List<Resource> list = new ArrayList<>();
-                        list = subjectResource.resources;
-                        mCache.put("resourceList", (Serializable) list);
-                        handleResourceFile(list);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
     }
 
 
@@ -635,9 +514,99 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
     };
 
 
+    private AdapterView.OnItemClickListener subjectGridVieOnItemClickListener = new AdapterView.OnItemClickListener()
+    {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
+            Subject subject = subjectList.get(position);
+            Intent intent = new Intent(mContext, SubjectDetailActivity.class);
+            intent.putExtra("cover", subject.cover);
+            startActivity(intent);
+        }
+    };
+
+
+    private AdapterView.OnItemClickListener resourceListViewOnItemClickListener = new AdapterView.OnItemClickListener()
+    {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
+            Resource resource = reourceList.get(position);
+            ContextUtil.openResourceByType(mContext, resource.type, resource.rid);
+        }
+    };
+
+
     @Override
     public void onRetryClick(View v)
     {
         reloadAllData();
+    }
+
+
+    @Nullable
+    @OnClick({
+            R.id.fragment_discover_layout_notice_imageview,
+            R.id.fragment_discover_layout_scan_imageview,
+            R.id.fragment_discover_layout_search_edittext,
+            R.id.included_main_content_category_textview,
+            R.id.included_main_content_ranklist_textview,
+            R.id.included_main_content_more_subject_textview,
+            R.id.included_main_content_more_resource_textview
+    })
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.fragment_discover_layout_notice_imageview:
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
+                    mContext.startActivity(bundle1, ContentActivity.class);
+                }
+                else
+                {
+                    Intent intent = new Intent(getActivity(), NoticeActivity.class);
+                    startActivity(intent);
+                }
+                break;
+
+            case R.id.fragment_discover_layout_scan_imageview:
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 1);
+                bundle.putString(ContentActivity.FRAG_CLS, LibraryFragment.class.getName());
+                mContext.startActivity(bundle, CaptureActivity.class);
+                break;
+
+            case R.id.edit:
+                mContext.startActivity(null, SearchActivity.class);
+                break;
+
+            case R.id.included_main_content_category_textview:
+                Bundle bundle2 = new Bundle();
+                bundle2.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
+                mContext.startActivity(bundle2, ContentActivity.class);
+                break;
+
+            case R.id.included_main_content_ranklist_textview:
+                Bundle bundle3 = new Bundle();
+                bundle3.putString(ContentActivity.FRAG_CLS, RankFragment.class.getName());
+                mContext.startActivity(bundle3, ContentActivity.class);
+                break;
+
+            case R.id.included_main_content_more_subject_textview:
+                Bundle bundle4 = new Bundle();
+                bundle4.putString(ContentActivity.FRAG_CLS, MoreSubjectFragment.class.getName());
+                mContext.startActivity(bundle4, ContentActivity.class);
+                break;
+
+            case R.id.included_main_content_more_resource_textview:
+                Bundle bundle5 = new Bundle();
+                bundle5.putString(ContentActivity.FRAG_CLS, MoreRmdFileFragment.class.getName());
+                mContext.startActivity(bundle5, ContentActivity.class);
+                break;
+        }
     }
 }

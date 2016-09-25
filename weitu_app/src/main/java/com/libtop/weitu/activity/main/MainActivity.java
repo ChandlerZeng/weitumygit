@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -19,7 +18,6 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.startup.StartupActivity;
 import com.libtop.weitu.activity.user.UserCenterFragment;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.base.FragmentFactory;
 import com.libtop.weitu.utils.PopupW.MoreWindow;
 import com.libtop.weitu.widget.NoSlideViewPager;
 import com.umeng.analytics.MobclickAgent;
@@ -115,25 +113,6 @@ public class MainActivity extends BaseActivity
         fragmentList.add(one);
         fragmentList.add(two);
         fragmentList.add(three);
-    }
-
-
-    public void replaceFragment(String fragCls)
-    {
-        FragmentTransaction tran = mFm.beginTransaction();
-        Fragment frag = mFm.findFragmentByTag(fragCls);
-        boolean isAdd = true;
-        if (frag == null)
-        {
-            frag = FragmentFactory.newFragment(fragCls);
-            isAdd = false;
-        }
-        tran.replace(R.id.container, frag, fragCls);
-        if (!isAdd)
-        {
-            tran.addToBackStack(fragCls);
-        }
-        tran.commitAllowingStateLoss();
     }
 
 

@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/container"
         style="@style/my_layout_navigationbar_style_default"
         android:gravity="center_vertical"
         android:orientation="horizontal">
@@ -16,7 +15,7 @@
             android:layout_height="@dimen/navigationbar_layout_height">
 
             <cn.bingoogolapple.badgeview.BGABadgeImageView
-                android:id="@+id/open_alarm"
+                android:id="@+id/fragment_discover_layout_notice_imageview"
                 style="@style/my_navigationbar_item_style_notice"
                 app:badge_dragable="false"
                 app:badge_verticalMargin="10dp"
@@ -41,7 +40,7 @@
                 android:src="@drawable/search_icon2"/>
 
             <EditText
-                android:id="@+id/edit"
+                android:id="@+id/fragment_discover_layout_search_edittext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -59,7 +58,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/open_clazz"
+            android:id="@+id/fragment_discover_layout_scan_imageview"
             style="@style/my_navigationbar_item_style_scanqrcode"/>
     </LinearLayout>
 
@@ -68,12 +67,12 @@
     <FrameLayout style="@style/my_layout_style_common">
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+            android:id="@+id/fragment_discover_layout_swiperefreshlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ScrollView
-                android:id="@+id/scroll"
+                android:id="@+id/fragment_discover_layout_scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true"

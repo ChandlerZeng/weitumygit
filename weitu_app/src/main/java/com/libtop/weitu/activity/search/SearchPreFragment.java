@@ -89,7 +89,7 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
     @Override
     protected int getLayoutId()
     {
-        return R.layout.fragment_search_pre2;
+        return R.layout.fragment_search_pre;
     }
 
 

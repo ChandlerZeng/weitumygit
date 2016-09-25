@@ -17,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_small">
+        android:padding="@dimen/padding_small"
+        android:background="@drawable/layout_item_bg_with_stroke">
 
         <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
             android:id="@+id/included_main_content_category_textview"
@@ -50,6 +51,7 @@
             android:textSize="18sp"/>
     </LinearLayout>
 
+    <View style="@style/my_divide_layout_view_style_default"/>
     <View style="@style/my_divide_line_style_horizontal"/>
 
     <LinearLayout
@@ -97,7 +99,6 @@
     <View style="@style/my_divide_layout_view_style_default"/>
 
     <LinearLayout
-        android:id="@+id/ll_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
