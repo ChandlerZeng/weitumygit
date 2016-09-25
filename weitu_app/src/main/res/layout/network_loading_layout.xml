@@ -17,7 +17,7 @@
             android:id="@+id/network_loading_layout_empty_prompt_imageview"
             android:layout_width="85dp"
             android:layout_height="85dp"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@drawable/icon_empty_prompt"/>
 
         <TextView
             android:id="@+id/network_loading_layout_empty_prompt_textview"

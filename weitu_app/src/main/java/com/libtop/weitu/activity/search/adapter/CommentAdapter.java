@@ -24,7 +24,7 @@ import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
-import com.libtop.weitu.widget.listview.ChangeListView;
+import com.libtop.weitu.widget.view.ListViewForScrollView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -61,7 +61,7 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
         LinearLayout commentLayout2 = helper.getView(R.id.comment_layout2);
         LinearLayout likeLayout = helper.getView(R.id.likeLayout);
         LinearLayout replyLayout = helper.getView(R.id.replyLayout);
-        ChangeListView listView = helper.getView(R.id.list_reply);
+        ListViewForScrollView listView = helper.getView(R.id.list_reply);
         TextView tvUser = helper.getView(R.id.tv_user_name);
         TextView tvTime = helper.getView(R.id.tv_time);
         TextView tvcomment = helper.getView(R.id.tv_commnet1);

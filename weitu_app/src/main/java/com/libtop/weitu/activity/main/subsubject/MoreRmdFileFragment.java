@@ -21,7 +21,7 @@ import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
-import com.libtop.weitu.widget.listview.XListView;
+import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;

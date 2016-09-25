@@ -16,7 +16,7 @@
         android:textColor="@color/main_item_text"
         android:visibility="gone"/>
 
-    <com.libtop.weitu.widget.listview.ScrollRefListView
+    <com.libtop.weitu.widget.view.ScrollRefListView
         android:id="@+id/grid_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

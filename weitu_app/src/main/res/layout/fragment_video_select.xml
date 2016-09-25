@@ -8,7 +8,7 @@
 
     <include layout="@layout/included_title2"/>
 
-    <com.libtop.weitu.widget.listview.XListView
+    <com.libtop.weitu.widget.view.XListView
         android:id="@+id/lv_video_select"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

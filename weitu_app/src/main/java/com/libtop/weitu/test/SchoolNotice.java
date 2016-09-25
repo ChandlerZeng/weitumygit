@@ -2,16 +2,15 @@ package com.libtop.weitu.test;
 
 /**
  * @author Sai
- * @ClassName: News
+ * @ClassName: SchoolNotice
  * @Description: 校内通知实体类
  * @date 9/14/16 00:27
  */
-public class News extends Bean
+public class SchoolNotice extends Bean
 {
     private String id;
     private String title;
-    private long t_create;
-    private String url;
+    private long dataLine;
 
 
     public String getId()
@@ -38,27 +37,15 @@ public class News extends Bean
     }
 
 
-    public long getT_create()
+    public long getDataLine()
     {
-        return t_create;
+        return dataLine;
     }
 
 
-    public void setT_create(long t_create)
+    public void setDataLine(long dataLine)
     {
-        this.t_create = t_create;
-    }
-
-
-    public String getUrl()
-    {
-        return url != null ? url : "";
-    }
-
-
-    public void setUrl(String url)
-    {
-        this.url = url;
+        this.dataLine = dataLine;
     }
 
 
@@ -67,11 +54,10 @@ public class News extends Bean
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("News:[");
+        sb.append("SchoolNotice:[");
         sb.append("id").append("=").append(getId()).append(",");
         sb.append("title").append("=").append(getTitle()).append(",");
-        sb.append("t_create").append("=").append(getT_create()).append(",");
-        sb.append("url").append("=").append(getUrl());
+        sb.append("dataLine").append("=").append(getDataLine());
         sb.append("]");
 
         return sb.toString();

@@ -4,7 +4,7 @@
  * @author Maxwin
  * @description XListView's footer
  */
-package com.libtop.weitu.widget.listview;
+package com.libtop.weitu.widget.view;
 
 
 import android.content.Context;
@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import com.libtop.weitu.R;
 
 
-public class NFooter extends LinearLayout
+public class DFooter extends LinearLayout
 {
     public final static int STATE_NORMAL = 0;
     public final static int STATE_READY = 1;
@@ -27,14 +27,14 @@ public class NFooter extends LinearLayout
     View mContentView;
 
 
-    public NFooter(Context context)
+    public DFooter(Context context)
     {
         super(context);
         initView(context);
     }
 
 
-    public NFooter(Context context, AttributeSet attrs)
+    public DFooter(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         initView(context);
@@ -110,7 +110,7 @@ public class NFooter extends LinearLayout
     private void initView(Context context)
     {
         mContext = context;
-        LinearLayout moreView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.widget_nbottom_top, null);
+        LinearLayout moreView = (LinearLayout) LayoutInflater.from(mContext).inflate(R.layout.widget_dbottom_rtop, null);
         addView(moreView);
         moreView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 

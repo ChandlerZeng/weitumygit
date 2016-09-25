@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.paging.listview.PagingListView
-        android:id="@+id/fragment_notice_system_view_paginglistview"
+        android:id="@+id/fragment_notice_dynamic_view_paginglistview"
         style="@style/my_listview_style_default"/>
 
     <include layout="@layout/content_layout_network_loading"/>

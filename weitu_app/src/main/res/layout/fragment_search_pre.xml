@@ -1,50 +1,122 @@
-<LinearLayout
-    style="@style/content"
+<ScrollView
+    android:id="@+id/search_scrollview"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <LinearLayout
+        android:id="@+id/ll_out"
+        style="@style/content"
         android:layout_width="fill_parent"
-        android:layout_height="35dip"
-        android:background="@color/white"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/search_history"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/group_tap_btn_selector"
-            android:button="@null"
-            android:checked="true"
-            android:gravity="center"
-            android:text="查询记录"
-            android:textColor="@color/group_tap_textcolor_radiobutton"/>
+        <LinearLayout
+            android:id="@+id/ll_out_search_history"
+            style="@style/content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/click_history"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/group_tap_btn_selector"
-            android:button="@null"
-            android:gravity="center"
-            android:text="浏览记录"
-            android:textColor="@color/group_tap_textcolor_radiobutton"/>
-    </RadioGroup>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="12dip"
+                android:background="@color/ee"/>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="12dip"
-        android:background="@color/ee"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_size_10">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:background="@color/transparent"/>
-</LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="搜索历史"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/trash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="清空历史"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/green1"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"/>
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:background="@color/white"
+                android:cacheColorHint="#00000000"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@color/main_divider_line"
+                android:dividerHeight="0.8dip"
+                android:fadingEdge="none"
+                android:fastScrollEnabled="false"
+                android:listSelector="@drawable/list_selector"
+                android:scrollingCache="false"/>
+
+            <TextView
+                android:id="@+id/search_expandable_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_size_10"
+                android:gravity="center_horizontal"
+                android:text="展开全部搜索历史"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/search_history_clear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/padding_size_10"
+                android:gravity="center_horizontal"
+                android:text="清空全部搜索历史"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="12dip"
+            android:background="@color/ee"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/padding_size_10"
+            android:text="热门搜索"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/black"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"/>
+
+        <com.libtop.weitu.widget.view.GridViewForScrollView
+            android:id="@+id/gv_hot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:clipToPadding="false"
+            android:horizontalSpacing="@dimen/space_size"
+            android:listSelector="@drawable/list_selector"
+            android:numColumns="2"
+            android:paddingBottom="?android:attr/actionBarSize"
+            android:verticalSpacing="@dimen/space_size"/>
+    </LinearLayout>
+</ScrollView>

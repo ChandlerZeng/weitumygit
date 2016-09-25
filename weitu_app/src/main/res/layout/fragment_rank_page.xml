@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/my_layout_style_common">
 
-    <com.libtop.weitu.widget.listview.XListView
+    <com.libtop.weitu.widget.view.XListView
         android:id="@+id/xlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

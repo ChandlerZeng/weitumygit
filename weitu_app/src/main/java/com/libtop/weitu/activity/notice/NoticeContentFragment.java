@@ -1,4 +1,4 @@
-package com.libtop.weitu.activity.main.notice;
+package com.libtop.weitu.activity.notice;
 
 import android.support.annotation.Nullable;
 import android.text.TextUtils;

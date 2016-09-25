@@ -8,58 +8,59 @@ package com.libtop.weitu.test;
  */
 public class User extends Bean
 {
-    private String uid;
-    private String mobile;
-    private String name;
-    private String logo;
+    private String id;
+    private String email;
+    private String phone;
+    private String username;
     private int sex;
+    private String lid;
 
 
-    public String getUid()
+    public String getId()
     {
-        return uid;
+        return id != null ? id : "";
     }
 
 
-    public void setUid(String uid)
+    public void setId(String id)
     {
-        this.uid = uid;
+        this.id = id;
     }
 
 
-    public String getMobile()
+    public String getEmail()
     {
-        return mobile != null ? mobile : "";
+        return email != null ? email : "";
     }
 
 
-    public void setMobile(String mobile)
+    public void setEmail(String email)
     {
-        this.mobile = mobile;
+        this.email = email;
     }
 
 
-    public String getName()
+    public String getPhone()
     {
-        return name != null ? name : "";
+        return phone != null ? phone : "";
     }
 
 
-    public void setName(String name)
+    public void setPhone(String phone)
     {
-        this.name = name;
+        this.phone = phone;
     }
 
 
-    public String getLogo()
+    public String getUsername()
     {
-        return logo != null ? logo : "";
+        return username != null ? username : "";
     }
 
 
-    public void setLogo(String logo)
+    public void setUsername(String username)
     {
-        this.logo = logo;
+        this.username = username;
     }
 
 
@@ -75,17 +76,30 @@ public class User extends Bean
     }
 
 
+    public String getLid()
+    {
+        return lid != null ? lid : "";
+    }
+
+
+    public void setLid(String lid)
+    {
+        this.lid = lid;
+    }
+
+
     @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
 
         sb.append("User:[");
-        sb.append("uid").append("=").append(getUid()).append(",");
-        sb.append("mobile").append("=").append(getMobile()).append(",");
-        sb.append("name").append("=").append(getName()).append(",");
-        sb.append("logo").append("=").append(getLogo()).append(",");
-        sb.append("sex").append("=").append(getSex());
+        sb.append("id").append("=").append(getId()).append(",");
+        sb.append("email").append("=").append(getEmail()).append(",");
+        sb.append("phone").append("=").append(getPhone()).append(",");
+        sb.append("username").append("=").append(getUsername()).append(",");
+        sb.append("sex").append("=").append(getSex()).append(",");
+        sb.append("lid").append("=").append(getLid());
         sb.append("]");
 
         return sb.toString();

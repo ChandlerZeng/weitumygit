@@ -98,7 +98,6 @@
     <string name="notResolveType">照片中未识别到二维码</string>
     <string name="content2weima">二维码内容</string>
     <string name="newFolder">新建文件夹</string>
-    <string name="nowVersion">当前版本：2.1.0</string>
     <string name="weituIntrodution">微图是广州联图电子科技有限公司旗下产品</string>
 
     <string-array name="spinner_array">

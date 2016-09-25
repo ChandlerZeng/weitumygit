@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <cn.lightsky.infiniteindicator.InfiniteIndicator
-        android:id="@+id/infinite_anim_circle"
+        android:id="@+id/included_main_content_infiniteindicator"
         android:layout_width="match_parent"
         android:layout_height="87dp"
         app:indicator_type="indicator_anim_circle"/>
@@ -17,10 +17,11 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_small">
+        android:padding="@dimen/padding_small"
+        android:background="@drawable/layout_item_bg_with_stroke">
 
         <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
-            android:id="@+id/classify"
+            android:id="@+id/included_main_content_category_textview"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/padding_tiny"
@@ -35,7 +36,7 @@
             android:textSize="18sp"/>
 
         <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
-            android:id="@+id/rank"
+            android:id="@+id/included_main_content_ranklist_textview"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/padding_tiny"
@@ -50,6 +51,7 @@
             android:textSize="18sp"/>
     </LinearLayout>
 
+    <View style="@style/my_divide_layout_view_style_default"/>
     <View style="@style/my_divide_line_style_horizontal"/>
 
     <LinearLayout
@@ -68,7 +70,7 @@
             android:textSize="@dimen/text_fontsize_normal"/>
 
         <TextView
-            android:id="@+id/subject_more"
+            android:id="@+id/included_main_content_more_subject_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -80,8 +82,8 @@
             android:textSize="@dimen/text_fontsize_normal"/>
     </LinearLayout>
 
-    <com.libtop.weitu.widget.gridview.FixedGridView
-        android:id="@+id/grid_view"
+    <com.libtop.weitu.widget.view.GridViewForScrollView
+        android:id="@+id/included_main_content_subject_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -97,7 +99,6 @@
     <View style="@style/my_divide_layout_view_style_default"/>
 
     <LinearLayout
-        android:id="@+id/ll_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -113,7 +114,7 @@
             android:textSize="@dimen/text_fontsize_normal"/>
 
         <TextView
-            android:id="@+id/file_more"
+            android:id="@+id/included_main_content_more_resource_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/list_selector"
@@ -127,8 +128,8 @@
 
     </LinearLayout>
 
-    <com.libtop.weitu.widget.listview.ChangeListView
-        android:id="@+id/list_view"
+    <com.libtop.weitu.widget.view.ListViewForScrollView
+        android:id="@+id/included_main_content_resource_listview"
         style="@style/my_listview_style_default"/>
 
     <View style="@style/my_divide_layout_view_style_default"/>

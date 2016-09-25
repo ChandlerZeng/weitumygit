@@ -15,7 +15,7 @@
     <FrameLayout
         style="@style/my_layout_style_common">
 
-        <com.libtop.weitu.widget.listview.XListView
+        <com.libtop.weitu.widget.view.XListView
             android:id="@+id/rmd_file_list"
             android:cacheColorHint="@color/transparent"
             style="@style/my_listview_style_default"

@@ -31,7 +31,7 @@
 
     <!-- 两段之间的分割高度 -->
     <dimen name="layout_divide_height_default">6dp</dimen>
-    <dimen name="layout_divide_height_large">20dp</dimen>
+    <dimen name="layout_divide_height_large">16dp</dimen>
 
     <!-- 常用字号 -->
     <dimen name="text_fontsize_micro">10sp</dimen>
@@ -52,6 +52,8 @@
     <!-- 与列表相关 -->
     <dimen name="listview_refresh_header_height">55dp</dimen>
     <dimen name="listview_load_footer_height">25dp</dimen>
+    <dimen name="listview_item_height_small">48dp</dimen>
+    <dimen name="listview_item_height_default">58dp</dimen>
 
     <!--  与按钮相关 -->
     <dimen name="button_height_default">42dp</dimen>
