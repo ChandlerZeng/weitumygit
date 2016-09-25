@@ -2,11 +2,11 @@ package com.libtop.weitu.config;
 
 /**
  * @author Sai
- * @ClassName: SystemNoticeConfig
- * @Description: 系统通知配置信息类
+ * @ClassName: DynamicConfig
+ * @Description: 动态配置信息类
  * @date 9/13/16 19:44
  */
-public class SystemNoticeConfig
+public class DynamicConfig
 {
     /**
      * 通知类型: 关注主题 1 TODO 需后台提供类型协议

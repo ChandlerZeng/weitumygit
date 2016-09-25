@@ -96,7 +96,7 @@ public class NoticeActivity extends MyBaseFragmentActivity implements View.OnCli
     private List<Fragment> generateFragmentList()
     {
         List<Fragment> fragments = new ArrayList<>(2);
-        fragments.add(new SystemNoticeFragment());
+        fragments.add(new DynamicFragment());
         fragments.add(new SchoolNoticeFragment());
 
         return fragments;

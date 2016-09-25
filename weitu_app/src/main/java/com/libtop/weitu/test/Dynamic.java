@@ -2,11 +2,11 @@ package com.libtop.weitu.test;
 
 /**
  * @author Sai
- * @ClassName: SystemNotice
- * @Description: 系统通知实体类
+ * @ClassName: Dynamic
+ * @Description: 动态实体类
  * @date 9/13/16 17:23
  */
-public class SystemNotice extends Bean
+public class Dynamic extends Bean
 {
     private String id;
     private String fromUid;
@@ -132,7 +132,7 @@ public class SystemNotice extends Bean
     {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("SystemNotice:[");
+        sb.append("Dynamic:[");
         sb.append("id").append("=").append(getId()).append(",");
         sb.append("fromUid").append("=").append(getFromUid()).append(",");
         sb.append("toUid").append("=").append(getToUid()).append(",");
