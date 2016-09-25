@@ -55,7 +55,7 @@ public class ContextUtil
 
 
     // 查看校内通知详情
-    public static void readSchoolNoticeDetail(Context context, String id, String title, long createTime)
+    public static void readSchoolNoticeDetail(Context context, String id, String title, long dateLine)
     {
         //TODO 待修改传值协议
 
@@ -63,9 +63,9 @@ public class ContextUtil
         bundle.putString(ContentActivity.FRAG_CLS, NoticeContentFragment.class.getName());
         bundle.putBoolean(ContentActivity.FRAG_WITH_ANIM, true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, false);
-        bundle.putString("id", "577f47ebe4b0e74f06d27007");  //TODO 用于测试, 写死ID
+        bundle.putString("id", id);
         bundle.putString("title", title);
-        bundle.putString("date", DateUtil.parseToDate(createTime));
+        bundle.putString("date", DateUtil.parseToDate(dateLine));
 
         Intent intent = new Intent(context, ContentActivity.class);
         intent.putExtras(bundle);
