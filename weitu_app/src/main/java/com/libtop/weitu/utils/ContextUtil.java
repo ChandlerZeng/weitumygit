@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
-import com.libtop.weitu.activity.main.notice.NoticeContentFragment;
+import com.libtop.weitu.activity.notice.NoticeContentFragment;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
 import com.libtop.weitu.activity.search.dto.SearchResult;
