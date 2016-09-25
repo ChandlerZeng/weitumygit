@@ -48,15 +48,15 @@ public class NoticeActivity extends MyBaseFragmentActivity implements View.OnCli
 
     private void initView()
     {
-        backIv = (ImageView) findViewById(R.id.activity_notice_view_back_imageview);
+        backIv = getViewById(R.id.activity_notice_view_back_imageview);
         backIv.setOnClickListener(this);
 
-        systemNoticeBtn = (Button) findViewById(R.id.activity_notice_view_system_notice_button);
+        systemNoticeBtn = getViewById(R.id.activity_notice_view_system_notice_button);
         systemNoticeBtn.setOnClickListener(this);
-        schoolNoticeBtn = (Button) findViewById(R.id.activity_notice_view_school_notice_button);
+        schoolNoticeBtn = getViewById(R.id.activity_notice_view_school_notice_button);
         schoolNoticeBtn.setOnClickListener(this);
 
-        viewPager = (ViewPager) findViewById(R.id.activity_notice_view_viewpager);
+        viewPager = getViewById(R.id.activity_notice_view_viewpager);
         viewPager.addOnPageChangeListener(viewPagerOnPageChangeListener);
     }
 
