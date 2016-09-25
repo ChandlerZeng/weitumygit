@@ -23,7 +23,6 @@ import java.util.Map;
 
 public class JsonUtil
 {
-
     private static final String TAG = "JsonUtil.class";
     private static Gson gson = null;
     private static com.google.gson.JsonParser parser = null;
@@ -303,5 +302,90 @@ public class JsonUtil
         }
 
         return object;
+    }
+
+
+    public static Boolean getBoolean(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getBoolean(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.d(TAG, "getBoolean:" + e.toString());
+        }
+
+        return null;
+    }
+
+
+    public static Double getDouble(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getDouble(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.d(TAG, "getDouble:" + e.toString());
+        }
+
+        return null;
+    }
+
+
+    public static Integer getInt(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getInt(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.d(TAG, "getInt:" + e.toString());
+        }
+
+        return null;
+    }
+
+
+    public static Long getLong(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getLong(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.d(TAG, "getLong:" + e.toString());
+        }
+
+        return null;
+    }
+
+
+    public static String getString(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getString(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.d(TAG, "getString:" + e.toString());
+        }
+
+        return null;
     }
 }

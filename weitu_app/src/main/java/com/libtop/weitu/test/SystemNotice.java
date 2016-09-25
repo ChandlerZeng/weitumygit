@@ -9,14 +9,14 @@ package com.libtop.weitu.test;
 public class SystemNotice extends Bean
 {
     private String id;
-    private String from_uid;
-    private String to_uid;
-    private long t_create;
-    private String type;
+    private String fromUid;
+    private String toUid;
+    private long timeline;
+    private int type;
     private String content;
-    private int has_read;
-    private String extra_id;
-    private User from_user;
+    private int hasRead;
+    private String extraId;
+    private User fromUser;
 
 
     public String getId()
@@ -31,49 +31,49 @@ public class SystemNotice extends Bean
     }
 
 
-    public String getFrom_uid()
+    public String getFromUid()
     {
-        return from_uid != null ? from_uid : "";
+        return fromUid != null ? fromUid : "";
     }
 
 
-    public void setFrom_uid(String from_uid)
+    public void setFromUid(String fromUid)
     {
-        this.from_uid = from_uid;
+        this.fromUid = fromUid;
     }
 
 
-    public String getTo_uid()
+    public String getToUid()
     {
-        return to_uid != null ? to_uid : "";
+        return toUid != null ? toUid : "";
     }
 
 
-    public void setTo_uid(String to_uid)
+    public void setToUid(String toUid)
     {
-        this.to_uid = to_uid;
+        this.toUid = toUid;
     }
 
 
-    public long getT_create()
+    public long getTimeline()
     {
-        return t_create;
+        return timeline;
     }
 
 
-    public void setT_create(long t_create)
+    public void setTimeline(long timeline)
     {
-        this.t_create = t_create;
+        this.timeline = timeline;
     }
 
 
-    public String getType()
+    public int getType()
     {
-        return type != null ? type : "";
+        return type;
     }
 
 
-    public void setType(String type)
+    public void setType(int type)
     {
         this.type = type;
     }
@@ -91,39 +91,39 @@ public class SystemNotice extends Bean
     }
 
 
-    public int getHas_read()
+    public int getHasRead()
     {
-        return has_read;
+        return hasRead;
     }
 
 
-    public void setHas_read(int has_read)
+    public void setHasRead(int hasRead)
     {
-        this.has_read = has_read;
+        this.hasRead = hasRead;
     }
 
 
-    public String getExtra_id()
+    public String getExtraId()
     {
-        return extra_id != null ? extra_id : "";
+        return extraId != null ? extraId : "";
     }
 
 
-    public void setExtra_id(String extra_id)
+    public void setExtraId(String extraId)
     {
-        this.extra_id = extra_id;
+        this.extraId = extraId;
     }
 
 
-    public User getFrom_user()
+    public User getFromUser()
     {
-        return from_user;
+        return fromUser;
     }
 
 
-    public void setFrom_user(User from_user)
+    public void setFromUser(User fromUser)
     {
-        this.from_user = from_user;
+        this.fromUser = fromUser;
     }
 
 
@@ -134,14 +134,14 @@ public class SystemNotice extends Bean
 
         sb.append("SystemNotice:[");
         sb.append("id").append("=").append(getId()).append(",");
-        sb.append("from_uid").append("=").append(getFrom_uid()).append(",");
-        sb.append("to_uid").append("=").append(getTo_uid()).append(",");
-        sb.append("t_create").append("=").append(getT_create()).append(",");
+        sb.append("fromUid").append("=").append(getFromUid()).append(",");
+        sb.append("toUid").append("=").append(getToUid()).append(",");
+        sb.append("timeline").append("=").append(getTimeline()).append(",");
         sb.append("type").append("=").append(getType()).append(",");
         sb.append("content").append("=").append(getContent()).append(",");
-        sb.append("has_read").append("=").append(getHas_read()).append(",");
-        sb.append("extra_id").append("=").append(getExtra_id()).append(",");
-        sb.append("from_user").append("=").append(getFrom_uid() != null ? getFrom_uid() : "null");
+        sb.append("hasRead").append("=").append(getHasRead()).append(",");
+        sb.append("extraId").append("=").append(getExtraId()).append(",");
+        sb.append("fromUser").append("=").append(getFromUser() != null ? getFromUser().toString() : "null");
         sb.append("]");
 
         return sb.toString();

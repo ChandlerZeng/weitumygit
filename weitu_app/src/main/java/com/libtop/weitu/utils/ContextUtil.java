@@ -33,17 +33,10 @@ public class ContextUtil
     //假接口
 //    public static final int VIDEO = 0, AUDIO = 1, DOC = 4, PHOTO = 2, BOOK = 3;
 
+
     public static void doTest(Context context)
     {
         //TODO for test
-    }
-
-
-    // 查看主题详情
-    public static void readSubjectDetail(Context context)
-    {
-        Intent intent = new Intent(context, SubjectDetailActivity.class);
-        context.startActivity(intent);
     }
 
 
@@ -79,6 +72,7 @@ public class ContextUtil
         context.startActivity(intent);
     }
 
+
     //通过类型打开视频，文档，音频，图库，isFragIsBack 图书在Fragment中是否返回上一个Fragment
     public static void openResourceByType(Context context,int type, String id,boolean isFragIsBack)
     {
@@ -102,17 +96,20 @@ public class ContextUtil
         }
     }
 
+
     public static void openSubjectDetail(Context context,String id){
         Intent intent = new Intent(context, SubjectDetailActivity.class);
         intent.putExtra("id",id);
         context.startActivity(intent);
     }
 
+
     //通过类型打开视频，文档，音频，图库
     public static void openResourceByType(Context context,int type, String id)
     {
         openResourceByType(context,type,id,false);
     }
+
 
     //打开视频
     public static void openVideo(Context context,String id)
@@ -125,6 +122,7 @@ public class ContextUtil
         context.startActivity(intent);
     }
 
+
     //打开音频
     public static void openAudio(Context context,String id)
     {
@@ -136,6 +134,7 @@ public class ContextUtil
         intent.putExtra("resultBean", new Gson().toJson(result));
         context.startActivity(intent);
     }
+
 
     //打开图书
     public static void openBook(Context context,String isbn,boolean isFragIsBack)
@@ -154,6 +153,7 @@ public class ContextUtil
         ((BaseActivity)context).startActivity(bundle, ContentActivity.class);
     }
 
+
     //打开图库
     public static void openPhoto(Context context,String id)
     {
@@ -163,6 +163,7 @@ public class ContextUtil
 //        bundle.putString("id", "56178242e4b088b55663c299"); // TODO: 假数据，写死
         ((BaseActivity)context).startActivity(bundle, DynamicCardActivity.class);
     }
+
 
     //打开文档
     public static void openDoc(Context context,String id)

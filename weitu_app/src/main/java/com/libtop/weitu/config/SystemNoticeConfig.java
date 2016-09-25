@@ -9,15 +9,15 @@ package com.libtop.weitu.config;
 public class SystemNoticeConfig
 {
     /**
-     * 通知类型: 关注主题 follow_subject
+     * 通知类型: 关注主题 1 TODO 需后台提供类型协议
      */
-    public static final String NOTICE_TYPE_FOLLOW_SUBJECT = "follow_subject";
+    public static final int NOTICE_TYPE_FOLLOW_SUBJECT = 1;
     /**
-     * 通知类型: 资源评论 resource_comment
+     * 通知类型: 资源评论 2 TODO
      */
-    public static final String NOTICE_TYPE_RESOURCE_COMMENT = "resource_comment";
+    public static final int NOTICE_TYPE_RESOURCE_COMMENT = 2;
     /**
-     * 通知类型: 回复评论 comment_reply
+     * 通知类型: 回复评论 3 TODO
      */
-    public static final String NOTICE_TYPE_COMMENT_REPLY = "comment_reply";
+    public static final int NOTICE_TYPE_COMMENT_REPLY = 3;
 }

@@ -14,24 +14,28 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.base.MyBaseFragment;
 import com.libtop.weitu.config.SystemNoticeConfig;
 import com.libtop.weitu.config.WTConstants;
-import com.libtop.weitu.config.network.APIAddress;
+import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.SystemNotice;
 import com.libtop.weitu.test.User;
+import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CollectionUtil;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.ListViewUtil;
+import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.paging.listview.PagingBaseAdapter;
 import com.paging.listview.PagingListView;
-import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 
@@ -47,6 +51,7 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
     private PagingListView systemNoticeListView;
     private NetworkLoadingLayout networkLoadingLayout;
 
+    private SystemNoticeListViewAdapter systemNoticeListViewAdapter;
     private int nextPageIndex;
     private boolean isFirstIn = true;
     private View rootView;
@@ -84,11 +89,11 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
 
     private void initChildView(View view)
     {
-        SystemNoticeListViewAdapter adapter = new SystemNoticeListViewAdapter(getActivity(), new ArrayList<SystemNotice>());
+        systemNoticeListViewAdapter = new SystemNoticeListViewAdapter(getActivity(), new ArrayList<SystemNotice>());
 
         systemNoticeListView = (PagingListView) view.findViewById(R.id.fragment_notice_system_view_paginglistview);
         ListViewUtil.addPaddingHeader(getActivity(), systemNoticeListView);
-        systemNoticeListView.setAdapter(adapter);
+        systemNoticeListView.setAdapter(systemNoticeListViewAdapter);
         systemNoticeListView.setHasMoreItems(false);
         systemNoticeListView.setOnItemClickListener(listViewOnItemClickListener);
         systemNoticeListView.setPagingableListener(pagingableListener);
@@ -100,7 +105,12 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
 
     private void loadSystemNotices(final int page)
     {
-        OkHttpUtils.get().url(APIAddress.NOTICE_MY_LIST_URL).build().execute(new StringCallback()
+        Map<String, Object> map = new HashMap<>();
+        map.put("uid", Preference.instance(getActivity()).getString(Preference.uid));
+        map.put("page", page);
+        map.put("method", "dynamic.list");
+
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -121,9 +131,7 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
             {
                 nextPageIndex = page + 1;
 
-                Object noticesJson = JsonUtil.findObject(response, "notices");
-                ArrayList<SystemNotice> notices = JsonUtil.fromJson(noticesJson.toString(), new TypeToken<ArrayList<SystemNotice>>(){});
-
+                ArrayList<SystemNotice> notices = JsonUtil.fromJson(response, new TypeToken<ArrayList<SystemNotice>>(){});
                 int size = CollectionUtil.getSize(notices);
                 boolean hasMore = (size > WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
                 if (page > 1)
@@ -141,6 +149,38 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
                     {
                         networkLoadingLayout.showEmptyPrompt();
                     }
+                }
+            }
+        });
+    }
+
+
+    private void setSystemNoticeMarkRead(String id, final int position)
+    {
+        Map<String, Object> map = new HashMap<>();
+        map.put("uid", Preference.instance(getActivity()).getString(Preference.uid));
+        map.put("id", id);
+        map.put("method", "dynamic.read");
+
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+                LogUtil.e(getThis(), e.toString());
+            }
+
+
+            @Override
+            public void onResponse(String response, int id)
+            {
+                Integer code = JsonUtil.getInt(response, "code");
+                if (code != null && code == 1)
+                {
+                    SystemNotice notice = (SystemNotice) systemNoticeListViewAdapter.getItem(position);
+                    notice.setHasRead(1);
+
+                    systemNoticeListViewAdapter.setItem(position, notice);
                 }
             }
         });
@@ -170,16 +210,20 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
             SystemNotice notice = (SystemNotice) parent.getAdapter().getItem(position);
+            if (notice.getHasRead() == 0)
+            {
+                setSystemNoticeMarkRead(notice.getId(), position - 1);  //需减少头部的位置
+            }
 
             switch (notice.getType())
             {
                 case SystemNoticeConfig.NOTICE_TYPE_FOLLOW_SUBJECT:
-                    ContextUtil.readSubjectDetail(getActivity());
+                    ContextUtil.openSubjectDetail(getActivity(), notice.getExtraId());
                     break;
 
                 case SystemNoticeConfig.NOTICE_TYPE_RESOURCE_COMMENT:
                 case SystemNoticeConfig.NOTICE_TYPE_COMMENT_REPLY:
-                    ContextUtil.readCommentDetail(getActivity(), notice.getExtra_id());
+                    ContextUtil.readCommentDetail(getActivity(), notice.getExtraId());
                     break;
 
                 default:
@@ -226,7 +270,7 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
         public View getView(int position, View convertView, ViewGroup parent)
         {
             SystemNotice notice = (SystemNotice) getItem(position);
-            User user = notice.getFrom_user();
+            User user = notice.getFromUser();
 
             ViewHolderHelper helper = ViewHolderHelper.get(context, convertView, null, R.layout.listview_item_system_notice, position);
 
@@ -237,12 +281,12 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
             TextView createTimeTv = helper.getView(R.id.listview_item_create_time_textview);
             TextView contentTv = helper.getView(R.id.listview_item_content_textview);
 
-            layoutView.setSelected(notice.getHas_read() == 0);
+            layoutView.setSelected(notice.getHasRead() == 0);
 
             if (user != null)
             {
-                ImageLoaderUtil.loadLogoImage(context, logoView, user.getLogo());
-                userNameTv.setText(user.getName());
+                ImageLoaderUtil.loadLogoImage(context, logoView, ContantsUtil.getAvatarUrl(user.getId()));
+                userNameTv.setText(user.getUsername());
             }
 
             promptTv.setText("");
@@ -260,7 +304,7 @@ public class SystemNoticeFragment extends MyBaseFragment implements NetworkLoadi
                     break;
             }
 
-            createTimeTv.setText(DateUtil.transformToShow(notice.getT_create()));
+            createTimeTv.setText(DateUtil.transformToShow(notice.getTimeline()));
             contentTv.setText(notice.getContent());
 
             return helper.getConvertView();
