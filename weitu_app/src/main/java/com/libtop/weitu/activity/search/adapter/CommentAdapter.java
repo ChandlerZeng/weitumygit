@@ -157,7 +157,7 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if(CommentActivity.UID!=null && object.replyList.get(position).uid.equals(CommentActivity.UID)){
-//                        onCommentListener.onReplyItemDeleted(view,position,object.replyList.get(position),object.replyList,object);
+//                        onCommentListener.onReplyItemDeleted(view,position,object.replyList.get(position),object.replyList,object);   //TODO
                         onCommentListener.onReplyItemTouch(view, position, object.replyList.get(position),object.replyList,object);
                     }else {
                         onCommentListener.onReplyItemTouch(view, position, object.replyList.get(position),object.replyList,object);
@@ -273,8 +273,8 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
                 String content = "  "+object.content;
                 String reply_user_name;
                 String reply;
-                if(object.reply_user!=null && object.reply_user.username!=null){
-                   reply_user_name = object.reply_user.username;
+                if(object.repliedUser!=null && object.repliedUser.username!=null){
+                   reply_user_name = object.repliedUser.username;
                     reply = " "+"回复"+" ";
                     SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name, content);
                     helper.setText(R.id.sub_comment,spannableString);

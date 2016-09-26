@@ -30,6 +30,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.CommentDetailDto;
 import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.activity.main.dto.PraisedUsersBean;
+import com.libtop.weitu.activity.main.dto.ReplyDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
@@ -113,7 +114,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     private int position;
     private boolean isReply = false;
     private boolean isFirstIn = true;
-    private Map<String,String> map = new HashMap<>();
+    private Map<String,String> mapItemReply = new HashMap<>();
 
     private List<PraisedUsersBean> praiseUserList = new ArrayList<>();
     private List<ReplyListDto> replyBeanList = new ArrayList<>();
@@ -167,7 +168,8 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(replyBeanList.get(position).uid.equals(mPreference.getString(Preference.uid))){
-                    onReplyItemDeleted(replyBeanList.get(position));
+//                    onReplyItemDeleted(replyBeanList.get(position));   //TODO
+                    onReplyItemTouch(replyBeanList.get(position));
                 }else {
                     onReplyItemTouch(replyBeanList.get(position));
                 }
@@ -355,7 +357,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         hideKeyBoard(v);
         if (isReply)
         {
-            String replyUid = map.get("reply_uid").toString();
+            String replyUid = mapItemReply.get("reply_rid").toString();
             putItemReply(replyUid,str);
         }
         else
@@ -399,14 +401,15 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                 });
     }
 
-    private void putItemReply(String replyUid,String content){
+    private void putItemReply(String replyId,String content){
         showLoding();
-        String api = "resource/comment/reply";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .addParams("reply_uid", replyUid)
-                .addParams("content", content)
-                .build()
-                .execute(new StringCallback() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("cid",cid);
+        map.put("uid",mPreference.getString(Preference.uid));
+        map.put("content",content);
+        map.put("method","reply.save");
+        map.put("rid",replyId);
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -419,14 +422,15 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                             dismissLoading();
                             Toast.makeText(CommentDetailActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
-                                Gson gson = new Gson();
-                                Reply data = gson.fromJson(json, new TypeToken<Reply>() {
-                                }.getType());
-                                if (data.reply != null) {
-//                                    replyBeanList.add(data.reply);
-                                    replyListAdapter.notifyDataSetChanged();
-                                }
-//                                commentsData.count_reply=commentsData.count_reply+1;
+//                                Gson gson = new Gson();
+//                                ReplyDto data = gson.fromJson(json, new TypeToken<ReplyDto>() {
+//                                }.getType());
+//                                if (data.reply != null) {
+////                                    replyBeanList.add(data.reply);
+//                                    replyListAdapter.notifyDataSetChanged();
+//                                }
+                                commentsData.replies=commentsData.replies+1;
+                                getData(cid);
                                 editComment.setText("");
                                 editComment.setHint("发表评论");
                                 isReply = false;
@@ -471,13 +475,13 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
 
     public void onReplyItemTouch(ReplyListDto replyBean) {
 
-        String cid =replyBean.cid;
-        String replyUid =replyBean.uid;
+        String cid =replyBean.id;
+        String replyRid =replyBean.id;
         if (replyBean.content != null)
         {
             isReply = true ;
-            map.put("cid",cid);
-            map.put("reply_uid",replyUid);
+            mapItemReply.put("cid",cid);
+            mapItemReply.put("reply_rid",replyRid);
             editComment.requestFocus();
             String first = "回复";
             String userName = "";
@@ -485,10 +489,6 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             editComment.setHint(spannableString);
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editComment, InputMethodManager.SHOW_IMPLICIT);
-        }
-        else
-        {
-            editComment.requestFocus();
         }
     }
 
@@ -643,15 +643,15 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         public void convert(ViewHolderHelper helper, ReplyListDto object, int position) {
             ImageView imageHead = helper.getView(R.id.img_head);
             String logoUrl = null;
-            if(object.logo!=null){
-                logoUrl = object.logo;
+            if(object.user.avatar!=null){
+                logoUrl = object.user.avatar;
             }
             Picasso.with(mContext).load(logoUrl).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imageHead);
             String user_name = object.username;
             String reply_user_name;
             String reply;
-            if(object.reply_user!=null && object.reply_user.username!=null&&!TextUtils.isEmpty(object.reply_user.username)){
-                reply_user_name = object.reply_user.username;
+            if(object.repliedUser!=null && object.repliedUser.username!=null){
+                reply_user_name = object.repliedUser.username;
                 reply = " "+"回复"+" ";
                 SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name);
                 helper.setText(R.id.tv_user_name,spannableString);

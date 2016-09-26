@@ -9,11 +9,19 @@ import android.widget.AdapterView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.classify.adapter.ClassifyDetailAdapter;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
+import com.libtop.weitu.activity.classify.bean.ClassifyBean;
+import com.libtop.weitu.activity.classify.bean.ClassifyDetailBean;
+import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
 import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.base.BaseFragment;
+import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.http.MapUtil;
+import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.utils.ContextUtil;
@@ -22,6 +30,10 @@ import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +41,9 @@ import java.util.Map;
 
 import butterknife.Bind;
 import okhttp3.Call;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -43,6 +58,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
 
 
     private ClassifySubDetailAdapter subresAdapter;
+    private ClassifyDetailAdapter mAdapter;
     private List<CollectBean> categoryResultList = new ArrayList<>();
     private List<Subject> subjectList = new ArrayList<>();
     private List<Resource> resourceList = new ArrayList<>();
@@ -55,6 +71,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     private boolean isRefreshed = false;
     private long code, subCode;
     private String filterString = "view";
+    private List<ClassifyResultBean> mData = new ArrayList<>();
 
     private String api = "/category/subject/list";
 
@@ -71,6 +88,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         subCode = bundle.getLong("subCode");
         filterString = bundle.getString("filterString");
         type = bundle.getString("type");
+        EventBus.getDefault().register(this);
     }
 
 
@@ -84,6 +102,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     public void onDestroy()
     {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -100,11 +119,12 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         {
             isFirstIn = false;
             networkLoadingLayout.showLoading();
-            getFakeData();
+            getData();
         }
         subresAdapter = new ClassifySubDetailAdapter(mContext, categoryResultList);
+        mAdapter = new ClassifyDetailAdapter(mContext,mData);
         ListViewUtil.addPaddingHeader(mContext,xListView);
-        xListView.setAdapter(subresAdapter);
+        xListView.setAdapter(mAdapter);
         xListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -127,23 +147,23 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
             @Override
             public void onRefresh() {
                 isRefreshed = true;
-                getFakeData();
                 mCurPage = 1;
+                getData();
             }
 
             @Override
             public void onLoadMore() {
                 if (hasData) {
-                    getFakeData();
+                    getData();
                 }
             }
         });
         networkLoadingLayout.setOnRetryClickListner(this);
     }
 
-    private void getFakeData()
+    private void getData()
     {
-        //  http://192.168.0.9/category/resource/list
+        //        http://weitu.bookus.cn/search/categories.json?text={"label1":100000,"label2":0,"sort":"favorite","page":1,"method":"search.categories"}
         Map<String, Object> map = new HashMap<>();
         map.put("label1", code);
         map.put("label2", subCode);
@@ -153,44 +173,68 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                if (mCurPage > 1) {
-
-                } else if (!isRefreshed) {
+                if (mData.isEmpty() && !isRefreshed)
+                {
                     networkLoadingLayout.showLoadFailAndRetryPrompt();
+//                    mListView.setVisibility(View.GONE);
                 }
             }
-
-
             @Override
             public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
+                if(!TextUtils.isEmpty(json)){
                     xListView.stopRefresh();
-                    if (mCurPage == 1) {
-                        networkLoadingLayout.dismiss();
+                    networkLoadingLayout.dismiss();
+                    if (mCurPage == 1)
+                    {
+                        mData.clear();
                     }
-                    try {
-                        Gson gson = new Gson();
-                        List<CollectBean> data = gson.fromJson(json, new TypeToken<List<CollectBean>>() {
-                        }.getType());
-                        categoryResultList.clear();
-                        categoryResultList.addAll(data);
-                        if (categoryResultList.size() == 0 && mCurPage == 1) {
-                            networkLoadingLayout.showEmptyPrompt();
-                        }
-                        subresAdapter.setNewData(categoryResultList);
-                        mCurPage++;
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    ClassifyDetailBean classifyDetailBean = new Gson().fromJson(json,new TypeToken<ClassifyDetailBean>(){}.getType());
+                    if(classifyDetailBean.result!=null){
+                        mData.addAll(classifyDetailBean.result);
+                    }
+                    if (classifyDetailBean.result.size() < 10)
+                    {
+                        hasData = false;
+                        xListView.setPullLoadEnable(false);
+                    }
+                    else
+                    {
+                        hasData = true;
+                        xListView.setPullLoadEnable(true);
+                    }
+                    mCurPage++;
+                    if (mData.isEmpty()) {
+                        networkLoadingLayout.showEmptyPrompt();
+                    }
+                    else
+                    {
+                        mAdapter.setNewData(mData);
                     }
                 }
             }
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(MessageEvent event)
+    {
+        Bundle bm = event.message;
+        if(bm.getString("filterString")!=null){
+            filterString = bm.getString("filterString");
+        }
+        if(bm.getLong("subCode")!=0){
+            subCode = bm.getLong("subCode");
+        }
+        if(bm.getInt("page")!=0){
+            mCurPage = bm.getInt("page");
+        }
+        getData();
+    }
+
     @Override
     public void onRetryClick(View v) {
         mCurPage = 1;
-        getFakeData();
+        getData();
     }
 
 }
