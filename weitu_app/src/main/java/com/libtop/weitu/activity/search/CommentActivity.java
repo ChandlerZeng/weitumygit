@@ -9,6 +9,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -18,7 +19,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
+import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.adapter.CommentAdapter;
@@ -30,6 +33,7 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.CommentBean;
 import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.utils.ListViewUtil;
@@ -51,6 +55,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 import okhttp3.Call;
 
 
@@ -151,7 +156,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 //        http://weitu.bookus.cn/comment/list.json?text={"tid":"56f97d8d984e741f1420a19e","page":1,"uid":"56f97d8d984e741f1420a19e","method":"comment.list"}
         Map<String, Object> map = new HashMap<>();
         map.put("page", mCurPage);
-        map.put("uid",mPreference.getString(Preference.uid));
+        if(!CheckUtil.isNull(mPreference.getString(Preference.uid))){
+            map.put("uid",mPreference.getString(Preference.uid));
+        }
         map.put("method","comment.list");
         map.put("tid",commentNeedDto.tid);
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
@@ -194,7 +201,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                         commentAdapter.setData(commentsList);
                         editText.setText("");
                         editText.setHint("发表评论");
-                        xListView.setSelection(1);
                         isReply = false;
                         isItemReply = false;
 
@@ -208,7 +214,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
 
     @Nullable
-    @OnClick({R.id.back_btn, R.id.commit})
+    @OnClick({R.id.back_btn, R.id.commit, R.id.edit_comment})
     public void onClick(View v)
     {
         switch (v.getId())
@@ -219,8 +225,24 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             case R.id.commit:
                 sendComment(v);
                 break;
+//            case R.id.edit_comment:
+////                editText.requestFocus();
+//                break;
         }
     }
+
+
+    @OnTouch({R.id.edit_comment})
+    public boolean onTouch(View view, MotionEvent event) {
+        if (view.getId() == R.id.edit_comment) {
+            if(isNotLogin()){
+                login();
+            }
+        }
+        return false;
+    }
+
+
 
 
     private void sendComment(View v)
@@ -324,11 +346,11 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 //                                    commentsList.add(0, data);
 //                                    mCurPage=1;
                                     getCommentList();// TODO
+                                    xListView.setSelection(1);
                                 }
 //                                commentAdapter.setData(commentsList);
 //                                editText.setText("");
 //                                editText.setHint("发表评论");
-//                                xListView.setSelection(1);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -341,28 +363,27 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Override
     public void onReplyTouch(View v, int position,List<ReplyListDto> replyBeans,CommentDto object) //TODO
     {
-        CommentDto commentResult = commentsList.get(position);
+        if(isNotLogin()){
+            login();
+        }else {
+            CommentDto commentResult = commentsList.get(position);
 //        replyItem = replyBean;
-        replyItems = replyBeans;
-        comments = object;
-        isReply = true;
-        if (commentResult.getContent() != null && !TextUtils.isEmpty(commentResult.getContent()))
-        {
-            String cid = commentResult.getId();
-            String uid = commentResult.getUid();
-            replyMap.put("cid",cid);
-            editText.requestFocus();
-            String first = "回复";
-            SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.getUsername());
-            editText.setHint(spannableString);
-//            editText.setSelection(spannableString.length());
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            replyItems = replyBeans;
+            comments = object;
+            isReply = true;
+            if (commentResult.getContent() != null && !TextUtils.isEmpty(commentResult.getContent()))
+            {
+                String cid = commentResult.getId();
+                String uid = commentResult.getUid();
+                replyMap.put("cid",cid);
+                editText.requestFocus();
+                String first = "回复";
+                SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.getUsername());
+                editText.setHint(spannableString);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            }
         }
-//        else
-//        {
-//            editText.requestFocus();
-//        }
     }
 
     private SpannableStringBuilder getGreenStrBuilder(String first, String append)
@@ -471,11 +492,14 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Override
     public void onReplyItemTouch(View v, final int position, final ReplyListDto replyBean,final List<ReplyListDto> replyBeans,CommentDto object) {
 
-        String cid =object.getId();
-        String replyId =replyBean.cid;
-        replyItem = replyBean;
-        replyItems = replyBeans;
-        comments = object;
+        if(isNotLogin()){
+            login();
+        }else {
+            String cid =object.getId();
+            String replyId =replyBean.id;
+            replyItem = replyBean;
+            replyItems = replyBeans;
+            comments = object;
             if (replyBean.content != null)
             {
                 isReply = true ;
@@ -489,6 +513,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
             }
+        }
     }
 
     @Override
@@ -560,10 +585,14 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Override
     public void onLikeTouch(View v, int position, CommentDto comment) {
         String cid = String.valueOf(comment.getId());
-        if(comment.praised==0){
-            likeClicked(cid,comment);
-        }else{
-            likeCancelled(cid,comment);
+        if(isNotLogin()){
+            login();
+        }else {
+            if(comment.praised==0){
+                likeClicked(cid,comment);
+            }else{
+                likeCancelled(cid,comment);
+            }
         }
     }
 
@@ -578,13 +607,17 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     @Override
     public void onCommentContentLongClick(View v, final int position, final CommentDto comment) {
-        if (comment.getUid().equals(UID)) {
+        if (comment.getUid().equals(mPreference.getString(Preference.uid))) {
             String title = "您确定要删除？";
             final AlertDialogUtil dialog = new AlertDialogUtil();
             dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
                 @Override
                 public void onClick() {
-                    deleteComment(comment.getId(),comment);
+                    if(isNotLogin()){
+                        login();
+                    }else {
+                        deleteComment(comment.getId(),comment);
+                    }
                 }
             }, null);
         }
@@ -630,5 +663,16 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     public void onRetryClick(View v) {
         mCurPage = 1;
         getCommentList();
+    }
+
+    public boolean isNotLogin(){
+        return CheckUtil.isNull(mPreference.getString(Preference.uid));
+    }
+
+    public void login(){
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isFromComment",true);
+        bundle.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
+        mContext.startActivity(bundle, ContentActivity.class);
     }
 }

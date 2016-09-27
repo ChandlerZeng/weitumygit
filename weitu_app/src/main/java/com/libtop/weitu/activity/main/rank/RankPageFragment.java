@@ -138,7 +138,8 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
     {
         HashMap<String, Object> map = new HashMap<>();
         map.put("type", type);
-        String api = "/find/rank/list";
+//        String api = "/find/rank/list";
+        String api = "/find/rank/lists";
         HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {

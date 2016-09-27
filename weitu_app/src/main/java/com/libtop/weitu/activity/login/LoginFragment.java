@@ -1,6 +1,7 @@
 package com.libtop.weitu.activity.login;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.main.MainActivity;
+import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
@@ -37,6 +39,8 @@ public class LoginFragment extends BaseFragment
     @Bind(R.id.user_passwd)
     EditText mPasswdEdit;
 
+    private boolean isFromComment;
+
 
     @Override
     protected int getLayoutId()
@@ -54,6 +58,9 @@ public class LoginFragment extends BaseFragment
         {
             mNameEdit.setText(phone);
         }
+
+        Bundle bundle = ((ContentActivity) mContext).getCurrentExtra();
+        isFromComment = bundle.getBoolean("isFromComment",false);
     }
 
 
@@ -162,10 +169,14 @@ public class LoginFragment extends BaseFragment
                         mPreference.putString(Preference.SchoolCode, library.getString("code"));
 
                         showToast("登录成功");
-                        mContext.startActivity(null, MainActivity.class);
-                        //结束欢迎页
-                        mContext.setResult(Activity.RESULT_OK);
-                        mContext.finish();
+                        if(isFromComment){
+                            mContext.finish();
+                        }else {
+                            mContext.startActivity(null, MainActivity.class);
+                            //结束欢迎页
+                            mContext.setResult(Activity.RESULT_OK);
+                            mContext.finish();
+                        }
                     }
                     else
                     {

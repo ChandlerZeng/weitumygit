@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.ListPopupWindow;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -14,6 +15,8 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifyCheckAdapter;
 import com.libtop.weitu.activity.classify.adapter.ClassifyDetailAdapter;
@@ -23,9 +26,16 @@ import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.eventbus.MessageEvent;
+import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.widget.NoSlideViewPager;
+import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +45,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnPageChange;
+import okhttp3.Call;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -92,6 +103,7 @@ public class ClassifyDetailActivity extends BaseActivity
         mTitleText.setText(name);
         mData = new ArrayList<ClassifyResultBean>();
         mAdapter = new ClassifyDetailAdapter(mContext, mData);
+        EventBus.getDefault().register(this);
         initView();
         initPopView();
         getData();
@@ -104,7 +116,7 @@ public class ClassifyDetailActivity extends BaseActivity
         bundle.putInt("page", mCurPage);
         bundle.putString("method", "search.categories");
         bundle.putLong("code",code);
-        bundle.putLong("subCode",code);
+        bundle.putLong("subCode",subCode);
         bundle.putString("filterString",filterString);
         bundle.putString("type","subject");
         f1.setArguments(bundle);
@@ -116,7 +128,7 @@ public class ClassifyDetailActivity extends BaseActivity
         bundle2.putLong("code",code);
         bundle2.putLong("subCode",subCode);
         bundle2.putString("filterString",filterString);
-        bundle2.putString("tyep","resource");
+        bundle2.putString("type","resource");
         f2.setArguments(bundle2);
 
         mFrags.add(f1);
@@ -187,7 +199,10 @@ public class ClassifyDetailActivity extends BaseActivity
                 subCode = lists.get(position).code;
                 classifyCheckAdapter.setCheck(position);
                 mCurPage = 1;
-                getData();
+                Bundle bundle = new Bundle();
+                bundle.putLong("subCode",subCode);
+                bundle.putInt("page", mCurPage);
+                EventBus.getDefault().post(new MessageEvent(bundle));
                 mListPop.dismiss();
             }
         });
@@ -225,7 +240,10 @@ public class ClassifyDetailActivity extends BaseActivity
                 setFilter(position);
                 filterCheckAdapter.setCheck(position);
                 mCurPage = 1;
-                getData();
+                Bundle bundle = new Bundle();
+                bundle.putString("filterString",filterString);
+                bundle.putInt("page", mCurPage);
+                EventBus.getDefault().post(new MessageEvent(bundle));
                 mListFilterPop.dismiss();
             }
         });
@@ -270,72 +288,41 @@ public class ClassifyDetailActivity extends BaseActivity
         map.put("sort", filterString);
         map.put("page", mCurPage);
         map.put("method", "search.categories");
-        String[] arrays = MapUtil.map2Parameter(map);
-        subscription = WeituNetwork.getWeituApi().getClassifyDetail(arrays[0], arrays[1], arrays[2]).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<ClassifyDetailBean>()
-        {
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
-            public void onCompleted()
-            {
+            public void onError(Call call, Exception e, int id) {
 
             }
 
-
             @Override
-            public void onError(Throwable e)
-            {
-                if (mData.isEmpty() && !isRefreshed)
-                {
-//                    networkLoadingLayout.showLoadFailAndRetryPrompt();
-//                    mListView.setVisibility(View.GONE);
-                }
-            }
-
-
-            @Override
-            public void onNext(ClassifyDetailBean classifyDetailBean)
-            {
-//                mListView.stopRefresh();
-                lists.clear();
-                int size = classifyDetailBean.categories.subCategories.size();
-                ClassifyBean classifyBean = new ClassifyBean();
-                classifyBean.name = "全部";
-                classifyBean.code = 0;
-                classifyBean.countString = classifyDetailBean.categories.subCategories.get(0).name + "等" + size + "类";
-                lists.add(classifyBean);
-                for (ClassifyBean classifyBean1 : classifyDetailBean.categories.subCategories)
-                {
-                    classifyBean1.countString = "共" + classifyBean1.count + "种资源";
-                }
-                lists.addAll(classifyDetailBean.categories.subCategories);
-                classifyCheckAdapter.setData(lists);
-                classifyCheckAdapter.notifyDataSetChanged();
-                if (mCurPage == 1)
-                {
-                    mData.clear();
-                }
-                mData.addAll(classifyDetailBean.result);
-                if (classifyDetailBean.result.size() < 10)
-                {
-//                    hasData = false;
-//                    mListView.setPullLoadEnable(false);
-                }
-                else
-                {
-//                    hasData = true;
-//                    mListView.setPullLoadEnable(true);
-                }
-                mCurPage++;
-                if (mData.isEmpty()) {
-
-                }
-                else
-                {
-                    mAdapter.setNewData(mData);
+            public void onResponse(String json, int id) {
+                if (!TextUtils.isEmpty(json)) {
+                    ClassifyDetailBean classifyDetailBean = new Gson().fromJson(json, new TypeToken<ClassifyDetailBean>() {
+                    }.getType());
+                    lists.clear();
+                    int size = classifyDetailBean.categories.subCategories.size();
+                    ClassifyBean classifyBean = new ClassifyBean();
+                    classifyBean.name = "全部";
+                    classifyBean.code = 0;
+                    classifyBean.countString = classifyDetailBean.categories.subCategories.get(0).name + "等" + size + "类";
+                    lists.add(classifyBean);
+                    for (ClassifyBean classifyBean1 : classifyDetailBean.categories.subCategories)
+                    {
+                        classifyBean1.countString = "共" + classifyBean1.count + "种资源";
+                    }
+                    lists.addAll(classifyDetailBean.categories.subCategories);
+                    classifyCheckAdapter.setData(lists);
+                    classifyCheckAdapter.notifyDataSetChanged();
                 }
             }
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Nullable
     @OnClick({R.id.back_btn, R.id.commit, R.id.img_search, R.id.search_filter, R.id.title})
@@ -381,6 +368,11 @@ public class ClassifyDetailActivity extends BaseActivity
     }
 
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessage(MessageEvent event)
+    {
+
+    }
 
     @Override
     public void onBackPressed()

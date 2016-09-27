@@ -580,7 +580,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                 mContext.startActivity(bundle, CaptureActivity.class);
                 break;
 
-            case R.id.edit:
+            case R.id.fragment_discover_layout_search_edittext:
                 mContext.startActivity(null, SearchActivity.class);
                 break;
 

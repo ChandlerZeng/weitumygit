@@ -148,13 +148,16 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
         {
             ImageView themeCover = helper.getView(R.id.img_item_subject);
             ImageView newCover = helper.getView(R.id.img_item_subject_new);
-            Picasso.with(mContext).load(subjectBean.getCover())
-                    .placeholder(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
-                    .error(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
-                    .fit()
-                    .into(themeCover);
+            if(subjectBean!=null){
+                Picasso.with(mContext).load(subjectBean.getCover())
+                        .placeholder(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
+                        .error(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
+                        .fit()
+                        .into(themeCover);
 
-            helper.setText(R.id.tv_item_subject, subjectBean.getTitle());
+                helper.setText(R.id.tv_item_subject, subjectBean.getTitle());
+            }
+
         }
     }
 
