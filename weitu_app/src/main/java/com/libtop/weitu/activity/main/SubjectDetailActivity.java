@@ -209,7 +209,7 @@ public class SubjectDetailActivity extends BaseActivity
 
     private void changeView(SubjectDetailBean subjectDetailBean)
     {
-        ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.getCover(),ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
+        ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.getCover(),ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG);
         titleString = subjectDetailBean.subject.getTitle();
         title.setText(titleString);
         headerViewHolder.tvThemeDetailTitle.setText(titleString);

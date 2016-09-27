@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
@@ -229,8 +228,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                     networkLoadingLayout.dismiss();
                     newTheme.setVisibility(View.VISIBLE);
                     try {
-                        List<SubjectBean> subjects = JSONUtil.fromJson(json, new TypeToken<List<SubjectBean>>() {
-                        }.getType());
+                        ArrayList<SubjectBean> subjects = JSONUtil.readBeanArray(json, SubjectBean.class);
                         selectSubDatas = subjects;
                         if(result == NewSubjectActivity.RESULT_SUCCESSS){
                             List<SubjectBean> subList = new ArrayList<>();

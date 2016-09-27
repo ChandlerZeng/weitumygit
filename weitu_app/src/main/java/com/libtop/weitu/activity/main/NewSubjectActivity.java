@@ -76,7 +76,7 @@ public class NewSubjectActivity extends BaseActivity
         }else {
            title.setText("新建主题");
         }
-        ImageLoaderUtil.loadPlaceImage(mContext,imgCover,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
+        ImageLoaderUtil.loadRoundImage(mContext,imgCover, ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG);
     }
 
 
@@ -240,7 +240,7 @@ public class NewSubjectActivity extends BaseActivity
         if (requestCode == REQUEST_IMAGE
                 && resultCode == Activity.RESULT_OK){
             String a = "file:///" + data.getStringExtra("lamge");
-            ImageLoaderUtil.loadRoundImage(mContext,imgCover,a,ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
+            ImageLoaderUtil.loadRoundImage(mContext,imgCover,a,ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG);
             Toast.makeText(mContext,"Good image ",Toast.LENGTH_SHORT).show();
         }
         switch (resultCode){
