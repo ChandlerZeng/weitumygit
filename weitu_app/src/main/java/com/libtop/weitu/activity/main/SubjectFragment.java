@@ -153,8 +153,8 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
             ImageView newCover = helper.getView(R.id.img_item_subject_new);
             if(subjectBean!=null){
                 Picasso.with(mContext).load(subjectBean.getCover())
-                        .placeholder(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
-                        .error(ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID)
+                        .placeholder(ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG)
+                        .error(ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG)
                         .fit()
                         .into(themeCover);
 

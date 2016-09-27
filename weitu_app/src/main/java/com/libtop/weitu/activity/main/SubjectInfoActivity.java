@@ -75,7 +75,7 @@ public class SubjectInfoActivity extends BaseActivity
             tvSubjectInfoWatch.setText("关注");
             tvSubjectInfoWatch.setTextColor(ContextCompat.getColor(mContext,R.color.newGreen));
         }
-        ImageLoaderUtil.loadImage(mContext,imgSubjectInfo,subjectDetailBean.subject.getCover(),ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
+        ImageLoaderUtil.loadImage(mContext,imgSubjectInfo,subjectDetailBean.subject.getCover(),ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG);
         title.setText("主题信息");
         tvSubjectInfoTitle.setText(subjectDetailBean.subject.getTitle());
 //        tvSubjectInfoSort.setText(subjectDetailBean.subject.get);

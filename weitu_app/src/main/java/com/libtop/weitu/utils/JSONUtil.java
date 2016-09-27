@@ -2,48 +2,17 @@ package com.libtop.weitu.utils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 
 public class JSONUtil
 {
     private static final String TAG = JSONUtil.class.getSimpleName();
-
-
-    private static Gson gson = null;
-
-    static
-    {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(JsonObject.class, new JsonDeserializer<Object>()
-        {
-
-            @Override
-            public Object deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException
-            {
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
-                return jsonObject;
-            }
-        });
-
-        gson = builder.disableHtmlEscaping().create();
-    }
 
 
     private static Boolean getBoolean(String json, String name)
@@ -270,44 +239,6 @@ public class JSONUtil
         }
 
         return null;
-    }
-
-
-    /**
-     * 把json转成对应的类型。适合用于自定义数据类型，如ArrayList<Foo>等
-     *
-     * @param content json
-     * @param type    自定义类型的token。使用方法如下
-     *                Type listType = new TypeToken<ArrayList<Foo>>(){}.getType();
-     * @param <T>
-     * @return 对应类型的对象
-     */
-    public static <T> T fromJson(String content, Type type)
-    {
-        if (!StringUtil.isEmpty(content) && type != null)
-        {
-            try
-            {
-                T t = gson.fromJson(content, type);
-                if (t instanceof Collection)
-                {
-                    ((Collection) t).removeAll(Collections.singleton(null));
-                }
-
-                return t;
-            }
-            catch (JsonSyntaxException e)
-            {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-
-    public static Gson getGson()
-    {
-        return gson;
     }
 
 
