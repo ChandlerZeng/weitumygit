@@ -28,13 +28,17 @@ public class StringUtil
     }
 
 
-    /**
-      * @param object
-     * @return
-     */
     public static String getString(Object object)
     {
         return (object != null ? object.toString() : "");
+    }
+
+    public static String getCoverUrl(String url)
+    {
+        if (url == null || url.trim().equals("")){
+            url = "http://";
+        }
+        return url;
     }
 
     /**

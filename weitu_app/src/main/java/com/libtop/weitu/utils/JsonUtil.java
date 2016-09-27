@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -154,7 +155,13 @@ public class JsonUtil
         {
             try
             {
-                return gson.fromJson(content, type);
+                T t = gson.fromJson(content, type);
+                if (t instanceof Collection)
+                {
+                    ((Collection) t).removeAll(Collections.singleton(null));
+                }
+
+                return t;
             }
             catch (JsonSyntaxException e)
             {
