@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
 import com.libtop.weitu.activity.main.dto.CommentDto;
@@ -21,7 +20,7 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -95,7 +94,7 @@ public class MyLikeActivity extends BaseActivity
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    List<CommentDto> lists = JsonUtil.fromJson(json, new TypeToken<List<CommentDto>>(){}.getType());
+                    ArrayList<CommentDto> lists = JSONUtil.readBeanArray(json, CommentDto.class);
                     if (lists == null){
                         return;
                     }

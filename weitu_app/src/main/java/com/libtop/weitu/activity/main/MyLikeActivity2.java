@@ -31,7 +31,6 @@ import com.libtop.weitu.test.CommentBean;
 import com.libtop.weitu.test.Comments;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.JsonUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.squareup.picasso.Picasso;
@@ -40,7 +39,6 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -154,7 +152,7 @@ public class MyLikeActivity2 extends BaseActivity
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    List<ResultBean> mlist = JsonUtil.fromJson(json, new TypeToken<List<ResultBean>>()
+                    List<ResultBean> mlist = JSONUtil.fromJson(json, new TypeToken<List<ResultBean>>()
                     {
                     }.getType());
                     myLikeAdapter.addAll(mlist);

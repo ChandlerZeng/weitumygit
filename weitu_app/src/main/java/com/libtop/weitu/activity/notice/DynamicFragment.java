@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.base.MyBaseFragment;
 import com.libtop.weitu.config.DynamicConfig;
@@ -23,7 +22,7 @@ import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
@@ -131,7 +130,7 @@ public class DynamicFragment extends MyBaseFragment implements NetworkLoadingLay
             {
                 nextPageIndex = page + 1;
 
-                ArrayList<Dynamic> notices = JsonUtil.fromJson(response, new TypeToken<ArrayList<Dynamic>>(){});
+                ArrayList<Dynamic> notices = JSONUtil.readBeanArray(response, Dynamic.class);
                 int size = CollectionUtil.getSize(notices);
                 boolean hasMore = (size > WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
                 if (page > 1)
@@ -174,7 +173,7 @@ public class DynamicFragment extends MyBaseFragment implements NetworkLoadingLay
             @Override
             public void onResponse(String response, int id)
             {
-                Integer code = JsonUtil.getInt(response, "code");
+                Integer code = JSONUtil.getInt(response, "code");
                 if (code != null && code == 1)
                 {
                     Dynamic notice = (Dynamic) dynamicListViewAdapter.getItem(position);

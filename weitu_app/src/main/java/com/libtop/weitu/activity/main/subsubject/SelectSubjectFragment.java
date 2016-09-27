@@ -23,7 +23,7 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.melnykov.fab.FloatingActionButton;
@@ -183,7 +183,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
             public void onResponse(String json, int id) {
                 if (json!=null && !TextUtils.isEmpty(json)) {
                     dismissLoading();
-                    ResultCodeDto resultCodeDto = JsonUtil.fromJson(json,new TypeToken<ResultCodeDto>(){}.getType());
+                    ResultCodeDto resultCodeDto = JSONUtil.readBean(json, ResultCodeDto.class);
                     if(resultCodeDto!=null && resultCodeDto.code==1){
                         showToast("收录成功");
                         Bundle bundle = new Bundle();
@@ -229,7 +229,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                     networkLoadingLayout.dismiss();
                     newTheme.setVisibility(View.VISIBLE);
                     try {
-                        List<SubjectBean> subjects = JsonUtil.fromJson(json, new TypeToken<List<SubjectBean>>() {
+                        List<SubjectBean> subjects = JSONUtil.fromJson(json, new TypeToken<List<SubjectBean>>() {
                         }.getType());
                         selectSubDatas = subjects;
                         if(result == NewSubjectActivity.RESULT_SUCCESSS){
@@ -269,7 +269,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                     networkLoadingLayout.dismiss();
                     newTheme.setVisibility(View.VISIBLE);
                     try {
-                        SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
+                        SubjectResource subjectResource = JSONUtil.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
                         selectSubDatas = subjectResource.subjects;
                         mAdapter.setData(selectSubDatas);
@@ -328,7 +328,7 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                     dismissLoading();
                     Toast.makeText(mContext,"新建主题成功",Toast.LENGTH_SHORT).show();
                     try {
-                        SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
+                        SubjectResource subjectResource = JSONUtil.fromJson(json, new TypeToken<SubjectResource>() {
                         }.getType());
                         subject = subjectResource.subject;
                         if(subject!=null){

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.base.MyBaseFragment;
 import com.libtop.weitu.config.WTConstants;
@@ -16,7 +15,7 @@ import com.libtop.weitu.test.SchoolNotice;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -121,19 +120,19 @@ public class SchoolNoticeFragment extends MyBaseFragment implements NetworkLoadi
             {
                 nextPageIndex = page + 1;
 
-                ArrayList<SchoolNotice> schoolNoticeList = JsonUtil.fromJson(response, new TypeToken<ArrayList<SchoolNotice>>(){});
-                int size = CollectionUtil.getSize(schoolNoticeList);
+                ArrayList<SchoolNotice> schoolNotices = JSONUtil.readBeanArray(response, SchoolNotice.class);
+                int size = CollectionUtil.getSize(schoolNotices);
                 boolean hasMore = (size > WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
                 if (page > 1)
                 {
-                    schoolNoticeListView.onFinishLoading(hasMore, schoolNoticeList);
+                    schoolNoticeListView.onFinishLoading(hasMore, schoolNotices);
                 }
                 else
                 {
                     if (size > 0)
                     {
                         networkLoadingLayout.dismiss();
-                        schoolNoticeListView.onFinishLoading(hasMore, schoolNoticeList);
+                        schoolNoticeListView.onFinishLoading(hasMore, schoolNotices);
                     }
                     else
                     {

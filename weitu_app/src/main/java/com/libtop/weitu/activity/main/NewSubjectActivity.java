@@ -19,7 +19,7 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ClippingPicture;
 import com.libtop.weitu.utils.ImageLoaderUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
 import com.libtop.weitu.utils.selector.view.ImageSortActivity;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -148,7 +148,7 @@ public class NewSubjectActivity extends BaseActivity
                 Toast.makeText(mContext,json,Toast.LENGTH_SHORT).show();
                 if (!TextUtils.isEmpty(json))
                 {
-                    ResultCodeDto resultCodeDto = JsonUtil.fromJson(json, ResultCodeDto.class );
+                    ResultCodeDto resultCodeDto = JSONUtil.readBean(json, ResultCodeDto.class);
                     if (resultCodeDto == null){
                         Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
                         return;
@@ -194,7 +194,7 @@ public class NewSubjectActivity extends BaseActivity
                 Toast.makeText(mContext,json,Toast.LENGTH_SHORT).show();
                 if (!TextUtils.isEmpty(json))
                 {
-                    ResultCodeDto resultCodeDto = JsonUtil.fromJson(json, ResultCodeDto.class );
+                    ResultCodeDto resultCodeDto = JSONUtil.readBean(json, ResultCodeDto.class);
                     if (resultCodeDto == null){
                         Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
                         return;

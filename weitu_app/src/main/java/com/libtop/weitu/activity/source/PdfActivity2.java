@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
@@ -30,7 +29,7 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.NetworkUtil;
 import com.libtop.weitu.utils.ShareSdkUtil;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -336,9 +335,7 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    DocResultBean resultBean = JsonUtil.fromJson(json, new TypeToken<DocResultBean>()
-                    {
-                    }.getType());
+                    DocResultBean resultBean = JSONUtil.readBean(json, DocResultBean.class);
                     if (resultBean.code == 0)
                     {
                         Toast.makeText(mContext, "该文档不存在", Toast.LENGTH_SHORT).show();

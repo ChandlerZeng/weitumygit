@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.search.ImagePagerActivity2;
 import com.libtop.weitu.activity.search.adapter.DynamicCardAdapter;
@@ -21,7 +20,7 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.NetworkUtil;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -134,9 +133,7 @@ public class DynamicCardActivity extends BaseActivity
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    DynamicCardBean dynamicCardBean = JsonUtil.fromJson(json, new TypeToken<DynamicCardBean>()
-                    {
-                    }.getType());
+                    DynamicCardBean dynamicCardBean = JSONUtil.readBean(json, DynamicCardBean.class);
                     if (dynamicCardBean == null)
                     {
                         return;

@@ -45,7 +45,7 @@ import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DisplayUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -405,7 +405,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
             {
                 try
                 {
-                    SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
+                    SubjectResource subjectResource = JSONUtil.readBean(json, SubjectResource.class);
 
                     List<Subject> listSub = new ArrayList<>();
                     listSub = subjectResource.subjects;
@@ -454,7 +454,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
             {
                 try
                 {
-                    SubjectResource subjectResource = JsonUtil.fromJson(json, SubjectResource.class);
+                    SubjectResource subjectResource = JSONUtil.readBean(json, SubjectResource.class);
 
                     List<Resource> list = new ArrayList<>();
                     list = subjectResource.resources;

@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.search.adapter.HotListAdapter;
 import com.libtop.weitu.activity.search.adapter.SearchAdapter;
@@ -25,7 +24,7 @@ import com.libtop.weitu.dao.SearchBo;
 import com.libtop.weitu.dao.bean.Search;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.widget.view.GridViewForScrollView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -118,9 +117,7 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
                     return;
                 }
                 mHotList.clear();
-                mHotList = JsonUtil.fromJson(json, new TypeToken<List<HotSearchDto>>()
-                {
-                }.getType());
+                mHotList = JSONUtil.readBeanArray(json, HotSearchDto.class);
                 hotListAdapter.setData(mHotList);
                 hotListAdapter.notifyDataSetChanged();
                 if (mHotList.size() == 0)
