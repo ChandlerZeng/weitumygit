@@ -86,6 +86,8 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 SubjectBean subjectBean = (SubjectBean) parent.getItemAtPosition(position);
+                subjectBean.setResourceUpdateCount(0);
+                themeAdapter.setItem(position,subjectBean);
                 ContextUtil.openSubjectDetail(mContext,subjectBean.getId());
             }
         });
@@ -114,6 +116,8 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
                 if (!TextUtils.isEmpty(json))
                 {
                     List<SubjectBean> lists = JsonUtil.fromJson(json, new TypeToken<List<SubjectBean>>(){}.getType());
+                    if (lists==null)
+                        return;
                     if (CollectionUtil.isEmpty(lists)){
                         networkLoadingLayout.showEmptyAndRetryPrompt();
                     }else {
@@ -157,7 +161,12 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
 
                 helper.setText(R.id.tv_item_subject, subjectBean.getTitle());
             }
-
+            if (subjectBean.getResourceUpdateCount() == 1){
+                newCover.setVisibility(View.VISIBLE);
+            }else {
+                newCover.setVisibility(View.GONE);
+            }
+            helper.setText(R.id.tv_item_subject, subjectBean.getTitle());
         }
     }
 

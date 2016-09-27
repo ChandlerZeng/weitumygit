@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <include layout="@layout/content_layout_network_loading"/>
+
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab_main_new_subject"
         android:layout_width="wrap_content"
@@ -24,5 +26,4 @@
         fab:fab_colorPressed="@color/green1"
         fab:fab_colorRipple="@color/grey4" />
 
-    <include layout="@layout/content_layout_network_loading"/>
 </FrameLayout>

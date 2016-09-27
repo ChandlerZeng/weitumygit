@@ -30,24 +30,24 @@ public class ImageLoaderUtil
 
     public static void loadLogoImage(Context context, ImageView imageView, String url)
     {
-        Picasso.with(context).load(url).transform(new CircleTransform()).placeholder(USER_LOGO_RESOURCE_ID).error(USER_LOGO_RESOURCE_ID).into(imageView);
+        Picasso.with(context).load(StringUtil.getCoverUrl(url)).transform(new CircleTransform()).placeholder(USER_LOGO_RESOURCE_ID).error(USER_LOGO_RESOURCE_ID).into(imageView);
     }
 
 
     public static void loadImage(Context context, ImageView imageView, String url)
     {
-        loadImage(context, imageView, url, DEFAULT_IMAGE_RESOURCE_ID);
+        loadImage(context, imageView, StringUtil.getCoverUrl(url), DEFAULT_IMAGE_RESOURCE_ID);
     }
 
 
     public static void loadImage(Context context, ImageView imageView, String url, int defaultResId)
     {
-        Picasso.with(context).load(url).placeholder(defaultResId).error(defaultResId).centerInside().fit().into(imageView);
+        Picasso.with(context).load(StringUtil.getCoverUrl(url)).placeholder(defaultResId).error(defaultResId).centerInside().fit().into(imageView);
     }
 
     public static void loadCropImage(Context context, ImageView imageView, String url, int defaultResId)
     {
-        Picasso.with(context).load(url).placeholder(defaultResId).error(defaultResId).centerCrop().fit().into(imageView);
+        Picasso.with(context).load(StringUtil.getCoverUrl(url)).placeholder(defaultResId).error(defaultResId).centerCrop().fit().into(imageView);
     }
 
     public static void loadPlaceImage(Context context, ImageView imageView, int resId)
@@ -57,7 +57,7 @@ public class ImageLoaderUtil
 
     public static void loadRoundImage(Context context, ImageView imageView,String url, int defaultResId)
     {
-        Picasso.with(context).load(url).placeholder(defaultResId).transform(new RoundedCornersTransformation((int) DisplayUtil.dp2px(context,ROUND_SIZE),0)).fit().into(imageView);
+        Picasso.with(context).load(StringUtil.getCoverUrl(url)).placeholder(defaultResId).transform(new RoundedCornersTransformation((int) DisplayUtil.dp2px(context,ROUND_SIZE),0)).fit().into(imageView);
     }
 
     private static class CircleTransform implements Transformation

@@ -7,6 +7,8 @@
         android:id="@+id/lv_main_resource"
         style="@style/my_listview_style_with_stroke"/>
 
+    <include layout="@layout/content_layout_network_loading"/>
+
     <com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout
         android:id="@+id/activity_main_rfal"
         xmlns:rfal="http://schemas.android.com/apk/res-auto"
@@ -34,7 +36,5 @@
             rfab:rfab_shadow_radius="7dp"
             rfab:rfab_size="normal"/>
     </com.wangjie.rapidfloatingactionbutton.RapidFloatingActionLayout>
-
-    <include layout="@layout/content_layout_network_loading"/>
 
 </RelativeLayout>

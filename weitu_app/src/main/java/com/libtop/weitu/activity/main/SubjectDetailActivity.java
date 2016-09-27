@@ -211,8 +211,9 @@ public class SubjectDetailActivity extends BaseActivity
     private void changeView(SubjectDetailBean subjectDetailBean)
     {
         ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.getCover(),ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
-        title.setText(subjectDetailBean.subject.getTitle());
-        headerViewHolder.tvThemeDetailTitle.setText(subjectDetailBean.subject.getTitle());
+        titleString = subjectDetailBean.subject.getTitle();
+        title.setText(titleString);
+        headerViewHolder.tvThemeDetailTitle.setText(titleString);
         headerViewHolder.tvThemeDetailFollowNum.setText(subjectDetailBean.subject.getFollows()+"");
         if (subjectDetailBean.followed == 1){
             isFollow = true;
