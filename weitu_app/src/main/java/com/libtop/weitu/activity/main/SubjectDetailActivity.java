@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
 import com.libtop.weitu.activity.main.dto.SubjectDetailBean;
@@ -25,7 +24,7 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.PullZoomListView;
@@ -108,7 +107,7 @@ public class SubjectDetailActivity extends BaseActivity
             public void onResponse(String json, int id)
             {
                 swipeRefreshLayout.setRefreshing(false);
-                List<CollectBean> lists = JsonUtil.fromJson(json, new TypeToken<List<CollectBean>>(){}.getType());
+                ArrayList<CollectBean> lists = JSONUtil.readBeanArray(json, CollectBean.class);
                 if (lists == null){
                     Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
                     return;
@@ -197,7 +196,7 @@ public class SubjectDetailActivity extends BaseActivity
             @Override
             public void onResponse(String json, int id)
             {
-                SubjectDetailBean bean = JsonUtil.fromJson(json, SubjectDetailBean.class);
+                SubjectDetailBean bean = JSONUtil.readBean(json, SubjectDetailBean.class);
                 if (bean ==null){
                     return;
                 }
@@ -211,8 +210,9 @@ public class SubjectDetailActivity extends BaseActivity
     private void changeView(SubjectDetailBean subjectDetailBean)
     {
         ImageLoaderUtil.loadImage(mContext,pullZoomListView.getHeaderImageView(),subjectDetailBean.subject.getCover(),ImageLoaderUtil.DEFAULT_BIG_IMAGE_RESOURCE_ID);
-        title.setText(subjectDetailBean.subject.getTitle());
-        headerViewHolder.tvThemeDetailTitle.setText(subjectDetailBean.subject.getTitle());
+        titleString = subjectDetailBean.subject.getTitle();
+        title.setText(titleString);
+        headerViewHolder.tvThemeDetailTitle.setText(titleString);
         headerViewHolder.tvThemeDetailFollowNum.setText(subjectDetailBean.subject.getFollows()+"");
         if (subjectDetailBean.followed == 1){
             isFollow = true;
@@ -338,7 +338,7 @@ public class SubjectDetailActivity extends BaseActivity
             @Override
             public void onResponse(String json, int id)
             {
-                ResultCodeDto resultCodeDto = JsonUtil.fromJson(json, ResultCodeDto.class );
+                ResultCodeDto resultCodeDto = JSONUtil.readBean(json, ResultCodeDto.class);
                 if (resultCodeDto == null){
                     Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
                     return;
@@ -376,7 +376,7 @@ public class SubjectDetailActivity extends BaseActivity
             @Override
             public void onResponse(String json, int id)
             {
-                ResultCodeDto resultCodeDto = JsonUtil.fromJson(json, ResultCodeDto.class );
+                ResultCodeDto resultCodeDto = JSONUtil.readBean(json, ResultCodeDto.class);
                 if (resultCodeDto == null){
                     Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
                     return;

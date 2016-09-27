@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
@@ -27,7 +26,7 @@ import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -306,9 +305,7 @@ public class DelicateFragment extends ContentFragment
                         {
                             mData.clear();
                         }
-                        List<DisplayDto> mlist = JsonUtil.fromJson(json, new TypeToken<List<DisplayDto>>()
-                        {
-                        }.getType());
+                        ArrayList<DisplayDto> mlist = JSONUtil.readBeanArray(json, DisplayDto.class);
                         mData.addAll(mlist);
                         if (mlist.size() < 10)
                         {

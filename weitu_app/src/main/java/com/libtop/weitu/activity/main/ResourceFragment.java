@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
@@ -24,7 +23,7 @@ import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.utils.ShowHideOnScroll;
 import com.libtop.weitu.utils.selector.view.ImageSelectActivity;
@@ -114,7 +113,7 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
-                    List<CollectBean> lists = JsonUtil.fromJson(json, new TypeToken<List<CollectBean>>(){}.getType());
+                    ArrayList<CollectBean> lists = JSONUtil.readBeanArray(json, CollectBean.class);
                     if (CollectionUtil.isEmpty(lists)){
                         networkLoadingLayout.showEmptyPrompt();
                     }else {

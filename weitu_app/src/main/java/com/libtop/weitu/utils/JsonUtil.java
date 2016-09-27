@@ -1,5 +1,7 @@
 package com.libtop.weitu.utils;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -7,25 +9,24 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 
-public class JsonUtil
+public class JSONUtil
 {
-    private static final String TAG = "JsonUtil.class";
+    private static final String TAG = JSONUtil.class.getSimpleName();
+
+
     private static Gson gson = null;
-    private static com.google.gson.JsonParser parser = null;
 
     static
     {
@@ -42,15 +43,100 @@ public class JsonUtil
         });
 
         gson = builder.disableHtmlEscaping().create();
-        parser = new com.google.gson.JsonParser();
     }
+
+
+    private static Boolean getBoolean(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getBoolean(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+
+    public static Double getDouble(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getDouble(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+
+    public static Integer getInt(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getInt(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+
+    public static Long getLong(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getLong(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+
+    public static String getString(String json, String name)
+    {
+        try
+        {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getString(name);
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+            LogUtil.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
 
     /**
      * 将JSON数据转换为实体类对象
      *
      * @param jsonObject 原始JSONObject对象
      * @param name       待转换的对象对应的JSONObject键名
-     * @param clazz      实体类的类名.需为继承 Bean 的类
+     * @param clazz      实体类的类名.需实现 Serializable 接口
      * @return T 实体类对象
      */
     public static <T> T readBean(JSONObject jsonObject, String name, Class<T> clazz)
@@ -63,79 +149,127 @@ public class JsonUtil
         catch (Exception e)
         {
             e.printStackTrace();
-            LogUtil.d(TAG, "readBean:" + e.toString());
+            LogUtil.e(TAG, e.toString());
+
             return null;
         }
 
-        return fromJson(json,clazz);
+        return readBean(json, clazz);
     }
+
+
+    /**
+     * 将JSON数据转换为实体类对象
+     *
+     * @param json  待转换的JSON数据
+     * @param clazz 实体类的类名.需实现 Serializable 接口
+     * @return T 实体类对象
+     */
+    public static <T> T readBean(String json, Class<T> clazz)
+    {
+        try
+        {
+            ObjectMapper objectMapper = createObjectMapper();
+            T t = objectMapper.readValue(json, clazz);
+
+            return t;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            LogUtil.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
 
     /**
      * 将JSON数据转换为实体类，以实体类对象数组的形式返回
      *
      * @param jsonObject 原始JSONObject对象
      * @param name       待转换的数组对象对应的JSONObject键名
-     * @param clazz      实体类的类名.需为继承 Bean 的类
+     * @param clazz      实体类的类名.需实现 Serializable 接口
      * @return ArrayList&lt;T&gt; 实体类对象数组
      */
-    public static <T> T readBeanArray(JSONObject jsonObject, String name, Class<T> clazz)
+    public static <T> ArrayList<T> readBeanArray(JSONObject jsonObject, String name, Class<T> clazz)
     {
-        String array = null;
+        JSONArray array = null;
         try
         {
-            array = jsonObject.getJSONArray(name).toString();
+            array = jsonObject.getJSONArray(name);
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            LogUtil.d(TAG, "readBeanArray:" + e.toString());
+            LogUtil.e(TAG, e.toString());
+
             return null;
         }
 
-        return fromJson(array, new TypeToken<T>(){}.getType());
-    }
-
-    public static String toJson(Object object)
-    {
-        if (object == null)
-        {
-            return null;
-        }
-        return gson.toJson(object);
+        return readBeanArray(array, clazz);
     }
 
 
-    public static <T> T fromJson(String content, Class<T> clazz)
+    /**
+     * 将JSON数据转换为实体类，以实体类对象数组的形式返回
+     *
+     * @param jsonArray 待转换的JSON数据
+     * @param clazz     实体类的类名.需实现 Serializable 接口
+     * @return ArrayList&lt;T&gt; 实体类对象数组
+     */
+    public static <T> ArrayList<T> readBeanArray(String jsonArray, Class<T> clazz)
     {
-        if (content == null || "".equals(content) || clazz == null)
-        {
-            return null;
-        }
+        JSONArray array = null;
         try
         {
-            return gson.fromJson(content, clazz);
+            array = new JSONArray(jsonArray);
         }
-        catch (JsonSyntaxException e)
+        catch (Exception e)
         {
+            e.printStackTrace();
+            LogUtil.e(TAG, e.toString());
+
             return null;
         }
+
+        return readBeanArray(array, clazz);
     }
 
 
-    public static <T> T fromJson(String content, TypeToken<T> token)
+    /**
+     * 将JSON数据转换为实体类，以实体类对象数组的形式返回
+     *
+     * @param array 待转换的JSONArray数据
+     * @param clazz 实体类的类名.需实现 Serializable 接口
+     * @return ArrayList&lt;T&gt; 实体类对象数组
+     */
+    public static <T> ArrayList<T> readBeanArray(JSONArray array, Class<T> clazz)
     {
-        if (content == null || "".equals(content) || token == null)
-        {
-            return null;
-        }
         try
         {
-            return gson.fromJson(content, token.getType());
+            int length = array.length();
+            ArrayList<T> list = new ArrayList<T>(length);
+
+            ObjectMapper objectMapper = createObjectMapper();
+            for (int i = 0; i < length; i++)
+            {
+                T t = objectMapper.readValue(array.getString(i), clazz);
+                if (t != null)
+                {
+                    list.add(t);
+                }
+            }
+
+            return list;
         }
-        catch (JsonSyntaxException e)
+        catch (Exception e)
         {
-            return null;
+            e.printStackTrace();
+            LogUtil.e(TAG, e.toString());
         }
+
+        return null;
     }
 
 
@@ -154,7 +288,13 @@ public class JsonUtil
         {
             try
             {
-                return gson.fromJson(content, type);
+                T t = gson.fromJson(content, type);
+                if (t instanceof Collection)
+                {
+                    ((Collection) t).removeAll(Collections.singleton(null));
+                }
+
+                return t;
             }
             catch (JsonSyntaxException e)
             {
@@ -171,221 +311,36 @@ public class JsonUtil
     }
 
 
-    public static JsonParser getParser()
-    {
-        return parser;
-    }
-
-
-    public static Map<String, Object> toMap(Object obj)
-    {
-        JsonElement element = gson.toJsonTree(obj);
-        return gson.fromJson(element, Map.class);
-    }
-
-
-    public static <T> T fromObject(Object obj, Class<T> clazz)
-    {
-        JsonElement element = gson.toJsonTree(obj);
-        return gson.fromJson(element, clazz);
-    }
-
-
-    public static <T> T fromObject(Object obj, TypeToken<T> token)
-    {
-        JsonElement element = gson.toJsonTree(obj);
-        return gson.fromJson(element, token.getType());
-    }
-
-
-    public static Map<String, Object> getMap(Map<String, Object> map, String key)
-    {
-        if (map == null || key == null)
-        {
-            return null;
-        }
-        Object value = map.get(key);
-        if (value instanceof Map)
-        {
-            return (Map) value;
-        }
-        return null;
-    }
-
-
-    public static Long getLong(Map<String, Object> map, String key)
-    {
-        if (map == null || key == null)
-        {
-            return null;
-        }
-        Object value = map.get(key);
-        if (value == null)
-        {
-            return null;
-        }
-        if (value instanceof Number)
-        {
-            return ((Number) value).longValue();
-        }
-        try
-        {
-            return Long.parseLong(value.toString());
-        }
-        catch (NumberFormatException e)
-        {
-            return null;
-        }
-    }
-
-
-    public static List<Long> getLongList(Map<String, Object> map, String key)
-    {
-        if (map == null || key == null)
-        {
-            return Collections.EMPTY_LIST;
-        }
-        Object value = map.get(key);
-        if (value == null)
-        {
-            return Collections.EMPTY_LIST;
-        }
-        if (value instanceof List)
-        {
-            List<Object> list = (List) value;
-            List<Long> longValues = new ArrayList<Long>();
-            for (Object i : list)
-            {
-                if (i instanceof Number)
-                {
-                    longValues.add(((Number) i).longValue());
-                }
-            }
-            return longValues;
-        }
-        return Collections.EMPTY_LIST;
-    }
-
-
     /**
-     * 从json中搜索，根据键的名字，返回值。
+     * 将实体对象转换为JSON格式数据
      *
-     * @param json
-     * @param name json中的键名
-     * @return Object
+     * @param object 要转换的实体对象
+     * @return String JSON格式数据
      */
-    public static Object findObject(String json, String name)
-    {
-
-        Object object = null;
-
-        if (StringUtil.isEmpty(json) || StringUtil.isEmpty(name))
-        {
-            return null;
-        }
-
-        try
-        {
-            JSONObject jsonobject = new JSONObject(json);
-            if (!jsonobject.has(name))
-            {
-                return null;
-            }
-            else
-            {
-                object = jsonobject.get(name);
-            }
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-        }
-
-        return object;
-    }
-
-
-    public static Boolean getBoolean(String json, String name)
+    public static String writeBeanToJSON(Object object)
     {
         try
         {
-            JSONObject jsonObject = new JSONObject(json);
-            return jsonObject.getBoolean(name);
+            ObjectMapper objectMapper = createObjectMapper();
+            String json = objectMapper.writeValueAsString(object);
+
+            return json;
         }
-        catch (JSONException e)
+        catch (Exception e)
         {
             e.printStackTrace();
-            LogUtil.d(TAG, "getBoolean:" + e.toString());
+            LogUtil.d(TAG, e.toString());
         }
 
         return null;
     }
 
 
-    public static Double getDouble(String json, String name)
+    private static ObjectMapper createObjectMapper()
     {
-        try
-        {
-            JSONObject jsonObject = new JSONObject(json);
-            return jsonObject.getDouble(name);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-            LogUtil.d(TAG, "getDouble:" + e.toString());
-        }
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 设置忽略未知的属性
 
-        return null;
-    }
-
-
-    public static Integer getInt(String json, String name)
-    {
-        try
-        {
-            JSONObject jsonObject = new JSONObject(json);
-            return jsonObject.getInt(name);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-            LogUtil.d(TAG, "getInt:" + e.toString());
-        }
-
-        return null;
-    }
-
-
-    public static Long getLong(String json, String name)
-    {
-        try
-        {
-            JSONObject jsonObject = new JSONObject(json);
-            return jsonObject.getLong(name);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-            LogUtil.d(TAG, "getLong:" + e.toString());
-        }
-
-        return null;
-    }
-
-
-    public static String getString(String json, String name)
-    {
-        try
-        {
-            JSONObject jsonObject = new JSONObject(json);
-            return jsonObject.getString(name);
-        }
-        catch (JSONException e)
-        {
-            e.printStackTrace();
-            LogUtil.d(TAG, "getString:" + e.toString());
-        }
-
-        return null;
+        return objectMapper;
     }
 }

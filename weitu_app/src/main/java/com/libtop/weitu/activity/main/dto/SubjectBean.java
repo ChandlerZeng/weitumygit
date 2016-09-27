@@ -34,6 +34,7 @@ public class SubjectBean implements Serializable
     private int label1;
     private int state;
     private int view;
+    private int resourceUpdateCount = 0;
 
     private long timeline;
 
@@ -97,6 +98,18 @@ public class SubjectBean implements Serializable
     public void setCover(String cover)
     {
         this.cover = cover;
+    }
+
+
+    public int getResourceUpdateCount()
+    {
+        return resourceUpdateCount;
+    }
+
+
+    public void setResourceUpdateCount(int resourceUpdateCount)
+    {
+        this.resourceUpdateCount = resourceUpdateCount;
     }
 
 

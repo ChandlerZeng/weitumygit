@@ -9,7 +9,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
@@ -18,7 +17,7 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -110,8 +109,7 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
                 if (!TextUtils.isEmpty(json)) {
                     networkLoadingLayout.dismiss();
                     try {
-                        SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
-                        }.getType());
+                        SubjectResource subjectResource = JSONUtil.readBean(json, SubjectResource.class);
                         List<Subject> list = new ArrayList<>();
                         list = subjectResource.subjects;
                         if(list.size()==0){

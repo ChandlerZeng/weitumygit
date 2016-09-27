@@ -36,7 +36,7 @@ import com.libtop.weitu.test.CommentBean;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
@@ -115,7 +115,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     private void initView(){
         String json = getIntent().getStringExtra("CommentNeedDto");
-        commentNeedDto = JsonUtil.fromJson(json, new TypeToken<CommentNeedDto>(){}.getType());
+        commentNeedDto = JSONUtil.readBean(json, CommentNeedDto.class);
 
         if (commentNeedDto.title!=null && !TextUtils.isEmpty(commentNeedDto.title))
         {

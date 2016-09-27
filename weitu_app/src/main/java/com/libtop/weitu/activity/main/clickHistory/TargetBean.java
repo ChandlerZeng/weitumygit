@@ -128,7 +128,7 @@ public class TargetBean
 
     public String getTitle()
     {
-        return StringUtil.getString(publisher);
+        return StringUtil.getString(title);
     }
 
 

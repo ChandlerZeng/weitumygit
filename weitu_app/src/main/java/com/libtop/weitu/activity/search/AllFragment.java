@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.search.adapter.AllListAdapter;
@@ -25,7 +24,7 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.view.ScrollRefListView;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -183,9 +182,7 @@ public class AllFragment extends NotifyFragment
         isFirstCreate = false;
         if (!CheckUtil.isNull(json))
         {
-            List<AllDto> data = JsonUtil.fromJson(json, new TypeToken<List<AllDto>>()
-            {
-            }.getType());
+            ArrayList<AllDto> data = JSONUtil.readBeanArray(json, AllDto.class);
             if (data == null || data.isEmpty())
             {
                 return;

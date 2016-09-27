@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.search.adapter.BookGridAdapter;
@@ -19,9 +18,9 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
-import com.libtop.weitu.utils.JsonUtil;
-import com.libtop.weitu.widget.view.ScrollRefListView;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.widget.stage.StaggeredGridView;
+import com.libtop.weitu.widget.view.ScrollRefListView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -218,14 +217,12 @@ public class ThemesFragment extends NotifyFragment
                     {
                         mData.clear();
                     }
-                    List<BookDto> bookdto = JsonUtil.fromJson(json, new TypeToken<List<BookDto>>()
-                    {
-                    });
-                    if (bookdto == null)
+                    ArrayList<BookDto> bookDtoList = JSONUtil.readBeanArray(json, BookDto.class);
+                    if (bookDtoList == null)
                     {
                         return;
                     }
-                    if (bookdto.size() < 10)
+                    if (bookDtoList.size() < 10)
                     {
                         hasData = false;
                         mListview.setPullLoadEnable(false);
@@ -235,7 +232,7 @@ public class ThemesFragment extends NotifyFragment
                         hasData = true;
                         mListview.setPullLoadEnable(true);
                     }
-                    mData.addAll(bookdto);
+                    mData.addAll(bookDtoList);
                     mAdapter.notifyDataSetChanged();
                     mListAdapter.notifyDataSetChanged();
                     if (mData.size() == 0 && mCurPage == 1)

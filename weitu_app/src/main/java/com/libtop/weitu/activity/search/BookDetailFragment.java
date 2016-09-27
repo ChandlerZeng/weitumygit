@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
@@ -37,7 +36,7 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.IsbnUtils;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ShareSdkUtil;
 import com.libtop.weitu.utils.StringUtil;
 import com.squareup.picasso.Picasso;
@@ -517,9 +516,7 @@ public class BookDetailFragment extends ContentFragment
                             json = allBookString;
                         }
                     }
-                    BookDetailDto bookDetailDto = JsonUtil.fromJson(json, new TypeToken<BookDetailDto>()
-                    {
-                    }.getType());
+                    BookDetailDto bookDetailDto = JSONUtil.readBean(json, BookDetailDto.class);
                     bookdto = bookDetailDto;
                     isCollectShow = (bookDetailDto.favorite == 1);
                     if (isCollectShow)
