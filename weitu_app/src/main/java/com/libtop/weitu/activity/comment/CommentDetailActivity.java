@@ -11,6 +11,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -27,16 +28,17 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.ContentActivity;
+import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.dto.CommentDetailDto;
 import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.activity.main.dto.PraisedUsersBean;
-import com.libtop.weitu.activity.main.dto.ReplyDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.Reply;
 import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
@@ -63,6 +65,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 import okhttp3.Call;
 
 public class CommentDetailActivity extends BaseActivity implements NetworkLoadingLayout.OnRetryClickListner{
@@ -167,11 +170,15 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         listReply.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(replyBeanList.get(position).uid.equals(mPreference.getString(Preference.uid))){
-//                    onReplyItemDeleted(replyBeanList.get(position));   //TODO
-                    onReplyItemTouch(replyBeanList.get(position));
+                if(isNotLogin()){
+                    login();
                 }else {
-                    onReplyItemTouch(replyBeanList.get(position));
+                    if(replyBeanList.get(position).uid.equals(mPreference.getString(Preference.uid))){
+//                    onReplyItemDeleted(replyBeanList.get(position));   //TODO
+                        onReplyItemTouch(replyBeanList.get(position));
+                    }else {
+                        onReplyItemTouch(replyBeanList.get(position));
+                    }
                 }
             }
         });
@@ -204,6 +211,16 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         }
     }
 
+    @OnTouch({R.id.edit_comment})
+    public boolean onTouch(View view, MotionEvent event) {
+        if (view.getId() == R.id.edit_comment) {
+            if(isNotLogin()){
+                login();
+            }
+        }
+        return false;
+    }
+
     @Override
     public void onBackPressed(){ //TODO
         mContext.finish();
@@ -224,7 +241,9 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         Map<String, Object> map = new HashMap<>();
         map.put("id", cid);
         map.put("method","comment.get");
-        map.put("uid",mPreference.getString(Preference.uid));
+        if(!isNotLogin()){
+            map.put("uid",mPreference.getString(Preference.uid));
+        }
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
 
             @Override
@@ -309,42 +328,6 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         praiseHeadAdapter.setData(praiseUserList);
     }
 
-   /* private void getPraiseData()
-    {
-//        http://115.28.189.104/resource/comment/praise_user/list
-        Map<String, Object> map = new HashMap<>();
-        String api = "/resource/comment/praise_user/list";
-//        map.put("cid", cid);
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-            }
-
-
-            @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
-                    try {
-                        Gson gson = new Gson();
-                        PraisedUsersBean data = gson.fromJson(json, new TypeToken<PraisedUsersBean>() {
-                        }.getType());
-                        if (data != null) {
-                            getUser(data );
-                            if (data.size() > 8) {
-                                praiseUserList = data.praise_users.subList(0, 8);
-                            } else {
-                                praiseUserList = data.praise_users;
-                            }
-                            praiseHeadAdapter.setData(praiseUserList);
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }*/
 
     private void sendComment(View v)
     {
@@ -506,7 +489,6 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     @Override
     public void onRetryClick(View v) {
         getData(cid);
-//        getPraiseData();
     }
 
 
@@ -605,10 +587,14 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     }
 
     public void onLikeTouch(int mypraise) {
-        if(mypraise==0){
-            likeClicked();
-        }else{
-            likeCancelled();
+        if(isNotLogin()){
+            login();
+        }else {
+            if(mypraise==0){
+                likeClicked();
+            }else{
+                likeCancelled();
+            }
         }
     }
 
@@ -680,4 +666,16 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         }
         return spannableString;
     }
+
+    public boolean isNotLogin(){
+        return CheckUtil.isNull(mPreference.getString(Preference.uid));
+    }
+
+    public void login(){
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isFromComment",true);
+        bundle.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
+        mContext.startActivity(bundle, ContentActivity.class);
+    }
+
 }

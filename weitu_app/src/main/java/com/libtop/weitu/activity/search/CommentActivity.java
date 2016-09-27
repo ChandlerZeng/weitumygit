@@ -201,7 +201,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                         commentAdapter.setData(commentsList);
                         editText.setText("");
                         editText.setHint("发表评论");
-                        xListView.setSelection(1);
                         isReply = false;
                         isItemReply = false;
 
@@ -347,11 +346,11 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 //                                    commentsList.add(0, data);
 //                                    mCurPage=1;
                                     getCommentList();// TODO
+                                    xListView.setSelection(1);
                                 }
 //                                commentAdapter.setData(commentsList);
 //                                editText.setText("");
 //                                editText.setHint("发表评论");
-//                                xListView.setSelection(1);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
