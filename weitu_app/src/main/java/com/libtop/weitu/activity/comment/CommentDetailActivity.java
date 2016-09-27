@@ -128,6 +128,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     private ReplyListAdapter replyListAdapter;
 
     private int MYPRAISE = 0;
+    private final int REQUEST_CODE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,9 +242,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         Map<String, Object> map = new HashMap<>();
         map.put("id", cid);
         map.put("method","comment.get");
-        if(!isNotLogin()){
-            map.put("uid",mPreference.getString(Preference.uid));
-        }
+        map.put("uid",mPreference.getString(Preference.uid));
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
 
             @Override

@@ -37,7 +37,7 @@ public class SubjectBean implements Serializable
 
     private long timeline;
 
-    private boolean ischecked = false;
+    private boolean ischecked;
 
 
     public String getId()

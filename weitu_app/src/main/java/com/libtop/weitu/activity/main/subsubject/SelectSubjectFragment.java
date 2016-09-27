@@ -38,6 +38,7 @@ import org.json.JSONException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -231,12 +232,13 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
                     try {
                         List<SubjectBean> subjects = JsonUtil.fromJson(json, new TypeToken<List<SubjectBean>>() {
                         }.getType());
+                        subjects.removeAll(Collections.singleton(null));
                         selectSubDatas = subjects;
                         if(result == NewSubjectActivity.RESULT_SUCCESSS){
                             List<SubjectBean> subList = new ArrayList<>();
                             subList = (List<SubjectBean>) budleState.getSerializable("subjectlist");
                             for(int i = 1;i<selectSubDatas.size();i++){
-                                boolean checked = subjects.get(i-1).ischecked();
+                                boolean checked = subList.get(i-1).ischecked();
                                 selectSubDatas.get(i).setIschecked(checked);
                             }
                         }
@@ -252,37 +254,6 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
         });
     }
 
-
-    /*private void loadCollected() {
-        Map<String, Object> params = new HashMap<String, Object>();
-        String api = "/subject/my_all/list";
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                networkLoadingLayout.showLoadFailAndRetryPrompt();
-            }
-
-
-            @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
-                    networkLoadingLayout.dismiss();
-                    newTheme.setVisibility(View.VISIBLE);
-                    try {
-                        SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
-                        }.getType());
-                        selectSubDatas = subjectResource.subjects;
-                        mAdapter.setData(selectSubDatas);
-                        if (selectSubDatas.size() == 0) {
-                            networkLoadingLayout.showEmptyPrompt();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }*/
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(MessageEvent event)
     {
@@ -309,39 +280,6 @@ public class SelectSubjectFragment extends ContentFragment implements NetworkLoa
             loadCollected();
         }
     }
-
-    /*private void createNewSubjectFinished(){
-        showLoding();
-        Map<String, Object> params = new HashMap<String, Object>();
-        String api = "/subject/create";
-        params.put("name","新建主题");
-        params.put("cover","http://imgsize.ph.126.net/?enlarge=true&imgurl=http://vimg3.ws.126.net/image/snapshot_movie/2013/11/V/3/M9BM227V3.jpg_280x158x1x95.jpg");
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, params).execute(new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-            }
-
-
-            @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
-                    dismissLoading();
-                    Toast.makeText(mContext,"新建主题成功",Toast.LENGTH_SHORT).show();
-                    try {
-                        SubjectResource subjectResource = JsonUtil.fromJson(json, new TypeToken<SubjectResource>() {
-                        }.getType());
-                        subject = subjectResource.subject;
-                        if(subject!=null){
-                            selectSubDatas.add(0,subject);
-                            mAdapter.notifyDataSetChanged();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-    }*/
 
     @Override
     public void onRetryClick(View v) {

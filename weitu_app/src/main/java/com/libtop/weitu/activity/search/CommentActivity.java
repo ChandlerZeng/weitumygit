@@ -1,5 +1,6 @@
 package com.libtop.weitu.activity.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -99,6 +100,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     private List<ReplyListDto> replyItems;
 
     public static String UID ;
+    private final int REQUEST_CODE = 300;
 
 
     @Override
@@ -602,7 +604,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         bundle.putString("cid", comment.getId());
         bundle.putInt("position", position);
         startForResult(bundle, 200, CommentDetailActivity.class);
-//        startActivity(bundle, CommentDetailActivity.class);
     }
 
     @Override
@@ -627,6 +628,10 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 200 && resultCode ==300){
 
+        }else if(requestCode==REQUEST_CODE && resultCode== Activity.RESULT_OK){
+            mCurPage=1;
+            getCommentList();
+            UID = mPreference.getString(Preference.uid);
         }
     }
 
@@ -651,7 +656,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         }
     }
 
-
     @Override
     public void onDestroy()
     {
@@ -673,6 +677,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         Bundle bundle = new Bundle();
         bundle.putBoolean("isFromComment",true);
         bundle.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-        mContext.startActivity(bundle, ContentActivity.class);
+        Intent intent = new Intent(mContext,ContentActivity.class);
+        intent.putExtras(bundle);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        mContext.startForResultWithFlag(intent,REQUEST_CODE);
     }
+
+
+
 }
