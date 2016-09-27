@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.search.adapter.ResultListAdapter;
 import com.libtop.weitu.activity.search.dto.SearchResult;
@@ -19,7 +18,7 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.widget.view.ScrollRefListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -184,9 +183,7 @@ public class AudiosFragment extends NotifyFragment
             {
                 mData.clear();
             }
-            List<SearchResult> lists = JsonUtil.fromJson(json, new TypeToken<List<SearchResult>>()
-            {
-            }.getType());
+            ArrayList<SearchResult> lists = JSONUtil.readBeanArray(json, SearchResult.class);
             if (lists.size() < 10)
             {
                 hasData = false;
@@ -285,9 +282,7 @@ public class AudiosFragment extends NotifyFragment
                 {
                     mData.clear();
                 }
-                List<SearchResult> s = JsonUtil.fromJson(result, new TypeToken<List<SearchResult>>()
-                {
-                }.getType());
+                ArrayList<SearchResult> s = JSONUtil.readBeanArray(result, SearchResult.class);
                 if (CollectionUtil.isEmpty(s))
                 {
                     mNullTxt.setText("未搜索到相关记录");

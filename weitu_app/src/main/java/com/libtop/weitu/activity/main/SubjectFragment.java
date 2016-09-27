@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.base.BaseFragment;
@@ -18,7 +17,7 @@ import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
-import com.libtop.weitu.utils.JsonUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -26,8 +25,8 @@ import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -115,7 +114,7 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
             {
                 if (!TextUtils.isEmpty(json))
                 {
-                    List<SubjectBean> lists = JsonUtil.fromJson(json, new TypeToken<List<SubjectBean>>(){}.getType());
+                    ArrayList<SubjectBean> lists = JSONUtil.readBeanArray(json, SubjectBean.class);
                     if (lists==null)
                         return;
                     if (CollectionUtil.isEmpty(lists)){
