@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.libtop.weitu.R;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
 import com.libtop.weitu.utils.selector.bean.ListGridImage;
 import com.squareup.picasso.Picasso;
@@ -204,9 +205,6 @@ public class ImageGridAdapter2 extends BaseAdapter
 
         void bindData(String url)
         {
-
-            String a = url;
-
             File imageFile = new File(url);
             if (imageFile.exists())
             {
@@ -214,11 +212,7 @@ public class ImageGridAdapter2 extends BaseAdapter
             }
             else
             {
-                if (a == null || a.length() == 0)
-                {
-                    return;
-                }
-                Picasso.with(mcontext).load(a).placeholder(R.drawable.default_error).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(image);
+                ImageLoaderUtil.build(mcontext, url, R.drawable.default_error).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(image);
             }
         }
     }

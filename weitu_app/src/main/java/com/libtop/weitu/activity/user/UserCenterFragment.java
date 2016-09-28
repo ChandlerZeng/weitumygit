@@ -174,7 +174,7 @@ public class UserCenterFragment extends BaseFragment
         {
             mUserText.setText("点击登录");
 
-            mIconImg.setImageResource(R.drawable.user_default_icon);
+            mIconImg.setImageResource(R.drawable.head_image);
         }
         else
         {

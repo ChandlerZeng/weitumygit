@@ -33,7 +33,7 @@ public class StringUtil
         return (object != null ? object.toString() : "");
     }
 
-    public static String getCoverUrl(String url)
+    public static String getNotEmptyUrl(String url)
     {
         if (url == null || url.trim().equals("")){
             url = "http://";

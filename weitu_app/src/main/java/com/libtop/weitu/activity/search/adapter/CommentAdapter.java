@@ -22,10 +22,10 @@ import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.utils.DateUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.view.ListViewForScrollView;
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
@@ -211,7 +211,7 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
         {
             return;
         }
-        Picasso.with(context).load(url).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(image);
+        ImageLoaderUtil.loadLogoImage(context, image, url);
     }
 
 

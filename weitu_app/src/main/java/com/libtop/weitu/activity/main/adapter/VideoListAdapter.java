@@ -3,7 +3,6 @@ package com.libtop.weitu.activity.main.adapter;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.VideoFolderBean;
 import com.libtop.weitu.base.BaseAdapter;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -78,8 +78,9 @@ public class VideoListAdapter extends BaseAdapter<VideoFolderBean>
 
             }
         });
-        bindData(videoFolderBean.cover, holder.imgFolder);
 
+        Picasso.with(mContext).invalidate(videoFolderBean.cover);
+        ImageLoaderUtil.build(mContext, videoFolderBean.cover, R.drawable.video_cover).tag(MultiImageSelectorFragment.TAG).networkPolicy(NetworkPolicy.NO_CACHE).resize(mGridWidth + 20, mGridWidth).centerCrop().into(holder.imgFolder);
     }
 
 
@@ -95,16 +96,4 @@ public class VideoListAdapter extends BaseAdapter<VideoFolderBean>
     {
         void onOptionImgTouch(View v, int position);
     }
-
-
-    void bindData(String url, ImageView image)
-    {
-
-        Picasso.with(mContext).invalidate(url);
-        if (!TextUtils.isEmpty(url))
-        {
-            Picasso.with(mContext).load(url).error(R.drawable.video_cover).placeholder(R.drawable.video_cover).tag(MultiImageSelectorFragment.TAG).networkPolicy(NetworkPolicy.NO_CACHE).resize(mGridWidth + 20, mGridWidth).centerCrop().into(image);
-        }
-    }
-
 }

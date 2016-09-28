@@ -11,7 +11,7 @@ import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.base.impl.ImgAdapter;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.squareup.picasso.Picasso;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class BookListAdapter extends ImgAdapter
         {
             holder.tvTag.setText(dto.categoriesName1 + "/" + dto.categoriesName2);
         }
-        Picasso.with(mContext).load(ContantsUtil.IMG_BASE + dto.cover).into(holder.icon);
+        ImageLoaderUtil.loadImage(mContext, holder.icon, ContantsUtil.IMG_BASE + dto.cover);
     }
 
 

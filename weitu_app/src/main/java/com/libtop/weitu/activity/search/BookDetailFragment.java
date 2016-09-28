@@ -35,11 +35,11 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.IsbnUtils;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ShareSdkUtil;
 import com.libtop.weitu.utils.StringUtil;
-import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -156,7 +156,7 @@ public class BookDetailFragment extends ContentFragment
         } else {
             imgPath = ContantsUtil.IMG_BASE + bundle.getString("cover");
         }
-        Picasso.with(mContext).load(imgPath).fit().into(icon);
+        ImageLoaderUtil.loadImage(mContext, icon, imgPath);
         viewpager.setAdapter(adapter);
         radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
@@ -531,7 +531,7 @@ public class BookDetailFragment extends ContentFragment
                     if (dto != null)
                     {
                         String path = ContantsUtil.IMG_BASE + dto.cover;
-                        Picasso.with(mContext).load(path).fit().into(icon);
+                        ImageLoaderUtil.loadImage(mContext, icon, path);
                         InfoFragment fragment = InfoFragment.Instance();
                         fragment.loadInfo(dto);
                         datas.add(fragment);

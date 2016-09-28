@@ -3,7 +3,6 @@ package com.libtop.weitu.activity.main.adapter;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -13,8 +12,8 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.VideoFolderBean;
 import com.libtop.weitu.base.BaseAdapter;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -78,7 +77,8 @@ public class VideoListAdapter2 extends BaseAdapter<VideoFolderBean>
 
             }
         });
-        bindData(videoFolderBean.cover, holder.imgFolder);
+
+        ImageLoaderUtil.build(mContext, videoFolderBean.cover, R.drawable.folder_green).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth + 20, mGridWidth).centerCrop().into(holder.imgFolder);
 
     }
 
@@ -94,14 +94,5 @@ public class VideoListAdapter2 extends BaseAdapter<VideoFolderBean>
     public interface OnOptionImgClickListener
     {
         void onOptionImgTouch(View v, int position);
-    }
-
-
-    void bindData(String url, ImageView image)
-    {
-        if (!TextUtils.isEmpty(url))
-        {
-            Picasso.with(mContext).load(url).placeholder(R.drawable.folder_green).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth + 20, mGridWidth).centerCrop().into(image);
-        }
     }
 }

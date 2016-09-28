@@ -153,7 +153,7 @@ public class MyLikeActivity extends BaseActivity
                     ContextUtil.openResourceByType(mContext,commentDto.type, commentDto.getTid());
                 }
             });
-            ImageLoaderUtil.loadLogoImage(mContext,headCover,commentDto.getLogo());
+            ImageLoaderUtil.loadLogoImage(mContext, headCover, commentDto.getLogo());
             ImageLoaderUtil.loadImage(context,photoCover,commentDto.getLogo());
 
             helper.setText(R.id.tv_my_like_name,commentDto.getUsername());

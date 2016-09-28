@@ -40,9 +40,9 @@ import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.NetworkUtil;
 import com.libtop.weitu.utils.ShareSdkUtil;
-import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -546,7 +546,7 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     {
         if (!TextUtils.isEmpty(mediaAlbumBean.cover))
         {
-            Picasso.with(mContext).load(mediaAlbumBean.cover).into(imgAudio);
+            ImageLoaderUtil.loadImage(mContext, imgAudio, mediaAlbumBean.cover);
         }
         String title = mediaAlbumBean.title;
         titleName1 = title;
