@@ -107,13 +107,14 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
                 } else {
                     ResourceBean resource = resourceBeanList.get(position-2);
                     if(resource.getEntityType().equals("book")){
-                        ContextUtil.openResourceByType(mContext, 5, resource.getIsbn(), true);
+                        ContextUtil.openResourceByType(mContext, getResourceType(resource), resource.getIsbn(), true);
                     }else {
-                        ContextUtil.openResourceByType(mContext, resource.type, resource.getId(), true);
+                        ContextUtil.openResourceByType(mContext, getResourceType(resource), resource.getId(), true);
                     }
                 }
             }
         });
+
 
         xListView.setPullLoadEnable(false);
         xListView.setXListViewListener(new XListView.IXListViewListener() {
@@ -131,6 +132,20 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
             }
         });
         networkLoadingLayout.setOnRetryClickListner(this);
+    }
+
+    private int getResourceType(ResourceBean resourceBean){
+        if(resourceBean.getEntityType().equals("audio-album")){
+            return ContextUtil.AUDIO;
+        }else if(resourceBean.getEntityType().equals("video-album")){
+            return ContextUtil.VIDEO;
+        }else if(resourceBean.getEntityType().equals("document")){
+            return ContextUtil.DOC;
+        }else if(resourceBean.getEntityType().equals("book")){
+            return ContextUtil.BOOK;
+        }else {
+            return ContextUtil.PHOTO;
+        }
     }
 
     private void getData(final int page)
