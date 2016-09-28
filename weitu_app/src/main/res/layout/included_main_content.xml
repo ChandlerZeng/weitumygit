@@ -94,7 +94,7 @@
         android:listSelector="@drawable/list_selector"
         android:numColumns="2"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/padding_small"/>
+        android:verticalSpacing="@dimen/padding_tiny"/>
 
     <View style="@style/my_divide_layout_view_style_default"/>
 

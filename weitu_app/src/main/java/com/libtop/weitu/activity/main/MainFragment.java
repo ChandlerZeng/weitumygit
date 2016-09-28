@@ -21,6 +21,8 @@ import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.adapter.ResourceFileAdapter;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
+import com.libtop.weitu.activity.main.dto.ResourceBean;
+import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.activity.main.rank.RankFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreRmdFileFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
@@ -36,7 +38,6 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.Resource;
-import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
@@ -101,8 +102,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     private ArrayList<Page> pageViews;
     private List<DocBean> bList = new ArrayList<DocBean>();
 
-    private List<Resource> reourceList = new ArrayList<>();
-    private List<Subject> subjectList = new ArrayList<>();
+    private List<ResourceBean> reourceList = new ArrayList<>();
+    private List<SubjectBean> subjectList = new ArrayList<>();
     private List<ImageSliderDto> slideList = new ArrayList<ImageSliderDto>();
     private CompositeSubscription _subscriptions = new CompositeSubscription();
 
@@ -160,7 +161,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
 
     private void initView()
     {
-        moreSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
+        moreSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList,subjectGridView);
         resourceFileAdapter = new ResourceFileAdapter(mContext, reourceList);
 
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
@@ -244,9 +245,12 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     {
         if (CollectionUtil.getSize(imageSliderDtos) > 0)
         {
+            mAnimLineIndicator.setVisibility(View.VISIBLE);
             slideList.clear();
             slideList = imageSliderDtos;
             initImageSlide();
+        }else {
+            mAnimLineIndicator.setVisibility(View.GONE);
         }
     }
 
@@ -376,15 +380,17 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
 
     private void requestSubject()
     {
-        final List<Subject> subjectLists = (List<Subject>) mCache.getAsObject("subjectList");
+        final List<SubjectBean> subjectLists = (List<SubjectBean>) mCache.getAsObject("subjectList");
         if (CollectionUtil.getSize(subjectLists) > 0)
         {
             handleSubjectResult(subjectLists);
             networkLoadingLayout.dismiss();
         }
-
-        String api = "/find/subject/recommend/top";
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback()
+        Map<String,Object> map = new HashMap<>();
+        map.put("page",1);
+        map.put("pageSize",4);
+        map.put("method","subject.recommend");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -405,22 +411,20 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
             {
                 try
                 {
-                    SubjectResource subjectResource = JSONUtil.readBean(json, SubjectResource.class);
+                    List<SubjectBean> subjectBeanList = JSONUtil.readBeanArray(json, SubjectBean.class);
 
-                    List<Subject> listSub = new ArrayList<>();
-                    listSub = subjectResource.subjects;
-                    if (listSub.size() > 0)
+                    if (subjectBeanList.size() > 0)
                     {
                         networkLoadingLayout.dismiss();
                     }
-                    else if (listSub.size() == 0 && subjectLists.size() == 0)
+                    else if (subjectBeanList.size() == 0 && subjectLists.size() == 0)
                     {
                         networkLoadingLayout.showEmptyPrompt();
                         return;
                     }
 
-                    mCache.put("subjectList", (Serializable) listSub);
-                    handleSubjectResult(listSub);
+                    mCache.put("subjectList", (Serializable) subjectBeanList);
+                    handleSubjectResult(subjectBeanList);
                 }
                 catch (Exception e)
                 {
@@ -434,14 +438,16 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
 
     private void loadResourceFile()
     {
-        List<Resource> resourceList = (List<Resource>) mCache.getAsObject("resourceList");
+        List<ResourceBean> resourceList = (List<ResourceBean>) mCache.getAsObject("resourceList");
         if (CollectionUtil.getSize(resourceList) > 0)
         {
             handleResourceFile(resourceList);
         }
-
-        String api = "/find/resource/recommend/top";
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback()
+        Map<String,Object> map = new HashMap<>();
+        map.put("page",1);
+        map.put("pageSize",4);
+        map.put("method","resources.recommend");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
         {
             @Override
             public void onError(Call call, Exception e, int id)
@@ -454,12 +460,9 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
             {
                 try
                 {
-                    SubjectResource subjectResource = JSONUtil.readBean(json, SubjectResource.class);
-
-                    List<Resource> list = new ArrayList<>();
-                    list = subjectResource.resources;
-                    mCache.put("resourceList", (Serializable) list);
-                    handleResourceFile(list);
+                    List<ResourceBean> resourceBeenLists = JSONUtil.readBeanArray(json, ResourceBean.class);
+                    mCache.put("resourceList", (Serializable) resourceBeenLists);
+                    handleResourceFile(resourceBeenLists);
                 }
                 catch (Exception e)
                 {
@@ -471,7 +474,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     }
 
 
-    private void handleSubjectResult(List<Subject> subList)
+    private void handleSubjectResult(List<SubjectBean> subList)
     {
         subjectList.clear();
         subjectList = subList;
@@ -487,7 +490,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     }
 
 
-    private void handleResourceFile(List<Resource> resources)
+    private void handleResourceFile(List<ResourceBean> resources)
     {
         reourceList.clear();
         reourceList = resources;
@@ -519,10 +522,10 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            Subject subject = subjectList.get(position);
-            Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-            intent.putExtra("cover", subject.cover);
-            startActivity(intent);
+            SubjectBean subjectBean = subjectList.get(position);
+            subjectBean.setResourceUpdateCount(0);
+            moreSubjectAdapter.setItem(position,subjectBean);
+            ContextUtil.openSubjectDetail(mContext,subjectBean.getId());
         }
     };
 
@@ -532,8 +535,12 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
-            Resource resource = reourceList.get(position);
-            ContextUtil.openResourceByType(mContext, resource.type, resource.rid);
+            ResourceBean resource = reourceList.get(position);
+            if(resource.getEntityType().equals("book")){
+                ContextUtil.openResourceByType(mContext, 5, resource.getIsbn(), true);
+            }else {
+                ContextUtil.openResourceByType(mContext, resource.type, resource.getId(), true);
+            }
         }
     };
 

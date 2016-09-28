@@ -127,7 +127,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     private PraiseHeadAdapter praiseHeadAdapter;
     private ReplyListAdapter replyListAdapter;
 
-    private int MYPRAISE = 0;
+    private int MY_PRAISE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +159,6 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             isFirstIn = false;
             networkLoadingLayout.showLoading();
             getData(cid);
-//            getPraiseData();
         }
         networkLoadingLayout.setOnRetryClickListner(this);
         praiseHeadAdapter = new PraiseHeadAdapter(mContext,R.layout.praise_item_grid_photo,praiseUserList);
@@ -174,8 +173,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                     login();
                 }else {
                     if(replyBeanList.get(position).uid.equals(mPreference.getString(Preference.uid))){
-//                    onReplyItemDeleted(replyBeanList.get(position));   //TODO
-                        onReplyItemTouch(replyBeanList.get(position));
+                    onReplyItemDeleted(replyBeanList.get(position));   //TODO
                     }else {
                         onReplyItemTouch(replyBeanList.get(position));
                     }
@@ -199,14 +197,13 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             case R.id.comment_detail_link_layout:
                 if(commentsData!=null){
                     ContextUtil.openResourceByType(mContext, commentsData.type, commentsData.getTid());
-//                    openBook(commentsData.resource.name, commentsData.resource.cover, commentsData.resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
                 }
                 break;
             case R.id.commit:
                 sendComment(view);
                 break;
             case R.id.likeLayout:
-                onLikeTouch(MYPRAISE);
+                onLikeTouch(MY_PRAISE);
                 break;
         }
     }
@@ -241,9 +238,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         Map<String, Object> map = new HashMap<>();
         map.put("id", cid);
         map.put("method","comment.get");
-        if(!isNotLogin()){
-            map.put("uid",mPreference.getString(Preference.uid));
-        }
+        map.put("uid",mPreference.getString(Preference.uid));
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
 
             @Override
@@ -272,47 +267,51 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     }
 
     private void handleCommentDetailResult(CommentDetailDto data){
-        if(data.comment!=null){
-            commentsData = new CommentDto();
-            commentsData = data.comment;
-        } else{
+        if(data==null){
             networkLoadingLayout.showEmptyPrompt();
-            return;
-        }
+        }else {
+            if(data.comment!=null){
+                commentsData = new CommentDto();
+                commentsData = data.comment;
+            } else{
+                networkLoadingLayout.showEmptyPrompt();
+                return;
+            }
 
-        if (data.comment.getContent() != null) {
-            tvCommnet1.setText(data.comment.getContent());
-        }
-        if (data.comment.getUsername() != null) {
-            tvUserName.setText(data.comment.getUsername());
-        }
-        if (data.comment.getTimeline() != 0) {
-            tvTime.setText(DateUtil.parseToStringWithoutSS(data.comment.getTimeline()));
-        }
-        String urlLogo = null;
-        if (data.comment.logo != null) {
-            urlLogo = data.comment.logo;
-        }
-        Picasso.with(mContext).load(urlLogo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imgHead);
-        if (data.praised == 0) {
-            likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
-            MYPRAISE = 0;
-            data.comment.praised = 0;
-        } else {
-            likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
-            MYPRAISE = 1;
-            data.comment.praised = 1;
-        }
+            if (data.comment.getContent() != null) {
+                tvCommnet1.setText(data.comment.getContent());
+            }
+            if (data.comment.getUsername() != null) {
+                tvUserName.setText(data.comment.getUsername());
+            }
+            if (data.comment.getTimeline() != 0) {
+                tvTime.setText(DateUtil.parseToStringWithoutSS(data.comment.getTimeline()));
+            }
+            String urlLogo = null;
+            if (data.comment.logo != null) {
+                urlLogo = data.comment.logo;
+            }
+            Picasso.with(mContext).load(urlLogo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imgHead);
+            if (data.praised == 0) {
+                likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
+                MY_PRAISE = 0;
+                data.comment.praised = 0;
+            } else {
+                likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
+                MY_PRAISE = 1;
+                data.comment.praised = 1;
+            }
 
-        if(data.comment.getTitle()!=null){
+            if(data.comment.getTitle()!=null){
 //                            Picasso.with(mContext).load(data.comment.resource.cover).error(R.drawable.default_error).placeholder(R.drawable.default_error).fit().centerCrop().into(resourceFileImage);
-            commentFileTitle.setText(data.comment.getTitle());
-            commentFileAuthor.setText("上传："+data.comment.getUsername());
-        }
+                commentFileTitle.setText(data.comment.getTitle());
+                commentFileAuthor.setText("上传："+data.comment.getUsername());
+            }
 
-        if (data.comment.replyList != null) {
-            replyBeanList = data.comment.replyList;
-            replyListAdapter.setData(replyBeanList);
+            if (data.comment.replyList != null) {
+                replyBeanList = data.comment.replyList;
+                replyListAdapter.setData(replyBeanList);
+            }
         }
     }
 
@@ -405,21 +404,11 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                             dismissLoading();
                             Toast.makeText(CommentDetailActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
-//                                Gson gson = new Gson();
-//                                ReplyDto data = gson.fromJson(json, new TypeToken<ReplyDto>() {
-//                                }.getType());
-//                                if (data.reply != null) {
-////                                    replyBeanList.add(data.reply);
-//                                    replyListAdapter.notifyDataSetChanged();
-//                                }
                                 commentsData.replies=commentsData.replies+1;
                                 getData(cid);
                                 editComment.setText("");
                                 editComment.setHint("发表评论");
                                 isReply = false;
-//                                listReply.setSelection(0);
-//                                listReply.smoothScrollToPosition(0);
-//                                commentDetailScrollView.fullScroll(ScrollView.FOCUS_UP);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -446,7 +435,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                     public void onResponse(String json, int id) {
                         if (!TextUtils.isEmpty(json)) {
                             Toast.makeText(CommentDetailActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
-//                            commentsData.count_reply=commentsData.count_reply-1;
+                            commentsData.replies=commentsData.replies-1;
                             replyBeanList.remove(replyBean);
                             replyListAdapter.notifyDataSetChanged();
                             dismissLoading();
@@ -543,14 +532,8 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
                             dismissLoading();
-//                            commentsData.praises=commentsData.praises+1;
-//                            commentsData.praised=1;
-//                            MYPRAISE = 1;
-//                            likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
                             Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
                             getData(cid);
-//                            praiseUserList.add(0,user);
-//                            praiseHeadAdapter.notifyDataSetChanged();
                         }
                     }
                 });
@@ -573,14 +556,8 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
                         if (!TextUtils.isEmpty(json)) {
                             //   showToast("没有相关数据");
                             dismissLoading();
-//                            commentsData.praises = commentsData.praises - 1;
-//                            commentsData.praised = 0;
-//                            MYPRAISE = 0;
-//                            likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
                             Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
                             getData(cid);
-//                            praiseUserList.remove(user);
-//                            praiseHeadAdapter.notifyDataSetChanged();
                         }
                     }
                 });

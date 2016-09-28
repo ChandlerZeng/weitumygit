@@ -16,7 +16,7 @@
     <FrameLayout
         style="@style/my_layout_style_common">
 
-        <GridView
+        <com.paging.gridview.PagingGridView
             android:id="@+id/sub_grid_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:horizontalSpacing="@dimen/padding_micro"
             android:isScrollContainer="false"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="@dimen/padding_small"/>
+            android:verticalSpacing="@dimen/padding_tiny"/>
 
         <include layout="@layout/content_layout_network_loading"/>
 

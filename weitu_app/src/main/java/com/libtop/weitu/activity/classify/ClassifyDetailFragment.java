@@ -24,6 +24,7 @@ import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
+import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -130,14 +131,15 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (type.equals("subject")) {
-                    Subject subject = subjectList.get(position - 2);
-                    Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                    intent.putExtra("cover", subject.cover);
-                    startActivity(intent);
+                    ContextUtil.openSubjectDetail(mContext,"57ea290104122049539a365b");
+//                    ContextUtil.openSubjectDetail(mContext,mData.get(position-2).id);
+
                 } else if (type.equals("resource")) {
-//                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-                    Resource resource = resourceList.get(position - 2);
-                    ContextUtil.openResourceByType(mContext, resource.type, resource.rid);
+                    if(mData.get(position-2).entityType.equals("document")){
+                        ContextUtil.openResourceByType(mContext,ContextUtil.DOC,mData.get(position-2).id);
+                    }else if(mData.get(position-2).entityType.equals("image-album")){
+                        ContextUtil.openResourceByType(mContext,ContextUtil.AUDIO,mData.get(position-2).id);
+                    }
                 }
             }
         });
@@ -182,6 +184,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
             @Override
             public void onResponse(String json, int id) {
                 if(!TextUtils.isEmpty(json)){
+                    dismissLoading();
                     xListView.stopRefresh();
                     networkLoadingLayout.dismiss();
                     if (mCurPage == 1)
@@ -218,11 +221,12 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(MessageEvent event)
     {
+        showLoding();
         Bundle bm = event.message;
         if(bm.getString("filterString")!=null){
             filterString = bm.getString("filterString");
         }
-        if(bm.getLong("subCode")!=0){
+        if(!String.valueOf(bm.getLong("subCode")).equals("")){
             subCode = bm.getLong("subCode");
         }
         if(bm.getInt("page")!=0){

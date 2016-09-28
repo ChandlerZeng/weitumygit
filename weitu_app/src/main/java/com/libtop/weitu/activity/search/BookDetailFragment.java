@@ -104,6 +104,7 @@ public class BookDetailFragment extends ContentFragment
 
     private boolean isCollectShow;
 
+    private String title;
     private String imgPath;
 
     private boolean isFromMainPage = false;
@@ -140,6 +141,7 @@ public class BookDetailFragment extends ContentFragment
         Bundle bundle = ((ContentActivity) mContext).getCurrentExtra();
         key = bundle.getString("isbn");
         isFromMainPage = bundle.getBoolean(ISFROMMAINPAGE, false);
+        title = bundle.getString("name");
         titleView.setText(bundle.getString("name"));
         tvTitle.setText(bundle.getString("name"));
         auther.setText(bundle.getString("auth"));
@@ -298,8 +300,10 @@ public class BookDetailFragment extends ContentFragment
     {
         Intent intent = new Intent(mContext, CommentActivity.class);
         CommentNeedDto commentNeedDto = new CommentNeedDto();
+        if(title!=null){
+            commentNeedDto.title = title;
+        }
         if(dto!=null){
-            commentNeedDto.title = dto.title;
             commentNeedDto.author = dto.author;
             commentNeedDto.publisher = dto.publisher;
             commentNeedDto.photoAddress = imgPath;
