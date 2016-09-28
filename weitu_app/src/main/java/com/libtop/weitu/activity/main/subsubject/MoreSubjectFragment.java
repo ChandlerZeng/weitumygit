@@ -13,16 +13,23 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
+import com.libtop.weitu.activity.main.dto.SubjectBean;
+import com.libtop.weitu.config.WTConstants;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Subject;
 import com.libtop.weitu.test.SubjectResource;
+import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
+import com.paging.gridview.PagingGridView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import okhttp3.Call;
@@ -38,14 +45,15 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.sub_grid_view)
-    GridView subGridView;
+    PagingGridView subGridView;
     @Bind(R.id.networkloadinglayout)
     NetworkLoadingLayout networkLoadingLayout;
 
     private MoreSubjectAdapter moreSubjectAdapter;
-    private List<Subject> subjectList = new ArrayList<>();
+    private List<SubjectBean> subjectList = new ArrayList<>();
 
     private boolean isFirstIn = true;
+    private int pageIndex;
 
 
     @Override
@@ -71,7 +79,7 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         {
             isFirstIn = false;
             networkLoadingLayout.showLoading();
-            requestSubject();
+            requestSubject(1);
         }
         title.setText("推荐主题");
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -83,21 +91,31 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         subGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Subject subject = subjectList.get(position);
-                Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                intent.putExtra("cover",subject.cover);
-                startActivity(intent);
+                SubjectBean subjectBean = subjectList.get(position);
+                subjectBean.setResourceUpdateCount(0);
+                moreSubjectAdapter.setItem(position,subjectBean);
+                ContextUtil.openSubjectDetail(mContext,subjectBean.getId());
             }
         });
-        moreSubjectAdapter = new MoreSubjectAdapter(mContext,subjectList);
+        moreSubjectAdapter = new MoreSubjectAdapter(mContext,subjectList,subGridView);
         subGridView.setAdapter(moreSubjectAdapter);
+        subGridView.setHasMoreItems(false);
+        subGridView.setPagingableListener(new PagingGridView.Pagingable() {
+            @Override
+            public void onLoadMoreItems() {
+                requestSubject(pageIndex);
+            }
+        });
         networkLoadingLayout.setOnRetryClickListner(this);
     }
 
-    private void requestSubject()
+    private void requestSubject(final int page)
     {
-        String api = "/find/subject/recommend/list";
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, null).execute(new StringCallback() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("page",page);
+        map.put("pageSize",20);
+        map.put("method","subject.recommend");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 networkLoadingLayout.showLoadFailAndRetryPrompt();
@@ -108,14 +126,28 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
                     networkLoadingLayout.dismiss();
+                    pageIndex=page+1;
                     try {
-                        SubjectResource subjectResource = JSONUtil.readBean(json, SubjectResource.class);
-                        List<Subject> list = new ArrayList<>();
-                        list = subjectResource.subjects;
-                        if(list.size()==0){
-                            networkLoadingLayout.showEmptyPrompt();
+                        List<SubjectBean> subjectBeanList = JSONUtil.readBeanArray(json, SubjectBean.class);
+                        int size = CollectionUtil.getSize(subjectBeanList);
+                        boolean hasMore = (size == WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
+                        if (page > 1)
+                        {
+                            subGridView.onFinishLoading(hasMore, subjectBeanList);
                         }
-                        handleSubjectResult(list);
+                        else
+                        {
+                            if (size > 0)
+                            {
+                                networkLoadingLayout.dismiss();
+                                subGridView.onFinishLoading(hasMore, subjectBeanList);
+                            }
+                            else
+                            {
+                                networkLoadingLayout.showEmptyPrompt();
+                            }
+                        }
+                        handleSubjectResult(subjectBeanList);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -124,9 +156,8 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         });
     }
 
-    private void handleSubjectResult(List<Subject> subList) {
-        subjectList.clear();
-        subjectList = subList;
+    private void handleSubjectResult(List<SubjectBean> subList) {
+        subjectList.addAll(subList);
         if (subjectList.isEmpty())
             return;
         moreSubjectAdapter.setData(subjectList);
@@ -134,6 +165,6 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
 
     @Override
     public void onRetryClick(View v) {
-        requestSubject();
+        requestSubject(1);
     }
 }

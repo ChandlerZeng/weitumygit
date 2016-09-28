@@ -1,14 +1,17 @@
 package com.libtop.weitu.activity.main.dto;
 
+import com.libtop.weitu.test.CategoryResult;
+import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.utils.StringUtil;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by LianTu on 2016-9-22.
  */
 
-public class SubjectBean implements Serializable
+public class SubjectBean implements Serializable,CategoryResult
 {
 
     /**
@@ -29,9 +32,12 @@ public class SubjectBean implements Serializable
     private String title;
     private String introduction;
     private String cover;
+    private String categoriesName1;
+    private String categoriesName2;
 
     private int follows;
     private int label1;
+    private int label2;
     private int state;
     private int view;
     private int resourceUpdateCount = 0;
@@ -39,6 +45,7 @@ public class SubjectBean implements Serializable
     private long timeline;
 
     private boolean ischecked;
+    private List<ResourceBean> resourcesList;
 
 
     public String getId()
@@ -182,5 +189,40 @@ public class SubjectBean implements Serializable
     public void setIschecked(boolean ischecked)
     {
         this.ischecked = ischecked;
+    }
+
+
+    public List<ResourceBean> getResourcesList()
+    {
+        return resourcesList;
+    }
+
+    public void setResourcesList(List<ResourceBean> resourcesList)
+    {
+        this.resourcesList = resourcesList;
+    }
+
+    public String getCategoriesName1() {
+        return StringUtil.getString(categoriesName1);
+    }
+
+    public void setCategoriesName1(String categoriesName1) {
+        this.categoriesName1 = categoriesName1;
+    }
+
+    public String getCategoriesName2() {
+        return StringUtil.getString(categoriesName2);
+    }
+
+    public void setCategoriesName2(String categoriesName2) {
+        this.categoriesName2 = categoriesName2;
+    }
+
+    public int getLabel2() {
+        return label2;
+    }
+
+    public void setLabel2(int label2) {
+        this.label2 = label2;
     }
 }

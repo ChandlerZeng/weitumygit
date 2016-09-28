@@ -8,13 +8,13 @@ package com.libtop.weitu.test;
  */
 public class User extends Bean
 {
+
     private String id;
     private String email;
     private String phone;
     private String username;
     private int sex;
     private String lid;
-
 
     public String getId()
     {

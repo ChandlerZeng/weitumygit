@@ -32,7 +32,6 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.CommentBean;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
@@ -69,6 +68,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     XListView xListView;
     @Bind(R.id.title)
     TextView title;
+    @Bind(R.id.textview_empty_comment)
+    TextView textViewEmptyComment;
     @Bind(R.id.sub_title)
     TextView subTitle;
     @Bind(R.id.networkloadinglayout)
@@ -82,9 +83,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     private boolean isReply = false;
     private boolean isItemReply = false;
-    private String cid;
 
-    private CommentBean commentBean; //TODO
     private List<CommentDto> commentsList = new ArrayList<>(); //TODO
 
     private int mCurPage = 1;
@@ -119,7 +118,10 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
         if (commentNeedDto.title!=null && !TextUtils.isEmpty(commentNeedDto.title))
         {
+            subTitle.setVisibility(View.VISIBLE);
             subTitle.setText(commentNeedDto.title);
+        }else {
+            subTitle.setVisibility(View.GONE);
         }
         if (isFirstIn)
         {
@@ -146,7 +148,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             }
         });
         title.setText("评论");
-//        getData(); TODO
         commentAdapter = new CommentAdapter(this, commentsList, this);
         xListView.setAdapter(commentAdapter);
         networkLoadingLayout.setOnRetryClickListner(this);
@@ -158,7 +159,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 //        http://weitu.bookus.cn/comment/list.json?text={"tid":"56f97d8d984e741f1420a19e","page":1,"uid":"56f97d8d984e741f1420a19e","method":"comment.list"}
         Map<String, Object> map = new HashMap<>();
         map.put("page", mCurPage);
-        if(!CheckUtil.isNull(mPreference.getString(Preference.uid))){
+        if(!isNotLogin()){
             map.put("uid",mPreference.getString(Preference.uid));
         }
         map.put("method","comment.list");
@@ -180,35 +181,31 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                     xListView.stopRefresh();
                     if (mCurPage == 1) {
                         networkLoadingLayout.dismiss();
-                    }
-                    try {
-                        Gson gson = new Gson();
-                        List<CommentDto> data = gson.fromJson(json, new TypeToken<List<CommentDto>>() {
-                        }.getType());
                         commentsList.clear();
-                        if (data != null) {
-                            commentsList.addAll(data);
-                        }
-                        if (commentsList.size() < 20) {
-                            hasData = false;
-                            xListView.setPullLoadEnable(false);
-                        } else {
-                            hasData = true;
-                            xListView.setPullLoadEnable(true);
-                        }
-                        if (commentsList.size() == 0 && mCurPage == 1) {
-//                            networkLoadingLayout.showEmptyPrompt();
-                        }
-                        mCurPage++;
-                        commentAdapter.setData(commentsList);
-                        editText.setText("");
-                        editText.setHint("发表评论");
-                        isReply = false;
-                        isItemReply = false;
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                    List<CommentDto> data = JSONUtil.readBeanArray(json, CommentDto.class);
+                    if (data != null) {
+                        commentsList.addAll(data);
+                    }
+                    if (data.size() < 20) {
+                        hasData = false;
+                        xListView.setPullLoadEnable(false);
+                    } else {
+                        hasData = true;
+                        xListView.setPullLoadEnable(true);
+                    }
+                    if (commentsList.size() == 0 && mCurPage == 1) {
+//                            networkLoadingLayout.showEmptyPrompt();
+                        textViewEmptyComment.setVisibility(View.VISIBLE);
+                    }else {
+                        textViewEmptyComment.setVisibility(View.GONE);
+                    }
+                    mCurPage++;
+                    commentAdapter.setData(commentsList);
+                    editText.setText("");
+                    editText.setHint("发表评论");
+                    isReply = false;
+                    isItemReply = false;
                 }
             }
         });
@@ -227,9 +224,6 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             case R.id.commit:
                 sendComment(v);
                 break;
-//            case R.id.edit_comment:
-////                editText.requestFocus();
-//                break;
         }
     }
 
@@ -295,17 +289,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                             dismissLoading();
                             Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
-//                                Gson gson = new Gson();
-//                                ReplyListDto data = gson.fromJson(json, new TypeToken<ReplyListDto>() {
-//                                }.getType());
-//                                if (data != null) {
-//                                    commentAdapter.replySubItem(data, replyItems, comments);
-//                                }
                                 getCommentList();
-                                editText.setText("");
-                                editText.setHint("发表评论");
-                                isReply = false;
-                                isItemReply = false;
                             } catch (Exception e) {
 
                                 e.printStackTrace();
@@ -337,25 +321,25 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
                     @Override
                     public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
+                        if (!TextUtils.isEmpty(json) && json!=null) {
                             dismissLoading();
-                            Toast.makeText(CommentActivity.this,"评论成功",Toast.LENGTH_SHORT).show();;
                             try {
                                 Gson gson = new Gson();
                                 ResultCodeDto data = gson.fromJson(json, new TypeToken<ResultCodeDto>() {
                                 }.getType());
                                 if (data != null && data.code==1) {
-//                                    commentsList.add(0, data);
-//                                    mCurPage=1;
-                                    getCommentList();// TODO
+                                    xListView.requestFocus();
                                     xListView.setSelection(1);
+                                    getCommentList();// TODO
+                                    Toast.makeText(CommentActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(CommentActivity.this,"评论失败",Toast.LENGTH_SHORT).show();
                                 }
-//                                commentAdapter.setData(commentsList);
-//                                editText.setText("");
-//                                editText.setHint("发表评论");
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+                        }else {
+                            Toast.makeText(CommentActivity.this,"评论失败",Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -369,14 +353,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             login();
         }else {
             CommentDto commentResult = commentsList.get(position);
-//        replyItem = replyBean;
             replyItems = replyBeans;
             comments = object;
             isReply = true;
             if (commentResult.getContent() != null && !TextUtils.isEmpty(commentResult.getContent()))
             {
                 String cid = commentResult.getId();
-                String uid = commentResult.getUid();
                 replyMap.put("cid",cid);
                 editText.requestFocus();
                 String first = "回复";
@@ -465,19 +447,10 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
                     @Override
                     public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
+                        if (!TextUtils.isEmpty(json) && json.equals("null")) {
                             dismissLoading();
                             Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
                             try {
-//                                Gson gson = new Gson();
-//                                ReplyDto data = gson.fromJson(json, new TypeToken<ReplyDto>() {
-//                                }.getType());
-//                                if (data != null) {
-////                                    replyItems.add(0,data);
-//                                    commentAdapter.replySubItem(data, replyItems,comments);
-//                                }
-//                                editText.setText("");
-//                                editText.setHint("发表评论");
                                 getCommentList();
                                 isReply = false;
                                 isItemReply = false;
@@ -682,7 +655,4 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         mContext.startForResultWithFlag(intent,REQUEST_CODE);
     }
-
-
-
 }

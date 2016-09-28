@@ -14,18 +14,22 @@ import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.adapter.ResourceFileAdapter;
+import com.libtop.weitu.activity.main.dto.ResourceBean;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -49,7 +53,7 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
     @Bind(R.id.networkloadinglayout)
     NetworkLoadingLayout networkLoadingLayout;
 
-    private List<Resource> resourceList = new ArrayList<>();
+    private List<ResourceBean> resourceList = new ArrayList<>();
     private ResourceFileAdapter mAdapter;
     private int mCurPage = 1;
     private boolean hasData = true;
@@ -125,17 +129,21 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
     @Nullable
     @OnItemClick(value = R.id.rmd_file_list)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //显示图书详情
-        Resource resource = resourceList.get(position-2);
-//        openBook(resource.name, resource.cover, resource.uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-
-        ContextUtil.openResourceByType(mContext, resource.type, resource.rid, true);
+        ResourceBean resource = resourceList.get(position-2);
+        if(resource.getEntityType().equals("book")){
+            ContextUtil.openResourceByType(mContext, 5, resource.getIsbn(), true);
+        }else {
+            ContextUtil.openResourceByType(mContext, resource.type, resource.getId(), true);
+        }
 
     }
 
     private void loadResourceFile(){
-        String api = "/find/resource/recommend/list";
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC+api,null).execute(new StringCallback() {
+        Map<String,Object> map = new HashMap<>();
+        map.put("page",1);
+        map.put("pageSize",4);
+        map.put("method","resources.recommend");
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 if(mCurPage>1){
@@ -155,23 +163,19 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
                     }
                     try {
                         Gson gson = new Gson();
-                        SubjectResource subjectResource = gson.fromJson(json, new TypeToken<SubjectResource>() {
-                        }.getType());
-                        List<Resource> list = new ArrayList<>();
-                        list = subjectResource.resources;
-
-                        if (list.size() < 20) {
+                        List<ResourceBean> resourceBeenList = JSONUtil.readBeanArray(json, ResourceBean.class);
+                        if (resourceBeenList.size() < 20) {
                             hasData = false;
                             rmdFileList.setPullLoadEnable(false);
                         } else {
                             hasData = true;
                             rmdFileList.setPullLoadEnable(true);
                         }
-                        if(list.size()==0 && mCurPage ==1){
+                        if(resourceBeenList.size()==0 && mCurPage ==1){
                             networkLoadingLayout.showEmptyPrompt();
                         }
                         mCurPage++;
-                        handleResourceFile(list);
+                        handleResourceFile(resourceBeenList);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -180,7 +184,7 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
         });
     }
 
-    private void handleResourceFile(List<Resource> resources) {
+    private void handleResourceFile(List<ResourceBean> resources) {
         resourceList.clear();
         resourceList = resources;
         if (resourceList.isEmpty())

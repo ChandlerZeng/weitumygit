@@ -48,22 +48,22 @@ public class RankFragment extends ContentFragment {
         mFrags = new ArrayList<Fragment>();
         RankPageFragment f1 = new RankPageFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("type", "subject");
+        bundle.putString("method", "subject.popular");
         f1.setArguments(bundle);
 
         RankPageFragment f2 = new RankPageFragment();
         Bundle bundle2 = new Bundle();
-        bundle2.putString("type", "resource");
+        bundle2.putString("method", "resources.popular");
         f2.setArguments(bundle2);
 
         RankPageFragment f3 = new RankPageFragment();
         Bundle bundle3 = new Bundle();
-        bundle3.putString("type", "subject");
+        bundle3.putString("method", "subject.latest");
         f3.setArguments(bundle3);
 
         RankPageFragment f4 = new RankPageFragment();
         Bundle bundle4 = new Bundle();
-        bundle4.putString("type", "resource");
+        bundle4.putString("method", "resources.latest");
         f4.setArguments(bundle4);
 
         mFrags.add(f1);
