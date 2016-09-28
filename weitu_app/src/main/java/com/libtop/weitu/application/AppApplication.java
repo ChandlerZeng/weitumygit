@@ -10,6 +10,7 @@ import com.libtop.weitu.activity.main.MainActivity;
 import com.libtop.weitu.dao.bean.DaoMaster;
 import com.libtop.weitu.dao.bean.DaoSession;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTPushService;
 import com.libtop.weitu.utils.SdCardUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -57,6 +58,8 @@ public class AppApplication extends Application
         //图片初始化
         SdCardUtil.initFileDir(getApplicationContext());
         SpeechUtility.createUtility(getApplicationContext(), "appid=56824e38");
+
+        WTPushService.initPushConfigure(this, true, true, 1);
     }
 
 
