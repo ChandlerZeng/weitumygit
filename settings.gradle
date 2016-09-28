@@ -1,1 +1,1 @@
-include ':weitu_app', ':vitamio', ':InfiniteIndicator-master'
+include ':weitu_app', ':vitamio', ':InfiniteIndicator-master',':pickerview'
