@@ -132,7 +132,7 @@ public class DynamicFragment extends MyBaseFragment implements NetworkLoadingLay
 
                 ArrayList<Dynamic> notices = JSONUtil.readBeanArray(response, Dynamic.class);
                 int size = CollectionUtil.getSize(notices);
-                boolean hasMore = (size > WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
+                boolean hasMore = (size >= WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
                 if (page > 1)
                 {
                     dynamicListView.onFinishLoading(hasMore, notices);
