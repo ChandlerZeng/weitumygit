@@ -537,26 +537,12 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         {
             ResourceBean resource = reourceList.get(position);
             if(resource.getEntityType().equals("book")){
-                ContextUtil.openResourceByType(mContext, getResourceType(resource), resource.getIsbn(), false);
+                ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getIsbn(), false);
             }else {
-                ContextUtil.openResourceByType(mContext, getResourceType(resource), resource.getId(), true);
+                ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getId(), true);
             }
         }
     };
-
-    private int getResourceType(ResourceBean resourceBean){
-        if(resourceBean.getEntityType().equals("audio-album")){
-            return ContextUtil.AUDIO;
-        }else if(resourceBean.getEntityType().equals("video-album")){
-            return ContextUtil.VIDEO;
-        }else if(resourceBean.getEntityType().equals("document")){
-            return ContextUtil.DOC;
-        }else if(resourceBean.getEntityType().equals("book")){
-            return ContextUtil.BOOK;
-        }else {
-            return ContextUtil.PHOTO;
-        }
-    }
 
 
     @Override
