@@ -537,9 +537,9 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         {
             ResourceBean resource = reourceList.get(position);
             if(resource.getEntityType().equals("book")){
-                ContextUtil.openResourceByType(mContext, 5, resource.getIsbn(), true);
+                ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getIsbn(), false);
             }else {
-                ContextUtil.openResourceByType(mContext, resource.type, resource.getId(), true);
+                ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getId(), true);
             }
         }
     };

@@ -131,12 +131,12 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ResourceBean resource = resourceList.get(position-2);
         if(resource.getEntityType().equals("book")){
-            ContextUtil.openResourceByType(mContext, 5, resource.getIsbn(), true);
+            ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getIsbn(), true);
         }else {
-            ContextUtil.openResourceByType(mContext, resource.type, resource.getId(), true);
+            ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getId(), true);
         }
-
     }
+
 
     private void loadResourceFile(){
         Map<String,Object> map = new HashMap<>();
