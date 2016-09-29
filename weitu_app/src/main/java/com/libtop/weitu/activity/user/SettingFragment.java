@@ -14,7 +14,7 @@ import com.libtop.weitu.application.AppApplication;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.service.WTPushService;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CacheUtil;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.FileUtils;

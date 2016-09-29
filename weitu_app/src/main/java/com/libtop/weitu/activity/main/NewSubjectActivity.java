@@ -16,7 +16,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CategoryPickerHelper;
 import com.libtop.weitu.utils.ClippingPicture;
 import com.libtop.weitu.utils.ImageLoaderUtil;

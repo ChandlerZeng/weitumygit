@@ -2,8 +2,6 @@ package com.libtop.weitu.utils;
 
 import android.content.Context;
 
-import com.libtop.weitu.tool.Preference;
-
 
 /**
  * @author Sai

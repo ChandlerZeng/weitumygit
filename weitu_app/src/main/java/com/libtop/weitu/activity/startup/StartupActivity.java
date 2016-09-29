@@ -15,7 +15,7 @@ import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.LibraryFragment;
 import com.libtop.weitu.activity.main.MainActivity;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 
 import butterknife.Bind;

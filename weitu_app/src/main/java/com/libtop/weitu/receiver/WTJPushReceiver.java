@@ -13,7 +13,7 @@ import android.util.Log;
 
 import com.libtop.weitu.activity.main.MainActivity;
 import com.libtop.weitu.service.WTBroadcastService;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.utils.MessageRemindUtil;
 

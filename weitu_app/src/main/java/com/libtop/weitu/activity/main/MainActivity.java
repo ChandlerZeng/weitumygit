@@ -27,7 +27,7 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.service.WTBroadcastReceiver;
 import com.libtop.weitu.service.WTBroadcastService;
 import com.libtop.weitu.service.WTPushService;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PopupW.MoreWindow;
 import com.libtop.weitu.widget.NoSlideViewPager;

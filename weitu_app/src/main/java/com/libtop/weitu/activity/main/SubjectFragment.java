@@ -15,7 +15,7 @@ import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.ShowHideOnScroll;
 import com.libtop.weitu.viewadapter.CommonAdapter;

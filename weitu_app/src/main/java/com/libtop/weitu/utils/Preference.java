@@ -1,4 +1,4 @@
-package com.libtop.weitu.tool;
+package com.libtop.weitu.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

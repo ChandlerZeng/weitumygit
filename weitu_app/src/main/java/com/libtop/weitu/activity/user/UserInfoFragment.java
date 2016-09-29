@@ -19,7 +19,7 @@ import com.libtop.weitu.base.impl.PhotoFragment;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ClippingPicture;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.SdCardUtil;
