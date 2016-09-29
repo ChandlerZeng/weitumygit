@@ -227,8 +227,7 @@
 
         <!-- 我赞过的视图 -->
         <activity android:name=".activity.main.MyLikeActivity"/>
-        <!-- 我赞过的视图 -->
-        <activity android:name=".activity.main.MyLikeActivity2"/>
+
         <!-- ShareSdk 需要注册的 Activity -->
         <activity
             android:name="com.mob.tools.MobUIShell"
