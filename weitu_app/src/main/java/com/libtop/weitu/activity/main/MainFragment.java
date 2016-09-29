@@ -1,5 +1,6 @@
 package com.libtop.weitu.activity.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.google.gson.Gson;
@@ -37,25 +39,24 @@ import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.test.Resource;
-import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.utils.MessageRemindUtil;
-import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.view.GridViewForScrollView;
 import com.libtop.weitu.widget.view.ListViewForScrollView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 import com.zbar.lib.CaptureActivity;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,6 +67,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.bingoogolapple.badgeview.BGABadgeImageView;
 import cn.lightsky.infiniteindicator.InfiniteIndicator;
+import cn.lightsky.infiniteindicator.Loader.ImageLoader;
 import cn.lightsky.infiniteindicator.page.OnPageClickListener;
 import cn.lightsky.infiniteindicator.page.Page;
 import okhttp3.Call;
@@ -618,6 +620,43 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                 bundle5.putString(ContentActivity.FRAG_CLS, MoreRmdFileFragment.class.getName());
                 mContext.startActivity(bundle5, ContentActivity.class);
                 break;
+        }
+    }
+
+
+    private class PicassoLoader implements ImageLoader
+    {
+        @Override
+        public void initLoader(Context context)
+        {
+        }
+
+
+        @Override
+        public void load(Context context, ImageView targetView, Object res)
+        {
+            if (res == null)
+            {
+                return;
+            }
+
+            Picasso picasso = Picasso.with(context);
+            RequestCreator requestCreator = null;
+
+            if (res instanceof String)
+            {
+                requestCreator = picasso.load((String) res);
+            }
+            else if (res instanceof File)
+            {
+                requestCreator = picasso.load((File) res);
+            }
+            else if (res instanceof Integer)
+            {
+                requestCreator = picasso.load((Integer) res);
+            }
+
+            requestCreator.fit().tag(context).into(targetView);
         }
     }
 }
