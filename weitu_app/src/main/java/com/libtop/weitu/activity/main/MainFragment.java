@@ -47,6 +47,7 @@ import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.LogUtil;
+import com.libtop.weitu.utils.MessageRemindUtil;
 import com.libtop.weitu.utils.PicassoLoader;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.view.GridViewForScrollView;
@@ -124,7 +125,6 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     {
         preInitData();
         initView();
-        updateNoticeBadge(0);
     }
 
 
@@ -133,6 +133,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     {
         super.onResume();
         mAnimLineIndicator.start();
+        updateNoticeBadge();
     }
 
 
@@ -193,11 +194,12 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     }
 
 
-    private void updateNoticeBadge(int newCount)
+    public void updateNoticeBadge()
     {
-        if (newCount > 1)
+        boolean hasNewDynamic = MessageRemindUtil.hasNewDynamicMessage(getActivity());
+        if (hasNewDynamic)
         {
-            noticeIv.showTextBadge(String.valueOf(newCount));
+            noticeIv.showCirclePointBadge();
         }
         else
         {
@@ -560,6 +562,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         switch (v.getId())
         {
             case R.id.fragment_discover_layout_notice_imageview:
+                MessageRemindUtil.clearDynamicRemind(getActivity());  //点击通知菜单时, 清除新消息提醒
+                updateNoticeBadge();
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
                 {
                     Bundle bundle1 = new Bundle();

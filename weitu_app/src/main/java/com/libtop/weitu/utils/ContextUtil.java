@@ -1,5 +1,6 @@
 package com.libtop.weitu.utils;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -174,5 +175,15 @@ public class ContextUtil
 //        intent.putExtra("doc_id","55165d0ce4b03cc84f8238f5"); // TODO: 假数据，写死
         intent.setClass(context, PdfActivity2.class);
         context.startActivity(intent);
+    }
+
+
+    // 注销广播接收器
+    public static void unregisterReceiver(Context context, BroadcastReceiver receiver)
+    {
+        if (context != null && receiver != null)
+        {
+            context.unregisterReceiver(receiver);
+        }
     }
 }

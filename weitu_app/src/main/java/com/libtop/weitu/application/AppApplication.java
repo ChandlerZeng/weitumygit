@@ -59,7 +59,7 @@ public class AppApplication extends Application
         SdCardUtil.initFileDir(getApplicationContext());
         SpeechUtility.createUtility(getApplicationContext(), "appid=56824e38");
 
-        WTPushService.initPushConfigure(this, true, true, 1);
+        WTPushService.initPushConfigure(this, BuildConfig.LOG_DEBUG, BuildConfig.LOG_DEBUG, 1);
     }
 
 

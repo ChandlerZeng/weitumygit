@@ -10,7 +10,7 @@ public class SchoolNotice extends Bean
 {
     private String id;
     private String title;
-    private long dataLine;
+    private long dateLine;
 
 
     public String getId()
@@ -37,15 +37,15 @@ public class SchoolNotice extends Bean
     }
 
 
-    public long getDataLine()
+    public long getDateLine()
     {
-        return dataLine;
+        return dateLine;
     }
 
 
-    public void setDataLine(long dataLine)
+    public void setDateLine(long dateLine)
     {
-        this.dataLine = dataLine;
+        this.dateLine = dateLine;
     }
 
 
@@ -57,7 +57,7 @@ public class SchoolNotice extends Bean
         sb.append("SchoolNotice:[");
         sb.append("id").append("=").append(getId()).append(",");
         sb.append("title").append("=").append(getTitle()).append(",");
-        sb.append("dataLine").append("=").append(getDataLine());
+        sb.append("dateLine").append("=").append(getDateLine());
         sb.append("]");
 
         return sb.toString();

@@ -325,7 +325,7 @@
 
         <!-- JPUSH 用户自定义的广播接收器 -->
         <receiver
-            android:name=".receiver.MyReceiver"
+            android:name=".receiver.WTJPushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

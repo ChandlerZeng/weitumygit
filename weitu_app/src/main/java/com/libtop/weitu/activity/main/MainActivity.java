@@ -1,12 +1,17 @@
 package com.libtop.weitu.activity.main;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,20 +19,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.libtop.weitu.BuildConfig;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.startup.StartupActivity;
 import com.libtop.weitu.activity.user.UserCenterFragment;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.service.WTBroadcastReceiver;
+import com.libtop.weitu.service.WTBroadcastService;
+import com.libtop.weitu.service.WTPushService;
+import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PopupW.MoreWindow;
 import com.libtop.weitu.widget.NoSlideViewPager;
 import com.umeng.analytics.MobclickAgent;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import cn.jpush.android.api.JPushInterface;
 
 
 /**
@@ -57,6 +68,34 @@ public class MainActivity extends BaseActivity
 
     private final int TOTAL_FRAGMENT = 3;
 
+    private MyHandler handler = new MyHandler(this);
+    private WTBroadcastReceiver noticeBroadcastReceiver;
+
+
+    private static class MyHandler extends Handler
+    {
+        WeakReference<MainActivity> reference;
+
+
+        MyHandler(MainActivity activity)
+        {
+            reference = new WeakReference<>(activity);
+        }
+
+
+        @Override
+        public void handleMessage(Message msg)
+        {
+            if (msg.obj != null && msg.obj instanceof Intent)
+            {
+                MainActivity mainActivity = reference.get();
+
+                Intent intent = (Intent) msg.obj;
+                mainActivity.handleNoticeBroadcastIntent(intent);
+            }
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -69,8 +108,14 @@ public class MainActivity extends BaseActivity
             StartupActivity.instance.finish();
             StartupActivity.instance = null;
         }
-        JPushInterface.init(this);
-        JPushInterface.resumePush(getApplicationContext());
+
+        String loginUid = mPreference.getString(Preference.uid);
+        if (!TextUtils.isEmpty(loginUid))
+        {
+            WTPushService.initPushConfigure(this, BuildConfig.LOG_DEBUG, BuildConfig.LOG_DEBUG, 1);
+            WTPushService.registerPushService(getApplicationContext(), loginUid);
+        }
+
         initFragment();
         init();
         setListener();
@@ -81,6 +126,7 @@ public class MainActivity extends BaseActivity
         imgHome.setBackgroundResource(R.drawable.main_tag_checked_home);
         home.setTextColor(getResources().getColor(R.color.newGreen));
 
+        doRegisterReceiverAction();
     }
 
 
@@ -153,6 +199,32 @@ public class MainActivity extends BaseActivity
     protected void onDestroy()
     {
         super.onDestroy();
+        ContextUtil.unregisterReceiver(this, noticeBroadcastReceiver);
+    }
+
+
+    private void doRegisterReceiverAction()
+    {
+        noticeBroadcastReceiver = new WTBroadcastReceiver(handler);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(WTBroadcastService.ACTION_NEW_DYNAMIC_NOTICE); //新动态消息
+        registerReceiver(noticeBroadcastReceiver, filter);
+    }
+
+
+    private void handleNoticeBroadcastIntent(Intent intent)
+    {
+        String action = intent.getAction();
+        switch (action)
+        {
+            case WTBroadcastService.ACTION_NEW_DYNAMIC_NOTICE:  //新动态消息
+                Fragment fragment = fragmentList.get(0);
+                if (fragment instanceof MainFragment)
+                {
+                    ((MainFragment) fragment).updateNoticeBadge();
+                }
+                break;
+        }
     }
 
 

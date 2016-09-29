@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.base.MyBaseFragmentActivity;
 import com.libtop.weitu.utils.CollectionUtil;
+import com.libtop.weitu.utils.MessageRemindUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,14 @@ public class NoticeActivity extends MyBaseFragmentActivity implements View.OnCli
 
         initView();
         initData();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        MessageRemindUtil.clearDynamicRemind(this);
     }
 
 
