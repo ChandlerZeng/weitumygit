@@ -173,6 +173,7 @@ public class LoginFragment extends BaseFragment
 
                         showToast("登录成功");
                         if(isFromComment){
+                            mContext.setResult(Activity.RESULT_OK);
                             mContext.finish();
                         }else {
                             mContext.startActivity(null, MainActivity.class);

@@ -30,6 +30,19 @@
                     android:divider="@color/divider"
                     android:dividerHeight="0.5dp"
                     android:listSelector="@drawable/list_selector" />
+
+                <TextView
+                    android:id="@+id/textview_empty_comment"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="暂无评论，快来抢沙发吧～"
+                    android:textSize="@dimen/text_fontsize_normal"
+                    android:textColor="@color/comment_subtitle"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_margin="@dimen/margin_size_10"/>
+
             </LinearLayout>
 
             <View style="@style/my_divide_line_style_horizontal"/>

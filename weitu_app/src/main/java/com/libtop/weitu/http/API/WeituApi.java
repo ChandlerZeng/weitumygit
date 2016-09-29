@@ -5,6 +5,7 @@ import com.libtop.weitu.activity.classify.bean.ClassifyDetailBean;
 import com.libtop.weitu.activity.main.clickHistory.ResultBean;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
+import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.activity.search.dto.CommentResult;
 import com.libtop.weitu.activity.source.Bean.MediaResultBean;
@@ -14,6 +15,7 @@ import com.libtop.weitu.dao.ResultCodeDto;
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -56,4 +58,7 @@ public interface WeituApi
 
     @GET("{type}/{method}")
     Observable<List<BookDto>> getBookDto(@Path("type") String type, @Path("method") String method, @Query("text") String requestJson);
+
+    @POST("{type}/{method}")
+    Observable<List<SubjectBean>> getSubjectDto(@Path("type") String type, @Path("method") String method, @Query("text") String requestJson);
 }

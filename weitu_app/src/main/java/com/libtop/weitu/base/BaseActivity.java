@@ -119,6 +119,12 @@ public class BaseActivity extends FragmentActivity
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
 
+    public void startForResultWithFlag(Intent intent,int requestCode)
+    {
+        startActivityForResult(intent,requestCode);
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
+    }
+
 
     @Override
     protected void onDestroy()

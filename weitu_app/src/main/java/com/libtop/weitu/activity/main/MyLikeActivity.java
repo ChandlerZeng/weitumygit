@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
@@ -23,10 +22,10 @@ import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
+import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +45,7 @@ public class MyLikeActivity extends BaseActivity
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.lv_my_like)
-    ListView lvMyLike;
+    XListView lvMyLike;
 
     public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
 
@@ -55,6 +54,9 @@ public class MyLikeActivity extends BaseActivity
     private List<CommentDto> mData = new ArrayList<>();
 
     private boolean isFromMyPraised = false;
+    private int mCurPage = 1;
+
+    private boolean hasData = true;
 
 
     @Override
@@ -64,16 +66,19 @@ public class MyLikeActivity extends BaseActivity
         setInjectContentView(R.layout.activity_main_my_like);
         isFromMyPraised = getIntent().getBooleanExtra("isFromMyPraised",false);
         initView();
-        reqestData();
+        reqestData(true);
     }
 
 
-    private void reqestData()
+    private void reqestData(final boolean clean)
     {
-        showLoding();
+        if (clean){
+            mCurPage = 1;
+            showLoding();
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("uid", Preference.instance(mContext).getString(Preference.uid));
-        params.put("page", 1);
+        params.put("page", mCurPage);
         if (isFromMyPraised){
             params.put("method", "comment.myPraised");
         }else {
@@ -94,13 +99,27 @@ public class MyLikeActivity extends BaseActivity
                 dismissLoading();
                 if (!TextUtils.isEmpty(json))
                 {
+                    if (clean){
+                        mData.clear();
+                    }
                     ArrayList<CommentDto> lists = JSONUtil.readBeanArray(json, CommentDto.class);
                     if (lists == null){
                         return;
                     }
-                    lists.removeAll(Collections.singleton(null));
+                    lvMyLike.stopRefresh();
+                    if (lists.size() < 10)
+                    {
+                        hasData = false;
+                        lvMyLike.setPullLoadEnable(false);
+                    }
+                    else
+                    {
+                        hasData = true;
+                        lvMyLike.setPullLoadEnable(true);
+                    }
                     myLikeAdapter.addAll(lists);
                     mData.addAll(lists);
+                    mCurPage++;
                 }
             }
         });
@@ -120,12 +139,33 @@ public class MyLikeActivity extends BaseActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+                position = position - 1;
                 Intent intent = new Intent(mContext,CommentDetailActivity.class);
                 intent.putExtra("cid",mData.get(position).getId());
                 intent.putExtra("position",position);
                 startActivity(intent);
             }
         });
+        lvMyLike.setPullLoadEnable(false);
+        lvMyLike.setXListViewListener(new XListView.IXListViewListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                reqestData(true);
+            }
+
+
+            @Override
+            public void onLoadMore()
+            {
+                if (hasData)
+                {
+                    reqestData(false);
+                }
+            }
+        });
+        mCurPage = 1;
     }
 
 

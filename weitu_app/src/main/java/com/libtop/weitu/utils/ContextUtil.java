@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.comment.CommentDetailActivity;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
+import com.libtop.weitu.activity.main.dto.ResourceBean;
 import com.libtop.weitu.activity.notice.NoticeContentFragment;
 import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.VideoPlayActivity2;
@@ -184,6 +185,22 @@ public class ContextUtil
         if (context != null && receiver != null)
         {
             context.unregisterReceiver(receiver);
+        }
+    }
+
+
+    public static int getResourceType(ResourceBean resourceBean){
+
+        if(resourceBean.getEntityType().equals("audio-album")){
+            return AUDIO;
+        }else if(resourceBean.getEntityType().equals("video-album")){
+            return VIDEO;
+        }else if(resourceBean.getEntityType().equals("document")){
+            return DOC;
+        }else if(resourceBean.getEntityType().equals("book")){
+            return BOOK;
+        }else {
+            return PHOTO;
         }
     }
 }

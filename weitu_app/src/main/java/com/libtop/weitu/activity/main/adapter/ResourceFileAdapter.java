@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.main.dto.ResourceBean;
 import com.libtop.weitu.test.Resource;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.squareup.picasso.Picasso;
@@ -23,10 +25,10 @@ public class ResourceFileAdapter extends BaseAdapter
 {
     private LayoutInflater mInflater;
     private Context context;
-    private List<Resource> mlist;
+    private List<ResourceBean> mlist;
 
 
-    public ResourceFileAdapter(Context context, List<Resource> list)
+    public ResourceFileAdapter(Context context, List<ResourceBean> list)
     {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
@@ -55,7 +57,7 @@ public class ResourceFileAdapter extends BaseAdapter
     }
 
 
-    public void setData(List<Resource> list)
+    public void setData(List<ResourceBean> list)
     {
         this.mlist = list;
         notifyDataSetChanged();
@@ -68,25 +70,24 @@ public class ResourceFileAdapter extends BaseAdapter
         return getResourceView(position,convertView,parent,mlist.get(position));
     }
 
-    private View getResourceView(int position,View convertView, ViewGroup parent, Resource resource)
+    private View getResourceView(int position,View convertView, ViewGroup parent, ResourceBean resource)
     {
         ViewHolderHelper helper = null;
-        if(resource.type==3){
+        if(resource.getEntityType().equals("book")){
             helper = ViewHolderHelper.get(context, convertView, parent, R.layout.item_list_rank_book, position);
-            helper.setText(R.id.subject_file_desc, resource.intro);
-            helper.setText(R.id.subject_file_author, "作者：" + resource.uploader_name);
-            String date = DateUtil.parseToDate(resource.t_upload);
-            helper.setText(R.id.subject_file_publisher, "出版社：" + "新华出版社");
+            helper.setText(R.id.subject_file_desc, resource.getIntroduction());
+            helper.setText(R.id.subject_file_author, "作者：" + resource.getAuthor());
+            helper.setText(R.id.subject_file_publisher, resource.getPublisher());
 
         }else {
             helper = ViewHolderHelper.get(context, convertView, parent, R.layout.item_list_rank_other, position);
-            helper.setText(R.id.subject_file_uploader,"上传：" + resource.uploader_name);
-            String date = DateUtil.parseToDate(resource.t_upload);
+            helper.setText(R.id.subject_file_uploader,"上传：" + resource.getUploadUsername());
+            String date = DateUtil.parseToDate(resource.timeline);
             helper.setText(R.id.subject_file_date,"时间："+ date);
         }
-        helper.setText(R.id.subject_file_title, resource.name);
+        helper.setText(R.id.subject_file_title, resource.getTitle());
         ImageView coverIv = helper.getView(R.id.subject_file_image);
-        Picasso.with(context).load(resource.cover).error(R.drawable.default_image).placeholder(R.drawable.default_image).fit().centerInside().into(coverIv);
+        Picasso.with(context).load(ContantsUtil.IMGHOST2+resource.getCover()).error(R.drawable.default_image).placeholder(R.drawable.default_image).fit().centerInside().into(coverIv);
 
         return helper.getConvertView();
     }

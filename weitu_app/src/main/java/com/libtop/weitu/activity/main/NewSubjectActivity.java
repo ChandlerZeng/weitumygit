@@ -17,9 +17,11 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.CategoryPickerHelper;
 import com.libtop.weitu.utils.ClippingPicture;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JSONUtil;
+import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
 import com.libtop.weitu.utils.selector.view.ImageSortActivity;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -56,6 +58,8 @@ public class NewSubjectActivity extends BaseActivity
     private boolean isEdit = false;
     private String idString = "";
 
+    private CategoryPickerHelper categoryPickerHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -64,6 +68,20 @@ public class NewSubjectActivity extends BaseActivity
         setInjectContentView(R.layout.activity_main_new_subject);
         isFromSelect = getIntent().getBooleanExtra("fromSelect", false);
         initView();
+        initData();
+    }
+
+    private void initData()
+    {
+        categoryPickerHelper = CategoryPickerHelper.getInstance();
+        categoryPickerHelper.setOnCategorySelectListener(new CategoryPickerHelper.OnCategorySelectListener()
+        {
+            @Override
+            public void onCategorySelect(CategoryPickerHelper.CategoryBean primaryCategory, CategoryPickerHelper.CategoryBean secondCategory)
+            {
+                LogUtil.w("guanglog","primaryCategory   + " + primaryCategory.getName() + "secondCategory    "+secondCategory.getName() );
+            }
+        });
     }
 
 
@@ -216,10 +234,23 @@ public class NewSubjectActivity extends BaseActivity
     }
 
 
+    @Override
+    public void onBackPressed()
+    {
+        if (categoryPickerHelper.isShowing())
+        {
+            categoryPickerHelper.dismissPicker();
+            return;
+        }
+        super.onBackPressed();
+    }
+
+
     private void themeSortClick()
     {
-        Intent i = new Intent(mContext, ImageSortActivity.class);
-        startActivityForResult(i, 1);
+        categoryPickerHelper.showPicker(mContext);
+//        Intent i = new Intent(mContext, ImageSortActivity.class);
+//        startActivityForResult(i, 1);
     }
 
 

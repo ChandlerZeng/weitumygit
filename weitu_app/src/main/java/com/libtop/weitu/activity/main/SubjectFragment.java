@@ -3,35 +3,38 @@ package com.libtop.weitu.activity.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.AbsListView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.base.BaseFragment;
-import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.http.MapUtil;
+import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.tool.Preference;
-import com.libtop.weitu.utils.CollectionUtil;
-import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
-import com.libtop.weitu.utils.JSONUtil;
+import com.libtop.weitu.utils.ShowHideOnScroll;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
-import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.wangjie.rapidfloatingactionbutton.RapidFloatingActionButton;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import okhttp3.Call;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -43,12 +46,17 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
     @Bind(R.id.gv_main_theme)
     GridView gvMainTheme;
     @Bind(R.id.fab_main_new_subject)
-    FloatingActionButton fabMainNewTheme;
+    RapidFloatingActionButton fabMainNewTheme;
     @Bind(R.id.networkloadinglayout)
     NetworkLoadingLayout networkLoadingLayout;
+    @Bind(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private ThemeAdapter themeAdapter;
-    
+
+    private int mPage = 1;
+
+    private boolean hasMoreItems , isBottom;
 
     @Override
     protected int getLayoutId()
@@ -70,69 +78,86 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
     {
         super.onCreation(root);
         initView();
-        getSubjectData();
+        getSubjectData(true);
     }
 
 
     private void initView()
     {
         networkLoadingLayout.setOnRetryClickListner(this);
-        gvMainTheme.setAdapter(themeAdapter);
-        fabMainNewTheme.attachToListView(gvMainTheme);
-        gvMainTheme.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            public void onRefresh()
             {
-                SubjectBean subjectBean = (SubjectBean) parent.getItemAtPosition(position);
-                subjectBean.setResourceUpdateCount(0);
-                themeAdapter.setItem(position,subjectBean);
-                ContextUtil.openSubjectDetail(mContext,subjectBean.getId());
+                getSubjectData(true);
             }
         });
+        gvMainTheme.setAdapter(themeAdapter);
+        gvMainTheme.setOnTouchListener(new ShowHideOnScroll(fabMainNewTheme));
+        gvMainTheme.setOnScrollListener(scrollListener);
     }
 
 
-    private void getSubjectData()
+    private void getSubjectData(final boolean clean)
     {
-        networkLoadingLayout.showLoading();
+        if (clean){
+            networkLoadingLayout.showLoading();
+            mPage = 1;
+        }
+        swipeRefreshLayout.setRefreshing(true);
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("uid", Preference.instance(mContext).getString(Preference.uid));
-        params.put("page", 1);
+        params.put("page", mPage);
         params.put("method", "subject.my");
-        HttpRequest.loadWithMap(params).execute(new StringCallback()
-        {
-            @Override
-            public void onError(Call call, Exception e, int id)
-            {
-                networkLoadingLayout.showLoadFailAndRetryPrompt();
-            }
-
-
-            @Override
-            public void onResponse(String json, int id)
-            {
-                if (!TextUtils.isEmpty(json))
+        String[] arrays = MapUtil.map2Parameter(params);
+        subscription = WeituNetwork.getWeituApi()
+                .getSubjectDto(arrays[0], arrays[1], arrays[2])
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(new Action0()
                 {
-                    ArrayList<SubjectBean> lists = JSONUtil.readBeanArray(json, SubjectBean.class);
-                    if (lists==null)
-                        return;
-                    if (CollectionUtil.isEmpty(lists)){
-                        networkLoadingLayout.showEmptyAndRetryPrompt();
-                    }else {
-                        networkLoadingLayout.dismiss();
-                        themeAdapter.addAll(lists);
+                    @Override
+                    public void call()
+                    {
+                        swipeRefreshLayout.setRefreshing(false);
                     }
-                }
-            }
-        });
+                })
+                .subscribe(new Observer<List<SubjectBean>>()
+                {
+                    @Override
+                    public void onCompleted()
+                    {
+
+                    }
+
+
+                    @Override
+                    public void onError(Throwable e)
+                    {
+                        networkLoadingLayout.showLoadFailAndRetryPrompt();
+                    }
+
+
+                    @Override
+                    public void onNext(List<SubjectBean> subjectBeens)
+                    {
+                        subjectBeens.removeAll(Collections.singleton(null));
+                        if (clean){
+                            themeAdapter.clear();
+                            networkLoadingLayout.dismiss();
+                        }
+                        hasMoreItems = (subjectBeens.size()>10);
+                        themeAdapter.addAll(subjectBeens);
+                    }
+                });
     }
 
 
     @Override
     public void onRetryClick(View v)
     {
-        getSubjectData();
+        getSubjectData(true);
     }
 
 
@@ -180,6 +205,33 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
                 break;
         }
     }
+
+    private AbsListView.OnScrollListener scrollListener = new AbsListView.OnScrollListener()
+    {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState)
+        {
+            if (scrollState == SCROLL_STATE_IDLE && !hasMoreItems && isBottom)
+                Toast.makeText(mContext,"没有更多内容",Toast.LENGTH_SHORT).show();
+        }
+
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+        {
+            if (totalItemCount > 0)
+            {
+                int lastVisibleItem = firstVisibleItem + visibleItemCount;
+                isBottom = (lastVisibleItem == totalItemCount);
+                if (!swipeRefreshLayout.isRefreshing()&& hasMoreItems && isBottom)
+                {
+                    swipeRefreshLayout.setRefreshing(true);
+                    mPage++;
+                    getSubjectData(false);
+                }
+            }
+        }
+    };
 
 
     private void newSubjectClick()

@@ -1,27 +1,21 @@
 package com.libtop.weitu.activity.main.rank;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.classify.adapter.ClassifySubDetailAdapter;
-import com.libtop.weitu.activity.main.SubjectDetailActivity;
-import com.libtop.weitu.activity.user.dto.CollectBean;
+import com.libtop.weitu.activity.main.adapter.RankPageAdapter;
+import com.libtop.weitu.activity.main.dto.ResourceBean;
+import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.Resource;
-import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.utils.ContantsUtil;
-
+import com.libtop.weitu.test.CategoryResult;
 import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
-
 import com.libtop.weitu.widget.view.XListView;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -44,14 +38,15 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
     XListView xListView;
 
 
-    private ClassifySubDetailAdapter mAdapter;
-    private List<CollectBean> categoryResultList = new ArrayList<>();
-    private List<Subject> subjectList = new ArrayList<>();
-    private List<Resource> resourceList = new ArrayList<>();
+    private RankPageAdapter mAdapter;
+    private List<CategoryResult> categoryResultList = new ArrayList<>();
+    private List<SubjectBean> subjectBeanList = new ArrayList<>();
+    private List<ResourceBean> resourceBeanList = new ArrayList<>();
 
     public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5;
-    private String type;
-    private int mCurPage = 1;
+    private String method;
+    private boolean isSubject;
+    private int nextPageIndex;
     private boolean hasData = false;
     private boolean isFirstIn = true;
     private boolean isRefreshed = false;
@@ -62,8 +57,13 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
     {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        type = bundle.getString("type", "subject");
-        mAdapter = new ClassifySubDetailAdapter(mContext, categoryResultList);
+        method = bundle.getString("method","subject.popular");
+        if(method.equals("subject.popular")||method.equals("subject.latest")){
+            isSubject = true;
+        }else {
+            isSubject = false;
+        }
+        mAdapter = new RankPageAdapter(mContext, categoryResultList);
     }
 
 
@@ -93,7 +93,7 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
         {
             isFirstIn = false;
             networkLoadingLayout.showLoading();
-            getData();
+            getData(1);
         }
         ListViewUtil.addPaddingHeader(mContext,xListView);
         xListView.setAdapter(mAdapter);
@@ -101,49 +101,49 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                if (type.equals("subject")) {
-                    Subject subject = subjectList.get(position - 2);
-                    Intent intent = new Intent(mContext, SubjectDetailActivity.class);
-                    intent.putExtra("cover", subject.cover);
-                    startActivity(intent);
-                } else if (type.equals("resource")) {
-//                    openBook(resourceList.get(position).name, resourceList.get(position).cover, resourceList.get(position).uploader_name, "9787504444622", "中国商业出版社,2001");//TODO
-
-                    Resource resource = resourceList.get(position-2);
-                    ContextUtil.openResourceByType(mContext, resource.type, resource.rid, true);
+                if (isSubject) {
+                    SubjectBean subjectBean = subjectBeanList.get(position-2);
+                    ContextUtil.openSubjectDetail(mContext,subjectBean.getId());
+                } else {
+                    ResourceBean resource = resourceBeanList.get(position-2);
+                    if(resource.getEntityType().equals("book")){
+                        ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getIsbn(), true);
+                    }else {
+                        ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getId(), true);
+                    }
                 }
             }
         });
+
 
         xListView.setPullLoadEnable(false);
         xListView.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
                 isRefreshed=true;
-                getData();
-                mCurPage = 1;
+                getData(1);
             }
 
             @Override
             public void onLoadMore() {
                 if (hasData) {
-                    getData();
+                    getData(nextPageIndex);
                 }
             }
         });
         networkLoadingLayout.setOnRetryClickListner(this);
     }
 
-    private void getData()
+
+    private void getData(final int page)
     {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("type", type);
-//        String api = "/find/rank/list";
-        String api = "/find/rank/lists";
-        HttpRequest.newLoad(ContantsUtil.API_FAKE_HOST_PUBLIC + api, map).execute(new StringCallback() {
+        map.put("method", method);
+        map.put("page",page);
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                if(mCurPage>1){
+                if(page>1){
 
                 }else if(!isRefreshed) {
                     networkLoadingLayout.showLoadFailAndRetryPrompt();
@@ -155,50 +155,64 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
             public void onResponse(String json, int id) {
                 if (!TextUtils.isEmpty(json)) {
                     xListView.stopRefresh();
-                    if(mCurPage==1){
+                    nextPageIndex = page+1 ;
+                    if(page==1){
                         networkLoadingLayout.dismiss();
-                    }
-                    try{
-                        Gson gson = new Gson();
-                        List<CollectBean> subjectResource = gson.fromJson(json, new TypeToken<List<CollectBean>>() {
-                        }.getType());
                         categoryResultList.clear();
-                        if (type.equals("subject")) {
-                            categoryResultList.addAll(subjectResource);
-                            if (categoryResultList.size() < 10) {
-                                hasData = false;
-                                xListView.setPullLoadEnable(false);
-                            } else {
-                                hasData = true;
-                                xListView.setPullLoadEnable(true);
-                            }
-                        } else {
-                            categoryResultList.addAll(subjectResource);
-                            if (categoryResultList.size() < 10) {
-                                hasData = false;
-                                xListView.setPullLoadEnable(false);
-                            } else {
-                                hasData = true;
-                                xListView.setPullLoadEnable(true);
-                            }
-                        }
-                        if(categoryResultList.size()==0 && mCurPage ==1){
-                            networkLoadingLayout.showEmptyPrompt();
-                        }
-                        mCurPage++;
-                        mAdapter.setNewData(categoryResultList);
-                    }catch (Exception e) {
-                        e.printStackTrace();
                     }
-
+                    if(isSubject){
+                        handleSubjectResult(json,page);
+                    }else {
+                        handleResourceResult(json,page);
+                    }
                 }
             }
         });
     }
 
+    private void handleSubjectResult(String json, int page) {
+        List<SubjectBean> subjectList = JSONUtil.readBeanArray(json, SubjectBean.class);
+        if(page==1){
+            subjectBeanList.clear();
+        }
+        subjectBeanList.addAll(subjectList);
+        categoryResultList.addAll(subjectList);
+        if (subjectList.size() < 20) {
+            hasData = false;
+            xListView.setPullLoadEnable(false);
+        } else {
+            hasData = true;
+            xListView.setPullLoadEnable(true);
+        }
+        if (categoryResultList.size() == 0 && page == 1) {
+            networkLoadingLayout.showEmptyPrompt();
+        }
+        mAdapter.setData(categoryResultList);
+    }
+
+    private void handleResourceResult(String json, int page) {
+        List<ResourceBean> resourceList = JSONUtil.readBeanArray(json, ResourceBean.class);
+        if(page==1){
+            resourceBeanList.clear();
+        }
+        resourceBeanList.addAll(resourceList);
+        categoryResultList.addAll(resourceList);
+        if (resourceList.size() < 20) {
+            hasData = false;
+            xListView.setPullLoadEnable(false);
+        } else {
+            hasData = true;
+            xListView.setPullLoadEnable(true);
+        }
+        if (categoryResultList.size() == 0 && page == 1) {
+            networkLoadingLayout.showEmptyPrompt();
+        }
+        mAdapter.setData(categoryResultList);
+    }
+
+
     @Override
     public void onRetryClick(View v) {
-        mCurPage = 1;
-        getData();
+        getData(1);
     }
 }

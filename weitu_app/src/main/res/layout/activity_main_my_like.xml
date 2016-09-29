@@ -6,7 +6,7 @@
 
     <include layout="@layout/included_title_default"/>
 
-    <ListView
+    <com.libtop.weitu.widget.view.XListView
         android:id="@+id/lv_my_like"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
