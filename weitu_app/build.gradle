@@ -16,6 +16,7 @@ android {
         targetSdkVersion 22
         versionCode 12
         versionName "2.2.0"
+        multiDexEnabled true
     }
 
     buildTypes {

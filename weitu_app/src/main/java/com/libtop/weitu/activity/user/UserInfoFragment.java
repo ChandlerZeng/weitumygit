@@ -19,7 +19,6 @@ import com.libtop.weitu.base.impl.PhotoFragment;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.tool.CommonUtil;
 import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.ClippingPicture;
 import com.libtop.weitu.utils.ContantsUtil;
@@ -114,7 +113,12 @@ public class UserInfoFragment extends PhotoFragment
     public void onCreation(View root)
     {
         mSex = mPreference.getString(Preference.sex);
-        mSexText.setText("性别：" + CommonUtil.getValue("sex" + mSex));
+        if (!mSex.equals("0") && !mSex.equals("1"))
+        {
+            mSex = "0"; //当为其它的未知性别时, 默认显示为"男"
+        }
+
+        mSexText.setText("性别：" + (mSex.equals("0") ? "男" : "女"));
         String uid = mPreference.getString(Preference.uid);
         String avatar = ContantsUtil.getAvatarUrl(uid);
         Picasso.with(mContext).load(avatar).placeholder(R.drawable.user_default_icon).error(R.drawable.user_default_icon).networkPolicy(NetworkPolicy.NO_CACHE).into(imgHead);
