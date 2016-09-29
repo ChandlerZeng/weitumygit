@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.utils.ImageLoaderUtil;
+import com.libtop.weitu.utils.StringUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
 import com.libtop.weitu.utils.selector.bean.ListGridImage;
 import com.squareup.picasso.Picasso;
@@ -212,7 +212,8 @@ public class ImageGridAdapter2 extends BaseAdapter
             }
             else
             {
-                ImageLoaderUtil.build(mcontext, url, R.drawable.default_error).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(image);
+                String notEmptyUrl = StringUtil.getNotEmptyUrl(url);
+                Picasso.with(mcontext).load(notEmptyUrl).placeholder(R.drawable.default_error).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(image);
             }
         }
     }
