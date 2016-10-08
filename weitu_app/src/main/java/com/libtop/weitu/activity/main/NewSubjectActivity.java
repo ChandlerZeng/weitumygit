@@ -21,9 +21,7 @@ import com.libtop.weitu.utils.CategoryPickerHelper;
 import com.libtop.weitu.utils.ClippingPicture;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JSONUtil;
-import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
-import com.libtop.weitu.utils.selector.view.ImageSortActivity;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.HashMap;
@@ -79,7 +77,10 @@ public class NewSubjectActivity extends BaseActivity
             @Override
             public void onCategorySelect(CategoryPickerHelper.CategoryBean primaryCategory, CategoryPickerHelper.CategoryBean secondCategory)
             {
-                LogUtil.w("guanglog","primaryCategory   + " + primaryCategory.getName() + "secondCategory    "+secondCategory.getName() );
+                name = primaryCategory.getName()+"    "+secondCategory.getName();
+                label1 = primaryCategory.getCode();
+                tvSubjectSort.setText(name);
+//                LogUtil.w("guanglog","primaryCategory   + " + primaryCategory.getName() + "secondCategory    "+secondCategory.getName() );
             }
         });
     }
@@ -274,14 +275,14 @@ public class NewSubjectActivity extends BaseActivity
             ImageLoaderUtil.loadRoundImage(mContext,imgCover,a,ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG);
             Toast.makeText(mContext,"Good image ",Toast.LENGTH_SHORT).show();
         }
-        switch (resultCode){
-            case ImageSortActivity.DESCRIPTION_RETURNQ:
-                Bundle ab = data.getExtras();
-                name = ab.getString("name");
-                label1 = ab.getInt("code");
-                tvSubjectSort.setText(name);
-                break;
-
-        }
+//        switch (resultCode){
+//            case ImageSortActivity.DESCRIPTION_RETURNQ:
+//                Bundle ab = data.getExtras();
+//                name = ab.getString("name");
+//                label1 = ab.getInt("code");
+//                tvSubjectSort.setText(name);
+//                break;
+//
+//        }
     }
 }

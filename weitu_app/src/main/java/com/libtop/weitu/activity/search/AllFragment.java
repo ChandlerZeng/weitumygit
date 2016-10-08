@@ -237,6 +237,7 @@ public class AllFragment extends NotifyFragment
             {
                 case SUBJECT:
                     openSubject(position);
+                    break;
                 case VIDEO:
                     openVideo(position);
                     break;

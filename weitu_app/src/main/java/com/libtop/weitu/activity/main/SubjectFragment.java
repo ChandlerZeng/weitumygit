@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.utils.Preference;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.ShowHideOnScroll;
 import com.libtop.weitu.viewadapter.CommonAdapter;
@@ -96,6 +98,17 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
         gvMainTheme.setAdapter(themeAdapter);
         gvMainTheme.setOnTouchListener(new ShowHideOnScroll(fabMainNewTheme));
         gvMainTheme.setOnScrollListener(scrollListener);
+        gvMainTheme.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                SubjectBean subjectBean = (SubjectBean) parent.getItemAtPosition(position);
+                subjectBean.setResourceUpdateCount(0);
+                themeAdapter.setItem(position,subjectBean);
+                ContextUtil.openSubjectDetail(mContext,subjectBean.getId());
+            }
+        });
     }
 
 

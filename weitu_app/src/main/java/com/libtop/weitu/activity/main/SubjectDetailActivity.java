@@ -109,7 +109,9 @@ public class SubjectDetailActivity extends BaseActivity
                 swipeRefreshLayout.setRefreshing(false);
                 ArrayList<CollectBean> lists = JSONUtil.readBeanArray(json, CollectBean.class);
                 if (lists == null){
-                    Toast.makeText(mContext,R.string.netError,Toast.LENGTH_SHORT).show();
+                    TextView textView = new TextView(mContext);
+                    textView.setText("空空如也");
+                    pullZoomListView.setEmptyView(textView);
                     return;
                 }
                 mData.clear();
@@ -175,6 +177,7 @@ public class SubjectDetailActivity extends BaseActivity
             @Override
             public void onRefresh() {
                 requestData();
+                requestListData();
             }
         });
     }
@@ -223,10 +226,10 @@ public class SubjectDetailActivity extends BaseActivity
             headerViewHolder.tvThemeDetailFollow.setText("关注");
             headerViewHolder.tvThemeDetailFollow.setBackgroundResource(R.drawable.shape_bg_follow);
         }
-//        if (Preference.instance(mContext).getString(Preference.uid).equals(subjectDetailBean.subject.uid)){
-//            headerViewHolder.tvThemeDetailEdit.setVisibility(View.VISIBLE);
-//            headerViewHolder.tvThemeDetailFollow.setVisibility(View.GONE);
-//        }
+        if (Preference.instance(mContext).getString(Preference.uid).equals(subjectDetailBean.subject.getUid())){
+            headerViewHolder.tvThemeDetailEdit.setVisibility(View.VISIBLE);
+            headerViewHolder.tvThemeDetailFollow.setVisibility(View.GONE);
+        }
     }
 
 
