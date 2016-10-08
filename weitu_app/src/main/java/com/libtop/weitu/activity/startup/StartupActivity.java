@@ -9,14 +9,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.libtop.weitu.BuildConfig;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.LibraryFragment;
 import com.libtop.weitu.activity.main.MainActivity;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
+import com.libtop.weitu.utils.Preference;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -41,9 +43,25 @@ public class StartupActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_startup);
+
+        MobclickAgent.setDebugMode(BuildConfig.LOG_DEBUG);
         startHandler();
 
         instance = this;
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

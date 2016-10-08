@@ -133,6 +133,21 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         initView();
     }
 
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     @Override
     public void onDestroy()
     {

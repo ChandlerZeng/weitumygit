@@ -34,8 +34,6 @@ import okhttp3.Call;
 
 public class NewSubjectActivity extends BaseActivity
 {
-
-
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.img_cover)
@@ -68,6 +66,21 @@ public class NewSubjectActivity extends BaseActivity
         initView();
         initData();
     }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
 
     private void initData()
     {

@@ -96,6 +96,20 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
     }
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     private void requestDoc()
     {
         //        请求文档列表

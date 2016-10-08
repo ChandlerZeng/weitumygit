@@ -25,6 +25,20 @@ public class GestureActivity extends BaseActivity implements GestureDetector.OnG
 
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent event)
     {
         if (mDetector.onTouchEvent(event))

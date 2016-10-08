@@ -129,6 +129,20 @@ public class MainActivity extends BaseActivity
     }
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     private void showMoreWindow(View view)
     {
         if (null == mMoreWindow)
@@ -158,21 +172,6 @@ public class MainActivity extends BaseActivity
         fragmentList.add(one);
         fragmentList.add(two);
         fragmentList.add(three);
-    }
-
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-    }
-
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Log.e("test draw time end", System.currentTimeMillis() + "");
     }
 
 

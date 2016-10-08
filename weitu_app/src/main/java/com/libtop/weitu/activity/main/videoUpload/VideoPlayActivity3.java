@@ -133,6 +133,20 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
     }
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     private void setOrientation(int flag)
     {
         status_flag = flag;
@@ -698,12 +712,4 @@ public class VideoPlayActivity3 extends BaseActivity implements MediaPlayer.OnCo
             container.removeView(mPagers.get(position));
         }
     };
-
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Log.e("test draw time end", System.currentTimeMillis() + "");
-    }
 }

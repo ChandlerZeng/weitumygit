@@ -46,7 +46,6 @@ import okhttp3.Call;
  */
 public class SubjectDetailActivity extends BaseActivity
 {
-
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.plv_subject_detail)
@@ -84,8 +83,22 @@ public class SubjectDetailActivity extends BaseActivity
         initView();
         requestData();
         requestListData();
-
     }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
 
 //    http://weitu.bookus.cn/subject/CollectBeans.json?text={"sid":"56f97d8d984e741f1420ayy","method":"subject.resources"}
     private void requestListData()

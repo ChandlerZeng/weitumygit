@@ -70,6 +70,20 @@ public class MyLikeActivity extends BaseActivity
     }
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     private void reqestData(final boolean clean)
     {
         if (clean){

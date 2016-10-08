@@ -103,8 +103,22 @@ public class PdfTryReadActivity extends BaseActivity implements OnPageChangeList
         {
             initActivity(pdfUrl);
         }
-        initView();
 
+        initView();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

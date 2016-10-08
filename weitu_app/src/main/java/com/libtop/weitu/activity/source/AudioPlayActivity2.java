@@ -223,8 +223,22 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        loadIndex();
 
+        loadIndex();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

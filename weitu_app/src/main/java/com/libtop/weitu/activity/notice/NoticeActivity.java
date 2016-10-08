@@ -48,6 +48,13 @@ public class NoticeActivity extends MyBaseFragmentActivity implements View.OnCli
 
 
     @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
     protected void onPause()
     {
         super.onPause();

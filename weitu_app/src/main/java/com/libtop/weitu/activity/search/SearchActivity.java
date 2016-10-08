@@ -42,7 +42,6 @@ import butterknife.OnClick;
 
 public class SearchActivity extends BaseActivity implements RootStub
 {
-
     public static boolean inSearch = false;
 
     @Bind(R.id.edit)
@@ -89,6 +88,20 @@ public class SearchActivity extends BaseActivity implements RootStub
             }
         });
         init();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

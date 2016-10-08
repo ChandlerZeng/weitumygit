@@ -88,6 +88,20 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
     }
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     @Nullable
     @OnClick({R.id.ll_tool_include,R.id.ll_tool_collect, R.id.ll_tool_comment, R.id.ll_tool_share, R.id.img_rotate, R.id.back_btn})
     public void onClick(View v)

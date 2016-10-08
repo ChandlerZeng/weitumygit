@@ -18,6 +18,20 @@ public class PhotoActivity extends BaseActivity
     protected static final int REQUEST_CODE_PHOTO_DEAL = 0x0003;
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     /**
      * 打开相机
      */

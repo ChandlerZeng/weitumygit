@@ -12,6 +12,7 @@ import com.libtop.weitu.dao.bean.DaoSession;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.service.WTPushService;
 import com.libtop.weitu.utils.SdCardUtil;
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import okhttp3.OkHttpClient;
@@ -75,6 +76,7 @@ public class AppApplication extends Application
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
 
+            MobclickAgent.onKillProcess(getInstance());  // 保存umeng统计数据
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);
         }

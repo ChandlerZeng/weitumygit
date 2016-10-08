@@ -17,8 +17,6 @@ import butterknife.OnClick;
 
 public class EditSubjectActivity extends BaseActivity
 {
-
-
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.img_cover)
@@ -38,6 +36,20 @@ public class EditSubjectActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_main_new_subject);
         initView();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

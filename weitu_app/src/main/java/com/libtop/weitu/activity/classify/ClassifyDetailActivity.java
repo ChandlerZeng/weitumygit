@@ -28,8 +28,6 @@ import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.http.MapUtil;
-import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.widget.NoSlideViewPager;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -46,9 +44,6 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import butterknife.OnPageChange;
 import okhttp3.Call;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 
 /**
@@ -108,6 +103,21 @@ public class ClassifyDetailActivity extends BaseActivity
         initPopView();
         getData();
     }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
 
     private void initView(){
         mFrags = new ArrayList<Fragment>();

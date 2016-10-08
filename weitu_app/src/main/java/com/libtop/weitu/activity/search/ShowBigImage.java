@@ -53,7 +53,20 @@ public class ShowBigImage extends ImgActivity
                 overridePendingTransition(R.anim.alpha_into, R.anim.zoomout);
             }
         });
+    }
 
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

@@ -84,6 +84,20 @@ public class DynamicCardActivity extends BaseActivity
     }
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     private void openImage(int position)
     {
         Intent intent = new Intent(DynamicCardActivity.this, ImagePagerActivity2.class);

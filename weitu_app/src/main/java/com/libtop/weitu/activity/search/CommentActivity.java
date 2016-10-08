@@ -112,6 +112,21 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         initView();
     }
 
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     private void initView(){
         String json = getIntent().getStringExtra("CommentNeedDto");
         commentNeedDto = JSONUtil.readBean(json, CommentNeedDto.class);
