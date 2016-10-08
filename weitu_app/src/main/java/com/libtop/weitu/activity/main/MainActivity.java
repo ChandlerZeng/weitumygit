@@ -27,11 +27,10 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.service.WTBroadcastReceiver;
 import com.libtop.weitu.service.WTBroadcastService;
 import com.libtop.weitu.service.WTPushService;
-import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PopupW.MoreWindow;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.widget.NoSlideViewPager;
-import com.umeng.analytics.MobclickAgent;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -166,7 +165,6 @@ public class MainActivity extends BaseActivity
     protected void onPause()
     {
         super.onPause();
-        MobclickAgent.onPause(this);
     }
 
 
@@ -174,7 +172,6 @@ public class MainActivity extends BaseActivity
     protected void onResume()
     {
         super.onResume();
-        MobclickAgent.onResume(this);
         Log.e("test draw time end", System.currentTimeMillis() + "");
     }
 
