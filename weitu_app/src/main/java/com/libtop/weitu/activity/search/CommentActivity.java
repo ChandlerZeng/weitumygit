@@ -381,13 +381,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
 
-    private void deleteReplyComment(String cid, final ReplyListDto replyBean, final List<ReplyListDto> replyBeans,final CommentDto object){
+    private void deleteReplyComment(String id, final ReplyListDto replyBean, final List<ReplyListDto> replyBeans,final CommentDto object){
         showLoding();
-        String api = "resource/comment/del";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .addParams("cid", cid)
-                .build()
-                .execute(new StringCallback() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("method","reply.delete");
+        map.put("id",id);
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
@@ -498,7 +497,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
             @Override
             public void onClick() {
-                deleteReplyComment(replyBean.cid, replyBean, replyBeans, object);
+                deleteReplyComment(replyBean.id, replyBean, replyBeans, object);
             }
         }, null);
     }

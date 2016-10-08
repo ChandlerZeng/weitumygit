@@ -117,8 +117,7 @@ public class ClassifyDetailActivity extends BaseActivity
         bundle.putString("method", "search.categories");
         bundle.putLong("code",code);
         bundle.putLong("subCode",subCode);
-        bundle.putString("filterString",filterString);
-        bundle.putString("type","subject");
+        bundle.putString("group","subject");
         f1.setArguments(bundle);
 
         ClassifyDetailFragment f2 = new ClassifyDetailFragment();
@@ -127,8 +126,7 @@ public class ClassifyDetailActivity extends BaseActivity
         bundle2.putString("method", "search.categories");
         bundle2.putLong("code",code);
         bundle2.putLong("subCode",subCode);
-        bundle2.putString("filterString",filterString);
-        bundle2.putString("type","resource");
+        bundle2.putString("group","resources");
         f2.setArguments(bundle2);
 
         mFrags.add(f1);
@@ -285,7 +283,6 @@ public class ClassifyDetailActivity extends BaseActivity
         Map<String, Object> map = new HashMap<>();
         map.put("label1", code);
         map.put("label2", subCode);
-        map.put("sort", filterString);
         map.put("page", mCurPage);
         map.put("method", "search.categories");
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
@@ -296,7 +293,7 @@ public class ClassifyDetailActivity extends BaseActivity
 
             @Override
             public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
+                if (!TextUtils.isEmpty(json)&& !json.equals("null")) {
                     ClassifyDetailBean classifyDetailBean = new Gson().fromJson(json, new TypeToken<ClassifyDetailBean>() {
                     }.getType());
                     lists.clear();

@@ -153,7 +153,7 @@ public class BookDetailFragment extends ContentFragment
         schoolCode = bundle.getString("school");
         isFromCapture = bundle.getBoolean("isFromCapture");
         allBookString = bundle.getString("allJson");
-        if(bundle.getString("cover").contains("http")){
+        if(bundle.getString("cover")!=null && bundle.getString("cover").contains("http")){
             imgPath = bundle.getString("cover");
         } else {
             imgPath = ContantsUtil.IMG_BASE + bundle.getString("cover");
