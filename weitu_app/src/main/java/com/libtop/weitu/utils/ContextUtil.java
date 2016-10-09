@@ -1,5 +1,6 @@
 package com.libtop.weitu.utils;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.base.BaseActivity;
+import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
 
 
 /**
@@ -28,16 +30,26 @@ import com.libtop.weitu.base.BaseActivity;
  */
 public class ContextUtil
 {
-
     //真接口
     public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5, SUBJECT = 7;
-    //假接口
-//    public static final int VIDEO = 0, AUDIO = 1, DOC = 4, PHOTO = 2, BOOK = 3;
 
 
-    public static void doTest(Context context)
+    /**
+     * 选择图片
+     *
+     * @param activity
+     * @param showCamera    是否显示相机
+     * @param selectCount   最大图片选择张数
+     * @param selectMode    图片选择模式[0: 单选; 1: 多选]
+     * @param requestCode   请求码
+     */
+    public static void chooseImage(Activity activity, boolean showCamera, int selectCount, int selectMode, int requestCode)
     {
-        //TODO for test
+        Intent intent = new Intent(activity, MultiImageSelectorActivity.class);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, showCamera);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, selectCount);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, selectMode);
+        activity.startActivityForResult(intent, requestCode);
     }
 
 
@@ -75,49 +87,53 @@ public class ContextUtil
 
 
     //通过类型打开视频，文档，音频，图库，isFragIsBack 图书在Fragment中是否返回上一个Fragment
-    public static void openResourceByType(Context context,int type, String id,boolean isFragIsBack)
+    public static void openResourceByType(Context context, int type, String id, boolean isFragIsBack)
     {
         switch (type)
         {
             case BOOK:
-                openBook(context,id,isFragIsBack);
+                openBook(context, id, isFragIsBack);
                 break;
+
             case VIDEO:
-                openVideo(context,id);
+                openVideo(context, id);
                 break;
+
             case AUDIO:
-                openAudio(context,id);
+                openAudio(context, id);
                 break;
+
             case DOC:
-                openDoc(context,id);
+                openDoc(context, id);
                 break;
+
             case PHOTO:
-                openPhoto(context,id);
+                openPhoto(context, id);
                 break;
         }
     }
 
 
-    public static void openSubjectDetail(Context context,String id){
+    public static void openSubjectDetail(Context context, String id)
+    {
         Intent intent = new Intent(context, SubjectDetailActivity.class);
-        intent.putExtra("id",id);
+        intent.putExtra("id", id);
         context.startActivity(intent);
     }
 
 
     //通过类型打开视频，文档，音频，图库
-    public static void openResourceByType(Context context,int type, String id)
+    public static void openResourceByType(Context context, int type, String id)
     {
-        openResourceByType(context,type,id,false);
+        openResourceByType(context, type, id, false);
     }
 
 
     //打开视频
-    public static void openVideo(Context context,String id)
+    public static void openVideo(Context context, String id)
     {
         SearchResult result = new SearchResult();
         result.id = id;
-//        result.id = "54d46b13e4b0b5810235a93b"; // TODO: 假数据，写死
         Intent intent = new Intent(context, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
         context.startActivity(intent);
@@ -125,11 +141,10 @@ public class ContextUtil
 
 
     //打开音频
-    public static void openAudio(Context context,String id)
+    public static void openAudio(Context context, String id)
     {
         SearchResult result = new SearchResult();
         result.id = id;
-//        result.id = "54d5a0d1e4b0fcffa69e9f3d";  // TODO: 假数据，写死
         result.cover = "";
         Intent intent = new Intent(context, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
@@ -138,41 +153,38 @@ public class ContextUtil
 
 
     //打开图书
-    public static void openBook(Context context,String isbn,boolean isFragIsBack)
+    public static void openBook(Context context, String isbn, boolean isFragIsBack)
     {
         Bundle bundle = new Bundle();
         bundle.putString("name", "");
         bundle.putString("cover", "");
         bundle.putString("auth", "");
         bundle.putString("isbn", isbn);
-//        bundle.putString("isbn", "9787505374973"); // TODO: 假数据，写死
         bundle.putString("publisher", "");
         bundle.putString("school", Preference.instance(context).getString(Preference.SchoolCode));
         bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, isFragIsBack);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
-        ((BaseActivity)context).startActivity(bundle, ContentActivity.class);
+        ((BaseActivity) context).startActivity(bundle, ContentActivity.class);
     }
 
 
     //打开图库
-    public static void openPhoto(Context context,String id)
+    public static void openPhoto(Context context, String id)
     {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
         bundle.putString("id", id);
-//        bundle.putString("id", "56178242e4b088b55663c299"); // TODO: 假数据，写死
-        ((BaseActivity)context).startActivity(bundle, DynamicCardActivity.class);
+        ((BaseActivity) context).startActivity(bundle, DynamicCardActivity.class);
     }
 
 
     //打开文档
-    public static void openDoc(Context context,String id)
+    public static void openDoc(Context context, String id)
     {
         Intent intent = new Intent();
         intent.putExtra("url", "");
-        intent.putExtra("doc_id",id);
-//        intent.putExtra("doc_id","55165d0ce4b03cc84f8238f5"); // TODO: 假数据，写死
+        intent.putExtra("doc_id", id);
         intent.setClass(context, PdfActivity2.class);
         context.startActivity(intent);
     }
@@ -188,17 +200,26 @@ public class ContextUtil
     }
 
 
-    public static int getResourceType(ResourceBean resourceBean){
-
-        if(resourceBean.getEntityType().equals("audio-album")){
+    public static int getResourceType(ResourceBean resourceBean)
+    {
+        if (resourceBean.getEntityType().equals("audio-album"))
+        {
             return AUDIO;
-        }else if(resourceBean.getEntityType().equals("video-album")){
+        }
+        else if (resourceBean.getEntityType().equals("video-album"))
+        {
             return VIDEO;
-        }else if(resourceBean.getEntityType().equals("document")){
+        }
+        else if (resourceBean.getEntityType().equals("document"))
+        {
             return DOC;
-        }else if(resourceBean.getEntityType().equals("book")){
+        }
+        else if (resourceBean.getEntityType().equals("book"))
+        {
             return BOOK;
-        }else {
+        }
+        else
+        {
             return PHOTO;
         }
     }

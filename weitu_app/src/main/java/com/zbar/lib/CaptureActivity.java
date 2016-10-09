@@ -49,10 +49,10 @@ import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.IsbnUtils;
-import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
+import com.libtop.weitu.utils.Preference;
 import com.zbar.lib.camera.CameraBean;
 import com.zbar.lib.camera.CameraManager;
 import com.zbar.lib.decode.CaptureActivityHandler;
@@ -469,20 +469,15 @@ public class CaptureActivity extends BaseActivity implements Callback, View.OnCl
             case R.id.light:
                 light();
                 break;
+
             case R.id.write:
                 showDialog();
                 break;
+
             case R.id.choose:
-                Intent intent = new Intent(CaptureActivity.this, MultiImageSelectorActivity.class);
-                // 是否显示拍摄图片
-                intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, false);
-                // 最大可选择图片数量
-                intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
-                // 选择模式
-                intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, 0);
-                // 默认选择
-                startActivityForResult(intent, REQUEST_IMAGE);
+                ContextUtil.chooseImage(this, false, 1, 0, REQUEST_IMAGE);
                 break;
+
             case R.id.back_btn:
                 finish();
                 break;

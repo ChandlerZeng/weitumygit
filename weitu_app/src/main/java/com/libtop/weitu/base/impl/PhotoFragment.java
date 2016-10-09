@@ -13,33 +13,8 @@ import com.libtop.weitu.utils.SdCardUtil;
  */
 public abstract class PhotoFragment extends BaseFragment
 {
-    protected static final int REQUEST_CODE_CAMERA = 0x0001;
-    protected static final int REQUEST_CODE_PHOTO = 0x0002;
     protected static final int REQUEST_CODE_PHOTO_DEAL = 0x0003;
 
-
-    /**
-     * 打开相机
-     */
-    protected void openCamera()
-    {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra("return-data", false);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(SdCardUtil.TEMP));
-        mContext.startActivityForResult(intent, REQUEST_CODE_CAMERA);
-    }
-
-
-    /**
-     * 打开照片选择
-     */
-    protected void pickUpPhoto()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        mContext.startActivityForResult(intent, REQUEST_CODE_PHOTO);
-    }
 
 
     /*
