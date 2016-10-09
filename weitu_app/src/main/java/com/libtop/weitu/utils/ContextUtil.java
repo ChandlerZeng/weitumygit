@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 
 import com.google.gson.Gson;
 import com.libtop.weitu.activity.ContentActivity;
@@ -49,6 +52,37 @@ public class ContextUtil
         intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, showCamera);
         intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, selectCount);
         intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, selectMode);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
+
+    /**
+     * 对uri对应的图片文件进行裁剪
+     *
+     * @param activity
+     * @param inputUri    输入文件Uri(图片文件来源于该uri)
+     * @param outputUri   输出文件Uri(裁剪结果也写入到该uri)
+     * @param aspectX     X方向上的比例
+     * @param aspectY     Y方向上的比例
+     * @param outputX     裁剪区的宽
+     * @param outputY     裁剪区的高
+     * @param requestCode 是否将数据保留在Bitmap中返回
+     * @param requestCode
+     */
+    public static void cropImage(Activity activity, Uri inputUri, Uri outputUri, int aspectX, int aspectY, int outputX, int outputY, int requestCode)
+    {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(inputUri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", aspectX);
+        intent.putExtra("aspectY", aspectY);
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);
         activity.startActivityForResult(intent, requestCode);
     }
 

@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.main.LibraryFragment;
-import com.libtop.weitu.base.impl.PhotoFragment;
+import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
@@ -45,9 +45,10 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/1/11 0011.
  */
-public class UserInfoFragment extends PhotoFragment
+public class UserInfoFragment extends BaseFragment
 {
     private static final int REQUEST_CODE_CHOOSE_IMAGE = 0;
+    private static final int REQUEST_CODE_CROP_IMAGE = 1;
 
     @Bind(R.id.sex_value)
     TextView mSexText;
@@ -204,11 +205,11 @@ public class UserInfoFragment extends PhotoFragment
         switch (request)
         {
             case REQUEST_CODE_CHOOSE_IMAGE:
-                String a = "file:///" + data.getStringExtra("lamge");
-                cropPhoto(Uri.parse(a));
+                String path = "file:///" + data.getStringExtra("lamge");
+                ContextUtil.cropImage(mContext, Uri.parse(path), Uri.parse(SdCardUtil.TEMP), 1, 1, 60, 60, REQUEST_CODE_CROP_IMAGE);
                 break;
 
-            case REQUEST_CODE_PHOTO_DEAL:
+            case REQUEST_CODE_CROP_IMAGE:
                 mBitmap = ClippingPicture.resizeBitmap(Uri.parse(SdCardUtil.TEMP).getPath(), 60, 60);
                 if (mBitmap == null)
                 {
