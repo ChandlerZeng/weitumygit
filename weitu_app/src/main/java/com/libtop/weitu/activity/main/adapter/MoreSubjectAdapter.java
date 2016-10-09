@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.SubjectBean;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.view.GridViewForScrollView;
@@ -30,14 +31,13 @@ public class MoreSubjectAdapter extends CommonAdapter<SubjectBean>
     private PagingGridView pagingGridView;
     private Context context;
 
-    public MoreSubjectAdapter(Context context, List<SubjectBean> datas, GridViewForScrollView gridViewForScrollView) {
-        super(context, R.layout.item_fragment_subject, datas);
-        this.gridViewForScrollView = gridViewForScrollView;
+    public MoreSubjectAdapter(Context context, List<SubjectBean> datas) {
+        super(context, R.layout.item_main_fragment_subject, datas);
         this.context = context;
     }
 
     public MoreSubjectAdapter(Context context, List<SubjectBean> datas,PagingGridView pagingGridView) {
-        super(context, R.layout.item_fragment_subject, datas);
+        super(context, R.layout.item_main_fragment_subject, datas);
         this.pagingGridView = pagingGridView;
         this.context = context;
     }
@@ -47,7 +47,7 @@ public class MoreSubjectAdapter extends CommonAdapter<SubjectBean>
         ImageView imageView = helper.getView(R.id.img_item_subject);
 //        setImageScale(imageView);
         ImageView imageNew = helper.getView(R.id.img_item_subject_new);
-        Picasso.with(context).load(object.getCover()).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(imageView);
+        Picasso.with(context).load(object.getCover()).placeholder(ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG).error(ImageLoaderUtil.RESOURCE_ID_IMAGE_BIG).centerInside().fit().into(imageView);
         helper.setText(R.id.tv_item_subject, object.getTitle());
         if(object.getResourceUpdateCount()==0){
             imageNew.setVisibility(View.GONE);
