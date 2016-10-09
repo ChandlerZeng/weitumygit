@@ -11,11 +11,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.NetworkUtil;
 import com.libtop.weitu.widget.dialog.TranLoading;
 import com.libtop.weitu.widget.msg.AppMsg;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -50,6 +51,22 @@ public class BaseActivity extends FragmentActivity
         mLoading = new TranLoading(mContext);
 
         mFm = getSupportFragmentManager();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        MobclickAgent.onResume(this); // 用于umeng统计分析
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        MobclickAgent.onPause(this); // 用于umeng统计分析
     }
 
 

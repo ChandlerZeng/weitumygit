@@ -29,7 +29,7 @@ import com.libtop.weitu.activity.main.dto.VideoFolderBean;
 import com.libtop.weitu.activity.main.upload.UploadFileActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 

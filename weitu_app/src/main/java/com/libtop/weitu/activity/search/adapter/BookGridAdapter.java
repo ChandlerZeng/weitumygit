@@ -9,7 +9,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.base.impl.ImgAdapter;
 import com.libtop.weitu.utils.ContantsUtil;
-import com.squareup.picasso.Picasso;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class BookGridAdapter extends ImgAdapter
         BookDto dto = (BookDto) itemObject;
         holder.name.setText(dto.title);
         holder.content.setText(dto.author);
-        Picasso.with(mContext).load(ContantsUtil.IMG_BASE + dto.cover).into(holder.icon);
+        ImageLoaderUtil.loadImage(mContext, holder.icon, ContantsUtil.IMG_BASE + dto.cover);
     }
 
 

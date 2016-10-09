@@ -31,11 +31,10 @@ import com.libtop.weitu.activity.RootStub;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.base.impl.NotifyFragment;
 import com.libtop.weitu.dao.SearchBo;
-import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonParser;
-import com.umeng.analytics.MobclickAgent;
+import com.libtop.weitu.utils.Preference;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -43,7 +42,6 @@ import butterknife.OnClick;
 
 public class SearchActivity extends BaseActivity implements RootStub
 {
-
     public static boolean inSearch = false;
 
     @Bind(R.id.edit)
@@ -68,7 +66,6 @@ public class SearchActivity extends BaseActivity implements RootStub
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.fragment_search_layout);
-        MobclickAgent.onEvent(mContext, "_search");
 
         mBo = new SearchBo(mContext);
         mImm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -91,6 +88,20 @@ public class SearchActivity extends BaseActivity implements RootStub
             }
         });
         init();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

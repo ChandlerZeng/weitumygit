@@ -16,7 +16,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CategoryPickerHelper;
 import com.libtop.weitu.utils.ClippingPicture;
 import com.libtop.weitu.utils.ImageLoaderUtil;
@@ -34,8 +34,6 @@ import okhttp3.Call;
 
 public class NewSubjectActivity extends BaseActivity
 {
-
-
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.img_cover)
@@ -68,6 +66,21 @@ public class NewSubjectActivity extends BaseActivity
         initView();
         initData();
     }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
 
     private void initData()
     {

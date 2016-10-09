@@ -13,7 +13,7 @@ import com.libtop.weitu.activity.main.dto.SubjectDetailBean;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -33,7 +33,6 @@ import static com.libtop.weitu.activity.main.SubjectDetailActivity.isFollow;
  */
 public class SubjectInfoActivity extends BaseActivity
 {
-
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.img_subject_info)
@@ -57,6 +56,20 @@ public class SubjectInfoActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_main_subject_info);
         initView();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

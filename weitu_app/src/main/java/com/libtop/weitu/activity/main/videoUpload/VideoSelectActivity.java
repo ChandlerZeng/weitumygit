@@ -20,8 +20,8 @@ import com.libtop.weitu.activity.main.dto.VideoFolderBean;
 import com.libtop.weitu.activity.main.upload.UploadFileActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
 import com.libtop.weitu.utils.DisplayUtil;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.view.XListView;
@@ -92,6 +92,20 @@ public class VideoSelectActivity extends BaseActivity implements VideoListAdapte
             }
         });
         mCurPage = 1;
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

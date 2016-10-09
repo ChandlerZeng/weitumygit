@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import com.libtop.weitu.application.AppApplication;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -15,6 +16,22 @@ import com.libtop.weitu.application.AppApplication;
  */
 public class MyBaseFragmentActivity extends FragmentActivity
 {
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        MobclickAgent.onResume(this); // 用于umeng统计分析
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        MobclickAgent.onPause(this); // 用于umeng统计分析
+    }
+
+
     protected FragmentActivity getThis()
     {
         return this;

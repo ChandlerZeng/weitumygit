@@ -5,6 +5,7 @@ import android.support.annotation.IdRes;
 import android.view.View;
 
 import com.libtop.weitu.application.AppApplication;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -15,6 +16,22 @@ import com.libtop.weitu.application.AppApplication;
  */
 public class MyBaseActivity extends Activity
 {
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        MobclickAgent.onResume(this); // 用于umeng统计分析
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        MobclickAgent.onPause(this); // 用于umeng统计分析
+    }
+
+
     protected Activity getThis()
     {
         return this;

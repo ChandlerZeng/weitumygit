@@ -1,11 +1,7 @@
 package com.libtop.weitu.activity.comment;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -37,19 +33,18 @@ import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.view.ListViewForScrollView;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -137,6 +132,21 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         ButterKnife.bind(this);
         initView();
     }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
 
     @Override
     public void onDestroy()
@@ -291,7 +301,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             if (data.comment.logo != null) {
                 urlLogo = data.comment.logo;
             }
-            Picasso.with(mContext).load(urlLogo).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imgHead);
+            ImageLoaderUtil.loadLogoImage(mContext, imgHead, urlLogo);
             if (data.praised == 0) {
                 likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
                 MY_PRAISE = 0;
@@ -303,7 +313,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             }
 
             if(data.comment.getTitle()!=null){
-//                            Picasso.with(mContext).load(data.comment.resource.cover).error(R.drawable.default_error).placeholder(R.drawable.default_error).fit().centerCrop().into(resourceFileImage);
+//                            Picasso.with(mCoclearntext).load(data.comment.resource.cover).error(R.drawable.default_error).placeholder(R.drawable.default_error).fit().centerCrop().into(resourceFileImage);
                 commentFileTitle.setText(data.comment.getTitle());
                 commentFileAuthor.setText("上传："+data.comment.getUsername());
             }
@@ -481,40 +491,6 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     }
 
 
-    private class CircleTransform implements Transformation {
-        @Override
-        public Bitmap transform(Bitmap source) {
-            int size = Math.min(source.getWidth(), source.getHeight());
-
-            int x = (source.getWidth() - size) / 2;
-            int y = (source.getHeight() - size) / 2;
-
-            Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-            if (squaredBitmap != source) {
-                source.recycle();
-            }
-
-            Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
-
-            Canvas canvas = new Canvas(bitmap);
-            Paint paint = new Paint();
-            BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
-            paint.setShader(shader);
-            paint.setAntiAlias(true);
-
-            float r = size / 2f;
-            canvas.drawCircle(r, r, r, paint);
-
-            squaredBitmap.recycle();
-            return bitmap;
-        }
-
-        @Override
-        public String key() {
-            return "circle";
-        }
-    }
-
     private void likeClicked(){
         Map<String,Object> map = new HashMap<>();
         map.put("cid",cid);
@@ -588,7 +564,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             if(object.logo!=null){
                 logoUrl = object.logo;
             }
-            Picasso.with(mContext).load(logoUrl).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imageHead);
+            ImageLoaderUtil.loadImage(mContext, imageHead, logoUrl);
         }
         public void setData(List<PraisedUsersBean> userBeans){
             this.datas = userBeans;
@@ -609,7 +585,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             if(object.user.avatar!=null){
                 logoUrl = object.user.avatar;
             }
-            Picasso.with(mContext).load(logoUrl).transform(new CircleTransform()).error(R.drawable.head_image).placeholder(R.drawable.head_image).fit().centerCrop().into(imageHead);
+            ImageLoaderUtil.loadLogoImage(mContext, imageHead, logoUrl);
             String user_name = object.username;
             String reply_user_name;
             String reply;

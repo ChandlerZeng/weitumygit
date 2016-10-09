@@ -15,9 +15,7 @@ import butterknife.Bind;
 
 
 public class PdfActivity extends BaseActivity implements OnPageChangeListener
-
 {
-
     @Bind(R.id.pdfView)
     PDFView pdfView;
     @Bind(R.id.page)
@@ -31,6 +29,20 @@ public class PdfActivity extends BaseActivity implements OnPageChangeListener
         setInjectContentView(R.layout.activity_pdf_layout);
         noNetThanExit(mContext);
         initActivity();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

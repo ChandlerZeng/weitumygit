@@ -26,7 +26,7 @@ import com.libtop.weitu.activity.main.videoUpload.VideaState;
 import com.libtop.weitu.activity.source.PdfActivity;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.StringUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
@@ -93,6 +93,20 @@ public class DocUploadActivity extends BaseActivity implements UploadDocAdapter.
         setInjectContentView(R.layout.activity_doc_upload);
         initView();
         getUploadUrl();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

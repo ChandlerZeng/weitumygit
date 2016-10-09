@@ -13,7 +13,7 @@ import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.adapter.SortAdapter;
 import com.libtop.weitu.activity.main.dto.SchoolDto;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.widget.slidebar.SideBar;
 

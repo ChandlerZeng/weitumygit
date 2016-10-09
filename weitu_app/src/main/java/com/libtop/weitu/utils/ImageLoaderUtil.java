@@ -25,7 +25,7 @@ public class ImageLoaderUtil
      */
     public static final int RESOURCE_ID_IMAGE_BIG = R.drawable.bg_new_subject;
 
-    private static final int RESOURCE_ID_USER_LOGO = R.drawable.user_default_icon;  // logo默认占位图资源ID
+    private static final int RESOURCE_ID_USER_LOGO = R.drawable.head_image;  // logo默认占位图资源ID
     private static final int RESOURCE_ID_IMAGE_DEFAULT = R.drawable.default_image;  // 普通图片默认占位图资源ID
     private static final float ROUND_SIZE_DEFAULT = 5;
 
@@ -34,7 +34,7 @@ public class ImageLoaderUtil
     public static void loadLogoImage(Context context, ImageView imageView, String url)
     {
         Transformation transformation = new CropCircleTransformation();
-        loadImage(context, imageView, url, RESOURCE_ID_USER_LOGO, transformation, false);
+        build(context, url, RESOURCE_ID_USER_LOGO).transform(transformation).centerCrop().fit().into(imageView);
     }
 
 
@@ -42,62 +42,42 @@ public class ImageLoaderUtil
     public static void loadRoundImage(Context context, ImageView imageView, int resId)
     {
         Transformation transformation = getDefaultRoundedCornersTransformation(context);
-        loadImage(context, imageView, resId, transformation);
+        Picasso.with(context).load(resId).transform(transformation).fit().into(imageView);
     }
 
 
-    // 加载图片(圆角效果)
+    // 加载图片(圆角效果, centerInside)
     public static void loadRoundImage(Context context, ImageView imageView, String url, int defaultResId)
     {
         Transformation transformation = getDefaultRoundedCornersTransformation(context);
-        loadImage(context, imageView, url, defaultResId, transformation, true);
+        build(context, url, defaultResId).transform(transformation).centerInside().fit().into(imageView);
     }
 
 
-    // 加载图片(默认效果)
+    // 加载图片(centerInside)
     public static void loadImage(Context context, ImageView imageView, String url)
     {
-        loadImage(context, imageView, url, RESOURCE_ID_IMAGE_DEFAULT, null, true);
+        loadImage(context, imageView, url, RESOURCE_ID_IMAGE_DEFAULT);
     }
 
 
-    // 加载图片(默认效果)
+    // 加载图片(centerInside)
     public static void loadImage(Context context, ImageView imageView, String url, int defaultResId)
     {
-        loadImage(context, imageView, url, defaultResId, null, true);
+        build(context, url, defaultResId).centerInside().fit().into(imageView);
     }
 
 
-    // 加载本地资源图片
-    private static void loadImage(Context context, ImageView imageView, int resId, Transformation transformation)
+    public static RequestCreator build(Context context, String url)
     {
-        RequestCreator requestCreator = Picasso.with(context).load(resId).fit();
-
-        if (transformation != null)
-        {
-            requestCreator.transform(transformation);
-        }
-
-        requestCreator.into(imageView);
+        return build(context, url, RESOURCE_ID_IMAGE_DEFAULT);
     }
 
 
-    // 加载图片
-    private static void loadImage(Context context, ImageView imageView, String url, int defaultResId, Transformation transformation, boolean shouldCenterInside)
+    public static RequestCreator build(Context context, String url, int defaultResId)
     {
-        String notEmptyUrl = StringUtil.getCoverUrl(url);
-        RequestCreator requestCreator = Picasso.with(context).load(notEmptyUrl).placeholder(defaultResId).error(defaultResId).fit();
-
-        if (transformation != null)
-        {
-            requestCreator.transform(transformation);
-        }
-        if (shouldCenterInside)
-        {
-            requestCreator.centerInside();
-        }
-
-        requestCreator.into(imageView);
+        String notEmptyUrl = StringUtil.getNotEmptyUrl(url);
+        return Picasso.with(context).load(notEmptyUrl).placeholder(defaultResId).error(defaultResId).fit();
     }
 
 

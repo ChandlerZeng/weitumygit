@@ -73,6 +73,20 @@ public class VideoPlayActivity extends BaseActivity implements MediaPlayer.OnCom
     }
 
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
+
     private void setOrientation(boolean isVertical)
     {
         this.isVertical = isVertical;

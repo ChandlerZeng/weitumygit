@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.utils.DisplayUtil;
-import com.squareup.picasso.Picasso;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +88,7 @@ public class DynamicCardAdapter extends RecyclerView.Adapter<DynamicCardViewHold
         {
             url = "http://";
         }
-        Picasso.with(context).load(url).error(R.drawable.default_image).placeholder(R.drawable.default_image).fit().centerCrop().into(holder.imgPhoto);
+        ImageLoaderUtil.build(context, url).centerCrop().into(holder.imgPhoto);
         if (mListener != null)
         {//如果设置了监听那么它就不为空，然后回调相应的方法
             holder.itemView.setOnClickListener(new View.OnClickListener()

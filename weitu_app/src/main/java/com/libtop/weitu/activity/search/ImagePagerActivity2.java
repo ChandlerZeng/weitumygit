@@ -30,9 +30,10 @@ import com.libtop.weitu.activity.search.dto.CommentNeedDto;
 import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.NetworkUtil;
 import com.libtop.weitu.utils.ShareSdkUtil;
 import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
@@ -185,7 +186,7 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         imgHead = (ImageView) findViewById(R.id.img_head);
         imgTitle = (TextView) findViewById(R.id.title_img);
         titlePlay = (TextView) findViewById(R.id.tv_play_time);
-        bindData(cover, imgHead);
+        ImageLoaderUtil.build(this, cover).tag(MultiImageSelectorFragment.TAG).fit().centerCrop().into(imgHead);
         imgTitle.setText(uploadUsername);
         String str = "";
         if (categoriesName1 != null && !categoriesName1.equals("null"))
@@ -649,17 +650,4 @@ public class ImagePagerActivity2 extends FragmentActivity implements View.OnClic
         startActivityForResult(intent, requestCode);
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
     }
-
-
-    void bindData(String url, ImageView image)
-    {
-
-        if (url == null || url.length() == 0)
-        {
-            return;
-        }
-        Picasso.with(this).load(url).placeholder(R.drawable.default_image).tag(MultiImageSelectorFragment.TAG).fit().centerCrop().into(image);
-
-    }
-
 }

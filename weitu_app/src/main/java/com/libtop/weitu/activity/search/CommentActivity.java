@@ -32,7 +32,7 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JSONUtil;
@@ -111,6 +111,21 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         EventBus.getDefault().register(this);
         initView();
     }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+    }
+
 
     private void initView(){
         String json = getIntent().getStringExtra("CommentNeedDto");

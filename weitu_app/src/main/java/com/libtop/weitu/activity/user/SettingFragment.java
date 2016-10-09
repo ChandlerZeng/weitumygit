@@ -10,9 +10,11 @@ import com.libtop.weitu.BuildConfig;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
+import com.libtop.weitu.application.AppApplication;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.service.WTPushService;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CacheUtil;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.FileUtils;
@@ -146,6 +148,9 @@ public class SettingFragment extends BaseFragment
             @Override
             public void onResponse(String response, int id)
             {
+                // 反注册推送别名
+                WTPushService.unregisterPushService(AppApplication.getInstance());
+
                 dismissLoading();
                 mPreference.remove(Preference.uid);
                 mPreference.remove(Preference.UserName);

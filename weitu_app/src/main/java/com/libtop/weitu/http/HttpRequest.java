@@ -3,7 +3,7 @@ package com.libtop.weitu.http;
 import android.content.Context;
 
 import com.libtop.weitu.application.AppApplication;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.AESUtils;
 import com.libtop.weitu.utils.ArrayUtils;
 import com.libtop.weitu.utils.CheckUtil;

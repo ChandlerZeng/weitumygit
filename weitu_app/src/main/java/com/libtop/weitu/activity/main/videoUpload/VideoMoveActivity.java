@@ -18,7 +18,7 @@ import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.main.adapter.VideoListAdapter;
 import com.libtop.weitu.activity.main.dto.VideoFolderBean;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.widget.dialog.TranLoading;
 import com.zhy.http.okhttp.callback.StringCallback;
 

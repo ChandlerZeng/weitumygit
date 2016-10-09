@@ -18,7 +18,7 @@ import com.libtop.weitu.activity.search.dto.ImageAlbumBean;
 import com.libtop.weitu.activity.search.dto.ImageListBean;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.NetworkUtil;
@@ -81,6 +81,20 @@ public class DynamicCardActivity extends BaseActivity
         id = mBundle.getString("id");
         type = mBundle.getString("type");
         init();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/my_layout_style_common">
 
-    <com.paging.listview.PagingListView
-        android:id="@+id/fragment_notice_school_view_paginglistview"
+    <ListView
+        android:id="@+id/fragment_notice_school_view_listview"
         style="@style/my_listview_style_default"/>
 
     <include layout="@layout/content_layout_network_loading"/>

@@ -15,7 +15,7 @@ import com.libtop.weitu.activity.comment.CommentDetailActivity;
 import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
@@ -67,6 +67,20 @@ public class MyLikeActivity extends BaseActivity
         isFromMyPraised = getIntent().getBooleanExtra("isFromMyPraised",false);
         initView();
         reqestData(true);
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 
@@ -193,7 +207,7 @@ public class MyLikeActivity extends BaseActivity
                     ContextUtil.openResourceByType(mContext,commentDto.type, commentDto.getTid());
                 }
             });
-            ImageLoaderUtil.loadLogoImage(mContext,headCover,commentDto.getLogo());
+            ImageLoaderUtil.loadLogoImage(mContext, headCover, commentDto.getLogo());
             ImageLoaderUtil.loadImage(context,photoCover,commentDto.getLogo());
 
             helper.setText(R.id.tv_my_like_name,commentDto.getUsername());
