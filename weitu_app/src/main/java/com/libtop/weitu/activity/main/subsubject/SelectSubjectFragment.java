@@ -21,7 +21,7 @@ import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;

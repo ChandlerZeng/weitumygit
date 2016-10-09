@@ -22,7 +22,7 @@ import com.libtop.weitu.activity.main.LibraryFragment;
 import com.libtop.weitu.activity.main.MyLikeActivity;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
 import com.libtop.weitu.base.BaseFragment;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.selector.view.ImageSelectActivity;
@@ -174,7 +174,7 @@ public class UserCenterFragment extends BaseFragment
         {
             mUserText.setText("点击登录");
 
-            mIconImg.setImageResource(R.drawable.user_default_icon);
+            mIconImg.setImageResource(R.drawable.head_image);
         }
         else
         {

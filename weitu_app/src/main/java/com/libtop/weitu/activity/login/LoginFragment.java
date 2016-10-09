@@ -11,10 +11,11 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.main.MainActivity;
-import com.libtop.weitu.activity.search.CommentActivity;
+import com.libtop.weitu.application.AppApplication;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.service.WTPushService;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 
 import org.json.JSONException;
@@ -156,9 +157,11 @@ public class LoginFragment extends BaseFragment
                     JSONObject json = new JSONObject(jsonStr);
                     if (json.getInt("code") == 1)
                     {
+                        String uid = json.getString("uid");
+
                         // 临时存放
                         mPreference.putString(Preference.UserName, json.getString("username"));
-                        mPreference.putString(Preference.uid, json.getString("uid"));
+                        mPreference.putString(Preference.uid, uid);
                         mPreference.putString(Preference.sex, json.getString("sex"));
                         mPreference.putString(Preference.phone, mobile + "");
 
@@ -178,6 +181,9 @@ public class LoginFragment extends BaseFragment
                             mContext.setResult(Activity.RESULT_OK);
                             mContext.finish();
                         }
+
+                        // 注册推送别名
+                        WTPushService.registerPushService(AppApplication.getInstance(), uid);
                     }
                     else
                     {

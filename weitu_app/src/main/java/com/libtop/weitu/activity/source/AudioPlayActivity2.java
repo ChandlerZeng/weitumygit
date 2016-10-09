@@ -37,12 +37,12 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.NetworkUtil;
 import com.libtop.weitu.utils.ShareSdkUtil;
-import com.squareup.picasso.Picasso;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -223,8 +223,22 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        loadIndex();
 
+        loadIndex();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 
@@ -546,7 +560,7 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     {
         if (!TextUtils.isEmpty(mediaAlbumBean.cover))
         {
-            Picasso.with(mContext).load(mediaAlbumBean.cover).into(imgAudio);
+            ImageLoaderUtil.loadImage(mContext, imgAudio, mediaAlbumBean.cover);
         }
         String title = mediaAlbumBean.title;
         titleName1 = title;

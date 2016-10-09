@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.selector.MultiImageSelectorFragment;
 import com.libtop.weitu.widget.TagGroup;
 import com.libtop.weitu.widget.dialog.TranLoading;
@@ -156,7 +156,7 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
         mGridWidth = width - 20;
         if (imageUrl != null && imageUrl.length() != 0)
         {
-            Picasso.with(ImageCoverActivity.this).load(imageUrl).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(imgCover);
+            Picasso.with(this).load(imageUrl).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(imgCover);
         }
 
         findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener()
@@ -239,7 +239,7 @@ public class ImageCoverActivity extends Activity implements View.OnClickListener
                 String id = bb.getString("id");
                 if (!TextUtils.isEmpty(a))
                 {
-                    Picasso.with(ImageCoverActivity.this).load(a).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(imgCover);
+                    Picasso.with(this).load(a).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth, mGridWidth).centerCrop().into(imgCover);
                 }
                 Map<String, Object> params = new HashMap<String, Object>();
                 params.put("id", id);

@@ -1,4 +1,4 @@
-package com.libtop.weitu.tool;
+package com.libtop.weitu.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -34,6 +34,11 @@ public class Preference
     public static final String KEYWORD_SEARCH = "search_keyword";
     public static final String KEYWORD_CATECODE = "catecode_keyword";
 
+    /**
+     * 持久化数据键名, 动态消息提醒
+     */
+    public static final String MESSAGE_DYNAMIC_NOTICE = "message_dynamic_notice";
+
 
     public static Preference instance(Context context)
     {
@@ -51,30 +56,6 @@ public class Preference
     }
 
 
-    public void putBoolean(String key, boolean value)
-    {
-        spf.edit().putBoolean(key, value).commit();
-    }
-
-
-    public boolean getBoolean(String key)
-    {
-        return spf.getBoolean(key, false);
-    }
-
-
-    public void putString(String key, String value)
-    {
-        spf.edit().putString(key, value).commit();
-    }
-
-
-    public String getString(String key)
-    {
-        return spf.getString(key, "");
-    }
-
-
     public void putInt(String key, int value)
     {
         spf.edit().putInt(key, value).commit();
@@ -87,27 +68,63 @@ public class Preference
     }
 
 
-    public int getInt(String key)
+    public void putBoolean(String key, boolean value)
     {
-        return spf.getInt(key, 0);
+        spf.edit().putBoolean(key, value).commit();
     }
 
 
-    public int getInt(String key, int defaultValue)
+    public void putString(String key, String value)
     {
-        return spf.getInt(key, defaultValue);
+        spf.edit().putString(key, value).commit();
+    }
+
+
+    public int getInt(String key)
+    {
+        return getInt(key, 0);
+    }
+
+
+    public int getInt(String key, int defValue)
+    {
+        return spf.getInt(key, defValue);
     }
 
 
     public long getLong(String key)
     {
-        return spf.getLong(key, 0);
+        return getLong(key, 0);
     }
 
 
     public long getLong(String key, long def)
     {
         return spf.getLong(key, def);
+    }
+
+
+    public boolean getBoolean(String key)
+    {
+        return getBoolean(key, false);
+    }
+
+
+    public boolean getBoolean(String key, boolean defValue)
+    {
+        return spf.getBoolean(key, defValue);
+    }
+
+
+    public String getString(String key)
+    {
+        return getString(key, "");
+    }
+
+
+    public String getString(String key, String defValue)
+    {
+        return spf.getString(key, defValue);
     }
 
 
@@ -121,11 +138,4 @@ public class Preference
     {
         spf.edit().remove(key).commit();
     }
-
-
-    public void commit()
-    {
-        spf.edit().commit();
-    }
-
 }

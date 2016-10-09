@@ -26,7 +26,7 @@ import com.libtop.weitu.activity.main.videoUpload.VideoMoveActivity;
 import com.libtop.weitu.activity.main.videoUpload.VideoPlayActivity3;
 import com.libtop.weitu.activity.main.videoUpload.VideoUploadFragment;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;

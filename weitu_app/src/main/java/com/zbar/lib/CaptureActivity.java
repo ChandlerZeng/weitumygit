@@ -49,7 +49,7 @@ import com.libtop.weitu.activity.search.BookDetailFragment;
 import com.libtop.weitu.activity.search.dto.BookDto;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.IsbnUtils;
 import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;

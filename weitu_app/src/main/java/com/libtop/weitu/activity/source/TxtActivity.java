@@ -18,7 +18,6 @@ import butterknife.Bind;
 
 public class TxtActivity extends BaseActivity
 {
-
     @Bind(R.id.webview)
     TextView textView;
 
@@ -29,6 +28,20 @@ public class TxtActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_txt_layout);
         initActivity();
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 

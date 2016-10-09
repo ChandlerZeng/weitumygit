@@ -26,7 +26,7 @@ import com.libtop.weitu.activity.main.videoUpload.VideoAuthorityFragment;
 import com.libtop.weitu.activity.main.videoUpload.VideoSortFragment;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.widget.TagGroup;
 import com.zhy.http.okhttp.callback.StringCallback;
 

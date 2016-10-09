@@ -45,7 +45,7 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DisplayUtil;
@@ -186,6 +186,20 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         String result = getIntent().getExtras().getString("resultBean");
         searchResult = new Gson().fromJson(result, SearchResult.class);
         loadIndex(0);
+    }
+
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
     }
 
 
@@ -972,14 +986,6 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
             container.removeView(mPagers.get(position));
         }
     };
-
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Log.e("test draw time end", System.currentTimeMillis() + "");
-    }
 
 
     private void loadIndex(final int position)

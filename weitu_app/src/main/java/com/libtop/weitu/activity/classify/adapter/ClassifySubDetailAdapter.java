@@ -11,8 +11,8 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class ClassifySubDetailAdapter extends BaseAdapter
 //        helper.setText(R.id.subject_file_member, "关注：" + collectBean.target.get.count_follow);
 
         ImageView coverIv = helper.getView(R.id.subject_file_image);
-        Picasso.with(context).load(collectBean.target.getCover()).error(R.drawable.default_image).placeholder(R.drawable.default_image).fit().into(coverIv);
+        ImageLoaderUtil.loadImage(context, coverIv, collectBean.target.getCover());
 
         return helper.getConvertView();
     }
@@ -107,7 +107,7 @@ public class ClassifySubDetailAdapter extends BaseAdapter
         }
         helper.setText(R.id.subject_file_title, collectBean.target.getTitle());
         ImageView coverIv = helper.getView(R.id.subject_file_image);
-        Picasso.with(context).load(collectBean.target.getCover()).error(R.drawable.default_image).placeholder(R.drawable.default_image).fit().centerInside().into(coverIv);
+        ImageLoaderUtil.build(context, collectBean.target.getCover()).centerInside().into(coverIv);
 
         return helper.getConvertView();
     }

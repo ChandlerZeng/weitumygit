@@ -1,5 +1,6 @@
 package com.libtop.weitu.utils;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
 import com.libtop.weitu.activity.source.AudioPlayActivity2;
 import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.base.BaseActivity;
-import com.libtop.weitu.tool.Preference;
 
 
 /**
@@ -177,7 +177,19 @@ public class ContextUtil
         context.startActivity(intent);
     }
 
+
+    // 注销广播接收器
+    public static void unregisterReceiver(Context context, BroadcastReceiver receiver)
+    {
+        if (context != null && receiver != null)
+        {
+            context.unregisterReceiver(receiver);
+        }
+    }
+
+
     public static int getResourceType(ResourceBean resourceBean){
+
         if(resourceBean.getEntityType().equals("audio-album")){
             return AUDIO;
         }else if(resourceBean.getEntityType().equals("video-album")){

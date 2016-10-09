@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.VideoBean;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.tool.Preference;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.selector.adapter.UploadAdapter2;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;

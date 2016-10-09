@@ -14,7 +14,7 @@ import com.libtop.weitu.activity.search.AllFragment;
 import com.libtop.weitu.activity.search.dto.AllDto;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DateUtil;
-import com.squareup.picasso.Picasso;
+import com.libtop.weitu.utils.ImageLoaderUtil;
 
 import java.util.List;
 
@@ -117,7 +117,7 @@ public class AllListAdapter extends BaseAdapter
                     holder = (viewHolder1) convertView.getTag();
                 }
 
-                Picasso.with(context).load(allDto.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                ImageLoaderUtil.build(context, allDto.cover).centerInside().into(holder.imageView);
                 holder.tvTitle.setText(allDto.title);
 
                 if (!TextUtils.isEmpty(allDto.introduction))
@@ -158,7 +158,7 @@ public class AllListAdapter extends BaseAdapter
                     holder = (viewHolder2) convertView.getTag();
                 }
 
-                Picasso.with(context).load(ContantsUtil.IMG_BASE + allDto.cover).placeholder(R.drawable.default_image).error(R.drawable.default_image).centerInside().fit().into(holder.imageView);
+                ImageLoaderUtil.build(context, ContantsUtil.IMG_BASE + allDto.cover).centerInside().into(holder.imageView);
                 holder.tvTitle.setText(allDto.title);
 
                 if (!TextUtils.isEmpty(allDto.introduction))
@@ -206,7 +206,7 @@ public class AllListAdapter extends BaseAdapter
                     holder = (viewHolder3) convertView.getTag();
                 }
 
-                Picasso.with(context).load(allDto.cover).placeholder(R.drawable.pdf).error(R.drawable.pdf).centerInside().fit().into(holder.imageView);
+                ImageLoaderUtil.build(context, allDto.cover, R.drawable.pdf).centerInside().into(holder.imageView);
                 holder.tvTitle.setText(allDto.title);
                 if (!TextUtils.isEmpty(allDto.uploadUsername))
                 {

@@ -78,8 +78,11 @@ public class VideoListAdapter2 extends BaseAdapter<VideoFolderBean>
 
             }
         });
-        bindData(videoFolderBean.cover, holder.imgFolder);
 
+        if (!TextUtils.isEmpty(videoFolderBean.cover))
+        {
+            Picasso.with(mContext).load(videoFolderBean.cover).placeholder(R.drawable.folder_green).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth + 20, mGridWidth).centerCrop().into(holder.imgFolder);
+        }
     }
 
 
@@ -94,14 +97,5 @@ public class VideoListAdapter2 extends BaseAdapter<VideoFolderBean>
     public interface OnOptionImgClickListener
     {
         void onOptionImgTouch(View v, int position);
-    }
-
-
-    void bindData(String url, ImageView image)
-    {
-        if (!TextUtils.isEmpty(url))
-        {
-            Picasso.with(mContext).load(url).placeholder(R.drawable.folder_green).tag(MultiImageSelectorFragment.TAG).resize(mGridWidth + 20, mGridWidth).centerCrop().into(image);
-        }
     }
 }

@@ -78,8 +78,12 @@ public class VideoListAdapter extends BaseAdapter<VideoFolderBean>
 
             }
         });
-        bindData(videoFolderBean.cover, holder.imgFolder);
 
+        if (!TextUtils.isEmpty(videoFolderBean.cover))
+        {
+            Picasso.with(mContext).invalidate(videoFolderBean.cover);
+            Picasso.with(mContext).load(videoFolderBean.cover).placeholder(R.drawable.video_cover).error(R.drawable.video_cover).tag(MultiImageSelectorFragment.TAG).networkPolicy(NetworkPolicy.NO_CACHE).resize(mGridWidth + 20, mGridWidth).centerCrop().into(holder.imgFolder);
+        }
     }
 
 
@@ -95,16 +99,4 @@ public class VideoListAdapter extends BaseAdapter<VideoFolderBean>
     {
         void onOptionImgTouch(View v, int position);
     }
-
-
-    void bindData(String url, ImageView image)
-    {
-
-        Picasso.with(mContext).invalidate(url);
-        if (!TextUtils.isEmpty(url))
-        {
-            Picasso.with(mContext).load(url).error(R.drawable.video_cover).placeholder(R.drawable.video_cover).tag(MultiImageSelectorFragment.TAG).networkPolicy(NetworkPolicy.NO_CACHE).resize(mGridWidth + 20, mGridWidth).centerCrop().into(image);
-        }
-    }
-
 }
