@@ -10,15 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.adapter.ResourceFileAdapter;
 import com.libtop.weitu.activity.main.dto.ResourceBean;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.Resource;
-import com.libtop.weitu.test.SubjectResource;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
@@ -130,11 +126,7 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
     @OnItemClick(value = R.id.rmd_file_list)
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ResourceBean resource = resourceList.get(position-2);
-        if(resource.getEntityType().equals("book")){
-            ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getIsbn(), true);
-        }else {
-            ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getId(), true);
-        }
+        ContextUtil.openResource(mContext, resource, true);
     }
 
 

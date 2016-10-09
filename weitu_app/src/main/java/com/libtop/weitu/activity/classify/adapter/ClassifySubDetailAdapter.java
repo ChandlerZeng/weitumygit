@@ -67,7 +67,7 @@ public class ClassifySubDetailAdapter extends BaseAdapter
     {
         CollectBean result = mlist.get(position);
 
-        if (result.type == ContextUtil.SUBJECT){
+        if (result.type == ContextUtil.ENTITY_TYPE_SUBJECT){
             return getSubjectView(position, convertView, parent, result);
         }else {
             return getResourceView(position, convertView, parent, result);
@@ -92,7 +92,7 @@ public class ClassifySubDetailAdapter extends BaseAdapter
     private View getResourceView(int position,View convertView, ViewGroup parent, CollectBean collectBean)
     {
         ViewHolderHelper helper = null;
-        if(collectBean.type == ContextUtil.BOOK){
+        if(collectBean.type == ContextUtil.ENTITY_TYPE_BOOK){
             helper = ViewHolderHelper.get(context, convertView, parent, R.layout.item_list_rank_book, position);
             helper.setText(R.id.subject_file_desc, collectBean.target.getIntroduction());
             helper.setText(R.id.subject_file_author, "作者：" + collectBean.target.getUploadUsername());

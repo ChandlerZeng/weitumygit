@@ -67,7 +67,7 @@ public class ClassifyDetailAdapter extends BaseAdapter
     {
         ClassifyResultBean result = mlist.get(position);
 
-        if (result.entityType == String.valueOf(ContextUtil.SUBJECT)){
+        if (result.entityType == String.valueOf(ContextUtil.ENTITY_TYPE_SUBJECT)){
             return getSubjectView(position, convertView, parent, result);
         }else {
             return getResourceView(position, convertView, parent, result);
@@ -92,7 +92,7 @@ public class ClassifyDetailAdapter extends BaseAdapter
     private View getResourceView(int position,View convertView, ViewGroup parent, ClassifyResultBean classifyResultBean)
     {
         ViewHolderHelper helper = null;
-        if(classifyResultBean.entityType == String.valueOf(ContextUtil.BOOK)){
+        if(classifyResultBean.entityType == String.valueOf(ContextUtil.ENTITY_TYPE_BOOK)){
             helper = ViewHolderHelper.get(context, convertView, parent, R.layout.item_list_rank_book, position);
             helper.setText(R.id.subject_file_desc, classifyResultBean.introduction);
             helper.setText(R.id.subject_file_author, "作者：" + classifyResultBean.uploadUsername);

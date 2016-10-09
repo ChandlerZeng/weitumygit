@@ -33,8 +33,30 @@ import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
  */
 public class ContextUtil
 {
-    //真接口
-    public static final int VIDEO = 1, AUDIO = 2, DOC = 3, PHOTO = 4, BOOK = 5, SUBJECT = 7;
+    /**
+     * 实体类型: 视频 1
+     */
+    public static final int ENTITY_TYPE_VIDEO = 1;
+    /**
+     * 实体类型: 音频 2
+     */
+    public static final int ENTITY_TYPE_AUDIO = 2;
+    /**
+     * 实体类型: 文档 3
+     */
+    public static final int ENTITY_TYPE_DOC = 3;
+    /**
+     * 实体类型: 图片 4
+     */
+    public static final int ENTITY_TYPE_PHOTO = 4;
+    /**
+     * 实体类型: 图书 5
+     */
+    public static final int ENTITY_TYPE_BOOK = 5;
+    /**
+     * 实体类型: 主题 7
+     */
+    public static final int ENTITY_TYPE_SUBJECT = 7;
 
 
     /**
@@ -120,73 +142,100 @@ public class ContextUtil
     }
 
 
-    //通过类型打开视频，文档，音频，图库，isFragIsBack 图书在Fragment中是否返回上一个Fragment
-    public static void openResourceByType(Context context, int type, String id, boolean isFragIsBack)
+    public static void openResource(Context context, ResourceBean resourceBean, boolean isFragIsBack)
     {
+        int type = getResourceType(resourceBean);
         switch (type)
         {
-            case BOOK:
-                openBook(context, id, isFragIsBack);
+            case ENTITY_TYPE_BOOK:
+                openResourceByType(context, type, resourceBean.getIsbn(), isFragIsBack);
                 break;
 
-            case VIDEO:
-                openVideo(context, id);
-                break;
-
-            case AUDIO:
-                openAudio(context, id);
-                break;
-
-            case DOC:
-                openDoc(context, id);
-                break;
-
-            case PHOTO:
-                openPhoto(context, id);
+            default:
+                openResourceByType(context, type, resourceBean.getId());
                 break;
         }
     }
 
 
-    public static void openSubjectDetail(Context context, String id)
-    {
-        Intent intent = new Intent(context, SubjectDetailActivity.class);
-        intent.putExtra("id", id);
-        context.startActivity(intent);
-    }
-
-
-    //通过类型打开视频，文档，音频，图库
+    // 通过类型打开资源(视频，音频, 文档，图库, 图书)
     public static void openResourceByType(Context context, int type, String id)
     {
         openResourceByType(context, type, id, false);
     }
 
 
-    //打开视频
+    //通过类型打开视频，文档，音频，图库，isFragIsBack 图书在Fragment中是否返回上一个Fragment
+    public static void openResourceByType(Context context, int type, String id, boolean isFragIsBack)
+    {
+        switch (type)
+        {
+            case ENTITY_TYPE_BOOK:
+                openBook(context, id, isFragIsBack);
+                break;
+
+            case ENTITY_TYPE_VIDEO:
+                openVideo(context, id);
+                break;
+
+            case ENTITY_TYPE_AUDIO:
+                openAudio(context, id);
+                break;
+
+            case ENTITY_TYPE_DOC:
+                openDoc(context, id);
+                break;
+
+            case ENTITY_TYPE_PHOTO:
+                openPhoto(context, id);
+                break;
+
+            default:
+                LogUtil.d("openResourceByType", "未支持的资源类型, 无法打开");
+                break;
+        }
+    }
+
+
+    // 打开视频
     public static void openVideo(Context context, String id)
     {
         SearchResult result = new SearchResult();
         result.id = id;
+
         Intent intent = new Intent(context, VideoPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
+
         context.startActivity(intent);
     }
 
 
-    //打开音频
+    // 打开音频
     public static void openAudio(Context context, String id)
     {
         SearchResult result = new SearchResult();
         result.id = id;
         result.cover = "";
+
         Intent intent = new Intent(context, AudioPlayActivity2.class);
         intent.putExtra("resultBean", new Gson().toJson(result));
+
         context.startActivity(intent);
     }
 
 
-    //打开图书
+    // 打开文档
+    public static void openDoc(Context context, String id)
+    {
+        Intent intent = new Intent(context, PdfActivity2.class);
+        intent.putExtra("url", "");
+        intent.putExtra("doc_id", id);
+
+        context.startActivity(intent);
+    }
+
+
+    // 打开图书
     public static void openBook(Context context, String isbn, boolean isFragIsBack)
     {
         Bundle bundle = new Bundle();
@@ -199,27 +248,28 @@ public class ContextUtil
         bundle.putBoolean(BookDetailFragment.ISFROMMAINPAGE, true);
         bundle.putBoolean(ContentActivity.FRAG_ISBACK, isFragIsBack);
         bundle.putString(ContentActivity.FRAG_CLS, BookDetailFragment.class.getName());
+
         ((BaseActivity) context).startActivity(bundle, ContentActivity.class);
     }
 
 
-    //打开图库
+    // 打开图库
     public static void openPhoto(Context context, String id)
     {
         Bundle bundle = new Bundle();
         bundle.putString("type", "img");
         bundle.putString("id", id);
+
         ((BaseActivity) context).startActivity(bundle, DynamicCardActivity.class);
     }
 
 
-    //打开文档
-    public static void openDoc(Context context, String id)
+    // 打开主题详情
+    public static void openSubjectDetail(Context context, String id)
     {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", id);
-        intent.setClass(context, PdfActivity2.class);
+        Intent intent = new Intent(context, SubjectDetailActivity.class);
+        intent.putExtra("id", id);
+
         context.startActivity(intent);
     }
 
@@ -234,27 +284,25 @@ public class ContextUtil
     }
 
 
-    public static int getResourceType(ResourceBean resourceBean)
+    private static int getResourceType(ResourceBean resourceBean)
     {
-        if (resourceBean.getEntityType().equals("audio-album"))
+        String entityType = resourceBean.getEntityType();
+        switch (entityType)
         {
-            return AUDIO;
-        }
-        else if (resourceBean.getEntityType().equals("video-album"))
-        {
-            return VIDEO;
-        }
-        else if (resourceBean.getEntityType().equals("document"))
-        {
-            return DOC;
-        }
-        else if (resourceBean.getEntityType().equals("book"))
-        {
-            return BOOK;
-        }
-        else
-        {
-            return PHOTO;
+            case "video-album":
+                return ENTITY_TYPE_VIDEO;
+
+            case "audio-album":
+                return ENTITY_TYPE_AUDIO;
+
+            case "document":
+                return ENTITY_TYPE_DOC;
+
+            case "book":
+                return ENTITY_TYPE_BOOK;
+
+            default:
+                return ENTITY_TYPE_PHOTO;  //TODO should do test
         }
     }
 }
