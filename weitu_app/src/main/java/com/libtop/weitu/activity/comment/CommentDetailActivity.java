@@ -431,10 +431,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
 
     private void deleteReplyComment(final ReplyListDto replyBean){
         showLoding();
-        String api = "resource/comment/del";
-        OkHttpUtils.get().url(ContantsUtil.API_FAKE_HOST_PUBLIC + "/" + api)
-                .build()
-                .execute(new StringCallback() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("method","reply.delete");
+        map.put("id",replyBean.id);
+        HttpRequest.loadWithMap(map).execute(new StringCallback() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 

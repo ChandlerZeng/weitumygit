@@ -56,7 +56,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/main_item_bg"
         android:background="@color/white"
         android:orientation="horizontal">
 
@@ -65,70 +65,88 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/padding_small"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:text="推荐主题"
             android:textColor="@color/text_primary"
             android:textSize="@dimen/text_fontsize_normal"/>
-
-        <TextView
-            android:id="@+id/included_main_content_more_subject_textview"
+        <ImageView
+            android:id="@+id/more_recommend_subject_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/find_right_arrow"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:padding="@dimen/padding_small"
-            android:text="更多"
-            android:textColor="@drawable/text_color_menu_item_selector"
-            android:textSize="@dimen/text_fontsize_normal"/>
+            android:background="@drawable/list_selector"
+            android:src="@drawable/find_right_arrow"/>
+
     </LinearLayout>
 
-    <com.libtop.weitu.widget.view.GridViewForScrollView
-        android:id="@+id/included_main_content_subject_gridview"
+    <com.libtop.weitu.widget.view.HorizontalListView
+        android:id="@+id/included_main_content_recommend_subject_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:cacheColorHint="@color/transparent"
-        android:gravity="center"
-        android:horizontalSpacing="@dimen/padding_micro"
-        android:isScrollContainer="false"
-        android:listSelector="@drawable/list_selector"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/padding_tiny"/>
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:background="@color/white" />
 
     <View style="@style/my_divide_layout_view_style_default"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/main_item_bg"
         android:background="@color/white"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:padding="@dimen/padding_small"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="热门主题"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_fontsize_normal"/>
+        <ImageView
+            android:id="@+id/more_hot_subject_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_small"
+            android:background="@drawable/list_selector"
+            android:src="@drawable/find_right_arrow"/>
+
+    </LinearLayout>
+
+    <com.libtop.weitu.widget.view.HorizontalListView
+        android:id="@+id/included_main_content_hot_subject_listview"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        android:background="@color/white" />
+
+    <View style="@style/my_divide_layout_view_style_default"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_item_bg"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:padding="@dimen/padding_small"
             android:text="推荐资源"
             android:textColor="@color/text_primary"
             android:textSize="@dimen/text_fontsize_normal"/>
 
-        <TextView
-            android:id="@+id/included_main_content_more_resource_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/list_selector"
-            android:clickable="true"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/find_right_arrow"
-            android:padding="@dimen/padding_small"
-            android:text="更多"
-            android:textColor="@drawable/text_color_menu_item_selector"
-            android:textSize="@dimen/text_fontsize_normal"/>
-
     </LinearLayout>
 
-    <com.libtop.weitu.widget.view.ListViewForScrollView
+    <com.libtop.weitu.widget.view.PagingListViewForScrollView
         android:id="@+id/included_main_content_resource_listview"
         style="@style/my_listview_style_default"/>
 

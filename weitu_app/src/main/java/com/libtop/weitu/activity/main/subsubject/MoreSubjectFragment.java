@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
+import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
 import com.libtop.weitu.activity.main.SubjectDetailActivity;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
@@ -54,11 +55,16 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
 
     private boolean isFirstIn = true;
     private int pageIndex;
+    private String titleText;
+    private String method;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = ((ContentActivity)mContext).getCurrentExtra();
+        titleText = bundle.getString("title");
+        method = bundle.getString("method");
     }
 
 
@@ -81,7 +87,7 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
             networkLoadingLayout.showLoading();
             requestSubject(1);
         }
-        title.setText("推荐主题");
+        title.setText(titleText);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +120,7 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
         map.put("pageSize",20);
-        map.put("method","subject.recommend");
+        map.put("method",method);
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {

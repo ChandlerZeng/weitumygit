@@ -64,7 +64,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     private List<Subject> subjectList = new ArrayList<>();
     private List<Resource> resourceList = new ArrayList<>();
 
-    private String type;
+    private String group;
     private String method;
     private int mCurPage = 1;
     private boolean hasData = false;
@@ -73,8 +73,6 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     private long code, subCode;
     private String filterString = "view";
     private List<ClassifyResultBean> mData = new ArrayList<>();
-
-    private String api = "/category/subject/list";
 
 
 
@@ -87,8 +85,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         method = bundle.getString("method");
         code = bundle.getLong("code");
         subCode = bundle.getLong("subCode");
-        filterString = bundle.getString("filterString");
-        type = bundle.getString("type");
+        group = bundle.getString("group");
         EventBus.getDefault().register(this);
     }
 
@@ -130,11 +127,11 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                if (type.equals("subject")) {
+                if (group.equals("subject")) {
                     ContextUtil.openSubjectDetail(mContext,"57ea290104122049539a365b");
 //                    ContextUtil.openSubjectDetail(mContext,mData.get(position-2).id);
 
-                } else if (type.equals("resource")) {
+                } else if (group.equals("resources")) {
                     if(mData.get(position-2).entityType.equals("document")){
                         ContextUtil.openResourceByType(mContext,ContextUtil.DOC,mData.get(position-2).id);
                     }else if(mData.get(position-2).entityType.equals("image-album")){
@@ -169,9 +166,9 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
         Map<String, Object> map = new HashMap<>();
         map.put("label1", code);
         map.put("label2", subCode);
-        map.put("sort", filterString);
         map.put("page", mCurPage);
         map.put("method", "search.categories");
+        map.put("group", group);
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
@@ -183,7 +180,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
             }
             @Override
             public void onResponse(String json, int id) {
-                if(!TextUtils.isEmpty(json)){
+                if(!TextUtils.isEmpty(json) && !json.equals("null")){
                     dismissLoading();
                     xListView.stopRefresh();
                     networkLoadingLayout.dismiss();
@@ -195,7 +192,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
                     if(classifyDetailBean.result!=null){
                         mData.addAll(classifyDetailBean.result);
                     }
-                    if (classifyDetailBean.result.size() < 10)
+                    if (classifyDetailBean.result.size() < 20)
                     {
                         hasData = false;
                         xListView.setPullLoadEnable(false);
