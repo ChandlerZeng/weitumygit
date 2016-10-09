@@ -13,43 +13,13 @@
 
     <View style="@style/my_divide_line_style_horizontal"/>
 
-    <LinearLayout
+    <com.libtop.weitu.widget.view.HorizontalListView
+        android:id="@+id/included_main_content_classify_listview"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:orientation="horizontal"
-        android:padding="@dimen/padding_small"
-        android:background="@drawable/layout_item_bg_with_stroke">
-
-        <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
-            android:id="@+id/included_main_content_category_textview"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/padding_tiny"
-            android:layout_weight="1"
-            android:background="@drawable/selector_find_classify"
-            android:clickable="true"
-            android:drawableLeft="@drawable/find_icon_classify"
-            android:drawablePadding="@dimen/padding_size_10"
-            android:gravity="center_vertical"
-            android:text="分类"
-            android:textColor="@color/white"
-            android:textSize="18sp"/>
-
-        <com.libtop.weitu.widget.drawabletextview.DrawableCenterTextView
-            android:id="@+id/included_main_content_ranklist_textview"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/padding_tiny"
-            android:layout_weight="1"
-            android:background="@drawable/selector_find_rank"
-            android:clickable="true"
-            android:drawableLeft="@drawable/find_icon_rank"
-            android:drawablePadding="@dimen/padding_size_10"
-            android:gravity="center_vertical"
-            android:text="排行榜"
-            android:textColor="@color/white"
-            android:textSize="18sp"/>
-    </LinearLayout>
+        android:layout_height="120dp"
+        android:padding="5dp"
+        android:layout_gravity="center"
+        android:background="@color/white" />
 
     <View style="@style/my_divide_layout_view_style_default"/>
     <View style="@style/my_divide_line_style_horizontal"/>
@@ -69,7 +39,7 @@
             android:layout_gravity="center"
             android:text="推荐主题"
             android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_fontsize_normal"/>
+            android:textSize="@dimen/text_fontsize_middle"/>
         <ImageView
             android:id="@+id/more_recommend_subject_list"
             android:layout_width="wrap_content"
@@ -106,7 +76,7 @@
             android:layout_gravity="center"
             android:text="热门主题"
             android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_fontsize_normal"/>
+            android:textSize="@dimen/text_fontsize_middle"/>
         <ImageView
             android:id="@+id/more_hot_subject_list"
             android:layout_width="wrap_content"
@@ -135,14 +105,24 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:layout_gravity="center"
             android:padding="@dimen/padding_small"
             android:text="推荐资源"
             android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_fontsize_normal"/>
+            android:textSize="@dimen/text_fontsize_middle"/>
+        <ImageView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_small"
+            android:background="@drawable/list_selector"
+            android:src="@drawable/find_right_arrow"/>
 
     </LinearLayout>
 

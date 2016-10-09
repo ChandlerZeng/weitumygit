@@ -19,10 +19,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.classify.adapter.ClassifyCheckAdapter;
-import com.libtop.weitu.activity.classify.adapter.ClassifyDetailAdapter;
 import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.classify.bean.ClassifyDetailBean;
-import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
 import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseActivity;
@@ -73,15 +71,13 @@ public class ClassifyDetailActivity extends BaseActivity
     private final int TYPE_RESOURCE = 1;
 
     private int mCurPage = 1;
-    private ClassifyDetailAdapter mAdapter;
-    private List<ClassifyResultBean> mData;
     private ListPopupWindow mListPop, mListFilterPop;
     private boolean isRefreshed = false;
 
     private long code, subCode;
     private String filterString = "view";
 
-    private List<ClassifyBean> lists = new ArrayList<ClassifyBean>();
+    private List<ClassifyBean> lists = new ArrayList<>();
     private ClassifyCheckAdapter filterCheckAdapter, classifyCheckAdapter;
 
 
@@ -96,8 +92,6 @@ public class ClassifyDetailActivity extends BaseActivity
         code = mContext.getIntent().getExtras().getLong("code");
         String name = getIntent().getExtras().getString("name");
         mTitleText.setText(name);
-        mData = new ArrayList<ClassifyResultBean>();
-        mAdapter = new ClassifyDetailAdapter(mContext, mData);
         EventBus.getDefault().register(this);
         initView();
         initPopView();
