@@ -188,15 +188,15 @@ public class ContextUtil
     }
 
 
-    public static int getResourceType(ResourceBean resourceBean){
+    public static int getResourceType(String entityType){
 
-        if(resourceBean.getEntityType().equals("audio-album")){
+        if(entityType.equals("audio-album")){
             return AUDIO;
-        }else if(resourceBean.getEntityType().equals("video-album")){
+        }else if(entityType.equals("video-album")){
             return VIDEO;
-        }else if(resourceBean.getEntityType().equals("document")){
+        }else if(entityType.equals("document")){
             return DOC;
-        }else if(resourceBean.getEntityType().equals("book")){
+        }else if(entityType.equals("book")){
             return BOOK;
         }else {
             return PHOTO;

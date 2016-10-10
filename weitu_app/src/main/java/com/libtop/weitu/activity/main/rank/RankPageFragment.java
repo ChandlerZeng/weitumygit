@@ -107,9 +107,9 @@ public class RankPageFragment extends BaseFragment implements NetworkLoadingLayo
                 } else {
                     ResourceBean resource = resourceBeanList.get(position-2);
                     if(resource.getEntityType().equals("book")){
-                        ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getIsbn(), true);
+                        ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource.getEntityType()), resource.getIsbn(), true);
                     }else {
-                        ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource), resource.getId(), true);
+                        ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource.getEntityType()), resource.getId(), true);
                     }
                 }
             }
