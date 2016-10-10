@@ -45,6 +45,7 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
@@ -174,9 +175,11 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        Log.e("test draw time start", System.currentTimeMillis() + "");
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_video_play5);
+
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_PAGES);
+
         noNetThanExit(mContext);
         mRecyclerAdapter = new RecyclerSingleChoiseAdapter(mContext, lists, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -336,9 +339,10 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
      */
     private void setmProgress(int lenth)
     {
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_PROGRESSBAR_CLI);
+
         long value = (long) (mVideo.getDuration() / MaxLength * lenth);
         mVideo.seekTo(value);
-
     }
 
 
@@ -443,6 +447,8 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     {
         if (!mVideo.isPlaying())
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_PLAY_CLI);
+
             mVideo.start();
             mSPlayBtn.setImageResource(R.drawable.media_icon_pause_small);
             mBPlayBtn.setImageResource(R.drawable.media_icon_pause_big);
@@ -450,6 +456,8 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         }
         else
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_PAUSE_CLI);
+
             mVideo.pause();
             mSPlayBtn.setImageResource(R.drawable.media_icon_play_small);
             mBPlayBtn.setImageResource(R.drawable.media_icon_play_big);
@@ -506,38 +514,54 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
         switch (v.getId())
         {
             case R.id.ll_tool_include:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_DOINCLUDE_CLI);
                 includeClick();
                 break;
+
             case R.id.ll_tool_collect:
                 collectClick();
                 break;
+
             case R.id.ll_tool_comment:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_COMMENT_CLI);
                 commentClick();
                 break;
+
             case R.id.ll_tool_share:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_SHARE_CLI);
                 shareClick();
                 break;
+
             case R.id.back_btn:
                 finishSimple();
                 break;
+
             case R.id.back_btn_inner:
                 setWindowScreen();
                 break;
+
             case R.id.play_pause_small:
             case R.id.play_pause_big:
                 playOrPause();
                 break;
+
             case R.id.video_container:
                 if (status_flag == STATUS_FULLSCREEN)
                 {
                     show();
                 }
                 break;
+
             case R.id.fullscreen:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_INTOFULLSCREEN_CLI);
+
                 status_flag = STATUS_FULLSCREEN;
                 setFullScreen();
                 break;
+
             case R.id.scale:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_EXITFULLSCREEN_CLI);
+
                 status_flag = STATUS_SCALE;
                 setWindowScreen();
                 break;
@@ -603,10 +627,12 @@ public class VideoPlayActivity2 extends BaseActivity implements MediaPlayer.OnCo
     {
         if (isCollectShow)
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_UNDOFAV_CLI);
             requestCancelCollect();
         }
         else
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_VIDEOPLAY_DOFAV_CLI);
             requestCollect();
         }
     }

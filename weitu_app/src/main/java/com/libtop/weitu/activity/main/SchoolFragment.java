@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseFragment;
+import com.libtop.weitu.service.WTStatisticsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,9 +137,11 @@ public class SchoolFragment extends BaseFragment
         switch (view.getId())
         {
             case R.id.btn_main_theme:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_SUBJECT_TAB_CLI);
                 themeClick();
                 break;
             case R.id.btn_main_resource:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_RESOURCE_TAB_CLI);
                 resourceClick();
                 break;
         }

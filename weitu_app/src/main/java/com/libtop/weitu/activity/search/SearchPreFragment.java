@@ -23,6 +23,7 @@ import com.libtop.weitu.base.impl.NotifyFragment;
 import com.libtop.weitu.dao.SearchBo;
 import com.libtop.weitu.dao.bean.Search;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.widget.view.GridViewForScrollView;
@@ -224,6 +225,8 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
                     @Override
                     public void onClick(View v)
                     {
+                        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHPRE_HISTORY_CLEAR_CLI);
+
                         mData.clear();
                         mBo.clear();
                         mAdapter.notifyDataSetChanged();
@@ -240,6 +243,7 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
             {
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHPRE_HISTORY_ITEM_CLI);
                 mActivity.search(mData.get(position).getName());
             }
         });
@@ -248,6 +252,7 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHPRE_HOT_ITEM_CLI);
                 mActivity.search(mHotList.get(position).title);
             }
         });
@@ -256,6 +261,8 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
             @Override
             public void onClick(View view)
             {
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHPRE_HISTORY_CLEAR_CLI);
+
                 mData.clear();
                 mBo.clear();
                 mAdapter.notifyDataSetChanged();
@@ -348,6 +355,8 @@ public class SearchPreFragment extends NotifyFragment implements SearchAdapter.O
     @Override
     public void onDeleteImgTouch(View v, Search search, int position)
     {
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHPRE_HISTORY_ITEM_DEL_CLI);
+
         isCleared = true;
         if (imm.isActive())
         {

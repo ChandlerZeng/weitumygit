@@ -27,6 +27,7 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.service.WTBroadcastReceiver;
 import com.libtop.weitu.service.WTBroadcastService;
 import com.libtop.weitu.service.WTPushService;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.PopupW.MoreWindow;
 import com.libtop.weitu.utils.Preference;
@@ -241,12 +242,16 @@ public class MainActivity extends BaseActivity
                 home.setTextColor(ContextCompat.getColor(mContext, R.color.newGreen));
                 mViewPager.setCurrentItem(0);
                 break;
+
             case R.id.ll_discover:
                 imgClazz.setBackgroundResource(R.drawable.main_tag_checked_discover);
                 clazz.setTextColor(ContextCompat.getColor(mContext, R.color.newGreen));
                 mViewPager.setCurrentItem(1);
                 break;
+
             case R.id.ll_personal:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_MAIN_USERCENTER_TAB_CLI);
+
                 imgPersonal.setBackgroundResource(R.drawable.main_tag_checked_personal);
                 personal.setTextColor(ContextCompat.getColor(mContext, R.color.newGreen));
                 mViewPager.setCurrentItem(2);

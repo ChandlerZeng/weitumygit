@@ -33,19 +33,18 @@ import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.utils.Preference;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.viewadapter.CommonAdapter;
 import com.libtop.weitu.viewadapter.ViewHolderHelper;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.view.ListViewForScrollView;
-import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -179,6 +178,9 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         listReply.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENTDETAIL_REPLY_ITEM_CLI);
+
                 if(isNotLogin()){
                     login();
                 }else {
@@ -201,18 +203,26 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     @OnClick({R.id.back_btn, R.id.comment_detail_link_layout, R.id.commit, R.id.likeLayout})
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.back_btn:
                 onBackPressed();
                 break;
+
             case R.id.comment_detail_link_layout:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENTDETAIL_RESOURCE_CLI);
+
                 if(commentsData!=null){
                     ContextUtil.openResourceByType(mContext, commentsData.type, commentsData.getTid());
                 }
                 break;
+
             case R.id.commit:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENTDETAIL_ADDREPLY_CLI);
                 sendComment(view);
                 break;
+
             case R.id.likeLayout:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENTDETAIL_PRAISE_CLI);
                 onLikeTouch(MY_PRAISE);
                 break;
         }

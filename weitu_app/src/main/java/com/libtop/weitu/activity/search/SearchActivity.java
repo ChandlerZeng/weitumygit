@@ -31,6 +31,7 @@ import com.libtop.weitu.activity.RootStub;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.base.impl.NotifyFragment;
 import com.libtop.weitu.dao.SearchBo;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JsonParser;
@@ -264,13 +265,19 @@ public class SearchActivity extends BaseActivity implements RootStub
             case R.id.back_btn:
                 finish();
                 break;
+
             case R.id.delete:
                 mNameEdit.setText("");
                 break;
+
             case R.id.speak:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHPRE_VOICE_CLI);
                 startRecorder();
                 break;
+
             case R.id.search:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHPRE_SEARCH_CLI);
+
                 search(mNameEdit.getText() + "");
                 InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(mNameEdit.getApplicationWindowToken(), 0);

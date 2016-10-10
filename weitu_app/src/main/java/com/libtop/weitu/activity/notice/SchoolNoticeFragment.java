@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.base.MyBaseFragment;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.test.SchoolNotice;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
@@ -157,6 +158,8 @@ public class SchoolNoticeFragment extends MyBaseFragment implements NetworkLoadi
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
+            WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_NOTICE_SCHOOLNOTICE_ITEM_CLI);
+
             SchoolNotice notice = (SchoolNotice) parent.getAdapter().getItem(position);
             ContextUtil.readSchoolNoticeDetail(getActivity(), notice.getId(), notice.getTitle(), notice.getDateLine());
         }
