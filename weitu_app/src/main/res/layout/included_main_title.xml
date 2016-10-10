@@ -42,11 +42,4 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:visibility="gone"
-        android:id="@+id/search_top"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:padding="11dp"
-        android:src="@drawable/search_icon2"/>
 </LinearLayout>

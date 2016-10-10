@@ -32,16 +32,15 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.utils.Preference;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.CheckUtil;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.ListViewUtil;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
 import com.libtop.weitu.widget.view.XListView;
-import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
@@ -107,6 +106,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_comment);
+
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_PAGES);
+
         UID = mPreference.getString(Preference.uid);
         EventBus.getDefault().register(this);
         initView();
@@ -268,17 +270,22 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         hideKeyBoard(v);
         if(isReply && isItemReply)
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_ADDREPLY_CLI);
+
             String cid = replyItemMap.get("cid").toString();
             String replyId = replyItemMap.get("reply_id").toString();
             putItemReply(cid, replyId,str);
         }
         else if (isReply)
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_ADDREPLY_CLI);
+
             String cid = replyMap.get("cid").toString();
             putReply(cid,str);
         }
         else
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_ADDCOMMENT_CLI);
             putComment(str);
         }
     }
@@ -364,6 +371,8 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Override
     public void onReplyTouch(View v, int position,List<ReplyListDto> replyBeans,CommentDto object) //TODO
     {
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_REPLYMENU_CLI);
+
         if(isNotLogin()){
             login();
         }else {
@@ -578,8 +587,10 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             login();
         }else {
             if(comment.praised==0){
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_DOPRAISE_CLI);
                 likeClicked(cid,comment);
             }else{
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_UNDOPRAISE_CLI);
                 likeCancelled(cid,comment);
             }
         }
@@ -587,6 +598,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     @Override
     public void onCommentContentClick(View v, int position, CommentDto comment) {
+
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_ITEM_CLI);
+
         Bundle bundle = new Bundle();
         bundle.putString("cid", comment.getId());
         bundle.putInt("position", position);

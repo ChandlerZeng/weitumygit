@@ -21,6 +21,7 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.CommentActivity;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
@@ -175,9 +176,14 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
                 @Override
                 public void onClick(View v) {
                     if(!object.isExpanded){
+
+                        WTStatisticsService.onEvent(context, WTStatisticsService.EID_COMMENT_EXPAND_CLI);
                         object.isExpanded = true;
                         notifyDataSetChanged();
-                    } else {
+                    }
+                    else
+                    {
+                        WTStatisticsService.onEvent(context, WTStatisticsService.EID_COMMENT_COLLAPSE_CLI);
                         object.isExpanded = false;
                         notifyDataSetChanged();
                     }

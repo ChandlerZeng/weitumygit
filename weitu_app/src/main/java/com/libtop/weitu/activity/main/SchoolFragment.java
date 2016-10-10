@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.search.SearchActivity;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.BaseFragment;
+import com.libtop.weitu.service.WTStatisticsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,11 +109,6 @@ public class SchoolFragment extends BaseFragment
         initView();
     }
 
-    private void searchClick()
-    {
-        mContext.startActivity(null, SearchActivity.class);
-    }
-
 
     private void resourceClick()
     {
@@ -136,19 +131,18 @@ public class SchoolFragment extends BaseFragment
     }
 
 
-    @OnClick({ R.id.btn_main_theme, R.id.btn_main_resource, R.id.search_top})
+    @OnClick({ R.id.btn_main_theme, R.id.btn_main_resource})
     public void onClick(View view)
     {
         switch (view.getId())
         {
             case R.id.btn_main_theme:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_SUBJECT_TAB_CLI);
                 themeClick();
                 break;
             case R.id.btn_main_resource:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_RESOURCE_TAB_CLI);
                 resourceClick();
-                break;
-            case R.id.search_top:
-                searchClick();
                 break;
         }
     }

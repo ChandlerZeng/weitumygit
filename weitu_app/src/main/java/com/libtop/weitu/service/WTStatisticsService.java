@@ -340,22 +340,6 @@ public class WTStatisticsService
 
     /*----------------------------------- searchresult ---------------------------------------*/
     /**
-     * 事件ID: 搜索--搜索结果--最新上传
-     */
-    public static final String EID_SEARCHRESULT_FILTER_TIMELINE_CLI = "searchresult_filter_timeline_cli";
-    /**
-     * 事件ID: 搜索--搜索结果--阅读最多
-     */
-    public static final String EID_SEARCHRESULT_FILTER_VIEW_CLI = "searchresult_filter_view_cli";
-    /**
-     * 事件ID: 搜索--搜索结果--评论最多
-     */
-    public static final String EID_SEARCHRESULT_FILTER_COMMENT_CLI = "searchresult_filter_comment_cli";
-    /**
-     * 事件ID: 搜索--搜索结果--收藏最多
-     */
-    public static final String EID_SEARCHRESULT_FILTER_FAVORITE_CLI = "searchresult_filter_favorite_cli";
-    /**
      * 事件ID: 搜索--搜索结果--综合
      */
     public static final String EID_SEARCHRESULT_ALL_TAB_CLI = "searchresult_all_tab_cli";

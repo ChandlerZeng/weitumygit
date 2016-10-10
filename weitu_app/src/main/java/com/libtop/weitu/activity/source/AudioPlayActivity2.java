@@ -37,6 +37,7 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
@@ -159,42 +160,14 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     };
 
 
-    /**
-     * 设置显示进度
-     *
-     * @param position
-     */
-    private String getPlayProgress(long position)
-    {
-        int value = (int) position / 1000;
-        int minute = value / 60;
-        int second = value % 60;
-        minute %= 60;
-        return String.format("%02d:%02d", minute, second);
-    }
-
-
-    /**
-     * 设置显示进度
-     *
-     * @param position
-     */
-    private void setPlayProgress(TextView textView, long position)
-    {
-        int value = (int) position / 1000;
-        int minute = value / 60;
-        int hour = minute / 60;
-        int second = value % 60;
-        minute %= 60;
-        textView.setText(String.format("%02d:%02d:%02d", hour, minute, second));
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_audio_play5);
+
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_PAGES);
+
         noNetThanExit(mContext);
         initView();
         mCurrentIndex = 0;
@@ -206,6 +179,9 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
                 if (!fromUser || mPlayer == null) {
                     return;
                 }
+
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_PROGRESSBAR_CLI);
+
                 long newposition = (mPlayer.getDuration() * progress) / 1000L;
                 mPlayer.seekTo((int) newposition);
                 isPaused = false;
@@ -260,7 +236,10 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
                     case R.id.info:
                         mIntroText.setText("简介:" + (TextUtils.isEmpty(introdution) ? "暂无" : introdution));
                         break;
+
                     case R.id.lrc:
+                        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_TEXT_CLI);
+
                         String lrc = mData.get(mCurrentIndex).lyrics;
                         if (!TextUtils.isEmpty(lrc))
                         {
@@ -332,6 +311,37 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     }
 
 
+    /**
+     * 设置显示进度
+     *
+     * @param position
+     */
+    private String getPlayProgress(long position)
+    {
+        int value = (int) position / 1000;
+        int minute = value / 60;
+        int second = value % 60;
+        minute %= 60;
+        return String.format("%02d:%02d", minute, second);
+    }
+
+
+    /**
+     * 设置显示进度
+     *
+     * @param position
+     */
+    private void setPlayProgress(TextView textView, long position)
+    {
+        int value = (int) position / 1000;
+        int minute = value / 60;
+        int hour = minute / 60;
+        int second = value % 60;
+        minute %= 60;
+        textView.setText(String.format("%02d:%02d:%02d", hour, minute, second));
+    }
+
+
     @Nullable
     @OnClick({R.id.ll_tool_include,R.id.ll_tool_collect, R.id.ll_tool_comment, R.id.ll_tool_share, R.id.back_btn, R.id.top_right, R.id.play_pause, R.id.prev, R.id.next})
     public void onClick(View v)
@@ -339,30 +349,43 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
         switch (v.getId())
         {
             case R.id.ll_tool_include:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_DOINCLUDE_CLI);
                 includeClick();
                 break;
+
             case R.id.ll_tool_collect:
                 collectClick();
                 break;
+
             case R.id.ll_tool_comment:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_COMMENT_CLI);
                 commentClick();
                 break;
+
             case R.id.ll_tool_share:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_SHARE_CLI);
                 shareClick();
                 break;
+
             case R.id.back_btn:
                 finishSimple();
                 break;
+
             case R.id.top_right:
                 showListPop();
                 break;
+
             case R.id.play_pause:
                 playOrPause();
                 break;
+
             case R.id.prev:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_PREVIOUS_CLI);
                 playPrev();
                 break;
+
             case R.id.next:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_NEXT_CLI);
                 playNext();
                 break;
         }
@@ -419,10 +442,12 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     {
         if (isCollectShow)
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_UNDOFAV_CLI);
             requestCancelCollect();
         }
         else
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_DOFAV_CLI);
             requestCollect();
         }
     }
@@ -662,11 +687,15 @@ public class AudioPlayActivity2 extends BaseActivity implements MediaPlayer.OnPr
     {
         if (!mPlayer.isPlaying())
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_PLAY_CLI);
+
             mPlayer.start();
             mPlayBtn.setBackgroundResource(R.drawable.audio_pause);
         }
         else
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_AUDIOPLAY_PAUSE_CLI);
+
             mPlayer.pause();
             mPlayBtn.setBackgroundResource(R.drawable.audio_play);
         }

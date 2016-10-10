@@ -16,6 +16,7 @@ import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
@@ -103,6 +104,8 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_SUBJECT_ITEM_CLI);
+
                 SubjectBean subjectBean = (SubjectBean) parent.getItemAtPosition(position);
                 subjectBean.setResourceUpdateCount(0);
                 themeAdapter.setItem(position,subjectBean);
@@ -214,6 +217,7 @@ public class SubjectFragment extends BaseFragment implements NetworkLoadingLayou
         switch (view.getId())
         {
             case R.id.fab_main_new_subject:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_CREATESUBJECT_CLI);
                 newSubjectClick();
                 break;
         }

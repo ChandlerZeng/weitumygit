@@ -18,13 +18,13 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.login.LoginFragment;
 import com.libtop.weitu.activity.main.DocUpload.DocUploadActivity;
-import com.libtop.weitu.activity.main.LibraryFragment;
 import com.libtop.weitu.activity.main.MyLikeActivity;
 import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
 import com.libtop.weitu.base.BaseFragment;
-import com.libtop.weitu.utils.Preference;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.selector.view.ImageSelectActivity;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -65,21 +65,58 @@ public class UserCenterFragment extends BaseFragment
 
 
     @Nullable
-    @OnClick({R.id.ll_my_like,R.id.ll_upload_video, R.id.ll_upload_doc, R.id.ll_upload_photo, R.id.ll_setting, R.id.comment, R.id.about_us, R.id.setting, R.id.left_msg, R.id.library, R.id.rl_login_msg})
+    @OnClick({
+            R.id.setting,
+            R.id.photo,
+            R.id.library_name,
+            R.id.ll_upload_video,
+            R.id.ll_upload_doc,
+            R.id.ll_upload_photo,
+            R.id.ll_my_like,
+            R.id.comment,
+            R.id.left_msg,
+            R.id.ll_setting
+    })
     public void onClick(View v)
     {
         Bundle bundle = new Bundle();
         String cls = "";
         switch (v.getId())
         {
+            case R.id.setting:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_FLOATSETTINGS_CLI);
+                cls = SettingFragment.class.getName();
+                break;
 
-            case R.id.ll_my_like:
-                Intent intent = new Intent(mContext, MyLikeActivity.class);
-                intent.putExtra("isFromMyPraised",true);
-                startActivity(intent);
+            case R.id.photo:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_LOGO_CLI);
+
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
+                    cls = LoginFragment.class.getName();
+                }
+                else
+                {
+                    cls = UserInfoFragment.class.getName();
+                }
+                break;
+
+            case R.id.library_name:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_LIBRARY_CLI);
+
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
+                    cls = LoginFragment.class.getName();
+                }
+                else
+                {
+                    cls = UserInfoFragment.class.getName();
+                }
                 break;
 
             case R.id.ll_upload_video:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_MYVIDEO_CLI);
+
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
                 {
                     Bundle bundle1 = new Bundle();
@@ -92,20 +129,10 @@ public class UserCenterFragment extends BaseFragment
                     mContext.startActivity(intent3);
                 }
                 break;
-            case R.id.ll_upload_photo:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
-                {
-                    Bundle bundle1 = new Bundle();
-                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-                    mContext.startActivity(bundle1, ContentActivity.class);
-                }
-                else
-                {
-                    Intent intent3 = new Intent(mContext, ImageSelectActivity.class);
-                    mContext.startActivity(intent3);
-                }
-                break;
+
             case R.id.ll_upload_doc:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_MYDOC_CLI);
+
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
                 {
                     Bundle bundle1 = new Bundle();
@@ -118,10 +145,41 @@ public class UserCenterFragment extends BaseFragment
                     mContext.startActivity(intent3);
                 }
                 break;
-            case R.id.ll_setting:
-                cls = SettingFragment.class.getName();
+
+            case R.id.ll_upload_photo:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_MYIMAGE_CLI);
+
+                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
+                {
+                    Bundle bundle1 = new Bundle();
+                    bundle1.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
+                    mContext.startActivity(bundle1, ContentActivity.class);
+                }
+                else
+                {
+                    Intent intent3 = new Intent(mContext, ImageSelectActivity.class);
+                    mContext.startActivity(intent3);
+                }
                 break;
+
+            case R.id.ll_my_like:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_MYPRAISE_CLI);
+
+                Intent intent = new Intent(mContext, MyLikeActivity.class);
+                intent.putExtra("isFromMyPraised",true);
+                startActivity(intent);
+                break;
+
+            case R.id.comment:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_MYCOMMENT_CLI);
+
+                Intent intent1 = new Intent(mContext, MyLikeActivity.class);
+                startActivity(intent1);
+                break;
+
             case R.id.left_msg:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_FEEDBACK_CLI);
+
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
                 {
                     Toast.makeText(getActivity(), "请登录!", Toast.LENGTH_SHORT).show();
@@ -133,31 +191,14 @@ public class UserCenterFragment extends BaseFragment
                 bundle1.putString(ContentActivity.FRAG_CLS, FeedBackFragment.class.getName());
                 mContext.startActivity(bundle1, ContentActivity.class);
                 break;
-            case R.id.comment:
-                Intent intent1 = new Intent(mContext, MyLikeActivity.class);
-                startActivity(intent1);
-                break;
-            case R.id.about_us:
-                Toast.makeText(getActivity(), ContantsUtil.IS_DEVELOPING, Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.setting:
+
+            case R.id.ll_setting:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_USERCENTER_SETTINGS_CLI);
+
                 cls = SettingFragment.class.getName();
                 break;
-            case R.id.library:
-                bundle.putInt("from", 1);
-                cls = LibraryFragment.class.getName();
-                break;
-            case R.id.rl_login_msg:
-                if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
-                {
-                    cls = LoginFragment.class.getName();
-                }
-                else
-                {
-                    cls = UserInfoFragment.class.getName();
-                }
-                break;
         }
+
         if (!TextUtils.isEmpty(cls))
         {
             bundle.putString(ContentActivity.FRAG_CLS, cls);

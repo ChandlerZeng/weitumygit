@@ -18,6 +18,7 @@ import com.libtop.weitu.activity.main.videoUpload.VideoSelectActivity;
 import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
@@ -140,6 +141,8 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_RESOURCE_ITEM_CLI);
+
                 CollectBean bean = (CollectBean) parent.getItemAtPosition(position);
                 if (bean.favor.type == ContextUtil.ENTITY_TYPE_BOOK){
                     ContextUtil.openResourceByType(mContext,bean.favor.type, bean.target.getIsbn());
@@ -214,12 +217,15 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
     private void rfacItemClick(int position){
         switch (position){
             case 0 :
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_UPLOAD_VIDEO_CLI);
                 uploadVideoClick();
                 break;
             case 1 :
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_UPLOAD_DOCUMENT_CLI);
                 uploadDocClick();
                 break;
             case 2 :
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SCHOOL_UPLOAD_IMAGE_CLI);
                 uploadImageClick();
                 break;
         }

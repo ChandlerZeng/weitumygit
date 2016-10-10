@@ -21,6 +21,7 @@ import com.libtop.weitu.activity.user.dto.CollectBean;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
@@ -79,6 +80,9 @@ public class SubjectDetailActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_main_subject_detail);
+
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SUBJECTDETAIL_PAGES);
+
         classifySubDetailAdapter = new ClassifySubDetailAdapter(mContext, mData);
         initView();
         requestData();
@@ -144,8 +148,12 @@ public class SubjectDetailActivity extends BaseActivity
         pullZoomListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                if (position>1){
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                if (position>1)
+                {
+                    WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SUBJECTDETAIL_RESOURCE_ITEM_CLI);
+
                     CollectBean collectBean = (CollectBean) arg0.getAdapter().getItem(position);
                     if (collectBean.type == ContextUtil.ENTITY_TYPE_BOOK){
                         ContextUtil.openResourceByType(mContext,collectBean.type, collectBean.target.getIsbn());
@@ -304,12 +312,14 @@ public class SubjectDetailActivity extends BaseActivity
             switch (view.getId())
             {
                 case R.id.rl_theme_detail_title:
+                    WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SUBJECTDETAIL_TITLE_CLI);
                     titleClick();
                     break;
                 case R.id.tv_theme_detail_follow:
                     followClick();
                     break;
                 case R.id.tv_theme_detail_edit:
+                    WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SUBJECTDETAIL_EDIT_CLI);
                     editClick();
                     break;
             }
@@ -328,9 +338,14 @@ public class SubjectDetailActivity extends BaseActivity
 
     private void followClick()
     {
-        if (!isFollow){
+        if (!isFollow)
+        {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SUBJECTDETAIL_DOFOLLOW_CLI);
             requestFollow();
-        }else {
+        }
+        else
+        {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SUBJECTDETAIL_UNDOFOLLOW_CLI);
             showPopWindow();
         }
     }
