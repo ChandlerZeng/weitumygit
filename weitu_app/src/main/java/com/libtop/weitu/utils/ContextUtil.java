@@ -144,7 +144,7 @@ public class ContextUtil
 
     public static void openResource(Context context, ResourceBean resourceBean, boolean isFragIsBack)
     {
-        int type = getResourceType(resourceBean);
+        int type = getResourceType(resourceBean.getEntityType());
         switch (type)
         {
             case ENTITY_TYPE_BOOK:
@@ -284,9 +284,8 @@ public class ContextUtil
     }
 
 
-    private static int getResourceType(ResourceBean resourceBean)
+    public static int getResourceType(String entityType)
     {
-        String entityType = resourceBean.getEntityType();
         switch (entityType)
         {
             case "video-album":

@@ -154,7 +154,6 @@ public class MoreRmdFileFragment extends ContentFragment implements NetworkLoadi
                         networkLoadingLayout.dismiss();
                     }
                     try {
-                        Gson gson = new Gson();
                         List<ResourceBean> resourceBeenList = JSONUtil.readBeanArray(json, ResourceBean.class);
                         if (resourceBeenList.size() < 20) {
                             hasData = false;

@@ -17,15 +17,17 @@ import android.widget.ScrollView;
 import com.google.gson.Gson;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
+import com.libtop.weitu.activity.classify.ClassifyDetailActivity;
 import com.libtop.weitu.activity.classify.ClassifyFragment;
+import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.login.LoginFragment;
+import com.libtop.weitu.activity.main.adapter.MainClassifyAdapter;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.adapter.ResourceFileAdapter;
 import com.libtop.weitu.activity.main.dto.DocBean;
 import com.libtop.weitu.activity.main.dto.ImageSliderDto;
 import com.libtop.weitu.activity.main.dto.ResourceBean;
 import com.libtop.weitu.activity.main.dto.SubjectBean;
-import com.libtop.weitu.activity.main.rank.RankFragment;
 import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
 import com.libtop.weitu.activity.notice.NoticeActivity;
 import com.libtop.weitu.activity.search.SearchActivity;
@@ -39,7 +41,6 @@ import com.libtop.weitu.config.WTConstants;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
@@ -48,11 +49,12 @@ import com.libtop.weitu.utils.DisplayUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.utils.MessageRemindUtil;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 import com.libtop.weitu.widget.view.HorizontalListView;
 import com.libtop.weitu.widget.view.PagingListViewForScrollView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 import com.zbar.lib.CaptureActivity;
 import com.zhy.http.okhttp.callback.StringCallback;
 
@@ -89,6 +91,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.fragment_discover_layout_scrollview)
     ScrollView scrollView;
+    @Bind(R.id.included_main_content_classify_listview)
+    HorizontalListView classifyListView;
     @Bind(R.id.included_main_content_recommend_subject_listview)
     HorizontalListView recommendSubjectListView;
     @Bind(R.id.included_main_content_hot_subject_listview)
@@ -107,11 +111,13 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     ImageView moreHotSubjectList;
 
     ResourceFileAdapter resourceFileAdapter;
+    MainClassifyAdapter mainClassifyAdapter;
     MoreSubjectAdapter recommendSubjectAdapter;
     MoreSubjectAdapter hotSubjectAdapter;
     private ArrayList<Page> pageViews;
     private List<DocBean> bList = new ArrayList<DocBean>();
 
+    private List<ClassifyBean> classifyList = new ArrayList<>();
     private List<ResourceBean> reourceList = new ArrayList<>();
     private List<SubjectBean> subjectList = new ArrayList<>();
     private List<SubjectBean> hotsubjectList = new ArrayList<>();
@@ -174,6 +180,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
 
     private void initView()
     {
+        mainClassifyAdapter = new MainClassifyAdapter(mContext,classifyList);
         recommendSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
         hotSubjectAdapter = new MoreSubjectAdapter(mContext, hotsubjectList);
         resourceFileAdapter = new ResourceFileAdapter(mContext, reourceList);
@@ -189,9 +196,11 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         swipeRefreshLayout.setRefreshing(false);
         networkLoadingLayout.setOnRetryClickListner(this);
 
+        classifyListView.setAdapter(mainClassifyAdapter);
         recommendSubjectListView.setAdapter(recommendSubjectAdapter);
         hotSubjectListView.setAdapter(hotSubjectAdapter);
         resourceListView.setAdapter(resourceFileAdapter);
+        classifyListView.setOnItemClickListener(classifyListViewOnItemClickListener);
         recommendSubjectListView.setOnItemClickListener(subjectListViewOnItemClickListener);
         hotSubjectListView.setOnItemClickListener(hotSubjectListViewOnItemClickListener);
         resourceListView.setOnItemClickListener(resourceListViewOnItemClickListener);
@@ -211,6 +220,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     private void reloadAllData()
     {
         requestImageSlider();
+        requestClassifyInfo();
         requestSubject();
         requestHotSubject();
         loadResourceFile(1);
@@ -400,6 +410,61 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         mAnimLineIndicator.setImageLoader(new PicassoLoader());
         mAnimLineIndicator.addPages(pageViews);
         mAnimLineIndicator.setPosition(InfiniteIndicator.IndicatorPosition.Center_Bottom);
+    }
+
+    private void requestClassifyInfo()
+    {
+        final List<ClassifyBean> classifyBeanList = (List<ClassifyBean>) mCache.getAsObject("classifyList");
+        if (CollectionUtil.getSize(classifyBeanList) > 0)
+        {
+            handleClassifyResult(classifyBeanList);
+            networkLoadingLayout.dismiss();
+        }
+        Map<String,Object> map = new HashMap<>();
+        map.put("method", "categories.root");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+                if (CollectionUtil.getSize(classifyBeanList) > 0)
+                {
+                    //TODO
+                }
+                else
+                {
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                try
+                {
+                    List<ClassifyBean> classifyBeen = JSONUtil.readBeanArray(json, ClassifyBean.class);
+
+                    if (classifyBeen.size() > 0)
+                    {
+                        networkLoadingLayout.dismiss();
+                    }
+                    else if (classifyBeen.size() == 0 && classifyBeanList.size() == 0)
+                    {
+                        networkLoadingLayout.showEmptyPrompt();
+                        return;
+                    }
+
+                    mCache.put("classifyList", (Serializable) classifyBeen);
+                    handleClassifyResult(classifyBeen);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    LogUtil.e(getTag(), e.toString());
+                }
+            }
+        });
     }
 
 
@@ -607,6 +672,18 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         resourceFileAdapter.setData(reourceList);
     }
 
+    private void handleClassifyResult(List<ClassifyBean> classifyBeen)
+    {
+        classifyList.clear();
+        classifyList = classifyBeen;
+        if (classifyList.isEmpty())
+        {
+            return;
+        }
+        classifyList.add(classifyList.get(0));
+        mainClassifyAdapter.setData(classifyList);
+    }
+
 
     private SwipeRefreshLayout.OnRefreshListener swipeOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener()
     {
@@ -615,6 +692,26 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         {
             isRefreshed = true;
             reloadAllData();
+        }
+    };
+
+    private AdapterView.OnItemClickListener classifyListViewOnItemClickListener = new AdapterView.OnItemClickListener()
+    {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
+            if(position==classifyList.size()-1){
+                Bundle bundle = new Bundle();
+                bundle.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
+                mContext.startActivity(bundle, ContentActivity.class);
+            }else {
+                ClassifyBean classifyBean = classifyList.get(position);
+                mainClassifyAdapter.setItem(position,classifyBean);
+                Intent intent = new Intent(mContext, ClassifyDetailActivity.class);
+                intent.putExtra("code", classifyBean.code);
+                intent.putExtra("name", classifyBean.name);
+                startActivity(intent);
+            }
         }
     };
 
@@ -667,8 +764,6 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
             R.id.fragment_discover_layout_notice_imageview,
             R.id.fragment_discover_layout_scan_imageview,
             R.id.fragment_discover_layout_search_edittext,
-            R.id.included_main_content_category_textview,
-            R.id.included_main_content_ranklist_textview,
             R.id.more_recommend_subject_list,
             R.id.more_hot_subject_list
     })
@@ -701,18 +796,6 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
 
             case R.id.fragment_discover_layout_search_edittext:
                 mContext.startActivity(null, SearchActivity.class);
-                break;
-
-            case R.id.included_main_content_category_textview:
-                Bundle bundle2 = new Bundle();
-                bundle2.putString(ContentActivity.FRAG_CLS, ClassifyFragment.class.getName());
-                mContext.startActivity(bundle2, ContentActivity.class);
-                break;
-
-            case R.id.included_main_content_ranklist_textview:
-                Bundle bundle3 = new Bundle();
-                bundle3.putString(ContentActivity.FRAG_CLS, RankFragment.class.getName());
-                mContext.startActivity(bundle3, ContentActivity.class);
                 break;
 
             case R.id.more_recommend_subject_list:

@@ -18,6 +18,11 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.test.Resource;
 import com.libtop.weitu.test.Subject;
+import com.libtop.weitu.activity.main.dto.ClassifyResultDto;
+import com.libtop.weitu.activity.main.dto.SubjectResourceBean;
+import com.libtop.weitu.base.BaseFragment;
+import com.libtop.weitu.eventbus.MessageEvent;
+import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ListViewUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -47,13 +52,6 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     @Bind(R.id.xlist)
     XListView xListView;
 
-
-    private ClassifySubDetailAdapter subresAdapter;
-    private ClassifyDetailAdapter mAdapter;
-    private List<CollectBean> categoryResultList = new ArrayList<>();
-    private List<Subject> subjectList = new ArrayList<>();
-    private List<Resource> resourceList = new ArrayList<>();
-
     private String group;
     private String method;
     private int mCurPage = 1;
@@ -62,8 +60,8 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
     private boolean isRefreshed = false;
     private long code, subCode;
     private String filterString = "view";
-    private List<ClassifyResultBean> mData = new ArrayList<>();
-
+    private List<SubjectResourceBean> mData = new ArrayList<>();
+    private ClassifyDetailAdapter mAdapter;
 
 
     @Override
@@ -109,7 +107,6 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
             networkLoadingLayout.showLoading();
             getData();
         }
-        subresAdapter = new ClassifySubDetailAdapter(mContext, categoryResultList);
         mAdapter = new ClassifyDetailAdapter(mContext,mData);
         ListViewUtil.addPaddingHeader(mContext,xListView);
         xListView.setAdapter(mAdapter);
@@ -118,14 +115,16 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (group.equals("subject")) {
-                    ContextUtil.openSubjectDetail(mContext,"57ea290104122049539a365b");
-                //TODO ContextUtil.openSubjectDetail(mContext,mData.get(position-2).id);
-
+                    SubjectResourceBean subject = mData.get(position-2);
+                    ContextUtil.openSubjectDetail(mContext,subject.getId());
                 } else if (group.equals("resources")) {
-                    if(mData.get(position-2).entityType.equals("document")){
-                        ContextUtil.openResourceByType(mContext,ContextUtil.ENTITY_TYPE_DOC,mData.get(position-2).id);
-                    }else if(mData.get(position-2).entityType.equals("image-album")){
-                        ContextUtil.openResourceByType(mContext,ContextUtil.ENTITY_TYPE_AUDIO,mData.get(position-2).id);
+                    SubjectResourceBean resource = mData.get(position-2);
+                    if(resource.getEntityType().equals("subject")){
+                        ContextUtil.openSubjectDetail(mContext,resource.getId());
+                    }else if(resource.getEntityType().equals("book")){
+                        ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource.getEntityType()), resource.getIsbn(), true);
+                    }else {
+                        ContextUtil.openResourceByType(mContext, ContextUtil.getResourceType(resource.getEntityType()), resource.getId(), true);
                     }
                 }
             }
@@ -178,11 +177,11 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
                     {
                         mData.clear();
                     }
-                    ClassifyDetailBean classifyDetailBean = new Gson().fromJson(json,new TypeToken<ClassifyDetailBean>(){}.getType());
-                    if(classifyDetailBean.result!=null){
-                        mData.addAll(classifyDetailBean.result);
+                    ClassifyResultDto classifyResultDto = new Gson().fromJson(json,new TypeToken<ClassifyResultDto>(){}.getType());
+                    if(classifyResultDto.result!=null){
+                        mData.addAll(classifyResultDto.result);
                     }
-                    if (classifyDetailBean.result.size() < 20)
+                    if (classifyResultDto.result.size() < 20)
                     {
                         hasData = false;
                         xListView.setPullLoadEnable(false);
@@ -198,7 +197,7 @@ public class ClassifyDetailFragment extends BaseFragment implements NetworkLoadi
                     }
                     else
                     {
-                        mAdapter.setNewData(mData);
+                        mAdapter.setData(mData);
                     }
                 }
             }
