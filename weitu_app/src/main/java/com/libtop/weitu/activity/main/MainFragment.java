@@ -41,6 +41,8 @@ import com.libtop.weitu.config.WTConstants;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.test.CategoryBean;
+import com.libtop.weitu.test.adapter.CategoryAdapter;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
@@ -56,7 +58,9 @@ import com.libtop.weitu.widget.view.PagingListViewForScrollView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.zbar.lib.CaptureActivity;
+import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
+import com.zhy.http.okhttp.request.OkHttpRequest;
 
 import java.io.File;
 import java.io.Serializable;
@@ -116,6 +120,10 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     MoreSubjectAdapter hotSubjectAdapter;
     private ArrayList<Page> pageViews;
     private List<DocBean> bList = new ArrayList<DocBean>();
+
+    //TODO
+    CategoryAdapter categoryAdapter;
+    List<CategoryBean.Categories> categoriesList = new ArrayList<>();
 
     private List<ClassifyBean> classifyList = new ArrayList<>();
     private List<ResourceBean> reourceList = new ArrayList<>();
@@ -184,6 +192,9 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         recommendSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
         hotSubjectAdapter = new MoreSubjectAdapter(mContext, hotsubjectList);
         resourceFileAdapter = new ResourceFileAdapter(mContext, reourceList);
+        // TODO
+        categoryAdapter = new CategoryAdapter(mContext,categoriesList);
+        classifyListView.setAdapter(categoryAdapter);
 
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
         if (isFirstIn)
@@ -196,11 +207,11 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         swipeRefreshLayout.setRefreshing(false);
         networkLoadingLayout.setOnRetryClickListner(this);
 
-        classifyListView.setAdapter(mainClassifyAdapter);
+//        classifyListView.setAdapter(mainClassifyAdapter); TODO
         recommendSubjectListView.setAdapter(recommendSubjectAdapter);
         hotSubjectListView.setAdapter(hotSubjectAdapter);
         resourceListView.setAdapter(resourceFileAdapter);
-        classifyListView.setOnItemClickListener(classifyListViewOnItemClickListener);
+//        classifyListView.setOnItemClickListener(classifyListViewOnItemClickListener); TODO
         recommendSubjectListView.setOnItemClickListener(subjectListViewOnItemClickListener);
         hotSubjectListView.setOnItemClickListener(hotSubjectListViewOnItemClickListener);
         resourceListView.setOnItemClickListener(resourceListViewOnItemClickListener);
@@ -220,7 +231,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     private void reloadAllData()
     {
         requestImageSlider();
-        requestClassifyInfo();
+//        requestClassifyInfo();
+        requestClassifyFakeInfo();
         requestSubject();
         requestHotSubject();
         loadResourceFile(1);
@@ -410,6 +422,71 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         mAnimLineIndicator.setImageLoader(new PicassoLoader());
         mAnimLineIndicator.addPages(pageViews);
         mAnimLineIndicator.setPosition(InfiniteIndicator.IndicatorPosition.Center_Bottom);
+    }
+
+    //TODO
+    private void requestClassifyFakeInfo()
+    {
+        final List<CategoryBean.Categories> classifyBeanList = (List<CategoryBean.Categories>) mCache.getAsObject("classifyList");
+        if (CollectionUtil.getSize(classifyBeanList) > 0)
+        {
+            handleCategoriesResult(classifyBeanList);
+            networkLoadingLayout.dismiss();
+        }
+        String api = "http://115.28.189.104/find/category/recommend/list";
+        HttpRequest.newLoad(api).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+                if (CollectionUtil.getSize(classifyBeanList) > 0)
+                {
+                    //TODO
+                }
+                else
+                {
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                try
+                {
+                    CategoryBean categoryBean = JSONUtil.readBean(json, CategoryBean.class);
+                    List<CategoryBean.Categories> categories = categoryBean.categories;
+                    if (categories.size() > 0)
+                    {
+                        networkLoadingLayout.dismiss();
+                    }
+                    else if (categories.size() == 0 && classifyBeanList.size() == 0)
+                    {
+                        networkLoadingLayout.showEmptyPrompt();
+                        return;
+                    }
+
+                    mCache.put("classifyList", (Serializable) categories);
+                    handleCategoriesResult(categories);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    LogUtil.e(getTag(), e.toString());
+                }
+            }
+        });
+    }
+    //TODO
+    private void handleCategoriesResult(List<CategoryBean.Categories> categories){
+        categoriesList.clear();
+        categoriesList = categories;
+        if(categoriesList.isEmpty()){
+            return;
+        }
+        categoriesList.add(categoriesList.get(0));
+        categoryAdapter.setData(categoriesList);
     }
 
     private void requestClassifyInfo()
