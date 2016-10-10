@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyDetailActivity;
@@ -455,7 +456,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
             {
                 try
                 {
-                    CategoryBean categoryBean = JSONUtil.readBean(json, CategoryBean.class);
+                    CategoryBean categoryBean = new Gson().fromJson(json, new TypeToken<CategoryBean>(){}.getType());
                     List<CategoryBean.Categories> categories = categoryBean.categories;
                     if (categories.size() > 0)
                     {

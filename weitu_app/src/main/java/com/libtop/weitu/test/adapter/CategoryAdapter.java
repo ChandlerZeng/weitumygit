@@ -25,12 +25,12 @@ public class CategoryAdapter extends CommonAdapter<CategoryBean.Categories> {
         ImageView imageView = helper.getView(R.id.main_classify_image);
         if(datas!=null && position==datas.size()-1){
             helper.setText(R.id.main_classify_text,"全部分类");
-            imageView.setImageResource(R.drawable.add_pic);
+            imageView.setImageResource(R.drawable.shape_bg_g2);
         }else {
             if(object.name!=null){
                 helper.setText(R.id.main_classify_text,object.name);
             }
-            Picasso.with(context).load(object.cover).placeholder(R.drawable.default_error).fit().centerInside().into(imageView);
+            Picasso.with(context).load(object.cover).placeholder(R.drawable.default_error).resize(100,100).centerCrop().into(imageView);
         }
     }
 
