@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.libtop.weitu.R;
-import com.libtop.weitu.activity.classify.bean.ClassifyResultBean;
 import com.libtop.weitu.activity.main.dto.SubjectResourceBean;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
@@ -62,7 +61,7 @@ public class ClassifyDetailAdapter extends BaseAdapter
     {
         SubjectResourceBean result = mlist.get(position);
 
-        if (result.getEntityType() == String.valueOf(ContextUtil.SUBJECT)){
+        if (result.getEntityType() == String.valueOf(ContextUtil.ENTITY_TYPE_SUBJECT)){
             return getSubjectView(position, convertView, parent, result);
         }else {
             return getResourceView(position, convertView, parent, result);
@@ -87,7 +86,7 @@ public class ClassifyDetailAdapter extends BaseAdapter
     private View getResourceView(int position,View convertView, ViewGroup parent, SubjectResourceBean classifyResultBean)
     {
         ViewHolderHelper helper = null;
-        if(classifyResultBean.getEntityType() == String.valueOf(ContextUtil.BOOK)){
+        if(classifyResultBean.getEntityType() == String.valueOf(ContextUtil.ENTITY_TYPE_BOOK)){
             helper = ViewHolderHelper.get(context, convertView, parent, R.layout.item_list_rank_book, position);
             helper.setText(R.id.subject_file_desc, classifyResultBean.getIntroduction());
             helper.setText(R.id.subject_file_author, "作者：" + classifyResultBean.getUploadUsername());

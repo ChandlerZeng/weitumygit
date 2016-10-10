@@ -141,7 +141,7 @@ public class ResourceFragment extends BaseFragment implements NetworkLoadingLayo
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
                 CollectBean bean = (CollectBean) parent.getItemAtPosition(position);
-                if (bean.favor.type == ContextUtil.BOOK){
+                if (bean.favor.type == ContextUtil.ENTITY_TYPE_BOOK){
                     ContextUtil.openResourceByType(mContext,bean.favor.type, bean.target.getIsbn());
                 }else {
                     ContextUtil.openResourceByType(mContext,bean.favor.type, bean.target.getId());

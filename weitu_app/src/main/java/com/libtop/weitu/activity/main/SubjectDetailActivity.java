@@ -147,7 +147,7 @@ public class SubjectDetailActivity extends BaseActivity
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 if (position>1){
                     CollectBean collectBean = (CollectBean) arg0.getAdapter().getItem(position);
-                    if (collectBean.type == ContextUtil.BOOK){
+                    if (collectBean.type == ContextUtil.ENTITY_TYPE_BOOK){
                         ContextUtil.openResourceByType(mContext,collectBean.type, collectBean.target.getIsbn());
                     }else {
                         ContextUtil.openResourceByType(mContext,collectBean.type, collectBean.target.getId());

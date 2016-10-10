@@ -16,12 +16,12 @@ import com.libtop.weitu.R;
 import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CategoryPickerHelper;
 import com.libtop.weitu.utils.ClippingPicture;
+import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.utils.JSONUtil;
-import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
+import com.libtop.weitu.utils.Preference;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.HashMap;
@@ -121,7 +121,7 @@ public class NewSubjectActivity extends BaseActivity
                 onBackPressed();
                 break;
             case R.id.img_cover:
-                imgCoverClick();
+                ContextUtil.chooseImage(mContext, true, 1, 0, REQUEST_IMAGE);
                 break;
             case R.id.ll_theme_sort:
                 themeSortClick();
@@ -265,16 +265,6 @@ public class NewSubjectActivity extends BaseActivity
         categoryPickerHelper.showPicker(mContext);
 //        Intent i = new Intent(mContext, ImageSortActivity.class);
 //        startActivityForResult(i, 1);
-    }
-
-
-    private void imgCoverClick()
-    {
-        Intent intent = new Intent(mContext, MultiImageSelectorActivity.class);
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, 0);
-        mContext.startActivityForResult(intent, REQUEST_IMAGE);
     }
 
 
