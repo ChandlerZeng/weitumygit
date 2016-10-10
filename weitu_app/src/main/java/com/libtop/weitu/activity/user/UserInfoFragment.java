@@ -15,15 +15,15 @@ import android.widget.TextView;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.main.LibraryFragment;
-import com.libtop.weitu.base.impl.PhotoFragment;
+import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.dao.ResultCodeDto;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
-import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.ClippingPicture;
 import com.libtop.weitu.utils.ContantsUtil;
+import com.libtop.weitu.utils.ContextUtil;
+import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.SdCardUtil;
-import com.libtop.weitu.utils.selector.MultiImageSelectorActivity;
 import com.libtop.weitu.utils.selector.utils.AlertDialogUtil;
 import com.libtop.weitu.utils.selector.view.MyAlertDialog;
 import com.squareup.picasso.NetworkPolicy;
@@ -45,9 +45,10 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Administrator on 2016/1/11 0011.
  */
-public class UserInfoFragment extends PhotoFragment
+public class UserInfoFragment extends BaseFragment
 {
-    public static final int REQUEST_IMAGE = 2;
+    private static final int REQUEST_CODE_CHOOSE_IMAGE = 0;
+    private static final int REQUEST_CODE_CROP_IMAGE = 1;
 
     @Bind(R.id.sex_value)
     TextView mSexText;
@@ -158,7 +159,7 @@ public class UserInfoFragment extends PhotoFragment
                 break;
             //修改头像
             case R.id.avatar:
-                loadPickUp();
+                ContextUtil.chooseImage(mContext, true, 1, 0, REQUEST_CODE_CHOOSE_IMAGE);
                 break;
             //修改图书馆
             case R.id.tv_library:
@@ -194,16 +195,6 @@ public class UserInfoFragment extends PhotoFragment
     }
 
 
-    private void loadPickUp()
-    {
-        Intent intent = new Intent(getActivity(), MultiImageSelectorActivity.class);
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, 0);
-        mContext.startActivityForResult(intent, REQUEST_IMAGE);
-    }
-
-
     @Override
     public void onResult(int request, int result, Intent data)
     {
@@ -213,15 +204,12 @@ public class UserInfoFragment extends PhotoFragment
         }
         switch (request)
         {
-            case REQUEST_CODE_CAMERA:
-                cropPhoto(Uri.parse(SdCardUtil.TEMP));
+            case REQUEST_CODE_CHOOSE_IMAGE:
+                String path = "file:///" + data.getStringExtra("lamge");
+                ContextUtil.cropImage(mContext, Uri.parse(path), Uri.parse(SdCardUtil.TEMP), 1, 1, 60, 60, REQUEST_CODE_CROP_IMAGE);
                 break;
-            case REQUEST_IMAGE:
-                String a = "file:///" + data.getStringExtra("lamge");
-                //Uri uri = d1ata.getData();
-                cropPhoto(Uri.parse(a));
-                break;
-            case REQUEST_CODE_PHOTO_DEAL:
+
+            case REQUEST_CODE_CROP_IMAGE:
                 mBitmap = ClippingPicture.resizeBitmap(Uri.parse(SdCardUtil.TEMP).getPath(), 60, 60);
                 if (mBitmap == null)
                 {
