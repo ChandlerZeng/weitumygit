@@ -52,12 +52,21 @@
 
     </LinearLayout>
 
-    <com.libtop.weitu.widget.view.HorizontalListView
-        android:id="@+id/included_main_content_recommend_subject_listview"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_gravity="center"
-        android:background="@color/white" />
+        android:background="@color/layout_bg">
+        <com.libtop.weitu.widget.view.HorizontalListView
+            android:id="@+id/included_main_content_recommend_subject_listview"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:background="@color/white" />
+        <include
+            android:id="@+id/recommend_subject_networkloadinglayout"
+            layout="@layout/content_layout_network_loading"/>
+    </FrameLayout>
+
 
     <View style="@style/my_divide_layout_view_style_default"/>
 
@@ -89,12 +98,23 @@
 
     </LinearLayout>
 
-    <com.libtop.weitu.widget.view.HorizontalListView
-        android:id="@+id/included_main_content_hot_subject_listview"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:layout_gravity="center"
-        android:background="@color/white" />
+        android:background="@color/layout_bg">
+
+        <com.libtop.weitu.widget.view.HorizontalListView
+            android:id="@+id/included_main_content_hot_subject_listview"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:background="@color/white"/>
+
+        <include
+            android:id="@+id/hot_subject_networkloadinglayout"
+            layout="@layout/content_layout_network_loading"/>
+
+    </FrameLayout>
 
     <View style="@style/my_divide_layout_view_style_default"/>
 
@@ -129,6 +149,12 @@
     <com.libtop.weitu.widget.view.PagingListViewForScrollView
         android:id="@+id/included_main_content_resource_listview"
         style="@style/my_listview_style_default"/>
+
+    <include
+        android:id="@+id/recommend_resource_networkloadinglayout"
+        android:layout_height="160dp"
+        android:layout_width="match_parent"
+        layout="@layout/content_layout_network_loading"/>
 
     <View style="@style/my_divide_layout_view_style_default"/>
 

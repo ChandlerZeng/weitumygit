@@ -1,26 +1,20 @@
 package com.libtop.weitu.activity.main.subsubject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.ContentFragment;
-import com.libtop.weitu.activity.main.SubjectDetailActivity;
 import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.config.WTConstants;
 import com.libtop.weitu.http.HttpRequest;
-import com.libtop.weitu.test.Subject;
-import com.libtop.weitu.test.SubjectResource;
 import com.libtop.weitu.utils.CollectionUtil;
-import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JSONUtil;
 import com.libtop.weitu.widget.NetworkLoadingLayout;
@@ -39,7 +33,8 @@ import okhttp3.Call;
 /**
  * Created by Zeng on 2016/9/7.
  */
-public class MoreSubjectFragment extends ContentFragment implements NetworkLoadingLayout.OnRetryClickListner {
+public class MoreSubjectFragment extends ContentFragment implements NetworkLoadingLayout.OnRetryClickListner
+{
 
     @Bind(R.id.back_btn)
     ImageView backBtn;
@@ -60,7 +55,8 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         Bundle bundle = ((ContentActivity)mContext).getCurrentExtra();
         titleText = bundle.getString("title");
@@ -69,13 +65,15 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
 
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_more_sub_layout;
     }
 
 
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
     }
 
@@ -88,13 +86,15 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
             requestSubject(1);
         }
         title.setText(titleText);
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 mContext.finish();
             }
         });
-        subGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        subGridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SubjectBean subjectBean = subjectList.get(position);
@@ -106,9 +106,11 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         moreSubjectAdapter = new MoreSubjectAdapter(mContext,subjectList,subGridView);
         subGridView.setAdapter(moreSubjectAdapter);
         subGridView.setHasMoreItems(false);
-        subGridView.setPagingableListener(new PagingGridView.Pagingable() {
+        subGridView.setPagingableListener(new PagingGridView.Pagingable()
+        {
             @Override
-            public void onLoadMoreItems() {
+            public void onLoadMoreItems()
+            {
                 requestSubject(pageIndex);
             }
         });
@@ -121,19 +123,26 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         map.put("page",page);
         map.put("pageSize",20);
         map.put("method",method);
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
-                networkLoadingLayout.showLoadFailAndRetryPrompt();
+            public void onError(Call call, Exception e, int id)
+            {
+                if(page==1){
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
             }
 
 
             @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
                     networkLoadingLayout.dismiss();
                     pageIndex=page+1;
-                    try {
+                    try
+                    {
                         List<SubjectBean> subjectBeanList = JSONUtil.readBeanArray(json, SubjectBean.class);
                         int size = CollectionUtil.getSize(subjectBeanList);
                         boolean hasMore = (size == WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
@@ -154,7 +163,9 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
                             }
                         }
                         handleSubjectResult(subjectBeanList);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
                 }
@@ -162,7 +173,8 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         });
     }
 
-    private void handleSubjectResult(List<SubjectBean> subList) {
+    private void handleSubjectResult(List<SubjectBean> subList)
+    {
         subjectList.addAll(subList);
         if (subjectList.isEmpty())
             return;
@@ -170,7 +182,8 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
     }
 
     @Override
-    public void onRetryClick(View v) {
+    public void onRetryClick(View v)
+    {
         requestSubject(1);
     }
 }

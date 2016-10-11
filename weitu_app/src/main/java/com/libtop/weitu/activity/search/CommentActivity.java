@@ -90,6 +90,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     private boolean hasData = true;
     private boolean isFirstIn = true;
     private boolean isRefreshed = false;
+    private boolean isRetryClicked = true;
 
     private HashMap<String, Object> replyMap = new HashMap<>();
     private HashMap<String, Object> replyItemMap = new HashMap<>();
@@ -182,9 +183,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         HttpRequest.loadWithMap(map).execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                if (mCurPage > 1) {
+                if (mCurPage > 1 ) {
 
-                } else if (!isRefreshed) {
+                } else if (!isRefreshed && isRetryClicked) {
                     networkLoadingLayout.showLoadFailAndRetryPrompt();
                 }
             }
@@ -221,6 +222,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
                     editText.setHint("发表评论");
                     isReply = false;
                     isItemReply = false;
+                    isRetryClicked = false;
                 }
             }
         });
@@ -653,6 +655,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     @Override
     public void onRetryClick(View v) {
         mCurPage = 1;
+        isRetryClicked = true;
         getCommentList();
     }
 

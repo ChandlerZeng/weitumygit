@@ -12,7 +12,7 @@ public class CategoryBean implements Serializable {
     public int status;
     public List<Categories> categories;
 
-    public class Categories{
+    public class Categories implements Serializable{
         public String code;
         public String name;
         public String cover;
