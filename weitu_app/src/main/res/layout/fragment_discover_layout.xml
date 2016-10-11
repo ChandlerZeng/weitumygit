@@ -62,27 +62,22 @@
             style="@style/my_navigationbar_item_style_scanqrcode"/>
     </LinearLayout>
 
-    <View style="@style/my_divide_line_style_horizontal"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_discover_layout_swiperefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <FrameLayout style="@style/my_layout_style_common">
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/fragment_discover_layout_swiperefreshlayout"
+        <ScrollView
+            android:id="@+id/fragment_discover_layout_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
 
-            <ScrollView
-                android:id="@+id/fragment_discover_layout_scrollview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:scrollbars="none">
+            <include layout="@layout/included_main_content"/>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-                <include layout="@layout/included_main_content"/>
-            </ScrollView>
-        </android.support.v4.widget.SwipeRefreshLayout>
-
-        <include layout="@layout/content_layout_network_loading"/>
-    </FrameLayout>
+    <View style="@style/my_divide_line_style_horizontal"/>
 
 </LinearLayout>

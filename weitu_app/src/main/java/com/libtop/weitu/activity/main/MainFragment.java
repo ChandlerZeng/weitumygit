@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
-import com.google.gson.Gson;
 import com.libtop.weitu.R;
 import com.libtop.weitu.activity.ContentActivity;
 import com.libtop.weitu.activity.classify.ClassifyDetailActivity;
@@ -31,16 +30,13 @@ import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.activity.main.subsubject.MoreSubjectFragment;
 import com.libtop.weitu.activity.notice.NoticeActivity;
 import com.libtop.weitu.activity.search.SearchActivity;
-import com.libtop.weitu.activity.search.VideoPlayActivity2;
-import com.libtop.weitu.activity.search.dto.SearchResult;
-import com.libtop.weitu.activity.search.dynamicCardLayout.DynamicCardActivity;
-import com.libtop.weitu.activity.source.AudioPlayActivity2;
-import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.base.BaseFragment;
 import com.libtop.weitu.config.WTConstants;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
+import com.libtop.weitu.test.Category;
+import com.libtop.weitu.test.adapter.CategoryAdapter;
 import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.CheckUtil;
@@ -58,6 +54,8 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.zbar.lib.CaptureActivity;
 import com.zhy.http.okhttp.callback.StringCallback;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.Serializable;
@@ -80,14 +78,8 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 
-public class MainFragment extends BaseFragment implements OnPageClickListener, NetworkLoadingLayout.OnRetryClickListner
+public class MainFragment extends BaseFragment implements OnPageClickListener
 {
-    private static final String IMAGE_SLIDER_DOMAIN_AUDIO_ALBUM = "audio-album";
-    private static final String IMAGE_SLIDER_DOMAIN_VIDEO_ALBUM = "video-album";
-    private static final String IMAGE_SLIDER_DOMAIN_DOCUMENT = "document";
-    private static final String IMAGE_SLIDER_DOMAIN_IMAGE_ALBUM = "image-album";
-
-
     @Bind(R.id.fragment_discover_layout_swiperefreshlayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.fragment_discover_layout_scrollview)
@@ -104,8 +96,12 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     PagingListViewForScrollView resourceListView;
     @Bind(R.id.fragment_discover_layout_notice_imageview)
     BGABadgeImageView noticeIv;
-    @Bind(R.id.networkloadinglayout)
-    NetworkLoadingLayout networkLoadingLayout;
+    @Bind(R.id.recommend_subject_networkloadinglayout)
+    NetworkLoadingLayout rmdSubNetworkLoadingLayout;
+    @Bind(R.id.hot_subject_networkloadinglayout)
+    NetworkLoadingLayout hotSubNetworkLoadingLayout;
+    @Bind(R.id.recommend_resource_networkloadinglayout)
+    NetworkLoadingLayout rmdResNetworkLoadingLayout;
     @Bind(R.id.more_recommend_subject_list)
     ImageView moreRecommentSubjectList;
     @Bind(R.id.more_hot_subject_list)
@@ -117,6 +113,10 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     MoreSubjectAdapter hotSubjectAdapter;
     private ArrayList<Page> pageViews;
     private List<DocBean> bList = new ArrayList<DocBean>();
+
+    //TODO
+    CategoryAdapter categoryAdapter;
+    List<Category> categoriesList = new ArrayList<>();
 
     private List<ClassifyBean> classifyList = new ArrayList<>();
     private List<ResourceBean> reourceList = new ArrayList<>();
@@ -185,23 +185,30 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         recommendSubjectAdapter = new MoreSubjectAdapter(mContext, subjectList);
         hotSubjectAdapter = new MoreSubjectAdapter(mContext, hotsubjectList);
         resourceFileAdapter = new ResourceFileAdapter(mContext, reourceList);
+        // TODO
+        categoryAdapter = new CategoryAdapter(mContext,categoriesList);
+        classifyListView.setAdapter(categoryAdapter);
 
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.GREEN, Color.RED, Color.YELLOW);
         if (isFirstIn)
         {
             isFirstIn = false;
-            networkLoadingLayout.showLoading();
+            rmdSubNetworkLoadingLayout.showLoading();
+            hotSubNetworkLoadingLayout.showLoading();
+            rmdResNetworkLoadingLayout.showLoading();
             reloadAllData();
         }
 
         swipeRefreshLayout.setRefreshing(false);
-        networkLoadingLayout.setOnRetryClickListner(this);
+        rmdSubNetworkLoadingLayout.setOnRetryClickListner(rmdSubOnRetryClickListener);
+        hotSubNetworkLoadingLayout.setOnRetryClickListner(hotSubOnRetryClickListener);
+        rmdResNetworkLoadingLayout.setOnRetryClickListner(rmdResOnRetryClickListener);
 
-        classifyListView.setAdapter(mainClassifyAdapter);
+//        classifyListView.setAdapter(mainClassifyAdapter); // TODO: 2016/10/11  
         recommendSubjectListView.setAdapter(recommendSubjectAdapter);
         hotSubjectListView.setAdapter(hotSubjectAdapter);
         resourceListView.setAdapter(resourceFileAdapter);
-        classifyListView.setOnItemClickListener(classifyListViewOnItemClickListener);
+//        classifyListView.setOnItemClickListener(classifyListViewOnItemClickListener); TODO
         recommendSubjectListView.setOnItemClickListener(recommendSubjectListViewOnItemClickListener);
         hotSubjectListView.setOnItemClickListener(hotSubjectListViewOnItemClickListener);
         resourceListView.setOnItemClickListener(resourceListViewOnItemClickListener);
@@ -221,7 +228,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     private void reloadAllData()
     {
         requestImageSlider();
-        requestClassifyInfo();
+//        requestClassifyInfo();
+        requestClassifyFakeInfo();
         requestSubject();
         requestHotSubject();
         loadResourceFile(1);
@@ -324,24 +332,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         int type = imageSliderDto.type;
         if (type == 1)
         {
-            switch (imageSliderDto.domain)
-            {
-                case IMAGE_SLIDER_DOMAIN_AUDIO_ALBUM:
-                    openAudio(position);
-                    break;
-
-                case IMAGE_SLIDER_DOMAIN_VIDEO_ALBUM:
-                    openVideo(position);
-                    break;
-
-                case IMAGE_SLIDER_DOMAIN_DOCUMENT:
-                    openDoc(position);
-                    break;
-
-                case IMAGE_SLIDER_DOMAIN_IMAGE_ALBUM:
-                    openPhoto(position);
-                    break;
-            }
+            ContextUtil.openResourceByType(mContext,ContextUtil.getResourceType(imageSliderDto.domain),imageSliderDto.id);
         }
         else if (type == 2)
         {
@@ -352,46 +343,6 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                 startActivity(intent);
             }
         }
-    }
-
-
-    private void openAudio(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = slideList.get(position).id;
-        Intent intent = new Intent(mContext, AudioPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openVideo(int position)
-    {
-        SearchResult result = new SearchResult();
-        result.id = slideList.get(position).tid;
-        Intent intent = new Intent(mContext, VideoPlayActivity2.class);
-        intent.putExtra("resultBean", new Gson().toJson(result));
-        mContext.startActivity(intent);
-    }
-
-
-    private void openPhoto(int position)
-    {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", "img");
-        bundle.putString("id", slideList.get(position).id);
-        mContext.startActivity(bundle, DynamicCardActivity.class);
-    }
-
-
-    private void openDoc(int position)
-    {
-        Intent intent = new Intent();
-        intent.putExtra("url", "");
-        intent.putExtra("doc_id", slideList.get(position).id);
-        intent.setClass(mContext, PdfActivity2.class);
-        mContext.startActivity(intent);
-        mContext.overridePendingTransition(R.anim.zoomin, R.anim.alpha_outto);
     }
 
 
@@ -416,13 +367,57 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         mAnimLineIndicator.setPosition(InfiniteIndicator.IndicatorPosition.Center_Bottom);
     }
 
+    //TODO
+    private void requestClassifyFakeInfo()
+    {
+        final List<Category> classifyBeanList = (List<Category>) mCache.getAsObject("classifyList");
+
+        if (CollectionUtil.getSize(classifyBeanList) > 0)
+        {
+            handleCategoriesResult(classifyBeanList);
+        }
+        String api = "http://115.28.189.104/find/category/recommend/list";
+        HttpRequest.newLoad(api).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                try
+                {
+                    List<Category> categories = JSONUtil.readBeanArray(new JSONObject(json), "categories", Category.class);
+                    mCache.put("classifyList", (Serializable) categories);
+                    handleCategoriesResult(categories);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    LogUtil.e(getTag(), e.toString());
+                }
+            }
+        });
+    }
+    //TODO
+    private void handleCategoriesResult(List<Category> categories){
+        categoriesList.clear();
+        categoriesList = categories;
+        if(categoriesList.isEmpty()){
+            return;
+        }
+        categoryAdapter.replaceAll(categoriesList);
+    }
+
     private void requestClassifyInfo()
     {
         final List<ClassifyBean> classifyBeanList = (List<ClassifyBean>) mCache.getAsObject("classifyList");
         if (CollectionUtil.getSize(classifyBeanList) > 0)
         {
             handleClassifyResult(classifyBeanList);
-            networkLoadingLayout.dismiss();
         }
         Map<String,Object> map = new HashMap<>();
         map.put("method", "categories.root");
@@ -431,14 +426,6 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
             @Override
             public void onError(Call call, Exception e, int id)
             {
-                if (CollectionUtil.getSize(classifyBeanList) > 0)
-                {
-                    //TODO
-                }
-                else
-                {
-                    networkLoadingLayout.showLoadFailAndRetryPrompt();
-                }
             }
 
 
@@ -448,17 +435,6 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                 try
                 {
                     List<ClassifyBean> classifyBeen = JSONUtil.readBeanArray(json, ClassifyBean.class);
-
-                    if (classifyBeen.size() > 0)
-                    {
-                        networkLoadingLayout.dismiss();
-                    }
-                    else if (classifyBeen.size() == 0 && classifyBeanList.size() == 0)
-                    {
-                        networkLoadingLayout.showEmptyPrompt();
-                        return;
-                    }
-
                     mCache.put("classifyList", (Serializable) classifyBeen);
                     handleClassifyResult(classifyBeen);
                 }
@@ -478,7 +454,6 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         if (CollectionUtil.getSize(subjectLists) > 0)
         {
             handleSubjectResult(subjectLists);
-            networkLoadingLayout.dismiss();
         }
         Map<String,Object> map = new HashMap<>();
         map.put("page",1);
@@ -495,7 +470,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                 }
                 else
                 {
-                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                    rmdSubNetworkLoadingLayout.showLoadFailAndRetryPrompt();
                 }
             }
 
@@ -507,13 +482,9 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                 {
                     List<SubjectBean> subjectBeanList = JSONUtil.readBeanArray(json, SubjectBean.class);
 
-                    if (subjectBeanList.size() > 0)
+                    if (subjectBeanList.size() == 0 && subjectLists.size() == 0)
                     {
-                        networkLoadingLayout.dismiss();
-                    }
-                    else if (subjectBeanList.size() == 0 && subjectLists.size() == 0)
-                    {
-                        networkLoadingLayout.showEmptyPrompt();
+                        rmdSubNetworkLoadingLayout.showEmptyPrompt();
                         return;
                     }
 
@@ -534,8 +505,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         final List<SubjectBean> subjectLists = (List<SubjectBean>) mCache.getAsObject("hotsubjectList");
         if (CollectionUtil.getSize(subjectLists) > 0)
         {
-            handleSubjectResult(subjectLists);
-            networkLoadingLayout.dismiss();
+            handleHotSubjectResult(subjectLists);
         }
         Map<String,Object> map = new HashMap<>();
         map.put("page",1);
@@ -551,7 +521,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                 }
                 else
                 {
-                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                    hotSubNetworkLoadingLayout.showLoadFailAndRetryPrompt();
                 }
             }
 
@@ -562,14 +532,9 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                 try
                 {
                     List<SubjectBean> subjectBeanList = JSONUtil.readBeanArray(json, SubjectBean.class);
-
-                    if (subjectBeanList.size() > 0)
+                    if (subjectBeanList.size() == 0 && subjectLists.size() == 0)
                     {
-                        networkLoadingLayout.dismiss();
-                    }
-                    else if (subjectBeanList.size() == 0 && subjectLists.size() == 0)
-                    {
-                        networkLoadingLayout.showEmptyPrompt();
+                        hotSubNetworkLoadingLayout.showEmptyPrompt();
                         return;
                     }
 
@@ -587,10 +552,11 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
 
     private void loadResourceFile(final int page)
     {
-        List<ResourceBean> resourceList = (List<ResourceBean>) mCache.getAsObject("resourceList");
+        final List<ResourceBean> resourceList = (List<ResourceBean>) mCache.getAsObject("resourceList");
         if (CollectionUtil.getSize(resourceList) > 0)
         {
             handleResourceFile(resourceList,page);
+
         }
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
@@ -600,6 +566,15 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
             @Override
             public void onError(Call call, Exception e, int id)
             {
+                if (CollectionUtil.getSize(resourceList) > 0)
+                {
+                    //TODO
+                }
+                else
+                {
+                    rmdResNetworkLoadingLayout.showLoadFailAndRetryPrompt();
+                    resourceListView.setVisibility(View.GONE);
+                }
             }
 
 
@@ -611,6 +586,14 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
                     {
                         pageIndex = page + 1 ;
                         List<ResourceBean> resourceBeenLists = JSONUtil.readBeanArray(json, ResourceBean.class);
+                        if (resourceBeenLists.size() > 0)
+                        {
+                        }
+                        else if (resourceList.size() == 0 && resourceBeenLists.size() == 0)
+                        {
+                            hotSubNetworkLoadingLayout.showEmptyPrompt();
+                            return;
+                        }
                         if(page==1){
                             mCache.put("resourceList", (Serializable) resourceBeenLists);
                         }
@@ -643,23 +626,25 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     private void handleSubjectResult(List<SubjectBean> subList)
     {
         subjectList.clear();
-        subjectList = subList;
+        subjectList.addAll(subList);
         if (subjectList.isEmpty())
         {
             return;
         }
-        recommendSubjectAdapter.setData(subjectList);
+        rmdSubNetworkLoadingLayout.dismiss();
+        recommendSubjectAdapter.replaceAll(subjectList);
     }
 
     private void handleHotSubjectResult(List<SubjectBean> subList)
     {
         hotsubjectList.clear();
-        hotsubjectList = subList;
+        hotsubjectList.addAll(subList);
         if (hotsubjectList.isEmpty())
         {
             return;
         }
-        hotSubjectAdapter.setData(hotsubjectList);
+        hotSubNetworkLoadingLayout.dismiss();
+        hotSubjectAdapter.replaceAll(hotsubjectList);
     }
 
 
@@ -673,6 +658,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         {
             return;
         }
+        resourceListView.setVisibility(View.VISIBLE);
+        rmdResNetworkLoadingLayout.dismiss();
         resourceFileAdapter.setData(reourceList);
     }
 
@@ -699,6 +686,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
         }
     };
 
+    //TODO
     private AdapterView.OnItemClickListener classifyListViewOnItemClickListener = new AdapterView.OnItemClickListener()
     {
         @Override
@@ -772,11 +760,32 @@ public class MainFragment extends BaseFragment implements OnPageClickListener, N
     };
 
 
-    @Override
-    public void onRetryClick(View v)
+    private NetworkLoadingLayout.OnRetryClickListner rmdSubOnRetryClickListener = new NetworkLoadingLayout.OnRetryClickListner()
     {
-        reloadAllData();
-    }
+        @Override
+        public void onRetryClick(View v)
+        {
+            requestSubject();
+        }
+    };
+
+    private NetworkLoadingLayout.OnRetryClickListner hotSubOnRetryClickListener = new NetworkLoadingLayout.OnRetryClickListner()
+    {
+        @Override
+        public void onRetryClick(View v)
+        {
+            requestHotSubject();
+        }
+    };
+
+    private NetworkLoadingLayout.OnRetryClickListner rmdResOnRetryClickListener = new NetworkLoadingLayout.OnRetryClickListner()
+    {
+        @Override
+        public void onRetryClick(View v)
+        {
+            loadResourceFile(1);
+        }
+    };
 
 
     @Nullable

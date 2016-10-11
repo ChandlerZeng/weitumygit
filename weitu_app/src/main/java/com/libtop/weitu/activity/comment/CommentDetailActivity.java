@@ -574,7 +574,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             if(object.logo!=null){
                 logoUrl = object.logo;
             }
-            ImageLoaderUtil.loadImage(mContext, imageHead, logoUrl);
+            ImageLoaderUtil.loadLogoImage(mContext, imageHead, logoUrl);
         }
         public void setData(List<PraisedUsersBean> userBeans){
             this.datas = userBeans;

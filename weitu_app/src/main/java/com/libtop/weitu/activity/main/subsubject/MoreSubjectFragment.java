@@ -34,7 +34,8 @@ import okhttp3.Call;
 /**
  * Created by Zeng on 2016/9/7.
  */
-public class MoreSubjectFragment extends ContentFragment implements NetworkLoadingLayout.OnRetryClickListner {
+public class MoreSubjectFragment extends ContentFragment implements NetworkLoadingLayout.OnRetryClickListner
+{
 
     @Bind(R.id.back_btn)
     ImageView backBtn;
@@ -55,7 +56,8 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         Bundle bundle = ((ContentActivity)mContext).getCurrentExtra();
         titleText = bundle.getString("title");
@@ -64,13 +66,15 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
 
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutId()
+    {
         return R.layout.fragment_more_sub_layout;
     }
 
 
     @Override
-    public void onCreation(View root) {
+    public void onCreation(View root)
+    {
         initView();
     }
 
@@ -83,13 +87,15 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
             requestSubject(1);
         }
         title.setText(titleText);
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        backBtn.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 mContext.finish();
             }
         });
-        subGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        subGridView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -104,9 +110,11 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         moreSubjectAdapter = new MoreSubjectAdapter(mContext,subjectList,subGridView);
         subGridView.setAdapter(moreSubjectAdapter);
         subGridView.setHasMoreItems(false);
-        subGridView.setPagingableListener(new PagingGridView.Pagingable() {
+        subGridView.setPagingableListener(new PagingGridView.Pagingable()
+        {
             @Override
-            public void onLoadMoreItems() {
+            public void onLoadMoreItems()
+            {
                 requestSubject(pageIndex);
             }
         });
@@ -119,19 +127,26 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         map.put("page",page);
         map.put("pageSize",20);
         map.put("method",method);
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
-                networkLoadingLayout.showLoadFailAndRetryPrompt();
+            public void onError(Call call, Exception e, int id)
+            {
+                if(page==1){
+                    networkLoadingLayout.showLoadFailAndRetryPrompt();
+                }
             }
 
 
             @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
                     networkLoadingLayout.dismiss();
                     pageIndex=page+1;
-                    try {
+                    try
+                    {
                         List<SubjectBean> subjectBeanList = JSONUtil.readBeanArray(json, SubjectBean.class);
                         int size = CollectionUtil.getSize(subjectBeanList);
                         boolean hasMore = (size == WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
@@ -152,7 +167,9 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
                             }
                         }
                         handleSubjectResult(subjectBeanList);
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
                 }
@@ -160,7 +177,8 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         });
     }
 
-    private void handleSubjectResult(List<SubjectBean> subList) {
+    private void handleSubjectResult(List<SubjectBean> subList)
+    {
         subjectList.addAll(subList);
         if (subjectList.isEmpty())
             return;
@@ -183,7 +201,8 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
     }
 
     @Override
-    public void onRetryClick(View v) {
+    public void onRetryClick(View v)
+    {
         requestSubject(1);
     }
 }
