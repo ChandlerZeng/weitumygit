@@ -26,6 +26,7 @@ import com.libtop.weitu.base.BaseActivity;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.fileloader.FileLoader;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
@@ -79,8 +80,10 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
     {
         super.onCreate(savedInstanceState);
         setInjectContentView(R.layout.activity_pdf3);
-        noNetThanExit(mContext);
 
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_DOCUMENT_PAGES);
+
+        noNetThanExit(mContext);
         tid = getIntent().getStringExtra("doc_id");
         getPDF();
 
@@ -109,20 +112,29 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
         switch (v.getId())
         {
             case R.id.ll_tool_include:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_DOCUMENT_DOINCLUDE_CLI);
                 includeClick();
                 break;
+
             case R.id.ll_tool_collect:
                 collectClick();
                 break;
+
             case R.id.ll_tool_comment:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_DOCUMENT_COMMENT_CLI);
                 commentClick();
                 break;
+
             case R.id.ll_tool_share:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_DOCUMENT_SHARE_CLI);
                 shareClick();
                 break;
+
             case R.id.img_rotate:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_DOCUMENT_ROTATE_CLI);
                 rotateClick();
                 break;
+
             case R.id.back_btn:
                 onBackPressed();
                 break;
@@ -268,11 +280,15 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
         params.put("uid", mPreference.getString(Preference.uid));
         if (docResultBean.favorite == 0)
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_DOCUMENT_DOFAV_CLI);
+
             params.put("type", 3);
             params.put("method", "favorite.save");
         }
         else
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_DOCUMENT_UNDOFAV_CLI);
+
             params.put("method", "favorite.delete");
         }
         HttpRequest.loadWithMap(params).execute(new StringCallback()
@@ -408,6 +424,8 @@ public class PdfActivity2 extends BaseActivity implements OnPageChangeListener
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
             {
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_DOCUMENT_PROGRESSBAR_CLI);
+
                 if (!isOpen)
                 {
                     showToast("私有内容只能看第一页");

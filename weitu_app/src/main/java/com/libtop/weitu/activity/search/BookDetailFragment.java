@@ -32,6 +32,7 @@ import com.libtop.weitu.activity.source.PdfTryReadActivity;
 import com.libtop.weitu.base.impl.NotifyFragment;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.ContantsUtil;
@@ -115,7 +116,9 @@ public class BookDetailFragment extends ContentFragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_PAGES);
         EventBus.getDefault().register(this);
+
         datas = new ArrayList<Fragment>();
         adapter = new MainPageAdapter(mFm, datas);
         noNetThanExit(mContext);
@@ -167,13 +170,19 @@ public class BookDetailFragment extends ContentFragment
                     case R.id.info:
                         viewpager.setCurrentItem(0);
                         break;
+
                     case R.id.try_read:
+                        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_TRYREAD_CLI);
                         tryReadClick();
                         break;
+
                     case R.id.struct:
+                        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_STORAGE_CLI);
                         viewpager.setCurrentItem(1);
                         break;
+
                     case R.id.cd:
+                        WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_CD_CLI);
                         viewpager.setCurrentItem(2);
                         break;
                 }
@@ -253,19 +262,27 @@ public class BookDetailFragment extends ContentFragment
         switch (view.getId())
         {
             case R.id.ll_tool_include:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_DOINCLUDE_CLI);
                 includeClick();
                 break;
+
             case R.id.ll_tool_collect:
                 collectClick();
                 break;
+
             case R.id.ll_tool_comment:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_COMMENT_CLI);
                 commentClick();
                 break;
+
             case R.id.ll_tool_share:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_SHARE_CLI);
                 shareClick();
                 break;
+
             case R.id.search:
                 break;
+
             case R.id.back_btn:
                 onBackPressed();
                 break;
@@ -319,10 +336,12 @@ public class BookDetailFragment extends ContentFragment
     {
         if (isCollectShow)
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_UNDOFAV_CLI);
             requestCancelCollect();
         }
         else
         {
+            WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_BOOKDETAIL_DOFAV_CLI);
             requestCollect();
         }
     }

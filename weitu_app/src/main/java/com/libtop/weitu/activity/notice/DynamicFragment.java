@@ -14,6 +14,7 @@ import com.libtop.weitu.activity.base.MyBaseFragment;
 import com.libtop.weitu.config.DynamicConfig;
 import com.libtop.weitu.config.WTConstants;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.test.Dynamic;
 import com.libtop.weitu.test.User;
 import com.libtop.weitu.utils.Preference;
@@ -208,6 +209,8 @@ public class DynamicFragment extends MyBaseFragment implements NetworkLoadingLay
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
+            WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_NOTICE_DYNAMIC_ITEM_CLI);
+
             Dynamic notice = (Dynamic) parent.getAdapter().getItem(position);
             if (notice.getHasRead() == 0)
             {

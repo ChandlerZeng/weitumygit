@@ -36,8 +36,8 @@ import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.http.MapUtil;
 import com.libtop.weitu.http.WeituNetwork;
 import com.libtop.weitu.test.Category;
-import com.libtop.weitu.test.CategoryBean;
 import com.libtop.weitu.test.adapter.CategoryAdapter;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.ACache;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
@@ -209,7 +209,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
         hotSubjectListView.setAdapter(hotSubjectAdapter);
         resourceListView.setAdapter(resourceFileAdapter);
 //        classifyListView.setOnItemClickListener(classifyListViewOnItemClickListener); TODO
-        recommendSubjectListView.setOnItemClickListener(subjectListViewOnItemClickListener);
+        recommendSubjectListView.setOnItemClickListener(recommendSubjectListViewOnItemClickListener);
         hotSubjectListView.setOnItemClickListener(hotSubjectListViewOnItemClickListener);
         resourceListView.setOnItemClickListener(resourceListViewOnItemClickListener);
         resourceListView.setHasMoreItems(false);
@@ -320,6 +320,9 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
     @Override
     public void onPageClick(int position, Page page)
     {
+        HashMap<String, String> map = WTStatisticsService.createMap(WTStatisticsService.KEY_INDEX, String.valueOf(position));
+        WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_BANNER_CLI, map);
+
         ImageSliderDto imageSliderDto = slideList.get(position);
         if (TextUtils.isEmpty(imageSliderDto.domain))
         {
@@ -695,6 +698,10 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                 mContext.startActivity(bundle, ContentActivity.class);
             }else {
                 ClassifyBean classifyBean = classifyList.get(position);
+
+                HashMap<String, String> map = WTStatisticsService.createMap(WTStatisticsService.KEY_CATEGORY, classifyBean.name);
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_CATEGORY_ITEM_CLI, map);
+
                 mainClassifyAdapter.setItem(position,classifyBean);
                 Intent intent = new Intent(mContext, ClassifyDetailActivity.class);
                 intent.putExtra("code", classifyBean.code);
@@ -705,11 +712,14 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
     };
 
 
-    private AdapterView.OnItemClickListener subjectListViewOnItemClickListener = new AdapterView.OnItemClickListener()
+    private AdapterView.OnItemClickListener recommendSubjectListViewOnItemClickListener = new AdapterView.OnItemClickListener()
     {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
+            HashMap<String, String> map = WTStatisticsService.createMap(WTStatisticsService.KEY_INDEX, String.valueOf(position));
+            WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_SUBJECTRECOMMEND_ITEM_CLI, map);
+
             SubjectBean subjectBean = subjectList.get(position);
             subjectBean.setResourceUpdateCount(0);
             recommendSubjectAdapter.setItem(position,subjectBean);
@@ -722,6 +732,9 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
+            HashMap<String, String> map = WTStatisticsService.createMap(WTStatisticsService.KEY_INDEX, String.valueOf(position));
+            WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_SUBJECTPOPULAR_ITEM_CLI, map);
+
             SubjectBean subjectBean = hotsubjectList.get(position);
             subjectBean.setResourceUpdateCount(0);
             hotSubjectAdapter.setItem(position,subjectBean);
@@ -735,6 +748,12 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
         {
+            if (position < 20)  //只统计前20个
+            {
+                HashMap<String, String> map = WTStatisticsService.createMap(WTStatisticsService.KEY_INDEX, String.valueOf(position));
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_RESOURCERECOMMEND_ITEM_CLI, map);
+            }
+
             ResourceBean resource = reourceList.get(position);
             ContextUtil.openResource(mContext, resource, false);
         }
@@ -782,6 +801,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
         switch (v.getId())
         {
             case R.id.fragment_discover_layout_notice_imageview:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_NOTICE_CLI);
+
                 MessageRemindUtil.clearDynamicRemind(getActivity());  //点击通知菜单时, 清除新消息提醒
                 updateNoticeBadge();
                 if (CheckUtil.isNull(mPreference.getString(Preference.uid)))
@@ -798,6 +819,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                 break;
 
             case R.id.fragment_discover_layout_scan_imageview:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_QRCODE_CLI);
+
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 1);
                 bundle.putString(ContentActivity.FRAG_CLS, LibraryFragment.class.getName());
@@ -805,10 +828,14 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                 break;
 
             case R.id.fragment_discover_layout_search_edittext:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_SEARCH_CLI);
+
                 mContext.startActivity(null, SearchActivity.class);
                 break;
 
             case R.id.more_recommend_subject_list:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_SUBJECTRECOMMEND_MORE_CLI);
+
                 Bundle bundle4 = new Bundle();
                 bundle4.putString(ContentActivity.FRAG_CLS, MoreSubjectFragment.class.getName());
                 bundle4.putString("title","推荐主题");
@@ -816,6 +843,8 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                 mContext.startActivity(bundle4, ContentActivity.class);
                 break;
             case R.id.more_hot_subject_list:
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_HOMEPAGE_SUBJECTPOPULAR_MORE_CLI);
+
                 Bundle bundle5 = new Bundle();
                 bundle5.putString(ContentActivity.FRAG_CLS, MoreSubjectFragment.class.getName());
                 bundle5.putString("title","热门主题");

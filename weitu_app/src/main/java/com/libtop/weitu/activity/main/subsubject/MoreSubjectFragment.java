@@ -14,6 +14,7 @@ import com.libtop.weitu.activity.main.adapter.MoreSubjectAdapter;
 import com.libtop.weitu.activity.main.dto.SubjectBean;
 import com.libtop.weitu.config.WTConstants;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.JSONUtil;
@@ -97,6 +98,9 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                handleEventStatistics();
+
                 SubjectBean subjectBean = subjectList.get(position);
                 subjectBean.setResourceUpdateCount(0);
                 moreSubjectAdapter.setItem(position,subjectBean);
@@ -179,6 +183,21 @@ public class MoreSubjectFragment extends ContentFragment implements NetworkLoadi
         if (subjectList.isEmpty())
             return;
         moreSubjectAdapter.setData(subjectList);
+    }
+
+
+    private void handleEventStatistics()
+    {
+        switch (method)
+        {
+            case "subject.recommend":
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SUBJECTRECOMMEND_ITEM_CLI);
+                break;
+
+            case "subject.popular":
+                WTStatisticsService.onEvent(getActivity(), WTStatisticsService.EID_SUBJECTPOPULAR_ITEM_CLI);
+                break;
+        }
     }
 
     @Override

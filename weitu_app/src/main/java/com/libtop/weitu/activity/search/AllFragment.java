@@ -20,6 +20,8 @@ import com.libtop.weitu.activity.source.PdfActivity2;
 import com.libtop.weitu.base.impl.NotifyFragment;
 import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
+import com.libtop.weitu.service.WTStatisticsService;
+import com.libtop.weitu.utils.LogUtil;
 import com.libtop.weitu.utils.Preference;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
@@ -128,9 +130,14 @@ public class AllFragment extends NotifyFragment
                 }
             }
         });
-        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListview.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+
+                handleEventStatistics();
+
                 AllDto bean = (AllDto) parent.getItemAtPosition(position);
                 startByType(bean.entityType,position - 2);
             }
@@ -228,6 +235,46 @@ public class AllFragment extends NotifyFragment
             }
         }
     }
+
+
+    private void handleEventStatistics()
+    {
+        switch (fragmentType)
+        {
+            case ResultFragment.ALL:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_ALL_ITEM_CLI);
+                break;
+
+            case ResultFragment.SUBJECT:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_SUBJECT_ITEM_CLI);
+                break;
+
+            case ResultFragment.BOOK:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_BOOK_ITEM_CLI);
+                break;
+
+            case ResultFragment.VIDEO:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_VIDEO_ITEM_CLI);
+                break;
+
+            case ResultFragment.AUDIO:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_AUDIO_ITEM_CLI);
+                break;
+
+            case ResultFragment.DOC:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_DOC_ITEM_CLI);
+                break;
+
+            case ResultFragment.IMAGE:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_IMAGE_ITEM_CLI);
+                break;
+
+            default:
+                LogUtil.d(this, "未支持的类型");
+                break;
+        }
+    }
+
 
     private void startByType(String type, int position)
     {

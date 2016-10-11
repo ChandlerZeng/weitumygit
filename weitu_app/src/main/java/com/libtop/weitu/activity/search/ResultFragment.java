@@ -18,6 +18,7 @@ import com.libtop.weitu.activity.classify.bean.ClassifyBean;
 import com.libtop.weitu.activity.search.adapter.MainPageAdapter;
 import com.libtop.weitu.base.impl.NotifyFragment;
 import com.libtop.weitu.eventbus.MessageEvent;
+import com.libtop.weitu.service.WTStatisticsService;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -236,40 +237,53 @@ public class ResultFragment extends NotifyFragment
         pageIndex = -1;
         fourFilter();
         isThreeSpinner = false;
+
         switch (checkedId)
         {
             case R.id.search_all:
-            {
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_ALL_TAB_CLI);
+
                 pageIndex = ALL;
                 isThreeSpinner = true;
                 threeFilter();
-            }
-            break;
+                break;
+
             case R.id.search_theme:
-            {
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_SUBJECT_TAB_CLI);
+
                 pageIndex = SUBJECT;
-            }
-            break;
+                break;
+
             case R.id.search_books:
-            {
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_BOOK_TAB_CLI);
+
                 pageIndex = BOOK;
                 isThreeSpinner = true;
                 threeFilter();
-            }
-            break;
+                break;
+
             case R.id.search_video:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_VIDEO_TAB_CLI);
+
                 pageIndex = VIDEO;
                 break;
+
             case R.id.search_audio:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_AUDIO_TAB_CLI);
                 pageIndex = AUDIO;
                 break;
+
             case R.id.search_document:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_DOC_TAB_CLI);
                 pageIndex = DOC;
                 break;
+
             case R.id.search_images:
+                WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_SEARCHRESULT_IMAGE_TAB_CLI);
                 pageIndex = IMAGE;
                 break;
         }
+
         if (map.get(pageIndex) == null)
         {
             map.put(pageIndex, 0);
