@@ -58,7 +58,7 @@ import butterknife.OnTouch;
 import okhttp3.Call;
 
 
-public class CommentActivity extends BaseActivity implements CommentAdapter.OnCommentListener,NetworkLoadingLayout.OnRetryClickListner
+public class CommentActivity extends BaseActivity implements CommentAdapter.OnCommentListener, NetworkLoadingLayout.OnRetryClickListner
 {
 
     @Bind(R.id.edit_comment)
@@ -98,7 +98,7 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     private CommentDto comments;
     private List<ReplyListDto> replyItems;
 
-    public static String UID ;
+    public static String UID;
     private final int REQUEST_CODE = 300;
 
 
@@ -130,15 +130,18 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
 
-    private void initView(){
+    private void initView()
+    {
         String json = getIntent().getStringExtra("CommentNeedDto");
         commentNeedDto = JSONUtil.readBean(json, CommentNeedDto.class);
 
-        if (commentNeedDto.title!=null && !TextUtils.isEmpty(commentNeedDto.title))
+        if (commentNeedDto.title != null && !TextUtils.isEmpty(commentNeedDto.title))
         {
             subTitle.setVisibility(View.VISIBLE);
             subTitle.setText(commentNeedDto.title);
-        }else {
+        }
+        else
+        {
             subTitle.setVisibility(View.GONE);
         }
         if (isFirstIn)
@@ -147,20 +150,25 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             networkLoadingLayout.showLoading();
             getCommentList();
         }
-        ListViewUtil.addPaddingHeader(mContext,xListView);
+        ListViewUtil.addPaddingHeader(mContext, xListView);
         xListView.setPullLoadEnable(false);
 
-        xListView.setXListViewListener(new XListView.IXListViewListener() {
+        xListView.setXListViewListener(new XListView.IXListViewListener()
+        {
             @Override
-            public void onRefresh() {
+            public void onRefresh()
+            {
                 mCurPage = 1;
                 isRefreshed = true;
                 getCommentList();
             }
 
+
             @Override
-            public void onLoadMore() {
-                if (hasData) {
+            public void onLoadMore()
+            {
+                if (hasData)
+                {
                     getCommentList();
                 }
             }
@@ -174,48 +182,64 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
     private void getCommentList()
     {
-//        http://weitu.bookus.cn/comment/list.json?text={"tid":"56f97d8d984e741f1420a19e","page":1,"uid":"56f97d8d984e741f1420a19e","method":"comment.list"}
+        //        http://weitu.bookus.cn/comment/list.json?text={"tid":"56f97d8d984e741f1420a19e","page":1,"uid":"56f97d8d984e741f1420a19e","method":"comment.list"}
         Map<String, Object> map = new HashMap<>();
         map.put("page", mCurPage);
-        if(!isNotLogin()){
-            map.put("uid",mPreference.getString(Preference.uid));
+        if (!isNotLogin())
+        {
+            map.put("uid", mPreference.getString(Preference.uid));
         }
-        map.put("method","comment.list");
-        map.put("tid",commentNeedDto.tid);
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
+        map.put("method", "comment.list");
+        map.put("tid", commentNeedDto.tid);
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
             @Override
-            public void onError(Call call, Exception e, int id) {
-                if (mCurPage > 1 ) {
+            public void onError(Call call, Exception e, int id)
+            {
+                if (mCurPage > 1)
+                {
 
-                } else if (!isRefreshed && isRetryClicked) {
+                }
+                else if (!isRefreshed && isRetryClicked)
+                {
                     networkLoadingLayout.showLoadFailAndRetryPrompt();
                 }
             }
 
 
             @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
                     xListView.stopRefresh();
-                    if (mCurPage == 1) {
+                    if (mCurPage == 1)
+                    {
                         networkLoadingLayout.dismiss();
                         commentsList.clear();
                     }
                     List<CommentDto> data = JSONUtil.readBeanArray(json, CommentDto.class);
-                    if (data != null) {
+                    if (data != null)
+                    {
                         commentsList.addAll(data);
                     }
-                    if (data.size() < 20) {
+                    if (data.size() < 20)
+                    {
                         hasData = false;
                         xListView.setPullLoadEnable(false);
-                    } else {
+                    }
+                    else
+                    {
                         hasData = true;
                         xListView.setPullLoadEnable(true);
                     }
-                    if (commentsList.size() == 0 && mCurPage == 1) {
-//                            networkLoadingLayout.showEmptyPrompt();
+                    if (commentsList.size() == 0 && mCurPage == 1)
+                    {
+                        //                            networkLoadingLayout.showEmptyPrompt();
                         textViewEmptyComment.setVisibility(View.VISIBLE);
-                    }else {
+                    }
+                    else
+                    {
                         textViewEmptyComment.setVisibility(View.GONE);
                     }
                     mCurPage++;
@@ -248,9 +272,12 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
 
 
     @OnTouch({R.id.edit_comment})
-    public boolean onTouch(View view, MotionEvent event) {
-        if (view.getId() == R.id.edit_comment) {
-            if(isNotLogin()){
+    public boolean onTouch(View view, MotionEvent event)
+    {
+        if (view.getId() == R.id.edit_comment)
+        {
+            if (isNotLogin())
+            {
                 login();
             }
         }
@@ -258,11 +285,9 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
 
-
-
     private void sendComment(View v)
     {
-        mCurPage=1;
+        mCurPage = 1;
         String str = editText.getText().toString().trim();
         if (str == null || str.length() == 0)
         {
@@ -270,20 +295,20 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             return;
         }
         hideKeyBoard(v);
-        if(isReply && isItemReply)
+        if (isReply && isItemReply)
         {
             WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_ADDREPLY_CLI);
 
             String cid = replyItemMap.get("cid").toString();
             String replyId = replyItemMap.get("reply_id").toString();
-            putItemReply(cid, replyId,str);
+            putItemReply(cid, replyId, str);
         }
         else if (isReply)
         {
             WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_ADDREPLY_CLI);
 
             String cid = replyMap.get("cid").toString();
-            putReply(cid,str);
+            putReply(cid, str);
         }
         else
         {
@@ -291,93 +316,122 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             putComment(str);
         }
     }
-    private void putReply(String cid,String content) //TODO
+
+
+    private void putReply(String cid, String content) //TODO
     {
         showLoding();
-//        http://weitu.bookus.cn/reply/save.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","content":"xxx","method":"reply.save"}
-        Map<String,Object> map = new HashMap<>();
-        map.put("cid",cid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("content",content);
-        map.put("method","reply.save");
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        //        http://weitu.bookus.cn/reply/save.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","content":"xxx","method":"reply.save"}
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("content", content);
+        map.put("method", "reply.save");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    dismissLoading();
+                    Toast.makeText(CommentActivity.this, "回复评论成功", Toast.LENGTH_SHORT).show();
+                    try
+                    {
+                        getCommentList();
                     }
+                    catch (Exception e)
+                    {
 
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            dismissLoading();
-                            Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
-                            try {
-                                getCommentList();
-                            } catch (Exception e) {
-
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(CommentActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
-                        }
+                        e.printStackTrace();
                     }
+                }
+                else
+                {
+                    Toast.makeText(CommentActivity.this, "回复评论失败", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-                });
+        });
     }
+
 
     private void putComment(String content)
     {
         // http://weitu.bookus.cn/comment/save.json?text={"tid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.save"}
         showLoding();
         Map<String, Object> map = new HashMap<>();
-        map.put("method","comment.save");
-        map.put("content",content);
-        map.put("tid",commentNeedDto.tid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("type",commentNeedDto.type);
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        map.put("method", "comment.save");
+        map.put("content", content);
+        map.put("tid", commentNeedDto.tid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("type", commentNeedDto.type);
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json) && json!=null) {
-                            dismissLoading();
-                            try {
-                                Gson gson = new Gson();
-                                ResultCodeDto data = gson.fromJson(json, new TypeToken<ResultCodeDto>() {
-                                }.getType());
-                                if (data != null && data.code==1) {
-                                    xListView.requestFocus();
-                                    xListView.setSelection(1);
-                                    getCommentList();// TODO
-                                    Toast.makeText(CommentActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
-                                }else {
-                                    Toast.makeText(CommentActivity.this,"评论失败",Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }else {
-                            Toast.makeText(CommentActivity.this,"评论失败",Toast.LENGTH_SHORT).show();
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json) && json != null)
+                {
+                    dismissLoading();
+                    try
+                    {
+                        Gson gson = new Gson();
+                        ResultCodeDto data = gson.fromJson(json, new TypeToken<ResultCodeDto>()
+                        {
+                        }.getType());
+                        if (data != null && data.code == 1)
+                        {
+                            xListView.requestFocus();
+                            xListView.setSelection(1);
+                            getCommentList();// TODO
+                            Toast.makeText(CommentActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(CommentActivity.this, "评论失败", Toast.LENGTH_SHORT).show();
                         }
                     }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(CommentActivity.this, "评论失败", Toast.LENGTH_SHORT).show();
+                }
+            }
 
-                });
+        });
     }
 
+
     @Override
-    public void onReplyTouch(View v, int position,List<ReplyListDto> replyBeans,CommentDto object) //TODO
+    public void onReplyTouch(View v, int position, List<ReplyListDto> replyBeans, CommentDto object) //TODO
     {
         WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_REPLYMENU_CLI);
 
-        if(isNotLogin()){
+        if (isNotLogin())
+        {
             login();
-        }else {
+        }
+        else
+        {
             CommentDto commentResult = commentsList.get(position);
             replyItems = replyBeans;
             comments = object;
@@ -385,16 +439,17 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
             if (commentResult.getContent() != null && !TextUtils.isEmpty(commentResult.getContent()))
             {
                 String cid = commentResult.getId();
-                replyMap.put("cid",cid);
+                replyMap.put("cid", cid);
                 editText.requestFocus();
                 String first = "回复";
-                SpannableStringBuilder spannableString = getGreenStrBuilder(first,commentResult.getUsername());
+                SpannableStringBuilder spannableString = getGreenStrBuilder(first, commentResult.getUsername());
                 editText.setHint(spannableString);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
             }
         }
     }
+
 
     private SpannableStringBuilder getGreenStrBuilder(String first, String append)
     {
@@ -407,108 +462,135 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
     }
 
 
-    private void deleteReplyComment(String id, final ReplyListDto replyBean, final List<ReplyListDto> replyBeans,final CommentDto object){
+    private void deleteReplyComment(String id, final ReplyListDto replyBean, final List<ReplyListDto> replyBeans, final CommentDto object)
+    {
         showLoding();
         Map<String, Object> map = new HashMap<>();
-        map.put("method","reply.delete");
-        map.put("id",id);
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        map.put("method", "reply.delete");
+        map.put("id", id);
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            Toast.makeText(CommentActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
-                            commentAdapter.removeSubItem(replyBean, replyBeans, object);
-                            dismissLoading();
-                        }
-                    }
-                });
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    Toast.makeText(CommentActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                    commentAdapter.removeSubItem(replyBean, replyBeans, object);
+                    dismissLoading();
+                }
+            }
+        });
     }
 
-    private void deleteComment(String cid,final CommentDto comments){
-//        http://weitu.bookus.cn/comment/delete.json?text={"id":"56f97d8d984e741f1420a19e","method":"comment.delete"}
+
+    private void deleteComment(String cid, final CommentDto comments)
+    {
+        //        http://weitu.bookus.cn/comment/delete.json?text={"id":"56f97d8d984e741f1420a19e","method":"comment.delete"}
         showLoding();
-        Map<String,Object> map = new HashMap<>();
-        map.put("method","comment.delete");
-        map.put("id",cid);
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("method", "comment.delete");
+        map.put("id", cid);
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            Toast.makeText(CommentActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
-                            commentsList.remove(comments);
-                            commentAdapter.notifyDataSetChanged();
-                            dismissLoading();
-                        }
-                    }
-                });
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    Toast.makeText(CommentActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                    commentsList.remove(comments);
+                    commentAdapter.notifyDataSetChanged();
+                    dismissLoading();
+                }
+            }
+        });
     }
 
-    private void putItemReply(String cid,String replyId,String content){
+
+    private void putItemReply(String cid, String replyId, String content)
+    {
         showLoding();
-        Map<String,Object> map = new HashMap<>();
-        map.put("cid",cid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("content",content);
-        map.put("method","reply.save");
-        map.put("rid",replyId);
-        HttpRequest.loadWithMap(map).execute(new StringCallback(){
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("content", content);
+        map.put("method", "reply.save");
+        map.put("rid", replyId);
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json) && json.equals("null"))
+                {
+                    dismissLoading();
+                    Toast.makeText(CommentActivity.this, "回复评论成功", Toast.LENGTH_SHORT).show();
+                    try
+                    {
+                        getCommentList();
+                        isReply = false;
+                        isItemReply = false;
                     }
-
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json) && json.equals("null")) {
-                            dismissLoading();
-                            Toast.makeText(CommentActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
-                            try {
-                                getCommentList();
-                                isReply = false;
-                                isItemReply = false;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(CommentActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
-                        }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
                     }
-                });
+                }
+                else
+                {
+                    Toast.makeText(CommentActivity.this, "回复评论失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
+
 
     @Override
-    public void onReplyItemTouch(View v, final int position, final ReplyListDto replyBean,final List<ReplyListDto> replyBeans,CommentDto object) {
+    public void onReplyItemTouch(View v, final int position, final ReplyListDto replyBean, final List<ReplyListDto> replyBeans, CommentDto object)
+    {
 
-        if(isNotLogin()){
+        if (isNotLogin())
+        {
             login();
-        }else {
-            String cid =object.getId();
-            String replyId =replyBean.id;
+        }
+        else
+        {
+            String cid = object.getId();
+            String replyId = replyBean.id;
             replyItem = replyBean;
             replyItems = replyBeans;
             comments = object;
             if (replyBean.content != null)
             {
-                isReply = true ;
-                isItemReply = true ;
-                replyItemMap.put("cid",cid);
-                replyItemMap.put("reply_id",replyId);
+                isReply = true;
+                isItemReply = true;
+                replyItemMap.put("cid", cid);
+                replyItemMap.put("reply_id", replyId);
                 editText.requestFocus();
                 String first = "回复";
-                SpannableStringBuilder spannableString = getGreenStrBuilder(first,replyBean.username);
+                SpannableStringBuilder spannableString = getGreenStrBuilder(first, replyBean.username);
                 editText.setHint(spannableString);
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
@@ -516,90 +598,116 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         }
     }
 
+
     @Override
-    public void onReplyItemDeleted(View v, int position, final ReplyListDto replyBean,final List<ReplyListDto> replyBeans, final CommentDto object) {
+    public void onReplyItemDeleted(View v, int position, final ReplyListDto replyBean, final List<ReplyListDto> replyBeans, final CommentDto object)
+    {
         String title = "您确定要删除？";
         final AlertDialogUtil dialog = new AlertDialogUtil();
-        dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+        dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+        {
             @Override
-            public void onClick() {
+            public void onClick()
+            {
                 deleteReplyComment(replyBean.id, replyBean, replyBeans, object);
             }
         }, null);
     }
 
-    private void likeClicked(String cid, final CommentDto comments){
-//        http://weitu.bookus.cn/comment/praise.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.praise"}
-        Map<String,Object> map = new HashMap<>();
-        map.put("cid",cid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("method","comment.praise");
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
 
-                    }
+    private void likeClicked(String cid, final CommentDto comments)
+    {
+        //        http://weitu.bookus.cn/comment/praise.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.praise"}
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("method", "comment.praise");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
 
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
-                            dismissLoading();
-                            comments.praises = comments.praises + 1;
-                            comments.praised = 1;
-                            Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
-                            commentAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    //   showToast("没有相关数据");
+                    dismissLoading();
+                    comments.praises = comments.praises + 1;
+                    comments.praised = 1;
+                    Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
+                    commentAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
-    private void likeCancelled(String cid,final CommentDto comments){
-//        http://weitu.bookus.cn/comment/unpraise.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.unpraise"}
-        Map<String,Object> map = new HashMap<>();
-        map.put("cid",cid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("method","comment.unpraise");
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
 
-                    }
+    private void likeCancelled(String cid, final CommentDto comments)
+    {
+        //        http://weitu.bookus.cn/comment/unpraise.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.unpraise"}
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("method", "comment.unpraise");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
 
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
-                            dismissLoading();
-                            comments.praises = comments.praises - 1;
-                            comments.praised = 0;
-                            Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
-                            commentAdapter.notifyDataSetChanged();
-                        }
-                    }
-                });
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    //   showToast("没有相关数据");
+                    dismissLoading();
+                    comments.praises = comments.praises - 1;
+                    comments.praised = 0;
+                    Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
+                    commentAdapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
+
 
     @Override
-    public void onLikeTouch(View v, int position, CommentDto comment) {
+    public void onLikeTouch(View v, int position, CommentDto comment)
+    {
         String cid = String.valueOf(comment.getId());
-        if(isNotLogin()){
+        if (isNotLogin())
+        {
             login();
-        }else {
-            if(comment.praised==0){
+        }
+        else
+        {
+            if (comment.praised == 0)
+            {
                 WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_DOPRAISE_CLI);
-                likeClicked(cid,comment);
-            }else{
+                likeClicked(cid, comment);
+            }
+            else
+            {
                 WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_UNDOPRAISE_CLI);
-                likeCancelled(cid,comment);
+                likeCancelled(cid, comment);
             }
         }
     }
 
+
     @Override
-    public void onCommentContentClick(View v, int position, CommentDto comment) {
+    public void onCommentContentClick(View v, int position, CommentDto comment)
+    {
 
         WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENT_ITEM_CLI);
 
@@ -609,55 +717,73 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         startForResult(bundle, 200, CommentDetailActivity.class);
     }
 
+
     @Override
-    public void onCommentContentLongClick(View v, final int position, final CommentDto comment) {
-        if (comment.getUid().equals(mPreference.getString(Preference.uid))) {
+    public void onCommentContentLongClick(View v, final int position, final CommentDto comment)
+    {
+        if (comment.getUid().equals(mPreference.getString(Preference.uid)))
+        {
             String title = "您确定要删除？";
             final AlertDialogUtil dialog = new AlertDialogUtil();
-            dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+            dialog.showDialog(CommentActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+            {
                 @Override
-                public void onClick() {
-                    if(isNotLogin()){
+                public void onClick()
+                {
+                    if (isNotLogin())
+                    {
                         login();
-                    }else {
-                        deleteComment(comment.getId(),comment);
+                    }
+                    else
+                    {
+                        deleteComment(comment.getId(), comment);
                     }
                 }
             }, null);
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 200 && resultCode ==300){
 
-        }else if(requestCode==REQUEST_CODE && resultCode== Activity.RESULT_OK){
-            mCurPage=1;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 200 && resultCode == 300)
+        {
+
+        }
+        else if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK)
+        {
+            mCurPage = 1;
             getCommentList();
             UID = mPreference.getString(Preference.uid);
         }
     }
 
-    public void replaceComment(int position,CommentDto comments){
+
+    public void replaceComment(int position, CommentDto comments)
+    {
         commentsList.remove(position);
         commentsList.add(position, comments);
         commentAdapter.notifyDataSetChanged();
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessage(MessageEvent event)
     {
-        if(event.message.getString("isFromComment")!=null && event.message.getString("isFromComment").equals("true")){
+        if (event.message.getString("isFromComment") != null && event.message.getString("isFromComment").equals("true"))
+        {
             Bundle bundle = event.message;
             CommentDto comments = (CommentDto) bundle.getSerializable("comments");
             int position = bundle.getInt("position");
-            Boolean isCommentUpdate = bundle.getBoolean("isCommentUpdate",false);
+            Boolean isCommentUpdate = bundle.getBoolean("isCommentUpdate", false);
             if (isCommentUpdate)
             {
                 replaceComment(position, comments);
             }
         }
     }
+
 
     @Override
     public void onDestroy()
@@ -666,24 +792,30 @@ public class CommentActivity extends BaseActivity implements CommentAdapter.OnCo
         super.onDestroy();
     }
 
+
     @Override
-    public void onRetryClick(View v) {
+    public void onRetryClick(View v)
+    {
         mCurPage = 1;
         isRetryClicked = true;
         getCommentList();
     }
 
-    public boolean isNotLogin(){
+
+    public boolean isNotLogin()
+    {
         return CheckUtil.isNull(mPreference.getString(Preference.uid));
     }
 
-    public void login(){
+
+    public void login()
+    {
         Bundle bundle = new Bundle();
-        bundle.putBoolean("isFromComment",true);
+        bundle.putBoolean("isFromComment", true);
         bundle.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
-        Intent intent = new Intent(mContext,ContentActivity.class);
+        Intent intent = new Intent(mContext, ContentActivity.class);
         intent.putExtras(bundle);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        mContext.startForResultWithFlag(intent,REQUEST_CODE);
+        mContext.startForResultWithFlag(intent, REQUEST_CODE);
     }
 }

@@ -38,10 +38,26 @@ import java.util.List;
  * <p>
  * Title: CommentAdapter.java
  * Created by Zeng 2016/9/16
+ *
  * @version common v2.0
  */
 public class CommentAdapter extends CommonAdapter<CommentDto>
 {
+    private ImageView headImage;
+    private ImageView praiseIcon;
+    private RelativeLayout commentLayout1;
+    private LinearLayout commentLinearLayout;
+    private LinearLayout commentLayout2;
+    private LinearLayout likeLayout;
+    private LinearLayout replyLayout;
+    private ListViewForScrollView listView;
+    private TextView tvUser;
+    private TextView tvTime;
+    private TextView tvcomment;
+    private TextView tvcommentmore;
+    private TextView tvLike;
+    private TextView tvReply;
+
     private OnCommentListener onCommentListener;
     private CommentReplyAdapter mAdapter;
 
@@ -54,145 +70,208 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
         this.onCommentListener = onCommentListener;
     }
 
+
     @Override
-    public void convert(ViewHolderHelper helper, final CommentDto object, final int position) {
-        ImageView headImage = helper.getView(R.id.img_head);
-        ImageView praiseIcon = helper.getView(R.id.icon_praise);
-        RelativeLayout commentLayout1 = helper.getView(R.id.comment_layout1);
-        LinearLayout commentLinearLayout = helper.getView(R.id.comment_father_layout);
-        LinearLayout commentLayout2 = helper.getView(R.id.comment_layout2);
-        LinearLayout likeLayout = helper.getView(R.id.likeLayout);
-        LinearLayout replyLayout = helper.getView(R.id.replyLayout);
-        ListViewForScrollView listView = helper.getView(R.id.list_reply);
-        TextView tvUser = helper.getView(R.id.tv_user_name);
-        TextView tvTime = helper.getView(R.id.tv_time);
-        TextView tvcomment = helper.getView(R.id.tv_commnet1);
-        final TextView tvcommentmore = helper.getView(R.id.tv_commnet_more);
-        TextView tvLike = helper.getView(R.id.tv_like);
-        TextView tvReply = helper.getView(R.id.tv_reply);
-        if(object!=null){
+    public void convert(ViewHolderHelper helper, final CommentDto object, final int position)
+    {
+        initCommentView(helper, object);
+        initReplyView(helper, object);
+        clickListener(object, position);
+
+    }
+
+
+    public void initCommentView(ViewHolderHelper helper, CommentDto object)
+    {
+        headImage = helper.getView(R.id.img_head);
+        praiseIcon = helper.getView(R.id.icon_praise);
+        commentLayout1 = helper.getView(R.id.comment_layout1);
+        commentLinearLayout = helper.getView(R.id.comment_father_layout);
+        likeLayout = helper.getView(R.id.likeLayout);
+        replyLayout = helper.getView(R.id.replyLayout);
+        tvUser = helper.getView(R.id.tv_user_name);
+        tvTime = helper.getView(R.id.tv_time);
+        tvcomment = helper.getView(R.id.tv_commnet1);
+        tvLike = helper.getView(R.id.tv_like);
+        tvReply = helper.getView(R.id.tv_reply);
+        if (object != null)
+        {
             commentLayout1.setVisibility(View.VISIBLE);
-//            String url=null;
-//            if(object.logo!=null){
-//                url = object.logo;
-//            }
-            bindData(ContantsUtil.getAvatarUrl(object.getUid()),headImage);
+            bindData(ContantsUtil.getAvatarUrl(object.getUid()), headImage);
             tvUser.setText(object.getUsername());
             tvTime.setText(DateUtil.transformToShow(object.getTimeline()));
-            if(object.praised==0){
+            if (object.praised == 0)
+            {
                 praiseIcon.setImageResource(R.drawable.icon_comment_unpraised);
-            }else {
+            }
+            else
+            {
                 praiseIcon.setImageResource(R.drawable.icon_comment_praised);
             }
-            if(object.praises!=0){
-                tvLike.setText(object.praises+"");
-            }else {
+            if (object.praises != 0)
+            {
+                tvLike.setText(object.praises + "");
+            }
+            else
+            {
                 tvLike.setText("点赞");
             }
-            if(object.replies!=0){
-                tvReply.setText(object.replies+"");
-            }else {
+            if (object.replies != 0)
+            {
+                tvReply.setText(object.replies + "");
+            }
+            else
+            {
                 tvReply.setText("回复");
             }
             if (object.getContent() != null && !TextUtils.isEmpty(object.getContent()))
             {
                 tvcomment.setVisibility(View.VISIBLE);
                 tvcomment.setText(object.getContent());
-                replyListDtos = object.replyList;
-                if(replyListDtos.size()>0){
-                    commentLayout2.setVisibility(View.VISIBLE);
-                    if(replyListDtos.size()>5){
-                        if(object.isExpanded){
-                            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyListDtos);
-                            tvcommentmore.setVisibility(View.VISIBLE);
-                            tvcommentmore.setText("收起评论");
-                        } else {
-                            List<ReplyListDto> replyBeans = replyListDtos.subList(0,5);
-                            mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyBeans);
-                            tvcommentmore.setVisibility(View.VISIBLE);
-                            tvcommentmore.setText("展开更多");
-                        }
-                    }else{
-                        mAdapter = new CommentReplyAdapter(context,R.layout.item_comment_reply_list,replyListDtos);
-                        tvcommentmore.setVisibility(View.GONE);
-                    }
-                    listView.setAdapter(mAdapter);
-                } else {
-                    commentLayout2.setVisibility(View.GONE);
-                }
+
             }
             else
             {
                 tvcomment.setVisibility(View.GONE);
             }
-            replyLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    onCommentListener.onReplyTouch(v, position);
-                    if(object.replyList!=null && object.replyList.size()!=0){
-                        onCommentListener.onReplyTouch(v, position, object.replyList,object);
-                    }else{
-                        ReplyListDto replyBean = new ReplyListDto();
-                        List<ReplyListDto> replyBeans = new ArrayList<>();
-                        onCommentListener.onReplyTouch(v, position, replyBeans,object);
-                    }
-                }
-            });
 
-            commentLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    onCommentListener.onCommentContentLongClick(v, position, object);
-                    return true;
-                }
-            });
+        }
+        else
+        {
+            commentLayout1.setVisibility(View.GONE);
+        }
 
-            commentLinearLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onCommentListener.onCommentContentClick(v, position, object);
-                }
-            });
+    }
 
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if(CommentActivity.UID!=null && object.replyList.get(position).uid.equals(CommentActivity.UID)){
-                        onCommentListener.onReplyItemDeleted(view,position,object.replyList.get(position),object.replyList,object);   //TODO
-                    }else {
-                        onCommentListener.onReplyItemTouch(view, position, object.replyList.get(position),object.replyList,object);
-                    }
-                }
-            });
+    public void initReplyView(ViewHolderHelper helper, CommentDto object)
+    {
+        commentLayout2 = helper.getView(R.id.comment_layout2);
+        listView = helper.getView(R.id.list_reply);
+        tvcommentmore = helper.getView(R.id.tv_commnet_more);
 
-            likeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onCommentListener.onLikeTouch(v,position, object);
-                }
-            });
-
-            tvcommentmore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!object.isExpanded){
-
-                        WTStatisticsService.onEvent(context, WTStatisticsService.EID_COMMENT_EXPAND_CLI);
-                        object.isExpanded = true;
-                        notifyDataSetChanged();
+        if (object != null)
+        {
+            replyListDtos = object.replyList;
+            if (replyListDtos.size() > 0)
+            {
+                commentLayout2.setVisibility(View.VISIBLE);
+                if (replyListDtos.size() > 5)
+                {
+                    if (object.isExpanded)
+                    {
+                        mAdapter = new CommentReplyAdapter(context, R.layout.item_comment_reply_list, replyListDtos);
+                        tvcommentmore.setVisibility(View.VISIBLE);
+                        tvcommentmore.setText("收起评论");
                     }
                     else
                     {
-                        WTStatisticsService.onEvent(context, WTStatisticsService.EID_COMMENT_COLLAPSE_CLI);
-                        object.isExpanded = false;
-                        notifyDataSetChanged();
+                        List<ReplyListDto> replyBeans = replyListDtos.subList(0, 5);
+                        mAdapter = new CommentReplyAdapter(context, R.layout.item_comment_reply_list, replyBeans);
+                        tvcommentmore.setVisibility(View.VISIBLE);
+                        tvcommentmore.setText("展开更多");
                     }
                 }
-            });
-        }else {
-            commentLayout1.setVisibility(View.GONE);
+                else
+                {
+                    mAdapter = new CommentReplyAdapter(context, R.layout.item_comment_reply_list, replyListDtos);
+                    tvcommentmore.setVisibility(View.GONE);
+                }
+                listView.setAdapter(mAdapter);
+            }
+            else
+            {
+                commentLayout2.setVisibility(View.GONE);
+            }
         }
+    }
+
+
+    public void clickListener(final CommentDto object, final int position)
+    {
+        replyLayout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (object.replyList != null && object.replyList.size() != 0)
+                {
+                    onCommentListener.onReplyTouch(v, position, object.replyList, object);
+                }
+                else
+                {
+                    ReplyListDto replyBean = new ReplyListDto();
+                    List<ReplyListDto> replyBeans = new ArrayList<>();
+                    onCommentListener.onReplyTouch(v, position, replyBeans, object);
+                }
+            }
+        });
+
+        commentLinearLayout.setOnLongClickListener(new View.OnLongClickListener()
+        {
+            @Override
+            public boolean onLongClick(View v)
+            {
+                onCommentListener.onCommentContentLongClick(v, position, object);
+                return true;
+            }
+        });
+
+        commentLinearLayout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onCommentListener.onCommentContentClick(v, position, object);
+            }
+        });
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                if (CommentActivity.UID != null && object.replyList.get(position).uid.equals(CommentActivity.UID))
+                {
+                    onCommentListener.onReplyItemDeleted(view, position, object.replyList.get(position), object.replyList, object);   //TODO
+                }
+                else
+                {
+                    onCommentListener.onReplyItemTouch(view, position, object.replyList.get(position), object.replyList, object);
+                }
+            }
+        });
+
+        likeLayout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                onCommentListener.onLikeTouch(v, position, object);
+            }
+        });
+
+        tvcommentmore.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (!object.isExpanded)
+                {
+
+                    WTStatisticsService.onEvent(context, WTStatisticsService.EID_COMMENT_EXPAND_CLI);
+                    object.isExpanded = true;
+                    notifyDataSetChanged();
+                }
+                else
+                {
+                    WTStatisticsService.onEvent(context, WTStatisticsService.EID_COMMENT_COLLAPSE_CLI);
+                    object.isExpanded = false;
+                    notifyDataSetChanged();
+                }
+            }
+        });
 
     }
 
@@ -200,10 +279,15 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
     public interface OnCommentListener
     {
         void onReplyTouch(View v, int position, List<ReplyListDto> replyBeans, CommentDto object);
+
         void onReplyItemTouch(View v, int position, ReplyListDto replyBean, List<ReplyListDto> replyBeans, CommentDto object);
+
         void onReplyItemDeleted(View v, int position, ReplyListDto replyBean, List<ReplyListDto> replyBeans, CommentDto object);
+
         void onLikeTouch(View v, int position, CommentDto comment);
+
         void onCommentContentClick(View v, int position, CommentDto comment);
+
         void onCommentContentLongClick(View v, int position, CommentDto comment);
 
     }
@@ -212,7 +296,6 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
     void bindData(String url, ImageView image)
     {
 
-//        String url = ContantsUtil.getAvatarUrl(uid);
         if (TextUtils.isEmpty(url))
         {
             return;
@@ -221,99 +304,78 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
     }
 
 
-    private class CircleTransform implements Transformation
+    public void setData(List<CommentDto> listResult)
     {
-        @Override
-        public Bitmap transform(Bitmap source)
-        {
-            int size = Math.min(source.getWidth(), source.getHeight());
-
-            int x = (source.getWidth() - size) / 2;
-            int y = (source.getHeight() - size) / 2;
-
-            Bitmap squaredBitmap = Bitmap.createBitmap(source, x, y, size, size);
-            if (squaredBitmap != source)
-            {
-                source.recycle();
-            }
-
-            Bitmap bitmap = Bitmap.createBitmap(size, size, source.getConfig());
-
-            Canvas canvas = new Canvas(bitmap);
-            Paint paint = new Paint();
-            BitmapShader shader = new BitmapShader(squaredBitmap, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP);
-            paint.setShader(shader);
-            paint.setAntiAlias(true);
-
-            float r = size / 2f;
-            canvas.drawCircle(r, r, r, paint);
-
-            squaredBitmap.recycle();
-            return bitmap;
-        }
-
-
-        @Override
-        public String key()
-        {
-            return "circle";
-        }
-    }
-    public void setData(List<CommentDto> listResult){
-        this.datas = listResult ;
+        this.datas = listResult;
         notifyDataSetChanged();
     }
-    class CommentReplyAdapter extends CommonAdapter<ReplyListDto>{
+
+
+    class CommentReplyAdapter extends CommonAdapter<ReplyListDto>
+    {
 
         private List<ReplyListDto> replyBeans;
         private Context context;
-        public CommentReplyAdapter(Context context, int itemLayoutId, List<ReplyListDto> replyLists) {
+
+
+        public CommentReplyAdapter(Context context, int itemLayoutId, List<ReplyListDto> replyLists)
+        {
             super(context, R.layout.item_comment_reply_list, replyLists);
-            replyListDtos= replyLists;
+            replyListDtos = replyLists;
         }
 
+
         @Override
-        public void convert(ViewHolderHelper helper, ReplyListDto object, int position) {
-            if(object.content!=null){
+        public void convert(ViewHolderHelper helper, ReplyListDto object, int position)
+        {
+            if (object.content != null)
+            {
                 String user_name = object.username;
-                String content = "  "+object.content;
+                String content = "  " + object.content;
                 String reply_user_name;
                 String reply;
-                if(object.repliedUser!=null && object.repliedUser.username!=null){
-                   reply_user_name = object.repliedUser.username;
-                    reply = " "+"回复"+" ";
+                if (object.repliedUser != null && object.repliedUser.username != null)
+                {
+                    reply_user_name = object.repliedUser.username;
+                    reply = " " + "回复" + " ";
                     SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name, content);
-                    helper.setText(R.id.sub_comment,spannableString);
-                } else {
+                    helper.setText(R.id.sub_comment, spannableString);
+                }
+                else
+                {
                     reply_user_name = "";
                     reply = "";
-                    SpannableString spannableString = getGreenStr(user_name,reply,reply_user_name,content);
-                    helper.setText(R.id.sub_comment,spannableString);
+                    SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name, content);
+                    helper.setText(R.id.sub_comment, spannableString);
                 }
             }
         }
 
 
-
-        private SpannableString getGreenStr(String userName,String reply ,String replyUserName, String content)
+        private SpannableString getGreenStr(String userName, String reply, String replyUserName, String content)
         {
             SpannableString spannableString = new SpannableString(userName + reply + replyUserName + content);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), 0, userName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), userName.length() + reply.length(), userName.length() + reply.length() + replyUserName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), 0, userName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), userName.length() + reply.length(), userName.length() + reply.length() + replyUserName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             return spannableString;
         }
     }
 
-    public void removeSubItem(ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object){
+
+    public void removeSubItem(ReplyListDto replyBean, List<ReplyListDto> replyBeans, CommentDto object)
+    {
         replyBeans.remove(replyBean);
-        object.replies = object.replies-1;
+        object.replies = object.replies - 1;
         notifyDataSetChanged();
     }
 
-    public void replySubItem(ReplyListDto replyBean,List<ReplyListDto> replyBeans,CommentDto object){
+
+    public void replySubItem(ReplyListDto replyBean, List<ReplyListDto> replyBeans, CommentDto object)
+    {
         replyBeans.add(replyBean);
-        object.replies=object.replies+1;
-        if(replyBeans.size()==1){
+        object.replies = object.replies + 1;
+        if (replyBeans.size() == 1)
+        {
             object.replyList.add(replyBean);
             mAdapter.notifyDataSetChanged();
         }

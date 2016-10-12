@@ -63,7 +63,9 @@ import butterknife.OnClick;
 import butterknife.OnTouch;
 import okhttp3.Call;
 
-public class CommentDetailActivity extends BaseActivity implements NetworkLoadingLayout.OnRetryClickListner{
+
+public class CommentDetailActivity extends BaseActivity implements NetworkLoadingLayout.OnRetryClickListner
+{
 
     @Bind(R.id.back_btn)
     ImageView backBtn;
@@ -112,7 +114,7 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
     private int position;
     private boolean isReply = false;
     private boolean isFirstIn = true;
-    private Map<String,String> mapItemReply = new HashMap<>();
+    private Map<String, String> mapItemReply = new HashMap<>();
 
     private List<PraisedUsersBean> praiseUserList = new ArrayList<>();
     private List<ReplyListDto> replyBeanList = new ArrayList<>();
@@ -124,8 +126,10 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
 
     private int MY_PRAISE = 0;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_detail);
         EventBus.getDefault().register(this);
@@ -155,11 +159,15 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         super.onDestroy();
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessage(MessageEvent event) {
+    public void onMessage(MessageEvent event)
+    {
     }
 
-    private void initView(){
+
+    private void initView()
+    {
         title.setText("评论详情");
         Bundle bundle = getIntent().getExtras();
         cid = bundle.getString("cid");
@@ -171,23 +179,31 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             getData(cid);
         }
         networkLoadingLayout.setOnRetryClickListner(this);
-        praiseHeadAdapter = new PraiseHeadAdapter(mContext,R.layout.praise_item_grid_photo,praiseUserList);
-        replyListAdapter = new ReplyListAdapter(mContext,R.layout.item_list_comment_detail,replyBeanList);
+        praiseHeadAdapter = new PraiseHeadAdapter(mContext, R.layout.praise_item_grid_photo, praiseUserList);
+        replyListAdapter = new ReplyListAdapter(mContext, R.layout.item_list_comment_detail, replyBeanList);
         commentDetailGridView.setAdapter(praiseHeadAdapter);
         commentDetailGridView.requestDisallowInterceptTouchEvent(false);
         listReply.setAdapter(replyListAdapter);
-        listReply.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listReply.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
 
                 WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENTDETAIL_REPLY_ITEM_CLI);
 
-                if(isNotLogin()){
+                if (isNotLogin())
+                {
                     login();
-                }else {
-                    if(replyBeanList.get(position).uid.equals(mPreference.getString(Preference.uid))){
-                    onReplyItemDeleted(replyBeanList.get(position));   //TODO
-                    }else {
+                }
+                else
+                {
+                    if (replyBeanList.get(position).uid.equals(mPreference.getString(Preference.uid)))
+                    {
+                        onReplyItemDeleted(replyBeanList.get(position));   //TODO
+                    }
+                    else
+                    {
                         onReplyItemTouch(replyBeanList.get(position));
                     }
                 }
@@ -195,15 +211,21 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         });
     }
 
-    private void getUser(PraisedUsersBean praiseBean){
-        if(praiseBean!=null){
-            user=praiseBean;
+
+    private void getUser(PraisedUsersBean praiseBean)
+    {
+        if (praiseBean != null)
+        {
+            user = praiseBean;
         }
     }
 
+
     @OnClick({R.id.back_btn, R.id.comment_detail_link_layout, R.id.commit, R.id.likeLayout})
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View view)
+    {
+        switch (view.getId())
+        {
 
             case R.id.back_btn:
                 onBackPressed();
@@ -212,7 +234,8 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             case R.id.comment_detail_link_layout:
                 WTStatisticsService.onEvent(mContext, WTStatisticsService.EID_COMMENTDETAIL_RESOURCE_CLI);
 
-                if(commentsData!=null){
+                if (commentsData != null)
+                {
                     ContextUtil.openResourceByType(mContext, commentsData.type, commentsData.getTid());
                 }
                 break;
@@ -229,22 +252,29 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         }
     }
 
+
     @OnTouch({R.id.edit_comment})
-    public boolean onTouch(View view, MotionEvent event) {
-        if (view.getId() == R.id.edit_comment) {
-            if(isNotLogin()){
+    public boolean onTouch(View view, MotionEvent event)
+    {
+        if (view.getId() == R.id.edit_comment)
+        {
+            if (isNotLogin())
+            {
                 login();
             }
         }
         return false;
     }
 
+
     @Override
-    public void onBackPressed(){ //TODO
+    public void onBackPressed()
+    { //TODO
         mContext.finish();
-        if(commentsData!=null){
+        if (commentsData != null)
+        {
             Bundle bundle = new Bundle();
-            bundle.putString("isFromComment","true");
+            bundle.putString("isFromComment", "true");
             bundle.putSerializable("comments", commentsData);
             bundle.putBoolean("isCommentUpdate", true);
             bundle.putInt("position", position);
@@ -255,31 +285,39 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
 
     private void getData(String cid)
     {
-//        http://weitu.bookus.cn/comment/get.json?text={"id":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.get"}
+        //        http://weitu.bookus.cn/comment/get.json?text={"id":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","method":"comment.get"}
         Map<String, Object> map = new HashMap<>();
         map.put("id", cid);
-        map.put("method","comment.get");
-        map.put("uid",mPreference.getString(Preference.uid));
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
+        map.put("method", "comment.get");
+        map.put("uid", mPreference.getString(Preference.uid));
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
 
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onError(Call call, Exception e, int id)
+            {
                 networkLoadingLayout.showLoadFailAndRetryPrompt();
             }
 
 
             @Override
-            public void onResponse(String json, int id) {
-                if (!TextUtils.isEmpty(json)) {
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
                     networkLoadingLayout.dismiss();
-                    try {
+                    try
+                    {
                         Gson gson = new Gson();
-                        CommentDetailDto data = gson.fromJson(json, new TypeToken<CommentDetailDto>() {
+                        CommentDetailDto data = gson.fromJson(json, new TypeToken<CommentDetailDto>()
+                        {
                         }.getType());
                         handleCommentDetailResult(data);
                         handleCommentPraiseResult(data.praisedUsers);
 
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
                 }
@@ -287,61 +325,79 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         });
     }
 
-    private void handleCommentDetailResult(CommentDetailDto data){
-        if(data==null){
+
+    private void handleCommentDetailResult(CommentDetailDto data)
+    {
+        if (data == null)
+        {
             networkLoadingLayout.showEmptyPrompt();
-        }else {
-            if(data.comment!=null){
+        }
+        else
+        {
+            if (data.comment != null)
+            {
                 commentsData = new CommentDto();
                 commentsData = data.comment;
-            } else{
+            }
+            else
+            {
                 networkLoadingLayout.showEmptyPrompt();
                 return;
             }
 
-            if (data.comment.getContent() != null) {
+            if (data.comment.getContent() != null)
+            {
                 tvCommnet1.setText(data.comment.getContent());
             }
-            if (data.comment.getUsername() != null) {
+            if (data.comment.getUsername() != null)
+            {
                 tvUserName.setText(data.comment.getUsername());
             }
-            if (data.comment.getTimeline() != 0) {
+            if (data.comment.getTimeline() != 0)
+            {
                 tvTime.setText(DateUtil.parseToStringWithoutSS(data.comment.getTimeline()));
             }
-//            String urlLogo = null;
-//            if (data.comment.logo != null) {
-//                urlLogo = data.comment.logo;
-//            }
+
             ImageLoaderUtil.loadLogoImage(mContext, imgHead, ContantsUtil.getAvatarUrl(data.comment.getUid()));
-            if (data.praised == 0) {
+            if (data.praised == 0)
+            {
                 likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
                 MY_PRAISE = 0;
                 data.comment.praised = 0;
-            } else {
+            }
+            else
+            {
                 likeIcon.setImageResource(R.drawable.icon_comment_detail_praised);
                 MY_PRAISE = 1;
                 data.comment.praised = 1;
             }
 
-            if(data.comment.getTitle()!=null){
-//                            Picasso.with(mCoclearntext).load(data.comment.resource.cover).error(R.drawable.default_error).placeholder(R.drawable.default_error).fit().centerCrop().into(resourceFileImage);
+            if (data.comment.getTitle() != null)
+            {
+                //                            Picasso.with(mCoclearntext).load(data.comment.resource.cover).error(R.drawable.default_error).placeholder(R.drawable.default_error).fit().centerCrop().into(resourceFileImage);
                 commentFileTitle.setText(data.comment.getTitle());
-                commentFileAuthor.setText("上传："+data.comment.getUsername());
+                commentFileAuthor.setText("上传：" + data.comment.getUsername());
             }
 
-            if (data.comment.replyList != null) {
+            if (data.comment.replyList != null)
+            {
                 replyBeanList = data.comment.replyList;
                 replyListAdapter.setData(replyBeanList);
             }
         }
     }
 
-    private void handleCommentPraiseResult(List<PraisedUsersBean> data){
-        if (data != null) {
-//            getUser(data.get(0));
-            if (data.size() > 8) {
+
+    private void handleCommentPraiseResult(List<PraisedUsersBean> data)
+    {
+        if (data != null)
+        {
+            if (data.size() > 8)
+            {
                 praiseUserList = data.subList(0, 8);
-            } else {
+            }
+            else
+            {
                 praiseUserList = data;
             }
         }
@@ -361,283 +417,356 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         if (isReply)
         {
             String replyUid = mapItemReply.get("reply_rid").toString();
-            putItemReply(replyUid,str);
+            putItemReply(replyUid, str);
         }
         else
         {
             putReply(str);
         }
     }
+
+
     private void putReply(String content) //TODO
     {
-//        http://weitu.bookus.cn/reply/save.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","content":"xxx","method":"reply.save"}
-        showLoding();
-        Map<String,Object> map = new HashMap<>();
-        map.put("cid",cid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("content",content);
-        map.put("method","reply.save");
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            dismissLoading();
-                            Toast.makeText(CommentDetailActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
-                            try {
-                                getData(cid);
-                                editComment.setText("");
-                                editComment.setHint("发表评论");
-                                isReply = false;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(CommentDetailActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void putItemReply(String replyId,String content){
-        showLoding();
-        Map<String,Object> map = new HashMap<>();
-        map.put("cid",cid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("content",content);
-        map.put("method","reply.save");
-        map.put("rid",replyId);
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            dismissLoading();
-                            Toast.makeText(CommentDetailActivity.this,"回复评论成功",Toast.LENGTH_SHORT).show();
-                            try {
-                                commentsData.replies=commentsData.replies+1;
-                                getData(cid);
-                                editComment.setText("");
-                                editComment.setHint("发表评论");
-                                isReply = false;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(CommentDetailActivity.this,"回复评论失败",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    private void deleteReplyComment(final ReplyListDto replyBean){
+        //        http://weitu.bookus.cn/reply/save.json?text={"cid":"56f97d8d984e741f1420a19e","uid":"56f97d8d984e741f1420a19e","content":"xxx","method":"reply.save"}
         showLoding();
         Map<String, Object> map = new HashMap<>();
-        map.put("method","reply.delete");
-        map.put("id",replyBean.id);
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+        map.put("cid", cid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("content", content);
+        map.put("method", "reply.save");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    dismissLoading();
+                    Toast.makeText(CommentDetailActivity.this, "回复评论成功", Toast.LENGTH_SHORT).show();
+                    try
+                    {
+                        getData(cid);
+                        editComment.setText("");
+                        editComment.setHint("发表评论");
+                        isReply = false;
                     }
-
-
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            Toast.makeText(CommentDetailActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
-                            commentsData.replies=commentsData.replies-1;
-                            replyBeanList.remove(replyBean);
-                            replyListAdapter.notifyDataSetChanged();
-                            dismissLoading();
-                        }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
                     }
-                });
+                }
+                else
+                {
+                    Toast.makeText(CommentDetailActivity.this, "回复评论失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
-    public void onReplyItemTouch(ReplyListDto replyBean) {
+    private void putItemReply(String replyId, String content)
+    {
+        showLoding();
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("content", content);
+        map.put("method", "reply.save");
+        map.put("rid", replyId);
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-        String cid =replyBean.id;
-        String replyRid =replyBean.id;
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    dismissLoading();
+                    Toast.makeText(CommentDetailActivity.this, "回复评论成功", Toast.LENGTH_SHORT).show();
+                    try
+                    {
+                        commentsData.replies = commentsData.replies + 1;
+                        getData(cid);
+                        editComment.setText("");
+                        editComment.setHint("发表评论");
+                        isReply = false;
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    Toast.makeText(CommentDetailActivity.this, "回复评论失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+    private void deleteReplyComment(final ReplyListDto replyBean)
+    {
+        showLoding();
+        Map<String, Object> map = new HashMap<>();
+        map.put("method", "reply.delete");
+        map.put("id", replyBean.id);
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
+
+
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    Toast.makeText(CommentDetailActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                    commentsData.replies = commentsData.replies - 1;
+                    replyBeanList.remove(replyBean);
+                    replyListAdapter.notifyDataSetChanged();
+                    dismissLoading();
+                }
+            }
+        });
+    }
+
+
+    public void onReplyItemTouch(ReplyListDto replyBean)
+    {
+
+        String cid = replyBean.id;
+        String replyRid = replyBean.id;
         if (replyBean.content != null)
         {
-            isReply = true ;
-            mapItemReply.put("cid",cid);
-            mapItemReply.put("reply_rid",replyRid);
+            isReply = true;
+            mapItemReply.put("cid", cid);
+            mapItemReply.put("reply_rid", replyRid);
             editComment.requestFocus();
             String first = "回复";
             String userName = "";
-            SpannableString spannableString = getGreenStr(userName,first,replyBean.username);
+            SpannableString spannableString = getGreenStr(userName, first, replyBean.username);
             editComment.setHint(spannableString);
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(editComment, InputMethodManager.SHOW_IMPLICIT);
         }
     }
 
-    public void onReplyItemDeleted(final ReplyListDto replyBean) {
+
+    public void onReplyItemDeleted(final ReplyListDto replyBean)
+    {
         String title = "您确定要删除？";
         final AlertDialogUtil dialog = new AlertDialogUtil();
-        dialog.showDialog(CommentDetailActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack() {
+        dialog.showDialog(CommentDetailActivity.this, title, "确定", "取消", new MyAlertDialog.MyAlertDialogOnClickCallBack()
+        {
             @Override
-            public void onClick() {
+            public void onClick()
+            {
                 deleteReplyComment(replyBean);
             }
         }, null);
     }
 
+
     @Override
-    public void onRetryClick(View v) {
+    public void onRetryClick(View v)
+    {
         getData(cid);
     }
 
 
-    private void likeClicked(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("cid",cid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("method","comment.praise");
-        HttpRequest.loadWithMap(map).execute(new StringCallback(){
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
+    private void likeClicked()
+    {
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("method", "comment.praise");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
 
-                    }
+            }
 
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
-                            dismissLoading();
-                            Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
-                            getData(cid);
-                        }
-                    }
-                });
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    //   showToast("没有相关数据");
+                    dismissLoading();
+                    Toast.makeText(mContext, "已赞", Toast.LENGTH_SHORT).show();
+                    getData(cid);
+                }
+            }
+        });
     }
 
-    private void likeCancelled(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("cid",cid);
-        map.put("uid",mPreference.getString(Preference.uid));
-        map.put("method","comment.unpraise");
-        HttpRequest.loadWithMap(map).execute(new StringCallback() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
 
-                    }
+    private void likeCancelled()
+    {
+        Map<String, Object> map = new HashMap<>();
+        map.put("cid", cid);
+        map.put("uid", mPreference.getString(Preference.uid));
+        map.put("method", "comment.unpraise");
+        HttpRequest.loadWithMap(map).execute(new StringCallback()
+        {
+            @Override
+            public void onError(Call call, Exception e, int id)
+            {
+
+            }
 
 
-                    @Override
-                    public void onResponse(String json, int id) {
-                        if (!TextUtils.isEmpty(json)) {
-                            //   showToast("没有相关数据");
-                            dismissLoading();
-                            Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
-                            getData(cid);
-                        }
-                    }
-                });
+            @Override
+            public void onResponse(String json, int id)
+            {
+                if (!TextUtils.isEmpty(json))
+                {
+                    //   showToast("没有相关数据");
+                    dismissLoading();
+                    Toast.makeText(mContext, "已取消赞", Toast.LENGTH_SHORT).show();
+                    getData(cid);
+                }
+            }
+        });
     }
 
-    public void onLikeTouch(int mypraise) {
-        if(isNotLogin()){
+
+    public void onLikeTouch(int mypraise)
+    {
+        if (isNotLogin())
+        {
             login();
-        }else {
-            if(mypraise==0){
+        }
+        else
+        {
+            if (mypraise == 0)
+            {
                 likeClicked();
-            }else{
+            }
+            else
+            {
                 likeCancelled();
             }
         }
     }
 
-    class PraiseHeadAdapter extends CommonAdapter<PraisedUsersBean>{
 
-        public PraiseHeadAdapter(Context context, int itemLayoutId, List<PraisedUsersBean> datas) {
+    class PraiseHeadAdapter extends CommonAdapter<PraisedUsersBean>
+    {
+
+        public PraiseHeadAdapter(Context context, int itemLayoutId, List<PraisedUsersBean> datas)
+        {
             super(context, R.layout.praise_item_grid_photo, datas);
         }
 
+
         @Override
-        public void convert(ViewHolderHelper helper, PraisedUsersBean object, int position) {
+        public void convert(ViewHolderHelper helper, PraisedUsersBean object, int position)
+        {
             ImageView imageHead = helper.getView(R.id.praise_head_image);
-//            String logoUrl = null;
-//            if(object.logo!=null){
-//                logoUrl = object.logo;
-//            }
             ImageLoaderUtil.loadLogoImage(mContext, imageHead, ContantsUtil.getAvatarUrl(object.id));
         }
-        public void setData(List<PraisedUsersBean> userBeans){
+
+
+        public void setData(List<PraisedUsersBean> userBeans)
+        {
             this.datas = userBeans;
             notifyDataSetChanged();
         }
     }
 
-    class ReplyListAdapter extends CommonAdapter<ReplyListDto>{
 
-        public ReplyListAdapter(Context context, int itemLayoutId, List<ReplyListDto> datas) {
+    class ReplyListAdapter extends CommonAdapter<ReplyListDto>
+    {
+
+        public ReplyListAdapter(Context context, int itemLayoutId, List<ReplyListDto> datas)
+        {
             super(context, R.layout.item_list_comment_detail, datas);
         }
 
+
         @Override
-        public void convert(ViewHolderHelper helper, ReplyListDto object, int position) {
+        public void convert(ViewHolderHelper helper, ReplyListDto object, int position)
+        {
             ImageView imageHead = helper.getView(R.id.img_head);
-//            String logoUrl = null;
-//            if(object.user.avatar!=null){
-//                logoUrl = object.user.avatar;
-//            }
             ImageLoaderUtil.loadLogoImage(mContext, imageHead, ContantsUtil.getAvatarUrl(object.user.id));
             String user_name = object.username;
             String reply_user_name;
             String reply;
-            if(object.repliedUser!=null && object.repliedUser.username!=null){
+            if (object.repliedUser != null && object.repliedUser.username != null)
+            {
                 reply_user_name = object.repliedUser.username;
-                reply = " "+"回复"+" ";
+                reply = " " + "回复" + " ";
                 SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name);
-                helper.setText(R.id.tv_user_name,spannableString);
-            } else {
+                helper.setText(R.id.tv_user_name, spannableString);
+            }
+            else
+            {
                 reply_user_name = "";
                 reply = "";
-                SpannableString spannableString = getGreenStr(user_name,reply,reply_user_name);
-                helper.setText(R.id.tv_user_name,spannableString);
+                SpannableString spannableString = getGreenStr(user_name, reply, reply_user_name);
+                helper.setText(R.id.tv_user_name, spannableString);
             }
-            helper.setText(R.id.tv_time,DateUtil.transformToShow(object.timeline));
+            helper.setText(R.id.tv_time, DateUtil.transformToShow(object.timeline));
             helper.setText(R.id.tv_content, object.content);
         }
-        public void setData(List<ReplyListDto> replyBeans){
+
+
+        public void setData(List<ReplyListDto> replyBeans)
+        {
             this.datas = replyBeans;
             notifyDataSetChanged();
         }
     }
-    private SpannableString getGreenStr(String userName,String reply ,String replyUserName)
+
+
+    private SpannableString getGreenStr(String userName, String reply, String replyUserName)
     {
         SpannableString spannableString = new SpannableString(userName + reply + replyUserName);
-        if(userName!=null){
+        if (userName != null)
+        {
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), 0, userName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        if(replyUserName!=null){
+        if (replyUserName != null)
+        {
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#47885D")), userName.length() + reply.length(), userName.length() + reply.length() + replyUserName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return spannableString;
     }
 
-    public boolean isNotLogin(){
+
+    public boolean isNotLogin()
+    {
         return CheckUtil.isNull(mPreference.getString(Preference.uid));
     }
 
-    public void login(){
+
+    public void login()
+    {
         Bundle bundle = new Bundle();
-        bundle.putBoolean("isFromComment",true);
+        bundle.putBoolean("isFromComment", true);
         bundle.putString(ContentActivity.FRAG_CLS, LoginFragment.class.getName());
         mContext.startActivity(bundle, ContentActivity.class);
     }
