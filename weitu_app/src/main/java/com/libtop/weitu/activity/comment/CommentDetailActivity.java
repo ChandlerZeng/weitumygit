@@ -35,6 +35,7 @@ import com.libtop.weitu.eventbus.MessageEvent;
 import com.libtop.weitu.http.HttpRequest;
 import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.CheckUtil;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.ContextUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
@@ -307,11 +308,11 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
             if (data.comment.getTimeline() != 0) {
                 tvTime.setText(DateUtil.parseToStringWithoutSS(data.comment.getTimeline()));
             }
-            String urlLogo = null;
-            if (data.comment.logo != null) {
-                urlLogo = data.comment.logo;
-            }
-            ImageLoaderUtil.loadLogoImage(mContext, imgHead, urlLogo);
+//            String urlLogo = null;
+//            if (data.comment.logo != null) {
+//                urlLogo = data.comment.logo;
+//            }
+            ImageLoaderUtil.loadLogoImage(mContext, imgHead, ContantsUtil.getAvatarUrl(data.comment.getUid()));
             if (data.praised == 0) {
                 likeIcon.setImageResource(R.drawable.icon_comment_detail_unpraised);
                 MY_PRAISE = 0;
@@ -570,11 +571,11 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         @Override
         public void convert(ViewHolderHelper helper, PraisedUsersBean object, int position) {
             ImageView imageHead = helper.getView(R.id.praise_head_image);
-            String logoUrl = null;
-            if(object.logo!=null){
-                logoUrl = object.logo;
-            }
-            ImageLoaderUtil.loadLogoImage(mContext, imageHead, logoUrl);
+//            String logoUrl = null;
+//            if(object.logo!=null){
+//                logoUrl = object.logo;
+//            }
+            ImageLoaderUtil.loadLogoImage(mContext, imageHead, ContantsUtil.getAvatarUrl(object.id));
         }
         public void setData(List<PraisedUsersBean> userBeans){
             this.datas = userBeans;
@@ -591,11 +592,11 @@ public class CommentDetailActivity extends BaseActivity implements NetworkLoadin
         @Override
         public void convert(ViewHolderHelper helper, ReplyListDto object, int position) {
             ImageView imageHead = helper.getView(R.id.img_head);
-            String logoUrl = null;
-            if(object.user.avatar!=null){
-                logoUrl = object.user.avatar;
-            }
-            ImageLoaderUtil.loadLogoImage(mContext, imageHead, logoUrl);
+//            String logoUrl = null;
+//            if(object.user.avatar!=null){
+//                logoUrl = object.user.avatar;
+//            }
+            ImageLoaderUtil.loadLogoImage(mContext, imageHead, ContantsUtil.getAvatarUrl(object.user.id));
             String user_name = object.username;
             String reply_user_name;
             String reply;

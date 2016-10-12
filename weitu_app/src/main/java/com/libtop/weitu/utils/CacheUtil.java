@@ -2,6 +2,8 @@ package com.libtop.weitu.utils;
 
 import android.content.Context;
 
+import com.libtop.weitu.BuildConfig;
+
 import java.io.File;
 
 
@@ -74,5 +76,9 @@ public class CacheUtil
             }
         }
         return dir.delete();
+    }
+
+    public static String getKeyWithVersionCode(String key){
+        return key + "_" + BuildConfig.VERSION_CODE;
     }
 }

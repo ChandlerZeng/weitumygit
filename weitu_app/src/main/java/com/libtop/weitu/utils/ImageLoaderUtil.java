@@ -81,7 +81,7 @@ public class ImageLoaderUtil
     }
 
 
-    private static Transformation getDefaultRoundedCornersTransformation(Context context)
+    public static Transformation getDefaultRoundedCornersTransformation(Context context)
     {
         int roundSize = DisplayUtil.dp2px(context, ROUND_SIZE_DEFAULT);
         return new RoundedCornersTransformation(roundSize, 0);

@@ -39,6 +39,7 @@ import com.libtop.weitu.test.Category;
 import com.libtop.weitu.test.adapter.CategoryAdapter;
 import com.libtop.weitu.service.WTStatisticsService;
 import com.libtop.weitu.utils.ACache;
+import com.libtop.weitu.utils.CacheUtil;
 import com.libtop.weitu.utils.CheckUtil;
 import com.libtop.weitu.utils.CollectionUtil;
 import com.libtop.weitu.utils.ContextUtil;
@@ -80,6 +81,12 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainFragment extends BaseFragment implements OnPageClickListener
 {
+    private static final String CACHE_KEY_IMAGE_SLIDER = "imageSliderList";
+    private static final String CACHE_KEY_CLASSIFY = "classifyList";
+    private static final String CACHE_KEY_RECOMMEND_SUBJECT = "recommendSubjectList";
+    private static final String CACHE_KEY_HOT_SUBJECT = "hotSubjectList";
+    private static final String CACHE_KEY_RECOMMEND_RESOURCE = "recommendResourceList";
+
     @Bind(R.id.fragment_discover_layout_swiperefreshlayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.fragment_discover_layout_scrollview)
@@ -253,7 +260,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
 
     private void requestImageSlider()
     {
-        List<ImageSliderDto> imageSliderDtos = (List<ImageSliderDto>) mCache.getAsObject("imageSliderDtos");
+        List<ImageSliderDto> imageSliderDtos = (List<ImageSliderDto>) mCache.getAsObject(CacheUtil.getKeyWithVersionCode(CACHE_KEY_IMAGE_SLIDER));
         handleImageSlideResult(imageSliderDtos);
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -278,7 +285,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
             @Override
             public void onNext(List<ImageSliderDto> imageSliderDtos)
             {
-                mCache.put("imageSliderDtos", (Serializable) imageSliderDtos);
+                mCache.put(CacheUtil.getKeyWithVersionCode(CACHE_KEY_IMAGE_SLIDER), (Serializable) imageSliderDtos);
                 handleImageSlideResult(imageSliderDtos);
             }
         }));
@@ -370,7 +377,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
     //TODO
     private void requestClassifyFakeInfo()
     {
-        final List<Category> classifyBeanList = (List<Category>) mCache.getAsObject("classifyList");
+        final List<Category> classifyBeanList = (List<Category>) mCache.getAsObject(CacheUtil.getKeyWithVersionCode(CACHE_KEY_CLASSIFY));
 
         if (CollectionUtil.getSize(classifyBeanList) > 0)
         {
@@ -391,7 +398,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                 try
                 {
                     List<Category> categories = JSONUtil.readBeanArray(new JSONObject(json), "categories", Category.class);
-                    mCache.put("classifyList", (Serializable) categories);
+                    mCache.put(CacheUtil.getKeyWithVersionCode(CACHE_KEY_CLASSIFY), (Serializable) categories);
                     handleCategoriesResult(categories);
                 }
                 catch (Exception e)
@@ -405,7 +412,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
     //TODO
     private void handleCategoriesResult(List<Category> categories){
         categoriesList.clear();
-        categoriesList = categories;
+        categoriesList.addAll(categories);
         if(categoriesList.isEmpty()){
             return;
         }
@@ -414,7 +421,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
 
     private void requestClassifyInfo()
     {
-        final List<ClassifyBean> classifyBeanList = (List<ClassifyBean>) mCache.getAsObject("classifyList");
+        final List<ClassifyBean> classifyBeanList = (List<ClassifyBean>) mCache.getAsObject(CacheUtil.getKeyWithVersionCode(CACHE_KEY_CLASSIFY));
         if (CollectionUtil.getSize(classifyBeanList) > 0)
         {
             handleClassifyResult(classifyBeanList);
@@ -435,7 +442,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                 try
                 {
                     List<ClassifyBean> classifyBeen = JSONUtil.readBeanArray(json, ClassifyBean.class);
-                    mCache.put("classifyList", (Serializable) classifyBeen);
+                    mCache.put(CacheUtil.getKeyWithVersionCode(CACHE_KEY_CLASSIFY), (Serializable) classifyBeen);
                     handleClassifyResult(classifyBeen);
                 }
                 catch (Exception e)
@@ -450,7 +457,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
 
     private void requestSubject()
     {
-        final List<SubjectBean> subjectLists = (List<SubjectBean>) mCache.getAsObject("subjectList");
+        final List<SubjectBean> subjectLists = (List<SubjectBean>) mCache.getAsObject(CacheUtil.getKeyWithVersionCode(CACHE_KEY_RECOMMEND_SUBJECT));
         if (CollectionUtil.getSize(subjectLists) > 0)
         {
             handleSubjectResult(subjectLists);
@@ -488,7 +495,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                         return;
                     }
 
-                    mCache.put("subjectList", (Serializable) subjectBeanList);
+                    mCache.put(CacheUtil.getKeyWithVersionCode(CACHE_KEY_RECOMMEND_SUBJECT), (Serializable) subjectBeanList);
                     handleSubjectResult(subjectBeanList);
                 }
                 catch (Exception e)
@@ -502,7 +509,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
 
     private void requestHotSubject()
     {
-        final List<SubjectBean> subjectLists = (List<SubjectBean>) mCache.getAsObject("hotsubjectList");
+        final List<SubjectBean> subjectLists = (List<SubjectBean>) mCache.getAsObject(CacheUtil.getKeyWithVersionCode(CACHE_KEY_HOT_SUBJECT));
         if (CollectionUtil.getSize(subjectLists) > 0)
         {
             handleHotSubjectResult(subjectLists);
@@ -538,7 +545,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                         return;
                     }
 
-                    mCache.put("hotsubjectList", (Serializable) subjectBeanList);
+                    mCache.put(CacheUtil.getKeyWithVersionCode(CACHE_KEY_HOT_SUBJECT), (Serializable) subjectBeanList);
                     handleHotSubjectResult(subjectBeanList);
                 }
                 catch (Exception e)
@@ -552,7 +559,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
 
     private void loadResourceFile(final int page)
     {
-        final List<ResourceBean> resourceList = (List<ResourceBean>) mCache.getAsObject("resourceList");
+        final List<ResourceBean> resourceList = (List<ResourceBean>) mCache.getAsObject(CacheUtil.getKeyWithVersionCode(CACHE_KEY_RECOMMEND_RESOURCE));
         if (CollectionUtil.getSize(resourceList) > 0)
         {
             handleResourceFile(resourceList,page);
@@ -595,7 +602,7 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
                             return;
                         }
                         if(page==1){
-                            mCache.put("resourceList", (Serializable) resourceBeenLists);
+                            mCache.put(CacheUtil.getKeyWithVersionCode(CACHE_KEY_RECOMMEND_RESOURCE), (Serializable) resourceBeenLists);
                         }
                         int size = CollectionUtil.getSize(resourceBeenLists);
                         boolean hasMore = (size == WTConstants.LIMIT_PAGE_SIZE_DEFAULT);
@@ -666,13 +673,12 @@ public class MainFragment extends BaseFragment implements OnPageClickListener
     private void handleClassifyResult(List<ClassifyBean> classifyBeen)
     {
         classifyList.clear();
-        classifyList = classifyBeen;
+        classifyList.addAll(classifyBeen);
         if (classifyList.isEmpty())
         {
             return;
         }
-        classifyList.add(classifyList.get(0));
-        mainClassifyAdapter.setData(classifyList);
+        mainClassifyAdapter.replaceAll(classifyList);
     }
 
 

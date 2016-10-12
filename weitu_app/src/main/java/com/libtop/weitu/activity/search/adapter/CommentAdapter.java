@@ -22,6 +22,7 @@ import com.libtop.weitu.activity.main.dto.CommentDto;
 import com.libtop.weitu.activity.main.dto.ReplyListDto;
 import com.libtop.weitu.activity.search.CommentActivity;
 import com.libtop.weitu.service.WTStatisticsService;
+import com.libtop.weitu.utils.ContantsUtil;
 import com.libtop.weitu.utils.DateUtil;
 import com.libtop.weitu.utils.ImageLoaderUtil;
 import com.libtop.weitu.viewadapter.CommonAdapter;
@@ -71,11 +72,11 @@ public class CommentAdapter extends CommonAdapter<CommentDto>
         TextView tvReply = helper.getView(R.id.tv_reply);
         if(object!=null){
             commentLayout1.setVisibility(View.VISIBLE);
-            String url=null;
-            if(object.logo!=null){
-                url = object.logo;
-            }
-            bindData(url,headImage);
+//            String url=null;
+//            if(object.logo!=null){
+//                url = object.logo;
+//            }
+            bindData(ContantsUtil.getAvatarUrl(object.getUid()),headImage);
             tvUser.setText(object.getUsername());
             tvTime.setText(DateUtil.transformToShow(object.getTimeline()));
             if(object.praised==0){

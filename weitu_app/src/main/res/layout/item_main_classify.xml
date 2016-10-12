@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" android:layout_height="wrap_content">
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        card_view:cardBackgroundColor="@color/white"
-        android:layout_gravity="center"
-        card_view:cardElevation="3dp"
-        card_view:cardUseCompatPadding="true"
-        card_view:cardCornerRadius="6dp">
-    <ImageView
+    android:layout_width="110dp" android:layout_height="110dp" android:padding="@dimen/padding_tiny">
+    <com.libtop.weitu.widget.view.ColorFilterImageView
         android:id ="@+id/main_classify_image"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
     <TextView
         android:id="@+id/main_classify_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:lines="2"
         android:padding="@dimen/padding_tiny"
         android:layout_gravity="center"
+        android:textStyle="bold"
         android:textColor="@color/white"
         android:textSize="@dimen/text_fontsize_small"
         android:text="分类名称"/>
-    </android.support.v7.widget.CardView>
+
 </RelativeLayout>
